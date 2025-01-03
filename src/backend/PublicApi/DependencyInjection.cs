@@ -2,6 +2,7 @@
 using Ardalis.GuardClauses;
 using Audit.Core;
 using EvrenDev.Infrastructure.Audit.Data;
+using EvrenDev.Infrastructure.Data;
 using EvrenDev.PublicApi.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,11 @@ public static class DependencyInjection
     public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IUser, CurrentUser>();
+
+        services.AddHttpContextAccessor();
+
+        services.AddHealthChecks()
+            .AddDbContextCheck<ApplicationDbContext>();
 
         var auditConnectionString = configuration.GetConnectionString("AuditConnection");
         Guard.Against.Null(auditConnectionString, message: "Audit Connection string 'AuditConnection' not found.");

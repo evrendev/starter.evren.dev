@@ -1,0 +1,13 @@
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace EvrenDev.Infrastructure.Catalog.Configurations;
+
+public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
+{
+    public void Configure(EntityTypeBuilder<TodoItem> builder)
+    {
+        builder.Property(t => t.Title)
+            .HasMaxLength(200)
+            .IsRequired();
+    }
+}
