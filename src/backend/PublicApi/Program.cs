@@ -1,3 +1,5 @@
+using EvrenDev.PublicApi.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -18,9 +20,23 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Seed databases in development mode
+    using (var scope = app.Services.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
+        await seeder.SeedAllAsync();
+    }
 }
 
 app.UseHttpsRedirection();
+
+// Add authentication before tenant middleware
+app.UseAuthentication();
+
+// Add tenant middleware before authorization
+app.UseMiddleware<TenantMiddleware>();
+app.UseAuthorization();
 
 var summaries = new[]
 {

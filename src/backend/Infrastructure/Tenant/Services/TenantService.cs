@@ -1,4 +1,4 @@
-using EvrenDev.Application.Common.Services;
+using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Tenant.Data;
 using Microsoft.AspNetCore.Http;

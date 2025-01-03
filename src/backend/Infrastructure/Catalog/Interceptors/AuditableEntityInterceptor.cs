@@ -6,11 +6,11 @@ namespace EvrenDev.Infrastructure.Catalog.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
-    private readonly IUser _user;
+    private readonly ICurrentUserService _user;
     private readonly TimeProvider _dateTime;
 
     public AuditableEntityInterceptor(
-        IUser user,
+        ICurrentUserService user,
         TimeProvider dateTime)
     {
         _user = user;

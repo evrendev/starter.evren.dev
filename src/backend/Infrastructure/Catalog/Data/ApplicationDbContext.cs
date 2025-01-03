@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Services;
 
 namespace EvrenDev.Infrastructure.Catalog.Data;
 

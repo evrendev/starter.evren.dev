@@ -1,11 +1,10 @@
 ﻿namespace EvrenDev.Application.Common.Interfaces;
 
-public interface IUser
+public interface ICurrentUserService
 {
     string? Id { get; }
-    string? TenantId { get; }
     string? Email { get; }
-    string? FirstName { get; }
-    string? LastName { get; }
     string? FullName { get; }
+    string? TenantId { get; }
+    bool IsAuthenticated { get; }
 }

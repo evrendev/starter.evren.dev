@@ -1,6 +1,6 @@
 using EvrenDev.Domain.Entities.Tenant;
 
-namespace EvrenDev.Application.Common.Services;
+namespace EvrenDev.Application.Common.Interfaces;
 
 public interface ITenantService
 {
