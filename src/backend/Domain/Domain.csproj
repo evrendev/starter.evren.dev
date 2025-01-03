@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Audit.EntityFramework.Core" />
     <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
   </ItemGroup>
 
   <ItemGroup>
