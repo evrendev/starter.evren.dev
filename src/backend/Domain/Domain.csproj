@@ -3,4 +3,12 @@
     <RootNamespace>EvrenDev.Domain</RootNamespace>
     <AssemblyName>EvrenDev.Domain</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
 </Project>

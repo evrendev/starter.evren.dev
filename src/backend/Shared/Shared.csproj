@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>EvrenDev.Shared</RootNamespace>
+    <AssemblyName>EvrenDev.Shared</AssemblyName>
+  </PropertyGroup>
+</Project>
