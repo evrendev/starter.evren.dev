@@ -14,8 +14,8 @@ public class TenantDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+        builder.Entity<TenantEntity>().ToTable("Tenants");
         builder.HasDefaultSchema("Tenant");
     }
 }

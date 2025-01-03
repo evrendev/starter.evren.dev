@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EvrenDev.Infrastructure.Audit.Migrations.V1
+namespace EvrenDev.Infrastructure.Audit.Migrations
 {
     /// <inheritdoc />
-    public partial class V1_01 : Migration
+    public partial class InitialAuditMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

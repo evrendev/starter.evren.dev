@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EvrenDev.Infrastructure.Tenant.Migrations.V1
+namespace EvrenDev.Infrastructure.Tenant.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20250103121901_V1_01")]
-    partial class V1_01
+    [Migration("20250103123333_InitialTenantMigrations")]
+    partial class InitialTenantMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,30 +33,24 @@ namespace EvrenDev.Infrastructure.Tenant.Migrations.V1
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConnectionString")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Host")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenantId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Tenants", "Tenant");
                 });
-
 #pragma warning restore 612, 618
         }
     }

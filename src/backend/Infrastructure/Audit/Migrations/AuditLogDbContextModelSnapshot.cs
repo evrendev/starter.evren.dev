@@ -4,19 +4,16 @@ using EvrenDev.Infrastructure.Audit.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EvrenDev.Infrastructure.Audit.Migrations.V1
+namespace EvrenDev.Infrastructure.Audit.Migrations
 {
     [DbContext(typeof(AuditLogDbContext))]
-    [Migration("20250103113117_V1_01")]
-    partial class V1_01
+    partial class AuditLogDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
