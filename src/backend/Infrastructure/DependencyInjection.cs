@@ -7,6 +7,9 @@ using EvrenDev.Infrastructure.Catalog.Interceptors;
 using EvrenDev.Infrastructure.Catalog.Data;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using EvrenDev.Infrastructure.Tenant.Data;
+using EvrenDev.Application.Common.Services;
+using EvrenDev.Infrastructure.Tenant.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -32,8 +35,12 @@ public static class DependencyInjection
         Guard.Against.Null(auditConnectionString, message: "Audit Connection string 'AuditConnection' not found.");
         services.AddDbContext<AuditLogDbContext>(options => options.UseSqlServer(auditConnectionString));
 
+        var tenantConnectionString = configuration.GetConnectionString("TenantConnection");
+        Guard.Against.Null(tenantConnectionString, message: "Tenant Connection string 'TenantConnection' not found.");
+        services.AddDbContext<TenantDbContext>(options => options.UseSqlServer(tenantConnectionString));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<ITenantService, TenantService>();
         services.AddSingleton(TimeProvider.System);
 
         services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

@@ -1,8 +1,6 @@
-using EvrenDev.Domain.Common;
-
 namespace EvrenDev.Domain.Entities.Tenant;
 
-public class Tenant : BaseEntity
+public class TenantEntity : BaseEntity
 {
     public string? Name { get; set; }
     public string? ConnectionString { get; set; }
