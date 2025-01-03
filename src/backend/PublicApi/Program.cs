@@ -1,3 +1,4 @@
+using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.PublicApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
