@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>EvrenDev.Domain</RootNamespace>
+    <AssemblyName>EvrenDev.Domain</AssemblyName>
+  </PropertyGroup>
+</Project>
