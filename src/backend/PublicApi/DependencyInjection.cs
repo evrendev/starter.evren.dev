@@ -2,7 +2,7 @@
 using Ardalis.GuardClauses;
 using Audit.Core;
 using EvrenDev.Infrastructure.Audit.Data;
-using EvrenDev.Infrastructure.Data;
+using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.PublicApi.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;

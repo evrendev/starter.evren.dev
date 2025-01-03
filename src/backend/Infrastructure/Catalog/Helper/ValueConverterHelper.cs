@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Data.Helper;
+namespace Infrastructure.Catalog.Helper;
 public static class ValueConverterHelper<T>
 {
     public static ValueConverter<List<T>?, string?> CreateJsonValueConverter()

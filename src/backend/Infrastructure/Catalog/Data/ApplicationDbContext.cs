@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using EvrenDev.Application.Common.Interfaces;
 
-namespace EvrenDev.Infrastructure.Data;
+namespace EvrenDev.Infrastructure.Catalog.Data;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {

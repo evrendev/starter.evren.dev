@@ -4,7 +4,7 @@ using Audit.EntityFramework;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Interceptors;
-using EvrenDev.Infrastructure.Data;
+using EvrenDev.Infrastructure.Catalog.Data;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 
