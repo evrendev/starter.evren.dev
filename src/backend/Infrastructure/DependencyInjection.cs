@@ -170,6 +170,8 @@ public static class DependencyInjection
             options.AddPolicy(permission, policy => policy.RequireClaim(permission));
         }));
 
+        services.AddDistributedMemoryCache();
+
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ITokenService, TokenService>();
