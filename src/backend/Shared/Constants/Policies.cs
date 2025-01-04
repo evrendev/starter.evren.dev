@@ -2,14 +2,16 @@
 
 public abstract class Policies
 {
-    public class Permissions
+    public static class Permissions
     {
-        public const string ReadOnly = nameof(ReadOnly);
-        public const string FullAccess = nameof(FullAccess);
         public const string NoAccess = nameof(NoAccess);
+        public const string Read = nameof(Read);
+        public const string Edit = nameof(Edit);
+        public const string Delete = nameof(Delete);
+        public const string Create = nameof(Create);
     }
 
-    public class Modules
+    public static class Modules
     {
         public const string Todos = nameof(Todos);
         public const string Tenants = nameof(Tenants);
@@ -30,8 +32,10 @@ public abstract class Policies
 
     public static string[] AllPermissions => [
         Permissions.NoAccess,
-        Permissions.ReadOnly,
-        Permissions.FullAccess
+        Permissions.Read,
+        Permissions.Edit,
+        Permissions.Delete,
+        Permissions.Create
     ];
 
     public static string[] AllModulesWithPermissions => AllModules.SelectMany(module => AllPermissions.Select(permission => $"{module}.{permission}")).ToArray();
