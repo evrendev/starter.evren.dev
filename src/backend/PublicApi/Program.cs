@@ -23,6 +23,10 @@ if (app.Environment.IsDevelopment())
     var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
     await seeder.SeedAllAsync();
 }
+else
+{
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
 
