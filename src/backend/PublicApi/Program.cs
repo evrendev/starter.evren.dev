@@ -1,5 +1,6 @@
 using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.PublicApi.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ configuration.AddJsonFile("secret.json", optional: true, reloadOnChange: true);
 builder.Services.AddApplicationServices(configuration);
 builder.Services.AddInfrastructureServices(configuration);
 builder.Services.AddWebServices(configuration);
+
+builder.Host.UseSerilog((context, conf) => conf.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
 
@@ -27,6 +30,8 @@ else
 {
     app.UseHsts();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
