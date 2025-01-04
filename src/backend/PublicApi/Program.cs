@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 configuration.AddJsonFile("secret.json", optional: true, reloadOnChange: true);
 
+builder.Services.AddApplicationServices(configuration);
 builder.Services.AddInfrastructureServices(configuration);
 builder.Services.AddWebServices(configuration);
 
@@ -18,14 +19,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
     // Seed databases in development mode
-    using (var scope = app.Services.CreateScope())
-    {
-        var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
-        await seeder.SeedAllAsync();
-    }
+    using var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
+    await seeder.SeedAllAsync();
 }
 
 app.UseHttpsRedirection();
+
+app.UseHealthChecks("/health");
 
 // Add CORS before authentication
 app.UseCors("AllowSpecificOrigins");

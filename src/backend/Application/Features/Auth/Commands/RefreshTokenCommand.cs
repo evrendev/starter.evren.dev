@@ -51,7 +51,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
         if (user == null)
             return Result<AuthResponse>.Failure("User not found");
 
-        if (!user.Deleted)
+        if (user.Deleted)
             return Result<AuthResponse>.Failure("User account is deleted");
 
         var roles = await _userManager.GetRolesAsync(user);

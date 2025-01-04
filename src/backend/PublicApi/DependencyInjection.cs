@@ -9,8 +9,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpContextAccessor();
-
         services.AddHealthChecks()
             .AddDbContextCheck<ApplicationDbContext>()
             .AddDbContextCheck<IdentityDbContext>()
@@ -38,6 +36,9 @@ public static class DependencyInjection
         {
             options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "EvrenDev API", Version = "v1" });
         });
+
+        services.AddHttpContextAccessor();
+        services.AddDistributedMemoryCache();
 
         return services;
     }

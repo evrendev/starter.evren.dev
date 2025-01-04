@@ -48,7 +48,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
         if (user == null)
             return Result<AuthResponse>.Failure("Invalid credentials");
 
-        if (!user.Deleted)
+        if (user.Deleted)
             return Result<AuthResponse>.Failure("User account is deleted");
 
         var result = await _userManager.CheckPasswordAsync(user, request.Password);

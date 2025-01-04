@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using Audit.EntityFramework;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Infrastructure.Audit.Data;
@@ -170,8 +169,6 @@ public static class DependencyInjection
             options.AddPolicy(permission, policy => policy.RequireClaim(permission));
         }));
 
-        services.AddDistributedMemoryCache();
-
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ITokenService, TokenService>();
@@ -183,8 +180,6 @@ public static class DependencyInjection
         services.AddScoped<IDatabaseSeeder, TenantDatabaseInitializer>();
         services.AddScoped<IDatabaseSeeder, IdentityDatabaseSeeder>();
         services.AddScoped<DevelopmentDatabaseSeeder>();
-
-        services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         return services;
     }
