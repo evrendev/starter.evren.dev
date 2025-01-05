@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -32,7 +33,7 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
         try
         {
             // Add default roles
-            var roles = new[] { "Admin", "User" };
+            var roles = Roles.AllRoles.ToList();
             foreach (var roleName in roles)
             {
                 if (!await _roleManager.RoleExistsAsync(roleName))
@@ -43,16 +44,16 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             }
 
             // Add permissions to admin role
-            var adminRole = await _roleManager.FindByNameAsync("Admin");
-            if (adminRole != null)
+            var superAdmin = await _roleManager.FindByNameAsync(Defaults.Role);
+            if (superAdmin != null)
             {
-                _logger.LogInformation("Found Admin role with ID: {RoleId}", adminRole.Id);
+                _logger.LogInformation("Found Admin role with ID: {RoleId}", superAdmin.Id);
 
                 // Define admin permissions using constants
-                var adminPermissions = AllModulesWithPermissions.ToList();
+                var superAdminPermissions = AllModulesWithPermissions.ToList();
 
                 // Get existing permissions
-                var existingClaims = await _roleManager.GetClaimsAsync(adminRole);
+                var existingClaims = await _roleManager.GetClaimsAsync(superAdmin);
                 var existingPermissions = existingClaims
                     .Where(c => c.Type == "permission")
                     .Select(c => c.Value)
@@ -62,11 +63,11 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                     string.Join(", ", existingPermissions));
 
                 // Add missing permissions
-                foreach (var permission in adminPermissions)
+                foreach (var permission in superAdminPermissions)
                 {
                     if (!existingPermissions.Contains(permission))
                     {
-                        var result = await _roleManager.AddClaimAsync(adminRole, new Claim("permission", permission));
+                        var result = await _roleManager.AddClaimAsync(superAdmin, new Claim("permission", permission));
                         if (result.Succeeded)
                         {
                             _logger.LogInformation("Added permission {Permission} to Admin role", permission);
@@ -80,7 +81,7 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                 }
 
                 // Verify permissions after adding
-                var finalClaims = await _roleManager.GetClaimsAsync(adminRole);
+                var finalClaims = await _roleManager.GetClaimsAsync(superAdmin);
                 var finalPermissions = finalClaims
                     .Where(c => c.Type == "permission")
                     .Select(c => c.Value)
@@ -91,12 +92,12 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             }
 
             // Create default admin user if not exists
-            var adminEmail = _configuration["DefaultAdmin:Email"] ?? "admin@example.com";
-            var adminUser = await _userManager.FindByEmailAsync(adminEmail);
+            var adminEmail = _configuration["DefaultAdmin:Email"] ?? "mail@evren.dev";
+            var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);
 
-            if (adminUser == null)
+            if (superAdminUser == null)
             {
-                adminUser = new ApplicationUser
+                superAdminUser = new ApplicationUser
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
@@ -106,15 +107,15 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                     Deleted = false
                 };
 
-                var password = _configuration["DefaultAdmin:Password"] ?? "Admin123!";
-                var result = await _userManager.CreateAsync(adminUser, password);
+                var password = _configuration["DefaultAdmin:Password"] ?? "P@s5w0rd.123";
+                var result = await _userManager.CreateAsync(superAdminUser, password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Created admin user: {Email}", adminEmail);
-                    if (!await _userManager.IsInRoleAsync(adminUser, "Admin"))
+                    if (!await _userManager.IsInRoleAsync(superAdminUser, Defaults.Role))
                     {
-                        await _userManager.AddToRoleAsync(adminUser, "Admin");
+                        await _userManager.AddToRoleAsync(superAdminUser, Defaults.Role);
                         _logger.LogInformation("Added admin user to Admin role");
                     }
                 }

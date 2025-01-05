@@ -2,6 +2,7 @@
 
 public abstract class Defaults
 {
+    public static readonly string Role = Roles.SuperAdmin;
     public static readonly Language Language = Language.English;
     public static readonly ContactType ContactType = ContactType.Other;
     public static readonly Gender Gender = Gender.None;
