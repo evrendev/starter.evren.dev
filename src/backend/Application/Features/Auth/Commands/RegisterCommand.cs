@@ -14,15 +14,15 @@ namespace EvrenDev.Application.Features.Auth.Commands;
 
 public class RegisterCommand : IRequest<Result<AuthResponse>>
 {
-    public Gender Gender { get; set; } = Defaults.Gender;
+    public string Gender { get; set; } = Defaults.Gender.Code;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string ConfirmPassword { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
-    public string JobTitle { get; set; } = string.Empty;
-    public Language Language { get; set; } = Defaults.Language;
+    public string? JobTitle { get; set; }
+    public string Language { get; set; } = Defaults.Language.Code;
     public string TenantId { get; set; } = string.Empty;
 }
 
@@ -125,12 +125,12 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
             TenantId = request.TenantId,
             UserName = request.Email,
             Email = request.Email,
-            Gender = request.Gender,
+            Gender = Gender.From(request.Gender),
             FirstName = request.FirstName,
             LastName = request.LastName,
             Image = request.Image,
             JobTitle = request.JobTitle,
-            Language = request.Language,
+            Language = Language.From(request.Language),
             Deleted = false
         };
 
@@ -151,12 +151,12 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
             {
                 Id = user.Id,
                 TenantId = user.TenantId,
-                UserName = user.UserName ?? string.Empty,
+                UserName = user.UserName,
                 Email = user.Email!,
                 Gender = user.Gender,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                JobTitle = user.JobTitle,
+                JobTitle = user.JobTitle ?? string.Empty,
                 Image = user.Image,
                 Language = user.Language,
                 Deleted = user.Deleted,
