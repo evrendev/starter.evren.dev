@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
