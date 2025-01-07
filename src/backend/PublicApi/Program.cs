@@ -1,5 +1,6 @@
 using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.PublicApi.Middleware;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,16 @@ else
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseSerilogRequestLogging();
+
+var localizeOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+if (localizeOptions != null)
+{
+    app.UseRequestLocalization(localizeOptions.Value);
+}
+
+app.UseMiddleware<LocalizationMiddleware>();
 
 app.UseHealthChecks("/health");
 

@@ -1,11 +1,11 @@
-using System.Reflection;
-using System.Runtime.Serialization;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Identity.Data;
 using EvrenDev.Infrastructure.Tenant.Data;
+using EvrenDev.PublicApi.Localization;
+using EvrenDev.PublicApi.Middleware;
+using Microsoft.Extensions.Localization;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -33,11 +33,14 @@ public static class DependencyInjection
                 )
         );
 
+        services.AddLocalization();
+        services.AddSingleton<LocalizationMiddleware>();
+        services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
+
         // Add services to the container.
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
-        {
             options.SwaggerDoc("v1",
                 new OpenApiInfo
                 {
@@ -55,8 +58,8 @@ public static class DependencyInjection
                         Url = new Uri("https://evren.dev/license")
                     }
                 }
-            );
-        });
+            )
+        );
 
         services.AddHttpContextAccessor();
         services.AddDistributedMemoryCache();
