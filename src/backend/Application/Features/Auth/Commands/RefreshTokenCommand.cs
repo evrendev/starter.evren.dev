@@ -16,13 +16,16 @@ public class RefreshTokenCommand : IRequest<Result<AuthResponse>>
 
 public class RefreshTokenCommandValidator : AbstractValidator<RefreshTokenCommand>
 {
-    public RefreshTokenCommandValidator()
+    private readonly IStringLocalizer<RefreshTokenCommandValidator> _localizer;
+    public RefreshTokenCommandValidator(IStringLocalizer<RefreshTokenCommandValidator> localizer)
     {
+        _localizer = localizer;
+
         RuleFor(v => v.UserId)
-            .NotEmpty();
+            .NotEmpty().WithMessage(_localizer["api.auth.refresh-token.user-id.required"]);
 
         RuleFor(v => v.RefreshToken)
-            .NotEmpty();
+            .NotEmpty().WithMessage(_localizer["api.auth.refresh-token.refresh-token.required"]);
     }
 }
 
