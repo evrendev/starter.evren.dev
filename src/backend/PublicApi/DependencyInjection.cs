@@ -1,7 +1,11 @@
+using System.Reflection;
+using System.Runtime.Serialization;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Identity.Data;
 using EvrenDev.Infrastructure.Tenant.Data;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -34,7 +38,24 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApi.Models.OpenApiInfo { Title = "EvrenDev API", Version = "v1" });
+            options.SwaggerDoc("v1",
+                new OpenApiInfo
+                {
+                    Title = "EvrenDev API",
+                    Version = "v1",
+                    TermsOfService = new Uri("https://evren.dev/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Contact",
+                        Url = new Uri("https://evren.dev/contact")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "License",
+                        Url = new Uri("https://evren.dev/license")
+                    }
+                }
+            );
         });
 
         services.AddHttpContextAccessor();
