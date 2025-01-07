@@ -2,5 +2,7 @@
   "api.auth.login.not-found": "Benutzerkonto nicht gefunden",
   "api.auth.login.deleted": "Benutzerkonto wurde gelöscht",
   "api.auth.login.invalid-credentials": "Ungültige Anmeldeinformationen",
-  "api.auth.login.success": "Anmeldung erfolgreich"
+  "api.auth.refresh-token.invalid": "Ungültiger Aktualisierungstoken",
+  "api.auth.refresh-token.not-found": "Benutzerkonto nicht gefunden",
+  "api.auth.refresh-token.deleted": "Benutzerkonto wurde gelöscht"
 }

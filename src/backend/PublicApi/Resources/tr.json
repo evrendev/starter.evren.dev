@@ -2,5 +2,7 @@
   "api.auth.login.not-found": "Kullanıcı hesabı bulunamadı",
   "api.auth.login.deleted": "Kullanıcı hesabı silinmiş",
   "api.auth.login.invalid-credentials": "Geçersiz kimlik bilgileri",
-  "api.auth.login.success": "Giriş başarılı"
+  "api.auth.refresh-token.invalid": "Geçersiz yenileme belirteci",
+  "api.auth.refresh-token.not-found": "Kullanıcı hesabı bulunamadı",
+  "api.auth.refresh-token.deleted": "Kullanıcı hesabı silinmiş"
 }

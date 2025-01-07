@@ -4,6 +4,7 @@ using EvrenDev.Domain.Entities.Identity;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 
@@ -30,29 +31,32 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly IPermissionService _permissionService;
+    private readonly IStringLocalizer<LoginCommandHandler> _localizer;
 
     public RefreshTokenCommandHandler(
         UserManager<ApplicationUser> userManager,
         ITokenService tokenService,
-        IPermissionService permissionService)
+        IPermissionService permissionService,
+        IStringLocalizer<LoginCommandHandler> localizer)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _permissionService = permissionService;
+        _localizer = localizer;
     }
 
     public async Task<Result<AuthResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
         var isValid = await _tokenService.ValidateRefreshTokenAsync(request.UserId, request.RefreshToken);
         if (!isValid)
-            return Result<AuthResponse>.Failure("Invalid refresh token");
+            return Result<AuthResponse>.Failure(_localizer["api.auth.refresh-token.invalid"]);
 
         var user = await _userManager.FindByIdAsync(request.UserId);
         if (user == null)
-            return Result<AuthResponse>.Failure("User not found");
+            return Result<AuthResponse>.Failure(_localizer["api.auth.refresh-token.not-found"]);
 
         if (user.Deleted)
-            return Result<AuthResponse>.Failure("User account is deleted");
+            return Result<AuthResponse>.Failure(_localizer["api.auth.refresh-token.deleted"]);
 
         var permissions = await _permissionService.GetUserPermissions(user.Id);
         var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
