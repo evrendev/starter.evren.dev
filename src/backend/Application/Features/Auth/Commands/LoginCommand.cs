@@ -4,6 +4,7 @@ using EvrenDev.Domain.Entities.Identity;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 
@@ -31,29 +32,32 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly IPermissionService _permissionService;
+    private readonly IStringLocalizer<LoginCommandHandler> _localizer;
 
     public LoginCommandHandler(
         UserManager<ApplicationUser> userManager,
         ITokenService tokenService,
-        IPermissionService permissionService)
+        IPermissionService permissionService,
+        IStringLocalizer<LoginCommandHandler> localizer)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _permissionService = permissionService;
+        _localizer = localizer;
     }
 
     public async Task<Result<AuthResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user == null)
-            return Result<AuthResponse>.Failure("Invalid credentials");
+            return Result<AuthResponse>.Failure(_localizer["api.auth.login.not-found"]);
 
         if (user.Deleted)
-            return Result<AuthResponse>.Failure("User account is deleted");
+            return Result<AuthResponse>.Failure(_localizer["api.auth.login.deleted"]);
 
         var result = await _userManager.CheckPasswordAsync(user, request.Password);
         if (!result)
-            return Result<AuthResponse>.Failure("Invalid credentials");
+            return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-credentials"]);
 
         var permissions = await _permissionService.GetUserPermissions(user.Id);
         var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);

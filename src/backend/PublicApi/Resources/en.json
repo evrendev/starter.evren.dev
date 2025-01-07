@@ -1,0 +1,6 @@
+{
+  "api.auth.login.not-found": "User account not found",
+  "api.auth.login.deleted": "User account has been deleted",
+  "api.auth.login.invalid-credentials": "Invalid credentials",
+  "api.auth.login.success": "Login successful"
+}
