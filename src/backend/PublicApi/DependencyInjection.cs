@@ -23,7 +23,7 @@ public static class DependencyInjection
         services.AddCors(options =>
             options.AddPolicy("AllowSpecificOrigins",
                 policy =>
-                    policy.WithOrigins("https://*.evren.dev", "https://localhost:6000", "http://localhost:6001", "http://localhost:3000")
+                    policy.WithOrigins("https://localhost:5001", "http://localhost:5000")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                 )
@@ -34,7 +34,7 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "EvrenDev API", Version = "v1" });
+            options.SwaggerDoc("v1", new OpenApi.Models.OpenApiInfo { Title = "EvrenDev API", Version = "v1" });
         });
 
         services.AddHttpContextAccessor();
