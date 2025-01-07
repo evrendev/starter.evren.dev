@@ -31,13 +31,13 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly IPermissionService _permissionService;
-    private readonly IStringLocalizer<LoginCommandHandler> _localizer;
+    private readonly IStringLocalizer<RefreshTokenCommandHandler> _localizer;
 
     public RefreshTokenCommandHandler(
         UserManager<ApplicationUser> userManager,
         ITokenService tokenService,
         IPermissionService permissionService,
-        IStringLocalizer<LoginCommandHandler> localizer)
+        IStringLocalizer<RefreshTokenCommandHandler> localizer)
     {
         _userManager = userManager;
         _tokenService = tokenService;
