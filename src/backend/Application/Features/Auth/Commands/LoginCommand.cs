@@ -55,10 +55,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
         if (!result)
             return Result<AuthResponse>.Failure("Invalid credentials");
 
-        var roles = await _userManager.GetRolesAsync(user);
         var permissions = await _permissionService.GetUserPermissions(user.Id);
-
-        var token = await _tokenService.GenerateJwtTokenAsync(user, roles, permissions);
+        var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
 
         var response = new AuthResponse
@@ -74,8 +72,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
                 LastName = user.LastName!,
                 TenantId = user.TenantId,
                 Deleted = user.Deleted,
-                Roles = roles.ToList(),
-                Permissions = permissions.ToList()
+                Permissions = permissions
             }
         };
 

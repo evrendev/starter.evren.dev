@@ -42,55 +42,6 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                     _logger.LogInformation("Created role: {Role}", roleName);
                 }
             }
-
-            // Add permissions to admin role
-            var superAdmin = await _roleManager.FindByNameAsync(Defaults.Role);
-            if (superAdmin != null)
-            {
-                _logger.LogInformation("Found Admin role with ID: {RoleId}", superAdmin.Id);
-
-                // Define admin permissions using constants
-                var superAdminPermissions = AllModulesWithPermissions.ToList();
-
-                // Get existing permissions
-                var existingClaims = await _roleManager.GetClaimsAsync(superAdmin);
-                var existingPermissions = existingClaims
-                    .Where(c => c.Type == "permission")
-                    .Select(c => c.Value)
-                    .ToList();
-
-                _logger.LogInformation("Existing permissions for Admin role: {Permissions}",
-                    string.Join(", ", existingPermissions));
-
-                // Add missing permissions
-                foreach (var permission in superAdminPermissions)
-                {
-                    if (!existingPermissions.Contains(permission))
-                    {
-                        var result = await _roleManager.AddClaimAsync(superAdmin, new Claim("permission", permission));
-                        if (result.Succeeded)
-                        {
-                            _logger.LogInformation("Added permission {Permission} to Admin role", permission);
-                        }
-                        else
-                        {
-                            _logger.LogError("Failed to add permission {Permission} to Admin role. Errors: {Errors}",
-                                permission, string.Join(", ", result.Errors.Select(e => e.Description)));
-                        }
-                    }
-                }
-
-                // Verify permissions after adding
-                var finalClaims = await _roleManager.GetClaimsAsync(superAdmin);
-                var finalPermissions = finalClaims
-                    .Where(c => c.Type == "permission")
-                    .Select(c => c.Value)
-                    .ToList();
-
-                _logger.LogInformation("Final permissions for Admin role: {Permissions}",
-                    string.Join(", ", finalPermissions));
-            }
-
             // Create default admin user if not exists
             var adminEmail = _configuration["DefaultAdmin:Email"] ?? "mail@evren.dev";
             var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);
@@ -113,18 +64,55 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Created admin user: {Email}", adminEmail);
-                    if (!await _userManager.IsInRoleAsync(superAdminUser, Defaults.Role))
-                    {
-                        await _userManager.AddToRoleAsync(superAdminUser, Defaults.Role);
-                        _logger.LogInformation("Added admin user to Admin role");
-                    }
                 }
                 else
                 {
                     _logger.LogError("Failed to create admin user. Errors: {Errors}",
                         string.Join(", ", result.Errors.Select(e => e.Description)));
+                    return;
                 }
             }
+
+            // Add permissions to admin user
+            var superAdminPermissions = AllModulesWithPermissions.ToList();
+
+            // Get existing permissions
+            var existingClaims = await _userManager.GetClaimsAsync(superAdminUser);
+            var existingPermissions = existingClaims
+                .Where(c => c.Type == "permission")
+                .Select(c => c.Value)
+                .ToList();
+
+            _logger.LogInformation("Existing permissions for Admin user: {Permissions}",
+                string.Join(", ", existingPermissions));
+
+            // Add missing permissions
+            foreach (var permission in superAdminPermissions)
+            {
+                if (!existingPermissions.Contains(permission))
+                {
+                    var result = await _userManager.AddClaimAsync(superAdminUser, new Claim("permission", permission));
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("Added permission {Permission} to Admin user", permission);
+                    }
+                    else
+                    {
+                        _logger.LogError("Failed to add permission {Permission} to Admin user. Errors: {Errors}",
+                            permission, string.Join(", ", result.Errors.Select(e => e.Description)));
+                    }
+                }
+            }
+
+            // Verify permissions after adding
+            var finalClaims = await _userManager.GetClaimsAsync(superAdminUser);
+            var finalPermissions = finalClaims
+                .Where(c => c.Type == "permission")
+                .Select(c => c.Value)
+                .ToList();
+
+            _logger.LogInformation("Final permissions for Admin user: {Permissions}",
+                string.Join(", ", finalPermissions));
         }
         catch (Exception ex)
         {

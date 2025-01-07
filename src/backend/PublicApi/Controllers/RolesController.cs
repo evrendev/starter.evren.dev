@@ -1,7 +1,7 @@
 using EvrenDev.Application.Features.Roles.Commands.CreateRole;
 using EvrenDev.Application.Features.Roles.Commands.DeleteRole;
 using EvrenDev.Application.Features.Roles.Commands.UpdateRole;
-using EvrenDev.Application.Features.Roles.Commands.UpdateRolePermissions;
+using EvrenDev.Application.Features.Roles.Model;
 using EvrenDev.Application.Features.Roles.Queries.GetRoleById;
 using EvrenDev.Application.Features.Roles.Queries.GetRoles;
 using Microsoft.AspNetCore.Authorization;
@@ -62,17 +62,6 @@ public class RolesController : ControllerBase
     public async Task<ActionResult<bool>> Delete(string id)
     {
         var command = new DeleteRoleCommand { Id = id };
-        var result = await _mediator.Send(command);
-        return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
-    }
-
-    [HttpPut("{id}/permissions")]
-    [Authorize(Policy = $"{Modules.Roles}.{Permissions.Edit}")]
-    public async Task<ActionResult<bool>> UpdatePermissions(string id, UpdateRolePermissionsCommand command)
-    {
-        if (id != command.RoleId)
-            return BadRequest();
-
         var result = await _mediator.Send(command);
         return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
     }

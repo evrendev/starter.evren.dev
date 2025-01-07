@@ -9,7 +9,6 @@ namespace EvrenDev.Application.Features.Roles.Commands.CreateRole
     public class CreateRoleCommand : IRequest<Result<string>>
     {
         public string Name { get; set; } = string.Empty;
-        public List<string> Permissions { get; set; } = new();
     }
 
     public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
@@ -44,8 +43,6 @@ namespace EvrenDev.Application.Features.Roles.Commands.CreateRole
             {
                 return Result<string>.Failure(result.Errors.Select(e => e.Description).ToArray());
             }
-
-            await _permissionService.UpdateRolePermissions(role.Id, request.Permissions);
 
             return Result<string>.Success(role.Id);
         }

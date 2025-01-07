@@ -16,6 +16,5 @@ public class UserDto
     public Language? Language { get; set; } = Defaults.Language;
     public string? TenantId { get; set; }
     public bool Deleted { get; set; }
-    public List<string> Roles { get; set; } = new();
     public List<string> Permissions { get; set; } = new();
 }

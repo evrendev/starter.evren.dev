@@ -166,7 +166,7 @@ public static class DependencyInjection
 
         services.AddAuthorization(options => permissions.ForEach(permission =>
         {
-            options.AddPolicy(permission, policy => policy.RequireClaim(permission));
+            options.AddPolicy(permission, policy => policy.RequireClaim("permission", permission));
         }));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());

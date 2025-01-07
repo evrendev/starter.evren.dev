@@ -1,6 +1,7 @@
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Auth.Commands;
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Shared.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

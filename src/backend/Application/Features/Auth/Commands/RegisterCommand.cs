@@ -76,10 +76,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
         if (!result.Succeeded)
             return Result<AuthResponse>.Failure(result.Errors.Select(e => e.Description).ToArray());
 
-        var roles = await _userManager.GetRolesAsync(user);
         var permissions = await _permissionService.GetUserPermissions(user.Id);
-
-        var token = await _tokenService.GenerateJwtTokenAsync(user, roles, permissions);
+        var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
 
         var response = new AuthResponse
@@ -95,8 +93,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
                 LastName = user.LastName,
                 TenantId = user.TenantId,
                 Deleted = user.Deleted,
-                Roles = roles.ToList(),
-                Permissions = permissions.ToList()
+                Permissions = permissions
             }
         };
 
