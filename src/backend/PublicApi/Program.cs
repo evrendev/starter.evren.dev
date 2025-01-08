@@ -35,8 +35,6 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-app.UseSerilogRequestLogging();
-
 app.UseRequestLocalization();
 
 app.UseMiddleware<LocalizationMiddleware>();
