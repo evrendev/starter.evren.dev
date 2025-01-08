@@ -1,6 +1,6 @@
 ﻿namespace EvrenDev.Application.Common.Interfaces;
 
-public interface ICurrentUserService
+public interface ICurrentUser
 {
     string? Id { get; }
     string? Email { get; }

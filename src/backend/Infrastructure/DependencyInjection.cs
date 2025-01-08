@@ -55,7 +55,7 @@ public static class DependencyInjection
                 .AuditTypeMapper(t => typeof(AuditLog))
                 .AuditEntityAction<AuditLog>((ev, entry, entity) =>
                 {
-                    var user = services.BuildServiceProvider().GetService<ICurrentUserService>();
+                    var user = services.BuildServiceProvider().GetService<ICurrentUser>();
                     var ipAddress = services.BuildServiceProvider().GetService<IHttpContextAccessor>()?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
 
                     entity.Action = entry.Action;
@@ -173,7 +173,7 @@ public static class DependencyInjection
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPermissionService, PermissionService>();
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ICurrentUser, CurrentUserService>();
         services.AddSingleton(TimeProvider.System);
 
         // Register database seeders
