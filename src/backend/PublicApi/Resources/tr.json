@@ -1,4 +1,5 @@
 {
+  "api.validations.failed": "Doğrulama başarısız",
   "api.auth.login.not-found": "Kullanıcı hesabı bulunamadı",
   "api.auth.login.deleted": "Kullanıcı hesabı silinmiş",
   "api.auth.login.invalid-credentials": "Geçersiz kimlik bilgileri",

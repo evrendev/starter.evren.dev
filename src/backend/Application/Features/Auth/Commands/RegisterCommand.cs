@@ -64,7 +64,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 
     public async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => string.Equals(email, u.Email, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
 
         return user == null;
     }
