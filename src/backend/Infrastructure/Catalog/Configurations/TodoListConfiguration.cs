@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using EvrenDev.Shared.ValueObjects;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Catalog.Configurations;
 
@@ -11,10 +12,11 @@ public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
             .IsRequired();
 
         builder.OwnsOne(e => e.Colour, cb =>
-        {
             cb.Property(e => e.Code)
                 .HasMaxLength(7)
-                .HasColumnName("Colour");
-        });
+                .HasDefaultValue(Colour.White.Code)
+                .HasColumnName("Colour")
+                .IsRequired(false)
+        );
     }
 }

@@ -68,7 +68,7 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
 
     public async Task<Result<bool>> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.TodoLists.FindAsync(new object[] { request.Id }, cancellationToken);
+        var entity = await _context.TodoLists.FindAsync([request.Id], cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(TodoList), request.Id.ToString());
