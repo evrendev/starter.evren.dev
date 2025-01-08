@@ -30,5 +30,15 @@
   "api.roles.update.permissions-required": "Rol izinleri gereklidir",
   "api.roles.delete.id-required": "Rol Kimliği gereklidir",
   "api.roles.create.name.required": "Rol adı gereklidir",
-  "api.roles.create.name.maxlength": "Rol adı en fazla 50 karakter olmalıdır"
+  "api.roles.create.name.maxlength": "Rol adı en fazla 50 karakter olmalıdır",
+  "api.todo-lists.not-found": "Yapılacaklar listesi bulunamadı",
+  "api.todo-lists.create.title.required": "Başlık gereklidir",
+  "api.todo-lists.create.title.maxlength": "Başlık en fazla 200 karakter olmalıdır",
+  "api.todo-lists.create.colour.invalid": "Geçersiz renk kodu",
+  "api.todo-lists.update.id.required": "Yapılacaklar listesi Kimliği gereklidir",
+  "api.todo-lists.update.title.required": "Başlık gereklidir",
+  "api.todo-lists.update.title.maxlength": "Başlık en fazla 200 karakter olmalıdır",
+  "api.todo-lists.update.colour.invalid": "Geçersiz renk kodu",
+  "api.todo-lists.delete.id.required": "Yapılacaklar listesi Kimliği gereklidir",
+  "api.todo-lists.get.id.required": "Yapılacaklar listesi Kimliği gereklidir"
 }

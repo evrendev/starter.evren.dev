@@ -30,5 +30,15 @@
   "api.roles.update.permissions-required": "Rollenberechtigungen sind erforderlich",
   "api.roles.delete.id-required": "Rollen-ID ist erforderlich",
   "api.roles.create.name.required": "Rollenname ist erforderlich",
-  "api.roles.create.name.maxlength": " Rolle name darf höchstens 50 Zeichen lang sein"
+  "api.roles.create.name.maxlength": "Rolle name darf höchstens 50 Zeichen lang sein",
+  "api.todo-lists.not-found": "Todo-Liste nicht gefunden",
+  "api.todo-lists.create.title.required": "Titel ist erforderlich",
+  "api.todo-lists.create.title.maxlength": "Titel darf höchstens 200 Zeichen lang sein",
+  "api.todo-lists.create.colour.invalid": "Ungültiger Farbcode",
+  "api.todo-lists.update.id.required": "Todo-Listen-ID ist erforderlich",
+  "api.todo-lists.update.title.required": "Titel ist erforderlich",
+  "api.todo-lists.update.title.maxlength": "Titel darf höchstens 200 Zeichen lang sein",
+  "api.todo-lists.update.colour.invalid": "Ungültiger Farbcode",
+  "api.todo-lists.delete.id.required": "Todo-Listen-ID ist erforderlich",
+  "api.todo-lists.get.id.required": "Todo-Listen-ID ist erforderlich"
 }

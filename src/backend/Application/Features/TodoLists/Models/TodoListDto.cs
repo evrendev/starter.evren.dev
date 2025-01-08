@@ -1,0 +1,11 @@
+using EvrenDev.Domain.Entities.Catalog;
+using EvrenDev.Shared.ValueObjects;
+
+namespace EvrenDev.Application.Features.TodoLists.Models;
+
+public class TodoListDto
+{
+    public Guid Id { get; set; }
+    public string? Title { get; set; }
+    public Colour Colour { get; set; } = Colour.White;
+}

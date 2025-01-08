@@ -30,5 +30,15 @@
   "api.roles.update.permissions-required": "Role permissions are required",
   "api.roles.delete.id-required": "Role ID is required",
   "api.roles.create.name.required": "Role name is required",
-  "api.roles.create.name.maxlength": "Role name must be at most 50 characters"
+  "api.roles.create.name.maxlength": "Role name must be at most 50 characters",
+  "api.todo-lists.not-found": "Todo list not found",
+  "api.todo-lists.create.title.required": "Title is required",
+  "api.todo-lists.create.title.maxlength": "Title must be at most 200 characters",
+  "api.todo-lists.create.colour.invalid": "Invalid colour code",
+  "api.todo-lists.update.id.required": "Todo list ID is required",
+  "api.todo-lists.update.title.required": "Title is required",
+  "api.todo-lists.update.title.maxlength": "Title must be at most 200 characters",
+  "api.todo-lists.update.colour.invalid": "Invalid colour code",
+  "api.todo-lists.delete.id.required": "Todo list ID is required",
+  "api.todo-lists.get.id.required": "Todo list ID is required"
 }
