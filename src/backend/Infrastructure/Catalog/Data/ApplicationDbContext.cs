@@ -30,7 +30,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 var method = typeof(ApplicationDbContext)
                     .GetMethod(nameof(ApplyTenantFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
-                method?.Invoke(this, new object[] { builder });
+                method?.Invoke(this, [builder]);
             }
         }
 
