@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq.Expressions;
+using System.Reflection;
 using EvrenDev.Application.Common.Interfaces;
 
 namespace EvrenDev.Infrastructure.Catalog.Data;
@@ -21,16 +22,27 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        // Apply global query filter for multi-tenancy
+        // Apply global query filters for multi-tenancy and soft delete
         foreach (var entityType in builder.Model.GetEntityTypes())
         {
             var entityClrType = entityType.ClrType;
+
+            // Apply tenant filter
             if (typeof(ITenant).IsAssignableFrom(entityClrType))
             {
-                var method = typeof(ApplicationDbContext)
+                var tenantMethod = typeof(ApplicationDbContext)
                     .GetMethod(nameof(ApplyTenantFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
-                method?.Invoke(this, [builder]);
+                tenantMethod?.Invoke(this, [builder]);
+            }
+
+            // Apply soft delete filter
+            if (typeof(BaseAuditableEntity).IsAssignableFrom(entityClrType))
+            {
+                var softDeleteMethod = typeof(ApplicationDbContext)
+                    .GetMethod(nameof(ApplySoftDeleteFilter), BindingFlags.NonPublic | BindingFlags.Instance)
+                    ?.MakeGenericMethod(entityClrType);
+                softDeleteMethod?.Invoke(this, [builder]);
             }
         }
 
@@ -40,6 +52,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, ITenant
     {
         modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.TenantId == _tenantService.GetCurrentTenantId());
+    }
+
+    private void ApplySoftDeleteFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : BaseAuditableEntity
+    {
+        var parameter = Expression.Parameter(typeof(TEntity), "e");
+        var deletedProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.Deleted));
+        var condition = Expression.Equal(deletedProperty, Expression.Constant(false));
+        var lambda = Expression.Lambda<Func<TEntity, bool>>(condition, parameter);
+
+        modelBuilder.Entity<TEntity>().HasQueryFilter(lambda);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

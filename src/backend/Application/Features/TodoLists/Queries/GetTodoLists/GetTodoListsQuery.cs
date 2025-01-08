@@ -8,6 +8,7 @@ namespace EvrenDev.Application.Features.TodoLists.Queries.GetTodoLists;
 
 public class GetTodoListsQuery : IRequest<Result<List<TodoListDto>>>
 {
+    public bool ShowDeletedItems { get; set; } = false;
 }
 
 public class GetTodoListsQueryHandler : IRequestHandler<GetTodoListsQuery, Result<List<TodoListDto>>>
@@ -21,7 +22,12 @@ public class GetTodoListsQueryHandler : IRequestHandler<GetTodoListsQuery, Resul
 
     public async Task<Result<List<TodoListDto>>> Handle(GetTodoListsQuery request, CancellationToken cancellationToken)
     {
-        var lists = await _context.TodoLists
+        var query = _context.TodoLists.AsQueryable();
+
+        if (request.ShowDeletedItems)
+            query = query.IgnoreQueryFilters();
+
+        var lists = await query
             .AsNoTracking()
             .Select(list => new TodoListDto
             {

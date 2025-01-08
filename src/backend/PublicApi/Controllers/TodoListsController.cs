@@ -30,11 +30,11 @@ public class TodoListsController : ControllerBase
 
     [HttpGet]
     [Authorize(Policy = $"{Modules.Todos}.{Permissions.Read}")]
-    public async Task<ActionResult<List<TodoListDto>>> GetAll()
+    public async Task<ActionResult<List<TodoListDto>>> GetAll(GetTodoListsQuery query)
     {
         try
         {
-            var result = await _mediator.Send(new GetTodoListsQuery());
+            var result = await _mediator.Send(query);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)
