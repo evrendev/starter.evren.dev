@@ -1,6 +1,3 @@
-using EvrenDev.Domain.Entities.Catalog;
-using EvrenDev.Shared.ValueObjects;
-
 namespace EvrenDev.Application.Features.TodoLists.Models;
 
 public class TodoListDto

@@ -1,12 +1,5 @@
-using Ardalis.GuardClauses;
-using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.TodoLists.Models;
-using EvrenDev.Domain.Entities.Catalog;
-using FluentValidation;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Features.TodoLists.Queries.GetTodoListById;
 

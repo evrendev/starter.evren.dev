@@ -1,5 +1,4 @@
-﻿using EvrenDev.Domain.Entities.Catalog;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Common.Interfaces;
 

@@ -1,8 +1,4 @@
-using EvrenDev.Application.Common.Models;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Features.Roles.Commands.CreateRole;
 public class CreateRoleCommand : IRequest<Result<string>>

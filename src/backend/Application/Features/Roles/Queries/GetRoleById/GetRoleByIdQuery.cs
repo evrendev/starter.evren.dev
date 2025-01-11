@@ -1,6 +1,4 @@
-using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Roles.Model;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

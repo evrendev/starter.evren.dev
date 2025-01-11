@@ -1,14 +1,8 @@
 using System.Text.RegularExpressions;
-using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Models;
 using EvrenDev.Domain.Entities.Identity;
 using EvrenDev.Shared.Constants;
-using EvrenDev.Shared.ValueObjects;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 

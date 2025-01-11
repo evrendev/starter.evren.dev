@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
-using ValidationException = EvrenDev.Application.Common.Exceptions.ValidationException;
+﻿using ValidationException = EvrenDev.Application.Common.Exceptions.ValidationException;
 
 namespace EvrenDev.Application.Common.Behaviours;
 

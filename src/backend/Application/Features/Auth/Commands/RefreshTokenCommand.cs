@@ -1,10 +1,5 @@
-using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Models;
 using EvrenDev.Domain.Entities.Identity;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 

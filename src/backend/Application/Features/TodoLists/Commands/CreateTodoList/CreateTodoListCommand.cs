@@ -1,11 +1,3 @@
-using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Models;
-using EvrenDev.Domain.Entities.Catalog;
-using EvrenDev.Shared.ValueObjects;
-using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.Localization;
-
 namespace EvrenDev.Application.Features.TodoLists.Commands.CreateTodoList;
 
 public class CreateTodoListCommand : IRequest<Result<Guid>>

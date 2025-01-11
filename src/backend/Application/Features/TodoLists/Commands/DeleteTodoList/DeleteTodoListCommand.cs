@@ -1,11 +1,3 @@
-using Ardalis.GuardClauses;
-using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Models;
-using EvrenDev.Domain.Entities.Catalog;
-using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.Localization;
-
 namespace EvrenDev.Application.Features.TodoLists.Commands.DeleteTodoList;
 
 public class DeleteTodoListCommand : IRequest<Result<bool>>

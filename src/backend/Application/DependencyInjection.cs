@@ -1,7 +1,5 @@
 using System.Reflection;
 using EvrenDev.Application.Common.Behaviours;
-using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection;

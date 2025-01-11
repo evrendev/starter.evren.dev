@@ -1,7 +1,4 @@
-using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.TodoLists.Models;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.TodoLists.Queries.GetTodoLists;
