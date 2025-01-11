@@ -41,5 +41,21 @@
   "api.todo-lists.update.title.maxlength": "Title must be at most 200 characters",
   "api.todo-lists.update.colour.invalid": "Invalid colour code",
   "api.todo-lists.delete.id.required": "Todo list ID is required",
-  "api.todo-lists.get.id.required": "Todo list ID is required"
+  "api.todo-lists.get.id.required": "Todo list ID is required",
+  "api.tenants.not-found": "Tenant not found",
+  "api.tenants.create.name.required": "Name is required",
+  "api.tenants.create.name.maxlength": "Name must be at most 200 characters",
+  "api.tenants.create.connection-string.required": "Connection string is required",
+  "api.tenants.create.connection-string.maxlength": "Connection string must be at most 500 characters",
+  "api.tenants.create.host.required": "Host is required",
+  "api.tenants.create.host.maxlength": "Host must be at most 200 characters",
+  "api.tenants.update.id.required": "Tenant ID is required",
+  "api.tenants.update.name.required": "Name is required",
+  "api.tenants.update.name.maxlength": "Name must be at most 200 characters",
+  "api.tenants.update.connection-string.required": "Connection string is required",
+  "api.tenants.update.connection-string.maxlength": "Connection string must be at most 500 characters",
+  "api.tenants.update.host.required": "Host is required",
+  "api.tenants.update.host.maxlength": "Host must be at most 200 characters",
+  "api.tenants.delete.id.required": "Tenant ID is required",
+  "api.tenants.get.id.required": "Tenant ID is required"
 }
