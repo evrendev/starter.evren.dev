@@ -27,29 +27,6 @@ public class AuthController : ControllerBase
         _localizer = localizer;
     }
 
-    [HttpPost("register")]
-    public async Task<ActionResult<AuthResponse>> Register(RegisterCommand command)
-    {
-        try
-        {
-            var result = await _mediator.Send(command);
-            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
-        }
-        catch (ValidationException ex)
-        {
-            return BadRequest(new
-            {
-                Error = true,
-                message = _localizer["api.validations.failed"].Value,
-                Errors = ex.Errors.Select(x => new
-                {
-                    key = x.Key.ToLowerInvariant(),
-                    value = x.Value[0]
-                }).ToList()
-            });
-        }
-    }
-
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login(LoginCommand command)
     {

@@ -67,7 +67,6 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             User = new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName ?? string.Empty,
                 Email = user.Email!,
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,

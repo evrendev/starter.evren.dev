@@ -6,8 +6,7 @@ public class UserDto
 {
     public string Id { get; set; } = string.Empty;
     public string? TenantId { get; set; }
-    public Gender Gender { get; set; } = Defaults.Gender;
-    public string UserName { get; set; } = string.Empty;
+    public Gender? Gender { get; set; } = Defaults.Gender;
     public string Email { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

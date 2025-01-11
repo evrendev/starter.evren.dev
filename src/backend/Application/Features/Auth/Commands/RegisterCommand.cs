@@ -145,7 +145,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
             {
                 Id = user.Id,
                 TenantId = user.TenantId,
-                UserName = user.UserName,
                 Email = user.Email!,
                 Gender = user.Gender,
                 FirstName = user.FirstName,
