@@ -1,4 +1,5 @@
 {
+  "api.item-not-found": "Öğe bulunamadı",
   "api.validations.failed": "Doğrulama başarısız",
   "api.auth.login.not-found": "Kullanıcı hesabı bulunamadı",
   "api.auth.login.deleted": "Kullanıcı hesabı silinmiş",

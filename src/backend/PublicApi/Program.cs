@@ -1,4 +1,5 @@
 using EvrenDev.Infrastructure.Catalog.Services;
+using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Middleware;
 using Serilog;
 
@@ -51,6 +52,8 @@ app.UseAuthentication();
 app.UseMiddleware<TenantMiddleware>();
 
 app.UseAuthorization();
+
+app.UseExceptionHandlerMiddleware();
 
 app.MapControllers();
 
