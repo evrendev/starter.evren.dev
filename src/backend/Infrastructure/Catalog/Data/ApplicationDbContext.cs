@@ -1,16 +1,23 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using EvrenDev.Application.Common.Interfaces;
+using EvrenDev.Domain.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Catalog.Data;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly ITenantService _tenantService;
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-        ITenantService tenantService) : base(options)
+    private readonly ILogger<ApplicationDbContext> _logger;
+
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options,
+        ITenantService tenantService,
+        ILogger<ApplicationDbContext> logger) : base(options)
     {
         _tenantService = tenantService;
+        _logger = logger;
     }
 
     public DbSet<TodoList> TodoLists => Set<TodoList>();
@@ -27,12 +34,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             var entityClrType = entityType.ClrType;
 
-            // Apply tenant filter
+            // Apply tenant filter only to catalog entities
             if (typeof(ITenant).IsAssignableFrom(entityClrType))
             {
+                _logger.LogInformation("Applying tenant filter to catalog entity: {EntityType}", entityClrType.Name);
                 var tenantMethod = typeof(ApplicationDbContext)
                     .GetMethod(nameof(ApplyTenantFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
+
                 tenantMethod?.Invoke(this, [builder]);
             }
 
@@ -42,6 +51,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 var softDeleteMethod = typeof(ApplicationDbContext)
                     .GetMethod(nameof(ApplySoftDeleteFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
+
                 softDeleteMethod?.Invoke(this, [builder]);
             }
         }
@@ -51,7 +61,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, ITenant
     {
-        modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.TenantId == _tenantService.GetCurrentTenantId());
+        var tenantId = _tenantService.GetCurrentTenantId();
+        _logger.LogInformation("Applying tenant filter with tenant ID: {TenantId}", tenantId);
+
+        modelBuilder.Entity<TEntity>().HasQueryFilter(e =>
+            !string.IsNullOrEmpty(e.TenantId) && e.TenantId == tenantId);
     }
 
     private void ApplySoftDeleteFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : BaseAuditableEntity
@@ -68,7 +82,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         foreach (var entry in ChangeTracker.Entries<ITenant>().Where(e => e.State == EntityState.Added))
         {
-            entry.Entity.TenantId = _tenantService.GetCurrentTenantId();
+            var tenantId = _tenantService.GetCurrentTenantId();
+            _logger.LogInformation("Setting tenant ID {TenantId} for new catalog entity of type {EntityType}",
+                tenantId, entry.Entity.GetType().Name);
+            entry.Entity.TenantId = tenantId;
         }
 
         return await base.SaveChangesAsync(cancellationToken);

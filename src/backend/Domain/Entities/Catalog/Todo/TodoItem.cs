@@ -1,7 +1,9 @@
-﻿namespace EvrenDev.Domain.Entities.Catalog;
+﻿using EvrenDev.Domain.Interfaces;
+
+namespace EvrenDev.Domain.Entities.Catalog;
 
 [AuditInclude]
-public class TodoItem : BaseAuditableEntity
+public class TodoItem : BaseAuditableEntity, ITenant
 {
     public Guid ListId { get; set; }
 

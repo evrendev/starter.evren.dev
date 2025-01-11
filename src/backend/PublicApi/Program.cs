@@ -48,10 +48,10 @@ app.UseCors("AllowSpecificOrigins");
 // Add authentication before tenant middleware
 app.UseAuthentication();
 
+app.UseAuthorization();
+
 // Add tenant middleware before authorization
 app.UseMiddleware<TenantMiddleware>();
-
-app.UseAuthorization();
 
 app.UseExceptionHandlerMiddleware();
 

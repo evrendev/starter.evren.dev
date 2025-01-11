@@ -3,6 +3,7 @@ using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Tenant.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Tenant.Services
 {
@@ -11,26 +12,25 @@ namespace EvrenDev.Infrastructure.Tenant.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly TenantDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<TenantService> _logger;
 
         public TenantService(
             IHttpContextAccessor httpContextAccessor,
             TenantDbContext context,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger<TenantService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
             _configuration = configuration;
-        }
-
-        public string GetCurrentTenant()
-        {
-            var tenantId = _httpContextAccessor.HttpContext?.User?.FindFirst("tenant")?.Value;
-            return tenantId ?? string.Empty;
+            _logger = logger;
         }
 
         public string GetCurrentTenantId()
         {
-            return GetCurrentTenant();
+            var tenantId = _httpContextAccessor.HttpContext?.User?.FindFirst("tenant")?.Value;
+            _logger.LogDebug("Current tenant ID from claims: {TenantId}", tenantId ?? "none");
+            return tenantId ?? string.Empty;
         }
 
         public async Task<TenantEntity?> GetTenantAsync(string? tenantId)
