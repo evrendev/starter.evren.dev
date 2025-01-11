@@ -14,7 +14,7 @@ namespace EvrenDev.PublicApi.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/todo-lists")]
 public class TodoListsController : ControllerBase
 {
     private readonly IMediator _mediator;
