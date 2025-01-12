@@ -4,8 +4,8 @@ namespace EvrenDev.Application.Common.Interfaces;
 
 public interface ITenantService
 {
-    string GetCurrentTenantId();
-    Task<TenantEntity?> GetTenantAsync(string tenantId);
-    Task<string?> GetConnectionStringAsync(string tenantId);
-    Task<bool> SetCurrentTenantAsync(string tenantId);
+    Guid? GetCurrentTenantId();
+    Task<TenantEntity?> GetTenantAsync(Guid? tenantId);
+    Task<string?> GetConnectionStringAsync(Guid? tenantId);
+    Task<bool> SetCurrentTenantAsync(Guid? tenantId);
 }

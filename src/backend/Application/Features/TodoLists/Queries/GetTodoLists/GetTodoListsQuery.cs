@@ -30,7 +30,8 @@ public class GetTodoListsQueryHandler : IRequestHandler<GetTodoListsQuery, Resul
             {
                 Id = list.Id,
                 Title = list.Title,
-                Colour = list.Colour
+                Colour = list.Colour,
+                TenantId = list.TenantId
             })
             .ToListAsync(cancellationToken);
 

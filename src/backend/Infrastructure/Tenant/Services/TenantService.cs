@@ -26,33 +26,26 @@ namespace EvrenDev.Infrastructure.Tenant.Services
             _logger = logger;
         }
 
-        public string GetCurrentTenantId()
+        public Guid? GetCurrentTenantId()
         {
             var tenantId = _httpContextAccessor.HttpContext?.User?.FindFirst("tenant")?.Value;
             _logger.LogDebug("Current tenant ID from claims: {TenantId}", tenantId ?? "none");
-            return tenantId ?? string.Empty;
+            return tenantId != null && Guid.TryParse(tenantId, out Guid result) ? result : null;
         }
 
-        public async Task<TenantEntity?> GetTenantAsync(string? tenantId)
+        public async Task<TenantEntity?> GetTenantAsync(Guid? tenantId)
         {
-            if (Guid.TryParse(tenantId, out Guid guidTenantId))
-            {
-                return _context.Tenants != null
-                    ? await _context.Tenants.FirstOrDefaultAsync(t => t.Id == guidTenantId)
-                    : null;
-            }
-
-            return null;
+            return await _context.Tenants.FirstOrDefaultAsync(t => t.Id == tenantId);
         }
 
-        public async Task<string?> GetConnectionStringAsync(string tenantId)
+        public async Task<string?> GetConnectionStringAsync(Guid? tenantId)
         {
             var tenant = await GetTenantAsync(tenantId);
             if (tenant == null) return _configuration.GetConnectionString("DefaultConnection");
             return tenant.ConnectionString ?? _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<bool> SetCurrentTenantAsync(string tenantId)
+        public async Task<bool> SetCurrentTenantAsync(Guid? tenantId)
         {
             var tenant = await GetTenantAsync(tenantId);
             return tenant != null;

@@ -34,22 +34,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             var entityClrType = entityType.ClrType;
 
-            // Apply tenant filter only to catalog entities
-            if (typeof(ITenant).IsAssignableFrom(entityClrType))
-            {
-                _logger.LogInformation("Applying tenant filter to catalog entity: {EntityType}", entityClrType.Name);
-                var tenantMethod = typeof(ApplicationDbContext)
-                    .GetMethod(nameof(ApplyTenantFilter), BindingFlags.NonPublic | BindingFlags.Instance)
-                    ?.MakeGenericMethod(entityClrType);
-
-                tenantMethod?.Invoke(this, [builder]);
-            }
-
             // Apply soft delete filter
             if (typeof(BaseAuditableEntity).IsAssignableFrom(entityClrType))
             {
                 var softDeleteMethod = typeof(ApplicationDbContext)
-                    .GetMethod(nameof(ApplySoftDeleteFilter), BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetMethod(nameof(ApplyFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
 
                 softDeleteMethod?.Invoke(this, [builder]);
@@ -59,21 +48,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         builder.HasDefaultSchema("Catalog");
     }
 
-    private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, ITenant
+    private void ApplyFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : BaseAuditableEntity
     {
         var tenantId = _tenantService.GetCurrentTenantId();
-        _logger.LogInformation("Applying tenant filter with tenant ID: {TenantId}", tenantId);
-
-        modelBuilder.Entity<TEntity>().HasQueryFilter(e =>
-            !string.IsNullOrEmpty(e.TenantId) && e.TenantId == tenantId);
-    }
-
-    private void ApplySoftDeleteFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : BaseAuditableEntity
-    {
         var parameter = Expression.Parameter(typeof(TEntity), "e");
         var deletedProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.Deleted));
-        var condition = Expression.Equal(deletedProperty, Expression.Constant(false));
-        var lambda = Expression.Lambda<Func<TEntity, bool>>(condition, parameter);
+        var tenantIdProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.TenantId));
+        var conditions = Expression.AndAlso(
+            Expression.Equal(deletedProperty, Expression.Constant(false)),
+            Expression.Equal(tenantIdProperty, Expression.Constant(tenantId))
+        );
+        var lambda = Expression.Lambda<Func<TEntity, bool>>(conditions, parameter);
 
         modelBuilder.Entity<TEntity>().HasQueryFilter(lambda);
     }

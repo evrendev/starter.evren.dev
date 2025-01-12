@@ -38,7 +38,7 @@ public class TokenService : ITokenService
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email ?? string.Empty),
             new("fullname", user.FullName ?? string.Empty),
-            new("tenant", user.TenantId ?? string.Empty)
+            new("tenant", user.TenantId.ToString() ?? string.Empty)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty));
@@ -73,7 +73,7 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
             new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-            new Claim("tenant", user.TenantId ?? string.Empty)
+            new Claim("tenant", user.TenantId.ToString() ?? string.Empty)
         };
 
         foreach (var permission in permissions)

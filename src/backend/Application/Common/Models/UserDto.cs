@@ -5,7 +5,7 @@ namespace EvrenDev.Application.Common.Models;
 public class UserDto
 {
     public string Id { get; set; } = string.Empty;
-    public string? TenantId { get; set; }
+    public Guid? TenantId { get; set; }
     public Gender? Gender { get; set; } = Defaults.Gender;
     public string Email { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;

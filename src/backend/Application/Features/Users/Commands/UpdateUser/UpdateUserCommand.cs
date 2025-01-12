@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Features.Users.Commands.UpdateUser;
 public record UpdateUserCommand : IRequest<Result<bool>>
 {
     public string Id { get; init; } = string.Empty;
-    public string? TenantId { get; init; }
+    public Guid? TenantId { get; init; }
     public string Gender { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string FirstName { get; init; } = string.Empty;

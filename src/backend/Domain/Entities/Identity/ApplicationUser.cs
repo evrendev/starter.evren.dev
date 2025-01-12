@@ -5,7 +5,7 @@ namespace EvrenDev.Domain.Entities.Identity;
 
 public class ApplicationUser : IdentityUser, ITenant
 {
-    public string? TenantId { get; set; }
+    public Guid? TenantId { get; set; }
 
     public Gender? Gender { get; set; }
 

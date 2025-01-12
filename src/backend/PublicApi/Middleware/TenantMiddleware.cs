@@ -12,7 +12,7 @@ public class TenantMiddleware
     public async Task InvokeAsync(HttpContext context, ITenantService tenantService)
     {
         var tenantId = tenantService.GetCurrentTenantId();
-        if (!string.IsNullOrEmpty(tenantId))
+        if (tenantId != Guid.Empty || tenantId != null)
         {
             var isValid = await tenantService.SetCurrentTenantAsync(tenantId);
             if (!isValid)

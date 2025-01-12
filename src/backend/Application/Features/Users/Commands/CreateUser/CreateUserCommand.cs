@@ -5,7 +5,7 @@ namespace EvrenDev.Application.Features.Users.Commands.CreateUser;
 
 public record CreateUserCommand : IRequest<Result<string>>
 {
-    public string? TenantId { get; init; }
+    public Guid? TenantId { get; init; }
     public string Gender { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string Password { get; init; } = string.Empty;
