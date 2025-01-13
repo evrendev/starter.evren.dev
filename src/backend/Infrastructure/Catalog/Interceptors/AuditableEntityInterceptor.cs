@@ -54,9 +54,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
                     break;
 
                 case EntityState.Deleted:
-                    entry.Entity.DeletionTime = utcNow;
-                    entry.Entity.Deleter = _user.Email;
-                    entry.Entity.Deleted = !entry.Entity.Deleted;
+                    entry.Entity.Delete(_user.Email);
 
                     entry.State = EntityState.Modified;
                     break;

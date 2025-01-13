@@ -15,4 +15,18 @@ public abstract class BaseAuditableEntity : BaseEntity
     public string? Deleter { get; set; }
 
     public DateTimeOffset? DeletionTime { get; set; }
+
+    public void Restore()
+    {
+        Deleted = false;
+        Deleter = null;
+        DeletionTime = null;
+    }
+
+    public void Delete(string? deleter)
+    {
+        Deleted = true;
+        Deleter = deleter;
+        DeletionTime = DateTimeOffset.Now;
+    }
 }

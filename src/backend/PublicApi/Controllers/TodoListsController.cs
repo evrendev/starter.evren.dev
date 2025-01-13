@@ -1,6 +1,7 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Features.TodoLists.Commands.CreateTodoList;
 using EvrenDev.Application.Features.TodoLists.Commands.DeleteTodoList;
+using EvrenDev.Application.Features.TodoLists.Commands.RestoreTodoList;
 using EvrenDev.Application.Features.TodoLists.Commands.UpdateTodoList;
 using EvrenDev.Application.Features.TodoLists.Models;
 using EvrenDev.Application.Features.TodoLists.Queries.GetTodoListById;
@@ -134,6 +135,31 @@ public class TodoListsController : ControllerBase
         try
         {
             var command = new DeleteTodoListCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("{id}/restore")]
+    [Authorize(Policy = $"{Modules.Todos}.{Permissions.Restore}")]
+    public async Task<ActionResult<bool>> Restore(Guid id)
+    {
+        try
+        {
+            var command = new RestoreTodoListCommand { Id = id };
             var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }

@@ -4,7 +4,7 @@ public abstract class Policies
 {
     public static class Permissions
     {
-        public const string NoAccess = nameof(NoAccess);
+        public const string Restore = nameof(Restore);
         public const string Read = nameof(Read);
         public const string Edit = nameof(Edit);
         public const string Delete = nameof(Delete);
@@ -31,7 +31,7 @@ public abstract class Policies
     ];
 
     public static string[] AllPermissions => [
-        Permissions.NoAccess,
+        Permissions.Restore,
         Permissions.Read,
         Permissions.Edit,
         Permissions.Delete,
