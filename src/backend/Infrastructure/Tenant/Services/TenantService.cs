@@ -50,5 +50,11 @@ namespace EvrenDev.Infrastructure.Tenant.Services
             var tenant = await GetTenantAsync(tenantId);
             return tenant != null;
         }
+
+        public Guid? GetDefaultTenantId()
+        {
+            var tenantId = _configuration["DefaultTenant:Id"];
+            return tenantId != null && Guid.TryParse(tenantId, out Guid result) ? result : null;
+        }
     }
 }

@@ -42,13 +42,10 @@ public class TenantDatabaseInitializer : IDatabaseSeeder
     private async Task SeedTenantsAsync()
     {
         if (_context.Tenants == null) return;
+        var defaultTenant = _configuration.GetSection("DefaultTenant").Get<TenantEntity>();
 
-        await _context.Tenants.AddAsync(new TenantEntity
-        {
-            Id = Guid.NewGuid(),
-            Name = "Default Tenant",
-            Host = "localhost",
-            IsActive = true
-        });
+        if (defaultTenant == null) return;
+
+        await _context.Tenants.AddAsync(defaultTenant);
     }
 }

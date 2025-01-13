@@ -15,17 +15,20 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
     private readonly ILogger<IdentityDatabaseSeeder> _logger;
+    private readonly ITenantService _tenantService;
 
     public IdentityDatabaseSeeder(
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IConfiguration configuration,
-        ILogger<IdentityDatabaseSeeder> logger)
+        ILogger<IdentityDatabaseSeeder> logger,
+        ITenantService tenantService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _configuration = configuration;
         _logger = logger;
+        _tenantService = tenantService;
     }
 
     public async Task SeedAsync()
@@ -48,8 +51,11 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
 
             if (superAdminUser == null)
             {
+                var tenantId = _tenantService.GetDefaultTenantId();
+
                 superAdminUser = new ApplicationUser
                 {
+                    TenantId = tenantId,
                     UserName = adminEmail,
                     Email = adminEmail,
                     EmailConfirmed = true,
