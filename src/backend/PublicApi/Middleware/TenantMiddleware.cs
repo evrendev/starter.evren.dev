@@ -17,8 +17,15 @@ public class TenantMiddleware
 
     public async Task InvokeAsync(HttpContext context, ITenantService tenantService)
     {
+        // Skip tenant validation for authentication endpoints
+        if (context.Request.Path.StartsWithSegments("/api/auth", StringComparison.OrdinalIgnoreCase))
+        {
+            await _next(context);
+            return;
+        }
+
         var tenantId = tenantService.GetCurrentTenantId();
-        if (tenantId != Guid.Empty || tenantId != null)
+        if (tenantId != Guid.Empty)
         {
             var isValid = await tenantService.SetCurrentTenantAsync(tenantId);
             if (!isValid)

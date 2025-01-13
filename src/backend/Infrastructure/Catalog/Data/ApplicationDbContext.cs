@@ -34,14 +34,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             var entityClrType = entityType.ClrType;
 
-            // Apply soft delete filter
+            // Apply  filter
             if (typeof(BaseAuditableEntity).IsAssignableFrom(entityClrType))
             {
-                var softDeleteMethod = typeof(ApplicationDbContext)
+                var filter = typeof(ApplicationDbContext)
                     .GetMethod(nameof(ApplyFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
 
-                softDeleteMethod?.Invoke(this, [builder]);
+                filter?.Invoke(this, [builder]);
             }
         }
 
@@ -54,12 +54,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         var parameter = Expression.Parameter(typeof(TEntity), "e");
         var deletedProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.Deleted));
         var tenantIdProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.TenantId));
-        var conditions = Expression.AndAlso(
-            Expression.Equal(deletedProperty, Expression.Constant(false)),
-            Expression.Equal(tenantIdProperty, Expression.Constant(tenantId))
-        );
-        var lambda = Expression.Lambda<Func<TEntity, bool>>(conditions, parameter);
 
+        // Simple equality for non-nullable bool Deleted property
+        var notDeletedCondition = Expression.Equal(deletedProperty, Expression.Constant(false));
+
+        // Handle nullable TenantId property
+        var tenantCondition = Expression.Equal(tenantIdProperty, Expression.Constant(tenantId));
+
+        // Combine both conditions with AND
+        var conditions = Expression.AndAlso(notDeletedCondition, tenantCondition);
+
+        var lambda = Expression.Lambda<Func<TEntity, bool>>(conditions, parameter);
         modelBuilder.Entity<TEntity>().HasQueryFilter(lambda);
     }
 
