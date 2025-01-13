@@ -51,21 +51,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     private void ApplyFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : BaseAuditableEntity
     {
         var tenantId = _tenantService.GetCurrentTenantId();
-        var parameter = Expression.Parameter(typeof(TEntity), "e");
-        var deletedProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.Deleted));
-        var tenantIdProperty = Expression.Property(parameter, nameof(BaseAuditableEntity.TenantId));
 
-        // Simple equality for non-nullable bool Deleted property
-        var notDeletedCondition = Expression.Equal(deletedProperty, Expression.Constant(false));
-
-        // Handle nullable TenantId property
-        var tenantCondition = Expression.Equal(tenantIdProperty, Expression.Constant(tenantId));
-
-        // Combine both conditions with AND
-        var conditions = Expression.AndAlso(notDeletedCondition, tenantCondition);
-
-        var lambda = Expression.Lambda<Func<TEntity, bool>>(conditions, parameter);
-        modelBuilder.Entity<TEntity>().HasQueryFilter(lambda);
+        modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.Deleted == false && e.TenantId == tenantId);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
