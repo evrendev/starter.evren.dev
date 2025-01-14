@@ -1,6 +1,6 @@
+using System.Security.Claims;
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace EvrenDev.Application.Features.Users.Commands.UpdateUserPermissions;
 

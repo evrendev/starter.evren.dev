@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using EvrenDev.Domain.Entities.Tenant;
+using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Common.Interfaces;
 

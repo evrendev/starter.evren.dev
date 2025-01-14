@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.PublicApi.Middleware;
 
