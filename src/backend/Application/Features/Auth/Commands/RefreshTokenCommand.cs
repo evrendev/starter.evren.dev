@@ -71,7 +71,6 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
                 TenantId = user.TenantId,
-                Deleted = user.Deleted,
                 Permissions = permissions
             }
         };

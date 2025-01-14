@@ -14,6 +14,5 @@ public class UserDto
     public string Image { get; set; } = string.Empty;
     public string JobTitle { get; set; } = string.Empty;
     public Language? Language { get; set; } = Defaults.Language;
-    public bool Deleted { get; set; }
     public List<string> Permissions { get; set; } = new();
 }

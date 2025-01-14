@@ -45,7 +45,6 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<List<U
                 Image = user.Image ?? string.Empty,
                 JobTitle = user.JobTitle ?? string.Empty,
                 Language = user.Language,
-                Deleted = user.Deleted,
                 Permissions = permissions
             });
         }

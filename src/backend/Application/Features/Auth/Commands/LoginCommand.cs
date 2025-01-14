@@ -68,11 +68,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
             User = new UserDto
             {
                 Id = user.Id,
+                TenantId = user.TenantId,
+                Gender = user.Gender,
                 Email = user.Email!,
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
-                TenantId = user.TenantId,
-                Deleted = user.Deleted,
+                FullName = user.FullName,
+                Image = user.Image ?? "avatar.png",
+                JobTitle = user.JobTitle ?? string.Empty,
+                Language = user.Language,
                 Permissions = permissions
             }
         };
