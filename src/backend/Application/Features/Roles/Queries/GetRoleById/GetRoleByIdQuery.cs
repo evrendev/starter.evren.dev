@@ -21,7 +21,7 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, Result<
 
     public async Task<Result<RoleDto>> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
     {
-        var role = await _roleManager.Roles.FirstOrDefaultAsync(role => role.Id == role.Id);
+        var role = await _roleManager.Roles.FirstOrDefaultAsync(role => role.Id == request.Id);
         if (role == null)
             return Result<RoleDto>.Failure("Role not found.");
 
