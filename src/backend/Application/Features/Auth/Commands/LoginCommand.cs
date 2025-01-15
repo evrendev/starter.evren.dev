@@ -1,5 +1,6 @@
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 
@@ -28,17 +29,20 @@ public class LoginCommandValidator : AbstractValidator<LoginCommand>
 public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResponse>>
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITenantDbContext _tenantDbContext;
     private readonly ITokenService _tokenService;
     private readonly IPermissionService _permissionService;
     private readonly IStringLocalizer<LoginCommandHandler> _localizer;
 
     public LoginCommandHandler(
         UserManager<ApplicationUser> userManager,
+        ITenantDbContext tenantDbContext,
         ITokenService tokenService,
         IPermissionService permissionService,
         IStringLocalizer<LoginCommandHandler> localizer)
     {
         _userManager = userManager;
+        _tenantDbContext = tenantDbContext;
         _tokenService = tokenService;
         _permissionService = permissionService;
         _localizer = localizer;
@@ -56,6 +60,11 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
         var result = await _userManager.CheckPasswordAsync(user, request.Password);
         if (!result)
             return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-credentials"]);
+
+        var tenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == user.TenantId, cancellationToken);
+
+        if (tenant == null || !tenant.IsActive || tenant.Deleted)
+            return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-tenant"]);
 
         var permissions = await _permissionService.GetUserPermissions(user.Id);
         var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
