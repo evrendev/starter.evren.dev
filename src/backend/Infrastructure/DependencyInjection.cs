@@ -12,6 +12,7 @@ using EvrenDev.Infrastructure.Identity.Data;
 using EvrenDev.Infrastructure.Identity.Seed;
 using EvrenDev.Infrastructure.Identity.Services;
 using EvrenDev.Infrastructure.Tenant.Data;
+using EvrenDev.Infrastructure.Tenant.Interceptors;
 using EvrenDev.Infrastructure.Tenant.Services;
 using EvrenDev.Shared.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,6 +29,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, AuditableTenantInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         var catalogConnectionString = configuration.GetConnectionString("CatalogConnection");
@@ -87,7 +89,13 @@ public static class DependencyInjection
 
         var tenantConnectionString = configuration.GetConnectionString("TenantConnection");
         Guard.Against.Null(tenantConnectionString, message: "Tenant Connection string 'TenantConnection' not found.");
-        services.AddDbContext<TenantDbContext>(options => options.UseSqlServer(tenantConnectionString));
+        services.AddDbContext<TenantDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(new AuditSaveChangesInterceptor());
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+
+            options.UseSqlServer(tenantConnectionString);
+        });
 
         var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
         Guard.Against.Null(identityConnectionString, message: "Identity Connection string 'IdentityConnection' not found.");

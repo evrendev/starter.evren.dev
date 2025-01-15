@@ -7,6 +7,7 @@ public class GetTenantsQuery : IRequest<Result<List<TenantDto>>>
 {
     public string? SearchString { get; set; }
     public bool? IsActive { get; set; }
+    public bool? ShowDeletedItems { get; set; } = false;
 }
 
 public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<List<TenantDto>>>
@@ -22,25 +23,34 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Li
     {
         var query = _context.Tenants.AsQueryable();
 
+        if (request.ShowDeletedItems.HasValue)
+            query = query.IgnoreQueryFilters();
+
+        if (request.IsActive.HasValue)
+            query = query.Where(x => x.IsActive == request.IsActive.Value);
+
         if (!string.IsNullOrWhiteSpace(request.SearchString))
         {
             query = query.Where(x =>
                 x.Name!.Contains(request.SearchString) ||
-                x.Host!.Contains(request.SearchString));
-        }
-
-        if (request.IsActive.HasValue)
-        {
-            query = query.Where(x => x.IsActive == request.IsActive.Value);
+                x.Host!.Contains(request.SearchString) ||
+                x.AdminEmail!.Contains(request.SearchString));
         }
 
         var tenants = await query
-            .OrderBy(x => x.Name)
+            .AsNoTracking()
+            .OrderBy(x => x.ValidUntil)
             .Select(x => new TenantDto
             {
                 Id = x.Id,
                 Name = x.Name,
-                IsActive = x.IsActive
+                ConnectionString = x.ConnectionString,
+                Host = x.Host,
+                IsActive = x.IsActive,
+                AdminEmail = x.AdminEmail,
+                ValidUntil = x.ValidUntil,
+                Description = x.Description,
+                Deleted = x.Deleted
             })
             .ToListAsync(cancellationToken);
 

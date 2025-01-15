@@ -29,6 +29,22 @@ public class TenantMiddleware
 
         if (tenantId.HasValue)
         {
+            var tenant = await tenantService.GetTenantAsync(tenantId.Value);
+            if (tenant == null)
+            {
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsJsonAsync(new { error = _localizer["api.tenants.not-found"].Value });
+                return;
+            }
+
+            // Check if tenant is valid
+            if (!tenant.IsActive || tenant.Deleted || (tenant.ValidUntil.HasValue && tenant.ValidUntil.Value < DateTime.UtcNow))
+            {
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsJsonAsync(new { error = _localizer["api.tenants.inactive"].Value });
+                return;
+            }
+
             var isValid = await tenantService.SetCurrentTenantAsync(tenantId);
             if (!isValid)
             {

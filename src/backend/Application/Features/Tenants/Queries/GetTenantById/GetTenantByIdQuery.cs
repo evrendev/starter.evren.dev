@@ -20,6 +20,7 @@ public class GetTenantByIdQueryValidator : AbstractValidator<GetTenantByIdQuery>
             .NotEmpty().WithMessage(_localizer["api.tenants.get.id.required"]);
     }
 }
+
 public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Result<TenantDto>>
 {
     private readonly ITenantDbContext _context;
@@ -35,17 +36,25 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Res
 
     public async Task<Result<TenantDto>> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenant = await _context.Tenants
-            .Select(x => new TenantDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                IsActive = x.IsActive
-            })
+        var entity = await _context.Tenants
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (tenant == null)
-            return Result<TenantDto>.Failure(_localizer["api.tenants.not-found"]);
+        if (entity == null)
+            throw new NotFoundException(nameof(TodoList), request.Id.ToString());
+
+        var tenant = new TenantDto
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            ConnectionString = entity.ConnectionString,
+            Host = entity.Host,
+            IsActive = entity.IsActive,
+            AdminEmail = entity.AdminEmail,
+            ValidUntil = entity.ValidUntil,
+            Description = entity.Description,
+            Deleted = entity.Deleted
+        };
 
         return Result<TenantDto>.Success(tenant);
     }

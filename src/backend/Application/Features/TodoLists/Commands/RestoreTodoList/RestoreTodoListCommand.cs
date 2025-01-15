@@ -40,6 +40,9 @@ public class RestoreTodoListCommandHandler : IRequestHandler<RestoreTodoListComm
         if (entity == null)
             throw new NotFoundException(nameof(TodoList), request.Id.ToString());
 
+        if (!entity.Deleted)
+            return Result<bool>.Failure(_localizer["api.todo-list.not-deleted"]);
+
         entity.Restore();
 
         await _context.SaveChangesAsync(cancellationToken);

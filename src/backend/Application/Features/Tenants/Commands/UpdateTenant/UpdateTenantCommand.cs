@@ -1,3 +1,5 @@
+using EvrenDev.Domain.Entities.Tenant;
+
 namespace EvrenDev.Application.Features.Tenants.Commands.UpdateTenant;
 
 public class UpdateTenantCommand : IRequest<Result<bool>>
@@ -7,6 +9,9 @@ public class UpdateTenantCommand : IRequest<Result<bool>>
     public string? ConnectionString { get; set; }
     public string? Host { get; set; }
     public bool IsActive { get; set; }
+    public string? AdminEmail { get; set; }
+    public DateTime? ValidUntil { get; set; }
+    public string? Description { get; set; }
 }
 
 public class UpdateTenantCommandValidator : AbstractValidator<UpdateTenantCommand>
@@ -23,8 +28,22 @@ public class UpdateTenantCommandValidator : AbstractValidator<UpdateTenantComman
         RuleFor(v => v.Name)
             .NotEmpty().WithMessage(_localizer["api.tenants.update.name.required"])
             .MaximumLength(200).WithMessage(_localizer["api.tenants.update.name.maxlength"]);
+
+        RuleFor(v => v.AdminEmail)
+            .EmailAddress().WithMessage(_localizer["api.tenants.update.admin-email.invalid"])
+            .When(v => !string.IsNullOrWhiteSpace(v.AdminEmail));
+
+        RuleFor(v => v.ValidUntil)
+            .Must(date => !date.HasValue || date.Value > DateTime.UtcNow)
+            .WithMessage(_localizer["api.tenants.update.valid-until.future"])
+            .When(v => v.ValidUntil.HasValue);
+
+        RuleFor(v => v.Description)
+            .MaximumLength(500).WithMessage(_localizer["api.tenants.update.description.maxlength"])
+            .When(v => !string.IsNullOrWhiteSpace(v.Description));
     }
 }
+
 public class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommand, Result<bool>>
 {
     private readonly ITenantDbContext _context;
@@ -43,12 +62,15 @@ public class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommand, R
         var entity = await _context.Tenants.FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (entity == null)
-            return Result<bool>.Failure(_localizer["api.tenants.not-found"]);
+            throw new NotFoundException(nameof(TenantEntity), request.Id.ToString());
 
         entity.Name = request.Name;
         entity.ConnectionString = request.ConnectionString;
         entity.Host = request.Host;
         entity.IsActive = request.IsActive;
+        entity.AdminEmail = request.AdminEmail;
+        entity.ValidUntil = request.ValidUntil;
+        entity.Description = request.Description;
 
         await _context.SaveChangesAsync(cancellationToken);
         return Result<bool>.Success(true);

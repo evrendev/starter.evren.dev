@@ -1,6 +1,7 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Features.Tenants.Commands.CreateTenant;
 using EvrenDev.Application.Features.Tenants.Commands.DeleteTenant;
+using EvrenDev.Application.Features.Tenants.Commands.RestoreTenant;
 using EvrenDev.Application.Features.Tenants.Commands.UpdateTenant;
 using EvrenDev.Application.Features.Tenants.Models;
 using EvrenDev.Application.Features.Tenants.Queries.GetTenantById;
@@ -104,11 +105,11 @@ public class TenantsController : ControllerBase
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Edit}")]
     public async Task<ActionResult<bool>> Update(Guid id, UpdateTenantCommand command)
     {
-        if (id != command.Id)
-            return BadRequest();
-
         try
         {
+            if (id != command.Id)
+                return BadRequest();
+
             var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
@@ -133,8 +134,31 @@ public class TenantsController : ControllerBase
     {
         try
         {
-            var command = new DeleteTenantCommand { Id = id };
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new DeleteTenantCommand { Id = id });
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("{id}/restore")]
+    [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Edit}")]
+    public async Task<ActionResult<bool>> Restore(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new RestoreTenantCommand { Id = id });
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)

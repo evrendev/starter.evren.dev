@@ -1,3 +1,5 @@
+using EvrenDev.Domain.Entities.Tenant;
+
 namespace EvrenDev.Application.Features.Tenants.Commands.DeleteTenant;
 
 public class DeleteTenantCommand : IRequest<Result<bool>>
@@ -36,7 +38,7 @@ public class DeleteTenantCommandHandler : IRequestHandler<DeleteTenantCommand, R
         var entity = await _context.Tenants.FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (entity == null)
-            return Result<bool>.Failure(_localizer["api.tenants.not-found"]);
+            throw new NotFoundException(nameof(TenantEntity), request.Id.ToString());
 
         _context.Tenants.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
