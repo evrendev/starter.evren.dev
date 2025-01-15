@@ -11,6 +11,7 @@ using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.Infrastructure.Identity.Data;
 using EvrenDev.Infrastructure.Identity.Seed;
 using EvrenDev.Infrastructure.Identity.Services;
+using EvrenDev.Infrastructure.Services;
 using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.Infrastructure.Tenant.Interceptors;
 using EvrenDev.Infrastructure.Tenant.Services;
@@ -181,6 +182,10 @@ public static class DependencyInjection
         services.AddScoped<ITenantDbContext>(provider => provider.GetRequiredService<TenantDbContext>());
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddHttpClient();
+
+        services.AddScoped<ISendmailService, SendmailService>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<ICurrentUser, CurrentUserService>();
         services.AddSingleton(TimeProvider.System);

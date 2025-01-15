@@ -89,5 +89,21 @@
   "api.auth.2fa.user-not-found": "User not found",
   "api.auth.2fa.invalid-code": "Invalid verification code",
   "api.auth.2fa.disable-failed": "Failed to disable 2FA",
-  "api.auth.2fa.required": "2FA code is required"
+  "api.auth.2fa.required": "2FA code is required",
+  "api.auth.forgot-password.email.required": "Email is required",
+  "api.auth.forgot-password.email.invalid": "Email is invalid",
+  "api.auth.forgot-password.email.subject": "Password Reset Request",
+  "api.auth.forgot-password.email.body": "Please use the following token to reset your password: {0}",
+  "api.auth.forgot-password.email-sent": "If an account exists with this email, a password reset link has been sent",
+  "api.auth.forgot-password.email-failed": "Failed to send password reset email",
+  "api.auth.reset-password.email.required": "Email is required",
+  "api.auth.reset-password.email.invalid": "Email is invalid",
+  "api.auth.reset-password.token.required": "Reset token is required",
+  "api.auth.reset-password.password.required": "New password is required",
+  "api.auth.reset-password.password.minlength": "Password must be at least 8 characters",
+  "api.auth.reset-password.password.uppercase": "Password must contain at least one uppercase letter",
+  "api.auth.reset-password.password.lowercase": "Password must contain at least one lowercase letter",
+  "api.auth.reset-password.password.number": "Password must contain at least one number",
+  "api.auth.reset-password.password.special": "Password must contain at least one special character",
+  "api.auth.reset-password.success": "Password has been reset successfully"
 }

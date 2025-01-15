@@ -6,7 +6,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
-configuration.AddJsonFile("secret.json", optional: true, reloadOnChange: true);
+configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddApplicationServices(configuration);
 builder.Services.AddInfrastructureServices(configuration);

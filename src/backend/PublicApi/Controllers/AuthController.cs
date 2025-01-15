@@ -81,4 +81,19 @@ public class AuthController : ControllerBase
         await _signInManager.SignOutAsync();
         return Ok();
     }
+
+
+    [HttpPost("forgot-password")]
+    [AllowAnonymous]
+    public async Task<ActionResult<Result<string>>> ForgotPassword(ForgotPasswordCommand command)
+    {
+        return await _mediator.Send(command);
+    }
+
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    public async Task<ActionResult<Result<string>>> ResetPassword(ResetPasswordCommand command)
+    {
+        return await _mediator.Send(command);
+    }
 }

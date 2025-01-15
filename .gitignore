@@ -401,7 +401,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 package-lock.json
-secret.json
-secret.Development.json
+secrets.json
+secrets.Development.json
 .env
 .env.development

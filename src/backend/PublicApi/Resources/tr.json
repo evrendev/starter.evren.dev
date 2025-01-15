@@ -89,5 +89,21 @@
   "api.auth.2fa.user-not-found": "Kullanıcı bulunamadı",
   "api.auth.2fa.invalid-code": "Geçersiz 2FA kodu",
   "api.auth.2fa.disable-failed": "2FA devre dışı bırakılamadı",
-  "api.auth.2fa.required": "2FA gerekli"
+  "api.auth.2fa.required": "2FA gerekli",
+  "api.auth.forgot-password.email.required": "E-posta adresi gerekli",
+  "api.auth.forgot-password.email.invalid": "Geçersiz e-posta adresi",
+  "api.auth.forgot-password.email.subject": "Şifre Sıfırlama İsteği",
+  "api.auth.forgot-password.email.body": "Şifrenizi sıfırlamak için aşağıdaki bağlantıya tıklayın: {0}",
+  "api.auth.forgot-password.email-sent": "Şifre sıfırlama e-postası gönderildi",
+  "api.auth.forgot-password.email-failed": "Şifre sıfırlama e-postası gönderilemedi",
+  "api.auth.reset-password.email.required": "E-posta adresi gerekli",
+  "api.auth.reset-password.email.invalid": "Geçersiz e-posta adresi",
+  "api.auth.reset-password.token.required": "Sıfırlama belirteci gerekli",
+  "api.auth.reset-password.password.required": "Şifre gerekli",
+  "api.auth.reset-password.password.minlength": "Şifre en az 8 karakter olmalıdır",
+  "api.auth.reset-password.password.uppercase": "Şifre en az bir büyük harf içermelidir",
+  "api.auth.reset-password.password.lowercase": "Şifre en az bir küçük harf içermelidir",
+  "api.auth.reset-password.password.number": "Şifre en az bir sayı içermelidir",
+  "api.auth.reset-password.password.special": "Şifre en az bir özel karakter içermelidir",
+  "api.auth.reset-password.success": "Şifre başarıyla sıfırlandı"
 }
