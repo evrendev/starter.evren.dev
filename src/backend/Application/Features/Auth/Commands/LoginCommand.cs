@@ -16,14 +16,17 @@ public class LoginCommand : IRequest<Result<AuthResponse>>
 
 public class LoginCommandValidator : AbstractValidator<LoginCommand>
 {
-    public LoginCommandValidator(IStringLocalizer<LoginCommand> localizer)
+    private readonly IStringLocalizer<LoginCommandValidator> _localizer;
+    public LoginCommandValidator(IStringLocalizer<LoginCommandValidator> localizer)
     {
+        _localizer = localizer;
+
         RuleFor(v => v.Email)
-            .NotEmpty().WithMessage(localizer["api.auth.login.email.required"])
-            .EmailAddress().WithMessage(localizer["api.auth.login.email.invalid"]);
+            .NotEmpty().WithMessage(_localizer["api.auth.login.email.required"])
+            .EmailAddress().WithMessage(_localizer["api.auth.login.email.invalid"]);
 
         RuleFor(v => v.Password)
-            .NotEmpty().WithMessage(localizer["api.auth.login.password.required"]);
+            .NotEmpty().WithMessage(_localizer["api.auth.login.password.required"]);
     }
 }
 

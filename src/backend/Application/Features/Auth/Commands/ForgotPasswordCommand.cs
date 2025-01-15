@@ -11,11 +11,14 @@ public class ForgotPasswordCommand : IRequest<Result<string>>
 
 public class ForgotPasswordCommandValidator : AbstractValidator<ForgotPasswordCommand>
 {
-    public ForgotPasswordCommandValidator(IStringLocalizer<ForgotPasswordCommand> localizer)
+    private readonly IStringLocalizer<ForgotPasswordCommandValidator> _localizer;
+    public ForgotPasswordCommandValidator(IStringLocalizer<ForgotPasswordCommandValidator> localizer)
     {
+        _localizer = localizer;
+
         RuleFor(v => v.Email)
-            .NotEmpty().WithMessage(localizer["api.auth.forgot-password.email.required"])
-            .EmailAddress().WithMessage(localizer["api.auth.forgot-password.email.invalid"]);
+            .NotEmpty().WithMessage(_localizer["api.auth.forgot-password.email.required"])
+            .EmailAddress().WithMessage(_localizer["api.auth.forgot-password.email.invalid"]);
     }
 }
 
@@ -55,12 +58,13 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
             },
             Content = new Content
             {
-                Subject = _localizer["api.auth.forgot-password.email.subject"],
-                TextBody = string.Format(_localizer["api.auth.forgot-password.email.body"], token)
+                Subject = _localizer["api.auth.forgot-password.email.subject"].Value,
+                TextBody = string.Format(_localizer["api.auth.forgot-password.email.body"].Value, token)
             }
         };
 
         var result = await _sendmailService.SendEmailAsync(emailRequest);
+
         if (!result)
             return Result<string>.Failure(new[] { _localizer["api.auth.forgot-password.email-failed"].Value });
 
