@@ -38,6 +38,7 @@ public class GetTodoListByIdQueryHandler : IRequestHandler<GetTodoListByIdQuery,
     {
         var entity = await _context.TodoLists
             .AsNoTracking()
+            .Include(x => x.Items)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (entity == null)
@@ -47,7 +48,15 @@ public class GetTodoListByIdQueryHandler : IRequestHandler<GetTodoListByIdQuery,
         {
             Id = entity.Id,
             Title = entity.Title,
-            Colour = entity.Colour
+            Colour = entity.Colour,
+            Items = entity.Items.Select(x => new TodoItemDto
+            {
+                Title = x.Title,
+                Note = x.Note,
+                Priority = x.Priority,
+                Reminder = x.Reminder,
+                Done = x.Done
+            }).ToList()
         };
 
         return Result<TodoListDto>.Success(dto);
