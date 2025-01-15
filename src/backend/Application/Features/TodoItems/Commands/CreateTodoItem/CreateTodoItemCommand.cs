@@ -1,3 +1,5 @@
+using Application.Common.Exceptions;
+
 namespace EvrenDev.Application.Features.TodoItems.Commands.CreateTodoItem;
 
 public class CreateTodoItemCommand : IRequest<Result<Guid>>
@@ -31,14 +33,27 @@ public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCo
 public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Result<Guid>>
 {
     private readonly IApplicationDbContext _context;
+    private readonly ICurrentUser _currentUser;
+    private readonly IStringLocalizer<CreateTodoItemCommandHandler> _localizer;
 
-    public CreateTodoItemCommandHandler(IApplicationDbContext context)
+    public CreateTodoItemCommandHandler(IApplicationDbContext context,
+        ICurrentUser currentUser,
+        IStringLocalizer<CreateTodoItemCommandHandler> localizer)
     {
         _context = context;
+        _currentUser = currentUser;
+        _localizer = localizer;
     }
 
     public async Task<Result<Guid>> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
     {
+        var list = await _context.TodoLists.FindAsync(new object[] { request.ListId }, cancellationToken);
+        if (list == null)
+            throw new NotFoundException(nameof(TodoList), request.ListId.ToString());
+
+        if (list.Creator != _currentUser.Email)
+            throw new ForbiddenAccessException(nameof(TodoList), _localizer["api.todo-items.create.forbidden"]);
+
         var entity = new TodoItem
         {
             ListId = request.ListId,
