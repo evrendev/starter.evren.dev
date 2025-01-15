@@ -85,5 +85,9 @@
   "api.users.update-permissions.id.required": "Kullanıcı kimliği gerekli",
   "api.users.update-permissions.permissions.required": "İzinler gerekli",
   "api.users.delete.id.required": "Kullanıcı kimliği gerekli",
-  "api.users.get.id.required": "Kullanıcı kimliği gerekli"
+  "api.users.get.id.required": "Kullanıcı kimliği gerekli",
+  "api.auth.2fa.user-not-found": "Kullanıcı bulunamadı",
+  "api.auth.2fa.invalid-code": "Geçersiz 2FA kodu",
+  "api.auth.2fa.disable-failed": "2FA devre dışı bırakılamadı",
+  "api.auth.2fa.required": "2FA gerekli"
 }

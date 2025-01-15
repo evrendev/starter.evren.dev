@@ -85,5 +85,9 @@
   "api.users.update-permissions.id.required": "Benutzer-ID ist erforderlich",
   "api.users.update-permissions.permissions.required": "Berechtigungen sind erforderlich",
   "api.users.delete.id.required": "Benutzer-ID ist erforderlich",
-  "api.users.get.id.required": "Benutzer-ID ist erforderlich"
+  "api.users.get.id.required": "Benutzer-ID ist erforderlich",
+  "api.auth.2fa.user-not-found": "Benutzer nicht gefunden",
+  "api.auth.2fa.invalid-code": "Ungültiger 2FA-Code",
+  "api.auth.2fa.disable-failed": "2FA konnte nicht deaktiviert werden",
+  "api.auth.2fa.required": "2FA ist erforderlich"
 }

@@ -49,7 +49,7 @@ public class GetTodoListByIdQueryHandler : IRequestHandler<GetTodoListByIdQuery,
             Id = entity.Id,
             Title = entity.Title,
             Colour = entity.Colour,
-            Items = entity.Items.Select(x => new TodoItemDto
+            Items = entity.Items.Select(x => new BasicTodoItemDto
             {
                 Title = x.Title,
                 Note = x.Note,

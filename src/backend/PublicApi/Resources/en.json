@@ -85,5 +85,9 @@
   "api.users.update-permissions.id.required": "User ID is required",
   "api.users.update-permissions.permissions.required": "Permissions are required",
   "api.users.delete.id.required": "User ID is required",
-  "api.users.get.id.required": "User ID is required"
+  "api.users.get.id.required": "User ID is required",
+  "api.auth.2fa.user-not-found": "User not found",
+  "api.auth.2fa.invalid-code": "Invalid verification code",
+  "api.auth.2fa.disable-failed": "Failed to disable 2FA",
+  "api.auth.2fa.required": "2FA code is required"
 }
