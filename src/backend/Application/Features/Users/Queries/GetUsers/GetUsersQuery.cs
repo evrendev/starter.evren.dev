@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Features.Users.Queries.GetUsers;
 
 public class GetUsersQuery : IRequest<Result<List<UserDto>>>
 {
-    public bool ShowDeletedUsers { get; set; } = false;
+    public bool? ShowDeletedItems { get; set; } = false;
 }
 
 public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<List<UserDto>>>
@@ -22,7 +22,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<List<U
     {
         var query = _userManager.Users.AsQueryable();
 
-        if (!request.ShowDeletedUsers)
+        if (!request.ShowDeletedItems.HasValue)
             query = query.Where(u => !u.Deleted);
 
         var users = await query.ToListAsync(cancellationToken);
