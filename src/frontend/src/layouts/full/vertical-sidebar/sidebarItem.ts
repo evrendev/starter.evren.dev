@@ -1,15 +1,4 @@
-import {
-  CircleIcon,
-  WindmillIcon,
-  TypographyIcon,
-  ShadowIcon,
-  PaletteIcon,
-  KeyIcon,
-  BugIcon,
-  DashboardIcon,
-  BrandChromeIcon,
-  HelpIcon
-} from 'vue-tabler-icons';
+import { CircleIcon, KeyIcon, BugIcon, DashboardIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -57,53 +46,6 @@ const sidebarItem: menu[] = [
     title: 'Error 404',
     icon: BugIcon,
     to: '/error'
-  },
-  { divider: true },
-  { header: 'Utilities' },
-  {
-    title: 'Typography',
-    icon: TypographyIcon,
-    to: '/utils/typography'
-  },
-  {
-    title: 'Shadows',
-    icon: ShadowIcon,
-    to: '/utils/shadows'
-  },
-  {
-    title: 'Colors',
-    icon: PaletteIcon,
-    to: '/utils/colors'
-  },
-
-  {
-    title: 'Icons',
-    icon: WindmillIcon,
-    to: '/forms/radio',
-    children: [
-      {
-        title: 'Tabler Icons',
-        icon: CircleIcon,
-        to: '/icons/tabler'
-      },
-      {
-        title: 'Material Icons',
-        icon: CircleIcon,
-        to: '/icons/material'
-      }
-    ]
-  },
-  { divider: true },
-  {
-    title: 'Sample Page',
-    icon: BrandChromeIcon,
-    to: '/starter'
-  },
-  {
-    title: 'Documentation',
-    icon: HelpIcon,
-    to: 'https://codedthemes.gitbook.io/berry-vuetify/',
-    type: 'external'
   }
 ];
 
