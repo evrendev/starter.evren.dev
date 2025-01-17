@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { Form } from 'vee-validate';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const checkbox = ref(false);
 const valid = ref(false);
@@ -10,8 +12,8 @@ const show1 = ref(false);
 const password = ref('');
 const username = ref('');
 const passwordRules = ref([
-  (v: string) => !!v || 'Password is required',
-  (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
+  (v: string) => !!v || t('auth.required.password'),
+  (v: string) => (v && v.length <= 6) || t('auth.required.passwordLength')
 ]);
 const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
 

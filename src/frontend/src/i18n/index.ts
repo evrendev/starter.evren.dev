@@ -7,6 +7,11 @@ const messages = {
       login: {
         welcomeText: 'Hi, Welcome Back!',
         subTitle: 'Enter your email and password to sign in'
+      },
+      required: {
+        email: 'Email is required',
+        password: 'Password is required',
+        passwordLength: 'Password must be at least 6 characters'
       }
     }
   },
@@ -15,6 +20,10 @@ const messages = {
       login: {
         welcomeText: 'Merhaba, Tekrar Hoşgeldiniz!',
         subTitle: 'Giriş yapmak için e-posta ve şifrenizi girin'
+      },
+      required: {
+        email: 'E-posta adresi girilmesi zorunludur',
+        password: 'Şifre girilmesi zorunludur'
       }
     }
   },
@@ -23,6 +32,10 @@ const messages = {
       login: {
         welcomeText: 'Hallo, Willkommen zurück!',
         subTitle: 'Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden'
+      },
+      required: {
+        email: 'E-Mail ist erforderlich',
+        password: 'Passwort ist erforderlich'
       }
     }
   }

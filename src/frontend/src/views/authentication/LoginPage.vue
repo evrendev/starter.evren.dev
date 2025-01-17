@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Logo from '@/layouts/full/logo/LogoDark.vue';
 import AuthLogin from './authForms/AuthLogin.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 </script>
 
 <template>
@@ -17,10 +19,10 @@ import AuthLogin from './authForms/AuthLogin.vue';
                       <v-col cols="12" class="text-center">
                         <Logo />
                         <h2 class="text-secondary text-h2 mt-8">
-                          {{ $t('auth.login.welcomeText') }}
+                          {{ t('auth.login.welcomeText') }}
                         </h2>
                         <h4 class="text-disabled text-h4 mt-3">
-                          {{ $t('auth.login.subTitle') }}
+                          {{ t('auth.login.subTitle') }}
                         </h4>
                       </v-col>
                     </v-row>
