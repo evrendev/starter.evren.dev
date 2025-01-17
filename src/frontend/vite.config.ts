@@ -27,6 +27,9 @@ export default defineConfig({
       scss: {}
     }
   },
+  server: {
+    port: 5002
+  },
   build: {
     chunkSizeWarningLimit: 1024 * 1024 // Set the limit to 1 MB
   },
