@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "login": {
+      "welcome-text": "Merhaba, Tekrar Hoşgeldiniz!",
+      "subtitle": "Giriş yapmak için e-posta ve şifrenizi girin"
+    },
+    "required": {
+      "email": "E-posta adresinizi girmeniz gerekmektedir",
+      "password": "Şifrenizi girmeniz gerekmektedir",
+      "passwordLength": "Şifre en az 6 karakter olmalıdır"
+    }
+  }
+}

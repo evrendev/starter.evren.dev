@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "login": {
+      "welcome-text": "Hallo, Willkommen zurück!",
+      "subtitle": "Geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein, um sich anzumelden"
+    },
+    "required": {
+      "email": "E-Mail ist erforderlich",
+      "password": "Passwort ist erforderlich",
+      "passwordLength": "Das Passwort muss mindestens 6 Zeichen lang sein"
+    }
+  }
+}
