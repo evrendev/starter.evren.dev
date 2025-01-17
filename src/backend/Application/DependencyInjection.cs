@@ -1,5 +1,6 @@
 using System.Reflection;
 using EvrenDev.Application.Common.Behaviours;
+using EvrenDev.Application.Common.Extensions;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,11 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        });
+
+        services.AddHttpClient<ReCaptcha>(client =>
+        {
+            client.BaseAddress = new Uri("https://www.google.com/recaptcha/api/siteverify");
         });
 
         return services;

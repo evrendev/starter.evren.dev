@@ -1,3 +1,4 @@
+using EvrenDev.Application.Common.Extensions;
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +12,20 @@ public class LoginCommand : IRequest<Result<AuthResponse>>
 
     public string Password { get; set; } = string.Empty;
 
+    public string Response { get; set; } = string.Empty;
+
     public bool RememberMe { get; set; }
 }
 
 public class LoginCommandValidator : AbstractValidator<LoginCommand>
 {
     private readonly IStringLocalizer<LoginCommandValidator> _localizer;
-    public LoginCommandValidator(IStringLocalizer<LoginCommandValidator> localizer)
+    private readonly ReCaptcha _reCaptcha;
+    public LoginCommandValidator(IStringLocalizer<LoginCommandValidator> localizer,
+        ReCaptcha reCaptcha)
     {
         _localizer = localizer;
+        _reCaptcha = reCaptcha;
 
         RuleFor(v => v.Email)
             .NotEmpty().WithMessage(_localizer["api.auth.login.email.required"])
@@ -27,6 +33,17 @@ public class LoginCommandValidator : AbstractValidator<LoginCommand>
 
         RuleFor(v => v.Password)
             .NotEmpty().WithMessage(_localizer["api.auth.login.password.required"]);
+
+        RuleFor(v => v.Response)
+            .NotEmpty().NotNull().WithMessage(_localizer["api.auth.login.captcha.required"])
+            .MustAsync(ValidateRecaptcha)
+            .WithMessage(_localizer["api.auth.login.captcha.error"])
+            .WithErrorCode("not_verified");
+    }
+
+    public async Task<bool> ValidateRecaptcha(string? response, CancellationToken cancellationToken)
+    {
+        return await _reCaptcha.IsValid(response ?? string.Empty);
     }
 }
 
