@@ -4,7 +4,7 @@ import { icons } from './mdi-icon';
 import { en, de, tr } from 'vuetify/locale';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { PurpleTheme } from '@/theme/LightTheme';
+import { NavyTheme } from '@/theme/LightTheme';
 import config from '@/config';
 
 export default createVuetify({
@@ -21,9 +21,9 @@ export default createVuetify({
     }
   },
   theme: {
-    defaultTheme: 'PurpleTheme',
+    defaultTheme: 'NavyTheme',
     themes: {
-      PurpleTheme
+      NavyTheme
     }
   },
   locale: {

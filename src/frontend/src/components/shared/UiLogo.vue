@@ -10,7 +10,7 @@
       stroke-linecap="round"
       fill-rule="evenodd"
       font-size="9pt"
-      stroke="#1c1e54"
+      :stroke="primary"
       stroke-width="0"
       :fill="primary"
       :style="{ stroke: primary, strokeWidth: 0, fill: primary }"
