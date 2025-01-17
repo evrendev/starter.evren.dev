@@ -360,7 +360,6 @@ publish/
 docs/
 wwwroot/
 .DS_Store
-theme/
 documentation/
 db_backup/
 
