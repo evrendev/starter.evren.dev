@@ -1,78 +1,123 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { Form } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
+import { useForm } from 'vee-validate';
+import { object, string, boolean } from 'yup';
+import { ChallengeV3, useRecaptchaProvider } from 'vue-recaptcha';
+import { createToaster } from '@meforma/vue-toaster';
+import { until } from '@vueuse/core';
+import { useAuthStore } from '@/stores/auth';
+import { useAppStore } from '@/stores/app';
+
+useRecaptchaProvider();
+const recaptchaResponse = ref();
+
 const { t } = useI18n();
 
-const checkbox = ref(false);
-const valid = ref(false);
-const show1 = ref(false);
-//const logform = ref();
-const password = ref('');
-const username = ref('');
-const passwordRules = ref([
-  (v: string) => !!v || t('auth.required.password'),
-  (v: string) => (v && v.length <= 6) || t('auth.required.passwordLength')
-]);
-const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+const authStore = useAuthStore();
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function validate(values: any, { setErrors }: any) {
-  const authStore = useAuthStore();
-  return authStore.login(username.value, password.value).catch((error) => setErrors({ apiError: error }));
-}
+const appStore = useAppStore();
+
+const schema = object().shape({
+  email: string().email(t('auth.login.email.invalid')).required(t('auth.login.email.required')).label(t('auth.login.email.label')),
+  password: string().required(t('auth.login.password.required')).label(t('auth.login.password.label')),
+  rememberMe: boolean().default(false).label(t('auth.login.remember-me'))
+});
+
+const { defineField, handleSubmit, resetForm } = useForm({
+  validationSchema: schema
+});
+
+const vuetifyConfig = (state) => ({
+  props: {
+    'error-messages': state.errors
+  }
+});
+
+const [email, emailProps] = defineField('email', vuetifyConfig);
+const [password, passwordProps] = defineField('password', vuetifyConfig);
+const [rememberMe, rememberMeProps] = defineField('rememberMe', vuetifyConfig);
+
+const showPassword = ref(false);
+
+const toaster = createToaster({
+  position: 'top-right',
+  duration: 3000,
+  queue: true,
+  pauseOnHover: true,
+  useDefaultCss: true
+});
+
+const onSubmit = handleSubmit(async (values) => {
+  appStore.togglePreloader();
+
+  try {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    await until(recaptchaResponse).changed();
+    await authStore.login(values.email, values.password, values.rememberMe ?? false, recaptchaResponse.value);
+
+    appStore.togglePreloader();
+  } catch (error) {
+    const errorMessages = error.response.data;
+    errorMessages.forEach((message) => toaster.error(message));
+    appStore.togglePreloader();
+  }
+});
 </script>
 
 <template>
-  <Form @submit="validate" class="mt-7 loginForm" v-slot="{ errors, isSubmitting }">
+  <v-form class="mt-7 loginForm" @submit="onSubmit">
     <v-text-field
-      v-model="username"
-      :rules="emailRules"
-      label="Email Address / Username"
-      class="mt-4 mb-8"
-      required
+      v-model="email"
+      v-bind="emailProps"
+      type="email"
+      :label="t('auth.login.email.label')"
+      class="mt-4"
       density="comfortable"
       hide-details="auto"
       variant="outlined"
       color="primary"
-    ></v-text-field>
+    />
     <v-text-field
       v-model="password"
-      :rules="passwordRules"
-      label="Password"
-      required
+      v-bind="passwordProps"
+      :label="t('auth.login.password.label')"
       density="comfortable"
       variant="outlined"
       color="primary"
       hide-details="auto"
-      :append-icon="show1 ? '$eye' : '$eyeOff'"
-      :type="show1 ? 'text' : 'password'"
-      @click:append="show1 = !show1"
-      class="pwdInput"
-    ></v-text-field>
+      :append-icon="showPassword ? '$eye' : '$eyeOff'"
+      :type="showPassword ? 'text' : 'password'"
+      @click:append="showPassword = !showPassword"
+      class="mt-4 pwdInput"
+    />
 
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
       <v-checkbox
-        v-model="checkbox"
-        :rules="[(v: any) => !!v || 'You must agree to continue!']"
-        label="Remember me?"
-        required
+        v-model="rememberMe"
+        v-bind="rememberMeProps"
+        :label="t('auth.login.remember-me')"
         color="primary"
         class="ms-n2"
         hide-details
-      ></v-checkbox>
+      />
       <div class="ml-auto">
-        <a href="javascript:void(0)" class="text-primary text-decoration-none">Forgot password?</a>
+        <a href="javascript:void(0)" class="text-primary text-decoration-none">
+          {{ t('auth.login.forgot-password') }}
+        </a>
       </div>
     </div>
-    <v-btn color="secondary" :loading="isSubmitting" block class="mt-2" variant="flat" size="large" :disabled="valid" type="submit">
-      Sign In</v-btn
-    >
-    <div v-if="errors.apiError" class="mt-2">
-      <v-alert color="error">{{ errors.apiError }}</v-alert>
+
+    <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
+      <challenge-v3 v-model="recaptchaResponse" action="submit">
+        <v-btn color="primary" variant="flat" size="large" type="submit">
+          {{ t('auth.login.submit') }}
+        </v-btn>
+      </challenge-v3>
+      <v-btn color="secondary" variant="flat" size="large" class="ml-4" @click="resetForm()"> Reset </v-btn>
     </div>
-  </Form>
+  </v-form>
 </template>
 <style lang="scss">
 .custom-devider {
