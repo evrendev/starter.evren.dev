@@ -1,24 +1,11 @@
 const PublicRoutes = {
   path: '/',
-  component: () => import('@/layouts/blank/BlankLayout.vue'),
-  meta: {
-    requiresAuth: false
-  },
+  redirect: '/dashboard/home',
   children: [
     {
       name: 'Authentication',
-      path: '/login',
+      path: '/auth/login',
       component: () => import('@/views/authentication/LoginPage.vue')
-    },
-    {
-      name: 'Login',
-      path: '/login1',
-      component: () => import('@/views/authentication/auth/LoginPage.vue')
-    },
-    {
-      name: 'Register',
-      path: '/register',
-      component: () => import('@/views/authentication/auth/RegisterPage.vue')
     },
     {
       name: 'Error 404',

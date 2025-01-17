@@ -21,7 +21,7 @@ const sidebarItem: menu[] = [
   {
     title: 'Default',
     icon: DashboardIcon,
-    to: '/dashboard/default'
+    to: '/dashboard'
   },
   { divider: true },
   { header: 'Pages' },
@@ -33,12 +33,7 @@ const sidebarItem: menu[] = [
       {
         title: 'Login',
         icon: CircleIcon,
-        to: '/login1'
-      },
-      {
-        title: 'Register',
-        icon: CircleIcon,
-        to: '/register'
+        to: '/auth/login'
       }
     ]
   },

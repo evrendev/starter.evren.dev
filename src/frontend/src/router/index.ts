@@ -41,8 +41,8 @@ router.beforeEach(async (to, from, next) => {
   // User not logged in and trying to access a restricted page
   if (authRequired && !auth.user) {
     auth.returnUrl = to.fullPath; // Save the intended page
-    next('/login');
-  } else if (auth.user && to.path === '/login') {
+    next('/auth/login');
+  } else if (auth.user && to.path === '/auth/login') {
     // User logged in and trying to access the login page
     next({
       query: {
