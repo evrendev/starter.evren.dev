@@ -1,11 +1,11 @@
-import { CircleIcon, KeyIcon, BugIcon, DashboardIcon } from "vue-tabler-icons";
+import { CircleIcon, KeyIcon, BugIcon, DashboardIcon } from "vue-tabler-icons"
 
 const sidebarItem = [
   { header: "Dashboard" },
   {
     title: "Default",
     icon: DashboardIcon,
-    to: "/dashboard"
+    to: "/dashboard",
   },
   { divider: true },
   { header: "Pages" },
@@ -17,15 +17,15 @@ const sidebarItem = [
       {
         title: "Login",
         icon: CircleIcon,
-        to: "/auth/login"
-      }
-    ]
+        to: "/auth/login",
+      },
+    ],
   },
   {
     title: "Error 404",
     icon: BugIcon,
-    to: "/error"
-  }
-];
+    to: "/error",
+  },
+]
 
-export default sidebarItem;
+export default sidebarItem

@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import { router } from "@/router";
-import axiosInstance from "@/plugins/axios";
+import { defineStore } from "pinia"
+import { router } from "@/router"
+import axiosInstance from "@/plugins/axios"
 
-const baseUrl = `${import.meta.env.VITE_API_URL}`;
+const baseUrl = `${import.meta.env.VITE_API_URL}`
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -12,47 +12,56 @@ export const useAuthStore = defineStore({
     token: null,
     refreshToken: null,
     returnUrl: null,
-    rememberMe: false
+    rememberMe: false,
   }),
   actions: {
     async login(email, password, rememberMe, response) {
-      const user = await axiosInstance.post(`${baseUrl}/auth/login`, { email, password, rememberMe, response });
+      const user = await axiosInstance.post(`${baseUrl}/auth/login`, {
+        email,
+        password,
+        rememberMe,
+        response,
+      })
 
       if (user?.data?.requiresTwoFactor) {
-        this.userId = user?.data?.userId;
-        this.rememberMe = rememberMe;
+        this.userId = user?.data?.userId
+        this.rememberMe = rememberMe
 
-        router.push(`/auth/login/2fa`);
+        router.push(`/auth/login/2fa`)
       } else {
         // update pinia state
-        this.user = user?.data.user;
-        this.token = user?.data.token;
-        this.refreshToken = user?.data.refreshToken;
+        this.user = user?.data.user
+        this.token = user?.data.token
+        this.refreshToken = user?.data.refreshToken
 
-        router.push(this.returnUrl || "/dashboard");
+        router.push(this.returnUrl || "/dashboard")
       }
     },
     async verify(code) {
-      const rememberMachine = this.rememberMe;
-      const userId = this.userId;
-      const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, { code, userId, rememberMachine });
+      const rememberMachine = this.rememberMe
+      const userId = this.userId
+      const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, {
+        code,
+        userId,
+        rememberMachine,
+      })
 
       // update pinia state
-      this.user = user?.data.user;
-      this.token = user?.data.token;
-      this.refreshToken = user?.data.refreshToken;
+      this.user = user?.data.user
+      this.token = user?.data.token
+      this.refreshToken = user?.data.refreshToken
 
-      router.push(this.returnUrl || "/dashboard");
+      router.push(this.returnUrl || "/dashboard")
     },
     logout() {
-      this.user = null;
-      this.token = null;
-      this.refreshToken = null;
-      this.userId = null;
-      this.rememberMe = false;
+      this.user = null
+      this.token = null
+      this.refreshToken = null
+      this.userId = null
+      this.rememberMe = false
 
-      localStorage.removeItem("user");
-      router.push("/login");
-    }
-  }
-});
+      localStorage.removeItem("user")
+      router.push("/login")
+    },
+  },
+})

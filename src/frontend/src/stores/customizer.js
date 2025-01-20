@@ -1,5 +1,5 @@
-import { defineStore } from "pinia";
-import config from "@/config";
+import { defineStore } from "pinia"
+import config from "@/config"
 
 export const useCustomizerStore = defineStore({
   id: "customizer",
@@ -8,22 +8,22 @@ export const useCustomizerStore = defineStore({
     Customizer_drawer: config.Customizer_drawer,
     mini_sidebar: config.mini_sidebar,
     fontTheme: config.fontTheme,
-    inputBg: config.inputBg
+    inputBg: config.inputBg,
   }),
 
   getters: {},
   actions: {
     SET_SIDEBAR_DRAWER() {
-      this.Sidebar_drawer = !this.Sidebar_drawer;
+      this.Sidebar_drawer = !this.Sidebar_drawer
     },
     SET_MINI_SIDEBAR(payload) {
-      this.mini_sidebar = payload;
+      this.mini_sidebar = payload
     },
     SET_CUSTOMIZER_DRAWER(payload) {
-      this.Customizer_drawer = payload;
+      this.Customizer_drawer = payload
     },
     SET_FONT(payload) {
-      this.fontTheme = payload;
-    }
-  }
-});
+      this.fontTheme = payload
+    },
+  },
+})

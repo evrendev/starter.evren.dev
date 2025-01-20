@@ -1,15 +1,15 @@
 <script setup>
-import { shallowRef } from "vue";
-import { useCustomizerStore } from "../../../stores/customizer";
-import sidebarItems from "./sidebarItem";
+import { shallowRef } from "vue"
+import { useCustomizerStore } from "../../../stores/customizer"
+import sidebarItems from "./sidebarItem"
 
-import NavGroup from "./NavGroup/NavGroup.vue";
-import NavItem from "./NavItem/NavItem.vue";
-import NavCollapse from "./NavCollapse/NavCollapse.vue";
-import Logo from "../logo/LogoMain.vue";
+import NavGroup from "./NavGroup/NavGroup.vue"
+import NavItem from "./NavItem/NavItem.vue"
+import NavCollapse from "./NavCollapse/NavCollapse.vue"
+import Logo from "../logo/LogoMain.vue"
 
-const customizer = useCustomizerStore();
-const sidebarMenu = shallowRef(sidebarItems);
+const customizer = useCustomizerStore()
+const sidebarMenu = shallowRef(sidebarItems)
 </script>
 
 <template>
@@ -41,7 +41,12 @@ const sidebarMenu = shallowRef(sidebarItems);
           <!---Item Divider -->
           <v-divider class="my-3" v-else-if="item.divider" />
           <!---If Has Child -->
-          <NavCollapse class="leftPadding" :item="item" :level="0" v-else-if="item.children" />
+          <NavCollapse
+            class="leftPadding"
+            :item="item"
+            :level="0"
+            v-else-if="item.children"
+          />
           <!---Single Item-->
           <NavItem :item="item" v-else class="leftPadding" />
           <!---End Single Item-->

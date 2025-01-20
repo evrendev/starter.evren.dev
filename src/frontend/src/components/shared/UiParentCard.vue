@@ -1,10 +1,11 @@
 <script setup>
 const props = defineProps({
-  title: String
-});
+  title: String,
+})
 </script>
 
-// ===============================|| Ui Parent Card||=============================== //
+// ===============================|| Ui Parent
+Card||=============================== //
 <template>
   <v-card variant="flat">
     <v-card-item>

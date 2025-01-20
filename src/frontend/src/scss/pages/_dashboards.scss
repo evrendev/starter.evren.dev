@@ -1,7 +1,7 @@
 .bubble-shape {
   position: relative;
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     width: 210px;
     height: 210px;
@@ -11,7 +11,7 @@
     opacity: 0.5;
   }
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     width: 210px;
     height: 210px;
@@ -46,7 +46,7 @@
 .bubble-shape-sm {
   position: relative;
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 210px;
     height: 210px;
@@ -56,11 +56,15 @@
   }
   &.bubble-primary {
     &::before {
-      background: linear-gradient(140.9deg, rgb(var(--v-theme-lightprimary)) -14.02%, rgba(var(--v-theme-darkprimary), 0) 77.58%);
+      background: linear-gradient(
+        140.9deg,
+        rgb(var(--v-theme-lightprimary)) -14.02%,
+        rgba(var(--v-theme-darkprimary), 0) 77.58%
+      );
     }
   }
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 210px;
     height: 210px;
@@ -70,19 +74,31 @@
   }
   &.bubble-primary {
     &::after {
-      background: linear-gradient(210.04deg, rgb(var(--v-theme-lightprimary)) -50.94%, rgba(var(--v-theme-darkprimary), 0) 83.49%);
+      background: linear-gradient(
+        210.04deg,
+        rgb(var(--v-theme-lightprimary)) -50.94%,
+        rgba(var(--v-theme-darkprimary), 0) 83.49%
+      );
     }
   }
 
   &.bubble-warning {
     &::before {
-      background: linear-gradient(140.9deg, rgb(var(--v-theme-warning)) -14.02%, rgba(144, 202, 249, 0) 70.5%);
+      background: linear-gradient(
+        140.9deg,
+        rgb(var(--v-theme-warning)) -14.02%,
+        rgba(144, 202, 249, 0) 70.5%
+      );
     }
   }
 
   &.bubble-warning {
     &::after {
-      background: linear-gradient(210.04deg, rgb(var(--v-theme-warning)) -50.94%, rgba(144, 202, 249, 0) 83.49%);
+      background: linear-gradient(
+        210.04deg,
+        rgb(var(--v-theme-warning)) -50.94%,
+        rgba(144, 202, 249, 0) 83.49%
+      );
     }
   }
 }

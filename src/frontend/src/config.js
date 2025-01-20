@@ -5,7 +5,7 @@ const config = {
   fontTheme: "Roboto",
   inputBg: false,
   defaultLocale: "tr",
-  fallbackLocale: "en"
-};
+  fallbackLocale: "en",
+}
 
-export default config;
+export default config

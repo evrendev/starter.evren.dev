@@ -3,7 +3,7 @@ const NavyTheme = {
   dark: false,
   variables: {
     "border-color": "#5e35b1",
-    "carousel-control-size": 10
+    "carousel-control-size": 10,
   },
   colors: {
     primary: "#5e35b1",
@@ -32,8 +32,8 @@ const NavyTheme = {
     linkedin: "#0e76a8",
     gray100: "#fafafa",
     primary200: "#90caf9",
-    secondary200: "#b39ddb"
-  }
-};
+    secondary200: "#b39ddb",
+  },
+}
 
-export { NavyTheme };
+export { NavyTheme }

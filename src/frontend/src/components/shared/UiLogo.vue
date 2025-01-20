@@ -35,6 +35,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-const primary = ref("rgb(var(--v-theme-primary))");
+import { ref } from "vue"
+const primary = ref("rgb(var(--v-theme-primary))")
 </script>
