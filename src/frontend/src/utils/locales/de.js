@@ -1,0 +1,33 @@
+import { de } from "vuetify/locale"
+
+export default {
+  auth: {
+    login: {
+      welcome: "Hallo, Willkommen zurück!",
+      subtitle:
+        "Geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein, um sich anzumelden",
+      email: {
+        label: "E-Mail",
+        placeholder: "Geben Sie Ihre E-Mail-Adresse ein",
+        invalid: "Ungültige E-Mail-Adresse",
+        required: "E-Mail ist erforderlich",
+      },
+      password: {
+        label: "Passwort",
+        placeholder: "Geben Sie Ihr Passwort ein",
+        required: "Passwort ist erforderlich",
+      },
+      "remember-me": "Erinnere dich an mich",
+      "forgot-password": "Passwort vergessen?",
+      submit: "Anmelden",
+    },
+    required: {
+      email: "E-Mail ist erforderlich",
+      password: "Passwort ist erforderlich",
+      passwordLength: "Das Passwort muss mindestens 6 Zeichen lang sein",
+    },
+  },
+  $vuetify: {
+    ...de,
+  },
+}

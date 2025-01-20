@@ -20,7 +20,7 @@ const { t } = useLocale()
                       <v-col cols="12" class="text-center">
                         <Logo />
                         <h2 class="text-secondary text-h2 mt-8">
-                          {{ t("auth.login.welcome-text") }}
+                          {{ t("auth.login.welcome") }}
                         </h2>
                         <h4 class="text-disabled text-h4 mt-3">
                           {{ t("auth.login.subtitle") }}

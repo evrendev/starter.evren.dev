@@ -107,14 +107,14 @@ const onSubmit = handleSubmit(async values => {
       <v-checkbox
         v-model="rememberMe"
         v-bind="rememberMeProps"
-        :label="t('auth.login.remember-me')"
+        :label="t('auth.login.rememberMe')"
         color="primary"
         class="ms-n2"
         hide-details
       />
       <div class="ml-auto">
         <a href="javascript:void(0)" class="text-primary text-decoration-none">
-          {{ t("auth.login.forgot-password") }}
+          {{ t("auth.login.forgotPassword") }}
         </a>
       </div>
     </div>
