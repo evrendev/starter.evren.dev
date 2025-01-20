@@ -69,7 +69,7 @@ public class TwoFactorAuthController : ControllerBase
     }
 
     [HttpPost("enable")]
-    public async Task<IActionResult> EnableTwoFactorAuthentication([FromBody] EnableTwoFactorAuthenticationRequest request)
+    public async Task<IActionResult> EnableTwoFactorAuthentication(EnableTwoFactorAuthenticationRequest request)
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
@@ -111,7 +111,7 @@ public class TwoFactorAuthController : ControllerBase
 
     [HttpPost("verify")]
     [AllowAnonymous]
-    public async Task<ActionResult<AuthResponse>> VerifyTwoFactorCode([FromBody] TwoFactorLoginRequest request)
+    public async Task<ActionResult<AuthResponse>> VerifyTwoFactorCode(TwoFactorLoginRequest request)
     {
         var user = await _userManager.FindByIdAsync(request.UserId);
         if (user == null)
@@ -120,11 +120,14 @@ public class TwoFactorAuthController : ControllerBase
         }
 
         var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(
-            request.Code, request.RememberMachine, false);
+            code: request.Code,
+            isPersistent: request.RememberMachine,
+            rememberClient: true
+        );
 
         if (!result.Succeeded)
         {
-            return BadRequest(_localizer["api.auth.2fa.invalid-code"]);
+            return BadRequest(_localizer["api.auth.2fa.invalid-code"].Value);
         }
 
         var tenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == user.TenantId);

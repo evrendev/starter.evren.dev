@@ -79,16 +79,21 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
         _localizer = localizer;
     }
 
-    public async Task<Result<AuthResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<Result<AuthResponse>> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _userManager.FindByEmailAsync(email: command.Email);
         if (user == null)
             return Result<AuthResponse>.Failure(_localizer["api.auth.login.not-found"]);
 
         if (user.Deleted)
             return Result<AuthResponse>.Failure(_localizer["api.auth.login.deleted"]);
 
-        var signInResult = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+        var signInResult = await _signInManager.PasswordSignInAsync(
+            user: user,
+            password: command.Password,
+            isPersistent: command.RememberMe,
+            lockoutOnFailure: true
+        );
 
         if (signInResult.IsLockedOut)
             return Result<AuthResponse>.Failure(_localizer["api.auth.login.locked-out"]);

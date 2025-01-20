@@ -61,7 +61,8 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                     EmailConfirmed = true,
                     FirstName = _configuration["DefaultAdmin:FirstName"] ?? "System",
                     LastName = _configuration["DefaultAdmin:LastName"] ?? "Admin",
-                    Deleted = false
+                    Deleted = false,
+                    Language = Defaults.Language,
                 };
 
                 var password = _configuration["DefaultAdmin:Password"] ?? "P@s5w0rd.123";

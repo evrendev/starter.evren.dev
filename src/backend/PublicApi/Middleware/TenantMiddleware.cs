@@ -17,8 +17,12 @@ public class TenantMiddleware
 
     public async Task InvokeAsync(HttpContext context, ITenantService tenantService, ILogger<TenantMiddleware> logger)
     {
-        // Skip tenant validation for authentication endpoints
-        if (context.Request.Path.StartsWithSegments("/api/auth", StringComparison.OrdinalIgnoreCase))
+        string[] paths = [
+            "/api/auth/login",
+            "/api/auth/forgot-password",
+            "api/auth/logout",
+            "/api/2fa/verify"];
+        if (paths.Any(p => context.Request.Path.StartsWithSegments(p, StringComparison.OrdinalIgnoreCase)))
         {
             await _next(context);
             return;
