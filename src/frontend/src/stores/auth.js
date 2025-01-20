@@ -27,7 +27,7 @@ export const useAuthStore = defineStore({
         this.userId = user?.data?.userId;
         this.rememberMe = rememberMe;
 
-        router.push(`/auth/login/2fa`);
+        router.push(`/auth/2fa`);
       } else {
         // update pinia state
         this.user = user?.data.user;
@@ -61,7 +61,7 @@ export const useAuthStore = defineStore({
       this.rememberMe = false;
 
       localStorage.removeItem("user");
-      router.push("/login");
+      router.push("/auth/login");
     }
   }
 });
