@@ -1,9 +1,21 @@
 <script setup>
-import Logo from "@/layouts/full/logo/LogoDark.vue";
-import { LogIn } from "./forms";
+import { LogIn, ForgotPassword, TwoFactorAuthentication } from "./forms";
+import { ref, watch } from "vue";
 import { useLocale } from "vuetify";
+import { useRoute } from "vue-router";
 
 const { t } = useLocale();
+
+const route = useRoute();
+
+let page = ref(route.params.page);
+
+watch(
+  () => route.params.page,
+  (newPage, oldPage) => {
+    page.value = newPage;
+  }
+);
 </script>
 
 <template>
@@ -13,21 +25,14 @@ const { t } = useLocale();
         <div class="pa-7 pa-sm-12">
           <v-row justify="center">
             <v-col cols="12" lg="10" xl="6" md="7">
-              <v-card elevation="0" class="loginBox">
+              <v-card elevation="0" class="login-box">
                 <v-card variant="outlined">
                   <v-card-text class="pa-9">
-                    <v-row>
-                      <v-col cols="12" class="text-center">
-                        <Logo />
-                        <h2 class="text-secondary text-h2 mt-8">
-                          {{ t("auth.login.welcome") }}
-                        </h2>
-                        <h4 class="text-disabled text-h4 mt-3">
-                          {{ t("auth.login.subtitle") }}
-                        </h4>
-                      </v-col>
-                    </v-row>
-                    <log-in />
+                    <forgot-password v-if="page === 'forgot-password'" />
+
+                    <two-factor-authentication v-else-if="page === '2fa'" />
+
+                    <log-in v-else />
                   </v-card-text>
                 </v-card>
               </v-card>
@@ -39,7 +44,7 @@ const { t } = useLocale();
   </v-row>
 </template>
 <style lang="scss">
-.loginBox {
+.login-box {
   max-width: 475px;
   margin: 0 auto;
 }

@@ -1,4 +1,5 @@
 <script setup>
+import Logo from "@/layouts/full/logo/LogoDark.vue";
 import { useForm } from "vee-validate";
 import { useLocale } from "vuetify";
 import { object, string } from "yup";
@@ -52,6 +53,17 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
+  <v-row>
+    <v-col cols="12" class="text-center">
+      <Logo />
+      <h2 class="text-secondary text-h2 mt-8">
+        {{ t("auth.login.welcome") }}
+      </h2>
+      <h4 class="text-disabled text-h4 mt-3">
+        {{ t("auth.forgotPassword.subtitle") }}
+      </h4>
+    </v-col>
+  </v-row>
   <v-form class="mt-7 loginForm" @submit="onSubmit">
     <v-text-field
       v-model="code"
@@ -73,33 +85,8 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
   </v-form>
 </template>
-<style lang="scss">
-.custom-devider {
-  border-color: rgba(0, 0, 0, 0.08) !important;
-}
-.googleBtn {
-  border-color: rgba(0, 0, 0, 0.08);
-  margin: 30px 0 20px 0;
-}
-.outlinedInput .v-field {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: none;
-}
-.orbtn {
-  padding: 2px 40px;
-  border-color: rgba(0, 0, 0, 0.08);
-  margin: 20px 15px;
-}
-.pwdInput {
-  position: relative;
-  .v-input__append {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-.loginForm {
+<style lang="scss" scoped>
+.forgot-password-form {
   .v-text-field .v-field--active input {
     font-weight: 500;
   }

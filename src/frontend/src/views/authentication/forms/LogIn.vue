@@ -1,4 +1,5 @@
 <script setup>
+import Logo from "@/layouts/full/logo/LogoDark.vue";
 import { ref } from "vue";
 import { useLocale } from "vuetify";
 import { useForm } from "vee-validate";
@@ -67,7 +68,19 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <v-form class="mt-7 loginForm" @submit="onSubmit">
+  <v-row>
+    <v-col cols="12" class="text-center">
+      <Logo />
+      <h2 class="text-secondary text-h2 mt-8">
+        {{ t("auth.login.welcome") }}
+      </h2>
+      <h4 class="text-disabled text-h4 mt-3">
+        {{ t("auth.login.subtitle") }}
+      </h4>
+    </v-col>
+  </v-row>
+
+  <v-form class="mt-7 login-form" @submit="onSubmit">
     <v-text-field
       v-model="email"
       v-bind="emailProps"
@@ -90,7 +103,7 @@ const onSubmit = handleSubmit(async (values) => {
       :append-icon="showPassword ? '$eye' : '$eyeOff'"
       :type="showPassword ? 'text' : 'password'"
       @click:append="showPassword = !showPassword"
-      class="mt-4 pwdInput"
+      class="mt-4 pwd-input"
     />
 
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
@@ -103,7 +116,7 @@ const onSubmit = handleSubmit(async (values) => {
         hide-details
       />
       <div class="ml-auto">
-        <router-link :to="{ name: ForgotPassword }" class="text-primary text-decoration-none">
+        <router-link :to="{ name: 'login', params: { page: 'forgot-password' } }" class="text-primary text-decoration-none">
           {{ t("auth.login.forgotPassword") }}
         </router-link>
       </div>
@@ -122,23 +135,7 @@ const onSubmit = handleSubmit(async (values) => {
   </v-form>
 </template>
 <style lang="scss">
-.custom-devider {
-  border-color: rgba(0, 0, 0, 0.08) !important;
-}
-.googleBtn {
-  border-color: rgba(0, 0, 0, 0.08);
-  margin: 30px 0 20px 0;
-}
-.outlinedInput .v-field {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: none;
-}
-.orbtn {
-  padding: 2px 40px;
-  border-color: rgba(0, 0, 0, 0.08);
-  margin: 20px 15px;
-}
-.pwdInput {
+.pwd-input {
   position: relative;
   .v-input__append {
     position: absolute;
@@ -147,7 +144,7 @@ const onSubmit = handleSubmit(async (values) => {
     transform: translateY(-50%);
   }
 }
-.loginForm {
+.login-form {
   .v-text-field .v-field--active input {
     font-weight: 500;
   }

@@ -1,26 +1,14 @@
 const PublicRoutes = {
   path: "/",
-  redirect: "/dashboard/home",
+  redirect: "/dashboard/",
   children: [
     {
-      name: "Login",
-      path: "/auth/login",
-      component: () => import("@/views/authentication/LoginPage.vue")
-    },
-    {
-      name: "2FA",
-      path: "/auth/login/2fa",
-      component: () => import("@/views/authentication/TwoFactorAuthenticationPage.vue")
-    },
-    {
-      name: "ForgotPassword",
-      path: "/auth/login/forgot-password",
-      component: () => import("@/views/authentication/ForgotPasswordPage.vue")
-    },
-    {
-      name: "Error 404",
-      path: "/error",
-      component: () => import("@/views/pages/maintenance/error/Error404Page.vue")
+      name: "login",
+      path: "/auth/login/:page?",
+      component: () => import("@/views/authentication/IndexPage.vue"),
+      props: (route) => ({
+        page: route.params.page || "login"
+      })
     }
   ]
 };

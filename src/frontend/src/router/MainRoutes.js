@@ -3,7 +3,7 @@ const MainRoutes = {
   meta: {
     requiresAuth: true
   },
-  redirect: "/dashboard/home",
+  redirect: "/dashboard/",
   component: () => import("@/layouts/full/FullLayout.vue"),
   children: [
     {
