@@ -1,56 +1,54 @@
 <script setup>
-import { useForm } from "vee-validate"
-import { useLocale } from "vuetify"
-import { object, string } from "yup"
-import { createToaster } from "@meforma/vue-toaster"
-import { useAuthStore } from "@/stores/auth"
-import { useAppStore } from "@/stores/app"
+import { useForm } from "vee-validate";
+import { useLocale } from "vuetify";
+import { object, string } from "yup";
+import { createToaster } from "@meforma/vue-toaster";
+import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from "@/stores/app";
 
-const { t } = useLocale()
+const { t } = useLocale();
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
-const appStore = useAppStore()
+const appStore = useAppStore();
 
 const schema = object().shape({
-  code: string()
-    .required(t("auth.login.code.required"))
-    .label(t("auth.login.code.label")),
-})
+  code: string().required(t("auth.login.code.required")).label(t("auth.login.code.label"))
+});
 
 const { defineField, handleSubmit } = useForm({
-  validationSchema: schema,
-})
+  validationSchema: schema
+});
 
-const vuetifyConfig = state => ({
+const vuetifyConfig = (state) => ({
   props: {
-    "error-messages": state.errors,
-  },
-})
+    "error-messages": state.errors
+  }
+});
 
-const [code, codeProps] = defineField("code", vuetifyConfig)
+const [code, codeProps] = defineField("code", vuetifyConfig);
 
 const toaster = createToaster({
   position: "top-right",
   duration: 3000,
   queue: true,
   pauseOnHover: true,
-  useDefaultCss: true,
-})
+  useDefaultCss: true
+});
 
-const onSubmit = handleSubmit(async values => {
-  appStore.togglePreloader()
+const onSubmit = handleSubmit(async (values) => {
+  appStore.togglePreloader();
 
   try {
-    await authStore.verify(values.code)
+    await authStore.verify(values.code);
 
-    appStore.togglePreloader()
+    appStore.togglePreloader();
   } catch (error) {
-    const errorMessages = error.response.data
-    errorMessages.forEach(message => toaster.error(message))
-    appStore.togglePreloader()
+    const errorMessages = error.response.data;
+    errorMessages.forEach((message) => toaster.error(message));
+    appStore.togglePreloader();
   }
-})
+});
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import { en } from "vuetify/locale"
+import { en } from "vuetify/locale";
 
 export default {
   auth: {
@@ -9,25 +9,25 @@ export default {
         label: "Email",
         placeholder: "Enter your email",
         invalid: "Invalid email address",
-        required: "Email is required",
+        required: "Email is required"
       },
       password: {
         label: "Password",
         placeholder: " Enter your password",
-        required: "Password is required",
+        required: "Password is required"
       },
       rememberMe: "Remember Me",
       forgotPassword: "Forgot Password?",
       submit: "Sign In",
-      resetForm: "Reset",
+      resetForm: "Reset"
     },
     required: {
       email: "Email is required",
       password: "Password is required",
-      passwordLength: "Password must be at least 6 characters",
-    },
+      passwordLength: "Password must be at least 6 characters"
+    }
   },
   $vuetify: {
-    ...en,
-  },
-}
+    ...en
+  }
+};

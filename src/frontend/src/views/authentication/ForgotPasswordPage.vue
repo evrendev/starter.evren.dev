@@ -1,9 +1,9 @@
 <script setup>
-import Logo from "@/layouts/full/logo/LogoDark.vue"
-import TwoFaLogin from "./authForms/TwoFaLogin.vue"
-import { useLocale } from "vuetify"
+import Logo from "@/layouts/full/logo/LogoDark.vue";
+import TwoFaLogin from "./authForms/TwoFaLogin.vue";
+import { useLocale } from "vuetify";
 
-const { t } = useLocale()
+const { t } = useLocale();
 </script>
 
 <template>

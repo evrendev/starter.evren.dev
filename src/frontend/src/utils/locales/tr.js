@@ -1,4 +1,4 @@
-import { tr } from "vuetify/locale"
+import { tr } from "vuetify/locale";
 
 export default {
   auth: {
@@ -9,25 +9,25 @@ export default {
         label: "E-posta",
         placeholder: "E-posta adresinizi girin",
         invalid: "Geçersiz e-posta adresi",
-        required: "E-posta adresi girmeniz gerekmektedir",
+        required: "E-posta adresi girmeniz gerekmektedir"
       },
       password: {
         label: "Şifre",
         placeholder: "Şifrenizi girin",
-        required: "Şifrenizi girmeniz gerekmektedir",
+        required: "Şifrenizi girmeniz gerekmektedir"
       },
       rememberMe: "Beni Hatırla",
       forgotPassword: "Şifrenizi mi unuttunuz?",
       submit: "Giriş Yap",
-      resetForm: "Sıfırla",
+      resetForm: "Sıfırla"
     },
     required: {
       email: "E-posta adresinizi girmeniz gerekmektedir",
       password: "Şifrenizi girmeniz gerekmektedir",
-      passwordLength: "Şifre en az 6 karakter olmalıdır",
-    },
+      passwordLength: "Şifre en az 6 karakter olmalıdır"
+    }
   },
   $vuetify: {
-    ...tr,
-  },
-}
+    ...tr
+  }
+};

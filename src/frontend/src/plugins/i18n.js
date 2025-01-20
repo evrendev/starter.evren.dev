@@ -1,10 +1,7 @@
-import { createI18n } from "vue-i18n"
-import { tr, en, de } from "@/utils/locales"
+import { createI18n } from "vue-i18n";
+import { tr, en, de } from "@/utils/locales";
 
-const locale =
-  localStorage.getItem("lang") ||
-  navigator.language.slice(0, 2) ||
-  import.meta.env.VITE_DEFAULT_LOCALE
+const locale = localStorage.getItem("lang") || navigator.language.slice(0, 2) || import.meta.env.VITE_DEFAULT_LOCALE;
 
 export default createI18n({
   locale,
@@ -12,5 +9,5 @@ export default createI18n({
   legacy: false,
   globalInjection: true,
   messages: { tr, en, de },
-  runtimeOnly: false,
-})
+  runtimeOnly: false
+});

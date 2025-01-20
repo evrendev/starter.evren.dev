@@ -6,6 +6,6 @@
   </div>
 </template>
 <script setup>
-import { RouterLink } from "vue-router"
-import UiLogo from "@/components/shared/UiLogo.vue"
+import { RouterLink } from "vue-router";
+import UiLogo from "@/components/shared/UiLogo.vue";
 </script>

@@ -1,15 +1,14 @@
 <script setup>
-import { ChevronRightIcon } from "vue-tabler-icons"
+import { ChevronRightIcon } from "vue-tabler-icons";
 
 const props = defineProps({
   title: String,
   breadcrumbs: Array,
-  icon: String,
-})
+  icon: String
+});
 </script>
 
-// ===============================|| Theme Breadcrumb
-||=============================== //
+// ===============================|| Theme Breadcrumb ||=============================== //
 <template>
   <v-row class="page-breadcrumb mb-1 mt-1">
     <v-col cols="12" md="12">
@@ -20,21 +19,14 @@ const props = defineProps({
           </v-col>
 
           <v-col md="7" sm="12" cols="12">
-            <v-breadcrumbs
-              :items="props.breadcrumbs"
-              class="text-h5 justify-md-end pa-1"
-            >
+            <v-breadcrumbs :items="props.breadcrumbs" class="text-h5 justify-md-end pa-1">
               <template v-slot:divider>
                 <div class="d-flex align-center">
                   <ChevronRightIcon size="17" />
                 </div>
               </template>
               <template v-slot:prepend>
-                <v-icon
-                  size="small"
-                  icon="$home"
-                  class="text-secondary mr-2"
-                ></v-icon>
+                <v-icon size="small" icon="$home" class="text-secondary mr-2"></v-icon>
                 <div class="d-flex align-center">
                   <ChevronRightIcon size="17" />
                 </div>
