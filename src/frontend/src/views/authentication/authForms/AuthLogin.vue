@@ -26,7 +26,7 @@ const schema = object().shape({
   password: string()
     .required(t("auth.login.password.required"))
     .label(t("auth.login.password.label")),
-  rememberMe: boolean().default(false).label(t("auth.login.remember-me")),
+  rememberMe: boolean().default(false).label(t("auth.login.rememberMe")),
 })
 
 const { defineField, handleSubmit, resetForm } = useForm({

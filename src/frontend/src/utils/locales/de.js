@@ -17,8 +17,8 @@ export default {
         placeholder: "Geben Sie Ihr Passwort ein",
         required: "Passwort ist erforderlich",
       },
-      "remember-me": "Erinnere dich an mich",
-      "forgot-password": "Passwort vergessen?",
+      rememberMe: "Erinnere dich an mich",
+      forgotPassword: "Passwort vergessen?",
       submit: "Anmelden",
     },
     required: {
