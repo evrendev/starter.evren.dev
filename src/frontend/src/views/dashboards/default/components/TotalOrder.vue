@@ -1,16 +1,16 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import { ArrowDownLeftCircleIcon, ShoppingCartIcon, CircleArrowDownLeftIcon } from 'vue-tabler-icons';
+<script setup>
+import { ref, computed } from "vue";
+import { ArrowDownLeftCircleIcon, ShoppingCartIcon, CircleArrowDownLeftIcon } from "vue-tabler-icons";
 
-const tab = ref('1');
+const tab = ref("1");
 
 const chartOptions1 = computed(() => {
   return {
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 90,
       fontFamily: `inherit`,
-      foreColor: '#a1aab2',
+      foreColor: "#a1aab2",
       sparkline: {
         enabled: true
       }
@@ -18,13 +18,13 @@ const chartOptions1 = computed(() => {
     dataLabels: {
       enabled: false
     },
-    colors: ['#fff'],
+    colors: ["#fff"],
     fill: {
-      type: 'solid',
+      type: "solid",
       opacity: 1
     },
     stroke: {
-      curve: 'smooth',
+      curve: "smooth",
       width: 3
     },
     yaxis: {
@@ -32,7 +32,7 @@ const chartOptions1 = computed(() => {
       max: 100
     },
     tooltip: {
-      theme: 'light',
+      theme: "light",
       fixed: {
         enabled: false
       },
@@ -41,7 +41,7 @@ const chartOptions1 = computed(() => {
       },
       y: {
         title: {
-          formatter: () => 'Total Order'
+          formatter: () => "Total Order"
         }
       },
       marker: {
@@ -55,7 +55,7 @@ const chartOptions1 = computed(() => {
 const lineChart1 = {
   series: [
     {
-      name: 'series1',
+      name: "series1",
       data: [45, 66, 41, 89, 25, 44, 9, 54]
     }
   ]
@@ -65,10 +65,10 @@ const lineChart1 = {
 const chartOptions2 = computed(() => {
   return {
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 90,
       fontFamily: `inherit`,
-      foreColor: '#a1aab2',
+      foreColor: "#a1aab2",
       sparkline: {
         enabled: true
       }
@@ -76,13 +76,13 @@ const chartOptions2 = computed(() => {
     dataLabels: {
       enabled: false
     },
-    colors: ['#fff'],
+    colors: ["#fff"],
     fill: {
-      type: 'solid',
+      type: "solid",
       opacity: 1
     },
     stroke: {
-      curve: 'smooth',
+      curve: "smooth",
       width: 3
     },
     yaxis: {
@@ -90,7 +90,7 @@ const chartOptions2 = computed(() => {
       max: 100
     },
     tooltip: {
-      theme: 'light',
+      theme: "light",
       fixed: {
         enabled: false
       },
@@ -99,7 +99,7 @@ const chartOptions2 = computed(() => {
       },
       y: {
         title: {
-          formatter: () => 'Total Order'
+          formatter: () => "Total Order"
         }
       },
       marker: {
@@ -113,7 +113,7 @@ const chartOptions2 = computed(() => {
 const lineChart2 = {
   series: [
     {
-      name: 'series1',
+      name: "series1",
       data: [35, 44, 9, 54, 45, 66, 41, 69]
     }
   ]

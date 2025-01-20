@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import { SettingsIcon, LogoutIcon, UserIcon } from 'vue-tabler-icons';
-import { useAuthStore } from '@/stores/auth';
+<script setup>
+import { SettingsIcon, LogoutIcon, UserIcon } from "vue-tabler-icons";
+import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
 </script>

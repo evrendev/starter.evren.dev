@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 const acceptLanguage = document.documentElement.lang;
 
 const axiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api`,
   headers: {
-    'Accept-Language': acceptLanguage,
-    'Content-Type': 'application/json'
+    "Accept-Language": acceptLanguage,
+    "Content-Type": "application/json"
   }
 });
 

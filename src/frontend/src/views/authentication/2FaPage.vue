@@ -1,8 +1,9 @@
-<script setup lang="ts">
-import Logo from '@/layouts/full/logo/LogoDark.vue';
-import TwoFaLogin from './authForms/TwoFaLogin.vue';
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
+<script setup>
+import Logo from "@/layouts/full/logo/LogoDark.vue";
+import TwoFaLogin from "./authForms/TwoFaLogin.vue";
+import { useLocale } from "vuetify";
+
+const { t } = useLocale();
 </script>
 
 <template>
@@ -19,10 +20,10 @@ const { t } = useI18n();
                       <v-col cols="12" class="text-center">
                         <Logo />
                         <h2 class="text-secondary text-h2 mt-8">
-                          {{ t('auth.login.welcome-text') }}
+                          {{ t("auth.login.welcome-text") }}
                         </h2>
                         <h4 class="text-disabled text-h4 mt-3">
-                          {{ t('auth.login.subtitle') }}
+                          {{ t("auth.login.subtitle") }}
                         </h4>
                       </v-col>
                     </v-row>

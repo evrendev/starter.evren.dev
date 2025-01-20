@@ -1,30 +1,30 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue';
+<script setup>
+import { ref, computed } from "vue";
 
-const select = ref({ state: 'Today', abbr: 'FL' });
+const select = ref({ state: "Today", abbr: "FL" });
 const items = [
-  { state: 'Today', abbr: 'FL' },
-  { state: 'This Month', abbr: 'GA' },
-  { state: 'This Year', abbr: 'NE' }
+  { state: "Today", abbr: "FL" },
+  { state: "This Month", abbr: "GA" },
+  { state: "This Year", abbr: "NE" }
 ];
 
 // chart 1
 const chartOptions1 = computed(() => {
   return {
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 480,
       fontFamily: `inherit`,
-      foreColor: '#a1aab2',
+      foreColor: "#a1aab2",
       stacked: true
     },
-    colors: ['#eef2f6', '#1e88e5', '#5e35b1', '#ede7f6'],
+    colors: ["#eef2f6", "#1e88e5", "#5e35b1", "#ede7f6"],
     responsive: [
       {
         breakpoint: 480,
         options: {
           legend: {
-            position: 'bottom',
+            position: "bottom",
             offsetX: -10,
             offsetY: 0
           }
@@ -34,17 +34,17 @@ const chartOptions1 = computed(() => {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '50%'
+        columnWidth: "50%"
       }
     },
     xaxis: {
-      type: 'category',
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      type: "category",
+      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
     legend: {
       show: true,
       fontFamily: `'Roboto', sans-serif`,
-      position: 'bottom',
+      position: "bottom",
       offsetX: 20,
       labels: {
         useSeriesColors: false
@@ -60,7 +60,7 @@ const chartOptions1 = computed(() => {
       }
     },
     fill: {
-      type: 'solid'
+      type: "solid"
     },
     dataLabels: {
       enabled: false
@@ -69,7 +69,7 @@ const chartOptions1 = computed(() => {
       show: true
     },
     tooltip: {
-      theme: 'light'
+      theme: "light"
     }
   };
 });
@@ -78,19 +78,19 @@ const chartOptions1 = computed(() => {
 const lineChart1 = {
   series: [
     {
-      name: 'Investment',
+      name: "Investment",
       data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
     },
     {
-      name: 'Loss',
+      name: "Loss",
       data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
     },
     {
-      name: 'Profit',
+      name: "Profit",
       data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
     },
     {
-      name: 'Maintenance',
+      name: "Maintenance",
       data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
     }
   ]

@@ -1,35 +1,35 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
-import UiChildCard from '@/components/shared/UiChildCard.vue';
+<script setup>
+import { ref } from "vue";
+import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
+import UiParentCard from "@/components/shared/UiParentCard.vue";
+import UiChildCard from "@/components/shared/UiChildCard.vue";
 
-const page = ref({ title: 'Typography Page' });
+const page = ref({ title: "Typography Page" });
 const headings = ref([
-  ['Heading 1', 'text-h1'],
-  ['Heading 2', 'text-h2'],
-  ['Heading 3', 'text-h3'],
-  ['Heading 4', 'text-h4'],
-  ['Heading 5', 'text-h5'],
-  ['Heading 6', 'text-h6'],
-  ['Subtitle 1', 'text-subtitle-1'],
-  ['Subtitle 2', 'text-subtitle-2'],
-  ['Body 1', 'text-body-1'],
-  ['Body 2', 'text-body-2'],
-  ['Button', 'text-button'],
-  ['Caption', 'text-caption'],
-  ['Overline', 'text-overline']
+  ["Heading 1", "text-h1"],
+  ["Heading 2", "text-h2"],
+  ["Heading 3", "text-h3"],
+  ["Heading 4", "text-h4"],
+  ["Heading 5", "text-h5"],
+  ["Heading 6", "text-h6"],
+  ["Subtitle 1", "text-subtitle-1"],
+  ["Subtitle 2", "text-subtitle-2"],
+  ["Body 1", "text-body-1"],
+  ["Body 2", "text-body-2"],
+  ["Button", "text-button"],
+  ["Caption", "text-caption"],
+  ["Overline", "text-overline"]
 ]);
 const breadcrumbs = ref([
   {
-    title: 'Utilities',
+    title: "Utilities",
     disabled: false,
-    href: '#'
+    href: "#"
   },
   {
-    title: 'Typography',
+    title: "Typography",
     disabled: true,
-    href: '#'
+    href: "#"
   }
 ]);
 </script>

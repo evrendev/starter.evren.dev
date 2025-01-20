@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import { BuildingStoreIcon, SendIcon, MailboxIcon, PhotoIcon } from 'vue-tabler-icons';
+<script setup>
+import { ref } from "vue";
+import { BuildingStoreIcon, SendIcon, MailboxIcon, PhotoIcon } from "vue-tabler-icons";
 
-const notificationDD = ref(['All Notifications', 'New', 'Unread', 'Other']);
-const selectNotify = ref<string>('All Notifications');
+const notificationDD = ref(["All Notifications", "New", "Unread", "Other"]);
+const selectNotify = ref < string > "All Notifications";
 </script>
 
 <template>

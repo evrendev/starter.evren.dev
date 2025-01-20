@@ -1,12 +1,12 @@
-<script setup lang="ts">
-import { shallowRef } from 'vue';
-import { ArchiveIcon, CopyIcon, DownloadIcon, FileExportIcon } from 'vue-tabler-icons';
-import iconCard from '@/assets/images/icons/icon-card.svg';
+<script setup>
+import { shallowRef } from "vue";
+import { ArchiveIcon, CopyIcon, DownloadIcon, FileExportIcon } from "vue-tabler-icons";
+import iconCard from "@/assets/images/icons/icon-card.svg";
 const items = shallowRef([
-  { title: 'Import Card', icon: DownloadIcon },
-  { title: 'Copy Data', icon: CopyIcon },
-  { title: 'Export', icon: FileExportIcon },
-  { title: 'Archive File', icon: ArchiveIcon }
+  { title: "Import Card", icon: DownloadIcon },
+  { title: "Copy Data", icon: CopyIcon },
+  { title: "Export", icon: FileExportIcon },
+  { title: "Archive File", icon: ArchiveIcon }
 ]);
 </script>
 

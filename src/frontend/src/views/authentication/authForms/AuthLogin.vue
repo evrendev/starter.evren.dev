@@ -1,27 +1,27 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useForm } from 'vee-validate';
-import { object, string, boolean } from 'yup';
-import { ChallengeV3, useRecaptchaProvider } from 'vue-recaptcha';
-import { createToaster } from '@meforma/vue-toaster';
-import { until } from '@vueuse/core';
-import { useAuthStore } from '@/stores/auth';
-import { useAppStore } from '@/stores/app';
+<script setup>
+import { ref } from "vue";
+import { useLocale } from "vuetify";
+import { useForm } from "vee-validate";
+import { object, string, boolean } from "yup";
+import { ChallengeV3, useRecaptchaProvider } from "vue-recaptcha";
+import { createToaster } from "@meforma/vue-toaster";
+import { until } from "@vueuse/core";
+import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from "@/stores/app";
 
 useRecaptchaProvider();
 const recaptchaResponse = ref();
 
-const { t } = useI18n();
+const { t } = useLocale();
 
 const authStore = useAuthStore();
 
 const appStore = useAppStore();
 
 const schema = object().shape({
-  email: string().email(t('auth.login.email.invalid')).required(t('auth.login.email.required')).label(t('auth.login.email.label')),
-  password: string().required(t('auth.login.password.required')).label(t('auth.login.password.label')),
-  rememberMe: boolean().default(false).label(t('auth.login.remember-me'))
+  email: string().email(t("auth.login.email.invalid")).required(t("auth.login.email.required")).label(t("auth.login.email.label")),
+  password: string().required(t("auth.login.password.required")).label(t("auth.login.password.label")),
+  rememberMe: boolean().default(false).label(t("auth.login.remember-me"))
 });
 
 const { defineField, handleSubmit, resetForm } = useForm({
@@ -30,18 +30,18 @@ const { defineField, handleSubmit, resetForm } = useForm({
 
 const vuetifyConfig = (state) => ({
   props: {
-    'error-messages': state.errors
+    "error-messages": state.errors
   }
 });
 
-const [email, emailProps] = defineField('email', vuetifyConfig);
-const [password, passwordProps] = defineField('password', vuetifyConfig);
-const [rememberMe, rememberMeProps] = defineField('rememberMe', vuetifyConfig);
+const [email, emailProps] = defineField("email", vuetifyConfig);
+const [password, passwordProps] = defineField("password", vuetifyConfig);
+const [rememberMe, rememberMeProps] = defineField("rememberMe", vuetifyConfig);
 
 const showPassword = ref(false);
 
 const toaster = createToaster({
-  position: 'top-right',
+  position: "top-right",
   duration: 3000,
   queue: true,
   pauseOnHover: true,
@@ -52,7 +52,7 @@ const onSubmit = handleSubmit(async (values) => {
   appStore.togglePreloader();
 
   try {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     await until(recaptchaResponse).changed();
     await authStore.login(values.email, values.password, values.rememberMe ?? false, recaptchaResponse.value);
@@ -104,7 +104,7 @@ const onSubmit = handleSubmit(async (values) => {
       />
       <div class="ml-auto">
         <a href="javascript:void(0)" class="text-primary text-decoration-none">
-          {{ t('auth.login.forgot-password') }}
+          {{ t("auth.login.forgot-password") }}
         </a>
       </div>
     </div>
@@ -112,7 +112,7 @@ const onSubmit = handleSubmit(async (values) => {
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
       <challenge-v3 v-model="recaptchaResponse" action="submit">
         <v-btn color="primary" variant="flat" size="large" type="submit">
-          {{ t('auth.login.submit') }}
+          {{ t("auth.login.submit") }}
         </v-btn>
       </challenge-v3>
       <v-btn color="secondary" variant="flat" size="large" class="ml-4" @click="resetForm()"> Reset </v-btn>

@@ -1,37 +1,37 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
+<script setup>
+import { ref } from "vue";
+import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
+import UiParentCard from "@/components/shared/UiParentCard.vue";
 
-const page = ref({ title: 'Colors Page' });
+const page = ref({ title: "Colors Page" });
 const breadcrumbs = ref([
   {
-    title: 'Utilities',
+    title: "Utilities",
     disabled: false,
-    href: '#'
+    href: "#"
   },
   {
-    title: 'Colors',
+    title: "Colors",
     disabled: true,
-    href: '#'
+    href: "#"
   }
 ]);
 
 const colors = ref([
-  'primary',
-  'lightprimary',
-  'secondary',
-  'lightsecondary',
-  'info',
-  'success',
-  'accent',
-  'warning',
-  'error',
-  'darkText',
-  'lightText',
-  'borderLight',
-  'inputBorder',
-  'containerBg'
+  "primary",
+  "lightprimary",
+  "secondary",
+  "lightsecondary",
+  "info",
+  "success",
+  "accent",
+  "warning",
+  "error",
+  "darkText",
+  "lightText",
+  "borderLight",
+  "inputBorder",
+  "containerBg"
 ]);
 </script>
 

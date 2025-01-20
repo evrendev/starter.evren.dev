@@ -1,14 +1,9 @@
-<script setup lang="ts">
-import { ChevronRightIcon } from 'vue-tabler-icons';
+<script setup>
+import { ChevronRightIcon } from "vue-tabler-icons";
 
-type Breadcrumb = {
-  title: string;
-  disabled: boolean;
-  href: string;
-};
 const props = defineProps({
   title: String,
-  breadcrumbs: Array as () => Breadcrumb[],
+  breadcrumbs: Array,
   icon: String
 });
 </script>

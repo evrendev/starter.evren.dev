@@ -1,18 +1,18 @@
-<script setup lang="ts">
-import { shallowRef } from 'vue';
+<script setup>
+import { shallowRef } from "vue";
 
 const footerLink = shallowRef([
   {
-    title: 'Home',
-    url: 'https://evren.dev/'
+    title: "Home",
+    url: "https://evren.dev/"
   },
   {
-    title: 'Documentation',
-    url: 'https://evren.dev/panel/documentation'
+    title: "Documentation",
+    url: "https://evren.dev/panel/documentation"
   },
   {
-    title: 'Support',
-    url: 'https://support.evren.dev/'
+    title: "Support",
+    url: "https://support.evren.dev/"
   }
 ]);
 </script>

@@ -34,7 +34,7 @@
   </svg>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-const primary = ref('rgb(var(--v-theme-primary))');
+<script setup>
+import { ref } from "vue";
+const primary = ref("rgb(var(--v-theme-primary))");
 </script>

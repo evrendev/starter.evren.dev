@@ -1,13 +1,13 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import { useCustomizerStore } from '../../../stores/customizer';
+<script setup>
+import { ref } from "vue";
+import { useCustomizerStore } from "../../../stores/customizer";
 // Icon Imports
-import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from 'vue-tabler-icons';
+import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from "vue-tabler-icons";
 
 // dropdown imports
-import NotificationDD from './NotificationDD.vue';
-import ProfileDD from './ProfileDD.vue';
-import Searchbar from './SearchBarPanel.vue';
+import NotificationDD from "./NotificationDD.vue";
+import ProfileDD from "./ProfileDD.vue";
+import Searchbar from "./SearchBarPanel.vue";
 
 const customizer = useCustomizerStore();
 const showSearch = ref(false);

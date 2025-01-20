@@ -1,14 +1,15 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router';
-import VerticalSidebarVue from './vertical-sidebar/VerticalSidebar.vue';
-import VerticalHeaderVue from './vertical-header/VerticalHeader.vue';
-import FooterPanel from './footer/FooterPanel.vue';
-import { useCustomizerStore } from '../../stores/customizer';
+<script setup>
+import { RouterView } from "vue-router";
+import VerticalSidebarVue from "./vertical-sidebar/VerticalSidebar.vue";
+import VerticalHeaderVue from "./vertical-header/VerticalHeader.vue";
+import FooterPanel from "./footer/FooterPanel.vue";
+import { useCustomizerStore } from "../../stores/customizer";
 const customizer = useCustomizerStore();
+import config from "@/config";
 </script>
 
 <template>
-  <v-locale-provider>
+  <v-locale-provider :locale="config.defaultLocale">
     <v-app
       theme="NavyTheme"
       :class="[customizer.fontTheme, customizer.mini_sidebar ? 'mini-sidebar' : '', customizer.inputBg ? 'inputWithbg' : '']"

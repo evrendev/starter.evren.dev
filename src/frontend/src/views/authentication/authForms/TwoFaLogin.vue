@@ -1,19 +1,17 @@
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { useForm } from 'vee-validate';
-import { object, string } from 'yup';
-import { createToaster } from '@meforma/vue-toaster';
-import { useAuthStore } from '@/stores/auth';
-import { useAppStore } from '@/stores/app';
-
-const { t } = useI18n();
+<script setup>
+import { useLocale } from "vuetify";
+import { useForm } from "vee-validate";
+import { object, string } from "yup";
+import { createToaster } from "@meforma/vue-toaster";
+import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from "@/stores/app";
 
 const authStore = useAuthStore();
 
 const appStore = useAppStore();
 
 const schema = object().shape({
-  code: string().required(t('auth.login.code.required')).label(t('auth.login.code.label'))
+  code: string().required(t("auth.login.code.required")).label(t("auth.login.code.label"))
 });
 
 const { defineField, handleSubmit } = useForm({
@@ -22,14 +20,14 @@ const { defineField, handleSubmit } = useForm({
 
 const vuetifyConfig = (state) => ({
   props: {
-    'error-messages': state.errors
+    "error-messages": state.errors
   }
 });
 
-const [code, codeProps] = defineField('code', vuetifyConfig);
+const [code, codeProps] = defineField("code", vuetifyConfig);
 
 const toaster = createToaster({
-  position: 'top-right',
+  position: "top-right",
   duration: 3000,
   queue: true,
   pauseOnHover: true,
@@ -68,7 +66,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
       <v-btn color="primary" variant="flat" size="large" type="submit">
-        {{ t('auth.login.submit') }}
+        {{ t("auth.login.submit") }}
       </v-btn>
     </div>
   </v-form>

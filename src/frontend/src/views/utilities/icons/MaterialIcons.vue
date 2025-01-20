@@ -1,20 +1,20 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
+<script setup>
+import { ref } from "vue";
+import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
+import UiParentCard from "@/components/shared/UiParentCard.vue";
 
-const page = ref({ title: 'Material Icons' });
+const page = ref({ title: "Material Icons" });
 const icons = ref('<iframe src="https://materialdesignicons.com/" frameborder="0"  width="100%" height="1000"></iframe>');
 const breadcrumbs = ref([
   {
-    title: 'Icons',
+    title: "Icons",
     disabled: false,
-    href: '#'
+    href: "#"
   },
   {
-    title: 'Material Icons',
+    title: "Material Icons",
     disabled: true,
-    href: '#'
+    href: "#"
   }
 ]);
 </script>

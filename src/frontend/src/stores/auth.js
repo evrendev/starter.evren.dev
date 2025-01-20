@@ -1,15 +1,12 @@
-import { defineStore } from 'pinia';
-import { router } from '@/router';
-import axiosInstance from '@/plugins/axios';
+import { defineStore } from "pinia";
+import { router } from "@/router";
+import axiosInstance from "@/plugins/axios";
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export const useAuthStore = defineStore({
-  id: 'auth',
+  id: "auth",
   state: () => ({
-    // initialize state from local storage to enable user to stay logged in
-    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
     user: null,
     userId: null,
     token: null,
@@ -18,7 +15,7 @@ export const useAuthStore = defineStore({
     rememberMe: false
   }),
   actions: {
-    async login(email: string, password: string, rememberMe: boolean, response: string) {
+    async login(email, password, rememberMe, response) {
       const user = await axiosInstance.post(`${baseUrl}/auth/login`, { email, password, rememberMe, response });
 
       if (user?.data?.requiresTwoFactor) {
@@ -32,10 +29,10 @@ export const useAuthStore = defineStore({
         this.token = user?.data.token;
         this.refreshToken = user?.data.refreshToken;
 
-        router.push(this.returnUrl || '/dashboard');
+        router.push(this.returnUrl || "/dashboard");
       }
     },
-    async verify(code: string) {
+    async verify(code) {
       const rememberMachine = this.rememberMe;
       const userId = this.userId;
       const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, { code, userId, rememberMachine });
@@ -45,7 +42,7 @@ export const useAuthStore = defineStore({
       this.token = user?.data.token;
       this.refreshToken = user?.data.refreshToken;
 
-      router.push(this.returnUrl || '/dashboard');
+      router.push(this.returnUrl || "/dashboard");
     },
     logout() {
       this.user = null;
@@ -54,8 +51,8 @@ export const useAuthStore = defineStore({
       this.userId = null;
       this.rememberMe = false;
 
-      localStorage.removeItem('user');
-      router.push('/login');
+      localStorage.removeItem("user");
+      router.push("/login");
     }
   }
 });

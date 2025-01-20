@@ -1,31 +1,31 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue';
+<script setup>
+import { ref, computed } from "vue";
 
 // import icons
-import { ChevronUpIcon, ChevronDownIcon } from 'vue-tabler-icons';
+import { ChevronUpIcon, ChevronDownIcon } from "vue-tabler-icons";
 
 // chart 1
 const chartOptions1 = computed(() => {
   return {
     chart: {
-      type: 'area',
+      type: "area",
       height: 95,
       fontFamily: `inherit`,
-      foreColor: '#a1aab2',
+      foreColor: "#a1aab2",
       sparkline: {
         enabled: true
       }
     },
-    colors: ['#5e35b1'],
+    colors: ["#5e35b1"],
     dataLabels: {
       enabled: false
     },
     stroke: {
-      curve: 'smooth',
+      curve: "smooth",
       width: 1
     },
     tooltip: {
-      theme: 'light',
+      theme: "light",
       fixed: {
         enabled: false
       },
@@ -34,7 +34,7 @@ const chartOptions1 = computed(() => {
       },
       y: {
         title: {
-          formatter: () => 'Ticket '
+          formatter: () => "Ticket "
         }
       },
       marker: {
@@ -55,27 +55,27 @@ const lineChart1 = {
 
 const revenues = ref([
   {
-    name: 'Bajaj Finery',
+    name: "Bajaj Finery",
     price: 145.58,
     profit: 10
   },
   {
-    name: 'TTML',
+    name: "TTML",
     price: 6.368,
     profit: 10
   },
   {
-    name: 'Reliance',
+    name: "Reliance",
     price: 458.63,
     profit: 10
   },
   {
-    name: 'TTML',
+    name: "TTML",
     price: 5.631,
     profit: 10
   },
   {
-    name: 'Stolon',
+    name: "Stolon",
     price: 6.368,
     profit: 10
   }
