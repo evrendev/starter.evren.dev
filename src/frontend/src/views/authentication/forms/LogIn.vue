@@ -9,20 +9,26 @@ import { createToaster } from "@meforma/vue-toaster";
 import { until } from "@vueuse/core";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+
+const { t } = useLocale();
 
 useRecaptchaProvider();
 const recaptchaResponse = ref();
 
-const { t } = useLocale();
-
 const authStore = useAuthStore();
-
 const appStore = useAppStore();
+const { loading } = storeToRefs(appStore);
 
 const schema = object().shape({
   email: string().email(t("auth.login.email.invalid")).required(t("auth.login.email.required")).label(t("auth.login.email.label")),
   password: string().required(t("auth.login.password.required")).label(t("auth.login.password.label")),
   rememberMe: boolean().default(false).label(t("auth.login.rememberMe"))
+});
+
+onMounted(() => {
+  appStore.togglePreloader(false);
 });
 
 const { defineField, handleSubmit, resetForm } = useForm({
@@ -57,8 +63,6 @@ const onSubmit = handleSubmit(async (values) => {
 
     await until(recaptchaResponse).changed();
     await authStore.login(values.email, values.password, values.rememberMe ?? false, recaptchaResponse.value);
-
-    appStore.togglePreloader();
   } catch (error) {
     const errorMessages = error.response.data;
     errorMessages.forEach((message) => toaster.error(message));
@@ -80,12 +84,12 @@ const onSubmit = handleSubmit(async (values) => {
     </v-col>
   </v-row>
 
-  <v-form class="mt-7 login-form" @submit="onSubmit">
+  <v-form class="mt-7 login-form" :disabled="loading" @submit="onSubmit">
     <v-text-field
       v-model="email"
       v-bind="emailProps"
-      type="email"
       :label="t('auth.login.email.label')"
+      type="email"
       class="mt-4"
       density="comfortable"
       hide-details="auto"
@@ -96,13 +100,13 @@ const onSubmit = handleSubmit(async (values) => {
       v-model="password"
       v-bind="passwordProps"
       :label="t('auth.login.password.label')"
+      :append-icon="showPassword ? '$eye' : '$eyeOff'"
+      :type="showPassword ? 'text' : 'password'"
+      @click:append="showPassword = !showPassword"
       density="comfortable"
       variant="outlined"
       color="primary"
       hide-details="auto"
-      :append-icon="showPassword ? '$eye' : '$eyeOff'"
-      :type="showPassword ? 'text' : 'password'"
-      @click:append="showPassword = !showPassword"
       class="mt-4 pwd-input"
     />
 
@@ -116,19 +120,26 @@ const onSubmit = handleSubmit(async (values) => {
         hide-details
       />
       <div class="ml-auto">
-        <router-link :to="{ name: 'login', params: { page: 'forgot-password' } }" class="text-primary text-decoration-none">
-          {{ t("auth.login.forgotPassword") }}
+        <router-link
+          :to="{ name: 'login', params: { page: 'forgot-password' } }"
+          class="text-primary text-decoration-none"
+          v-show="!loading"
+        >
+          <v-icon icon="$fish" />
+          <span class="ml-2">
+            {{ t("auth.login.forgotPassword") }}
+          </span>
         </router-link>
       </div>
     </div>
 
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
       <challenge-v3 v-model="recaptchaResponse" action="submit">
-        <v-btn color="primary" variant="flat" size="large" type="submit">
+        <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$login">
           {{ t("auth.login.submit") }}
         </v-btn>
       </challenge-v3>
-      <v-btn color="secondary" variant="flat" size="large" class="ml-4" @click="resetForm()">
+      <v-btn color="secondary" variant="flat" class="ml-4" @click="resetForm()" prepend-icon="$refresh" :disabled="loading">
         {{ t("auth.login.resetForm") }}
       </v-btn>
     </div>

@@ -14,7 +14,7 @@ const authStore = useAuthStore();
 const appStore = useAppStore();
 
 const schema = object().shape({
-  code: string().required(t("auth.login.code.required")).label(t("auth.login.code.label"))
+  email: string().required(t("auth.forgotPassword.email.required")).label(t("auth.forgotPassword.email.label"))
 });
 
 const { defineField, handleSubmit } = useForm({
@@ -27,7 +27,7 @@ const vuetifyConfig = (state) => ({
   }
 });
 
-const [code, codeProps] = defineField("code", vuetifyConfig);
+const [email, emailProps] = defineField("email", vuetifyConfig);
 
 const toaster = createToaster({
   position: "top-right",
@@ -41,7 +41,7 @@ const onSubmit = handleSubmit(async (values) => {
   appStore.togglePreloader();
 
   try {
-    await authStore.verify(values.code);
+    await authStore.forgotPassword(values.email);
 
     appStore.togglePreloader();
   } catch (error) {
@@ -57,19 +57,20 @@ const onSubmit = handleSubmit(async (values) => {
     <v-col cols="12" class="text-center">
       <Logo />
       <h2 class="text-secondary text-h2 mt-8">
-        {{ t("auth.login.welcome") }}
+        {{ t("auth.forgotPassword.welcome") }}
       </h2>
       <h4 class="text-disabled text-h4 mt-3">
         {{ t("auth.forgotPassword.subtitle") }}
       </h4>
     </v-col>
   </v-row>
-  <v-form class="mt-7 loginForm" @submit="onSubmit">
+
+  <v-form class="mt-7 forgot-password-form" @submit="onSubmit" v-slot="{ isSubmitting }">
     <v-text-field
-      v-model="code"
-      v-bind="codeProps"
+      v-model="email"
+      v-bind="emailProps"
       type="text"
-      :label="t('auth.login.code.label')"
+      :label="t('auth.forgotPassword.email.label')"
       maxlength="6"
       class="mt-4"
       density="comfortable"
@@ -78,9 +79,9 @@ const onSubmit = handleSubmit(async (values) => {
       color="primary"
     />
 
-    <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
-      <v-btn color="primary" variant="flat" size="large" type="submit">
-        {{ t("auth.login.submit") }}
+    <div class="d-sm-flex align-center mt-7 mb-7 mb-sm-0">
+      <v-btn color="primary" variant="flat" type="submit" :loading="isSubmitting" prepend-icon="$refresh">
+        {{ t("auth.forgotPassword.submit") }}
       </v-btn>
     </div>
   </v-form>

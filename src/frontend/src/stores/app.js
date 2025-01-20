@@ -6,8 +6,12 @@ export const useAppStore = defineStore({
     loading: true
   }),
   actions: {
-    togglePreloader() {
-      this.loading = !this.loading;
+    togglePreloader(value) {
+      if (!value) {
+        this.loading = !this.loading;
+      } else {
+        this.loading = value;
+      }
     }
   }
 });

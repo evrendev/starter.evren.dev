@@ -16,15 +16,27 @@ export default {
         placeholder: " Enter your password",
         required: "Password is required"
       },
+      code: {
+        subtitle: "Enter the code from authenticator app",
+        label: "Code",
+        placeholder: "Enter your code",
+        required: "Code is required"
+      },
       rememberMe: "Remember Me",
       forgotPassword: "Forgot Password?",
       submit: "Sign In",
       resetForm: "Reset"
     },
-    required: {
-      email: "Email is required",
-      password: "Password is required",
-      passwordLength: "Password must be at least 6 characters"
+    forgotPassword: {
+      welcome: "Forgot Password?",
+      subtitle: "Enter your email to reset your password",
+      email: {
+        label: "Email",
+        placeholder: "Enter your email",
+        invalid: "Invalid email address",
+        required: "Email is required"
+      },
+      submit: "Reset Password"
     }
   },
   $vuetify: {

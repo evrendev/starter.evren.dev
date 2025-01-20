@@ -40,9 +40,11 @@ export const useAuthStore = defineStore({
     async verify(code) {
       const rememberMachine = this.rememberMe;
       const userId = this.userId;
+      if (!userId) router.push("/auth/login");
+
       const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, {
-        code,
         userId,
+        code,
         rememberMachine
       });
 

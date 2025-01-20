@@ -6,12 +6,20 @@ import { object, string } from "yup";
 import { createToaster } from "@meforma/vue-toaster";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
 const { t } = useLocale();
 
 const authStore = useAuthStore();
 
 const appStore = useAppStore();
+
+const { userId } = storeToRefs(authStore);
+
+const router = useRouter();
+
+if (!userId.value) router.push({ name: "login", params: { page: "login" } });
 
 const schema = object().shape({
   code: string().required(t("auth.login.code.required")).label(t("auth.login.code.label"))
@@ -45,8 +53,8 @@ const onSubmit = handleSubmit(async (values) => {
 
     appStore.togglePreloader();
   } catch (error) {
-    const errorMessages = error.response.data;
-    errorMessages.forEach((message) => toaster.error(message));
+    const errorMessage = error.response.data;
+    toaster.error(errorMessage);
     appStore.togglePreloader();
   }
 });
@@ -69,7 +77,7 @@ const onSubmit = handleSubmit(async (values) => {
     <v-text-field
       v-model="code"
       v-bind="codeProps"
-      type="text"
+      type="tel"
       :label="t('auth.login.code.label')"
       maxlength="6"
       class="mt-4"
@@ -77,10 +85,11 @@ const onSubmit = handleSubmit(async (values) => {
       hide-details="auto"
       variant="outlined"
       color="primary"
+      mask="######"
     />
 
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
-      <v-btn color="primary" variant="flat" size="large" type="submit">
+      <v-btn color="primary" variant="flat" type="submit">
         {{ t("auth.login.submit") }}
       </v-btn>
     </div>

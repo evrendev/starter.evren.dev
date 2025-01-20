@@ -16,6 +16,12 @@ export default {
         placeholder: "Şifrenizi girin",
         required: "Şifrenizi girmeniz gerekmektedir"
       },
+      code: {
+        subtitle: "Authenticator uygulamasından kodu girin",
+        label: "Kod",
+        placeholder: "Kodunuzu girin",
+        required: "Kodunuzu girmeniz gerekmektedir"
+      },
       rememberMe: "Beni Hatırla",
       forgotPassword: "Şifrenizi mi unuttunuz?",
       submit: "Giriş Yap",

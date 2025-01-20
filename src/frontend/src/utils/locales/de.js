@@ -16,6 +16,12 @@ export default {
         placeholder: "Geben Sie Ihr Passwort ein",
         required: "Passwort ist erforderlich"
       },
+      code: {
+        subtitle: "Geben Sie den Code aus der Authenticator-App ein",
+        label: "Code",
+        placeholder: "Geben Sie Ihren Code ein",
+        required: "Code ist erforderlich"
+      },
       rememberMe: "Erinnere dich an mich",
       forgotPassword: "Passwort vergessen?",
       submit: "Anmelden",

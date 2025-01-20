@@ -1,11 +1,7 @@
 <script setup>
 import { LogIn, ForgotPassword, TwoFactorAuthentication } from "./forms";
 import { ref, watch } from "vue";
-import { useLocale } from "vuetify";
 import { useRoute } from "vue-router";
-
-const { t } = useLocale();
-
 const route = useRoute();
 
 let page = ref(route.params.page);
