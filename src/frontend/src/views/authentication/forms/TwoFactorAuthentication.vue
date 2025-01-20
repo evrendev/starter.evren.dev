@@ -99,7 +99,7 @@ const onSubmit = handleSubmit(async (values) => {
       </v-btn>
     </div>
 
-    <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
+    <div class="d-flex justify-center mt-7 mb-lg-2 mb-sm-0">
       <router-link :to="{ name: 'login', params: { page: 'login' } }" class="text-primary text-decoration-none" v-show="!loading">
         <v-icon icon="$return" />
         <span class="ml-2">
