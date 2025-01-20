@@ -1,4 +1,4 @@
-import { mdiClose, mdiHome, mdiEyeOff, mdiEye, mdiHeart, mdiRefresh, mdiLogin, mdiFish } from "@mdi/js";
+import { mdiClose, mdiHome, mdiEyeOff, mdiEye, mdiHeart, mdiRefresh, mdiLogin, mdiFish, mdiKeyboardReturn, mdiCheck } from "@mdi/js";
 
 export const icons = {
   close: mdiClose,
@@ -8,5 +8,7 @@ export const icons = {
   heart: mdiHeart,
   refresh: mdiRefresh,
   login: mdiLogin,
-  fish: mdiFish
+  fish: mdiFish,
+  return: mdiKeyboardReturn,
+  check: mdiCheck
 };

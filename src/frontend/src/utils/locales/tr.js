@@ -16,21 +16,29 @@ export default {
         placeholder: "Şifrenizi girin",
         required: "Şifrenizi girmeniz gerekmektedir"
       },
-      code: {
-        subtitle: "Authenticator uygulamasından kodu girin",
-        label: "Kod",
-        placeholder: "Kodunuzu girin",
-        required: "Kodunuzu girmeniz gerekmektedir"
-      },
       rememberMe: "Beni Hatırla",
       forgotPassword: "Şifrenizi mi unuttunuz?",
       submit: "Giriş Yap",
       resetForm: "Sıfırla"
     },
-    required: {
-      email: "E-posta adresinizi girmeniz gerekmektedir",
-      password: "Şifrenizi girmeniz gerekmektedir",
-      passwordLength: "Şifre en az 6 karakter olmalıdır"
+    TwoFactorAuthentication: {
+      subtitle: "Authenticator uygulamasından kodu girin",
+      label: "Kod",
+      placeholder: "Kodunuzu girin",
+      required: "Kodunuzu girmeniz gerekmektedir",
+      submit: "Doğrula"
+    },
+    forgotPassword: {
+      welcome: "Şifrenizi mi unuttunuz?",
+      subtitle: "Şifrenizi sıfırlamak için e-postanızı girin",
+      email: {
+        label: "E-posta",
+        placeholder: "E-posta adresinizi girin",
+        invalid: "Geçersiz e-posta adresi",
+        required: "E-posta adresi girmeniz gerekmektedir"
+      },
+      back: "Girişe Geri Dön",
+      submit: "Şifreyi Sıfırla"
     }
   },
   $vuetify: {

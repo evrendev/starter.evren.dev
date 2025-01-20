@@ -16,21 +16,29 @@ export default {
         placeholder: "Geben Sie Ihr Passwort ein",
         required: "Passwort ist erforderlich"
       },
-      code: {
-        subtitle: "Geben Sie den Code aus der Authenticator-App ein",
-        label: "Code",
-        placeholder: "Geben Sie Ihren Code ein",
-        required: "Code ist erforderlich"
-      },
       rememberMe: "Erinnere dich an mich",
       forgotPassword: "Passwort vergessen?",
       submit: "Anmelden",
       resetForm: "Zurücksetzen"
     },
-    required: {
-      email: "E-Mail ist erforderlich",
-      password: "Passwort ist erforderlich",
-      passwordLength: "Das Passwort muss mindestens 6 Zeichen lang sein"
+    TwoFactorAuthentication: {
+      subtitle: "Geben Sie den Code aus der Authenticator-App ein",
+      label: "Code",
+      placeholder: "Geben Sie Ihren Code ein",
+      required: "Code ist erforderlich",
+      submit: "Überprüfen"
+    },
+    forgotPassword: {
+      welcome: "Passwort vergessen?",
+      subtitle: "Geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen",
+      email: {
+        label: "E-Mail",
+        placeholder: "Geben Sie Ihre E-Mail-Adresse ein",
+        invalid: "Ungültige E-Mail-Adresse",
+        required: "E-Mail ist erforderlich"
+      },
+      back: "Zurück zur Anmeldung",
+      submit: "Passwort zurücksetzen"
     }
   },
   $vuetify: {

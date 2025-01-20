@@ -20,7 +20,7 @@ public class TenantMiddleware
         string[] paths = [
             "/api/auth/login",
             "/api/auth/forgot-password",
-            "api/auth/logout",
+            "/api/auth/logout",
             "/api/2fa/verify"];
         if (paths.Any(p => context.Request.Path.StartsWithSegments(p, StringComparison.OrdinalIgnoreCase)))
         {

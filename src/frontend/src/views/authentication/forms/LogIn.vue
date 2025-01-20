@@ -64,6 +64,7 @@ const onSubmit = handleSubmit(async (values) => {
     await until(recaptchaResponse).changed();
     await authStore.login(values.email, values.password, values.rememberMe ?? false, recaptchaResponse.value);
   } catch (error) {
+    resetForm();
     const errorMessages = error.response.data;
     errorMessages.forEach((message) => toaster.error(message));
     appStore.togglePreloader();
@@ -133,7 +134,7 @@ const onSubmit = handleSubmit(async (values) => {
       </div>
     </div>
 
-    <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
+    <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
       <challenge-v3 v-model="recaptchaResponse" action="submit">
         <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$login">
           {{ t("auth.login.submit") }}

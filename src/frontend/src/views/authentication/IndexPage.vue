@@ -23,7 +23,7 @@ watch(
             <v-col cols="12" lg="10" xl="6" md="7">
               <v-card elevation="0" class="login-box">
                 <v-card variant="outlined">
-                  <v-card-text class="pa-9">
+                  <v-card-text class="pa-lg-9 pa-sm-2">
                     <forgot-password v-if="page === 'forgot-password'" />
 
                     <two-factor-authentication v-else-if="page === '2fa'" />

@@ -8,12 +8,13 @@ import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
 
 const { t } = useLocale();
 
 const authStore = useAuthStore();
-
 const appStore = useAppStore();
+const { loading } = storeToRefs(appStore);
 
 const { userId } = storeToRefs(authStore);
 
@@ -21,8 +22,12 @@ const router = useRouter();
 
 if (!userId.value) router.push({ name: "login", params: { page: "login" } });
 
+onMounted(() => {
+  appStore.togglePreloader(false);
+});
+
 const schema = object().shape({
-  code: string().required(t("auth.login.code.required")).label(t("auth.login.code.label"))
+  code: string().required(t("auth.TwoFactorAuthentication.required")).label(t("auth.TwoFactorAuthentication.label"))
 });
 
 const { defineField, handleSubmit } = useForm({
@@ -68,7 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
         {{ t("auth.login.welcome") }}
       </h2>
       <h4 class="text-disabled text-h4 mt-3">
-        {{ t("auth.login.code.subtitle") }}
+        {{ t("auth.TwoFactorAuthentication.subtitle") }}
       </h4>
     </v-col>
   </v-row>
@@ -78,7 +83,7 @@ const onSubmit = handleSubmit(async (values) => {
       v-model="code"
       v-bind="codeProps"
       type="tel"
-      :label="t('auth.login.code.label')"
+      :label="t('auth.TwoFactorAuthentication.label')"
       maxlength="6"
       class="mt-4"
       density="comfortable"
@@ -88,10 +93,19 @@ const onSubmit = handleSubmit(async (values) => {
       mask="######"
     />
 
-    <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
-      <v-btn color="primary" variant="flat" type="submit">
-        {{ t("auth.login.submit") }}
+    <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
+      <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$check">
+        {{ t("auth.TwoFactorAuthentication.submit") }}
       </v-btn>
+    </div>
+
+    <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
+      <router-link :to="{ name: 'login', params: { page: 'login' } }" class="text-primary text-decoration-none" v-show="!loading">
+        <v-icon icon="$return" />
+        <span class="ml-2">
+          {{ t("auth.forgotPassword.back") }}
+        </span>
+      </router-link>
     </div>
   </v-form>
 </template>

@@ -16,16 +16,17 @@ export default {
         placeholder: " Enter your password",
         required: "Password is required"
       },
-      code: {
-        subtitle: "Enter the code from authenticator app",
-        label: "Code",
-        placeholder: "Enter your code",
-        required: "Code is required"
-      },
       rememberMe: "Remember Me",
       forgotPassword: "Forgot Password?",
       submit: "Sign In",
       resetForm: "Reset"
+    },
+    TwoFactorAuthentication: {
+      subtitle: "Enter the code from authenticator app",
+      label: "Code",
+      placeholder: "Enter your code",
+      required: "Code is required",
+      submit: "Verify"
     },
     forgotPassword: {
       welcome: "Forgot Password?",
@@ -36,6 +37,7 @@ export default {
         invalid: "Invalid email address",
         required: "Email is required"
       },
+      back: "Back to Sign In",
       submit: "Reset Password"
     }
   },

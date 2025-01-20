@@ -79,10 +79,19 @@ const onSubmit = handleSubmit(async (values) => {
       color="primary"
     />
 
-    <div class="d-sm-flex align-center mt-7 mb-7 mb-sm-0">
+    <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
       <v-btn color="primary" variant="flat" type="submit" :loading="isSubmitting" prepend-icon="$refresh">
         {{ t("auth.forgotPassword.submit") }}
       </v-btn>
+    </div>
+
+    <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
+      <router-link :to="{ name: 'login', params: { page: 'login' } }" class="text-primary text-decoration-none" v-show="!loading">
+        <v-icon icon="$return" />
+        <span class="ml-2">
+          {{ t("auth.forgotPassword.back") }}
+        </span>
+      </router-link>
     </div>
   </v-form>
 </template>
