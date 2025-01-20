@@ -19,6 +19,7 @@ export default {
       rememberMe: "Remember Me",
       forgotPassword: "Forgot Password?",
       submit: "Sign In",
+      resetForm: "Reset",
     },
     required: {
       email: "Email is required",

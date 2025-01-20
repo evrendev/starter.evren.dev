@@ -19,6 +19,7 @@ export default {
       rememberMe: "Beni Hatırla",
       forgotPassword: "Şifrenizi mi unuttunuz?",
       submit: "Giriş Yap",
+      resetForm: "Sıfırla",
     },
     required: {
       email: "E-posta adresinizi girmeniz gerekmektedir",

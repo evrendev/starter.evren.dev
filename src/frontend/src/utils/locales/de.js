@@ -20,6 +20,7 @@ export default {
       rememberMe: "Erinnere dich an mich",
       forgotPassword: "Passwort vergessen?",
       submit: "Anmelden",
+      resetForm: "Zurücksetzen",
     },
     required: {
       email: "E-Mail ist erforderlich",

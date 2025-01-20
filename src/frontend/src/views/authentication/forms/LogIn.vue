@@ -113,9 +113,12 @@ const onSubmit = handleSubmit(async values => {
         hide-details
       />
       <div class="ml-auto">
-        <a href="javascript:void(0)" class="text-primary text-decoration-none">
+        <router-link
+          :to="{ name: ForgotPassword }"
+          class="text-primary text-decoration-none"
+        >
           {{ t("auth.login.forgotPassword") }}
-        </a>
+        </router-link>
       </div>
     </div>
 
@@ -132,7 +135,7 @@ const onSubmit = handleSubmit(async values => {
         class="ml-4"
         @click="resetForm()"
       >
-        Reset
+        {{ t("auth.login.resetForm") }}
       </v-btn>
     </div>
   </v-form>

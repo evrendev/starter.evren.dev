@@ -1,6 +1,6 @@
 <script setup>
 import Logo from "@/layouts/full/logo/LogoDark.vue"
-import { LogIn } from "./forms"
+import TwoFaLogin from "./authForms/TwoFaLogin.vue"
 import { useLocale } from "vuetify"
 
 const { t } = useLocale()
@@ -27,7 +27,7 @@ const { t } = useLocale()
                         </h4>
                       </v-col>
                     </v-row>
-                    <log-in />
+                    <TwoFaLogin />
                   </v-card-text>
                 </v-card>
               </v-card>
