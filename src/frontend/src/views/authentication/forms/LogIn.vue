@@ -49,10 +49,9 @@ const toaster = createToaster({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  appStore.togglePreloader();
-
   try {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    appStore.setPageLoader(true);
 
     await until(recaptchaResponse).changed();
     await authStore.login(values.email, values.password, values.rememberMe ?? false, recaptchaResponse.value);
@@ -60,7 +59,7 @@ const onSubmit = handleSubmit(async (values) => {
     resetForm();
     const errorMessages = error.response.data;
     errorMessages.forEach((message) => toaster.error(message));
-    appStore.togglePreloader();
+    appStore.setPageLoader(false);
   }
 });
 </script>

@@ -39,13 +39,15 @@ export const useAuthStore = defineStore({
     },
     async verify(code) {
       const rememberMachine = this.rememberMe;
+      const cleanCode = code.replace(/\s+/g, "").replace(/[^0-9]/g, "");
+
       const userId = this.userId;
       if (!userId) router.push("/auth/login");
 
       const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, {
-        userId,
-        code,
-        rememberMachine
+        userId: userId,
+        code: cleanCode,
+        rememberMachine: rememberMachine
       });
 
       // update pinia state

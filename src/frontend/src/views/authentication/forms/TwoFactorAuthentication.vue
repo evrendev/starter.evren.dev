@@ -45,16 +45,13 @@ const toaster = createToaster({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  appStore.togglePreloader();
-
   try {
+    appStore.setPageLoader(true);
     await authStore.verify(values.code);
-
-    appStore.togglePreloader();
   } catch (error) {
     const errorMessage = error.response.data;
     toaster.error(errorMessage);
-    appStore.togglePreloader();
+    appStore.setPageLoader(false);
   }
 });
 </script>

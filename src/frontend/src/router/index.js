@@ -23,9 +23,6 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const appStateStore = useAppStore();
-  appStateStore.togglePreloader(false);
-
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ["/"];
   const auth = useAuthStore();
@@ -49,4 +46,9 @@ router.beforeEach(async (to, from, next) => {
     // All other scenarios, either public page or authorized access
     next();
   }
+});
+
+router.afterEach(() => {
+  const app = useAppStore();
+  app.setPageLoader(false);
 });

@@ -37,16 +37,13 @@ const toaster = createToaster({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  appStore.togglePreloader();
-
   try {
+    appStore.setPageLoader(true);
     await authStore.forgotPassword(values.email);
-
-    appStore.togglePreloader();
   } catch (error) {
     const errorMessages = error.response.data;
     errorMessages.forEach((message) => toaster.error(message));
-    appStore.togglePreloader();
+    appStore.setPageLoader(false);
   }
 });
 </script>
