@@ -1,13 +1,13 @@
-import { fileURLToPath, URL } from "node:url"
-import { resolve, dirname } from "path"
-import { defineConfig } from "vite"
-import { manualChunksPlugin } from "vite-plugin-webpackchunkname"
-import vue from "@vitejs/plugin-vue"
-import svgLoader from "vite-svg-loader"
-import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
-import vueDevTools from "vite-plugin-vue-devtools"
-import viteImagemin from "vite-plugin-imagemin"
-import vuetify from 'vite-plugin-vuetify';
+import { fileURLToPath, URL } from "node:url";
+import { resolve, dirname } from "path";
+import { defineConfig } from "vite";
+import { manualChunksPlugin } from "vite-plugin-webpackchunkname";
+import vue from "@vitejs/plugin-vue";
+import svgLoader from "vite-svg-loader";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
+import vueDevTools from "vite-plugin-vue-devtools";
+import viteImagemin from "vite-plugin-imagemin";
+import vuetify from "vite-plugin-vuetify";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +15,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => ['v-list-recognize-title'].includes(tag)
+          isCustomElement: (tag) => ["v-list-recognize-title"].includes(tag)
         }
       }
     }),
@@ -25,10 +25,7 @@ export default defineConfig({
     vueDevTools(),
     VueI18nPlugin({
       runtimeOnly: false,
-      include: resolve(
-        dirname(fileURLToPath(import.meta.url)),
-        "./src/plugins/i18n/locales/**",
-      ),
+      include: resolve(dirname(fileURLToPath(import.meta.url)), "./src/plugins/i18n/locales/**")
     }),
     manualChunksPlugin(),
     svgLoader(),
@@ -38,22 +35,24 @@ export default defineConfig({
       mozjpeg: { quality: 20 },
       pngquant: { quality: [0.6, 0.8] },
       svgo: {
-        plugins: [{ name: "removeViewBox" }, { name: "cleanupIDs" }],
-      },
-    }),
+        plugins: [{ name: "removeViewBox" }, { name: "cleanupIDs" }]
+      }
+    })
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      "@": fileURLToPath(new URL("./src", import.meta.url))
     }
   },
   server: {
     port: 5002,
-    hot: true,
+    hot: true
   },
   css: {
     preprocessorOptions: {
-      scss: {}
+      scss: {
+        additionalData: `@import "@/scss/_variables.scss";`
+      }
     }
   },
   build: {
@@ -64,33 +63,33 @@ export default defineConfig({
         entryFileNames: "static/entries/[name]-[hash].js",
         assetFileNames: ({ name }) => {
           if (/\.(gif|jpe?g|png|svg)$/.test(name ?? "")) {
-            return "assets/images/[name]-[hash][extname]"
+            return "assets/images/[name]-[hash][extname]";
           }
 
           if (/\.css$/.test(name ?? "")) {
             return `assets/css/${name
               .split(/\.?(?=[A-Z])/)
               .join("-")
-              .toLowerCase()}-[hash][extname]`
+              .toLowerCase()}-[hash][extname]`;
           }
 
-          return "assets/[name]-[hash][extname]"
-        },
-      },
+          return "assets/[name]-[hash][extname]";
+        }
+      }
     },
     minify: "terser",
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true,
-      },
+        drop_debugger: true
+      }
     },
     sourcemap: false,
-    target: "esnext",
+    target: "esnext"
   },
   optimizeDeps: {
-    exclude: ['vuetify'],
-    entries: ['./src/**/*.vue']
+    exclude: ["vuetify"],
+    entries: ["./src/**/*.vue"]
   },
-  base: "/",
+  base: "/"
 });
