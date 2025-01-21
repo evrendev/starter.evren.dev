@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { useLocale } from "vuetify";
 import { useForm } from "vee-validate";
 import { object, string, boolean } from "yup";
-import { ChallengeV3, useRecaptchaProvider } from "vue-recaptcha";
+import { ChallengeV3 } from "vue-recaptcha";
 import { createToaster } from "@meforma/vue-toaster";
 import { until } from "@vueuse/core";
 import { useAuthStore } from "@/stores/auth";
@@ -12,8 +12,6 @@ import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 
 const { t } = useLocale();
-
-useRecaptchaProvider();
 const recaptchaResponse = ref();
 
 const authStore = useAuthStore();

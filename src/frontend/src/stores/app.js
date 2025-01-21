@@ -7,7 +7,6 @@ export const useAppStore = defineStore({
   }),
   actions: {
     togglePreloader(value) {
-      console.log("togglePreloader", value);
       if (!value) {
         this.loading = !this.loading;
       } else {
