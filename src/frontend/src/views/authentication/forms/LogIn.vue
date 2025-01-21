@@ -10,7 +10,6 @@ import { until } from "@vueuse/core";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
 
 const { t } = useLocale();
 
@@ -25,10 +24,6 @@ const schema = object().shape({
   email: string().email(t("auth.login.email.invalid")).required(t("auth.login.email.required")).label(t("auth.login.email.label")),
   password: string().required(t("auth.login.password.required")).label(t("auth.login.password.label")),
   rememberMe: boolean().default(false).label(t("auth.login.rememberMe"))
-});
-
-onMounted(() => {
-  appStore.togglePreloader(false);
 });
 
 const { defineField, handleSubmit, resetForm } = useForm({

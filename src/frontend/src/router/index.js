@@ -1,21 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
-import MainRoutes from "./MainRoutes";
-import PublicRoutes from "./PublicRoutes";
 import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from "@/stores/app";
+import PanelRoutes from "./panel-routes";
+import AuthRoutes from "./auth-routes";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  linkActiveClass: "active",
+  linkExactActiveClass: "exact-active",
   routes: [
+    {
+      path: "",
+      redirect: "/dashboard"
+    },
     {
       path: "/:pathMatch(.*)*",
       component: () => import("@/views/pages/maintenance/error/Error404Page.vue")
     },
-    MainRoutes,
-    PublicRoutes
+    PanelRoutes,
+    AuthRoutes
   ]
 });
 
 router.beforeEach(async (to, from, next) => {
+  const appStateStore = useAppStore();
+  appStateStore.togglePreloader(false);
+
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ["/"];
   const auth = useAuthStore();

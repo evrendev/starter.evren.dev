@@ -8,7 +8,7 @@ let page = ref(route.params.page);
 
 watch(
   () => route.params.page,
-  (newPage, oldPage) => {
+  (newPage) => {
     page.value = newPage;
   }
 );

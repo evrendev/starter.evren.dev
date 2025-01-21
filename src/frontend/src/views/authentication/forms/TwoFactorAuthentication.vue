@@ -8,23 +8,17 @@ import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import { onMounted } from "vue";
 
 const { t } = useLocale();
 
 const authStore = useAuthStore();
 const appStore = useAppStore();
 const { loading } = storeToRefs(appStore);
-
 const { userId } = storeToRefs(authStore);
 
 const router = useRouter();
 
 if (!userId.value) router.push({ name: "login", params: { page: "login" } });
-
-onMounted(() => {
-  appStore.togglePreloader(false);
-});
 
 const schema = object().shape({
   code: string().required(t("auth.TwoFactorAuthentication.required")).label(t("auth.TwoFactorAuthentication.label"))
