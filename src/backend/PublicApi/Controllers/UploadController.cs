@@ -10,23 +10,23 @@ namespace EvrenDev.PublicApi.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class FileController : ControllerBase
+public class UploadController : ControllerBase
 {
     private readonly ICloudflareImageService _cloudflareImageService;
     private readonly ICloudflareR2Service _cloudflareR2Service;
-    private readonly IStringLocalizer<FileController> _localizer;
+    private readonly IStringLocalizer<UploadController> _localizer;
 
-    public FileController(
+    public UploadController(
         ICloudflareImageService cloudflareImageService,
         ICloudflareR2Service cloudflareR2Service,
-        IStringLocalizer<FileController> localizer)
+        IStringLocalizer<UploadController> localizer)
     {
         _cloudflareImageService = cloudflareImageService;
         _cloudflareR2Service = cloudflareR2Service;
         _localizer = localizer;
     }
 
-    [HttpPost("upload/image")]
+    [HttpPost("image")]
     [Authorize(Policy = $"{Modules.Images}.{Permissions.Create}")]
     public async Task<ActionResult<string>> UploadImage(IFormFile file)
     {
@@ -50,7 +50,7 @@ public class FileController : ControllerBase
         }
     }
 
-    [HttpPost("upload/file")]
+    [HttpPost("file")]
     [Authorize(Policy = $"{Modules.Files}.{Permissions.Create}")]
     public async Task<ActionResult<string>> UploadFile(IFormFile file, [FromQuery] string bucketName, [FromQuery] string? path = null)
     {
