@@ -1,14 +1,15 @@
+import { i18n } from "@/plugins";
+import { useI18n } from "vue-i18n";
+
 import { createVuetify } from "vuetify";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
-import { icons } from "./mdi-icon";
+import { icons } from "@/plugins/mdi-icon";
 import { NavyTheme } from "@/theme/LightTheme";
 import { createVueI18nAdapter } from "vuetify/locale/adapters/vue-i18n";
-import { createI18n } from "./i18n";
-import { useI18n } from "vue-i18n";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 // Fix export syntax
-const vuetify = createVuetify({
+export default createVuetify({
   components,
   directives,
   icons: {
@@ -28,7 +29,7 @@ const vuetify = createVuetify({
     }
   },
   locale: {
-    adapter: createVueI18nAdapter({ createI18n, useI18n })
+    adapter: createVueI18nAdapter({ i18n, useI18n })
   },
   defaults: {
     VBtn: {},
@@ -43,5 +44,3 @@ const vuetify = createVuetify({
     }
   }
 });
-
-export default vuetify;

@@ -2,12 +2,13 @@
 import { ref } from "vue";
 import { useCustomizerStore } from "../../../stores/customizer";
 // Icon Imports
-import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from "vue-tabler-icons";
+import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon, LanguageIcon } from "vue-tabler-icons";
 
 // dropdown imports
 import NotificationDD from "./NotificationDD.vue";
 import ProfileDD from "./ProfileDD.vue";
 import Searchbar from "./SearchBarPanel.vue";
+import LanguageDD from "./LanguageDD.vue";
 
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
@@ -83,6 +84,20 @@ function searchbox() {
       </template>
       <v-sheet rounded="md" width="330" elevation="12">
         <NotificationDD />
+      </v-sheet>
+    </v-menu>
+
+    <!-- ---------------------------------------------- -->
+    <!-- Language -->
+    <!-- ---------------------------------------------- -->
+    <v-menu :close-on-content-click="false">
+      <template v-slot:activator="{ props }">
+        <v-btn icon class="text-secondary mx-3" color="surface-light" rounded="sm" size="small" variant="flat" v-bind="props">
+          <LanguageIcon stroke-width="1.5" size="22" />
+        </v-btn>
+      </template>
+      <v-sheet rounded="md" width="150" elevation="12">
+        <LanguageDD />
       </v-sheet>
     </v-menu>
 

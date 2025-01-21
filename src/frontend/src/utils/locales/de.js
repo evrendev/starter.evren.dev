@@ -41,6 +41,20 @@ export default {
       submit: "Passwort zurücksetzen"
     }
   },
+  components: {
+    verticalHeader: {
+      languages: {
+        en: "English",
+        tr: "Turkish",
+        de: "German"
+      }
+    },
+    footerPanel: {
+      home: "Startseite",
+      documentation: "Dokumentation",
+      support: "Unterstützung"
+    }
+  },
   $vuetify: {
     ...de
   }

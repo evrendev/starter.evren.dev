@@ -41,6 +41,20 @@ export default {
       submit: "Şifreyi Sıfırla"
     }
   },
+  components: {
+    verticalHeader: {
+      languages: {
+        en: "English",
+        tr: "Turkish",
+        de: "German"
+      }
+    },
+    footerPanel: {
+      home: "Anasayfa",
+      documentation: "Dökümantasyon",
+      support: "Destek"
+    }
+  },
   $vuetify: {
     ...tr
   }

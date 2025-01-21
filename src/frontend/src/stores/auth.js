@@ -31,8 +31,13 @@ export const useAuthStore = defineStore({
       } else {
         // update pinia state
         this.user = user?.data.user;
+        localStorage.setItem("user", JSON.stringify(this.user));
+
         this.token = user?.data.token;
+        localStorage.setItem("token", this.token);
+
         this.refreshToken = user?.data.refreshToken;
+        localStorage.setItem("refreshToken", this.refreshToken);
 
         router.push(this.returnUrl || "/dashboard");
       }
@@ -66,6 +71,9 @@ export const useAuthStore = defineStore({
 
       localStorage.removeItem("user");
       router.push("/auth/login");
+    },
+    setReturnUrl(url) {
+      this.returnUrl = url;
     }
   }
 });

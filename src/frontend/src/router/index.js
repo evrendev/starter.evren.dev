@@ -3,6 +3,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import PanelRoutes from "./panel-routes";
 import AuthRoutes from "./auth-routes";
+import { storeToRefs } from "pinia";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,25 +26,24 @@ export const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ["/"];
-  const auth = useAuthStore();
+  const authStore = useAuthStore();
+  const { returnUrl } = storeToRefs(authStore);
+  const user = localStorage.getItem("user");
 
   const isPublicPage = publicPages.includes(to.path);
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
 
-  // User not logged in and trying to access a restricted page
-  if (authRequired && !auth.user) {
-    auth.returnUrl = to.fullPath; // Save the intended page
+  if (authRequired && !user) {
+    authStore.setReturnUrl(to.fullPath);
     next("/auth/login");
-  } else if (auth.user && to.path === "/auth/login") {
-    // User logged in and trying to access the login page
+  } else if (user && to.path === "/auth/login") {
     next({
       query: {
         ...to.query,
-        redirect: auth.returnUrl !== "/" ? to.fullPath : undefined
+        redirect: returnUrl !== "/" ? to.fullPath : undefined
       }
     });
   } else {
-    // All other scenarios, either public page or authorized access
     next();
   }
 });
