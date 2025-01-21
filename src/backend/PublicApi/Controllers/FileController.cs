@@ -13,11 +13,16 @@ namespace EvrenDev.PublicApi.Controllers;
 public class FileController : ControllerBase
 {
     private readonly ICloudflareImageService _cloudflareImageService;
+    private readonly ICloudflareR2Service _cloudflareR2Service;
     private readonly IStringLocalizer<FileController> _localizer;
 
-    public FileController(ICloudflareImageService cloudflareImageService, IStringLocalizer<FileController> localizer)
+    public FileController(
+        ICloudflareImageService cloudflareImageService,
+        ICloudflareR2Service cloudflareR2Service,
+        IStringLocalizer<FileController> localizer)
     {
         _cloudflareImageService = cloudflareImageService;
+        _cloudflareR2Service = cloudflareR2Service;
         _localizer = localizer;
     }
 
@@ -41,6 +46,44 @@ public class FileController : ControllerBase
                     key = x.Key.ToLowerInvariant(),
                     value = x.Value[0]
                 }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("upload/file")]
+    [Authorize(Policy = $"{Modules.Files}.{Permissions.Create}")]
+    public async Task<ActionResult<string>> UploadFile(IFormFile file, [FromQuery] string bucketName, [FromQuery] string? path = null)
+    {
+        try
+        {
+            var fileUrl = await _cloudflareR2Service.UploadFileAsync(file, bucketName, path);
+            return Ok(fileUrl);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = ex.Message
+            });
+        }
+    }
+
+    [HttpDelete("file")]
+    [Authorize(Policy = $"{Modules.Files}.{Permissions.Delete}")]
+    public async Task<ActionResult> DeleteFile([FromQuery] string bucketName, [FromQuery] string key)
+    {
+        try
+        {
+            await _cloudflareR2Service.DeleteFileAsync(bucketName, key);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = ex.Message
             });
         }
     }

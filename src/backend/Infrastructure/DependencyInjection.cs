@@ -202,6 +202,7 @@ public static class DependencyInjection
         services.Configure<CloudflareSettings>(configuration.GetSection("Cloudflare"));
         services.AddHttpClient("CloudflareImages");
         services.AddScoped<ICloudflareImageService, CloudflareImageService>();
+        services.AddScoped<ICloudflareR2Service, CloudflareR2Service>();
 
         return services;
     }

@@ -20,6 +20,10 @@ public abstract class Policies
         public const string Images = nameof(Images);
         public const string Users = nameof(Users);
         public const string Logs = nameof(Logs);
+        public const string Products = "Products";
+        public const string Brands = "Brands";
+        public const string Categories = "Categories";
+        public const string Files = "Files";
     }
 
     public static string[] AllModules => [
@@ -30,6 +34,10 @@ public abstract class Policies
         Modules.Images,
         Modules.Users,
         Modules.Logs,
+        Modules.Products,
+        Modules.Brands,
+        Modules.Categories,
+        Modules.Files,
     ];
 
     public static string[] AllPermissions => [
