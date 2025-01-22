@@ -61,7 +61,6 @@ export const useAuthStore = defineStore({
     logout() {
       this.auth = null;
       router.push("/auth/login");
-      window.location.reload();
     },
     setReturnUrl(url) {
       this.auth = {
