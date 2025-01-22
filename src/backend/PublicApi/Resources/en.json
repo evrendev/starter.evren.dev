@@ -4,6 +4,7 @@
   "api.auth.login.not-found": "User account not found",
   "api.auth.login.deleted": "User account has been deleted",
   "api.auth.login.invalid-credentials": "Invalid credentials",
+  "api.auth.login.invalid-tenant": "Invalid tenant",
   "api.auth.login.email.required": "Email is required",
   "api.auth.login.email.invalid": "Invalid email",
   "api.auth.login.password.required": "Password is required",

@@ -4,6 +4,7 @@
   "api.auth.login.not-found": "Kullanıcı hesabı bulunamadı",
   "api.auth.login.deleted": "Kullanıcı hesabı silinmiş",
   "api.auth.login.invalid-credentials": "Geçersiz kimlik bilgileri",
+  "api.auth.login.invalid-tenant": "Geçersiz kiracı",
   "api.auth.login.email.required": "E-posta gerekli",
   "api.auth.login.email.invalid": "Geçersiz e-posta",
   "api.auth.login.password.required": "Şifre gerekli",
