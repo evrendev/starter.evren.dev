@@ -16,6 +16,11 @@ export default {
         placeholder: " Enter your password",
         required: "Password is required"
       },
+      recaptcha: {
+        label: "I'm not a robot",
+        required: "Recaptcha is required",
+        invalid: "Recaptcha verification failed"
+      },
       rememberMe: "Remember Me",
       forgotPassword: "Forgot Password?",
       submit: "Sign In",

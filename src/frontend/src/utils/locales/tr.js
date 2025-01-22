@@ -16,6 +16,11 @@ export default {
         placeholder: "Şifrenizi girin",
         required: "Şifrenizi girmeniz gerekmektedir"
       },
+      recaptcha: {
+        label: "Ben bir robot değilim",
+        required: "Recaptcha doğrulaması gerekmektedir",
+        invalid: "Recaptcha doğrulaması başarısız oldu"
+      },
       rememberMe: "Beni Hatırla",
       forgotPassword: "Şifrenizi mi unuttunuz?",
       submit: "Giriş Yap",
