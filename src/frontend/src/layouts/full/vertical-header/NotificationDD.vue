@@ -20,7 +20,7 @@ const selectNotify = ref("All Notifications");
   <v-divider></v-divider>
   <perfect-scrollbar style="height: calc(100vh - 300px); max-height: 650px">
     <v-list class="py-0" lines="three">
-      <v-list-item value="" color="secondary" class="no-spacer">
+      <v-list-item value="notification-1" color="secondary" class="no-spacer">
         <template v-slot:prepend>
           <v-avatar size="40" class="mr-3 py-2">
             <img src="@/assets/images/profile/user-round.svg" width="40" alt="Julia" />
@@ -38,7 +38,7 @@ const selectNotify = ref("All Notifications");
         </div>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list-item value="" color="secondary" class="no-spacer">
+      <v-list-item value="notification-2" color="secondary" class="no-spacer">
         <template v-slot:prepend>
           <v-avatar size="40" variant="flat" color="lightsuccess" class="mr-3 py-2 text-success">
             <BuildingStoreIcon size="20" />
@@ -55,7 +55,7 @@ const selectNotify = ref("All Notifications");
         </div>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list-item value="" color="secondary" class="no-spacer">
+      <v-list-item value="notification-3" color="secondary" class="no-spacer">
         <template v-slot:prepend>
           <v-avatar size="40" variant="flat" color="lightprimary" class="mr-3 py-2 text-primary">
             <MailboxIcon size="20" />
@@ -77,7 +77,7 @@ const selectNotify = ref("All Notifications");
         </div>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list-item value="" color="secondary" class="no-spacer">
+      <v-list-item value="notification-4" color="secondary" class="no-spacer">
         <template v-slot:prepend>
           <v-avatar size="40" class="mr-3 py-2">
             <img src="@/assets/images/profile/user-round.svg" width="40" alt="Julia" />
@@ -98,7 +98,7 @@ const selectNotify = ref("All Notifications");
         </div>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list-item value="" color="secondary" class="no-spacer">
+      <v-list-item value="notification-5" color="secondary" class="no-spacer">
         <template v-slot:prepend>
           <v-avatar size="40" class="mr-3 py-2">
             <img src="@/assets/images/profile/user-round.svg" width="40" alt="Julia" />
