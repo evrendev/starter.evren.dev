@@ -5,32 +5,29 @@ import VerticalHeaderVue from "./vertical-header/VerticalHeader.vue";
 import FooterPanel from "./footer/FooterPanel.vue";
 import { useCustomizerStore } from "../../stores/customizer";
 const customizer = useCustomizerStore();
-import { LocaleHelper } from "@/utils/helpers";
 </script>
 
 <template>
-  <v-locale-provider :locale="LocaleHelper.currentLocale">
-    <v-app
-      theme="NavyTheme"
-      :class="[customizer.fontTheme, customizer.mini_sidebar ? 'mini-sidebar' : '', customizer.inputBg ? 'inputWithbg' : '']"
-    >
-      <VerticalSidebarVue />
-      <VerticalHeaderVue />
+  <v-app
+    theme="NavyTheme"
+    :class="[customizer.fontTheme, customizer.mini_sidebar ? 'mini-sidebar' : '', customizer.inputBg ? 'inputWithbg' : '']"
+  >
+    <VerticalSidebarVue />
+    <VerticalHeaderVue />
 
-      <v-main>
-        <v-container fluid class="page-wrapper">
-          <div>
-            <RouterView />
-          </div>
-        </v-container>
-        <v-container fluid class="pt-0">
-          <div>
-            <FooterPanel />
-          </div>
-        </v-container>
-      </v-main>
-    </v-app>
-  </v-locale-provider>
+    <v-main>
+      <v-container fluid class="page-wrapper">
+        <div>
+          <RouterView />
+        </div>
+      </v-container>
+      <v-container fluid class="pt-0">
+        <div>
+          <FooterPanel />
+        </div>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <style lang="scss">

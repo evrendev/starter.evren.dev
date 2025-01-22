@@ -5,12 +5,15 @@ import UiFlagEn from "@/components/shared/UiFlagEn.vue";
 import { useLocale } from "vuetify";
 import LocaleHelper from "@/utils/helpers/locale";
 import config from "@/config";
-const { t } = useLocale();
+import { useI18n } from "vue-i18n";
 
+const { t } = useLocale();
+const { locale } = useI18n();
 const languages = config.languages;
 
 const changeLanguage = async (lang) => {
   await LocaleHelper.switchLanguage(lang);
+  locale.value = lang; // Explicitly update vue-i18n locale
 };
 </script>
 
