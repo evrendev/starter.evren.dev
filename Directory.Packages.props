@@ -7,20 +7,16 @@
     <PackageVersion Include="Ardalis.GuardClauses" Version="5.0.0" />
     <PackageVersion Include="Audit.EntityFramework.Core" Version="27.1.1" />
     <PackageVersion Include="Audit.EntityFramework.Identity.Core" Version="27.1.1" />
-    <!-- <PackageVersion Include="AutoMapper" Version="13.0.1" /> -->
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.412.2" />
     <PackageVersion Include="FluentValidation" Version="11.8.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageVersion Include="MediatR" Version="12.4.1" />
-    <!-- <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />-->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
-    <!--<PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
-    <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.11" />-->
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11" />
-    <!-- <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.11" /> -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.11" />
     <PackageVersion Include="Serilog" Version="3.1.1" />
@@ -28,12 +24,6 @@
     <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
-    <!-- <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Localization " Version="8.0.11" />
-    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.6"  />
-    <PackageVersion Include="NSwag.AspNetCore" Version="14.1.0"  /> -->
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 </Project>

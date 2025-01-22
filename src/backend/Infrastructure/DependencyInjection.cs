@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
 using Audit.Core;
 using Audit.EntityFramework;
@@ -16,6 +17,8 @@ using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.Infrastructure.Tenant.Interceptors;
 using EvrenDev.Infrastructure.Tenant.Services;
 using EvrenDev.Shared.Constants;
+using Infrastructure.Configurations;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -194,6 +197,12 @@ public static class DependencyInjection
         services.AddScoped<IDatabaseSeeder, TenantDatabaseInitializer>();
         services.AddScoped<IDatabaseSeeder, IdentityDatabaseSeeder>();
         services.AddScoped<DevelopmentDatabaseSeeder>();
+
+        // Add Cloudflare services
+        services.Configure<CloudflareSettings>(configuration.GetSection("Cloudflare"));
+        services.AddHttpClient("CloudflareImages");
+        services.AddScoped<ICloudflareImageService, CloudflareImageService>();
+        services.AddScoped<ICloudflareR2Service, CloudflareR2Service>();
 
         return services;
     }

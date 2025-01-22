@@ -16,6 +16,11 @@ export default {
         placeholder: " Enter your password",
         required: "Password is required"
       },
+      recaptcha: {
+        label: "I'm not a robot",
+        required: "Recaptcha is required",
+        invalid: "Recaptcha verification failed"
+      },
       rememberMe: "Remember Me",
       forgotPassword: "Forgot Password?",
       submit: "Sign In",
@@ -40,6 +45,31 @@ export default {
       back: "Back to Sign In",
       submit: "Reset Password"
     }
+  },
+  components: {
+    verticalHeader: {
+      languages: {
+        en: "English",
+        tr: "Turkish",
+        de: "German"
+      },
+      profile: {
+        settings: "Settings",
+        logout: "Logout",
+        goodMorning: "Good Morning",
+        goodAfternoon: "Good Afternoon",
+        goodEvening: "Good Evening"
+      }
+    },
+    footerPanel: {
+      home: "Home",
+      documentation: "Documentation",
+      support: "Support"
+    }
+  },
+  messages: {
+    success: "Operation successful",
+    error: "Request failed"
   },
   $vuetify: {
     ...en

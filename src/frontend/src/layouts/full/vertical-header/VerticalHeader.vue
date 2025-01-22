@@ -1,19 +1,15 @@
 <script setup>
-import { ref } from "vue";
-import { useCustomizerStore } from "../../../stores/customizer";
-// Icon Imports
-import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from "vue-tabler-icons";
+import { useAuthStore, useCustomizerStore } from "@/stores";
+import { BellIcon, SettingsIcon, Menu2Icon, LanguageIcon } from "vue-tabler-icons";
 
-// dropdown imports
 import NotificationDD from "./NotificationDD.vue";
 import ProfileDD from "./ProfileDD.vue";
-import Searchbar from "./SearchBarPanel.vue";
+import LanguageDD from "./LanguageDD.vue";
 
 const customizer = useCustomizerStore();
-const showSearch = ref(false);
-function searchbox() {
-  showSearch.value = !showSearch.value;
-}
+const authStore = useAuthStore();
+
+const { user } = authStore;
 </script>
 
 <template>
@@ -41,37 +37,7 @@ function searchbox() {
       <Menu2Icon size="20" stroke-width="1.5" />
     </v-btn>
 
-    <!-- search mobile -->
-    <v-btn
-      class="hidden-lg-and-up text-secondary ml-3"
-      color="lightsecondary"
-      icon
-      rounded="sm"
-      variant="flat"
-      size="small"
-      @click="searchbox"
-    >
-      <SearchIcon size="17" stroke-width="1.5" />
-    </v-btn>
-
-    <v-sheet v-if="showSearch" class="search-sheet v-col-12">
-      <Searchbar :closesearch="searchbox" />
-    </v-sheet>
-
-    <!-- ---------------------------------------------- -->
-    <!-- Search part -->
-    <!-- ---------------------------------------------- -->
-    <v-sheet class="mx-3 v-col-3 v-col-xl-2 v-col-lg-4 d-none d-lg-block">
-      <Searchbar />
-    </v-sheet>
-
-    <!---/Search part -->
-
     <v-spacer />
-    <!-- ---------------------------------------------- -->
-    <!---right part -->
-    <!-- ---------------------------------------------- -->
-
     <!-- ---------------------------------------------- -->
     <!-- Notification -->
     <!-- ---------------------------------------------- -->
@@ -87,18 +53,32 @@ function searchbox() {
     </v-menu>
 
     <!-- ---------------------------------------------- -->
+    <!-- Language -->
+    <!-- ---------------------------------------------- -->
+    <v-menu :close-on-content-click="false">
+      <template v-slot:activator="{ props }">
+        <v-btn icon class="text-secondary mx-3" color="surface-light" rounded="sm" size="small" variant="flat" v-bind="props">
+          <LanguageIcon stroke-width="1.5" size="22" />
+        </v-btn>
+      </template>
+      <v-sheet rounded="md" width="150" elevation="12">
+        <LanguageDD />
+      </v-sheet>
+    </v-menu>
+
+    <!-- ---------------------------------------------- -->
     <!-- User Profile -->
     <!-- ---------------------------------------------- -->
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn class="profileBtn text-primary" color="lightprimary" variant="flat" rounded="pill" v-bind="props">
-          <v-avatar size="30" class="mr-2 py-2">
-            <img src="@/assets/images/profile/user-round.svg" alt="Julia" />
+          <v-avatar class="mr-4" color="primary" size="32">
+            <span class="text-h5">{{ user.initial }}</span>
           </v-avatar>
           <SettingsIcon stroke-width="1.5" />
         </v-btn>
       </template>
-      <v-sheet rounded="md" width="330" elevation="12">
+      <v-sheet rounded="md" width="300" elevation="12">
         <ProfileDD />
       </v-sheet>
     </v-menu>

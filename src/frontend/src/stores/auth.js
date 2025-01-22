@@ -1,69 +1,71 @@
 import { defineStore } from "pinia";
 import { router } from "@/router";
-import axiosInstance from "@/plugins/axios";
-
-const baseUrl = `${import.meta.env.VITE_API_URL}`;
+import { useLocalStorage } from "@vueuse/core";
+import { apiService } from "@/utils/helpers";
 
 export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
-    user: null,
-    userId: null,
-    token: null,
-    refreshToken: null,
-    returnUrl: null,
-    rememberMe: false
+    auth: useLocalStorage("auth", {
+      isAuthenticated: false,
+      user: null,
+      token: null,
+      refreshToken: null,
+      returnUrl: null,
+      rememberMe: false
+    })
   }),
+  getters: {
+    isAuthenticated: (state) => state.auth.isAuthenticated,
+    user: (state) => state.auth.user,
+    token: (state) => state.auth.token,
+    refreshToken: (state) => state.auth.refreshToken,
+    returnUrl: (state) => state.auth.returnUrl
+  },
   actions: {
-    async login(email, password, rememberMe, response) {
-      const user = await axiosInstance.post(`${baseUrl}/auth/login`, {
-        email,
-        password,
-        rememberMe,
-        response
-      });
+    async login(data) {
+      const res = await apiService.post("/auth/login", data);
 
-      if (user?.data?.requiresTwoFactor) {
-        this.userId = user?.data?.userId;
-        this.rememberMe = rememberMe;
+      if (res?.requiresTwoFactor) {
+        this.auth = {
+          user: {
+            id: res?.user?.id
+          }
+        };
 
         router.push(`/auth/2fa`);
       } else {
-        // update pinia state
-        this.user = user?.data.user;
-        this.token = user?.data.token;
-        this.refreshToken = user?.data.refreshToken;
+        this.auth = {
+          isAuthenticated: true,
+          user: res?.user,
+          token: res?.token,
+          refreshToken: res?.refreshToken
+        };
 
         router.push(this.returnUrl || "/dashboard");
       }
     },
-    async verify(code) {
-      const rememberMachine = this.rememberMe;
-      const userId = this.userId;
-      if (!userId) router.push("/auth/login");
-
-      const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, {
-        userId,
-        code,
-        rememberMachine
+    async refresh() {
+      const res = await apiService.post("/auth/refresh-token", {
+        userId: this.user?.id,
+        refreshToken: this.refreshToken
       });
 
-      // update pinia state
-      this.user = user?.data.user;
-      this.token = user?.data.token;
-      this.refreshToken = user?.data.refreshToken;
-
-      router.push(this.returnUrl || "/dashboard");
+      this.auth = {
+        isAuthenticated: true,
+        user: res?.user,
+        token: res?.token,
+        refreshToken: res?.refreshToken
+      };
     },
     logout() {
-      this.user = null;
-      this.token = null;
-      this.refreshToken = null;
-      this.userId = null;
-      this.rememberMe = false;
-
-      localStorage.removeItem("user");
+      this.auth = null;
       router.push("/auth/login");
+    },
+    setReturnUrl(url) {
+      this.auth = {
+        returnUrl: url
+      };
     }
   }
 });

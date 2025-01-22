@@ -4,18 +4,12 @@ import { ref } from "vue";
 import { useLocale } from "vuetify";
 import { useForm } from "vee-validate";
 import { object, string, boolean } from "yup";
-import { ChallengeV3, useRecaptchaProvider } from "vue-recaptcha";
-import { createToaster } from "@meforma/vue-toaster";
+import { ChallengeV3 } from "vue-recaptcha";
 import { until } from "@vueuse/core";
-import { useAuthStore } from "@/stores/auth";
-import { useAppStore } from "@/stores/app";
+import { useAuthStore, useAppStore } from "@/stores/";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
 
 const { t } = useLocale();
-
-useRecaptchaProvider();
-const recaptchaResponse = ref();
 
 const authStore = useAuthStore();
 const appStore = useAppStore();
@@ -24,11 +18,8 @@ const { loading } = storeToRefs(appStore);
 const schema = object().shape({
   email: string().email(t("auth.login.email.invalid")).required(t("auth.login.email.required")).label(t("auth.login.email.label")),
   password: string().required(t("auth.login.password.required")).label(t("auth.login.password.label")),
-  rememberMe: boolean().default(false).label(t("auth.login.rememberMe"))
-});
-
-onMounted(() => {
-  appStore.togglePreloader(false);
+  rememberMe: boolean().default(false).label(t("auth.login.rememberMe")),
+  response: string().required(t("auth.login.recaptcha.required"))
 });
 
 const { defineField, handleSubmit, resetForm } = useForm({
@@ -44,30 +35,21 @@ const vuetifyConfig = (state) => ({
 const [email, emailProps] = defineField("email", vuetifyConfig);
 const [password, passwordProps] = defineField("password", vuetifyConfig);
 const [rememberMe, rememberMeProps] = defineField("rememberMe", vuetifyConfig);
+const [response] = defineField("response", vuetifyConfig);
 
 const showPassword = ref(false);
 
-const toaster = createToaster({
-  position: "top-right",
-  duration: 3000,
-  queue: true,
-  pauseOnHover: true,
-  useDefaultCss: true
-});
-
 const onSubmit = handleSubmit(async (values) => {
-  appStore.togglePreloader();
-
   try {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    appStore.setPageLoader(true);
 
-    await until(recaptchaResponse).changed();
-    await authStore.login(values.email, values.password, values.rememberMe ?? false, recaptchaResponse.value);
+    await until(response).changed();
+    await authStore.login(values);
   } catch (error) {
     resetForm();
-    const errorMessages = error.response.data;
-    errorMessages.forEach((message) => toaster.error(message));
-    appStore.togglePreloader();
+    console.error(error);
+    appStore.setPageLoader(false);
   }
 });
 </script>
@@ -135,7 +117,7 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
 
     <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
-      <challenge-v3 v-model="recaptchaResponse" action="submit">
+      <challenge-v3 v-model="response" action="submit">
         <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$login">
           {{ t("auth.login.submit") }}
         </v-btn>

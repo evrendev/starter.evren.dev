@@ -3,14 +3,12 @@ import Logo from "@/layouts/full/logo/LogoDark.vue";
 import { useForm } from "vee-validate";
 import { useLocale } from "vuetify";
 import { object, string } from "yup";
-import { createToaster } from "@meforma/vue-toaster";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 
 const { t } = useLocale();
 
 const authStore = useAuthStore();
-
 const appStore = useAppStore();
 
 const schema = object().shape({
@@ -29,25 +27,13 @@ const vuetifyConfig = (state) => ({
 
 const [email, emailProps] = defineField("email", vuetifyConfig);
 
-const toaster = createToaster({
-  position: "top-right",
-  duration: 3000,
-  queue: true,
-  pauseOnHover: true,
-  useDefaultCss: true
-});
-
 const onSubmit = handleSubmit(async (values) => {
-  appStore.togglePreloader();
-
   try {
+    appStore.setPageLoader(true);
     await authStore.forgotPassword(values.email);
-
-    appStore.togglePreloader();
   } catch (error) {
-    const errorMessages = error.response.data;
-    errorMessages.forEach((message) => toaster.error(message));
-    appStore.togglePreloader();
+    console.error(error);
+    appStore.setPageLoader(false);
   }
 });
 </script>
@@ -86,7 +72,7 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
 
     <div class="d-flex justify-center mt-7 mb-lg-2 mb-sm-0">
-      <router-link :to="{ name: 'login', params: { page: 'login' } }" class="text-primary text-decoration-none" v-show="!loading">
+      <router-link :to="{ name: 'login', params: { page: 'login' } }" class="text-primary text-decoration-none">
         <v-icon icon="$return" />
         <span class="ml-2">
           {{ t("auth.forgotPassword.back") }}

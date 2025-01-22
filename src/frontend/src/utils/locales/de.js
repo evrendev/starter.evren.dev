@@ -16,6 +16,11 @@ export default {
         placeholder: "Geben Sie Ihr Passwort ein",
         required: "Passwort ist erforderlich"
       },
+      recaptcha: {
+        label: "Ich bin kein Roboter",
+        required: "Recaptcha ist erforderlich",
+        invalid: "Recaptcha-Überprüfung fehlgeschlagen"
+      },
       rememberMe: "Erinnere dich an mich",
       forgotPassword: "Passwort vergessen?",
       submit: "Anmelden",
@@ -40,6 +45,31 @@ export default {
       back: "Zurück zur Anmeldung",
       submit: "Passwort zurücksetzen"
     }
+  },
+  components: {
+    verticalHeader: {
+      languages: {
+        en: "English",
+        tr: "Turkish",
+        de: "German"
+      },
+      profile: {
+        settings: "Einstellungen",
+        logout: "Abmelden",
+        goodMorning: "Guten Morgen",
+        goodAfternoon: "Guten Tag",
+        goodEvening: "Guten Abend"
+      }
+    },
+    footerPanel: {
+      home: "Startseite",
+      documentation: "Dokumentation",
+      support: "Unterstützung"
+    }
+  },
+  messages: {
+    success: "Vorgang erfolgreich",
+    error: "Anfrage fehlgeschlagen"
   },
   $vuetify: {
     ...de

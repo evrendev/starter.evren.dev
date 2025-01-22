@@ -1,17 +1,19 @@
 <script setup>
 import { shallowRef } from "vue";
+import { useLocale } from "vuetify";
+const { t } = useLocale();
 
 const footerLink = shallowRef([
   {
-    title: "Home",
+    title: t("components.footerPanel.home"),
     url: "https://evren.dev/"
   },
   {
-    title: "Documentation",
+    title: t("components.footerPanel.documentation"),
     url: "https://evren.dev/panel/documentation"
   },
   {
-    title: "Support",
+    title: t("components.footerPanel.support"),
     url: "https://support.evren.dev/"
   }
 ]);

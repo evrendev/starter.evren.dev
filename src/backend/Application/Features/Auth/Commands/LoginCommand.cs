@@ -132,7 +132,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
                 FullName = user.FullName,
-                Image = user.Image ?? "avatar.png",
+                Image = user.Image ?? "@/assets/images/icons/default-user.svg",
                 JobTitle = user.JobTitle ?? string.Empty,
                 Language = user.Language,
                 Permissions = permissions

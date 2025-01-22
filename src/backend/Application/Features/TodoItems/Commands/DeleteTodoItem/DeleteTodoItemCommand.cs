@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace EvrenDev.Application.Features.TodoItems.Commands.DeleteTodoItem;
 public class DeleteTodoItemCommand : IRequest<Result<bool>>
 {
