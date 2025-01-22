@@ -9,8 +9,8 @@ const { t } = useLocale();
 
 const languages = config.languages;
 
-const changeLanguage = (lang) => {
-  LocaleHelper.switchLanguage(lang);
+const changeLanguage = async (lang) => {
+  await LocaleHelper.switchLanguage(lang);
 };
 </script>
 

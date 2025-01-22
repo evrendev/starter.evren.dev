@@ -1,3 +1,3 @@
 export * from "./api";
-export * from "./locale";
-export * from "./notification";
+export { default as LocaleHelper } from "./locale";
+export { default as NotificationService } from "./notification";

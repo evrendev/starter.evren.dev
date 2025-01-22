@@ -5,11 +5,11 @@ import VerticalHeaderVue from "./vertical-header/VerticalHeader.vue";
 import FooterPanel from "./footer/FooterPanel.vue";
 import { useCustomizerStore } from "../../stores/customizer";
 const customizer = useCustomizerStore();
-import config from "@/config";
+import { LocaleHelper } from "@/utils/helpers";
 </script>
 
 <template>
-  <v-locale-provider :locale="config.defaultLocale">
+  <v-locale-provider :locale="LocaleHelper.currentLocale">
     <v-app
       theme="NavyTheme"
       :class="[customizer.fontTheme, customizer.mini_sidebar ? 'mini-sidebar' : '', customizer.inputBg ? 'inputWithbg' : '']"
@@ -32,3 +32,9 @@ import config from "@/config";
     </v-app>
   </v-locale-provider>
 </template>
+
+<style lang="scss">
+.grecaptcha-badge {
+  display: none !important;
+}
+</style>

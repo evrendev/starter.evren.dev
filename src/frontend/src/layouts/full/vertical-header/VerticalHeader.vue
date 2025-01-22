@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useCustomizerStore } from "../../../stores/customizer";
+import { useCustomizerStore } from "@/stores/customizer";
 // Icon Imports
 import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon, LanguageIcon } from "vue-tabler-icons";
 

@@ -22,23 +22,33 @@ class LocaleHelper {
   }
 
   static async switchLanguage(newLocale) {
-    if (!this.isLocaleSupported(newLocale)) {
-      throw new Error(`Locale ${newLocale} is not supported`);
-    }
+    try {
+      if (!this.isLocaleSupported(newLocale)) {
+        throw new Error(`Locale ${newLocale} is not supported`);
+      }
 
-    await this.loadLocaleMessages(newLocale);
-    this.currentLocale = newLocale;
-    this.updateDocumentLang(newLocale);
-    this.persistLocale(newLocale);
+      await this.loadLocaleMessages(newLocale);
+      await nextTick(); // Wait for Vue to update
+      this.currentLocale = newLocale;
+      this.updateDocumentLang(newLocale);
+      this.persistLocale(newLocale);
+
+      return true;
+    } catch (error) {
+      console.error("Failed to switch language:", error);
+      throw error;
+    }
   }
 
   static async loadLocaleMessages(locale) {
     try {
       if (!i18n.global.availableLocales.includes(locale)) {
         const messages = await import(`../locales/${locale}.js`);
+        if (!messages?.default) {
+          throw new Error(`No messages found for locale ${locale}`);
+        }
         i18n.global.setLocaleMessage(locale, messages.default);
       }
-      return nextTick();
     } catch (error) {
       console.error(`Failed to load locale messages for ${locale}:`, error);
       throw error;
@@ -69,8 +79,15 @@ class LocaleHelper {
 
   static updateDocumentLang(locale) {
     document.documentElement.setAttribute("lang", locale);
-    document.querySelector("meta[name='language']")?.setAttribute("content", locale);
-    document.querySelector("meta[http-equiv='content-language']")?.setAttribute("content", locale);
+    const metaLang = document.querySelector("meta[name='language']");
+    if (!metaLang) {
+      const meta = document.createElement("meta");
+      meta.setAttribute("name", "language");
+      meta.setAttribute("content", locale);
+      document.head.appendChild(meta);
+    } else {
+      metaLang.setAttribute("content", locale);
+    }
   }
 
   static guessDefaultLocale() {

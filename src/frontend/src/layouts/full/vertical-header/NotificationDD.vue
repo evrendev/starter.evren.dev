@@ -7,9 +7,6 @@ const selectNotify = ref("All Notifications");
 </script>
 
 <template>
-  <!-- ---------------------------------------------- -->
-  <!-- notifications DD -->
-  <!-- ---------------------------------------------- -->
   <div class="pa-4">
     <div class="d-flex align-center justify-space-between mb-3">
       <h6 class="text-subtitle-1">
