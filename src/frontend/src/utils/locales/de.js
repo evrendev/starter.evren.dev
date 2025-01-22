@@ -60,6 +60,10 @@ export default {
       support: "Unterstützung"
     }
   },
+  messages: {
+    success: "Vorgang erfolgreich",
+    error: "Anfrage fehlgeschlagen"
+  },
   $vuetify: {
     ...de
   }

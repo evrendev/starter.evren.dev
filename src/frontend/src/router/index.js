@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { useAppStore } from "@/stores/app";
+import { useAuthStore, useAppStore } from "@/stores";
 import PanelRoutes from "./panel-routes";
 import AuthRoutes from "./auth-routes";
-import { storeToRefs } from "pinia";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,10 +24,12 @@ export const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const publicPages = ["/"];
   const authStore = useAuthStore();
-  const { user, returnUrl } = storeToRefs(authStore);
+  const { user, returnUrl } = authStore;
 
   const isPublicPage = publicPages.includes(to.path);
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
+
+  // console.log(isPublicPage, authRequired, user.value, to.fullPath);
 
   if (authRequired && !user) {
     authStore.setReturnUrl(to.fullPath);
@@ -47,6 +47,6 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach(() => {
-  const app = useAppStore();
-  app.setPageLoader(false);
+  const appStore = useAppStore();
+  appStore.setPageLoader(false);
 });

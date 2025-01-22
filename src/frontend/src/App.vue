@@ -1,11 +1,11 @@
 <script setup>
 import { RouterView } from "vue-router";
 import { useRecaptchaProvider } from "vue-recaptcha";
-
-// Initialize recaptcha provider once at app root
+import { VSonner } from "vuetify-sonner";
 useRecaptchaProvider();
 </script>
 
 <template>
+  <v-sonner />
   <RouterView></RouterView>
 </template>

@@ -3,7 +3,6 @@ import Logo from "@/layouts/full/logo/LogoDark.vue";
 import { useForm } from "vee-validate";
 import { useLocale } from "vuetify";
 import { object, string } from "yup";
-import { createToaster } from "@meforma/vue-toaster";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 
@@ -28,21 +27,12 @@ const vuetifyConfig = (state) => ({
 
 const [email, emailProps] = defineField("email", vuetifyConfig);
 
-const toaster = createToaster({
-  position: "top-right",
-  duration: 3000,
-  queue: true,
-  pauseOnHover: true,
-  useDefaultCss: true
-});
-
 const onSubmit = handleSubmit(async (values) => {
   try {
     appStore.setPageLoader(true);
     await authStore.forgotPassword(values.email);
   } catch (error) {
-    const errorMessages = error.response.data;
-    errorMessages.forEach((message) => toaster.error(message));
+    console.error(error);
     appStore.setPageLoader(false);
   }
 });

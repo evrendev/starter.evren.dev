@@ -11,7 +11,8 @@ export const useAuthStore = defineStore({
       user: null,
       token: null,
       refreshToken: null,
-      returnUrl: null
+      returnUrl: null,
+      rememberMe: false
     })
   }),
   getters: {
@@ -19,14 +20,9 @@ export const useAuthStore = defineStore({
     user: (state) => state.auth.user,
     token: (state) => state.auth.token,
     refreshToken: (state) => state.auth.refreshToken,
-    returnUrl: (state) => state.auth.returnUrl ?? "/dashboard"
+    returnUrl: (state) => state.auth.returnUrl
   },
   actions: {
-    setReturnUrl(url) {
-      this.auth = {
-        returnUrl: url
-      };
-    },
     async login(data) {
       const res = await apiService.post("/auth/login", data);
 
@@ -47,34 +43,30 @@ export const useAuthStore = defineStore({
         };
 
         router.push(this.returnUrl || "/dashboard");
-        window.location.reload();
       }
     },
-    // async verify(code) {
-    //   const rememberMachine = this.rememberMe;
-    //   const cleanCode = code.replace(/\s+/g, "").replace(/[^0-9]/g, "");
+    async refresh() {
+      const res = await apiService.post("/auth/refresh-token", {
+        userId: this.user?.id,
+        refreshToken: this.refreshToken
+      });
 
-    //   const userId = this.userId;
-    //   if (!userId) router.push("/auth/login");
-
-    //   const user = await axiosInstance.post(`${baseUrl}/2fa/verify`, {
-    //     userId: userId,
-    //     code: cleanCode,
-    //     rememberMachine: rememberMachine
-    //   });
-
-    //   // update pinia state
-    //   this.user = user?.data.user;
-    //   this.token = user?.data.token;
-    //   this.refreshToken = user?.data.refreshToken;
-
-    //   router.push(this.returnUrl || "/dashboard");
-    // },
+      this.auth = {
+        isAuthenticated: true,
+        user: res?.user,
+        token: res?.token,
+        refreshToken: res?.refreshToken
+      };
+    },
     logout() {
-      this.auth = {};
-
-      localStorage.removeItem("user");
+      this.auth = null;
       router.push("/auth/login");
+      window.location.reload();
+    },
+    setReturnUrl(url) {
+      this.auth = {
+        returnUrl: url
+      };
     }
   }
 });

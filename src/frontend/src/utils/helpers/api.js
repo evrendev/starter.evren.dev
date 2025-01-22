@@ -1,4 +1,5 @@
 import axios from "axios";
+import NotificationService from "./notification";
 
 const baseURL = import.meta.env.VITE_API_URL;
 const acceptLanguage = document.documentElement.lang;
@@ -26,6 +27,7 @@ class ApiService {
   async post(endpoint, data) {
     try {
       const response = await apiClient.post(endpoint, data);
+      NotificationService.handleApiResponse(response);
       return response.data;
     } catch (error) {
       this.handleError(error);
@@ -37,6 +39,7 @@ class ApiService {
   async put(endpoint, data) {
     try {
       const response = await apiClient.put(endpoint, data);
+      NotificationService.handleApiResponse(response);
       return response.data;
     } catch (error) {
       this.handleError(error);
@@ -48,6 +51,7 @@ class ApiService {
   async delete(endpoint) {
     try {
       const response = await apiClient.delete(endpoint);
+      NotificationService.handleApiResponse(response);
       return response.data;
     } catch (error) {
       this.handleError(error);
@@ -55,11 +59,10 @@ class ApiService {
     }
   }
 
-  // Error handler
   handleError(error) {
     const errorMessage = error.response?.data?.message || "An error occurred";
     console.error("API Error:", errorMessage);
-    // You can add custom error handling here (e.g., showing notifications)
+    NotificationService.handleApiResponse(error.response);
   }
 }
 

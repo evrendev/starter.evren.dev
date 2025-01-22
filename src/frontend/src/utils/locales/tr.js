@@ -60,6 +60,10 @@ export default {
       support: "Destek"
     }
   },
+  messages: {
+    success: "İşlem başarılı",
+    error: "İstek başarısız"
+  },
   $vuetify: {
     ...tr
   }

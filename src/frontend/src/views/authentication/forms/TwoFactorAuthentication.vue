@@ -3,7 +3,6 @@ import Logo from "@/layouts/full/logo/LogoDark.vue";
 import { useForm } from "vee-validate";
 import { useLocale } from "vuetify";
 import { object, string } from "yup";
-import { createToaster } from "@meforma/vue-toaster";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
@@ -36,21 +35,12 @@ const vuetifyConfig = (state) => ({
 
 const [code, codeProps] = defineField("code", vuetifyConfig);
 
-const toaster = createToaster({
-  position: "top-right",
-  duration: 3000,
-  queue: true,
-  pauseOnHover: true,
-  useDefaultCss: true
-});
-
 const onSubmit = handleSubmit(async (values) => {
   try {
     appStore.setPageLoader(true);
     await authStore.verify(values.code);
   } catch (error) {
-    const errorMessage = error.response.data;
-    toaster.error(errorMessage);
+    console.error(error);
     appStore.setPageLoader(false);
   }
 });

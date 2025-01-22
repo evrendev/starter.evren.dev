@@ -2,95 +2,106 @@ import config from "@/config";
 import { i18n } from "@/plugins";
 import { nextTick } from "vue";
 
-const LocaleHelper = {
-  get defaultLocale() {
-    return localStorage.getItem("lang") || navigator.language.slice(0, 2) || config.defaultLocale;
-  },
+class LocaleHelper {
+  static #STORAGE_KEY = "lang";
 
-  get supportedLocales() {
+  static get defaultLocale() {
+    return localStorage.getItem(this.#STORAGE_KEY) || navigator.language.slice(0, 2) || config.defaultLocale;
+  }
+
+  static get supportedLocales() {
     return config.languages;
-  },
+  }
 
-  get currentLocale() {
+  static get currentLocale() {
     return i18n.global.locale.value;
-  },
+  }
 
-  set currentLocale(newLocale) {
+  static set currentLocale(newLocale) {
     i18n.global.locale.value = newLocale;
-  },
+  }
 
-  async switchLanguage(newLocale) {
-    await LocaleHelper.loadLocaleMessages(newLocale);
-    LocaleHelper.currentLocale = newLocale;
-    document.querySelector("html").setAttribute("lang", newLocale);
-    document.querySelector("meta").setAttribute("lang", newLocale);
-    document.querySelector("meta[http-equiv='content-language']").setAttribute("content", newLocale);
-
-    localStorage.setItem("lang", newLocale);
-  },
-
-  async loadLocaleMessages(locale) {
-    if (!i18n.global.availableLocales.includes(locale)) {
-      const messages = await import(/* webpackChunkName: "locale-[request]" */ `../locales/${locale}.js`);
-      i18n.global.setLocaleMessage(locale, messages.default);
+  static async switchLanguage(newLocale) {
+    if (!this.isLocaleSupported(newLocale)) {
+      throw new Error(`Locale ${newLocale} is not supported`);
     }
 
-    return nextTick();
-  },
+    await this.loadLocaleMessages(newLocale);
+    this.currentLocale = newLocale;
+    this.updateDocumentLang(newLocale);
+    this.persistLocale(newLocale);
+  }
 
-  isLocaleSupported(locale) {
-    return LocaleHelper.supportedLocales.includes(locale);
-  },
+  static async loadLocaleMessages(locale) {
+    try {
+      if (!i18n.global.availableLocales.includes(locale)) {
+        const messages = await import(`../locales/${locale}.js`);
+        i18n.global.setLocaleMessage(locale, messages.default);
+      }
+      return nextTick();
+    } catch (error) {
+      console.error(`Failed to load locale messages for ${locale}:`, error);
+      throw error;
+    }
+  }
 
-  getUserLocale() {
-    const locale = window.navigator.language || window.navigator.userLanguage || LocaleHelper.defaultLocale;
+  static isLocaleSupported(locale) {
+    return this.supportedLocales.includes(locale);
+  }
+
+  static getUserLocale() {
+    const locale = window.navigator.language || window.navigator.userLanguage || this.defaultLocale;
 
     return {
-      locale: locale,
+      locale,
       localeNoRegion: locale.split("-")[0]
     };
-  },
+  }
 
-  getPersistedLocale() {
-    const persistedLocale = localStorage.getItem("lang");
+  static getPersistedLocale() {
+    const persistedLocale = localStorage.getItem(this.#STORAGE_KEY);
+    return this.isLocaleSupported(persistedLocale) ? persistedLocale : null;
+  }
 
-    if (LocaleHelper.isLocaleSupported(persistedLocale)) {
-      return persistedLocale;
-    } else {
-      return null;
-    }
-  },
+  static persistLocale(locale) {
+    localStorage.setItem(this.#STORAGE_KEY, locale);
+  }
 
-  guessDefaultLocale() {
-    const userPersistedLocale = LocaleHelper.getPersistedLocale();
+  static updateDocumentLang(locale) {
+    document.documentElement.setAttribute("lang", locale);
+    document.querySelector("meta[name='language']")?.setAttribute("content", locale);
+    document.querySelector("meta[http-equiv='content-language']")?.setAttribute("content", locale);
+  }
+
+  static guessDefaultLocale() {
+    const userPersistedLocale = this.getPersistedLocale();
     if (userPersistedLocale) {
       return userPersistedLocale;
     }
 
-    const userPreferredLocale = LocaleHelper.getUserLocale();
+    const { locale, localeNoRegion } = this.getUserLocale();
 
-    if (LocaleHelper.isLocaleSupported(userPreferredLocale.locale)) {
-      return userPreferredLocale.locale;
+    if (this.isLocaleSupported(locale)) {
+      return locale;
     }
 
-    if (LocaleHelper.isLocaleSupported(userPreferredLocale.localeNoRegion)) {
-      return userPreferredLocale.localeNoRegion;
+    if (this.isLocaleSupported(localeNoRegion)) {
+      return localeNoRegion;
     }
 
-    return LocaleHelper.defaultLocale;
-  },
+    return this.defaultLocale;
+  }
 
-  async routeMiddleware(to, _from, next) {
+  static async routeMiddleware(to, _from, next) {
     const paramLocale = to.params.locale;
 
-    if (!LocaleHelper.isLocaleSupported(paramLocale)) {
-      return next(LocaleHelper.guessDefaultLocale());
+    if (!this.isLocaleSupported(paramLocale)) {
+      return next(this.guessDefaultLocale());
     }
 
-    await LocaleHelper.switchLanguage(paramLocale);
-
+    await this.switchLanguage(paramLocale);
     return next();
   }
-};
+}
 
 export default LocaleHelper;

@@ -5,10 +5,8 @@ import { useLocale } from "vuetify";
 import { useForm } from "vee-validate";
 import { object, string, boolean } from "yup";
 import { ChallengeV3 } from "vue-recaptcha";
-import { createToaster } from "@meforma/vue-toaster";
 import { until } from "@vueuse/core";
-import { useAuthStore } from "@/stores/auth";
-import { useAppStore } from "@/stores/app";
+import { useAuthStore, useAppStore } from "@/stores/";
 import { storeToRefs } from "pinia";
 
 const { t } = useLocale();
@@ -41,14 +39,6 @@ const [response] = defineField("response", vuetifyConfig);
 
 const showPassword = ref(false);
 
-const toaster = createToaster({
-  position: "top-right",
-  duration: 3000,
-  queue: true,
-  pauseOnHover: true,
-  useDefaultCss: true
-});
-
 const onSubmit = handleSubmit(async (values) => {
   try {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -58,8 +48,7 @@ const onSubmit = handleSubmit(async (values) => {
     await authStore.login(values);
   } catch (error) {
     resetForm();
-    const errorMessages = error.response.data;
-    errorMessages.forEach((message) => toaster.error(message));
+    console.error(error);
     appStore.setPageLoader(false);
   }
 });
