@@ -12,7 +12,7 @@ public class UserDto
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
+    public string? Image { get; set; } = null;
     public string JobTitle { get; set; } = string.Empty;
     public Language? Language { get; set; } = Defaults.Language;
     public List<string> Permissions { get; set; } = new();

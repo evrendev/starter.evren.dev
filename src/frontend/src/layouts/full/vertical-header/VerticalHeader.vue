@@ -1,14 +1,15 @@
 <script setup>
-import { useCustomizerStore } from "@/stores/customizer";
-// Icon Imports
+import { useAuthStore, useCustomizerStore } from "@/stores";
 import { BellIcon, SettingsIcon, Menu2Icon, LanguageIcon } from "vue-tabler-icons";
 
-// dropdown imports
 import NotificationDD from "./NotificationDD.vue";
 import ProfileDD from "./ProfileDD.vue";
 import LanguageDD from "./LanguageDD.vue";
 
 const customizer = useCustomizerStore();
+const authStore = useAuthStore();
+
+const { user } = authStore;
 </script>
 
 <template>
@@ -37,10 +38,6 @@ const customizer = useCustomizerStore();
     </v-btn>
 
     <v-spacer />
-    <!-- ---------------------------------------------- -->
-    <!---right part -->
-    <!-- ---------------------------------------------- -->
-
     <!-- ---------------------------------------------- -->
     <!-- Notification -->
     <!-- ---------------------------------------------- -->
@@ -75,13 +72,13 @@ const customizer = useCustomizerStore();
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn class="profileBtn text-primary" color="lightprimary" variant="flat" rounded="pill" v-bind="props">
-          <v-avatar size="30" class="mr-2 py-2">
-            <img src="@/assets/images/profile/user-round.svg" alt="Julia" />
+          <v-avatar class="mr-4" color="primary" size="32">
+            <span class="text-h5">{{ user.initial }}</span>
           </v-avatar>
           <SettingsIcon stroke-width="1.5" />
         </v-btn>
       </template>
-      <v-sheet rounded="md" width="330" elevation="12">
+      <v-sheet rounded="md" width="300" elevation="12">
         <ProfileDD />
       </v-sheet>
     </v-menu>

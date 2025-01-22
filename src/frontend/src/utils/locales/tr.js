@@ -52,6 +52,13 @@ export default {
         en: "English",
         tr: "Turkish",
         de: "German"
+      },
+      profile: {
+        settings: "Ayarlar",
+        logout: "Çıkış Yap",
+        goodMorning: "Günaydın",
+        goodAfternoon: "İyi Günler",
+        goodEvening: "İyi Akşamlar"
       }
     },
     footerPanel: {
