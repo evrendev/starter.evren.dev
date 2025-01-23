@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useLocalStorage } from "@vueuse/core";
 import config from "@/config";
 
 export const useCustomizerStore = defineStore({
@@ -9,7 +10,7 @@ export const useCustomizerStore = defineStore({
     miniSidebar: config.miniSidebar,
     fontTheme: config.fontTheme,
     inputBg: config.inputBg,
-    theme: config.theme
+    theme: useLocalStorage("theme", config.theme)
   }),
 
   getters: {},
@@ -26,8 +27,8 @@ export const useCustomizerStore = defineStore({
     SET_FONT(payload) {
       this.fontTheme = payload;
     },
-    SET_THEME(payload) {
-      this.theme = payload;
+    TOGGLE_THEME() {
+      this.theme = this.theme === "DarkTheme" ? "LightTheme" : "DarkTheme";
     }
   }
 });

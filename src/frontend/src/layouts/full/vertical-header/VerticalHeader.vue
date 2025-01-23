@@ -1,6 +1,6 @@
 <script setup>
 import { useAuthStore, useCustomizerStore } from "@/stores";
-import { BellIcon, SettingsIcon, Menu2Icon, LanguageIcon } from "vue-tabler-icons";
+import { BellIcon, SettingsIcon, Menu2Icon, LanguageIcon, SunIcon, MoonIcon } from "vue-tabler-icons";
 
 import NotificationDD from "./NotificationDD.vue";
 import ProfileDD from "./ProfileDD.vue";
@@ -51,6 +51,22 @@ const { user } = authStore;
         <NotificationDD />
       </v-sheet>
     </v-menu>
+
+    <!-- ---------------------------------------------- -->
+    <!-- Theme Toggle -->
+    <!-- ---------------------------------------------- -->
+    <v-btn
+      icon
+      class="text-secondary mx-3"
+      color="lightsecondary"
+      rounded="sm"
+      size="small"
+      variant="flat"
+      @click="customizer.TOGGLE_THEME()"
+    >
+      <SunIcon v-if="customizer.theme === 'dark'" stroke-width="1.5" size="22" />
+      <MoonIcon v-else stroke-width="1.5" size="22" />
+    </v-btn>
 
     <!-- ---------------------------------------------- -->
     <!-- Language -->
