@@ -4,6 +4,7 @@
   "api.auth.login.not-found": "Benutzerkonto nicht gefunden",
   "api.auth.login.deleted": "Benutzerkonto wurde gelöscht",
   "api.auth.login.invalid-credentials": "Ungültige Anmeldeinformationen",
+  "api.auth.login.invalid-tenant": "Ungültiger Mandant",
   "api.auth.login.email.required": "E-Mail ist erforderlich",
   "api.auth.login.email.invalid": "Ungültige E-Mail",
   "api.auth.login.password.required": "Passwort ist erforderlich",
