@@ -53,6 +53,20 @@ const { user } = authStore;
     </v-menu>
 
     <!-- ---------------------------------------------- -->
+    <!-- Language -->
+    <!-- ---------------------------------------------- -->
+    <v-menu :close-on-content-click="false">
+      <template v-slot:activator="{ props }">
+        <v-btn icon class="text-secondary mx-3" color="surface-light" rounded="sm" size="small" variant="flat" v-bind="props">
+          <LanguageIcon stroke-width="1.5" size="22" />
+        </v-btn>
+      </template>
+      <v-sheet rounded="md" width="150" elevation="12">
+        <LanguageDD />
+      </v-sheet>
+    </v-menu>
+
+    <!-- ---------------------------------------------- -->
     <!-- Theme Toggle -->
     <!-- ---------------------------------------------- -->
     <v-btn
@@ -67,20 +81,6 @@ const { user } = authStore;
       <SunIcon v-if="customizer.theme === 'dark'" stroke-width="1.5" size="22" />
       <MoonIcon v-else stroke-width="1.5" size="22" />
     </v-btn>
-
-    <!-- ---------------------------------------------- -->
-    <!-- Language -->
-    <!-- ---------------------------------------------- -->
-    <v-menu :close-on-content-click="false">
-      <template v-slot:activator="{ props }">
-        <v-btn icon class="text-secondary mx-3" color="surface-light" rounded="sm" size="small" variant="flat" v-bind="props">
-          <LanguageIcon stroke-width="1.5" size="22" />
-        </v-btn>
-      </template>
-      <v-sheet rounded="md" width="150" elevation="12">
-        <LanguageDD />
-      </v-sheet>
-    </v-menu>
 
     <!-- ---------------------------------------------- -->
     <!-- User Profile -->
