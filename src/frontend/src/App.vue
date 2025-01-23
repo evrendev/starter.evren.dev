@@ -12,5 +12,9 @@ useRecaptchaProvider();
 
 <template>
   <v-sonner />
-  <RouterView :key="key"></RouterView>
+  <RouterView v-slot="{ Component }">
+    <v-fade-transition mode="out-in">
+      <component :is="Component" :key="key" />
+    </v-fade-transition>
+  </RouterView>
 </template>
