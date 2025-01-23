@@ -1,5 +1,5 @@
-const NavyTheme = {
-  name: "NavyTheme",
+const NavyLightTheme = {
+  name: "NavyLightTheme",
   dark: false,
   variables: {
     "border-color": "#5e35b1",
@@ -36,4 +36,4 @@ const NavyTheme = {
   }
 };
 
-export { NavyTheme };
+export { NavyLightTheme };

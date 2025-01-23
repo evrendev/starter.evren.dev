@@ -9,7 +9,7 @@ const customizer = useCustomizerStore();
 
 <template>
   <v-app
-    theme="NavyTheme"
+    :theme="customizer.theme"
     :class="[customizer.fontTheme, customizer.miniSidebar ? 'mini-sidebar' : '', customizer.inputBg ? 'inputWithbg' : '']"
   >
     <VerticalSidebarVue />

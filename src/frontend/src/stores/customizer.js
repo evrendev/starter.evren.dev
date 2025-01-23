@@ -8,7 +8,8 @@ export const useCustomizerStore = defineStore({
     customizerDrawer: config.customizerDrawer,
     miniSidebar: config.miniSidebar,
     fontTheme: config.fontTheme,
-    inputBg: config.inputBg
+    inputBg: config.inputBg,
+    theme: config.theme
   }),
 
   getters: {},
@@ -24,6 +25,9 @@ export const useCustomizerStore = defineStore({
     },
     SET_FONT(payload) {
       this.fontTheme = payload;
+    },
+    SET_THEME(payload) {
+      this.theme = payload;
     }
   }
 });

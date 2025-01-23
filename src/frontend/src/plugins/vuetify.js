@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import { createVuetify } from "vuetify";
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { icons } from "@/plugins/mdi-icon";
-import { NavyTheme } from "@/theme/LightTheme";
+import { NavyLightTheme, NavyDarkTheme } from "@/theme";
 import { createVueI18nAdapter } from "vuetify/locale/adapters/vue-i18n";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
@@ -23,9 +23,10 @@ export default createVuetify({
     }
   },
   theme: {
-    defaultTheme: "NavyTheme",
+    defaultTheme: "NavyLightTheme",
     themes: {
-      NavyTheme
+      NavyLightTheme,
+      NavyDarkTheme
     }
   },
   locale: {
