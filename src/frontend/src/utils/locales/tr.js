@@ -65,6 +65,11 @@ export default {
       home: "Anasayfa",
       documentation: "Dökümantasyon",
       support: "Destek"
+    },
+    sidebar: {
+      dashboard: {
+        header: "Yönetim Paneli"
+      }
     }
   },
   messages: {

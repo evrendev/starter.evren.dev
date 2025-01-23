@@ -65,6 +65,11 @@ export default {
       home: "Startseite",
       documentation: "Dokumentation",
       support: "Unterstützung"
+    },
+    sidebar: {
+      dashboard: {
+        header: "Dashboard"
+      }
     }
   },
   messages: {

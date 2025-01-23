@@ -1,7 +1,7 @@
 import { CircleIcon, KeyIcon, BugIcon, DashboardIcon } from "vue-tabler-icons";
 
 const sidebarItem = [
-  { header: "Dashboard" },
+  { header: "components.sidebar.dashboard.header" },
   {
     title: "Default",
     icon: DashboardIcon,
