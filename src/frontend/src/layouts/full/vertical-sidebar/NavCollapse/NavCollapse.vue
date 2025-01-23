@@ -1,6 +1,8 @@
 <script setup>
 import NavItem from "../NavItem/NavItem.vue";
 import Icon from "../IconSet.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const props = defineProps({ item: Object, level: Number });
 </script>
@@ -20,10 +22,10 @@ const props = defineProps({ item: Object, level: Number });
           <Icon :item="item.icon" :level="level" />
         </template>
         <!---Title  -->
-        <v-list-item-title class="mr-auto">{{ item.title }}</v-list-item-title>
+        <v-list-item-title class="mr-auto">{{ t(item.title) }}</v-list-item-title>
         <!---If Caption-->
         <v-list-item-subtitle v-if="item.subCaption" class="text-caption mt-n1 hide-menu">
-          {{ item.subCaption }}
+          {{ t(item.subCaption) }}
         </v-list-item-subtitle>
       </v-list-item>
     </template>

@@ -68,7 +68,30 @@ export default {
     },
     sidebar: {
       dashboard: {
-        header: "Yönetim Paneli"
+        header: "Yönetim Paneli",
+        title: "Anasayfa"
+      },
+      todos: {
+        header: "Görevler",
+        title: "Liste"
+      },
+      admin: {
+        title: "Yönetici"
+      },
+      users: {
+        title: "Kullanıcılar",
+        list: "Liste",
+        new: "Yeni"
+      },
+      roles: {
+        title: "Roller",
+        list: "Liste",
+        new: "Yeni"
+      },
+      tenants: {
+        title: "Kiracılar",
+        list: "Liste",
+        new: "Yeni"
       }
     }
   },

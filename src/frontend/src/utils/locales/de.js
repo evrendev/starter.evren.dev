@@ -68,7 +68,30 @@ export default {
     },
     sidebar: {
       dashboard: {
-        header: "Dashboard"
+        header: "Dashboard",
+        title: "Startseite"
+      },
+      todos: {
+        header: "Todos",
+        title: "Listen"
+      },
+      admin: {
+        title: "Admin"
+      },
+      users: {
+        title: "Benutzer",
+        list: "Liste",
+        new: "Neu"
+      },
+      roles: {
+        title: "Rollen",
+        list: "Liste",
+        new: "Neu"
+      },
+      tenants: {
+        title: "Mandanten",
+        list: "Liste",
+        new: "Neu"
       }
     }
   },
