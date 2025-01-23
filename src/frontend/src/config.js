@@ -1,7 +1,7 @@
 const config = {
-  Sidebar_drawer: true,
-  Customizer_drawer: false,
-  mini_sidebar: false,
+  sidebarDrawer: true,
+  customizerDrawer: false,
+  miniSidebar: false,
   fontTheme: "Roboto",
   inputBg: false,
   defaultLocale: "tr",

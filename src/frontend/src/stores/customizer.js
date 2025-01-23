@@ -4,9 +4,9 @@ import config from "@/config";
 export const useCustomizerStore = defineStore({
   id: "customizer",
   state: () => ({
-    Sidebar_drawer: config.Sidebar_drawer,
-    Customizer_drawer: config.Customizer_drawer,
-    mini_sidebar: config.mini_sidebar,
+    sidebarDrawer: config.sidebarDrawer,
+    customizerDrawer: config.customizerDrawer,
+    miniSidebar: config.miniSidebar,
     fontTheme: config.fontTheme,
     inputBg: config.inputBg
   }),
@@ -14,13 +14,13 @@ export const useCustomizerStore = defineStore({
   getters: {},
   actions: {
     SET_SIDEBAR_DRAWER() {
-      this.Sidebar_drawer = !this.Sidebar_drawer;
+      this.sidebarDrawer = !this.sidebarDrawer;
     },
     SET_MINI_SIDEBAR(payload) {
-      this.mini_sidebar = payload;
+      this.miniSidebar = payload;
     },
     SET_CUSTOMIZER_DRAWER(payload) {
-      this.Customizer_drawer = payload;
+      this.customizerDrawer = payload;
     },
     SET_FONT(payload) {
       this.fontTheme = payload;

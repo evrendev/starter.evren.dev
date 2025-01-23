@@ -20,7 +20,7 @@ const { user } = authStore;
       icon
       rounded="sm"
       variant="flat"
-      @click.stop="customizer.SET_MINI_SIDEBAR(!customizer.mini_sidebar)"
+      @click.stop="customizer.SET_MINI_SIDEBAR(!customizer.miniSidebar)"
       size="small"
     >
       <Menu2Icon size="20" stroke-width="1.5" />
