@@ -14,7 +14,7 @@ export const router = createRouter({
     },
     {
       path: "/:pathMatch(.*)*",
-      component: () => import("@/views/pages/maintenance/error/Error404Page.vue")
+      component: () => import("@/views/errors/Error404Page.vue")
     },
     PanelRoutes,
     AuthRoutes
