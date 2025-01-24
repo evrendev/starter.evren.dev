@@ -1,11 +1,13 @@
-import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon } from "vue-tabler-icons"; // Permission Groups
+import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon } from "vue-tabler-icons"; // Permission Groups
 import { useAuthStore } from "@/stores/auth";
 
 const TODOS_PERMISSIONS = ["Todos.Read", "Todos.Create", "Todos.Edit", "Todos.Delete"];
 const USERS_PERMISSIONS = ["Users.Read", "Users.Create", "Users.Edit", "Users.Delete"];
 const ROLES_PERMISSIONS = ["Roles.Read", "Roles.Create", "Roles.Edit", "Roles.Delete"];
 const TENANTS_PERMISSIONS = ["Tenants.Read", "Tenants.Create", "Tenants.Edit", "Tenants.Delete"];
-const ADMIN_PERMISSIONS = [...USERS_PERMISSIONS, ...ROLES_PERMISSIONS, ...TENANTS_PERMISSIONS];
+const AUDITS_PERMISSIONS = ["Audits.Read", "Audits.Create", "Audits.Edit", "Audits.Delete"];
+
+const ADMIN_PERMISSIONS = [...USERS_PERMISSIONS, ...ROLES_PERMISSIONS, ...TENANTS_PERMISSIONS, ...AUDITS_PERMISSIONS];
 
 // Permission Helpers
 const hasPermission = (permission) => {
@@ -31,7 +33,7 @@ const sidebarItem = [
         {
           title: "components.sidebar.todos.title",
           icon: ListCheckIcon,
-          to: "/dashboard/todos"
+          to: "/admin/todos"
         }
       ]
     : []),
@@ -44,17 +46,17 @@ const sidebarItem = [
               {
                 title: "components.sidebar.users.title",
                 icon: UsersIcon,
-                to: "/dashboard/users",
+                to: "/admin/users",
                 children: [
                   {
                     title: "components.sidebar.users.list",
-                    to: "/dashboard/users"
+                    to: "/admin/users"
                   },
                   ...(hasPermission("Users.Create")
                     ? [
                         {
                           title: "components.sidebar.users.new",
-                          to: "/dashboard/users/new"
+                          to: "/admin/users/new"
                         }
                       ]
                     : [])
@@ -67,17 +69,17 @@ const sidebarItem = [
               {
                 title: "components.sidebar.roles.title",
                 icon: Category2Icon,
-                to: "/dashboard/roles",
+                to: "/admin/roles",
                 children: [
                   {
                     title: "components.sidebar.roles.list",
-                    to: "/dashboard/roles"
+                    to: "/admin/roles"
                   },
                   ...(hasPermission("Roles.Create")
                     ? [
                         {
                           title: "components.sidebar.roles.new",
-                          to: "/dashboard/roles/new"
+                          to: "/admin/roles/new"
                         }
                       ]
                     : [])
@@ -90,21 +92,30 @@ const sidebarItem = [
               {
                 title: "components.sidebar.tenants.title",
                 icon: GitCompareIcon,
-                to: "/dashboard/tenants",
+                to: "/admin/tenants",
                 children: [
                   {
                     title: "components.sidebar.tenants.list",
-                    to: "/dashboard/tenants"
+                    to: "/admin/tenants"
                   },
                   ...(hasPermission("Roles.Create")
                     ? [
                         {
                           title: "components.sidebar.tenants.new",
-                          to: "/dashboard/tenants/new"
+                          to: "/admin/tenants/new"
                         }
                       ]
                     : [])
                 ]
+              }
+            ]
+          : []),
+        ...(hasAnyPermission(AUDITS_PERMISSIONS)
+          ? [
+              {
+                title: "components.sidebar.audits.title",
+                icon: FileBarcodeIcon,
+                to: "/admin/audits"
               }
             ]
           : [])

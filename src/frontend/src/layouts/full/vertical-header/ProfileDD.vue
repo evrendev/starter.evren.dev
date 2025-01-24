@@ -34,7 +34,7 @@ const greeting = () => {
 
     <perfect-scrollbar>
       <v-list class="mt-3">
-        <v-list-item color="secondary" rounded="md" value="settings" to="/dashboard/profile/settings">
+        <v-list-item color="secondary" rounded="md" value="settings" to="/admin/me/settings">
           <template v-slot:prepend>
             <SettingsIcon size="20" class="mr-2" />
           </template>

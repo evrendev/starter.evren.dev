@@ -92,6 +92,9 @@ export default {
         title: "Tenants",
         list: "List",
         new: "New"
+      },
+      audits: {
+        title: "Audits"
       }
     }
   },
