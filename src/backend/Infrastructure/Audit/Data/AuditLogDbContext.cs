@@ -1,13 +1,13 @@
-﻿namespace EvrenDev.Infrastructure.Audit.Data;
+﻿using EvrenDev.Application.Common.Interfaces;
 
-public class AuditLogDbContext : DbContext
+namespace EvrenDev.Infrastructure.Audit.Data;
+
+public class AuditLogDbContext : DbContext, IAuditLogDbContext
 {
     public AuditLogDbContext(DbContextOptions<AuditLogDbContext> options) : base(options)
     {
     }
-
-    public DbSet<AuditLog>? AuditLogs { get; set; }
-
+    public DbSet<AuditLog> Audits => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

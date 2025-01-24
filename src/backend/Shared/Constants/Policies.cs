@@ -21,7 +21,7 @@ public abstract class Policies
         public const string Roles = nameof(Roles);
         public const string Images = nameof(Images);
         public const string Users = nameof(Users);
-        public const string Logs = nameof(Logs);
+        public const string Audits = nameof(Audits);
         public const string Files = nameof(Files);
     }
 
@@ -32,7 +32,7 @@ public abstract class Policies
         Modules.Roles,
         Modules.Images,
         Modules.Users,
-        Modules.Logs,
+        Modules.Audits,
         Modules.Files,
     ];
 
@@ -46,7 +46,7 @@ public abstract class Policies
 
     public static string[] DefaultModules => [
         Modules.Todos,
-        Modules.Logs,
+        Modules.Audits,
         Modules.Files,
     ];
 
