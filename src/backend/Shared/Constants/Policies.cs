@@ -1,4 +1,6 @@
-﻿namespace EvrenDev.Shared.Constants;
+﻿using System.Diagnostics;
+
+namespace EvrenDev.Shared.Constants;
 
 public abstract class Policies
 {
@@ -20,10 +22,7 @@ public abstract class Policies
         public const string Images = nameof(Images);
         public const string Users = nameof(Users);
         public const string Logs = nameof(Logs);
-        public const string Products = "Products";
-        public const string Brands = "Brands";
-        public const string Categories = "Categories";
-        public const string Files = "Files";
+        public const string Files = nameof(Files);
     }
 
     public static string[] AllModules => [
@@ -34,9 +33,6 @@ public abstract class Policies
         Modules.Images,
         Modules.Users,
         Modules.Logs,
-        Modules.Products,
-        Modules.Brands,
-        Modules.Categories,
         Modules.Files,
     ];
 
@@ -48,5 +44,20 @@ public abstract class Policies
         Permissions.Create
     ];
 
+    public static string[] DefaultModules => [
+        Modules.Todos,
+        Modules.Logs,
+        Modules.Files,
+    ];
+
+    public static string[] DefaultPermissions => [
+        Permissions.Read,
+        Permissions.Edit,
+        Permissions.Delete,
+        Permissions.Create
+    ];
+
     public static string[] AllModulesWithPermissions => AllModules.SelectMany(module => AllPermissions.Select(permission => $"{module}.{permission}")).ToArray();
+
+    public static string[] DefaultModulesWithPermissions => DefaultModules.SelectMany(module => DefaultPermissions.Select(permission => $"{module}.{permission}")).ToArray();
 }
