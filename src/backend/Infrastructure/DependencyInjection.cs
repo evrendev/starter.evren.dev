@@ -62,8 +62,10 @@ public static class DependencyInjection
                 .AuditEntityAction<AuditLog>((ev, entry, entity) =>
                 {
                     var user = services.BuildServiceProvider().GetService<ICurrentUser>();
+                    var tenant = services.BuildServiceProvider().GetService<ITenantService>();
                     var ipAddress = services.BuildServiceProvider().GetService<IHttpContextAccessor>()?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
 
+                    entity.TenantId = tenant?.GetCurrentTenantId();
                     entity.Action = entry.Action;
                     entity.AuditData = entry.ToJson();
                     entity.EntityType = entry.EntityType.Name;
