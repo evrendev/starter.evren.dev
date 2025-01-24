@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore, useAppStore } from "@/stores";
-import PanelRoutes from "./panel-routes";
+import AdminRoutes from "./admin-routes";
 import AuthRoutes from "./auth-routes";
 
 export const router = createRouter({
@@ -10,13 +10,13 @@ export const router = createRouter({
   routes: [
     {
       path: "",
-      redirect: "/dashboard"
+      redirect: "/admin"
     },
     {
       path: "/:pathMatch(.*)*",
       component: () => import("@/views/errors/Error404Page.vue")
     },
-    PanelRoutes,
+    AdminRoutes,
     AuthRoutes
   ]
 });

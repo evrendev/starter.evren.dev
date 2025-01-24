@@ -99,6 +99,23 @@ export default {
     success: "İşlem başarılı",
     error: "İstek başarısız"
   },
+  admin: {
+    starter: {
+      title: "Başlangıç",
+      subtitle: "Yönetim Paneline Hoşgeldiniz"
+    },
+    audits: {
+      title: "İşlem Geçmişi",
+      list: "Liste",
+      fields: {
+        id: "ID",
+        fullName: "Ad Soyad",
+        dateTime: "Tarih/Zaman",
+        action: "İşlem",
+        entityType: "Varlık Türü"
+      }
+    }
+  },
   $vuetify: {
     ...tr
   }

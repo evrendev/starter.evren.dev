@@ -102,6 +102,23 @@ export default {
     success: "Operation successful",
     error: "Request failed"
   },
+  admin: {
+    starter: {
+      title: "Starter Page",
+      subtitle: "This is a good place to start"
+    },
+    audits: {
+      title: "Audit Logs",
+      list: "List",
+      fields: {
+        id: "ID",
+        fullName: "Full Name",
+        dateTime: "Date Time",
+        action: "Action",
+        entityType: "Entity Type"
+      }
+    }
+  },
   $vuetify: {
     ...en
   }

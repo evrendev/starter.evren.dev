@@ -99,6 +99,23 @@ export default {
     success: "Vorgang erfolgreich",
     error: "Anfrage fehlgeschlagen"
   },
+  admin: {
+    starter: {
+      title: "Startseite",
+      subtitle: "Willkommen bei der Admin-Panel"
+    },
+    audits: {
+      title: "Audits",
+      list: "Liste",
+      fields: {
+        id: "ID",
+        fullName: "Vollständiger Name",
+        dateTime: "Datum/Uhrzeit",
+        action: "Aktion",
+        entityType: "Entitätstyp"
+      }
+    }
+  },
   $vuetify: {
     ...de
   }

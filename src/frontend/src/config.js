@@ -7,7 +7,8 @@ const config = {
   inputBg: false,
   defaultLocale: "tr",
   fallbackLocale: "en",
-  languages: ["tr", "en", "de"]
+  languages: ["tr", "en", "de"],
+  itemsPerPage: 25
 };
 
 export default config;

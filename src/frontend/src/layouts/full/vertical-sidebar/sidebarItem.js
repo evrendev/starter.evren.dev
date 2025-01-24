@@ -24,7 +24,7 @@ const sidebarItem = [
   {
     title: "components.sidebar.dashboard.title",
     icon: DashboardIcon,
-    to: "/dashboard"
+    to: "/admin"
   },
   ...(hasAnyPermission(TODOS_PERMISSIONS)
     ? [

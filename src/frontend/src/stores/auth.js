@@ -42,7 +42,7 @@ export const useAuthStore = defineStore({
           refreshToken: res?.refreshToken
         };
 
-        router.push(this.returnUrl || "/dashboard");
+        router.push(this.returnUrl || "/admin");
       }
     },
     async refresh() {
