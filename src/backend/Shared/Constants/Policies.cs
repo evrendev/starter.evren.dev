@@ -17,18 +17,16 @@ public abstract class Policies
     {
         public const string Todos = nameof(Todos);
         public const string Tenants = nameof(Tenants);
-        public const string Permissions = nameof(Permissions);
         public const string Roles = nameof(Roles);
-        public const string Images = nameof(Images);
         public const string Users = nameof(Users);
         public const string Audits = nameof(Audits);
         public const string Files = nameof(Files);
+        public const string Images = nameof(Images);
     }
 
     public static string[] AllModules => [
         Modules.Todos,
         Modules.Tenants,
-        Modules.Permissions,
         Modules.Roles,
         Modules.Images,
         Modules.Users,
