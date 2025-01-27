@@ -25,8 +25,13 @@ const AdminRoutes = {
           component: () => import("@/views/tenants/IndexPage.vue")
         },
         {
-          name: "new-tenants",
+          name: "new-tenant",
           path: "new",
+          component: () => import("@/views/tenants/NewPage.vue")
+        },
+        {
+          name: "edit-tenant",
+          path: "edit/:id",
           component: () => import("@/views/tenants/NewPage.vue")
         }
       ]

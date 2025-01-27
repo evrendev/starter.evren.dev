@@ -27,7 +27,8 @@ const headers = ref([
   { title: t("admin.tenants.fields.name"), key: "name", sortable: false },
   { title: t("admin.tenants.fields.admin"), key: "adminEmail", sortable: false },
   { title: t("admin.tenants.fields.validUntil"), key: "validUntil.displayDateWithTime", align: "center", sortable: true },
-  { title: t("admin.tenants.fields.isActive"), key: "isActive", align: "center", sortable: false }
+  { title: t("admin.tenants.fields.isActive"), key: "isActive", align: "center", sortable: false },
+  { title: t("admin.tenants.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 </script>
 
@@ -42,6 +43,12 @@ const headers = ref([
       class="striped"
       item-value="id"
       @update:options="$emit('update:options', $event)"
-    />
+    >
+      <template #[`item.actions`]="{ item }">
+        <router-link :to="{ name: 'edit-tenant', params: { id: item.id } }">
+          <v-icon size="small" icon="$pencil" />
+        </router-link>
+      </template>
+    </v-data-table-server>
   </UiParentCard>
 </template>

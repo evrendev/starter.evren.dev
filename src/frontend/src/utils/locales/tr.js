@@ -136,7 +136,8 @@ export default {
         name: "Ad",
         admin: "Yönetici",
         validUntil: "Bitiş Tarihi",
-        isActive: "Aktif Mi"
+        isActive: "Aktif Mi",
+        detail: "Detay"
       },
       isActive: {
         true: "Aktif",

@@ -136,7 +136,8 @@ export default {
         name: "Name",
         admin: "Admin",
         validUntil: "Gültig bis",
-        isActive: "Ist aktiv"
+        isActive: "Ist aktiv",
+        detail: "Detail"
       },
       isActive: {
         true: "Active",
