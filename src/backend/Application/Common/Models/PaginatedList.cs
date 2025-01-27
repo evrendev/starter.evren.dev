@@ -23,7 +23,7 @@ public class PaginatedList<T>
         // Apply pagination
         var items = await source
             .Skip((page - 1) * itemsPerPage)
-            .Take(itemsPerPage)
+            .Take(itemsPerPage < 1 ? totalCount : itemsPerPage)
             .ToListAsync();
 
         return new PaginatedList<T>(items, totalCount);
