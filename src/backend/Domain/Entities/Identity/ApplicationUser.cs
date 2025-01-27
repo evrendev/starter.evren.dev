@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Domain.Entities.Identity;
 
+[AuditInclude]
 public class ApplicationUser : IdentityUser, ITenant
 {
     public Guid? TenantId { get; set; }
