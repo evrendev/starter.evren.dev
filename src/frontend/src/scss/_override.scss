@@ -71,6 +71,10 @@ html {
         &:nth-of-type(even) {
           background-color: rgba(0, 0, 0, 0.05);
         }
+
+        td {
+          white-space: nowrap;
+        }
       }
     }
   }
@@ -80,6 +84,10 @@ html {
       tr {
         &:nth-of-type(even) {
           background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        td {
+          white-space: nowrap;
         }
       }
     }
