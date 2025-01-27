@@ -31,9 +31,8 @@ const showDetailsModal = ref(false);
 const detailsLoading = ref(false);
 
 const headers = ref([
-  { title: t("admin.audits.fields.id"), key: "id", sortable: true },
   { title: t("admin.audits.fields.user"), key: "email", sortable: false },
-  { title: t("admin.audits.fields.dateTime"), key: "dateTime.displayDateWithTime", align: "center", sortable: false },
+  { title: t("admin.audits.fields.dateTime"), key: "dateTime.displayDateWithTime", align: "center", sortable: true },
   { title: t("admin.audits.fields.action"), key: "action", align: "center", sortable: false },
   { title: t("admin.audits.fields.entityType"), key: "entityType", sortable: false },
   { title: t("admin.audits.fields.detail"), key: "actions", align: "center", sortable: false }
