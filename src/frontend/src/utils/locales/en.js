@@ -115,13 +115,17 @@ export default {
         user: "User",
         dateTime: "Date Time",
         action: "Action",
-        entityType: "Entity Type"
+        entityType: "Entity Type",
+        detail: "Detail"
       },
       actions: {
         insert: "Insert",
         update: "Update",
         delete: "Delete",
         recovered: "Recovered"
+      },
+      details: {
+        title: "Audit Detail"
       }
     }
   },
@@ -134,7 +138,8 @@ export default {
     selectDate: "Select Date",
     all: "All",
     submit: "Submit",
-    reset: "Reset"
+    reset: "Reset",
+    close: "Close"
   },
   $vuetify: {
     ...en

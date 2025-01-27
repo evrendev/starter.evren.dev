@@ -115,13 +115,17 @@ export default {
         user: "Kullanıcı",
         dateTime: "Tarih/Zaman",
         action: "İşlem",
-        entityType: "Varlık Türü"
+        entityType: "Varlık Türü",
+        detail: "Detay"
       },
       actions: {
         insert: "Ekle",
         update: "Güncelle",
         delete: "Sil",
         recovered: "Kurtar"
+      },
+      details: {
+        title: "İşlem Detayı"
       }
     }
   },
@@ -134,7 +138,8 @@ export default {
     selectDate: "Tarih Seç",
     all: "Hepsi",
     submit: "Gönder",
-    reset: "Sıfırla"
+    reset: "Sıfırla",
+    close: "Kapat"
   },
   $vuetify: {
     ...tr

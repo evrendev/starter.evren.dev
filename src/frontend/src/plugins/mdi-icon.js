@@ -13,7 +13,8 @@ import {
   mdiAlertCircle,
   mdiAlert,
   mdiInformation,
-  mdiFilterCheck
+  mdiFilterCheck,
+  mdiMagnifyExpand
 } from "@mdi/js";
 
 export const icons = {
@@ -31,5 +32,6 @@ export const icons = {
   alertCircle: mdiAlertCircle,
   alert: mdiAlert,
   information: mdiInformation,
-  filterCheck: mdiFilterCheck
+  filterCheck: mdiFilterCheck,
+  magnifyExpand: mdiMagnifyExpand
 };

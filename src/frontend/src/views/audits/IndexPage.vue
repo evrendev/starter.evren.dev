@@ -39,7 +39,7 @@ const handleFilterSubmit = (filters) => {
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
-  loadItems(searchOptions);
+  getItems(searchOptions);
 };
 
 const handleFilterReset = () => {
@@ -48,12 +48,12 @@ const handleFilterReset = () => {
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
-  loadItems(searchOptions);
+  getItems(searchOptions);
 };
 
-const loadItems = async (options) => {
+const getItems = async (options) => {
   loading.value = true;
-  await auditStore.load(options);
+  await auditStore.getItems(options);
   items.value = auditStore.items;
   itemsLength.value = auditStore.itemsLength;
   loading.value = false;
@@ -61,11 +61,12 @@ const loadItems = async (options) => {
 </script>
 
 <template>
-  <BaseBreadcrumb :title="t('admin.audits.title')" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+  <base-breadcrumb :title="t('admin.audits.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
-      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="loadItems" />
+
+      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" />
     </v-col>
   </v-row>
 </template>
