@@ -51,7 +51,7 @@ public class AuditsController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Policy = $"{Modules.Audits}.{Permissions.Read}")]
-    public async Task<ActionResult<FullAuditDto>> GetById(int id)
+    public async Task<ActionResult<FullAuditDto>> GetById(Guid id)
     {
         try
         {

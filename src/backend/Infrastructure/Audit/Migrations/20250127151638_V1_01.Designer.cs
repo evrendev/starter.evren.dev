@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvrenDev.Infrastructure.Audit.Migrations
 {
     [DbContext(typeof(AuditLogDbContext))]
-    [Migration("20250103123425_InitialAuditMigrations")]
-    partial class InitialAuditMigrations
+    [Migration("20250127151638_V1_01")]
+    partial class V1_01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,11 +28,9 @@ namespace EvrenDev.Infrastructure.Audit.Migrations
 
             modelBuilder.Entity("EvrenDev.Domain.Entities.Audit.AuditLog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
@@ -57,6 +55,9 @@ namespace EvrenDev.Infrastructure.Audit.Migrations
 
                     b.Property<string>("TablePk")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");

@@ -25,11 +25,9 @@ namespace EvrenDev.Infrastructure.Audit.Migrations
 
             modelBuilder.Entity("EvrenDev.Domain.Entities.Audit.AuditLog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");

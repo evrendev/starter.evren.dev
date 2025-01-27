@@ -5,7 +5,7 @@ namespace EvrenDev.Application.Features.Audits.Queries.GetAuditById;
 
 public class GetAuditByIdQuery : IRequest<Result<FullAuditDto>>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetAuditByIdQueryValidator : AbstractValidator<GetAuditByIdQuery>

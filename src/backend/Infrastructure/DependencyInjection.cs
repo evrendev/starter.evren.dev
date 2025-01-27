@@ -65,6 +65,7 @@ public static class DependencyInjection
                     var tenant = services.BuildServiceProvider().GetService<ITenantService>();
                     var ipAddress = services.BuildServiceProvider().GetService<IHttpContextAccessor>()?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
 
+                    entity.Id = Guid.NewGuid();
                     entity.TenantId = tenant?.GetCurrentTenantId();
                     entity.Action = entry.Action;
                     entity.AuditData = entry.ToJson();

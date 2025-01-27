@@ -2,7 +2,7 @@ namespace EvrenDev.Application.Features.Audits.Models;
 
 public class FullAuditDto
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public Guid? TenantId { get; set; }
     public string? IpAddress { get; set; }
     public string? UserId { get; set; }
