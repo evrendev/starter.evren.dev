@@ -35,6 +35,7 @@ const searchOptions = {
 
 const handleFilterSubmit = (filters) => {
   searchOptions.page = 1;
+  searchOptions.isActive = filters.isActive;
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
@@ -43,6 +44,7 @@ const handleFilterSubmit = (filters) => {
 
 const handleFilterReset = () => {
   searchOptions.page = 1;
+  searchOptions.isActive = null;
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
@@ -50,6 +52,7 @@ const handleFilterReset = () => {
 };
 
 const getItems = async (options) => {
+  console.log(options);
   loading.value = true;
   await tenantStore.getItems(options);
   items.value = tenantStore.items;

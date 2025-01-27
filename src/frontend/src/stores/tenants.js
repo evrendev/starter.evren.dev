@@ -10,7 +10,7 @@ export const useTenantStore = defineStore({
     loading: false
   }),
   actions: {
-    async getItems({ page, itemsPerPage, sortBy, search, startDate, endDate }) {
+    async getItems({ page, itemsPerPage, sortBy, search, isActive, startDate, endDate }) {
       this.loading = true;
 
       try {
@@ -19,6 +19,7 @@ export const useTenantStore = defineStore({
           itemsPerPage,
           ...(sortBy?.length && { sortBy: sortBy[0].key }),
           ...(sortBy?.length && { sortDesc: sortBy[0].order }),
+          ...(isActive && { isActive }),
           ...(search && { search }),
           ...(startDate && { startDate }),
           ...(endDate && { endDate })
