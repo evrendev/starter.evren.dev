@@ -1,4 +1,5 @@
 using EvrenDev.Application.Common.Exceptions;
+using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Tenants.Commands.CreateTenant;
 using EvrenDev.Application.Features.Tenants.Commands.DeleteTenant;
 using EvrenDev.Application.Features.Tenants.Commands.RestoreTenant;
@@ -31,7 +32,7 @@ public class TenantsController : ControllerBase
 
     [HttpGet]
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Read}")]
-    public async Task<ActionResult<List<TenantDto>>> GetAll([FromQuery] GetTenantsQuery query)
+    public async Task<ActionResult<PaginatedList<BasicTenantDto>>> GetAll([FromQuery] GetTenantsQuery query)
     {
         try
         {
@@ -55,7 +56,7 @@ public class TenantsController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Read}")]
-    public async Task<ActionResult<TenantDto>> GetById(Guid id)
+    public async Task<ActionResult<FullTenantDto>> GetById(Guid id)
     {
         try
         {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Tenants.Queries.GetTenantById;
 
-public class GetTenantByIdQuery : IRequest<Result<TenantDto>>
+public class GetTenantByIdQuery : IRequest<Result<FullTenantDto>>
 {
     public Guid Id { get; set; }
 }
@@ -21,7 +21,7 @@ public class GetTenantByIdQueryValidator : AbstractValidator<GetTenantByIdQuery>
     }
 }
 
-public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Result<TenantDto>>
+public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Result<FullTenantDto>>
 {
     private readonly ITenantDbContext _context;
     private readonly IStringLocalizer<GetTenantByIdQueryHandler> _localizer;
@@ -34,7 +34,7 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Res
         _localizer = localizer;
     }
 
-    public async Task<Result<TenantDto>> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<FullTenantDto>> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Tenants
             .AsNoTracking()
@@ -43,7 +43,7 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Res
         if (entity == null)
             throw new NotFoundException(nameof(TodoList), request.Id.ToString());
 
-        var tenant = new TenantDto
+        var tenant = new FullTenantDto
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -56,6 +56,6 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Res
             Deleted = entity.Deleted
         };
 
-        return Result<TenantDto>.Success(tenant);
+        return Result<FullTenantDto>.Success(tenant);
     }
 }

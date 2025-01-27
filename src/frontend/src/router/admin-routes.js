@@ -6,14 +6,30 @@ const AdminRoutes = {
   component: () => import("@/layouts/full/FullLayout.vue"),
   children: [
     {
-      name: "StarterPage",
+      name: "home",
       path: "",
       component: () => import("@/views/dashboards/IndexPage.vue")
     },
     {
-      name: "AuditsPage",
+      name: "audits",
       path: "audits",
       component: () => import("@/views/audits/IndexPage.vue")
+    },
+    {
+      name: "TenantsPage",
+      path: "tenants",
+      children: [
+        {
+          name: "tenants",
+          path: "",
+          component: () => import("@/views/tenants/IndexPage.vue")
+        },
+        {
+          name: "new-tenants",
+          path: "new",
+          component: () => import("@/views/tenants/NewPage.vue")
+        }
+      ]
     }
   ]
 };

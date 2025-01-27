@@ -1,16 +1,23 @@
 using EvrenDev.Application.Features.Tenants.Models;
+using EvrenDev.Domain.Entities.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Tenants.Queries.GetTenants;
 
-public class GetTenantsQuery : IRequest<Result<List<TenantDto>>>
+public class GetTenantsQuery : IRequest<Result<PaginatedList<BasicTenantDto>>>
 {
-    public string? SearchString { get; set; }
-    public bool? IsActive { get; set; }
-    public bool? ShowDeletedItems { get; set; } = false;
+    public string? Search { get; set; }
+    public bool? IsActive { get; set; } = true;
+    public bool? IsDeleted { get; set; } = false;
+    public DateTime? StartDate { get; init; } = null;
+    public DateTime? EndDate { get; init; } = null;
+    public int Page { get; init; } = 1;
+    public int ItemsPerPage { get; init; } = 10;
+    public string? SortBy { get; init; }
+    public string? SortDesc { get; init; }
 }
 
-public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<List<TenantDto>>>
+public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<PaginatedList<BasicTenantDto>>>
 {
     private readonly ITenantDbContext _context;
 
@@ -19,41 +26,63 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Li
         _context = context;
     }
 
-    public async Task<Result<List<TenantDto>>> Handle(GetTenantsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<BasicTenantDto>>> Handle(GetTenantsQuery request, CancellationToken cancellationToken)
     {
         var query = _context.Tenants.AsQueryable();
 
-        if (request.ShowDeletedItems.HasValue)
+        if (request.IsDeleted.HasValue)
             query = query.IgnoreQueryFilters();
 
         if (request.IsActive.HasValue)
             query = query.Where(x => x.IsActive == request.IsActive.Value);
 
-        if (!string.IsNullOrWhiteSpace(request.SearchString))
-        {
+        if (request.StartDate != null)
+            query = query.Where(entity => entity.ValidUntil >= request.StartDate);
+
+        if (request.EndDate != null)
+            query = query.Where(entity => entity.ValidUntil <= request.EndDate);
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
             query = query.Where(x =>
-                x.Name!.Contains(request.SearchString) ||
-                x.Host!.Contains(request.SearchString) ||
-                x.AdminEmail!.Contains(request.SearchString));
-        }
+                x.Name!.Contains(request.Search) ||
+                x.Host!.Contains(request.Search) ||
+                x.AdminEmail!.Contains(request.Search));
 
-        var tenants = await query
-            .AsNoTracking()
-            .OrderBy(x => x.ValidUntil)
-            .Select(x => new TenantDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ConnectionString = x.ConnectionString,
-                Host = x.Host,
-                IsActive = x.IsActive,
-                AdminEmail = x.AdminEmail,
-                ValidUntil = x.ValidUntil,
-                Description = x.Description,
-                Deleted = x.Deleted
-            })
-            .ToListAsync(cancellationToken);
+        query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
+            ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
+            : query.OrderByDescending(x => x.ValidUntil);
 
-        return Result<List<TenantDto>>.Success(tenants);
+        var dtoQuery = query.Select(tenant => new BasicTenantDto
+        {
+            Id = tenant.Id,
+            Name = tenant.Name,
+            IsActive = tenant.IsActive,
+            AdminEmail = tenant.AdminEmail,
+            ValidUntil = tenant.ValidUntil
+        });
+
+        var paginatedList = await PaginatedList<BasicTenantDto>.CreateAsync(
+            dtoQuery,
+            request.Page,
+            request.ItemsPerPage);
+
+        return Result<PaginatedList<BasicTenantDto>>.Success(paginatedList);
+    }
+
+    private static IQueryable<TenantEntity> ApplySorting(IQueryable<TenantEntity> query, string sortBy, bool sortDesc)
+    {
+        return sortBy.ToLower() switch
+        {
+            "id" => sortDesc
+                ? query.OrderByDescending(x => x.Id)
+                : query.OrderBy(x => x.Id),
+            "isActive" => sortDesc
+                ? query.OrderByDescending(x => x.IsActive)
+                : query.OrderBy(x => x.IsActive),
+            "validUntil" => sortDesc
+                ? query.OrderByDescending(x => x.ValidUntil)
+                : query.OrderBy(x => x.ValidUntil),
+            _ => query.OrderByDescending(x => x.ValidUntil) // Default sorting
+        };
     }
 }

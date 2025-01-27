@@ -1,6 +1,6 @@
 namespace EvrenDev.Application.Features.Tenants.Models;
 
-public class TenantDto
+public class FullTenantDto
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }
