@@ -1,6 +1,7 @@
-using System.Reflection;
+using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Audits.Models;
 using EvrenDev.Domain.Entities.Audit;
+using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Audits.Queries.GetAudits;
 
@@ -13,7 +14,7 @@ public class GetAuditsQuery : IRequest<Result<PaginatedList<BasicAuditDto>>>
     public int Page { get; init; } = 1;
     public int ItemsPerPage { get; init; } = 10;
     public string? SortBy { get; init; }
-    public string SortDesc { get; init; } = "desc";
+    public string? SortDesc { get; init; }
 }
 
 public class GetAuditsQueryHandler : IRequestHandler<GetAuditsQuery, Result<PaginatedList<BasicAuditDto>>>
@@ -55,19 +56,10 @@ public class GetAuditsQueryHandler : IRequestHandler<GetAuditsQuery, Result<Pagi
                 (entity.Action != null && entity.Action.Contains(request.SearchString))
             );
 
-        if (!string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc))
-        {
-            var propertyInfo = typeof(AuditLog).GetProperty(request.SortBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
-             ?? throw new ArgumentException($"Property {request.SortBy} not found", nameof(request.SortBy));
-
-            query = request.SortDesc == "desc"
-                ? query.OrderByDescending(x => propertyInfo.GetValue(x))
-                : query.OrderBy(x => propertyInfo.GetValue(x));
-        }
-        else
-        {
-            query = query.OrderByDescending(entity => entity.AuditDateTimeUtc);
-        }
+        // Apply sorting
+        query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
+            ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
+            : query.OrderByDescending(x => x.AuditDateTimeUtc);
 
         var dtoQuery = query.Select(auditLog => new BasicAuditDto
         {
@@ -81,9 +73,31 @@ public class GetAuditsQueryHandler : IRequestHandler<GetAuditsQuery, Result<Pagi
         var paginatedList = await PaginatedList<BasicAuditDto>.CreateAsync(
             dtoQuery,
             request.Page,
-            request.ItemsPerPage
-        );
+            request.ItemsPerPage);
 
         return Result<PaginatedList<BasicAuditDto>>.Success(paginatedList);
+    }
+
+    private static IQueryable<AuditLog> ApplySorting(IQueryable<AuditLog> query, string sortBy, bool sortDesc)
+    {
+        return sortBy.ToLower() switch
+        {
+            "id" => sortDesc
+                ? query.OrderByDescending(x => x.Id)
+                : query.OrderBy(x => x.Id),
+            "email" => sortDesc
+                ? query.OrderByDescending(x => x.Email)
+                : query.OrderBy(x => x.Email),
+            "auditdatetimeutc" => sortDesc
+                ? query.OrderByDescending(x => x.AuditDateTimeUtc)
+                : query.OrderBy(x => x.AuditDateTimeUtc),
+            "action" => sortDesc
+                ? query.OrderByDescending(x => x.Action)
+                : query.OrderBy(x => x.Action),
+            "entitytype" => sortDesc
+                ? query.OrderByDescending(x => x.EntityType)
+                : query.OrderBy(x => x.EntityType),
+            _ => query.OrderByDescending(x => x.AuditDateTimeUtc) // Default sorting
+        };
     }
 }
