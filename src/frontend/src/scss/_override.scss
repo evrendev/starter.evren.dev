@@ -62,3 +62,25 @@ html {
     }
   }
 }
+
+.v-data-table.striped {
+  &.v-theme--LightTheme {
+    tbody {
+      tr {
+        &:nth-of-type(even) {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+
+  &.v-theme--DarkTheme {
+    tbody {
+      tr {
+        &:nth-of-type(even) {
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+      }
+    }
+  }
+}
