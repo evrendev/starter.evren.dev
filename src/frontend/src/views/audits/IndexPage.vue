@@ -52,20 +52,31 @@ const searchOptions = {
   search: null
 };
 
+// Add methods for submit and reset
+const handleSubmit = () => {
+  searchOptions.page = 1;
+  searchOptions.action = selectedAction.value;
+  searchOptions.startDate = dateRange.value[0];
+  searchOptions.endDate = dateRange.value[1];
+  searchOptions.search = search.value;
+  loadItems(searchOptions);
+};
+
+const handleReset = () => {
+  search.value = "";
+  selectedAction.value = null;
+  dateRange.value = [null, null];
+  searchOptions.page = 1;
+  searchOptions.action = null;
+  searchOptions.startDate = null;
+  searchOptions.endDate = null;
+  searchOptions.search = null;
+  loadItems(searchOptions);
+};
+
 const loadItems = async (options) => {
   loading.value = true;
-
-  // Update searchOptions with new filters
-  searchOptions.page = searchOptions.page ?? options.page;
-  searchOptions.itemsPerPage = searchOptions.itemsPerPage ?? options.itemsPerPage;
-  searchOptions.sortBy = searchOptions.sortBy ?? options.sortBy;
-  searchOptions.groupBy = searchOptions.groupBy ?? options.groupBy;
-  searchOptions.action = searchOptions.action ?? selectedAction.value;
-  searchOptions.startDate = searchOptions.startDate ?? dateRange.value[0];
-  searchOptions.endDate = searchOptions.endDate ?? dateRange.value[1];
-  searchOptions.search = searchOptions.search ?? search.value;
-
-  await auditStore.load(searchOptions);
+  await auditStore.load(options);
   items.value = auditStore.items;
   itemsLength.value = auditStore.itemsLength;
   loading.value = false;
@@ -79,14 +90,7 @@ const loadItems = async (options) => {
       <UiParentCard class="mb-4" :title="t('common.filters')">
         <v-row>
           <v-col cols="12" md="3">
-            <v-text-field
-              v-model="search"
-              :label="t('common.search')"
-              density="comfortable"
-              hide-details
-              variant="outlined"
-              @update:model-value="loadItems"
-            ></v-text-field>
+            <v-text-field v-model="search" :label="t('common.search')" density="comfortable" hide-details variant="outlined"></v-text-field>
           </v-col>
           <v-col cols="12" md="3">
             <v-select
@@ -98,7 +102,6 @@ const loadItems = async (options) => {
               item-title="title"
               item-value="value"
               variant="outlined"
-              @update:model-value="loadItems"
             ></v-select>
           </v-col>
           <v-col cols="12" md="6">
@@ -111,7 +114,6 @@ const loadItems = async (options) => {
                   hide-details
                   type="date"
                   variant="outlined"
-                  @update:model-value="loadItems"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
@@ -122,10 +124,19 @@ const loadItems = async (options) => {
                   hide-details
                   type="date"
                   variant="outlined"
-                  @update:model-value="loadItems"
                 ></v-text-field>
               </v-col>
             </v-row>
+          </v-col>
+        </v-row>
+        <v-row class="mt-2">
+          <v-col cols="12" class="d-flex justify-end ga-2">
+            <v-btn color="error" :disabled="loading" @click="handleReset" prepend-icon="$refresh">
+              {{ t("common.reset") }}
+            </v-btn>
+            <v-btn color="primary" :loading="loading" @click="handleSubmit" prepend-icon="$filterCheck">
+              {{ t("common.submit") }}
+            </v-btn>
           </v-col>
         </v-row>
       </UiParentCard>

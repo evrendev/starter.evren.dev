@@ -132,7 +132,9 @@ export default {
     startDate: "Başlangıç Tarihi",
     endDate: "Bitiş Tarihi",
     selectDate: "Tarih Seç",
-    all: "Hepsi"
+    all: "Hepsi",
+    submit: "Gönder",
+    reset: "Sıfırla"
   },
   $vuetify: {
     ...tr

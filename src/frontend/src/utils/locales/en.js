@@ -132,7 +132,9 @@ export default {
     startDate: "Start Date",
     endDate: "End Date",
     selectDate: "Select Date",
-    all: "All"
+    all: "All",
+    submit: "Submit",
+    reset: "Reset"
   },
   $vuetify: {
     ...en

@@ -1,13 +1,11 @@
-using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Audits.Models;
 using EvrenDev.Domain.Entities.Audit;
-using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Audits.Queries.GetAudits;
 
 public class GetAuditsQuery : IRequest<Result<PaginatedList<BasicAuditDto>>>
 {
-    public string? SearchString { get; set; }
+    public string? Search { get; set; }
     public string? Action { get; init; }
     public DateTime? StartDate { get; init; } = null;
     public DateTime? EndDate { get; init; } = null;
@@ -39,21 +37,21 @@ public class GetAuditsQueryHandler : IRequestHandler<GetAuditsQuery, Result<Pagi
         if (!string.IsNullOrEmpty(request.Action))
             query = query.Where(entity => entity.Action == request.Action);
 
-        if (!string.IsNullOrEmpty(request.SearchString))
+        if (!string.IsNullOrEmpty(request.Search))
             query = query.Where(entity =>
-                (entity.IpAddress != null && entity.IpAddress.Contains(request.SearchString))
+                (entity.IpAddress != null && entity.IpAddress.Contains(request.Search))
                 ||
-                (entity.UserId != null && entity.UserId.Contains(request.SearchString))
+                (entity.UserId != null && entity.UserId.Contains(request.Search))
                 ||
-                (entity.Email != null && entity.Email.Contains(request.SearchString))
+                (entity.Email != null && entity.Email.Contains(request.Search))
                 ||
-                (entity.FullName != null && entity.FullName.Contains(request.SearchString))
+                (entity.FullName != null && entity.FullName.Contains(request.Search))
                 ||
-                (entity.EntityType != null && entity.EntityType.Contains(request.SearchString))
+                (entity.EntityType != null && entity.EntityType.Contains(request.Search))
                 ||
-                (entity.TablePk != null && entity.TablePk.Contains(request.SearchString))
+                (entity.TablePk != null && entity.TablePk.Contains(request.Search))
                 ||
-                (entity.Action != null && entity.Action.Contains(request.SearchString))
+                (entity.Action != null && entity.Action.Contains(request.Search))
             );
 
         // Apply sorting
