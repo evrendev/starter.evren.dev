@@ -51,7 +51,7 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Res
             Host = entity.Host,
             IsActive = entity.IsActive,
             AdminEmail = entity.AdminEmail,
-            ValidUntil = entity.ValidUntil,
+            ValidUntil = DateTimeDto.Create.FromLocal(entity.ValidUntil),
             Description = entity.Description,
             Deleted = entity.Deleted
         };

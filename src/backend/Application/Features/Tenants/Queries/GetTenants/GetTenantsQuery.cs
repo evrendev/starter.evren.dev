@@ -58,7 +58,7 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
             Name = tenant.Name,
             IsActive = tenant.IsActive,
             AdminEmail = tenant.AdminEmail,
-            ValidUntil = tenant.ValidUntil
+            ValidUntil = DateTimeDto.Create.FromLocal(tenant.ValidUntil)
         });
 
         var paginatedList = await PaginatedList<BasicTenantDto>.CreateAsync(

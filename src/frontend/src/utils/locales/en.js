@@ -127,6 +127,21 @@ export default {
       details: {
         title: "Audit Detail"
       }
+    },
+    tenants: {
+      title: "Tenants",
+      list: "List",
+      fields: {
+        id: "ID",
+        name: "Name",
+        admin: "Admin",
+        validUntil: "Valid Until",
+        isActive: "Is Active"
+      },
+      isActive: {
+        true: "Active",
+        false: "Passive"
+      }
     }
   },
   common: {

@@ -6,5 +6,5 @@ public class BasicTenantDto
     public string? Name { get; set; }
     public bool IsActive { get; set; }
     public string? AdminEmail { get; set; }
-    public DateTime? ValidUntil { get; set; }
+    public DateTimeDto? ValidUntil { get; set; }
 }

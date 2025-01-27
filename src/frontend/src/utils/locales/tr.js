@@ -127,6 +127,21 @@ export default {
       details: {
         title: "İşlem Detayı"
       }
+    },
+    tenants: {
+      title: "Kiracılar",
+      list: "Liste",
+      fields: {
+        id: "ID",
+        name: "Ad",
+        admin: "Yönetici",
+        validUntil: "Bitiş Tarihi",
+        isActive: "Aktif Mi"
+      },
+      isActive: {
+        true: "Aktif",
+        false: "Pasif"
+      }
     }
   },
   common: {

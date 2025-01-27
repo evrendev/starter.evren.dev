@@ -17,12 +17,10 @@ const emits = defineEmits(["submit", "reset"]);
 const search = ref("");
 const dateRange = ref([null, null]);
 const selectedAction = ref(null);
-const actions = ref([
+const isActive = ref([
   { title: t("common.all"), value: null },
-  { title: t("admin.audits.actions.insert"), value: "Insert" },
-  { title: t("admin.audits.actions.update"), value: "Update" },
-  { title: t("admin.audits.actions.delete"), value: "Delete" },
-  { title: t("admin.audits.actions.recovered"), value: "Recovered" }
+  { title: t("admin.tenants.isActive.true"), value: true },
+  { title: t("admin.tenants.isActive.false"), value: false }
 ]);
 
 const handleSubmit = () => {
@@ -51,8 +49,8 @@ const handleReset = () => {
       <v-col cols="12" md="3">
         <v-select
           v-model="selectedAction"
-          :items="actions"
-          :label="t('admin.audits.fields.action')"
+          :items="isActive"
+          :label="t('admin.tenants.fields.isActive')"
           density="comfortable"
           hide-details
           item-title="title"
