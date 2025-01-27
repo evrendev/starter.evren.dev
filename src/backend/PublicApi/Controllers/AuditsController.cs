@@ -1,4 +1,5 @@
 using EvrenDev.Application.Common.Exceptions;
+using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Audits.Models;
 using EvrenDev.Application.Features.Audits.Queries.GetAuditById;
 using EvrenDev.Application.Features.Audits.Queries.GetAudits;
@@ -26,7 +27,7 @@ public class AuditsController : ControllerBase
 
     [HttpGet]
     [Authorize(Policy = $"{Modules.Audits}.{Permissions.Read}")]
-    public async Task<ActionResult<List<BasicAuditDto>>> GetAll([FromQuery] GetAuditsQuery query)
+    public async Task<ActionResult<PaginatedList<BasicAuditDto>>> GetAll([FromQuery] GetAuditsQuery query)
     {
         try
         {
