@@ -36,6 +36,7 @@ public class AuditAction(string? name, string? backgroundColor)
     {
         get
         {
+            yield return None;
             yield return Insert;
             yield return Update;
             yield return Delete;
