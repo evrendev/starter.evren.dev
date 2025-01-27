@@ -92,6 +92,9 @@ export default {
         title: "Mandanten",
         list: "Liste",
         new: "Neu"
+      },
+      audits: {
+        title: "Audits"
       }
     }
   },
@@ -109,7 +112,7 @@ export default {
       list: "Liste",
       fields: {
         id: "ID",
-        fullName: "Vollständiger Name",
+        user: "Benutzer",
         dateTime: "Datum/Uhrzeit",
         action: "Aktion",
         entityType: "Entitätstyp"

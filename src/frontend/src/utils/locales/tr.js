@@ -92,6 +92,9 @@ export default {
         title: "Kiracılar",
         list: "Liste",
         new: "Yeni"
+      },
+      audits: {
+        title: "İşlem Geçmişi"
       }
     }
   },
@@ -109,7 +112,7 @@ export default {
       list: "Liste",
       fields: {
         id: "ID",
-        fullName: "Ad Soyad",
+        user: "Kullanıcı",
         dateTime: "Tarih/Zaman",
         action: "İşlem",
         entityType: "Varlık Türü"

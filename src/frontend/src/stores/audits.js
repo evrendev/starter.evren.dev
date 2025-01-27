@@ -9,8 +9,9 @@ export const useAuditStore = defineStore({
   }),
   actions: {
     async load(query) {
+      console.log(query);
       this.loading = true;
-      this.items = await apiService.get(`/audits?${query}`);
+      this.items = await apiService.get(`/audits?${query}`, false);
       this.loading = false;
     }
   }

@@ -112,7 +112,7 @@ export default {
       list: "List",
       fields: {
         id: "ID",
-        fullName: "Full Name",
+        user: "User",
         dateTime: "Date Time",
         action: "Action",
         entityType: "Entity Type"

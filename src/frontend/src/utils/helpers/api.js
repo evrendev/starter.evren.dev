@@ -42,10 +42,11 @@ apiClient.interceptors.response.use(
 
 class ApiService {
   // GET request
-  async get(endpoint) {
+  async get(endpoint, showNotification = true) {
     try {
       const response = await apiClient.get(endpoint);
-      NotificationService.handleApiResponse(response);
+      if (showNotification) NotificationService.handleApiResponse(response);
+
       return response.data;
     } catch (error) {
       this.handleError(error);
