@@ -23,11 +23,11 @@ public class GetTodoListByIdQueryValidator : AbstractValidator<GetTodoListByIdQu
 
 public class GetTodoListByIdQueryHandler : IRequestHandler<GetTodoListByIdQuery, Result<TodoListDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
     private readonly IStringLocalizer<GetTodoListByIdQueryHandler> _localizer;
 
     public GetTodoListByIdQueryHandler(
-        IApplicationDbContext context,
+        ICatalogDbContext context,
         IStringLocalizer<GetTodoListByIdQueryHandler> localizer)
     {
         _context = context;

@@ -2,7 +2,7 @@
 
 namespace EvrenDev.Application.Common.Interfaces;
 
-public interface IApplicationDbContext
+public interface ICatalogDbContext
 {
     DbSet<TodoList> TodoLists { get; }
 

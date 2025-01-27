@@ -42,9 +42,9 @@ public class CreateTodoListCommandValidator : AbstractValidator<CreateTodoListCo
 
 public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListCommand, Result<Guid>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
 
-    public CreateTodoListCommandHandler(IApplicationDbContext context)
+    public CreateTodoListCommandHandler(ICatalogDbContext context)
     {
         _context = context;
     }

@@ -32,11 +32,11 @@ public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCo
 
 public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Result<Guid>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
     private readonly ICurrentUser _currentUser;
     private readonly IStringLocalizer<CreateTodoItemCommandHandler> _localizer;
 
-    public CreateTodoItemCommandHandler(IApplicationDbContext context,
+    public CreateTodoItemCommandHandler(ICatalogDbContext context,
         ICurrentUser currentUser,
         IStringLocalizer<CreateTodoItemCommandHandler> localizer)
     {

@@ -46,11 +46,11 @@ public class UpdateTodoListCommandValidator : AbstractValidator<UpdateTodoListCo
 
 public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand, Result<bool>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
     private readonly IStringLocalizer<UpdateTodoListCommandHandler> _localizer;
 
     public UpdateTodoListCommandHandler(
-        IApplicationDbContext context,
+        ICatalogDbContext context,
         IStringLocalizer<UpdateTodoListCommandHandler> localizer)
     {
         _context = context;

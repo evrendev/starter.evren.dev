@@ -15,7 +15,7 @@ public static class DependencyInjection
     public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHealthChecks()
-            .AddDbContextCheck<ApplicationDbContext>()
+            .AddDbContextCheck<CatalogDbContext>()
             .AddDbContextCheck<IdentityDbContext>()
             .AddDbContextCheck<AuditLogDbContext>()
             .AddDbContextCheck<TenantDbContext>();

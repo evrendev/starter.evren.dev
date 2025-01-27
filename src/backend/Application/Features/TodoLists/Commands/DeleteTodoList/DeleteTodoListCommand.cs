@@ -20,11 +20,11 @@ public class DeleteTodoListCommandValidator : AbstractValidator<DeleteTodoListCo
 
 public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListCommand, Result<bool>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
     private readonly IStringLocalizer<DeleteTodoListCommandHandler> _localizer;
 
     public DeleteTodoListCommandHandler(
-        IApplicationDbContext context,
+        ICatalogDbContext context,
         IStringLocalizer<DeleteTodoListCommandHandler> localizer)
     {
         _context = context;

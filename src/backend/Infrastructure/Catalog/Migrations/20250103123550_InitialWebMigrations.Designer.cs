@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EvrenDev.Infrastructure.Catalog.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(CatalogDbContext))]
     [Migration("20250103123550_InitialWebMigrations")]
     partial class InitialWebMigrations
     {

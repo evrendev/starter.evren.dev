@@ -11,9 +11,9 @@ public class GetTodoItemsQuery : IRequest<Result<List<TodoItemDto>>>
 
 public class GetTodoItemsQueryHandler : IRequestHandler<GetTodoItemsQuery, Result<List<TodoItemDto>>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
 
-    public GetTodoItemsQueryHandler(IApplicationDbContext context)
+    public GetTodoItemsQueryHandler(ICatalogDbContext context)
     {
         _context = context;
     }

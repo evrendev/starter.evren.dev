@@ -5,15 +5,15 @@ using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Catalog.Data;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class CatalogDbContext : DbContext, ICatalogDbContext
 {
     private readonly ITenantService _tenantService;
-    private readonly ILogger<ApplicationDbContext> _logger;
+    private readonly ILogger<CatalogDbContext> _logger;
 
-    public ApplicationDbContext(
-        DbContextOptions<ApplicationDbContext> options,
+    public CatalogDbContext(
+        DbContextOptions<CatalogDbContext> options,
         ITenantService tenantService,
-        ILogger<ApplicationDbContext> logger) : base(options)
+        ILogger<CatalogDbContext> logger) : base(options)
     {
         _tenantService = tenantService;
         _logger = logger;
@@ -36,7 +36,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             // Apply  filter
             if (typeof(BaseAuditableEntity).IsAssignableFrom(entityClrType))
             {
-                var filter = typeof(ApplicationDbContext)
+                var filter = typeof(CatalogDbContext)
                     .GetMethod(nameof(ApplyFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                     ?.MakeGenericMethod(entityClrType);
 

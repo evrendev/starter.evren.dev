@@ -33,9 +33,9 @@ public class UpdateTodoItemCommandValidator : AbstractValidator<UpdateTodoItemCo
 
 public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand, Result<bool>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
 
-    public UpdateTodoItemCommandHandler(IApplicationDbContext context)
+    public UpdateTodoItemCommandHandler(ICatalogDbContext context)
     {
         _context = context;
     }

@@ -22,11 +22,11 @@ public class RestoreTodoListCommandValidator : AbstractValidator<RestoreTodoList
 
 public class RestoreTodoListCommandHandler : IRequestHandler<RestoreTodoListCommand, Result<bool>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
     private readonly IStringLocalizer<RestoreTodoListCommandHandler> _localizer;
 
     public RestoreTodoListCommandHandler(
-        IApplicationDbContext context,
+        ICatalogDbContext context,
         IStringLocalizer<RestoreTodoListCommandHandler> localizer)
     {
         _context = context;

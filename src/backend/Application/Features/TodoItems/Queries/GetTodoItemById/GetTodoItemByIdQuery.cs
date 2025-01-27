@@ -23,9 +23,9 @@ public class GetTodoItemByIdQueryValidator : AbstractValidator<GetTodoItemByIdQu
 
 public class GetTodoItemByIdQueryHandler : IRequestHandler<GetTodoItemByIdQuery, Result<TodoItemDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
 
-    public GetTodoItemByIdQueryHandler(IApplicationDbContext context)
+    public GetTodoItemByIdQueryHandler(ICatalogDbContext context)
     {
         _context = context;
     }

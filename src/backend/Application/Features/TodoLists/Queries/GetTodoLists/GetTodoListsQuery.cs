@@ -10,9 +10,9 @@ public class GetTodoListsQuery : IRequest<Result<List<TodoListDto>>>
 
 public class GetTodoListsQueryHandler : IRequestHandler<GetTodoListsQuery, Result<List<TodoListDto>>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
 
-    public GetTodoListsQueryHandler(IApplicationDbContext context)
+    public GetTodoListsQueryHandler(ICatalogDbContext context)
     {
         _context = context;
     }

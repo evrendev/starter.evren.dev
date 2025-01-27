@@ -18,9 +18,9 @@ public class DeleteTodoItemCommandValidator : AbstractValidator<DeleteTodoItemCo
 
 public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand, Result<bool>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ICatalogDbContext _context;
 
-    public DeleteTodoItemCommandHandler(IApplicationDbContext context)
+    public DeleteTodoItemCommandHandler(ICatalogDbContext context)
     {
         _context = context;
     }

@@ -38,7 +38,7 @@ public static class DependencyInjection
 
         var catalogConnectionString = configuration.GetConnectionString("CatalogConnection");
         Guard.Against.Null(catalogConnectionString, message: "Catalog Connection string 'CatalogConnection' not found.");
-        services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        services.AddDbContext<CatalogDbContext>((sp, options) =>
         {
             options.AddInterceptors(new AuditSaveChangesInterceptor());
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
@@ -184,7 +184,7 @@ public static class DependencyInjection
             options.AddPolicy(permission, policy => policy.RequireClaim("permission", permission));
         }));
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<ICatalogDbContext>(provider => provider.GetRequiredService<CatalogDbContext>());
         services.AddScoped<ITenantDbContext>(provider => provider.GetRequiredService<TenantDbContext>());
         services.AddScoped<IAuditLogDbContext>(provider => provider.GetRequiredService<AuditLogDbContext>());
         services.AddScoped<ITenantService, TenantService>();
