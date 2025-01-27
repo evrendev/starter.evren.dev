@@ -51,14 +51,13 @@ public class GetAuditsQueryHandler : IRequestHandler<GetAuditsQuery, Result<List
             );
 
         var auditLogs = await query
-            .OrderBy(x => x.AuditDateTimeUtc)
-            .Select(x => new BasicAuditDto
+            .Select(auditLog => new BasicAuditDto
             {
-                Id = x.Id,
-                FullName = x.FullName,
-                DateTime = x.AuditDateTimeUtc,
-                Action = AuditAction.From(x.Action),
-                EntityType = x.EntityType
+                Id = auditLog.Id,
+                Email = auditLog.Email,
+                DateTime = DateTimeDto.Create.FromUtc(auditLog.AuditDateTimeUtc),
+                Action = AuditAction.From(auditLog.Action),
+                EntityType = auditLog.EntityType
 
             })
             .ToListAsync(cancellationToken);

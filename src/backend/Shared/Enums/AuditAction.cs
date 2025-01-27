@@ -8,23 +8,23 @@ public class AuditAction(string? name, string? backgroundColor)
     public string? BackgroundColor { get; private set; } = backgroundColor;
 
     public static AuditAction None => new(name: null,
-        backgroundColor: "bg-secondary-gradient"
+        backgroundColor: "lightprimary"
     );
 
     public static AuditAction Insert => new(name: "Insert",
-        backgroundColor: "bg-success-gradient"
+        backgroundColor: "success"
     );
 
     public static AuditAction Update => new(name: "Update",
-        backgroundColor: "bg-warning-gradient"
+        backgroundColor: "warning"
     );
 
     public static AuditAction Delete => new(name: "Delete",
-        backgroundColor: "bg-danger-gradient"
+        backgroundColor: "error"
     );
 
     public static AuditAction Recovered => new(name: "Recovered",
-        backgroundColor: "bg-primary-gradient"
+        backgroundColor: "info"
     );
 
     public static AuditAction From(string? name)
