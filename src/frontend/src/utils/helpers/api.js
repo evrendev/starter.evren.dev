@@ -2,15 +2,10 @@ import axios from "axios";
 import NotificationService from "./notification";
 
 const baseURL = import.meta.env.VITE_API_URL;
-const acceptLanguage = document.documentElement.lang;
 
 // Create axios instance
 const apiClient = axios.create({
-  baseURL,
-  headers: {
-    "Accept-Language": acceptLanguage,
-    "Content-Type": "application/json"
-  }
+  baseURL
 });
 
 // Add request interceptor for auth token
@@ -21,8 +16,10 @@ apiClient.interceptors.request.use(
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      config.headers.Accept = "application/json";
     }
+
+    config.headers.Accept = "application/json";
+    config.headers["Accept-Language"] = localStorage.getItem("lang");
 
     return config;
   },
