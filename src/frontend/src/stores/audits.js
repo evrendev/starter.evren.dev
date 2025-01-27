@@ -9,7 +9,7 @@ export const useAuditStore = defineStore({
     loading: false
   }),
   actions: {
-    async load({ page, itemsPerPage, sortBy, search }) {
+    async load({ page, itemsPerPage, sortBy, search, action, startDate, endDate }) {
       this.loading = true;
 
       try {
@@ -18,7 +18,10 @@ export const useAuditStore = defineStore({
           itemsPerPage,
           ...(sortBy?.length && { sortBy: sortBy[0].key }),
           ...(sortBy?.length && { sortDesc: sortBy[0].order }),
-          search
+          ...(search && { search }),
+          ...(action && { action }),
+          ...(startDate && { startDate }),
+          ...(endDate && { endDate })
         });
 
         const response = await apiService.get(`/audits?${params}`, false);

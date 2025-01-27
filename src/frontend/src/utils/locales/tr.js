@@ -116,8 +116,23 @@ export default {
         dateTime: "Tarih/Zaman",
         action: "İşlem",
         entityType: "Varlık Türü"
+      },
+      actions: {
+        insert: "Ekle",
+        update: "Güncelle",
+        delete: "Sil",
+        recovered: "Kurtar"
       }
     }
+  },
+  common: {
+    search: "Ara",
+    filters: "Filtreler",
+    action: "İşlem",
+    startDate: "Başlangıç Tarihi",
+    endDate: "Bitiş Tarihi",
+    selectDate: "Tarih Seç",
+    all: "Hepsi"
   },
   $vuetify: {
     ...tr

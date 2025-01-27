@@ -116,8 +116,23 @@ export default {
         dateTime: "Datum/Uhrzeit",
         action: "Aktion",
         entityType: "Entitätstyp"
+      },
+      actions: {
+        insert: "Einfügen",
+        update: "Aktualisieren",
+        delete: "Löschen",
+        recovered: "Wiederhergestellt"
       }
     }
+  },
+  common: {
+    search: "Suche",
+    filters: "Filter",
+    action: "Aktion",
+    startDate: "Startdatum",
+    endDate: "Enddatum",
+    selectDate: "Datum auswählen",
+    all: "Alle"
   },
   $vuetify: {
     ...de

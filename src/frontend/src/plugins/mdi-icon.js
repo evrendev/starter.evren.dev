@@ -12,7 +12,8 @@ import {
   mdiCheckCircle,
   mdiAlertCircle,
   mdiAlert,
-  mdiInformation
+  mdiInformation,
+  mdiFilterCheck
 } from "@mdi/js";
 
 export const icons = {
@@ -29,5 +30,6 @@ export const icons = {
   checkCircle: mdiCheckCircle,
   alertCircle: mdiAlertCircle,
   alert: mdiAlert,
-  information: mdiInformation
+  information: mdiInformation,
+  filterCheck: mdiFilterCheck
 };
