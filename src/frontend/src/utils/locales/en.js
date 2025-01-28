@@ -139,7 +139,7 @@ export default {
         isActive: "Is Active",
         process: "Process"
       },
-      isActive: {
+      activeOptions: {
         true: "Active",
         false: "Passive"
       },

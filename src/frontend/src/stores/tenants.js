@@ -10,19 +10,19 @@ export const useTenantStore = defineStore({
     loading: false
   }),
   actions: {
-    async getItems({ page, itemsPerPage, sortBy, search, isActive, startDate, endDate }) {
+    async getItems(searchOptions) {
       this.loading = true;
 
       try {
         const params = new URLSearchParams({
-          page: page,
-          itemsPerPage,
-          ...(sortBy?.length && { sortBy: sortBy[0].key }),
-          ...(sortBy?.length && { sortDesc: sortBy[0].order }),
-          ...(isActive && { isActive }),
-          ...(search && { search }),
-          ...(startDate && { startDate }),
-          ...(endDate && { endDate })
+          page: searchOptions.page,
+          itemsPerPage: searchOptions.itemsPerPage,
+          ...(searchOptions.isActive !== undefined && searchOptions.isActive !== null && { isActive: searchOptions.isActive }),
+          ...(searchOptions.sortBy?.length && { sortBy: searchOptions.sortBy[0].key }),
+          ...(searchOptions.sortBy?.length && { sortDesc: searchOptions.sortBy[0].order }),
+          ...(searchOptions.search !== undefined && searchOptions.search !== null && { search: searchOptions.search }),
+          ...(searchOptions.startDate !== undefined && searchOptions.startDate !== null && { startDate: searchOptions.startDate }),
+          ...(searchOptions.endDate !== undefined && searchOptions.endDate !== null && { endDate: searchOptions.endDate })
         });
 
         const response = await apiService.get(`/tenants?${params}`, false);

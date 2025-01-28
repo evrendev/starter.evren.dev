@@ -139,7 +139,7 @@ export default {
         isActive: "Aktif Mi",
         process: "İşlem"
       },
-      isActive: {
+      activeOptions: {
         true: "Aktif",
         false: "Pasif"
       },

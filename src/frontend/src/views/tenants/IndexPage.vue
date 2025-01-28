@@ -26,18 +26,20 @@ const searchOptions = {
   itemsPerPage: config.itemsPerPage,
   sortBy: null,
   groupBy: null,
-  action: null,
+  isActive: null,
   startDate: null,
   endDate: null,
   search: null
 };
 
 const handleFilterSubmit = (filters) => {
+  console.log("filters", filters);
   searchOptions.page = 1;
   searchOptions.isActive = filters.isActive;
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
+  console.log("searchOptions", searchOptions);
   getItems(searchOptions);
 };
 
@@ -51,7 +53,6 @@ const handleFilterReset = () => {
 };
 
 const getItems = async (options) => {
-  console.log(options);
   loading.value = true;
   await tenantStore.getItems(options);
   items.value = tenantStore.items;
