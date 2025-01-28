@@ -1,5 +1,5 @@
-const LightTheme = {
-  name: "LightTheme",
+const light = {
+  name: "light",
   dark: false,
   variables: {
     "border-color": "#5e35b1",
@@ -36,4 +36,4 @@ const LightTheme = {
   }
 };
 
-export default LightTheme;
+export default light;

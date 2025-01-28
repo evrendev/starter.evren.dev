@@ -1,5 +1,5 @@
-const DarkTheme = {
-  name: "DarkTheme",
+const dark = {
+  name: "dark",
   dark: true,
   variables: {
     "border-color": "#2d3748",
@@ -36,4 +36,4 @@ const DarkTheme = {
   }
 };
 
-export default DarkTheme;
+export default dark;

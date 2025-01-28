@@ -2,7 +2,7 @@ const config = {
   sidebarDrawer: true,
   customizerDrawer: false,
   miniSidebar: false,
-  theme: "LightTheme",
+  theme: "light",
   fontTheme: "Roboto",
   inputBg: false,
   defaultLocale: "tr",

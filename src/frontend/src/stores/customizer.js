@@ -28,7 +28,7 @@ export const useCustomizerStore = defineStore({
       this.fontTheme = payload;
     },
     TOGGLE_THEME() {
-      this.theme = this.theme === "DarkTheme" ? "LightTheme" : "DarkTheme";
+      this.theme = this.theme === "dark" ? "light" : "dark";
     }
   }
 });

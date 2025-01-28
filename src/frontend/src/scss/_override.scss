@@ -65,7 +65,7 @@ html {
 
 // v-data-table css
 .v-data-table.striped {
-  &.v-theme--LightTheme {
+  &.v-theme--light {
     tbody {
       tr {
         &:nth-of-type(even) {
@@ -79,7 +79,7 @@ html {
     }
   }
 
-  &.v-theme--DarkTheme {
+  &.v-theme--dark {
     tbody {
       tr {
         &:nth-of-type(even) {
