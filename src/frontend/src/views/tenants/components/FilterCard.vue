@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import UiParentCard from "@/components/shared/UiParentCard.vue";
+import { ParentCard } from "@/components/shared/";
 
 const { t } = useI18n();
 
@@ -41,7 +41,7 @@ const handleReset = () => {
 </script>
 
 <template>
-  <UiParentCard class="mb-4" :title="t('common.filters')">
+  <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
       <v-col cols="12" md="3">
         <v-text-field v-model="search" :label="t('common.search')" density="comfortable" hide-details variant="outlined"></v-text-field>
@@ -93,5 +93,5 @@ const handleReset = () => {
         </v-btn>
       </v-col>
     </v-row>
-  </UiParentCard>
+  </parent-card>
 </template>

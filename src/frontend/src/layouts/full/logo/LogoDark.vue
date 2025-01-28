@@ -1,11 +1,12 @@
+<script setup>
+import { RouterLink } from "vue-router";
+import { Logo } from "@/components/shared";
+</script>
+
 <template>
   <div class="logo">
     <RouterLink to="/">
-      <UiLogo />
+      <logo />
     </RouterLink>
   </div>
 </template>
-<script setup>
-import { RouterLink } from "vue-router";
-import UiLogo from "@/components/shared/UiLogo.vue";
-</script>

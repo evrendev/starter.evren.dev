@@ -137,7 +137,7 @@ export default {
         admin: "Admin",
         validUntil: "Gültig bis",
         isActive: "Ist aktiv",
-        detail: "Detail"
+        process: "Prozess"
       },
       isActive: {
         true: "Active",

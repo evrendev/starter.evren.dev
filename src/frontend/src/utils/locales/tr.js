@@ -137,7 +137,7 @@ export default {
         admin: "Yönetici",
         validUntil: "Bitiş Tarihi",
         isActive: "Aktif Mi",
-        detail: "Detay"
+        process: "İşlem"
       },
       isActive: {
         true: "Aktif",

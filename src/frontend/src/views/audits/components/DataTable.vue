@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useAuditStore } from "@/stores";
-import UiParentCard from "@/components/shared/UiParentCard.vue";
+import { ParentCard } from "@/components/shared/";
 import DetailsDialog from "./DetailsDialog.vue";
 import config from "@/config";
 
@@ -47,7 +47,7 @@ const showDetails = async (item) => {
 </script>
 
 <template>
-  <UiParentCard>
+  <parent-card>
     <v-data-table-server
       :items-per-page="config.itemsPerPage"
       :headers="headers"
@@ -70,5 +70,5 @@ const showDetails = async (item) => {
     </v-data-table-server>
 
     <details-dialog v-model="showDetailsModal" :audit="audit" />
-  </UiParentCard>
+  </parent-card>
 </template>

@@ -1,7 +1,5 @@
 <script setup>
-import UiFlagDe from "@/components/shared/UiFlagDe.vue";
-import UiFlagTr from "@/components/shared/UiFlagTr.vue";
-import UiFlagEn from "@/components/shared/UiFlagEn.vue";
+import { FlagDe, FlagTr, FlagEn } from "@/components/shared";
 import LocaleHelper from "@/utils/helpers/locale";
 import config from "@/config";
 
@@ -22,9 +20,9 @@ const changeLanguage = async (lang) => {
         <v-list-item @click="changeLanguage(lang)" color="secondary" rounded="md" v-for="(lang, index) in languages" :key="index">
           <div class="lang-container">
             <div class="lang-icon">
-              <UiFlagDe width="24" v-if="lang === 'de'" />
-              <UiFlagTr width="24" v-if="lang === 'tr'" />
-              <UiFlagEn width="24" v-if="lang === 'en'" />
+              <flag-de width="24" v-if="lang === 'de'" />
+              <flag-tr width="24" v-if="lang === 'tr'" />
+              <flag-en width="24" v-if="lang === 'en'" />
             </div>
             <div class="lang-name">
               <v-list-item-title class="text-subtitle-2">
