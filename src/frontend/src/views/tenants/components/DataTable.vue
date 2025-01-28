@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmModal } from "@/components/forms/";
@@ -24,7 +24,7 @@ defineProps({
   }
 });
 
-defineEmits(["update:options"]);
+const emit = defineEmits(["update:options"]);
 
 const headers = ref([
   { title: t("admin.tenants.fields.isActive"), key: "isActive", align: "center", sortable: false, width: "128px" },
@@ -34,19 +34,54 @@ const headers = ref([
   { title: t("admin.tenants.fields.process"), key: "process", align: "center", sortable: false, width: "64px" }
 ]);
 
+const dataTableRef = ref(null);
+const operation = ref("delete");
 const showModal = ref(false);
 const tenantId = ref(null);
+const confirmModalTitle = ref(null);
+const confirmModalMessage = ref(null);
 
 const handleConfirm = async () => {
-  await tenantStore.delete(tenantId.value);
+  if (operation.value === "delete") {
+    await tenantStore.delete(tenantId.value);
+  } else {
+    await tenantStore.activate(tenantId.value);
+  }
+
+  await nextTick();
+
+  emit("update:options", {
+    page: 1,
+    itemsPerPage: config.itemsPerPage,
+    sortBy: null,
+    groupBy: null,
+    isActive: null,
+    startDate: null,
+    endDate: null,
+    search: null
+  });
 };
 
 const handleCancel = () => {
   tenantId.value = null;
-  console.log("Cancelled!");
 };
 
-const showConfirmModal = (id) => {
+const showConfirmModal = (id, opt, value) => {
+  let activateTitle = null;
+  let activateMessage = null;
+
+  if (opt === "activate") {
+    activateTitle = value ? t("admin.tenants.deactivate.title") : t("admin.tenants.activate.title");
+    activateMessage = value ? t("admin.tenants.deactivate.message") : t("admin.tenants.activate.message");
+  } else {
+    activateTitle = t("admin.tenants.delete.title");
+    activateMessage = t("admin.tenants.delete.message");
+  }
+
+  confirmModalTitle.value = activateTitle;
+  confirmModalMessage.value = activateMessage;
+
+  operation.value = opt;
   tenantId.value = id;
   showModal.value = true;
 };
@@ -55,6 +90,7 @@ const showConfirmModal = (id) => {
 <template>
   <parent-card>
     <v-data-table-server
+      ref="dataTableRef"
       :items-per-page="config.itemsPerPage"
       :headers="headers"
       :items="items"
@@ -70,17 +106,44 @@ const showConfirmModal = (id) => {
 
       <template #[`item.process`]="{ item }">
         <router-link :to="{ name: 'edit-tenant', params: { id: item.id } }">
-          <v-icon size="small" icon="$pencil" />
+          <v-icon size="small" icon="$pencil" color="secondary" />
         </router-link>
-        <v-icon size="small" icon="$trashCan" size-="small" color="error" class="ml-2" @click="showConfirmModal(item.id)" />
+        <v-icon
+          v-show="item.isActive"
+          size="small"
+          icon="$trashCan"
+          color="error"
+          class="ml-2"
+          @click="showConfirmModal(item.id, `delete`, true)"
+          :title="t('admin.tenants.delete.title')"
+        />
+        <v-icon
+          v-if="item.isActive"
+          icon="$thumbDown"
+          size-="small"
+          color="warning"
+          class="ml-2"
+          @click="showConfirmModal(item.id, `activate`, true)"
+          :title="t('admin.tenants.deactivate.title')"
+        />
+        <v-icon
+          v-else
+          size="small"
+          icon="$thumbUp"
+          size-="small"
+          color="success"
+          class="ml-2"
+          @click="showConfirmModal(item.id, `activate`, false)"
+          :title="t('admin.tenants.activate.title')"
+        />
       </template>
     </v-data-table-server>
   </parent-card>
 
   <confirm-modal
     v-model="showModal"
-    :title="t('admin.tenants.delete.title')"
-    :message="t('admin.tenants.delete.message')"
+    :title="confirmModalTitle"
+    :message="confirmModalMessage"
     @confirm="handleConfirm"
     @cancel="handleCancel"
   />

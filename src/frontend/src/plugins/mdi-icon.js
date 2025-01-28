@@ -18,7 +18,8 @@ import {
   mdiPencil,
   mdiThumbUp,
   mdiThumbDown,
-  mdiTrashCan
+  mdiTrashCan,
+  mdiArrowUpBoldCircle
 } from "@mdi/js";
 
 export const icons = {
@@ -41,5 +42,6 @@ export const icons = {
   pencil: mdiPencil,
   thumbUp: mdiThumbUp,
   thumbDown: mdiThumbDown,
-  trashCan: mdiTrashCan
+  trashCan: mdiTrashCan,
+  arrowUpBoldCircle: mdiArrowUpBoldCircle
 };

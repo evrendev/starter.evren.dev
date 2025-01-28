@@ -39,7 +39,7 @@ const handleFilterSubmit = (filters) => {
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
-  console.log("searchOptions", searchOptions);
+
   getItems(searchOptions);
 };
 
@@ -49,6 +49,7 @@ const handleFilterReset = () => {
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
+
   getItems(searchOptions);
 };
 

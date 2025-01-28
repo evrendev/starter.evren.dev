@@ -32,4 +32,22 @@ public class TenantEntity
         DeletionTime = DateTimeOffset.Now;
         IsActive = false;
     }
+
+    public void Activate()
+    {
+        IsActive = true;
+        ValidUntil = DateTime.Now.AddYears(1);
+        Deleted = false;
+        Deleter = null;
+        DeletionTime = null;
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        ValidUntil = DateTime.Now.AddYears(-1);
+        Deleted = false;
+        Deleter = null;
+        DeletionTime = null;
+    }
 }

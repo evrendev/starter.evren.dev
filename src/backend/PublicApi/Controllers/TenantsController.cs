@@ -1,5 +1,6 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
+using EvrenDev.Application.Features.Tenants.Commands.ActivateTenant;
 using EvrenDev.Application.Features.Tenants.Commands.CreateTenant;
 using EvrenDev.Application.Features.Tenants.Commands.DeleteTenant;
 using EvrenDev.Application.Features.Tenants.Commands.RestoreTenant;
@@ -154,12 +155,36 @@ public class TenantsController : ControllerBase
     }
 
     [HttpPost("{id}/restore")]
-    [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Edit}")]
+    [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Restore}")]
     public async Task<ActionResult<bool>> Restore(Guid id)
     {
         try
         {
             var result = await _mediator.Send(new RestoreTenantCommand { Id = id });
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("{id}/activate")]
+    [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Restore}")]
+    public async Task<ActionResult<bool>> Activate(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new ActivateTenantCommand { Id = id });
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)

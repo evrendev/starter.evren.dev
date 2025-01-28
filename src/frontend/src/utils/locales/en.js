@@ -146,6 +146,14 @@ export default {
       delete: {
         title: "Delete Tenant",
         message: "Are you sure you want to delete this tenant?"
+      },
+      activate: {
+        title: "Activate Tenant",
+        message: "Are you sure you want to activate this tenant?"
+      },
+      deactivate: {
+        title: "Deactivate Tenant",
+        message: "Are you sure you want to deactivate this tenant?"
       }
     }
   },

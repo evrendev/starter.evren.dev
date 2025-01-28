@@ -146,6 +146,14 @@ export default {
       delete: {
         title: "Kiracıyı Sil",
         message: "Kiracıyı silmek istediğinizden emin misiniz?"
+      },
+      activate: {
+        title: "Kiracıyı Etkinleştir",
+        message: "Kiracıyı etkinleştirmek istediğinizden emin misiniz?"
+      },
+      deactivate: {
+        title: "Kiracıyı Devre Dışı Bırak",
+        message: "Kiracıyı devre dışı bırakmak istediğinizden emin misiniz?"
       }
     }
   },

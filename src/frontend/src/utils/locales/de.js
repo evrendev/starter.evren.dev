@@ -146,6 +146,14 @@ export default {
       delete: {
         title: "Mandant löschen",
         message: "Möchten Sie den Mandanten löschen?"
+      },
+      activate: {
+        title: "Mandant aktivieren",
+        message: "Möchten Sie den Mandanten aktivieren?"
+      },
+      deactivate: {
+        title: "Mandant deaktivieren",
+        message: "Möchten Sie den Mandanten deaktivieren?"
       }
     }
   },

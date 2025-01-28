@@ -49,6 +49,33 @@ export const useTenantStore = defineStore({
       } finally {
         this.loading = false;
       }
+    },
+    async restore(id) {
+      try {
+        this.loading = true;
+        await apiService.post(`/tenants/${id}/restore`);
+        this.loading = false;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async activate(id) {
+      try {
+        this.loading = true;
+        await apiService.post(`/tenants/${id}/activate`);
+        this.loading = false;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async deactivate(id) {
+      try {
+        this.loading = true;
+        await apiService.post(`/tenants/${id}/deactivate`);
+        this.loading = false;
+      } finally {
+        this.loading = false;
+      }
     }
   }
 });
