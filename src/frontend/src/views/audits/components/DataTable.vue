@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useAuditStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
-import DetailsDialog from "./DetailsDialog.vue";
+import { DetailsDialog } from "./";
 import config from "@/config";
 
 const { t } = useI18n();

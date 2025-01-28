@@ -3,8 +3,7 @@ import { ref, shallowRef } from "vue";
 import { useTenantStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
-import DataTable from "./components/DataTable.vue";
-import FilterCard from "./components/FilterCard.vue";
+import { DataTable, FilterCard } from "./components";
 import config from "@/config";
 
 const { t } = useI18n();
