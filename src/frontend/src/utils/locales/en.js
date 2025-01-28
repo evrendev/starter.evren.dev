@@ -142,6 +142,10 @@ export default {
       isActive: {
         true: "Active",
         false: "Passive"
+      },
+      delete: {
+        title: "Delete Tenant",
+        message: "Are you sure you want to delete this tenant?"
       }
     }
   },
@@ -155,7 +159,8 @@ export default {
     all: "All",
     submit: "Submit",
     reset: "Reset",
-    close: "Close"
+    close: "Close",
+    deleted: "Successfully deleted"
   },
   $vuetify: {
     ...en

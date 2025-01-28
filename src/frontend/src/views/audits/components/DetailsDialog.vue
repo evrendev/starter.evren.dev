@@ -18,7 +18,7 @@ defineProps({
 </script>
 
 <template>
-  <v-dialog :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" max-width="800" class="dialog-colored-bg">
+  <v-dialog :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" max-width="800" class="dialog-colored-title">
     <v-card>
       <v-card-title class="text-h5">
         {{ t("admin.audits.details.title") }}

@@ -142,6 +142,10 @@ export default {
       isActive: {
         true: "Aktif",
         false: "Pasif"
+      },
+      delete: {
+        title: "Kiracıyı Sil",
+        message: "Kiracıyı silmek istediğinizden emin misiniz?"
       }
     }
   },
@@ -155,7 +159,8 @@ export default {
     all: "Hepsi",
     submit: "Gönder",
     reset: "Sıfırla",
-    close: "Kapat"
+    close: "Kapat",
+    deleted: "Başarıyla silindi"
   },
   $vuetify: {
     ...tr

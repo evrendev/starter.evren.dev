@@ -142,6 +142,10 @@ export default {
       isActive: {
         true: "Active",
         false: "Passive"
+      },
+      delete: {
+        title: "Mandant löschen",
+        message: "Möchten Sie den Mandanten löschen?"
       }
     }
   },
@@ -155,7 +159,8 @@ export default {
     all: "Alle",
     submit: "Einreichen",
     reset: "Zurücksetzen",
-    close: "Schließen"
+    close: "Schließen",
+    deleted: "Erfolgreich gelöscht"
   },
   $vuetify: {
     ...de

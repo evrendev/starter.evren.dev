@@ -2,9 +2,12 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
+import { ConfirmModal } from "@/components/forms/";
+import { useTenantStore } from "@/stores/";
 import config from "@/config";
 
 const { t } = useI18n();
+const tenantStore = useTenantStore();
 
 defineProps({
   items: {
@@ -31,8 +34,21 @@ const headers = ref([
   { title: t("admin.tenants.fields.process"), key: "process", align: "center", sortable: false, width: "64px" }
 ]);
 
-const promptDelete = (id) => {
-  console.log(id);
+const showModal = ref(false);
+const tenantId = ref(null);
+
+const handleConfirm = async () => {
+  await tenantStore.delete(tenantId.value);
+};
+
+const handleCancel = () => {
+  tenantId.value = null;
+  console.log("Cancelled!");
+};
+
+const showConfirmModal = (id) => {
+  tenantId.value = id;
+  showModal.value = true;
 };
 </script>
 
@@ -56,8 +72,16 @@ const promptDelete = (id) => {
         <router-link :to="{ name: 'edit-tenant', params: { id: item.id } }">
           <v-icon size="small" icon="$pencil" />
         </router-link>
-        <v-icon size="small" icon="$trashCan" size-="small" color="error" class="ml-2" @click.once="promptDelete(item.id)" />
+        <v-icon size="small" icon="$trashCan" size-="small" color="error" class="ml-2" @click="showConfirmModal(item.id)" />
       </template>
     </v-data-table-server>
   </parent-card>
+
+  <confirm-modal
+    v-model="showModal"
+    :title="t('admin.tenants.delete.title')"
+    :message="t('admin.tenants.delete.message')"
+    @confirm="handleConfirm"
+    @cancel="handleCancel"
+  />
 </template>

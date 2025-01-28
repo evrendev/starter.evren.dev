@@ -39,6 +39,16 @@ export const useTenantStore = defineStore({
       } finally {
         this.loading = false;
       }
+    },
+    async delete(id) {
+      try {
+        this.loading = true;
+        await apiService.delete(`/tenants/${id}`);
+        this.items = this.items.filter((item) => item.id !== id);
+        this.loading = false;
+      } finally {
+        this.loading = false;
+      }
     }
   }
 });
