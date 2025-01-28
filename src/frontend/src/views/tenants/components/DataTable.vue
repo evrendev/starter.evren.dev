@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick } from "vue";
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmModal } from "@/components/forms/";
@@ -24,7 +24,7 @@ defineProps({
   }
 });
 
-const emit = defineEmits(["update:options"]);
+defineEmits(["update:options"]);
 
 const headers = ref([
   { title: t("admin.tenants.fields.isActive"), key: "isActive", align: "center", sortable: false, width: "128px" },
@@ -47,19 +47,6 @@ const handleConfirm = async () => {
   } else {
     await tenantStore.activate(tenantId.value);
   }
-
-  await nextTick();
-
-  emit("update:options", {
-    page: 1,
-    itemsPerPage: config.itemsPerPage,
-    sortBy: null,
-    groupBy: null,
-    isActive: null,
-    startDate: null,
-    endDate: null,
-    search: null
-  });
 };
 
 const handleCancel = () => {

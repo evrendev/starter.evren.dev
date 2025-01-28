@@ -1,9 +1,20 @@
 <script setup>
-import { ref } from "vue";
+import { watch, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
+import { useTenantStore } from "@/stores";
+import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
+const tenantStore = useTenantStore();
+const { reset } = storeToRefs(tenantStore);
+
+watch(
+  () => reset.value,
+  () => {
+    if (reset.value) handleReset();
+  }
+);
 
 defineProps({
   loading: {
@@ -36,6 +47,7 @@ const handleReset = () => {
   search.value = "";
   isActive.value = null;
   dateRange.value = [null, null];
+  reset.value = false;
   emits("reset");
 };
 </script>

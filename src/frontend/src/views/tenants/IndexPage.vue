@@ -1,9 +1,10 @@
 <script setup>
-import { ref, shallowRef } from "vue";
+import { ref, watch, shallowRef } from "vue";
 import { useTenantStore } from "@/stores";
 import { useI18n } from "vue-i18n";
-import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
 import { DataTable, FilterCard } from "./components";
+import { storeToRefs } from "pinia";
+import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
 import config from "@/config";
 
 const { t } = useI18n();
@@ -20,6 +21,17 @@ const items = ref([]);
 const itemsLength = ref(0);
 const loading = ref(false);
 const tenantStore = useTenantStore();
+const { reset } = storeToRefs(tenantStore);
+
+watch(
+  () => reset.value,
+  () => {
+    if (reset.value) {
+      loading.value = true;
+      handleFilterReset(1000);
+    }
+  }
+);
 
 const searchOptions = {
   page: 1,
@@ -33,7 +45,6 @@ const searchOptions = {
 };
 
 const handleFilterSubmit = (filters) => {
-  console.log("filters", filters);
   searchOptions.page = 1;
   searchOptions.isActive = filters.isActive;
   searchOptions.startDate = filters.startDate;
@@ -43,14 +54,17 @@ const handleFilterSubmit = (filters) => {
   getItems(searchOptions);
 };
 
-const handleFilterReset = () => {
+const handleFilterReset = (timeout = 0) => {
   searchOptions.page = 1;
   searchOptions.isActive = null;
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
+  reset.value = false;
 
-  getItems(searchOptions);
+  setTimeout(() => {
+    getItems(searchOptions);
+  }, timeout);
 };
 
 const getItems = async (options) => {

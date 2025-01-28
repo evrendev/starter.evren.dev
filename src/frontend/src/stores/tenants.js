@@ -7,7 +7,8 @@ export const useTenantStore = defineStore({
     items: [],
     tenant: {},
     itemsLength: 0,
-    loading: false
+    loading: false,
+    reset: false
   }),
   actions: {
     async getItems(searchOptions) {
@@ -43,38 +44,49 @@ export const useTenantStore = defineStore({
     async delete(id) {
       try {
         this.loading = true;
+        this.reset = true;
+
         await apiService.delete(`/tenants/${id}`);
-        this.items = this.items.filter((item) => item.id !== id);
         this.loading = false;
       } finally {
         this.loading = false;
+        this.reset = false;
       }
     },
     async restore(id) {
       try {
         this.loading = true;
+        this.reset = true;
+
         await apiService.post(`/tenants/${id}/restore`);
         this.loading = false;
       } finally {
         this.loading = false;
+        this.reset = false;
       }
     },
     async activate(id) {
       try {
         this.loading = true;
+        this.reset = true;
+
         await apiService.post(`/tenants/${id}/activate`);
         this.loading = false;
       } finally {
         this.loading = false;
+        this.reset = false;
       }
     },
     async deactivate(id) {
       try {
         this.loading = true;
+        this.reset = true;
+
         await apiService.post(`/tenants/${id}/deactivate`);
         this.loading = false;
       } finally {
         this.loading = false;
+        this.reset = false;
       }
     }
   }
