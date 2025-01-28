@@ -1,5 +1,6 @@
 import axios from "axios";
 import NotificationService from "./notification";
+import { useAppStore } from "@/stores";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -41,12 +42,21 @@ apiClient.interceptors.response.use(
 );
 
 class ApiService {
+  // Method to get store instance
+  getStore() {
+    try {
+      return useAppStore();
+    } catch (error) {
+      console.warn("Store access failed, might be outside of component context", error);
+      return null;
+    }
+  }
+
   // GET request
   async get(endpoint, showNotification = true) {
     try {
       const response = await apiClient.get(endpoint);
       if (showNotification) NotificationService.handleApiResponse(response);
-
       return response.data;
     } catch (error) {
       this.handleError(error);
@@ -56,6 +66,9 @@ class ApiService {
 
   // POST request
   async post(endpoint, data) {
+    const store = this.getStore();
+    store?.setPageLoader(true);
+
     try {
       const response = await apiClient.post(endpoint, data);
       NotificationService.handleApiResponse(response);
@@ -63,11 +76,16 @@ class ApiService {
     } catch (error) {
       this.handleError(error);
       throw error;
+    } finally {
+      store?.setPageLoader(false);
     }
   }
 
   // PUT request
   async put(endpoint, data) {
+    const store = this.getStore();
+    store?.setPageLoader(true);
+
     try {
       const response = await apiClient.put(endpoint, data);
       NotificationService.handleApiResponse(response);
@@ -75,11 +93,16 @@ class ApiService {
     } catch (error) {
       this.handleError(error);
       throw error;
+    } finally {
+      store?.setPageLoader(false);
     }
   }
 
   // DELETE request
   async delete(endpoint) {
+    const store = this.getStore();
+    store?.setPageLoader(true);
+
     try {
       const response = await apiClient.delete(endpoint);
       NotificationService.handleApiResponse(response);
@@ -87,6 +110,8 @@ class ApiService {
     } catch (error) {
       this.handleError(error);
       throw error;
+    } finally {
+      store?.setPageLoader(false);
     }
   }
 
