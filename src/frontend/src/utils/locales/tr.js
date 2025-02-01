@@ -131,13 +131,17 @@ export default {
     tenants: {
       title: "Kiracılar",
       list: "Liste",
+      new: "Yeni",
       fields: {
         id: "ID",
         name: "Ad",
-        admin: "Yönetici",
+        adminEmail: "E-posta",
         validUntil: "Bitiş Tarihi",
         isActive: "Aktif Mi",
-        process: "İşlem"
+        process: "İşlem",
+        description: "Açıklama",
+        connectionString: "Bağlantı Dizesi",
+        host: "Sunucu"
       },
       activeOptions: {
         true: "Aktif",
@@ -154,6 +158,24 @@ export default {
       deactivate: {
         title: "Kiracıyı Devre Dışı Bırak",
         message: "Kiracıyı devre dışı bırakmak istediğinizden emin misiniz?"
+      },
+      validation: {
+        name: {
+          required: "Kiracı adı girmeniz gerekmektedir",
+          maxLength: "Kiracı adı en fazla {max} karakter olabilir"
+        },
+        description: {
+          maxLength: "Açıklama en fazla {max} karakter olabilir"
+        },
+        adminEmail: {
+          required: "Eposta adresi girmeniz gerekmektedir",
+          invalid: "Geçersiz e-posta adresi"
+        },
+        validUntil: {
+          required: "Bitiş tarihi girmeniz gerekmektedir",
+          invalid: "Geçersiz tarih",
+          future: "Gelecek bir tarih seçmelisiniz"
+        }
       }
     }
   },
@@ -166,9 +188,12 @@ export default {
     selectDate: "Tarih Seç",
     all: "Hepsi",
     submit: "Gönder",
+    save: "Kaydet",
     reset: "Sıfırla",
     close: "Kapat",
-    deleted: "Başarıyla silindi"
+    deleted: "Başarıyla silindi",
+    basicInformation: "Temel Bilgiler",
+    additionalParameters: "Ek Parametreler"
   },
   $vuetify: {
     ...tr

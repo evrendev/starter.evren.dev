@@ -131,13 +131,17 @@ export default {
     tenants: {
       title: "Mandanten",
       list: "Liste",
+      new: "Neu",
       fields: {
         id: "ID",
         name: "Name",
-        admin: "Admin",
+        adminEmail: "E-Mail",
         validUntil: "Gültig bis",
         isActive: "Ist aktiv",
-        process: "Prozess"
+        process: "Prozess",
+        description: "Beschreibung",
+        connectionString: "Verbindungszeichenfolge",
+        host: "Host"
       },
       activeOptions: {
         true: "Active",
@@ -154,6 +158,24 @@ export default {
       deactivate: {
         title: "Mandant deaktivieren",
         message: "Möchten Sie den Mandanten deaktivieren?"
+      },
+      validation: {
+        name: {
+          required: "Mandantenname ist erforderlich",
+          maxLength: "Mandantenname muss weniger als {max} Zeichen lang sein"
+        },
+        description: {
+          maxLength: "Beschreibung muss weniger als {max} Zeichen lang sein"
+        },
+        adminEmail: {
+          required: "Admin-E-Mail ist erforderlich",
+          invalid: "Ungültige E-Mail-Adresse"
+        },
+        validUntil: {
+          required: "Gültig bis ist erforderlich",
+          invalid: "Ungültiges Datum",
+          future: "Sie müssen ein zukünftiges Datum auswählen"
+        }
       }
     }
   },
@@ -166,9 +188,12 @@ export default {
     selectDate: "Datum auswählen",
     all: "Alle",
     submit: "Einreichen",
+    save: "Speichern",
     reset: "Zurücksetzen",
     close: "Schließen",
-    deleted: "Erfolgreich gelöscht"
+    deleted: "Erfolgreich gelöscht",
+    basicInformation: "Grundlegende Informationen",
+    additionalParameters: "Zusätzliche Parameter"
   },
   $vuetify: {
     ...de

@@ -88,6 +88,15 @@ export const useTenantStore = defineStore({
         this.loading = false;
         this.reset = false;
       }
+    },
+    async create(tenant) {
+      try {
+        this.loading = true;
+        const response = await apiService.post("/tenants", tenant);
+        return response;
+      } finally {
+        this.loading = false;
+      }
     }
   }
 });

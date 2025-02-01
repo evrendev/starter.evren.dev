@@ -131,13 +131,17 @@ export default {
     tenants: {
       title: "Tenants",
       list: "List",
+      new: "New",
       fields: {
         id: "ID",
         name: "Name",
-        admin: "Admin",
+        adminEmail: "Email",
         validUntil: "Valid Until",
         isActive: "Is Active",
-        process: "Process"
+        process: "Process",
+        description: "Description",
+        connectionString: "Connection String",
+        host: "Host"
       },
       activeOptions: {
         true: "Active",
@@ -154,6 +158,24 @@ export default {
       deactivate: {
         title: "Deactivate Tenant",
         message: "Are you sure you want to deactivate this tenant?"
+      },
+      validation: {
+        name: {
+          required: "Tenant name is required",
+          maxLength: "Tenant name must be less than {max} characters"
+        },
+        description: {
+          maxLength: "Description must be less than {max} characters"
+        },
+        adminEmail: {
+          required: "Admin email is required",
+          invalid: "Invalid email address"
+        },
+        validUntil: {
+          required: "Valid until date is required",
+          invalid: "Invalid date",
+          future: "You must select a future date"
+        }
       }
     }
   },
@@ -166,9 +188,12 @@ export default {
     selectDate: "Select Date",
     all: "All",
     submit: "Submit",
+    save: "Save",
     reset: "Reset",
     close: "Close",
-    deleted: "Successfully deleted"
+    deleted: "Successfully deleted",
+    basicInformation: "Basic Information",
+    additionalParameters: "Additional Parameters"
   },
   $vuetify: {
     ...en
