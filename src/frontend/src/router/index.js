@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore, useAppStore } from "@/stores";
 import AdminRoutes from "./admin-routes";
 import AuthRoutes from "./auth-routes";
+import { APP_NAME } from "@/config/app";
+import i18n from "@/plugins/i18n";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +16,10 @@ export const router = createRouter({
     },
     {
       path: "/:pathMatch(.*)*",
-      component: () => import("@/views/errors/Error404Page.vue")
+      component: () => import("@/views/errors/Error404Page.vue"),
+      meta: {
+        titleKey: "pages.titles.notFound"
+      }
     },
     AdminRoutes,
     AuthRoutes
@@ -29,7 +34,10 @@ router.beforeEach(async (to, from, next) => {
   const isPublicPage = publicPages.includes(to.path);
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
 
-  // console.log(isPublicPage, authRequired, user.value, to.fullPath);
+  // Set document title
+  const title = to.meta.titleKey ? i18n.global.t(to.meta.titleKey) : to.meta.title;
+
+  document.title = title ? `${title} - ${APP_NAME}` : APP_NAME;
 
   if (authRequired && !user) {
     authStore.setReturnUrl(to.fullPath);

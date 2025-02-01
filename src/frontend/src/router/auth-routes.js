@@ -4,7 +4,10 @@ const AuthRoutes = {
   component: () => import("@/views/authentication/IndexPage.vue"),
   props: (route) => ({
     page: route.params.page || "login"
-  })
+  }),
+  meta: {
+    titleKey: "pages.titles.authentication"
+  }
 };
 
 export default AuthRoutes;

@@ -8,12 +8,18 @@ const AdminRoutes = {
     {
       name: "home",
       path: "",
-      component: () => import("@/views/dashboards/IndexPage.vue")
+      component: () => import("@/views/dashboards/IndexPage.vue"),
+      meta: {
+        titleKey: "pages.titles.dashboard"
+      }
     },
     {
       name: "audits",
       path: "audits",
-      component: () => import("@/views/audits/IndexPage.vue")
+      component: () => import("@/views/audits/IndexPage.vue"),
+      meta: {
+        titleKey: "pages.titles.auditLogs"
+      }
     },
     {
       name: "TenantsPage",
@@ -22,17 +28,26 @@ const AdminRoutes = {
         {
           name: "tenants",
           path: "",
-          component: () => import("@/views/tenants/IndexPage.vue")
+          component: () => import("@/views/tenants/IndexPage.vue"),
+          meta: {
+            titleKey: "pages.titles.tenants"
+          }
         },
         {
           name: "new-tenant",
           path: "new",
-          component: () => import("@/views/tenants/NewPage.vue")
+          component: () => import("@/views/tenants/NewPage.vue"),
+          meta: {
+            titleKey: "pages.titles.newTenant"
+          }
         },
         {
           name: "edit-tenant",
           path: "edit/:id",
-          component: () => import("@/views/tenants/NewPage.vue")
+          component: () => import("@/views/tenants/NewPage.vue"),
+          meta: {
+            titleKey: "pages.titles.editTenant"
+          }
         }
       ]
     }

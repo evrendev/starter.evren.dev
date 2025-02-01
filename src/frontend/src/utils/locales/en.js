@@ -195,6 +195,17 @@ export default {
     basicInformation: "Basic Information",
     additionalParameters: "Additional Parameters"
   },
+  pages: {
+    titles: {
+      dashboard: "Dashboard",
+      auditLogs: "Audit Logs",
+      tenants: "Tenants",
+      newTenant: "New Tenant",
+      editTenant: "Edit Tenant",
+      authentication: "Authentication",
+      notFound: "404 Not Found"
+    }
+  },
   $vuetify: {
     ...en
   }
