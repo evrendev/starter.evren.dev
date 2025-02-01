@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore, useAppStore } from "@/stores";
 import AdminRoutes from "./admin-routes";
 import AuthRoutes from "./auth-routes";
-import { APP_NAME } from "@/config/app";
 import i18n from "@/plugins/i18n";
+
+const APP_NAME = "Evren.Dev";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
