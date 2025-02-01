@@ -29,7 +29,7 @@ defineEmits(["update:options"]);
 const headers = ref([
   { title: t("admin.tenants.fields.isActive"), key: "isActive", align: "center", sortable: false, width: "128px" },
   { title: t("admin.tenants.fields.name"), key: "name", sortable: false },
-  { title: t("admin.tenants.fields.admin"), key: "adminEmail", sortable: false },
+  { title: t("admin.tenants.fields.adminEmail"), key: "adminEmail", sortable: false },
   { title: t("admin.tenants.fields.validUntil"), key: "validUntil.displayDateWithTime", align: "center", sortable: true },
   { title: t("admin.tenants.fields.process"), key: "process", align: "center", sortable: false, width: "64px" }
 ]);
