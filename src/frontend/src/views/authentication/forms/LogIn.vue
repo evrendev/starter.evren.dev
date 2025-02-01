@@ -117,22 +117,14 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
 
     <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
+      <v-btn color="secondary" variant="flat" class="ml-4" @click="resetForm()" prepend-icon="$refresh" :disabled="loading">
+        {{ t("auth.login.resetForm") }}
+      </v-btn>
       <challenge-v3 v-model="response" action="submit">
-        <v-btn color="primary" variant="flat" type="submit" :loading="loading" density="comfortable" prepend-icon="$login">
+        <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$login">
           {{ t("auth.login.submit") }}
         </v-btn>
       </challenge-v3>
-      <v-btn
-        color="secondary"
-        variant="flat"
-        class="ml-4"
-        @click="resetForm()"
-        density="comfortable"
-        prepend-icon="$refresh"
-        :disabled="loading"
-      >
-        {{ t("auth.login.resetForm") }}
-      </v-btn>
     </div>
   </v-form>
 </template>
