@@ -4,8 +4,8 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { useTenantStore } from "@/stores/tenants";
 import { useAppStore } from "@/stores/app";
-import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
-import TenantForm from "./components/TenantForm.vue";
+import { Breadcrumb } from "@/components/forms";
+import { TenantForm } from "./components";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -42,7 +42,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <base-breadcrumb :title="t('admin.tenants.edit')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.tenants.edit')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <tenant-form v-if="tenant" :initial-data="tenant" :is-edit="true" />

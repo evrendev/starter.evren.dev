@@ -1,8 +1,7 @@
 <script setup>
 import { ref, shallowRef } from "vue";
-
-import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
-import { ParentCard } from "@/components/shared/";
+import { Breadcrumb } from "@/components/forms";
+import { ParentCard } from "@/components/shared";
 
 const page = ref({ title: "Sample Page" });
 const breadcrumbs = shallowRef([
@@ -20,7 +19,7 @@ const breadcrumbs = shallowRef([
 </script>
 
 <template>
-  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+  <breadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <parent-card title="Simple Title">

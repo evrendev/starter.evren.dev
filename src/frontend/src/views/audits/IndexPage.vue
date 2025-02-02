@@ -2,7 +2,7 @@
 import { ref, shallowRef } from "vue";
 import { useAuditStore } from "@/stores";
 import { useI18n } from "vue-i18n";
-import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
+import { Breadcrumb } from "@/components/forms";
 import { FilterCard, DataTable } from "./components/";
 import config from "@/config";
 
@@ -60,7 +60,7 @@ const getItems = async (options) => {
 </script>
 
 <template>
-  <base-breadcrumb :title="t('admin.audits.title')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.audits.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />

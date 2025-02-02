@@ -4,7 +4,7 @@ import { useTenantStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { DataTable, FilterCard } from "./components";
 import { storeToRefs } from "pinia";
-import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
+import { Breadcrumb } from "@/components/forms";
 import config from "@/config";
 
 const { t } = useI18n();
@@ -77,7 +77,7 @@ const getItems = async (options) => {
 </script>
 
 <template>
-  <base-breadcrumb :title="t('admin.tenants.title')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.tenants.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
