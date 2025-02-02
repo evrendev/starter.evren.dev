@@ -69,11 +69,11 @@ const sidebarItem = [
               {
                 title: "components.sidebar.roles.title",
                 icon: Category2Icon,
-                to: "/admin/roles",
+                to: "#",
                 children: [
                   {
                     title: "components.sidebar.roles.list",
-                    to: "/admin/roles"
+                    to: "/admin/roles/list"
                   },
                   ...(hasPermission("Roles.Create")
                     ? [
