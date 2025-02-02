@@ -26,8 +26,13 @@ const AdminRoutes = {
       path: "tenants",
       children: [
         {
-          name: "tenants",
           path: "",
+          name: "default",
+          redirect: "list"
+        },
+        {
+          name: "tenants",
+          path: "list",
           component: () => import("@/views/tenants/IndexPage.vue"),
           meta: {
             titleKey: "pages.titles.tenants"

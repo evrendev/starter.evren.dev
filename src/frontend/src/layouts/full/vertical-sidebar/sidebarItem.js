@@ -92,11 +92,11 @@ const sidebarItem = [
               {
                 title: "components.sidebar.tenants.title",
                 icon: GitCompareIcon,
-                to: "/admin/tenants",
+                to: "#",
                 children: [
                   {
                     title: "components.sidebar.tenants.list",
-                    to: "/admin/tenants"
+                    to: "/admin/tenants/list"
                   },
                   ...(hasPermission("Roles.Create")
                     ? [
