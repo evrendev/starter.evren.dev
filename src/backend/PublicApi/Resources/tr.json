@@ -1,5 +1,7 @@
 {
   "api.item-not-found": "Öğe bulunamadı",
+  "api.unauthorized": "Oturum açmanız gerekiyor",
+  "api.forbidden": "Bu işlem için yetkiniz bulunmuyor",
   "api.validations.failed": "Doğrulama başarısız oldu",
   "api.auth.login.not-found": "Kullanıcı hesabı bulunamadı",
   "api.auth.login.deleted": "Kullanıcı hesabı silinmiş",

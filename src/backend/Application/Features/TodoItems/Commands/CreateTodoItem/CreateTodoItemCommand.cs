@@ -1,4 +1,4 @@
-using Application.Common.Exceptions;
+using EvrenDev.Application.Common.Exceptions;
 
 namespace EvrenDev.Application.Features.TodoItems.Commands.CreateTodoItem;
 
@@ -52,7 +52,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
             throw new NotFoundException(nameof(TodoList), request.ListId.ToString());
 
         if (list.Creator != _currentUser.Email)
-            throw new ForbiddenAccessException(nameof(TodoList), _localizer["api.todo-items.create.forbidden"]);
+            throw new ForbiddenException(nameof(TodoList), _localizer["api.todo-items.create.forbidden"]);
 
         var entity = new TodoItem
         {

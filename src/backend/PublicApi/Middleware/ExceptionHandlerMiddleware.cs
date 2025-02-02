@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using Ardalis.GuardClauses;
+using EvrenDev.Application.Common.Exceptions;
 using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.PublicApi.Middleware;
@@ -34,6 +35,8 @@ public class ExceptionHandlerMiddleware
 
             response.StatusCode = error switch
             {
+                UnauthorizedException => (int)HttpStatusCode.Unauthorized,
+                ForbiddenException => (int)HttpStatusCode.Forbidden,
                 NotFoundException => (int)HttpStatusCode.NotFound,
                 // Add other exception types here as needed
                 _ => (int)HttpStatusCode.InternalServerError
@@ -41,6 +44,8 @@ public class ExceptionHandlerMiddleware
 
             var localizedMessage = error switch
             {
+                UnauthorizedException => _localizer["api.unauthorized"],
+                ForbiddenException => _localizer["api.forbidden"],
                 NotFoundException => _localizer["api.item-not-found"],
                 _ => _localizer["api.validations.failed"]
             };

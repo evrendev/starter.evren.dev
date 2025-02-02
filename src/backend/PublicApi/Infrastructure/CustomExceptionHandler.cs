@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using EvrenDev.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ValidationException = EvrenDev.Application.Common.Exceptions.ValidationException;
@@ -16,7 +17,7 @@ public class CustomExceptionHandler : IExceptionHandler
             {
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
+                { typeof(UnauthorizedException), HandleUnauthorizedException },
             };
     }
 
@@ -61,7 +62,7 @@ public class CustomExceptionHandler : IExceptionHandler
         });
     }
 
-    private async Task HandleUnauthorizedAccessException(HttpContext httpContext, Exception ex)
+    private async Task HandleUnauthorizedException(HttpContext httpContext, Exception ex)
     {
         httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 

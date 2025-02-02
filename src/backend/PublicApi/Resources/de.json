@@ -1,5 +1,7 @@
 {
   "api.item-not-found": "Element nicht gefunden",
+  "api.unauthorized": "Sie müssen angemeldet sein",
+  "api.forbidden": "Sie sind nicht berechtigt, diese Aktion auszuführen",
   "api.validations.failed": "Validierung fehlgeschlagen",
   "api.auth.login.not-found": "Benutzerkonto nicht gefunden",
   "api.auth.login.deleted": "Benutzerkonto wurde gelöscht",
