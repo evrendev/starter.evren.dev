@@ -1,0 +1,51 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
+import { useTenantStore } from "@/stores/tenants";
+import { useAppStore } from "@/stores/app";
+import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
+import TenantForm from "./components/TenantForm.vue";
+
+const { t } = useI18n();
+const route = useRoute();
+const tenantStore = useTenantStore();
+const appStore = useAppStore();
+const tenant = ref(null);
+
+const breadcrumbs = ref([
+  {
+    title: t("admin.tenants.title"),
+    disabled: false,
+    href: "/admin/tenants"
+  },
+  {
+    title: t("admin.tenants.edit"),
+    disabled: true,
+    href: "#"
+  }
+]);
+
+onMounted(async () => {
+  const id = route.params.id;
+
+  try {
+    appStore.setPageLoader(true);
+    await tenantStore.getById(id);
+    tenant.value = tenantStore.tenant;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    appStore.setPageLoader(false);
+  }
+});
+</script>
+
+<template>
+  <base-breadcrumb :title="t('admin.tenants.edit')" :breadcrumbs="breadcrumbs" />
+  <v-row>
+    <v-col cols="12" md="12">
+      <tenant-form v-if="tenant" :initial-data="tenant" :is-edit="true" />
+    </v-col>
+  </v-row>
+</template>

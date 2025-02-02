@@ -110,6 +110,7 @@ export default {
     audits: {
       title: "İşlem Geçmişi",
       list: "Liste",
+      edit: "Düzenle",
       fields: {
         id: "ID",
         user: "Kullanıcı",
@@ -190,6 +191,7 @@ export default {
     submit: "Gönder",
     save: "Kaydet",
     reset: "Sıfırla",
+    update: "Güncelle",
     close: "Kapat",
     deleted: "Başarıyla silindi",
     basicInformation: "Temel Bilgiler",

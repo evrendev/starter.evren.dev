@@ -52,7 +52,7 @@ public class DateTimeDto
                 LongDate = dateTime.ToString("D", currentCulture),
                 FullShortDate = dateTime.ToString("g", currentCulture),
                 FullLongDate = dateTime.ToString("f", currentCulture),
-                PluginDate = dateTime.ToString("dd.MM.yyyy", currentCulture),
+                PluginDate = dateTime.ToString("yyyy-MM-dd", currentCulture),
                 DisplayDate = dateTime.ToString("dd MMM yyyy", currentCulture),
                 DisplayDateWithTime = dateTime.ToString("dd MMM yyyy HH:mm", currentCulture),
                 RawDate = dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture)
@@ -86,7 +86,7 @@ public class DateTimeDto
                 LongDate = dateTime.ToString("D", currentCulture),
                 FullShortDate = dateTime.ToString("g", currentCulture),
                 FullLongDate = dateTime.ToString("f", currentCulture),
-                PluginDate = dateTime.ToString("dd.MM.yyyy", currentCulture),
+                PluginDate = dateTime.ToString("yyyy-MM-dd", currentCulture),
                 DisplayDate = dateTime.ToString("dd MMM yyyy", currentCulture),
                 DisplayDateWithTime = dateTime.ToString("dd MMM yyyy HH:mm", currentCulture),
                 RawDate = dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture)

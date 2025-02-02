@@ -44,7 +44,7 @@ const AdminRoutes = {
         {
           name: "edit-tenant",
           path: "edit/:id",
-          component: () => import("@/views/tenants/NewPage.vue"),
+          component: () => import("@/views/tenants/EditPage.vue"),
           meta: {
             titleKey: "pages.titles.editTenant"
           }

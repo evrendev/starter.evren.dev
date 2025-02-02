@@ -132,6 +132,7 @@ export default {
       title: "Mandanten",
       list: "Liste",
       new: "Neu",
+      edit: "Bearbeiten",
       fields: {
         id: "ID",
         name: "Name",
@@ -190,6 +191,7 @@ export default {
     submit: "Einreichen",
     save: "Speichern",
     reset: "Zurücksetzen",
+    update: "Aktualisieren",
     close: "Schließen",
     deleted: "Erfolgreich gelöscht",
     basicInformation: "Grundlegende Informationen",

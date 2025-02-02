@@ -132,6 +132,7 @@ export default {
       title: "Tenants",
       list: "List",
       new: "New",
+      edit: "Edit",
       fields: {
         id: "ID",
         name: "Name",
@@ -190,6 +191,7 @@ export default {
     submit: "Submit",
     save: "Save",
     reset: "Reset",
+    update: "Update",
     close: "Close",
     deleted: "Successfully deleted",
     basicInformation: "Basic Information",

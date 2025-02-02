@@ -37,6 +37,7 @@ export const useTenantStore = defineStore({
       try {
         const response = await apiService.get(`/tenants/${id}`, false);
         this.tenant = response;
+        return response;
       } finally {
         this.loading = false;
       }
