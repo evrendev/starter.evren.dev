@@ -10,7 +10,7 @@ const AdminRoutes = {
       path: "",
       component: () => import("@/views/dashboards/IndexPage.vue"),
       meta: {
-        titleKey: "pages.titles.dashboard"
+        titleKey: "admin.dashboard.title"
       }
     },
     {
@@ -18,7 +18,7 @@ const AdminRoutes = {
       path: "audits",
       component: () => import("@/views/audits/IndexPage.vue"),
       meta: {
-        titleKey: "pages.titles.auditLogs"
+        titleKey: "admin.audits.title"
       }
     },
     {
@@ -35,7 +35,7 @@ const AdminRoutes = {
           path: "list",
           component: () => import("@/views/tenants/IndexPage.vue"),
           meta: {
-            titleKey: "pages.titles.tenants"
+            titleKey: "admin.tenants.title"
           }
         },
         {
@@ -43,7 +43,7 @@ const AdminRoutes = {
           path: "new",
           component: () => import("@/views/tenants/NewPage.vue"),
           meta: {
-            titleKey: "pages.titles.newTenant"
+            titleKey: "admin.tenants.new"
           }
         },
         {
@@ -51,7 +51,7 @@ const AdminRoutes = {
           path: "edit/:id",
           component: () => import("@/views/tenants/EditPage.vue"),
           meta: {
-            titleKey: "pages.titles.editTenant"
+            titleKey: "admin.tenants.edit"
           }
         }
       ]
@@ -70,7 +70,7 @@ const AdminRoutes = {
           path: "list",
           component: () => import("@/views/roles/IndexPage.vue"),
           meta: {
-            titleKey: "pages.titles.roles"
+            titleKey: "admin.roles.list"
           }
         },
         {
@@ -78,7 +78,7 @@ const AdminRoutes = {
           path: "new",
           component: () => import("@/views/roles/NewPage.vue"),
           meta: {
-            titleKey: "pages.titles.newRole"
+            titleKey: "admin.roles.new"
           }
         },
         {
@@ -86,7 +86,7 @@ const AdminRoutes = {
           path: "edit/:id",
           component: () => import("@/views/roles/EditPage.vue"),
           meta: {
-            titleKey: "pages.titles.editRole"
+            titleKey: "admin.roles.edit"
           }
         }
       ]

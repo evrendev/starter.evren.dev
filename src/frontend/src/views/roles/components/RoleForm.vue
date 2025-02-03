@@ -1,10 +1,10 @@
 <script setup>
-import { ref, watch } from "vue";
+import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
-import { object, string, boolean, date } from "yup";
-import { useTenantStore } from "@/stores/tenants";
+import { object, string } from "yup";
+import { useRoleStore } from "@/stores/roles";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 
@@ -21,31 +21,17 @@ const props = defineProps({
 
 const { t } = useI18n();
 const router = useRouter();
-const tenantStore = useTenantStore();
+const roleStore = useRoleStore();
 const appStore = useAppStore();
 const { loading } = storeToRefs(appStore);
 
-const tab = ref(0);
-
 const schema = object().shape({
-  name: string().required(t("admin.tenants.validation.name.required")).max(200, t("admin.tenants.validation.name.maxLength")),
-  adminEmail: string().required(t("admin.tenants.validation.adminEmail.required")).email(t("admin.tenants.validation.adminEmail.invalid")),
-  connectionString: string().nullable(),
-  host: string().nullable(),
-  isActive: boolean().default(true),
-  validUntil: date()
-    .required(t("admin.tenants.validation.validUntil.required"))
-    .min(new Date(), t("admin.tenants.validation.validUntil.future")),
-  description: string().nullable().max(500, t("admin.tenants.validation.description.maxLength"))
+  name: string().required(t("admin.roles.validation.name.required")).max(200, t("admin.roles.validation.name.maxLength")),
+  description: string().nullable().max(500, t("admin.roles.validation.description.maxLength"))
 });
 
 const defaultValues = {
   name: "",
-  adminEmail: "",
-  connectionString: "",
-  host: "",
-  isActive: true,
-  validUntil: null,
   description: ""
 };
 
@@ -54,7 +40,6 @@ const { defineField, handleSubmit, resetForm, setValues } = useForm({
   initialValues: defaultValues
 });
 
-// Watch for changes in initialData and update form values
 watch(
   () => props.initialData,
   (newValue) => {
@@ -77,11 +62,6 @@ const vuetifyConfig = (state) => ({
 });
 
 const [name, nameProps] = defineField("name", vuetifyConfig);
-const [adminEmail, adminEmailProps] = defineField("adminEmail", vuetifyConfig);
-const [connectionString, connectionStringProps] = defineField("connectionString", vuetifyConfig);
-const [host, hostProps] = defineField("host", vuetifyConfig);
-const [isActive, isActiveProps] = defineField("isActive", vuetifyConfig);
-const [validUntil, validUntilProps] = defineField("validUntil", vuetifyConfig);
 const [description, descriptionProps] = defineField("description", vuetifyConfig);
 
 const onSubmit = handleSubmit(async (values) => {
@@ -93,11 +73,11 @@ const onSubmit = handleSubmit(async (values) => {
     };
 
     if (props.isEdit) {
-      await tenantStore.update(props.initialData.id, submitData);
+      await roleStore.update(props.initialData.id, submitData);
     } else {
-      await tenantStore.create(submitData);
+      await roleStore.create(submitData);
     }
-    router.push("/admin/tenants");
+    router.push("/admin/roles");
   } catch (error) {
     console.error(error);
   } finally {
@@ -121,93 +101,28 @@ const handleReset = () => {
 <template>
   <v-card class="pa-6">
     <v-form @submit="onSubmit">
-      <v-tabs v-model="tab" color="primary" align-tabs="start">
-        <v-tab :value="0">{{ t("common.basicInformation") }}</v-tab>
-        <v-tab :value="1">{{ t("common.additionalParameters") }}</v-tab>
-      </v-tabs>
-
-      <v-window v-model="tab">
-        <v-window-item :value="0">
-          <v-row class="mt-2">
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="name"
-                v-bind="nameProps"
-                :label="t('admin.tenants.fields.name')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="adminEmail"
-                v-bind="adminEmailProps"
-                :label="t('admin.tenants.fields.adminEmail')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="validUntil"
-                v-bind="validUntilProps"
-                :label="t('admin.tenants.fields.validUntil')"
-                type="date"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
-                v-model="description"
-                v-bind="descriptionProps"
-                :label="t('admin.tenants.fields.description')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-                rows="3"
-              />
-            </v-col>
-          </v-row>
-        </v-window-item>
-
-        <v-window-item :value="1">
-          <v-row class="mt-2">
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="connectionString"
-                v-bind="connectionStringProps"
-                :label="t('admin.tenants.fields.connectionString')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="host"
-                v-bind="hostProps"
-                :label="t('admin.tenants.fields.host')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="2">
-              <v-switch
-                v-model="isActive"
-                v-bind="isActiveProps"
-                :label="t('admin.tenants.fields.isActive')"
-                color="success"
-                hide-details="auto"
-              />
-            </v-col>
-          </v-row>
-        </v-window-item>
-      </v-window>
+      <v-row class="mt-2">
+        <v-col cols="12" md="4">
+          <v-text-field
+            v-model="name"
+            v-bind="nameProps"
+            :label="t('admin.roles.fields.name')"
+            density="comfortable"
+            variant="outlined"
+            hide-details="auto"
+          />
+        </v-col>
+        <v-col cols="8">
+          <v-text-field
+            v-model="description"
+            v-bind="descriptionProps"
+            :label="t('admin.roles.fields.description')"
+            density="comfortable"
+            variant="outlined"
+            hide-details="auto"
+          />
+        </v-col>
+      </v-row>
 
       <v-row class="mt-4">
         <v-col cols="12" class="d-flex justify-end gap-2">
