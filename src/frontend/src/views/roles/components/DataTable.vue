@@ -3,11 +3,11 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmModal } from "@/components/forms/";
-import { useTenantStore } from "@/stores/";
+import { useRoleStore } from "@/stores/";
 import config from "@/config";
 
 const { t } = useI18n();
-const roleStore = useTenantStore();
+const roleStore = useRoleStore();
 
 defineProps({
   items: {
