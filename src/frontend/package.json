@@ -59,7 +59,7 @@
     "vite-plugin-vue-devtools": "^7.7.1",
     "vite-plugin-webpackchunkname": "^1.0.3",
     "vite-svg-loader": "^5.1.0",
-    "vitest": "^3.0.4",
+    "vitest": "^3.0.5",
     "vue-cli-plugin-vuetify": "2.5.8"
   }
 }
