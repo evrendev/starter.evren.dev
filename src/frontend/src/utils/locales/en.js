@@ -103,8 +103,8 @@ export default {
     error: "Request failed"
   },
   admin: {
-    starter: {
-      title: "Starter Page",
+    dashboard: {
+      title: "Dashboard",
       subtitle: "This is a good place to start"
     },
     audits: {

@@ -103,8 +103,8 @@ export default {
     error: "Anfrage fehlgeschlagen"
   },
   admin: {
-    starter: {
-      title: "Startseite",
+    dashboard: {
+      title: "Dashboard",
       subtitle: "Willkommen bei der Admin-Panel"
     },
     audits: {

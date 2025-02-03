@@ -103,8 +103,8 @@ export default {
     error: "İstek başarısız"
   },
   admin: {
-    starter: {
-      title: "Başlangıç",
+    dashboard: {
+      title: "Yönetim Paneli",
       subtitle: "Yönetim Paneline Hoşgeldiniz"
     },
     audits: {
