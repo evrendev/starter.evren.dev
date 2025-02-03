@@ -1,9 +1,11 @@
+using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Application.Features.Roles.Commands.CreateRole;
-public class CreateRoleCommand : IRequest<Result<string>>
+public class CreateRoleCommand : IRequest<Result<Guid>>
 {
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
+    public string? Description { get; set; }
 }
 
 public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
@@ -19,24 +21,29 @@ public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
     }
 }
 
-public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Result<string>>
+public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Result<Guid>>
 {
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
 
     public CreateRoleCommandHandler(
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<ApplicationRole> roleManager)
     {
         _roleManager = roleManager;
     }
 
-    public async Task<Result<string>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = new IdentityRole(request.Name);
+        var role = new ApplicationRole()
+        {
+            Name = request.Name,
+            Description = request.Description,
+            Deleted = false
+        };
         var result = await _roleManager.CreateAsync(role);
 
         if (!result.Succeeded)
-            return Result<string>.Failure(result.Errors.Select(e => e.Description).ToArray());
+            return Result<Guid>.Failure(result.Errors.Select(e => e.Description).ToArray());
 
-        return Result<string>.Success(role.Id);
+        return Result<Guid>.Success(role.Id);
     }
 }

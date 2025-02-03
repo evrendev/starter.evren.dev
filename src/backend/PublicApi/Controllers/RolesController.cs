@@ -77,7 +77,7 @@ public class RolesController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Policy = $"{Modules.Roles}.{Permissions.Read}")]
-    public async Task<ActionResult<RoleDto>> GetById(string id)
+    public async Task<ActionResult<RoleDto>> GetById(Guid id)
     {
         try
         {

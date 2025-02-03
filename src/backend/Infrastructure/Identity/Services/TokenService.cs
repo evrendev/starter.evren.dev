@@ -34,7 +34,7 @@ public class TokenService : ITokenService
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email ?? string.Empty),
             new("fullname", user.FullName ?? string.Empty),
@@ -70,7 +70,7 @@ public class TokenService : ITokenService
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
             new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
             new Claim("tenant", user.TenantId.ToString() ?? string.Empty)
@@ -99,7 +99,7 @@ public class TokenService : ITokenService
         return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
     }
 
-    public async Task<string> GenerateRefreshTokenAsync(string userId)
+    public async Task<string> GenerateRefreshTokenAsync(Guid userId)
     {
         var refreshToken = GenerateRefreshToken();
         var options = new DistributedCacheEntryOptions
@@ -111,7 +111,7 @@ public class TokenService : ITokenService
         return refreshToken;
     }
 
-    public async Task<bool> ValidateRefreshTokenAsync(string userId, string refreshToken)
+    public async Task<bool> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
     {
         var storedToken = await _cache.GetStringAsync($"RefreshToken_{userId}");
         return storedToken == refreshToken;

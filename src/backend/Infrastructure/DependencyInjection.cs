@@ -108,7 +108,7 @@ public static class DependencyInjection
         Guard.Against.Null(identityConnectionString, message: "Identity Connection string 'IdentityConnection' not found.");
         services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(identityConnectionString));
 
-        services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
             // Signin Options
             options.SignIn.RequireConfirmedEmail = true;

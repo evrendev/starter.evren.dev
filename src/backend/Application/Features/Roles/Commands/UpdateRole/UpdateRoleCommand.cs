@@ -1,7 +1,8 @@
+using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Application.Features.Roles.Commands.UpdateRole;
-public class UpdateRoleCommand : IRequest<Result<string>>
+public class UpdateRoleCommand : IRequest<Result<Guid>>
 {
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -24,26 +25,26 @@ public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
     }
 }
 
-public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Result<string>>
+public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Result<Guid>>
 {
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IStringLocalizer<UpdateRoleCommandHandler> _localizer;
 
     public UpdateRoleCommandHandler(
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<ApplicationRole> roleManager,
         IStringLocalizer<UpdateRoleCommandHandler> localizer)
     {
         _roleManager = roleManager;
         _localizer = localizer;
     }
 
-    public async Task<Result<string>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
         var role = await _roleManager.FindByIdAsync(request.Id);
         if (role == null)
         {
             var notFoundMessage = _localizer["api.roles.not-found"];
-            return Result<string>.Failure(new[] { notFoundMessage.ToString() });
+            return Result<Guid>.Failure(new[] { notFoundMessage.ToString() });
         }
 
         role.Name = request.Name;
@@ -51,9 +52,9 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Resul
 
         if (!result.Succeeded)
         {
-            return Result<string>.Failure(result.Errors.Select(e => e.Description).ToArray());
+            return Result<Guid>.Failure(result.Errors.Select(e => e.Description).ToArray());
         }
 
-        return Result<string>.Success(role.Id);
+        return Result<Guid>.Success(role.Id);
     }
 }

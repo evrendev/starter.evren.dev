@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Features.Auth.Commands;
 
 public class RefreshTokenCommand : IRequest<Result<AuthResponse>>
 {
-    public string UserId { get; set; } = string.Empty;
+    public Guid UserId { get; set; }
     public string RefreshToken { get; set; } = string.Empty;
 }
 
@@ -53,7 +53,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
         if (!isValid)
             return Result<AuthResponse>.Failure(_localizer["api.auth.refresh-token.invalid"]);
 
-        var user = await _userManager.FindByIdAsync(request.UserId);
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user == null)
             return Result<AuthResponse>.Failure(_localizer["api.auth.refresh-token.not-found"]);
 

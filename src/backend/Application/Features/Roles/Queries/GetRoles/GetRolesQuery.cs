@@ -1,4 +1,5 @@
 using EvrenDev.Application.Features.Roles.Model;
+using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Application.Features.Roles.Queries.GetRoles;
@@ -11,10 +12,10 @@ public class GetRolesQuery : IRequest<Result<PaginatedList<RoleDto>>>
 
 public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, Result<PaginatedList<RoleDto>>>
 {
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
 
     public GetRolesQueryHandler(
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<ApplicationRole> roleManager)
     {
         _roleManager = roleManager;
     }

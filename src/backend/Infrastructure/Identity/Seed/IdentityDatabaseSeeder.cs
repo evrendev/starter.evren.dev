@@ -12,14 +12,14 @@ namespace EvrenDev.Infrastructure.Identity.Seed;
 public class IdentityDatabaseSeeder : IDatabaseSeeder
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IConfiguration _configuration;
     private readonly ILogger<IdentityDatabaseSeeder> _logger;
     private readonly ITenantService _tenantService;
 
     public IdentityDatabaseSeeder(
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<ApplicationRole> roleManager,
         IConfiguration configuration,
         ILogger<IdentityDatabaseSeeder> logger,
         ITenantService tenantService)
@@ -37,11 +37,19 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
         {
             // Add default roles
             var roles = Roles.AllRoles.ToList();
+            var tenantId = _tenantService.GetDefaultTenantId();
+
             foreach (var roleName in roles)
             {
                 if (!await _roleManager.RoleExistsAsync(roleName))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(roleName));
+                    await _roleManager.CreateAsync(new ApplicationRole()
+                    {
+                        Name = roleName,
+                        TenantId = tenantId,
+                        Description = roleName,
+                        Deleted = false,
+                    });
                     _logger.LogInformation("Created role: {Role}", roleName);
                 }
             }
@@ -51,7 +59,6 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
 
             if (superAdminUser == null)
             {
-                var tenantId = _tenantService.GetDefaultTenantId();
 
                 superAdminUser = new ApplicationUser
                 {

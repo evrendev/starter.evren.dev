@@ -6,6 +6,6 @@ public interface ITokenService
     string GenerateJwtToken(ApplicationUser user);
     string GenerateRefreshToken();
     Task<string> GenerateJwtTokenAsync(ApplicationUser user, IList<string> permissions);
-    Task<string> GenerateRefreshTokenAsync(string userId);
-    Task<bool> ValidateRefreshTokenAsync(string userId, string refreshToken);
+    Task<string> GenerateRefreshTokenAsync(Guid userId);
+    Task<bool> ValidateRefreshTokenAsync(Guid userId, string refreshToken);
 }

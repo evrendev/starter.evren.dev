@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Application.Features.Users.Commands.CreateUser;
 
-public record CreateUserCommand : IRequest<Result<string>>
+public record CreateUserCommand : IRequest<Result<Guid>>
 {
     public Guid? TenantId { get; init; }
     public string Gender { get; init; } = string.Empty;
@@ -61,7 +61,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     }
 }
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<string>>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<Guid>>
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IStringLocalizer<CreateUserCommandHandler> _localizer;
@@ -74,7 +74,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         _localizer = localizer;
     }
 
-    public async Task<Result<string>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var user = new ApplicationUser
         {
@@ -94,7 +94,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         if (!result.Succeeded)
         {
             var errors = result.Errors.Select(e => e.Description).ToArray();
-            return Result<string>.Failure(errors);
+            return Result<Guid>.Failure(errors);
         }
 
         if (request.Permissions.Any())
@@ -102,6 +102,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
             await _userManager.AddClaimsAsync(user, request.Permissions.Select(p => new System.Security.Claims.Claim("permission", p)));
         }
 
-        return Result<string>.Success(user.Id);
+        return Result<Guid>.Success(user.Id);
     }
 }

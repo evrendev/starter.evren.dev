@@ -1,3 +1,4 @@
+using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Application.Features.Roles.Commands.DeleteRole;
@@ -22,11 +23,11 @@ public class DeleteRoleCommandValidator : AbstractValidator<DeleteRoleCommand>
 
 public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Result<bool>>
 {
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IStringLocalizer<DeleteRoleCommandHandler> _localizer;
 
     public DeleteRoleCommandHandler(
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<ApplicationRole> roleManager,
         IStringLocalizer<DeleteRoleCommandHandler> localizer)
     {
         _roleManager = roleManager;

@@ -103,7 +103,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Policy = $"{Modules.Users}.{Permissions.Edit}")]
-    public async Task<ActionResult<bool>> Update(string id, UpdateUserCommand command)
+    public async Task<ActionResult<bool>> Update(Guid id, UpdateUserCommand command)
     {
         if (id != command.Id)
             return BadRequest();

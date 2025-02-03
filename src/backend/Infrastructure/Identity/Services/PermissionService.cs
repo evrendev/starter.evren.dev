@@ -18,9 +18,9 @@ public class PermissionService : IPermissionService
         _configuration = configuration;
     }
 
-    public async Task<List<string>> GetUserPermissions(string userId)
+    public async Task<List<string>> GetUserPermissions(Guid userId)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user == null) return new List<string>();
 
         var claims = await _userManager.GetClaimsAsync(user);
@@ -29,19 +29,19 @@ public class PermissionService : IPermissionService
                     .ToList();
     }
 
-    public async Task<bool> HasPermission(string userId, string permission)
+    public async Task<bool> HasPermission(Guid userId, string permission)
     {
         var permissions = await GetUserPermissions(userId);
         return permissions.Contains(permission);
     }
 
-    public async Task<bool> HasAnyPermission(string userId, IEnumerable<string> permissions)
+    public async Task<bool> HasAnyPermission(Guid userId, IEnumerable<string> permissions)
     {
         var userPermissions = await GetUserPermissions(userId);
         return permissions.Any(p => userPermissions.Contains(p));
     }
 
-    public async Task<bool> HasAllPermissions(string userId, IEnumerable<string> permissions)
+    public async Task<bool> HasAllPermissions(Guid userId, IEnumerable<string> permissions)
     {
         var userPermissions = await GetUserPermissions(userId);
         return permissions.All(p => userPermissions.Contains(p));

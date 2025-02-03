@@ -1,4 +1,5 @@
 using EvrenDev.Application.Features.Roles.Model;
+using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,15 +7,15 @@ namespace EvrenDev.Application.Features.Roles.Queries.GetRoleById;
 
 public class GetRoleByIdQuery : IRequest<Result<RoleDto>>
 {
-    public string Id { get; set; } = string.Empty;
+    public Guid Id { get; set; }
 }
 
 public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, Result<RoleDto>>
 {
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
 
     public GetRoleByIdQueryHandler(
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<ApplicationRole> roleManager)
     {
         _roleManager = roleManager;
     }
@@ -28,7 +29,8 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, Result<
         var roleDtos = new RoleDto()
         {
             Id = role.Id,
-            Name = role.Name!
+            Name = role.Name,
+            Description = role.Description
         };
 
         return Result<RoleDto>.Success(roleDtos);

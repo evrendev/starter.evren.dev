@@ -5,7 +5,7 @@ namespace EvrenDev.Application.Features.Users.Commands.UpdateUser;
 
 public record UpdateUserCommand : IRequest<Result<bool>>
 {
-    public string Id { get; init; } = string.Empty;
+    public Guid Id { get; init; }
     public Guid? TenantId { get; init; }
     public string Gender { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
@@ -49,7 +49,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
             .NotEmpty().WithMessage(_localizer["api.users.update.tenant-id.required"]);
     }
 
-    private async Task<bool> EmailBelongsToUser(string userId, string email)
+    private async Task<bool> EmailBelongsToUser(Guid userId, string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         return user == null || user.Id == userId;
@@ -71,7 +71,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Resul
 
     public async Task<Result<bool>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.Id);
+        var user = await _userManager.FindByIdAsync(request.Id.ToString());
         if (user == null)
             return Result<bool>.Failure(_localizer["api.users.not-found"].Value);
 
