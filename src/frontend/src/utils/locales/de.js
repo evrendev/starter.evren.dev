@@ -178,6 +178,31 @@ export default {
           future: "Sie müssen ein zukünftiges Datum auswählen"
         }
       }
+    },
+    roles: {
+      title: "Rollen",
+      list: "Liste",
+      new: "Neu",
+      edit: "Bearbeiten",
+      fields: {
+        id: "ID",
+        name: "Name",
+        description: "Beschreibung",
+        process: "Prozess"
+      },
+      delete: {
+        title: "Rolle löschen",
+        message: "Möchten Sie die Rolle löschen?"
+      },
+      validation: {
+        name: {
+          required: "Rollenname ist erforderlich",
+          maxLength: "Rollenname muss weniger als {max} Zeichen lang sein"
+        },
+        description: {
+          maxLength: "Beschreibung muss weniger als {max} Zeichen lang sein"
+        }
+      }
     }
   },
   common: {

@@ -12,7 +12,7 @@ public class GetTenantsQuery : IRequest<Result<PaginatedList<BasicTenantDto>>>
     public DateTime? StartDate { get; init; } = null;
     public DateTime? EndDate { get; init; } = null;
     public int Page { get; init; } = 1;
-    public int ItemsPerPage { get; init; } = 10;
+    public int ItemsPerPage { get; init; } = 25;
     public string? SortBy { get; init; }
     public string? SortDesc { get; init; }
 }

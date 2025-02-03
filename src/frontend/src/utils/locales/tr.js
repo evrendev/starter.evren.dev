@@ -178,6 +178,30 @@ export default {
           future: "Gelecek bir tarih seçmelisiniz"
         }
       }
+    },
+    roles: {
+      title: "Roller",
+      list: "Liste",
+      new: "Yeni",
+      fields: {
+        id: "ID",
+        name: "Ad",
+        description: "Açıklama",
+        process: "İşlem"
+      },
+      delete: {
+        title: "Rolü Sil",
+        message: "Rolü silmek istediğinizden emin misiniz?"
+      },
+      validation: {
+        name: {
+          required: "Rol adı girmeniz gerekmektedir",
+          maxLength: "Rol adı en fazla {max} karakter olabilir"
+        },
+        description: {
+          maxLength: "Açıklama en fazla {max} karakter olabilir"
+        }
+      }
     }
   },
   common: {

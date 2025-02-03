@@ -178,6 +178,31 @@ export default {
           future: "You must select a future date"
         }
       }
+    },
+    roles: {
+      title: "Roles",
+      list: "List",
+      new: "New",
+      edit: "Edit",
+      fields: {
+        id: "ID",
+        name: "Name",
+        description: "Description",
+        process: "Process"
+      },
+      delete: {
+        title: "Delete Role",
+        message: "Are you sure you want to delete this role?"
+      },
+      validation: {
+        name: {
+          required: "Role name is required",
+          maxLength: "Role name must be less than {max} characters"
+        },
+        description: {
+          maxLength: "Description must be less than {max} characters"
+        }
+      }
     }
   },
   common: {

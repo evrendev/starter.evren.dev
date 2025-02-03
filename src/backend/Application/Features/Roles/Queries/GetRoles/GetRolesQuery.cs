@@ -1,13 +1,15 @@
 using EvrenDev.Application.Features.Roles.Model;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Roles.Queries.GetRoles;
-public class GetRolesQuery : IRequest<Result<List<RoleDto>>>
+public class GetRolesQuery : IRequest<Result<PaginatedList<RoleDto>>>
 {
+    public string? Search { get; set; }
+    public int Page { get; init; } = 1;
+    public int ItemsPerPage { get; init; } = 25;
 }
 
-public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, Result<List<RoleDto>>>
+public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, Result<PaginatedList<RoleDto>>>
 {
     private readonly RoleManager<IdentityRole> _roleManager;
 
@@ -17,20 +19,25 @@ public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, Result<List<R
         _roleManager = roleManager;
     }
 
-    public async Task<Result<List<RoleDto>>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<RoleDto>>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
     {
-        var roles = await _roleManager.Roles.ToListAsync();
-        var roleDtos = new List<RoleDto>();
+        var query = _roleManager.Roles.AsQueryable();
 
-        foreach (var role in roles)
+        if (!string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(x =>
+                x.Name!.Contains(request.Search));
+
+        var dtoQuery = query.Select(role => new RoleDto
         {
-            roleDtos.Add(new RoleDto
-            {
-                Id = role.Id,
-                Name = role.Name!
-            });
-        }
+            Id = role.Id,
+            Name = role.Name!
+        });
 
-        return Result<List<RoleDto>>.Success(roleDtos);
+        var paginatedList = await PaginatedList<RoleDto>.CreateAsync(
+            dtoQuery,
+            request.Page,
+            request.ItemsPerPage);
+
+        return Result<PaginatedList<RoleDto>>.Success(paginatedList);
     }
 }

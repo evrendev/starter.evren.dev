@@ -81,32 +81,12 @@ const showConfirmModal = (id) => {
           <v-icon size="small" icon="$pencil" color="secondary" />
         </router-link>
         <v-icon
-          v-show="item.isActive"
           size="small"
           icon="$trashCan"
           color="error"
           class="ml-2"
           @click="showConfirmModal(item.id, `delete`, true)"
           :title="t('admin.roles.delete.title')"
-        />
-        <v-icon
-          v-if="item.isActive"
-          icon="$thumbDown"
-          size-="small"
-          color="warning"
-          class="ml-2"
-          @click="showConfirmModal(item.id, `activate`, true)"
-          :title="t('admin.roles.deactivate.title')"
-        />
-        <v-icon
-          v-else
-          size="small"
-          icon="$thumbUp"
-          size-="small"
-          color="success"
-          class="ml-2"
-          @click="showConfirmModal(item.id, `activate`, false)"
-          :title="t('admin.roles.activate.title')"
         />
       </template>
     </v-data-table-server>
