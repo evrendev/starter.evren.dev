@@ -43,16 +43,20 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             {
                 if (!await _roleManager.RoleExistsAsync(roleName))
                 {
-                    await _roleManager.CreateAsync(new ApplicationRole()
+                    var role = new ApplicationRole()
                     {
-                        Name = roleName,
                         TenantId = tenantId,
+                        Name = roleName,
                         Description = roleName,
                         Deleted = false,
-                    });
+                    };
+
+                    var response = await _roleManager.CreateAsync(role);
+
                     _logger.LogInformation("Created role: {Role}", roleName);
                 }
             }
+
             // Create default admin user if not exists
             var adminEmail = _configuration["DefaultAdmin:Email"] ?? "mail@evren.dev";
             var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);

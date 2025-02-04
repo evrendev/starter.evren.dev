@@ -106,7 +106,13 @@ public static class DependencyInjection
 
         var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
         Guard.Against.Null(identityConnectionString, message: "Identity Connection string 'IdentityConnection' not found.");
-        services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(identityConnectionString));
+        services.AddDbContext<IdentityDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(new AuditSaveChangesInterceptor());
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+
+            options.UseSqlServer(identityConnectionString);
+        });
 
         services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
@@ -198,7 +204,7 @@ public static class DependencyInjection
         services.AddSingleton(TimeProvider.System);
 
         // Register database seeders
-        services.AddScoped<IDatabaseSeeder, TenantDatabaseInitializer>();
+        services.AddScoped<IDatabaseSeeder, TenantDatabaseSeeder>();
         services.AddScoped<IDatabaseSeeder, IdentityDatabaseSeeder>();
         services.AddScoped<DevelopmentDatabaseSeeder>();
 
