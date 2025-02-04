@@ -1,4 +1,4 @@
-namespace Infrastructure.Configurations;
+namespace EvrenDev.Shared.Configurations;
 
 public class CloudflareSettings
 {

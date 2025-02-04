@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 using Application.Common.Interfaces;
-using Infrastructure.Configurations;
+using EvrenDev.Shared.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 

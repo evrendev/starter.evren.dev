@@ -1,7 +1,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Application.Common.Interfaces;
-using Infrastructure.Configurations;
+using EvrenDev.Shared.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
