@@ -31,22 +31,7 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationR
         builder.ApplyConfiguration(new IdentityUserRoleConfiguration());
         builder.ApplyConfiguration(new IdentityUserTokenConfiguration());
 
-        builder.Entity<ApplicationUser>()
-            .HasQueryFilter(u => !u.Deleted && u.TenantId == _tenantService.GetCurrentTenantId());
-
-        builder.Entity<ApplicationRole>()
-            .HasQueryFilter(r => !r.Deleted);
-    }
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        foreach (var entry in ChangeTracker.Entries<ApplicationUser>().Where(e => e.State == EntityState.Added))
-        {
-            var tenantId = _tenantService.GetCurrentTenantId();
-
-            entry.Entity.TenantId = tenantId ?? entry.Entity.TenantId;
-        }
-
-        return await base.SaveChangesAsync(cancellationToken);
+        builder.Entity<ApplicationUser>().HasQueryFilter(u => !u.Deleted);
+        builder.Entity<ApplicationRole>().HasQueryFilter(r => !r.Deleted);
     }
 }

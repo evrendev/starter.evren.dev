@@ -10,6 +10,7 @@ using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Interceptors;
 using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.Infrastructure.Identity.Data;
+using EvrenDev.Infrastructure.Identity.Interceptors;
 using EvrenDev.Infrastructure.Identity.Seed;
 using EvrenDev.Infrastructure.Identity.Services;
 using EvrenDev.Infrastructure.Services;
@@ -34,6 +35,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, AuditableTenantInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, AuditableIdentityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         var catalogConnectionString = configuration.GetConnectionString("CatalogConnection");
