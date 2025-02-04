@@ -1,6 +1,5 @@
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
-using EvrenDev.Domain.Interfaces;
 using EvrenDev.Infrastructure.Identity.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -36,12 +35,12 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationR
             .HasQueryFilter(u => !u.Deleted && u.TenantId == _tenantService.GetCurrentTenantId());
 
         builder.Entity<ApplicationRole>()
-            .HasQueryFilter(r => !r.Deleted && r.TenantId == _tenantService.GetCurrentTenantId());
+            .HasQueryFilter(r => !r.Deleted);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        foreach (var entry in ChangeTracker.Entries<ITenant>().Where(e => e.State == EntityState.Added))
+        foreach (var entry in ChangeTracker.Entries<ApplicationUser>().Where(e => e.State == EntityState.Added))
         {
             var tenantId = _tenantService.GetCurrentTenantId();
 

@@ -1,13 +1,10 @@
-﻿using EvrenDev.Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Domain.Entities.Identity;
 
 [AuditInclude]
-public class ApplicationRole : IdentityRole<Guid>, IBaseIdentityEntity
+public class ApplicationRole : IdentityRole<Guid>
 {
-    public Guid? TenantId { get; set; }
-
     public string? Description { get; set; }
 
     public DateTimeOffset CreatedTime { get; set; }

@@ -37,7 +37,6 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
         {
             // Add default roles
             var roles = Roles.AllRoles.ToList();
-            var tenantId = _tenantService.GetDefaultTenantId();
 
             foreach (var roleName in roles)
             {
@@ -45,7 +44,6 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
                 {
                     var role = new ApplicationRole()
                     {
-                        TenantId = tenantId,
                         Name = roleName,
                         Description = roleName,
                         Deleted = false,
@@ -60,6 +58,7 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             // Create default admin user if not exists
             var adminEmail = _configuration["DefaultAdmin:Email"] ?? "mail@evren.dev";
             var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);
+            var tenantId = _tenantService.GetDefaultTenantId();
 
             if (superAdminUser == null)
             {
