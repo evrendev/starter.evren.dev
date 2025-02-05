@@ -97,7 +97,8 @@ const onSubmit = handleSubmit(async (values) => {
     } else {
       await tenantStore.create(submitData);
     }
-    router.push("/admin/tenants");
+
+    router.push({ name: "list-tenants" });
   } catch (error) {
     console.error(error);
   } finally {

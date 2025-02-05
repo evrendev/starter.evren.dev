@@ -2,25 +2,25 @@
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
-import { useTenantStore } from "@/stores/tenants";
+import { useRoleStore } from "@/stores/roles";
 import { useAppStore } from "@/stores/app";
 import { Breadcrumb } from "@/components/forms";
 import { RoleForm } from "./components";
 
 const { t } = useI18n();
 const route = useRoute();
-const tenantStore = useTenantStore();
+const roleStore = useRoleStore();
 const appStore = useAppStore();
-const tenant = ref(null);
+const role = ref(null);
 
 const breadcrumbs = ref([
   {
-    title: t("admin.tenants.title"),
+    title: t("admin.roles.title"),
     disabled: false,
-    href: "/admin/tenants"
+    href: "/admin/roles/list"
   },
   {
-    title: t("admin.tenants.edit"),
+    title: t("admin.roles.edit"),
     disabled: true,
     href: "#"
   }
@@ -31,8 +31,8 @@ onMounted(async () => {
 
   try {
     appStore.setPageLoader(true);
-    await tenantStore.getById(id);
-    tenant.value = tenantStore.tenant;
+    await roleStore.getById(id);
+    role.value = roleStore.role;
   } catch (error) {
     console.error(error);
   } finally {
@@ -42,10 +42,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <breadcrumb :title="t('admin.tenants.edit')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.roles.edit')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
-      <role-form v-if="tenant" :initial-data="tenant" :is-edit="true" />
+      <role-form v-if="role" :initial-data="role" :is-edit="true" />
     </v-col>
   </v-row>
 </template>

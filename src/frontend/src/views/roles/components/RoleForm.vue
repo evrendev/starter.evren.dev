@@ -77,7 +77,8 @@ const onSubmit = handleSubmit(async (values) => {
     } else {
       await roleStore.create(submitData);
     }
-    router.push("/admin/roles");
+
+    router.push({ name: "list-roles" });
   } catch (error) {
     console.error(error);
   } finally {

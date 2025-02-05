@@ -31,7 +31,7 @@ const AdminRoutes = {
           redirect: "list"
         },
         {
-          name: "tenants",
+          name: "list-tenants",
           path: "list",
           component: () => import("@/views/tenants/IndexPage.vue"),
           meta: {
@@ -66,7 +66,7 @@ const AdminRoutes = {
           redirect: "list"
         },
         {
-          name: "roles",
+          name: "list-roles",
           path: "list",
           component: () => import("@/views/roles/IndexPage.vue"),
           meta: {

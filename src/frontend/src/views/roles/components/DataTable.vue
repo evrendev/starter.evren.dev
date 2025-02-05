@@ -28,6 +28,7 @@ defineEmits(["update:options"]);
 
 const headers = ref([
   { title: t("admin.roles.fields.name"), key: "name", sortable: false },
+  { title: t("admin.roles.fields.description"), key: "description", sortable: false },
   { title: t("admin.roles.fields.process"), key: "process", align: "center", sortable: false, width: "64px" }
 ]);
 

@@ -31,7 +31,8 @@ public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, Result<Pagina
         var dtoQuery = query.Select(role => new RoleDto
         {
             Id = role.Id,
-            Name = role.Name!
+            Name = role.Name,
+            Description = role.Description
         });
 
         var paginatedList = await PaginatedList<RoleDto>.CreateAsync(

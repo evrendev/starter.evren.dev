@@ -10,7 +10,7 @@ const breadcrumbs = ref([
   {
     title: t("admin.tenants.title"),
     disabled: false,
-    href: "/admin/tenants"
+    href: "/admin/tenants/list"
   },
   {
     title: t("admin.tenants.new"),
