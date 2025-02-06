@@ -22,7 +22,7 @@ public class PredefinedValuesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<PredefinedValuesVm>> GetAll(GetAllPredefinedValuesQuery query)
+    public async Task<ActionResult<PredefinedValuesVm>> GetAll([FromQuery] GetAllPredefinedValuesQuery query)
     {
         try
         {
