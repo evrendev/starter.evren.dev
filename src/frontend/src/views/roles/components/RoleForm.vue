@@ -127,7 +127,7 @@ const handleReset = () => {
 
       <v-row class="mt-4">
         <v-col cols="12" class="d-flex justify-end gap-2">
-          <v-btn color="error" variant="outlined" :disabled="loading" @click="handleReset" prepend-icon="$refresh">
+          <v-btn color="error" :disabled="loading" @click="handleReset" prepend-icon="$refresh">
             {{ t("common.reset") }}
           </v-btn>
           <v-btn color="primary" type="submit" :loading="loading" :prepend-icon="isEdit ? '$pencil' : '$contentSave'" class="ml-2">

@@ -168,18 +168,11 @@ onMounted(async () => {
 
           <v-row class="mt-4">
             <v-col cols="12" class="d-flex justify-end gap-2">
-              <v-btn color="error" variant="outlined" v-show="disabled" prepend-icon="$pencil" @click="disabled = false">
+              <v-btn color="warning" v-show="disabled" prepend-icon="$pencil" @click="disabled = false">
                 {{ t("common.edit") }}
               </v-btn>
 
-              <v-btn
-                color="error"
-                variant="outlined"
-                :disabled="authStore.loading"
-                v-show="!disabled"
-                @click="handleReset"
-                prepend-icon="$refresh"
-              >
+              <v-btn color="error" :disabled="authStore.loading" v-show="!disabled" @click="handleReset" prepend-icon="$refresh">
                 {{ t("common.reset") }}
               </v-btn>
               <v-btn color="primary" type="submit" :loading="authStore.loading" prepend-icon="$contentSave" class="ml-2" v-show="!disabled">
