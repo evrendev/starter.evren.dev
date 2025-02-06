@@ -14,6 +14,14 @@ const AdminRoutes = {
       }
     },
     {
+      name: "profile",
+      path: "profile",
+      component: () => import("@/views/profile/IndexPage.vue"),
+      meta: {
+        titleKey: "admin.profile.title"
+      }
+    },
+    {
       name: "audits",
       path: "audits",
       component: () => import("@/views/audits/IndexPage.vue"),

@@ -107,6 +107,38 @@ export default {
       title: "Dashboard",
       subtitle: "Willkommen bei der Admin-Panel"
     },
+    profile: {
+      title: "Profil",
+      email: "E-Mail",
+      firstName: "Vorname",
+      lastName: "Nachname",
+      gender: "Geschlecht",
+      jobTitle: "Berufsbezeichnung",
+      language: "Sprache",
+      validation: {
+        firstName: {
+          required: "Vorname ist erforderlich",
+          maxLength: "Vorname muss weniger als {max} Zeichen lang sein"
+        },
+        lastName: {
+          required: "Nachname ist erforderlich",
+          maxLength: "Nachname muss weniger als {max} Zeichen lang sein"
+        },
+        jobTitle: {
+          maxLength: "Berufsbezeichnung muss weniger als {max} Zeichen lang sein"
+        },
+        email: {
+          required: "E-Mail ist erforderlich",
+          invalid: "Ungültige E-Mail-Adresse"
+        },
+        language: {
+          required: "Sprache ist erforderlich"
+        },
+        gender: {
+          required: "Geschlecht ist erforderlich"
+        }
+      }
+    },
     audits: {
       title: "Audits",
       list: "Liste",
@@ -217,6 +249,7 @@ export default {
     save: "Speichern",
     reset: "Zurücksetzen",
     update: "Aktualisieren",
+    edit: "Bearbeiten",
     close: "Schließen",
     deleted: "Erfolgreich gelöscht",
     basicInformation: "Grundlegende Informationen",

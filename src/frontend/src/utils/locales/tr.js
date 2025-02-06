@@ -107,6 +107,38 @@ export default {
       title: "Yönetim Paneli",
       subtitle: "Yönetim Paneline Hoşgeldiniz"
     },
+    profile: {
+      title: "Profil",
+      email: "E-posta",
+      firstName: "Ad",
+      lastName: "Soyad",
+      gender: "Cinsiyet",
+      jobTitle: "Ünvan",
+      language: "Dil",
+      validation: {
+        firstName: {
+          required: "Ad girmeniz gerekmektedir",
+          maxLength: "Ad en fazla {max} karakter olabilir"
+        },
+        lastName: {
+          required: "Soyad girmeniz gerekmektedir",
+          maxLength: "Soyad en fazla {max} karakter olabilir"
+        },
+        jobTitle: {
+          maxLength: "Ünvan en fazla {max} karakter olabilir"
+        },
+        email: {
+          required: "E-posta adresi girmeniz gerekmektedir",
+          invalid: "Geçersiz e-posta adresi"
+        },
+        language: {
+          required: "Dil seçmeniz gerekmektedir"
+        },
+        gender: {
+          required: "Cinsiyet seçmeniz gerekmektedir"
+        }
+      }
+    },
     audits: {
       title: "İşlem Geçmişi",
       list: "Liste",
@@ -215,6 +247,7 @@ export default {
     submit: "Gönder",
     save: "Kaydet",
     reset: "Sıfırla",
+    edit: "Düzenle",
     update: "Güncelle",
     close: "Kapat",
     deleted: "Başarıyla silindi",

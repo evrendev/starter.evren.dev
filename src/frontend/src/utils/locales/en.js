@@ -107,6 +107,38 @@ export default {
       title: "Dashboard",
       subtitle: "This is a good place to start"
     },
+    profile: {
+      title: "Profile",
+      email: "Email",
+      firstName: "First Name",
+      lastName: "Last Name",
+      gender: "Gender",
+      jobTitle: "Job Title",
+      language: "Language",
+      validation: {
+        firstName: {
+          required: "First name is required",
+          maxLength: "First name must be less than {max} characters"
+        },
+        lastName: {
+          required: "Last name is required",
+          maxLength: "Last name must be less than {max} characters"
+        },
+        jobTitle: {
+          maxLength: "Job title must be less than {max} characters"
+        },
+        email: {
+          required: "Email is required",
+          invalid: "Invalid email address"
+        },
+        language: {
+          required: "Language is required"
+        },
+        gender: {
+          required: "Gender is required"
+        }
+      }
+    },
     audits: {
       title: "Audit Logs",
       list: "List",
@@ -217,6 +249,7 @@ export default {
     save: "Save",
     reset: "Reset",
     update: "Update",
+    edit: "Edit",
     close: "Close",
     deleted: "Successfully deleted",
     basicInformation: "Basic Information",
