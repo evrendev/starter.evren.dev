@@ -54,7 +54,7 @@ export default {
         de: "German"
       },
       profile: {
-        settings: "Einstellungen",
+        title: "Mein Profil",
         logout: "Abmelden",
         goodMorning: "Guten Morgen",
         goodAfternoon: "Guten Tag",

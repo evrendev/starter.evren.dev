@@ -54,7 +54,7 @@ export default {
         de: "German"
       },
       profile: {
-        settings: "Ayarlar",
+        title: "Kullanıcı Bilgilerim",
         logout: "Çıkış Yap",
         goodMorning: "Günaydın",
         goodAfternoon: "İyi Günler",

@@ -1,5 +1,5 @@
 <script setup>
-import { SettingsIcon, LogoutIcon } from "vue-tabler-icons";
+import { UserIcon, LogoutIcon } from "vue-tabler-icons";
 import { useAuthStore } from "@/stores/auth";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
@@ -34,19 +34,19 @@ const greeting = () => {
 
     <perfect-scrollbar>
       <v-list class="mt-3">
-        <v-list-item color="secondary" rounded="md" value="settings" to="/admin/me/settings">
+        <v-list-item color="secondary" rounded="md" value="profile" to="/admin/profile">
           <template v-slot:prepend>
-            <SettingsIcon size="20" class="mr-2" />
+            <user-icon size="20" class="mr-2" />
           </template>
 
           <v-list-item-title class="text-subtitle-2">
-            {{ t("components.verticalHeader.profile.settings") }}
+            {{ t("components.verticalHeader.profile.title") }}
           </v-list-item-title>
         </v-list-item>
 
         <v-list-item @click="authStore.logout()" color="secondary" rounded="md" value="logout">
           <template v-slot:prepend>
-            <LogoutIcon size="20" class="mr-2" />
+            <logout-icon size="20" class="mr-2" />
           </template>
 
           <v-list-item-title class="text-subtitle-2">

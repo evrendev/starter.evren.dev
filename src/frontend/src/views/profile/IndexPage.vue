@@ -67,6 +67,8 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 const handleReset = () => {
+  disabled.value = true;
+
   resetForm();
 };
 
