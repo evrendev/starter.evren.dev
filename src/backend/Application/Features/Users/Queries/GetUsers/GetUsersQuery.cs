@@ -37,14 +37,14 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<List<U
             {
                 Id = user.Id,
                 TenantId = user.TenantId,
-                Gender = user.Gender,
+                Gender = user.Gender?.Code,
                 Email = user.Email!,
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
                 FullName = user.FullName,
                 Image = user.Image ?? string.Empty,
                 JobTitle = user.JobTitle ?? string.Empty,
-                Language = user.Language,
+                Language = user.Language?.Code,
                 Permissions = permissions
             });
         }

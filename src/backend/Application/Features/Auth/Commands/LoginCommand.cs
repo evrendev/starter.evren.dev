@@ -127,14 +127,14 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
             {
                 Id = user.Id,
                 TenantId = user.TenantId,
-                Gender = user.Gender,
+                Gender = user.Gender?.Code,
                 Email = user.Email!,
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
                 FullName = user.FullName,
-                Image = user.Image ?? "@/assets/images/icons/default-user.svg",
+                Image = user.Image,
                 JobTitle = user.JobTitle ?? string.Empty,
-                Language = user.Language,
+                Language = user.Language?.Code,
                 Permissions = permissions
             }
         };

@@ -6,7 +6,7 @@ public class UserDto
 {
     public Guid Id { get; set; }
     public Guid? TenantId { get; set; }
-    public Gender? Gender { get; set; } = Defaults.Gender;
+    public string? Gender { get; set; } = Defaults.Gender.Code;
     public string Initial => $"{FirstName[0]}{LastName[0]}";
     public string Email { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
@@ -14,6 +14,6 @@ public class UserDto
     public string FullName { get; set; } = string.Empty;
     public string? Image { get; set; } = null;
     public string JobTitle { get; set; } = string.Empty;
-    public Language? Language { get; set; } = Defaults.Language;
-    public List<string> Permissions { get; set; } = new();
+    public string? Language { get; set; } = Defaults.Language.Code;
+    public List<string> Permissions { get; set; } = [];
 }
