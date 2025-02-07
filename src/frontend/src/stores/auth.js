@@ -59,7 +59,6 @@ export const useAuthStore = defineStore({
       };
     },
     async verify(data) {
-      console.log(data);
       const res = await apiService.post("/2fa/verify", data);
 
       this.auth = {
