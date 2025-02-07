@@ -45,7 +45,8 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<List<U
                 Image = user.Image ?? string.Empty,
                 JobTitle = user.JobTitle ?? string.Empty,
                 Language = user.Language?.Code,
-                Permissions = permissions
+                Permissions = permissions,
+                TwoFactorEnabled = user.TwoFactorEnabled
             });
         }
 

@@ -135,7 +135,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
                 Image = user.Image,
                 JobTitle = user.JobTitle ?? string.Empty,
                 Language = user.Language?.Code,
-                Permissions = permissions
+                Permissions = permissions,
+                TwoFactorEnabled = user.TwoFactorEnabled
             }
         };
 

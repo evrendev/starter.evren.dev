@@ -16,4 +16,5 @@ public class UserDto
     public string JobTitle { get; set; } = string.Empty;
     public string? Language { get; set; } = Defaults.Language.Code;
     public List<string> Permissions { get; set; } = [];
+    public bool TwoFactorEnabled { get; set; } = false;
 }

@@ -156,7 +156,8 @@ public class TwoFactorAuthController : ControllerBase
                 Image = user.Image ?? "avatar.png",
                 JobTitle = user.JobTitle ?? string.Empty,
                 Language = user.Language?.Code,
-                Permissions = permissions
+                Permissions = permissions,
+                TwoFactorEnabled = user.TwoFactorEnabled
             }
         };
 

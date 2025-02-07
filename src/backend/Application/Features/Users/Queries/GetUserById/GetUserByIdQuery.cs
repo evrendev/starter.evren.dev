@@ -56,7 +56,8 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
             Image = user.Image ?? string.Empty,
             JobTitle = user.JobTitle ?? string.Empty,
             Language = user.Language?.Code,
-            Permissions = permissions
+            Permissions = permissions,
+            TwoFactorEnabled = user.TwoFactorEnabled
         };
 
         return Result<UserDto>.Success(userDto);

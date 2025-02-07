@@ -80,7 +80,8 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
                 TenantId = user.TenantId,
-                Permissions = permissions
+                Permissions = permissions,
+                TwoFactorEnabled = user.TwoFactorEnabled
             }
         };
 
