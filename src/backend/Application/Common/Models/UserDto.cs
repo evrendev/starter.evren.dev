@@ -7,7 +7,7 @@ public class UserDto
     public Guid Id { get; set; }
     public Guid? TenantId { get; set; }
     public string? Gender { get; set; } = Defaults.Gender.Code;
-    public string Initial => $"{FirstName[0]}{LastName[0]}";
+    public string Initial => $"{FirstName}{LastName}";
     public string Email { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
