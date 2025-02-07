@@ -29,11 +29,11 @@ export const useAuthStore = defineStore({
       if (res?.requiresTwoFactor) {
         this.auth = {
           user: {
-            id: res?.user?.id
+            id: res?.userId
           }
         };
 
-        router.push(`/auth/2fa`);
+        router.push("/auth/2fa");
       } else {
         this.auth = {
           isAuthenticated: true,
@@ -57,6 +57,19 @@ export const useAuthStore = defineStore({
         token: res?.token,
         refreshToken: res?.refreshToken
       };
+    },
+    async verify(data) {
+      console.log(data);
+      const res = await apiService.post("/2fa/verify", data);
+
+      this.auth = {
+        isAuthenticated: true,
+        user: res?.user,
+        token: res?.token,
+        refreshToken: res?.refreshToken
+      };
+
+      router.push(this.returnUrl || "/admin");
     },
     logout() {
       this.auth = null;

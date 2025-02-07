@@ -26,12 +26,16 @@ export default {
       submit: "Anmelden",
       resetForm: "Zurücksetzen"
     },
-    TwoFactorAuthentication: {
+    twoFactorAuth: {
       subtitle: "Geben Sie den Code aus der Authenticator-App ein",
       label: "Code",
       placeholder: "Geben Sie Ihren Code ein",
       required: "Code ist erforderlich",
-      submit: "Überprüfen"
+      submit: "Überprüfen",
+      code: {
+        required: "Code ist erforderlich",
+        invalid: "Ungültiger Code"
+      }
     },
     forgotPassword: {
       welcome: "Passwort vergessen?",
@@ -136,6 +140,26 @@ export default {
         },
         gender: {
           required: "Geschlecht ist erforderlich"
+        },
+        twoFactorAuth: {
+          code: {
+            required: "Code ist erforderlich",
+            invalid: "Ungültiger Code"
+          }
+        }
+      },
+      twoFactorAuth: {
+        title: "Zwei-Faktor-Authentifizierung",
+        description: "Zwei-Faktor-Authentifizierung ist deaktiviert. Sie können es aktivieren, um die Sicherheit Ihres Kontos zu erhöhen.",
+        enable: "Aktivieren 2FA",
+        disable: "Deaktivieren 2FA",
+        setup: {
+          title: "Richten Sie die Zwei-Faktor-Authentifizierung ein",
+          intro:
+            "Scannen Sie den QR-Code mit Ihrer Authenticator-App, um die Zwei-Faktor-Authentifizierung zu aktivieren. Wenn Sie keinen QR-Code scannen können, geben Sie den Code manuell ein.",
+          start: "Starten Sie die Einrichtung",
+          manual: "Oder geben Sie diesen Code manuell in Ihrer Authenticator-App ein:",
+          code: "Code"
         }
       }
     },
@@ -249,8 +273,10 @@ export default {
     save: "Speichern",
     reset: "Zurücksetzen",
     update: "Aktualisieren",
-    edit: "Bearbeiten",
+    edit: "Bearbeiten Informationen",
     close: "Schließen",
+    cancel: "Stornieren",
+    verify: "Überprüfen",
     deleted: "Erfolgreich gelöscht",
     basicInformation: "Grundlegende Informationen",
     additionalParameters: "Zusätzliche Parameter"

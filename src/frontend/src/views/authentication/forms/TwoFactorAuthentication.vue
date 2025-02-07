@@ -13,14 +13,17 @@ const { t } = useLocale();
 const authStore = useAuthStore();
 const appStore = useAppStore();
 const { loading } = storeToRefs(appStore);
-const { userId } = storeToRefs(authStore);
+const { user } = storeToRefs(authStore);
 
 const router = useRouter();
 
-if (!userId.value) router.push({ name: "login", params: { page: "login" } });
+if (!user.value.id) router.push({ name: "login", params: { page: "login" } });
 
 const schema = object().shape({
-  code: string().required(t("auth.TwoFactorAuthentication.required")).label(t("auth.TwoFactorAuthentication.label"))
+  code: string()
+    .required(t("auth.twoFactorAuth.required"))
+    .label(t("auth.twoFactorAuth.label"))
+    .matches(/^[0-9]{6}$/, t("auth.twoFactorAuth.code.invalid"))
 });
 
 const { defineField, handleSubmit } = useForm({
@@ -38,7 +41,7 @@ const [code, codeProps] = defineField("code", vuetifyConfig);
 const onSubmit = handleSubmit(async (values) => {
   try {
     appStore.setPageLoader(true);
-    await authStore.verify(values.code);
+    await authStore.verify({ userId: user.value.id, code: values.code });
   } catch (error) {
     console.error(error);
     appStore.setPageLoader(false);
@@ -54,7 +57,7 @@ const onSubmit = handleSubmit(async (values) => {
         {{ t("auth.login.welcome") }}
       </h2>
       <h4 class="text-disabled text-h4 mt-3">
-        {{ t("auth.TwoFactorAuthentication.subtitle") }}
+        {{ t("auth.twoFactorAuth.subtitle") }}
       </h4>
     </v-col>
   </v-row>
@@ -64,7 +67,7 @@ const onSubmit = handleSubmit(async (values) => {
       v-model="code"
       v-bind="codeProps"
       type="tel"
-      :label="t('auth.TwoFactorAuthentication.label')"
+      :label="t('auth.twoFactorAuth.label')"
       maxlength="6"
       class="mt-4"
       density="comfortable"
@@ -76,12 +79,12 @@ const onSubmit = handleSubmit(async (values) => {
 
     <div class="d-flex justify-center justify-md-start mt-7 mb-lg-2 mb-sm-0">
       <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$check">
-        {{ t("auth.TwoFactorAuthentication.submit") }}
+        {{ t("auth.twoFactorAuth.submit") }}
       </v-btn>
     </div>
 
     <div class="d-flex justify-center mt-7 mb-lg-2 mb-sm-0">
-      <router-link :to="{ name: 'login', params: { page: 'login' } }" class="text-primary text-decoration-none" v-show="!loading">
+      <router-link to="/auth/login" class="text-primary text-decoration-none" v-show="!loading">
         <v-icon icon="$return" />
         <span class="ml-2">
           {{ t("auth.forgotPassword.back") }}

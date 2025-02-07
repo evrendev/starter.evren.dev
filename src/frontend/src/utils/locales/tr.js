@@ -26,12 +26,16 @@ export default {
       submit: "Giriş Yap",
       resetForm: "Sıfırla"
     },
-    TwoFactorAuthentication: {
+    twoFactorAuth: {
       subtitle: "Authenticator uygulamasından kodu girin",
       label: "Kod",
       placeholder: "Kodunuzu girin",
       required: "Kodunuzu girmeniz gerekmektedir",
-      submit: "Doğrula"
+      submit: "Doğrula",
+      code: {
+        required: "Kod girmeniz gerekmektedir",
+        invalid: "Geçersiz kod"
+      }
     },
     forgotPassword: {
       welcome: "Şifrenizi mi unuttunuz?",
@@ -136,6 +140,26 @@ export default {
         },
         gender: {
           required: "Cinsiyet seçmeniz gerekmektedir"
+        },
+        twoFactorAuth: {
+          code: {
+            required: "Doğrulama kodu girmeniz gerekmektedir",
+            invalid: "Geçersiz doğrulama kodu"
+          }
+        }
+      },
+      twoFactorAuth: {
+        title: "İki Faktörlü Kimlik Doğrulama",
+        description:
+          "İki faktörlü kimlik doğrulama, hesabınızı daha güvenli hale getirir. Hesabınıza giriş yaparken, doğrulama kodunu girerek kimliğinizi doğrulamanız gerekir.",
+        enable: "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
+        disable: "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
+        setup: {
+          title: "İki Faktörlü Kimlik Doğrulamayı Ayarla",
+          intro: "İki faktörlü kimlik doğrulamayı etkinleştirmek için, aşağıdaki adımları izleyin:",
+          start: "Başla",
+          manual: "Veya bu kodu manuel olarak kimlik doğrulama uygulamanıza girin:",
+          code: "Doğrulama Kodu"
         }
       }
     },
@@ -247,9 +271,11 @@ export default {
     submit: "Gönder",
     save: "Kaydet",
     reset: "Sıfırla",
-    edit: "Düzenle",
+    edit: "Bilgileri Düzenle",
     update: "Güncelle",
     close: "Kapat",
+    cancel: "Vazgeç",
+    verify: "Doğrula",
     deleted: "Başarıyla silindi",
     basicInformation: "Temel Bilgiler",
     additionalParameters: "Ek Parametreler"

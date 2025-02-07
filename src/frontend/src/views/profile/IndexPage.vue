@@ -6,6 +6,7 @@ import { useForm } from "vee-validate";
 import { object, string } from "yup";
 import { useAuthStore, usePredefinedValuesStore, useAppStore } from "@/stores";
 import { Breadcrumb } from "@/components/forms";
+import TwoFactorAuthDialog from "./components/TwoFactorAuthDialog.vue";
 
 const { t } = useI18n();
 
@@ -68,8 +69,31 @@ const onSubmit = handleSubmit(async (values) => {
 
 const handleReset = () => {
   disabled.value = true;
-
   resetForm();
+};
+
+const showTwoFactorDialog = ref(false);
+
+const handleTwoFactorEnabled = async () => {
+  try {
+    appStore.setPageLoader(true);
+    await authStore.getCurrentUser();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    appStore.setPageLoader(false);
+  }
+};
+
+const handleTwoFactorDisabled = async () => {
+  try {
+    appStore.setPageLoader(true);
+    await authStore.getCurrentUser();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    appStore.setPageLoader(false);
+  }
 };
 
 onMounted(async () => {
@@ -118,7 +142,6 @@ onMounted(async () => {
                 v-model="firstName"
                 v-bind="firstNameProps"
                 :label="$t('admin.profile.firstName')"
-                :rules="[(v) => !!v || $t('validation.required')]"
                 :loading="authStore.loading"
                 :disabled="disabled"
                 density="comfortable"
@@ -131,7 +154,6 @@ onMounted(async () => {
                 v-model="lastName"
                 v-bind="lastNameProps"
                 :label="$t('admin.profile.lastName')"
-                :rules="[(v) => !!v || $t('validation.required')]"
                 :loading="authStore.loading"
                 :disabled="disabled"
                 density="comfortable"
@@ -144,7 +166,6 @@ onMounted(async () => {
                 v-model="language"
                 v-bind="languageProps"
                 :items="languages || []"
-                :rules="[(v) => !!v || $t('validation.required')]"
                 :label="$t('admin.profile.language')"
                 :loading="authStore.loading"
                 :disabled="disabled"
@@ -168,6 +189,27 @@ onMounted(async () => {
             </v-col>
           </v-row>
 
+          <v-divider class="my-4" />
+
+          <v-row>
+            <v-col cols="12">
+              <div class="d-flex align-center justify-space-between">
+                <div>
+                  <h3 class="text-h6 mb-2">{{ t("admin.profile.twoFactorAuth.title") }}</h3>
+                  <p class="text-body-2">{{ t("admin.profile.twoFactorAuth.description") }}</p>
+                </div>
+                <div>
+                  <v-btn v-if="!user.twoFactorEnabled" color="primary" prepend-icon="$shieldAccount" @click="showTwoFactorDialog = true">
+                    {{ t("admin.profile.twoFactorAuth.enable") }}
+                  </v-btn>
+                  <v-btn v-else color="error" prepend-icon="$shieldOff" @click="handleTwoFactorDisabled">
+                    {{ t("admin.profile.twoFactorAuth.disable") }}
+                  </v-btn>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+
           <v-row class="mt-4">
             <v-col cols="12" class="d-flex justify-end gap-2">
               <v-btn color="warning" v-show="disabled" prepend-icon="$pencil" @click="disabled = false">
@@ -183,6 +225,8 @@ onMounted(async () => {
             </v-col>
           </v-row>
         </v-form>
+
+        <two-factor-auth-dialog v-model="showTwoFactorDialog" @enabled="handleTwoFactorEnabled" @disabled="handleTwoFactorDisabled" />
       </v-card>
     </v-col>
   </v-row>

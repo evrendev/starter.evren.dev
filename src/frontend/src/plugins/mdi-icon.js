@@ -20,7 +20,8 @@ import {
   mdiThumbDown,
   mdiTrashCan,
   mdiArrowUpBoldCircle,
-  mdiContentSave
+  mdiContentSave,
+  mdiShieldAccount
 } from "@mdi/js";
 
 export const icons = {
@@ -45,5 +46,6 @@ export const icons = {
   thumbDown: mdiThumbDown,
   trashCan: mdiTrashCan,
   arrowUpBoldCircle: mdiArrowUpBoldCircle,
-  contentSave: mdiContentSave
+  contentSave: mdiContentSave,
+  shieldAccount: mdiShieldAccount
 };

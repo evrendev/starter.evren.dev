@@ -26,12 +26,16 @@ export default {
       submit: "Sign In",
       resetForm: "Reset"
     },
-    TwoFactorAuthentication: {
+    twoFactorAuth: {
       subtitle: "Enter the code from authenticator app",
       label: "Code",
       placeholder: "Enter your code",
       required: "Code is required",
-      submit: "Verify"
+      submit: "Verify",
+      code: {
+        required: "Code is required",
+        invalid: "Invalid code"
+      }
     },
     forgotPassword: {
       welcome: "Forgot Password?",
@@ -136,6 +140,25 @@ export default {
         },
         gender: {
           required: "Gender is required"
+        },
+        twoFactorAuth: {
+          code: {
+            required: "Code is required",
+            invalid: "Invalid code"
+          }
+        }
+      },
+      twoFactorAuth: {
+        title: "Two-Factor Authentication",
+        description: "Add an extra layer of security to your account by enabling two-factor authentication.",
+        enable: "Enable 2FA",
+        disable: "Disable 2FA",
+        setup: {
+          title: "Set up Two-Factor Authentication",
+          intro: "To set up two-factor authentication, scan the QR code below with your authenticator app or enter the code manually.",
+          start: "Get Started",
+          manual: "Or enter this code manually in your authenticator app:",
+          code: "Enter verification code"
         }
       }
     },
@@ -249,8 +272,10 @@ export default {
     save: "Save",
     reset: "Reset",
     update: "Update",
-    edit: "Edit",
+    edit: "Edit Information",
     close: "Close",
+    cancel: "Cancel",
+    verify: "Verify",
     deleted: "Successfully deleted",
     basicInformation: "Basic Information",
     additionalParameters: "Additional Parameters"
