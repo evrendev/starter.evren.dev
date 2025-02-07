@@ -197,6 +197,7 @@ public static class DependencyInjection
         services.AddScoped<IAuditLogDbContext>(provider => provider.GetRequiredService<AuditLogDbContext>());
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ITotpService, TotpService>();
 
         services.AddHttpClient();
 

@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Encodings.Web;
+using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -17,28 +18,28 @@ public class TwoFactorAuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UrlEncoder _urlEncoder;
     private readonly IStringLocalizer<TwoFactorAuthController> _localizer;
     private readonly ITokenService _tokenService;
     private readonly IPermissionService _permissionService;
     private readonly ITenantDbContext _tenantDbContext;
+    private readonly ITotpService _totpService;
 
     public TwoFactorAuthController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        UrlEncoder urlEncoder,
         IStringLocalizer<TwoFactorAuthController> localizer,
         ITokenService tokenService,
         IPermissionService permissionService,
-        ITenantDbContext tenantDbContext)
+        ITenantDbContext tenantDbContext,
+        ITotpService totpService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _urlEncoder = urlEncoder;
         _localizer = localizer;
         _tokenService = tokenService;
         _permissionService = permissionService;
         _tenantDbContext = tenantDbContext;
+        _totpService = totpService;
     }
 
     [HttpGet("setup")]
@@ -51,19 +52,24 @@ public class TwoFactorAuthController : ControllerBase
         }
 
         // Generate the key and QR code URL
-        var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
-        if (string.IsNullOrEmpty(unformattedKey))
+        var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
+        if (string.IsNullOrEmpty(secretKey))
         {
+            secretKey = _totpService.GenerateSecretKey();
             await _userManager.ResetAuthenticatorKeyAsync(user);
-            unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+            secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
         }
 
         var email = await _userManager.GetEmailAsync(user);
-        var authenticatorUri = GenerateQrCodeUri(email!, unformattedKey!);
+        if (string.IsNullOrEmpty(secretKey))
+        {
+            return BadRequest(_localizer["api.auth.2fa.setup-required"]);
+        }
+        var authenticatorUri = _totpService.GenerateQrCodeUri(email!, secretKey);
 
         return new TwoFactorAuthenticationDto
         {
-            SharedKey = FormatKey(unformattedKey!),
+            SharedKey = FormatKey(secretKey),
             QrCodeUri = authenticatorUri
         };
     }
@@ -77,12 +83,16 @@ public class TwoFactorAuthController : ControllerBase
             return NotFound(_localizer["api.auth.2fa.user-not-found"]);
         }
 
+        var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
+        if (string.IsNullOrEmpty(secretKey))
+        {
+            return BadRequest(_localizer["api.auth.2fa.setup-required"]);
+        }
+
         var verificationCode = request.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+        var isValid = _totpService.VerifyTotpCode(secretKey, verificationCode);
 
-        var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
-            user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
-
-        if (!is2faTokenValid)
+        if (!isValid)
         {
             return BadRequest(_localizer["api.auth.2fa.invalid-code"]);
         }
@@ -119,16 +129,20 @@ public class TwoFactorAuthController : ControllerBase
             return NotFound(_localizer["api.auth.2fa.user-not-found"]);
         }
 
-        var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(
-            code: request.Code,
-            isPersistent: request.RememberMachine,
-            rememberClient: true
-        );
-
-        if (!result.Succeeded)
+        var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
+        if (string.IsNullOrEmpty(secretKey))
         {
-            return BadRequest(_localizer["api.auth.2fa.invalid-code"].Value);
+            return BadRequest(_localizer["api.auth.2fa.setup-required"]);
         }
+
+        var isValid = _totpService.VerifyTotpCode(secretKey, request.Code);
+        if (!isValid)
+        {
+            return BadRequest(_localizer["api.auth.2fa.invalid-code"]);
+        }
+
+        // Mark 2FA verification as complete for this session
+        await _signInManager.SignInAsync(user, request.RememberMachine);
 
         var tenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == user.TenantId);
         if (tenant == null || !tenant.IsActive || tenant.Deleted)
@@ -179,16 +193,5 @@ public class TwoFactorAuthController : ControllerBase
         }
 
         return result.ToString().ToLowerInvariant();
-    }
-
-    private string GenerateQrCodeUri(string email, string unformattedKey)
-    {
-        const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-
-        return string.Format(
-            AuthenticatorUriFormat,
-            _urlEncoder.Encode("EvrenDev"),
-            _urlEncoder.Encode(email),
-            unformattedKey);
     }
 }

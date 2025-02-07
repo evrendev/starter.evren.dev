@@ -1,0 +1,9 @@
+namespace EvrenDev.Application.Common.Interfaces;
+
+public interface ITotpService
+{
+    string GenerateSecretKey();
+    string GenerateQrCodeUri(string email, string secretKey);
+    bool VerifyTotpCode(string secretKey, string code);
+    string GenerateTotpCode(string secretKey);
+}
