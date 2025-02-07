@@ -1,6 +1,7 @@
 using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Middleware;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +41,27 @@ app.UseRequestLocalization();
 
 app.UseMiddleware<LocalizationMiddleware>();
 
-app.UseHealthChecks("/health");
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        context.Response.ContentType = "application/json";
+        var result = System.Text.Json.JsonSerializer.Serialize(new
+        {
+            status = report.Status.ToString(),
+            currentTime,
+            details = report.Entries.Select(e => new
+            {
+                key = e.Key,
+                value = e.Value.Status.ToString(),
+                description = e.Value.Description,
+                data = e.Value.Data
+            })
+        });
+        await context.Response.WriteAsync(result);
+    }
+});
 
 // Add CORS before authentication
 app.UseCors("AllowSpecificOrigins");

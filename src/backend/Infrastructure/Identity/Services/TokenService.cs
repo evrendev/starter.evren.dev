@@ -70,10 +70,10 @@ public class TokenService : ITokenService
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-            new Claim("tenant", user.TenantId.ToString() ?? string.Empty)
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.UserName ?? string.Empty),
+            new(ClaimTypes.Email, user.Email ?? string.Empty),
+            new("tenant", user.TenantId.ToString() ?? string.Empty)
         };
 
         foreach (var permission in permissions)

@@ -19,6 +19,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.11" />
+    <PackageVersion Include="Otp.Net" Version="1.4.0" />
     <PackageVersion Include="Serilog" Version="3.1.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.0" />
