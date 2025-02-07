@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
-import { useAuthStore, usePredefinedValuesStore, useAppStore } from "@/stores";
+import { useAuthStore, usePredefinedValuesStore, useAppStore, useTwoFactorAuthStore } from "@/stores";
 import { Breadcrumb } from "@/components/forms";
 import TwoFactorAuthDialog from "./components/TwoFactorAuthDialog.vue";
 
@@ -21,6 +21,7 @@ const breadcrumbs = shallowRef([
 const authStore = useAuthStore();
 const predefinedValues = usePredefinedValuesStore();
 const appStore = useAppStore();
+const twoFactorAuthStore = useTwoFactorAuthStore();
 const { genders, languages } = storeToRefs(predefinedValues);
 const { user } = storeToRefs(authStore);
 const disabled = ref(true);
@@ -74,21 +75,11 @@ const handleReset = () => {
 
 const showTwoFactorDialog = ref(false);
 
-const handleTwoFactorEnabled = async () => {
-  try {
-    appStore.setPageLoader(true);
-    await authStore.getCurrentUser();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    appStore.setPageLoader(false);
-  }
-};
-
 const handleTwoFactorDisabled = async () => {
+  appStore.setPageLoader(true);
+
   try {
-    appStore.setPageLoader(true);
-    await authStore.getCurrentUser();
+    twoFactorAuthStore.disable();
   } catch (error) {
     console.error(error);
   } finally {
@@ -202,7 +193,7 @@ onMounted(async () => {
                   <v-btn v-if="!user.twoFactorEnabled" color="primary" prepend-icon="$shieldAccount" @click="showTwoFactorDialog = true">
                     {{ t("admin.profile.twoFactorAuth.enable") }}
                   </v-btn>
-                  <v-btn v-else color="error" prepend-icon="$shieldOff" @click="handleTwoFactorDisabled">
+                  <v-btn v-else color="error" prepend-icon="$shieldLockOpen" @click="handleTwoFactorDisabled">
                     {{ t("admin.profile.twoFactorAuth.disable") }}
                   </v-btn>
                 </div>
@@ -226,7 +217,7 @@ onMounted(async () => {
           </v-row>
         </v-form>
 
-        <two-factor-auth-dialog v-model="showTwoFactorDialog" @enabled="handleTwoFactorEnabled" @disabled="handleTwoFactorDisabled" />
+        <two-factor-auth-dialog v-model="showTwoFactorDialog" />
       </v-card>
     </v-col>
   </v-row>

@@ -2,7 +2,7 @@
 import { ref, onMounted, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
-import { useTwoFactorAuthStore } from "@/stores/twoFactorAuth";
+import { useTwoFactorAuthStore } from "@/stores";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
 import QRCode from "qrcode";
@@ -72,7 +72,6 @@ watchEffect(() => {
 const onSubmit = handleSubmit(async (values) => {
   try {
     await twoFactorAuthStore.enable(values.code);
-    emit("enabled");
     closeDialog();
   } catch (error) {
     console.error(error);

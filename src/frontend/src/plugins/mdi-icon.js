@@ -21,7 +21,8 @@ import {
   mdiTrashCan,
   mdiArrowUpBoldCircle,
   mdiContentSave,
-  mdiShieldAccount
+  mdiShieldAccount,
+  mdiShieldLockOpen
 } from "@mdi/js";
 
 export const icons = {
@@ -47,5 +48,6 @@ export const icons = {
   trashCan: mdiTrashCan,
   arrowUpBoldCircle: mdiArrowUpBoldCircle,
   contentSave: mdiContentSave,
-  shieldAccount: mdiShieldAccount
+  shieldAccount: mdiShieldAccount,
+  shieldLockOpen: mdiShieldLockOpen
 };
