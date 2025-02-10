@@ -84,7 +84,7 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
 
     <div class="d-flex justify-center mt-7 mb-lg-2 mb-sm-0">
-      <router-link :to="{ name: 'login', params: { redirect: '' } }" class="text-primary text-decoration-none" v-show="!loading">
+      <router-link :to="{ name: 'login', params: { returnUrl: '' } }" class="text-primary text-decoration-none" v-show="!loading">
         <v-icon icon="$return" />
         <span class="ml-2">
           {{ t("auth.forgotPassword.back") }}

@@ -46,7 +46,7 @@ router.beforeEach(async (to, from, next) => {
     next({
       query: {
         ...to.query,
-        redirect: returnUrl !== "/" ? to.fullPath : undefined
+        returnUrl: returnUrl !== "/" ? to.fullPath : undefined
       }
     });
   } else {
