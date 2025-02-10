@@ -82,6 +82,15 @@ export const useAuthStore = defineStore({
       this.auth = {
         returnUrl: url
       };
+    },
+    updateUser(userData) {
+      this.auth = {
+        ...this.auth,
+        user: {
+          ...this.auth.user,
+          ...userData
+        }
+      };
     }
   }
 });

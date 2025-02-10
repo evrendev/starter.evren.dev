@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
 import LocaleHelper from "@/utils/helpers/locale";
+import { useAuthStore } from "@/stores/auth";
 
 export const useUserStore = defineStore({
   id: "user",
@@ -45,6 +46,9 @@ export const useUserStore = defineStore({
       try {
         this.loading = true;
         const response = await apiService.put(`/users/${id}`, user);
+        const authStore = useAuthStore();
+        authStore.updateUser(user);
+
         await LocaleHelper.switchLanguage(user.language);
         return response;
       } finally {
