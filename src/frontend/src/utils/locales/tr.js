@@ -266,6 +266,11 @@ export default {
       }
     }
   },
+  error: {
+    title: "Bir şeyler ters gitti!",
+    description: "Aradığınız sayfa taşınmış, kaldırılmış, yeniden adlandırılmış veya hiç var olmamış olabilir!",
+    home: "Anasayfa"
+  },
   common: {
     search: "Ara",
     filters: "Filtreler",

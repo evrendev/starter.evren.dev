@@ -265,6 +265,11 @@ export default {
       }
     }
   },
+  error: {
+    title: "Something went wrong",
+    description: "The page you are looking was moved, removed, renamed, or might never exist!",
+    home: "Home"
+  },
   common: {
     search: "Search",
     filters: "Filters",

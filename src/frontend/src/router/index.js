@@ -19,7 +19,7 @@ export const router = createRouter({
       path: "/:pathMatch(.*)*",
       component: () => import("@/views/errors/Error404Page.vue"),
       meta: {
-        titleKey: "pages.titles.notFound"
+        titleKey: "error.title"
       }
     },
     AdminRoutes,

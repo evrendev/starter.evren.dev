@@ -266,6 +266,11 @@ export default {
       }
     }
   },
+  error: {
+    title: "Etwas ist schief gelaufen!",
+    description: "Die Seite, die Sie suchen, existiert nicht oder ist verschoben worden.",
+    home: "Startseite"
+  },
   common: {
     search: "Suche",
     filters: "Filter",
