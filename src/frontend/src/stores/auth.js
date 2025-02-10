@@ -34,7 +34,6 @@ export const useAuthStore = defineStore({
           }
         };
 
-        await LocaleHelper.switchLanguage(res?.user.language);
         router.push({ name: "login", params: { page: "2fa" } });
       } else {
         this.auth = {
