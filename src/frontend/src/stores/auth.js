@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { router } from "@/router";
 import { useLocalStorage } from "@vueuse/core";
 import { apiService } from "@/utils/helpers";
+import LocaleHelper from "@/utils/helpers/locale";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -33,6 +34,7 @@ export const useAuthStore = defineStore({
           }
         };
 
+        await LocaleHelper.switchLanguage(res?.user.language);
         router.push("/auth/2fa");
       } else {
         this.auth = {
@@ -42,6 +44,7 @@ export const useAuthStore = defineStore({
           refreshToken: res?.refreshToken
         };
 
+        await LocaleHelper.switchLanguage(res?.user.language);
         router.push(this.returnUrl || "/admin");
       }
     },

@@ -61,8 +61,6 @@ const onSubmit = handleSubmit(async (values) => {
       ...values
     };
 
-    console.log(user, submitData);
-
     await userStore.update(user.value.id, submitData);
   } catch (error) {
     console.error(error);

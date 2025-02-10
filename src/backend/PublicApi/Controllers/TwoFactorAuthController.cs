@@ -48,7 +48,7 @@ public class TwoFactorAuthController : ControllerBase
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound(_localizer["api.auth.2fa.user-not-found"]);
+            return NotFound(_localizer["api.auth.2fa.user-not-found"].Value);
         }
 
         // Generate the key and QR code URL
@@ -63,7 +63,7 @@ public class TwoFactorAuthController : ControllerBase
         var email = await _userManager.GetEmailAsync(user);
         if (string.IsNullOrEmpty(secretKey))
         {
-            return BadRequest(_localizer["api.auth.2fa.setup-required"]);
+            return BadRequest(_localizer["api.auth.2fa.setup-required"].Value);
         }
         var authenticatorUri = _totpService.GenerateQrCodeUri(email!, secretKey);
 
@@ -80,13 +80,13 @@ public class TwoFactorAuthController : ControllerBase
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound(_localizer["api.auth.2fa.user-not-found"]);
+            return NotFound(_localizer["api.auth.2fa.user-not-found"].Value);
         }
 
         var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
         if (string.IsNullOrEmpty(secretKey))
         {
-            return BadRequest(_localizer["api.auth.2fa.setup-required"]);
+            return BadRequest(_localizer["api.auth.2fa.setup-required"].Value);
         }
 
         var verificationCode = request.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
@@ -94,7 +94,7 @@ public class TwoFactorAuthController : ControllerBase
 
         if (!isValid)
         {
-            return BadRequest(_localizer["api.auth.2fa.invalid-code"]);
+            return BadRequest(_localizer["api.auth.2fa.invalid-code"].Value);
         }
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
@@ -107,13 +107,13 @@ public class TwoFactorAuthController : ControllerBase
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return NotFound(_localizer["api.auth.2fa.user-not-found"]);
+            return NotFound(_localizer["api.auth.2fa.user-not-found"].Value);
         }
 
         var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
         if (!disable2faResult.Succeeded)
         {
-            return BadRequest(_localizer["api.auth.2fa.disable-failed"]);
+            return BadRequest(_localizer["api.auth.2fa.disable-failed"].Value);
         }
 
         return Ok();
@@ -126,19 +126,19 @@ public class TwoFactorAuthController : ControllerBase
         var user = await _userManager.FindByIdAsync(request.UserId);
         if (user == null)
         {
-            return NotFound(_localizer["api.auth.2fa.user-not-found"]);
+            return NotFound(_localizer["api.auth.2fa.user-not-found"].Value);
         }
 
         var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
         if (string.IsNullOrEmpty(secretKey))
         {
-            return BadRequest(_localizer["api.auth.2fa.setup-required"]);
+            return BadRequest(_localizer["api.auth.2fa.setup-required"].Value);
         }
 
         var isValid = _totpService.VerifyTotpCode(secretKey, request.Code);
         if (!isValid)
         {
-            return BadRequest(_localizer["api.auth.2fa.invalid-code"]);
+            return BadRequest(_localizer["api.auth.2fa.invalid-code"].Value);
         }
 
         // Mark 2FA verification as complete for this session
@@ -147,7 +147,7 @@ public class TwoFactorAuthController : ControllerBase
         var tenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == user.TenantId);
         if (tenant == null || !tenant.IsActive || tenant.Deleted)
         {
-            return BadRequest(_localizer["api.auth.login.invalid-tenant"]);
+            return BadRequest(_localizer["api.auth.login.invalid-tenant"].Value);
         }
 
         var permissions = await _permissionService.GetUserPermissions(user.Id);
