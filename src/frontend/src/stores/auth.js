@@ -73,9 +73,10 @@ export const useAuthStore = defineStore({
 
       router.push(this.returnUrl || "/admin");
     },
-    logout() {
-      this.auth = null;
-      router.push("/auth/login");
+    async logout() {
+      this.$reset();
+      await apiService.post("/auth/logout");
+      router.push({ name: "login", query: { returnUrl: router.currentRoute.value.fullPath } });
     },
     setReturnUrl(url) {
       this.auth = {

@@ -3,6 +3,7 @@ import { en } from "vuetify/locale";
 export default {
   auth: {
     login: {
+      title: "Sign In",
       welcome: "Hi, Welcome Back!",
       subtitle: "Enter your email and password to sign in",
       email: {
@@ -279,17 +280,6 @@ export default {
     deleted: "Successfully deleted",
     basicInformation: "Basic Information",
     additionalParameters: "Additional Parameters"
-  },
-  pages: {
-    titles: {
-      dashboard: "Dashboard",
-      auditLogs: "Audit Logs",
-      tenants: "Tenants",
-      newTenant: "New Tenant",
-      editTenant: "Edit Tenant",
-      authentication: "Authentication",
-      notFound: "404 Not Found"
-    }
   },
   $vuetify: {
     ...en

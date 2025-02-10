@@ -41,7 +41,6 @@ router.beforeEach(async (to, from, next) => {
   document.title = title ? `${title} - ${APP_NAME}` : APP_NAME;
 
   if (authRequired && !user) {
-    authStore.setReturnUrl(to.fullPath);
     next("/auth/login");
   } else if (user && to.path === "/auth/login") {
     next({

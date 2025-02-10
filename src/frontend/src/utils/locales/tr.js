@@ -3,6 +3,7 @@ import { tr } from "vuetify/locale";
 export default {
   auth: {
     login: {
+      title: "Giriş Yap",
       welcome: "Merhaba, Tekrar Hoşgeldiniz!",
       subtitle: "Giriş yapmak için e-posta ve şifrenizi girin",
       email: {

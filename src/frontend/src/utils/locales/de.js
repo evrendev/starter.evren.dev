@@ -3,6 +3,7 @@ import { de } from "vuetify/locale";
 export default {
   auth: {
     login: {
+      title: "Anmelden",
       welcome: "Hallo, Willkommen zurück!",
       subtitle: "Geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein, um sich anzumelden",
       email: {

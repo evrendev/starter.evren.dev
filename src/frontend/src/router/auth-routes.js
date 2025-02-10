@@ -6,7 +6,7 @@ const AuthRoutes = {
     page: route.params.page || "login"
   }),
   meta: {
-    titleKey: "pages.titles.authentication"
+    titleKey: "auth.login.title"
   }
 };
 
