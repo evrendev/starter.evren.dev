@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
-import { useAuthStore, usePredefinedValuesStore, useAppStore, useTwoFactorAuthStore } from "@/stores";
+import { useAuthStore, usePredefinedValuesStore, useAppStore, useTwoFactorAuthStore, useUserStore } from "@/stores";
 import { Breadcrumb } from "@/components/forms";
 import TwoFactorAuthDialog from "./components/TwoFactorAuthDialog.vue";
 
@@ -22,6 +22,7 @@ const authStore = useAuthStore();
 const predefinedValues = usePredefinedValuesStore();
 const appStore = useAppStore();
 const twoFactorAuthStore = useTwoFactorAuthStore();
+const userStore = useUserStore();
 const { genders, languages } = storeToRefs(predefinedValues);
 const { user } = storeToRefs(authStore);
 const disabled = ref(true);
@@ -60,7 +61,9 @@ const onSubmit = handleSubmit(async (values) => {
       ...values
     };
 
-    await authStore.update(user.id, submitData);
+    console.log(user, submitData);
+
+    await userStore.update(user.value.id, submitData);
   } catch (error) {
     console.error(error);
   } finally {

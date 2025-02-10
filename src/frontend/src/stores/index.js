@@ -4,5 +4,6 @@ export * from "./audits";
 export * from "./tenants";
 export * from "./roles";
 export * from "./twoFactorAuth";
+export * from "./users";
 export * from "./customizer";
 export * from "./predefined-values";
