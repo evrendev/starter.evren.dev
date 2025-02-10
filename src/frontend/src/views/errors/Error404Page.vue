@@ -18,10 +18,13 @@ const { t } = useI18n();
           <div class="card-media-build" v-html="Text" />
           <div class="card-media-build" v-html="Purple" />
         </div>
+
         <h1 class="text-h1" v-text="t('error.title')" />
+
         <p>
-          <small class="error-description" v-html="t('error.description')" />
+          <small class="error-description" v-text="t('error.description')" />
         </p>
+
         <v-btn variant="flat" color="primary" class="mt-4" :to="{ name: 'home' }" prepend-icon="$home">
           {{ t("error.home") }}
         </v-btn>
@@ -42,6 +45,14 @@ const { t } = useI18n();
     left: 0;
     width: 100%;
     animation: 5s bounce ease-in-out infinite;
+  }
+
+  .card-media-parts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    animation: 10s blink ease-in-out infinite;
   }
 
   .error-description {
