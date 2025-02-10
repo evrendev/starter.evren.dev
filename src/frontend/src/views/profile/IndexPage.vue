@@ -181,27 +181,6 @@ onMounted(async () => {
             </v-col>
           </v-row>
 
-          <v-divider class="my-4" />
-
-          <v-row>
-            <v-col cols="12">
-              <div class="d-flex align-center justify-space-between">
-                <div>
-                  <h3 class="text-h6 mb-2">{{ t("admin.profile.twoFactorAuth.title") }}</h3>
-                  <p class="text-body-2">{{ t("admin.profile.twoFactorAuth.description") }}</p>
-                </div>
-                <div>
-                  <v-btn v-if="!user.twoFactorEnabled" color="primary" prepend-icon="$shieldAccount" @click="showTwoFactorDialog = true">
-                    {{ t("admin.profile.twoFactorAuth.enable") }}
-                  </v-btn>
-                  <v-btn v-else color="error" prepend-icon="$shieldLockOpen" @click="handleTwoFactorDisabled">
-                    {{ t("admin.profile.twoFactorAuth.disable") }}
-                  </v-btn>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-
           <v-row class="mt-4">
             <v-col cols="12" class="d-flex justify-end gap-2">
               <v-btn color="warning" v-show="disabled" prepend-icon="$pencil" @click="disabled = false">
@@ -217,6 +196,27 @@ onMounted(async () => {
             </v-col>
           </v-row>
         </v-form>
+
+        <v-divider class="my-4" />
+
+        <v-row>
+          <v-col cols="12">
+            <div class="d-flex align-center justify-space-between">
+              <div>
+                <h3 class="text-h6 mb-2">{{ t("admin.profile.twoFactorAuth.title") }}</h3>
+                <p class="text-body-2">{{ t("admin.profile.twoFactorAuth.description") }}</p>
+              </div>
+              <div>
+                <v-btn v-if="!user.twoFactorEnabled" color="primary" prepend-icon="$shieldAccount" @click="showTwoFactorDialog = true">
+                  {{ t("admin.profile.twoFactorAuth.enable") }}
+                </v-btn>
+                <v-btn v-else color="error" prepend-icon="$shieldLockOpen" @click="handleTwoFactorDisabled">
+                  {{ t("admin.profile.twoFactorAuth.disable") }}
+                </v-btn>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
 
         <two-factor-auth-dialog v-model="showTwoFactorDialog" />
       </v-card>
