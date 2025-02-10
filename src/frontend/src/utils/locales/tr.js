@@ -155,6 +155,11 @@ export default {
           "İki faktörlü kimlik doğrulama, hesabınızı daha güvenli hale getirir. Hesabınıza giriş yaparken, doğrulama kodunu girerek kimliğinizi doğrulamanız gerekir.",
         enable: "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
         disable: "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
+        confirmDisable: {
+          title: "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
+          message:
+            "İki faktörlü kimlik doğrulamayı devre dışı bırakmak istediğinizden emin misiniz? Bu, hesabınızı daha az güvenli hale getirecektir."
+        },
         setup: {
           title: "İki Faktörlü Kimlik Doğrulamayı Ayarla",
           intro: "İki faktörlü kimlik doğrulamayı etkinleştirmek için, aşağıdaki adımları izleyin:",
@@ -277,6 +282,7 @@ export default {
     close: "Kapat",
     cancel: "Vazgeç",
     verify: "Doğrula",
+    confirm: "Onayla",
     deleted: "Başarıyla silindi",
     basicInformation: "Temel Bilgiler",
     additionalParameters: "Ek Parametreler"

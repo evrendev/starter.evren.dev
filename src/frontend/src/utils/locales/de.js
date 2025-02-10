@@ -154,6 +154,10 @@ export default {
         description: "Zwei-Faktor-Authentifizierung ist deaktiviert. Sie können es aktivieren, um die Sicherheit Ihres Kontos zu erhöhen.",
         enable: "Aktivieren 2FA",
         disable: "Deaktivieren 2FA",
+        confirmDisable: {
+          title: "Zwei-Faktor-Authentifizierung deaktivieren",
+          message: "Möchten Sie die Zwei-Faktor-Authentifizierung deaktivieren? Dies macht Ihr Konto weniger sicher."
+        },
         setup: {
           title: "Richten Sie die Zwei-Faktor-Authentifizierung ein",
           intro:
@@ -278,6 +282,7 @@ export default {
     close: "Schließen",
     cancel: "Stornieren",
     verify: "Überprüfen",
+    confirm: "Bestätigen",
     deleted: "Erfolgreich gelöscht",
     basicInformation: "Grundlegende Informationen",
     additionalParameters: "Zusätzliche Parameter"

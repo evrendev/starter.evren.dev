@@ -154,6 +154,10 @@ export default {
         description: "Add an extra layer of security to your account by enabling two-factor authentication.",
         enable: "Enable 2FA",
         disable: "Disable 2FA",
+        confirmDisable: {
+          title: "Disable Two-Factor Authentication",
+          message: "Are you sure you want to disable two-factor authentication? This will make your account less secure."
+        },
         setup: {
           title: "Set up Two-Factor Authentication",
           intro: "To set up two-factor authentication, scan the QR code below with your authenticator app or enter the code manually.",
@@ -277,6 +281,7 @@ export default {
     close: "Close",
     cancel: "Cancel",
     verify: "Verify",
+    confirm: "Confirm",
     deleted: "Successfully deleted",
     basicInformation: "Basic Information",
     additionalParameters: "Additional Parameters"
