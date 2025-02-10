@@ -1,6 +1,7 @@
 import axios from "axios";
 import NotificationService from "./notification";
 import { useAppStore } from "@/stores";
+import config from "@/config";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -11,18 +12,18 @@ const apiClient = axios.create({
 
 // Add request interceptor for auth token
 apiClient.interceptors.request.use(
-  (config) => {
+  (cfg) => {
     const auth = JSON.parse(localStorage.getItem("auth"));
     const token = auth?.token;
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      cfg.headers.Authorization = `Bearer ${token}`;
     }
 
-    config.headers.Accept = "application/json";
-    config.headers["Accept-Language"] = localStorage.getItem("lang");
+    cfg.headers.Accept = "application/json";
+    cfg.headers["Accept-Language"] = localStorage.getItem("lang") ?? config.defaultLocale;
 
-    return config;
+    return cfg;
   },
   (error) => {
     // Handle request errors here
