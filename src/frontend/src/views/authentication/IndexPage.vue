@@ -1,5 +1,5 @@
 <script setup>
-import { LogIn, ForgotPassword, TwoFactorAuthentication } from "./forms";
+import { LogIn, ForgotPassword, TwoFactorAuthentication } from "./components";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useCustomizerStore } from "@/stores";
