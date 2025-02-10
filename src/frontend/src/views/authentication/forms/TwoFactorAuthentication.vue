@@ -17,7 +17,7 @@ const { user } = storeToRefs(authStore);
 
 const router = useRouter();
 
-if (!user.value.id) router.push({ name: "login", params: { page: "login" } });
+if (!user.value.id) router.push({ name: "login", query: { returnUrl: null } });
 
 const schema = object().shape({
   code: string()
@@ -84,7 +84,7 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
 
     <div class="d-flex justify-center mt-7 mb-lg-2 mb-sm-0">
-      <router-link :to="{ name: 'login', params: { returnUrl: '' } }" class="text-primary text-decoration-none" v-show="!loading">
+      <router-link :to="{ name: 'login', params: { page: null } }" class="text-primary text-decoration-none" v-show="!loading">
         <v-icon icon="$return" />
         <span class="ml-2">
           {{ t("auth.forgotPassword.back") }}
@@ -93,10 +93,3 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
   </v-form>
 </template>
-<style lang="scss" scoped>
-.login-form {
-  .v-text-field .v-field--active input {
-    font-weight: 500;
-  }
-}
-</style>

@@ -36,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
 
   // Set document title
-  const title = to.meta.titleKey ? i18n.global.t(to.meta.titleKey) : to.meta.title;
+  const title = to.meta.titleKey ? i18n.global.t(to.meta.titleKey) : null;
 
   document.title = title ? `${title} - ${APP_NAME}` : APP_NAME;
 
