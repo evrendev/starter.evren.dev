@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 import { apiService } from "@/utils/helpers/api";
 
 export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
@@ -27,6 +28,11 @@ export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
       this.loading = true;
       try {
         await apiService.post("/2fa/enable", { code });
+
+        const authStore = useAuthStore();
+        const user = authStore.user;
+        user.twoFactorEnabled = true;
+        authStore.updateUser(user);
       } finally {
         this.loading = false;
       }
@@ -36,6 +42,11 @@ export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
       this.loading = true;
       try {
         await apiService.post("/2fa/disable");
+
+        const authStore = useAuthStore();
+        const user = authStore.user;
+        user.twoFactorEnabled = false;
+        authStore.updateUser(user);
       } finally {
         this.loading = false;
       }

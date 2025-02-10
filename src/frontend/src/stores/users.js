@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 import { apiService } from "@/utils/helpers";
 import LocaleHelper from "@/utils/helpers/locale";
-import { useAuthStore } from "@/stores/auth";
 
 export const useUserStore = defineStore({
   id: "user",
