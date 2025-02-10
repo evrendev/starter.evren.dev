@@ -98,6 +98,41 @@ const AdminRoutes = {
           }
         }
       ]
+    },
+    {
+      name: "UsersPage",
+      path: "users",
+      children: [
+        {
+          path: "",
+          name: "default",
+          redirect: "list"
+        },
+        {
+          name: "list-users",
+          path: "list",
+          component: () => import("@/views/users/IndexPage.vue"),
+          meta: {
+            titleKey: "admin.users.list"
+          }
+        }
+        // {
+        //   name: "new-role",
+        //   path: "new",
+        //   component: () => import("@/views/roles/NewPage.vue"),
+        //   meta: {
+        //     titleKey: "admin.roles.new"
+        //   }
+        // },
+        // {
+        //   name: "edit-role",
+        //   path: "edit/:id",
+        //   component: () => import("@/views/roles/EditPage.vue"),
+        //   meta: {
+        //     titleKey: "admin.roles.edit"
+        //   }
+        // }
+      ]
     }
   ]
 };

@@ -46,11 +46,11 @@ const sidebarItem = [
               {
                 title: "components.sidebar.users.title",
                 icon: UsersIcon,
-                to: "/admin/users",
+                to: "#",
                 children: [
                   {
                     title: "components.sidebar.users.list",
-                    to: "/admin/users"
+                    to: "/admin/users/list"
                   },
                   ...(hasPermission("Users.Create")
                     ? [

@@ -264,6 +264,25 @@ export default {
           maxLength: "Açıklama en fazla {max} karakter olabilir"
         }
       }
+    },
+    users: {
+      title: "Kullanıcılar",
+      list: "Liste",
+      new: "Yeni",
+      edit: "Düzenle",
+      delete: {
+        title: "Kullanıcıyı Sil",
+        message: "Kullanıcıyı silmek istediğinizden emin misiniz?"
+      },
+      fields: {
+        initial: "#",
+        twoFactorEnabled: "2FA",
+        gender: "Cinsiyet",
+        firstName: "Ad",
+        lastName: "Soyad",
+        email: "E-posta",
+        process: "İşlem"
+      }
     }
   },
   error: {

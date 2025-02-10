@@ -264,6 +264,25 @@ export default {
           maxLength: "Beschreibung muss weniger als {max} Zeichen lang sein"
         }
       }
+    },
+    users: {
+      title: "Benutzer",
+      list: "Liste",
+      new: "Neu",
+      edit: "Bearbeiten",
+      delete: {
+        title: "Benutzer löschen",
+        message: "Möchten Sie den Benutzer löschen?"
+      },
+      fields: {
+        initial: "#",
+        twoFactorEnabled: "2FA",
+        gender: "Geschlecht",
+        firstName: "Vorname",
+        lastName: "Nachname",
+        email: "E-Mail",
+        process: "Prozess"
+      }
     }
   },
   error: {

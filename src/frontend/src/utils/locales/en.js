@@ -263,6 +263,25 @@ export default {
           maxLength: "Description must be less than {max} characters"
         }
       }
+    },
+    users: {
+      title: "Users",
+      list: "List",
+      new: "New",
+      edit: "Edit",
+      delete: {
+        title: "Delete User",
+        message: "Are you sure you want to delete this user?"
+      },
+      fields: {
+        initial: "#",
+        twoFactorEnabled: "2FA",
+        gender: "Gender",
+        firstName: "First Name",
+        lastName: "Last Name",
+        email: "Email",
+        process: "Process"
+      }
     }
   },
   error: {
