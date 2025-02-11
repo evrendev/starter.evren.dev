@@ -3,7 +3,7 @@ import { ref, onMounted, watch, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
-import { object, string, ref as yupRef } from "yup";
+import { array, object, string, ref as yupRef } from "yup";
 import { useUserStore, usePredefinedValuesStore, useAppStore, useAuthStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import config from "@/config";
@@ -43,7 +43,8 @@ const schema = object().shape({
   confirmPassword: string()
     .required(t("admin.users.validation.confirmPassword.required"))
     .oneOf([yupRef("password")], t("admin.users.validation.confirmPassword.match")),
-  jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength"))
+  jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength")),
+  permissions: array().min(1, t("admin.users.validation.permissions.required"))
 });
 
 const defaultValues = {
@@ -269,6 +270,7 @@ const groupedPermissions = computed(() => {
                     <v-col v-for="permission in modulePermissions" :key="permission" cols="auto" xs="6" class="me-sm-auto">
                       <v-checkbox
                         v-model="permissions"
+                        v-bind="permissionsProps"
                         :value="permission"
                         :label="permission.split('.')[1]"
                         density="comfortable"

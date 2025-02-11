@@ -81,7 +81,7 @@ export default {
         title: "Görev Listesi"
       },
       admin: {
-        title: "Yönetici"
+        title: "Yönetici İşlemleri"
       },
       users: {
         title: "Kullanıcılar",
