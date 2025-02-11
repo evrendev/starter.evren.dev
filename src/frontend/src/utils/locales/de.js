@@ -316,6 +316,9 @@ export default {
         },
         jobTitle: {
           maxLength: "Berufsbezeichnung muss weniger als {max} Zeichen lang sein"
+        },
+        permissions: {
+          required: "Berechtigungen sind erforderlich"
         }
       },
       helpers: {

@@ -318,6 +318,9 @@ export default {
         },
         jobTitle: {
           maxLength: "Ünvan en fazla {max} karakter olabilir"
+        },
+        permissions: {
+          required: "En az bir izin seçmelisiniz"
         }
       },
       helpers: {
