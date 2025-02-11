@@ -1,4 +1,4 @@
-import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon } from "vue-tabler-icons"; // Permission Groups
+import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon } from "vue-tabler-icons";
 import { useAuthStore } from "@/stores/auth";
 
 const TODOS_PERMISSIONS = ["Todos.Read", "Todos.Create", "Todos.Edit", "Todos.Delete"];
@@ -9,7 +9,6 @@ const AUDITS_PERMISSIONS = ["Audits.Read", "Audits.Create", "Audits.Edit", "Audi
 
 const ADMIN_PERMISSIONS = [...USERS_PERMISSIONS, ...ROLES_PERMISSIONS, ...TENANTS_PERMISSIONS, ...AUDITS_PERMISSIONS];
 
-// Permission Helpers
 const hasPermission = (permission) => {
   const authStore = useAuthStore();
   return authStore.user?.permissions?.includes(permission);

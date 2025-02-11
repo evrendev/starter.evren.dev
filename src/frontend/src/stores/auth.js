@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { getActivePinia } from "pinia";
 import { router } from "@/router";
 import { useLocalStorage } from "@vueuse/core";
 import { apiService } from "@/utils/helpers";
@@ -73,8 +74,8 @@ export const useAuthStore = defineStore({
       router.push(this.returnUrl || "/admin");
     },
     async logout() {
-      this.$reset();
       await apiService.post("/auth/logout");
+      getActivePinia()._s.forEach((store) => store.$reset());
       router.push({ name: "login", query: { returnUrl: router.currentRoute.value.fullPath } });
     },
     setReturnUrl(url) {
