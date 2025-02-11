@@ -280,7 +280,47 @@ export default {
         firstName: "First Name",
         lastName: "Last Name",
         email: "Email",
-        process: "Process"
+        jobTitle: "Job Title",
+        process: "Process",
+        language: "Language",
+        password: "Password",
+        confirmPassword: "Confirm Password"
+      },
+      validation: {
+        gender: {
+          required: "Gender is required"
+        },
+        email: {
+          required: "Email is required",
+          invalid: "Invalid email address"
+        },
+        firstName: {
+          required: "First name is required",
+          maxLength: "First name must be less than {max} characters"
+        },
+        lastName: {
+          required: "Last name is required",
+          maxLength: "Last name must be less than {max} characters"
+        },
+        password: {
+          required: "Password is required",
+          minLength: "Password must be at least {min} characters",
+          uppercase: "Password must contain at least one uppercase letter",
+          lowercase: "Password must contain at least one lowercase letter",
+          number: "Password must contain at least one number",
+          special: "Password must contain at least one special character"
+        },
+        confirmPassword: {
+          required: "Confirm password is required",
+          match: "Passwords do not match"
+        },
+        jobTitle: {
+          maxLength: "Job title must be less than {max} characters"
+        }
+      },
+      helpers: {
+        information: "User information",
+        permissions: "User permissions"
       }
     }
   },
@@ -308,7 +348,8 @@ export default {
     confirm: "Confirm",
     deleted: "Successfully deleted",
     basicInformation: "Basic Information",
-    additionalParameters: "Additional Parameters"
+    additionalParameters: "Additional Parameters",
+    permissions: "Permissions"
   },
   $vuetify: {
     ...en

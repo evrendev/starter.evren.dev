@@ -1,4 +1,5 @@
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Application.Features.Users.Commands.CreateUser;
@@ -6,15 +7,14 @@ namespace EvrenDev.Application.Features.Users.Commands.CreateUser;
 public record CreateUserCommand : IRequest<Result<Guid>>
 {
     public Guid? TenantId { get; init; }
-    public string Gender { get; init; } = string.Empty;
-    public string Email { get; init; } = string.Empty;
-    public string Password { get; init; } = string.Empty;
-    public string FirstName { get; init; } = string.Empty;
-    public string LastName { get; init; } = string.Empty;
-    public string? Image { get; init; }
+    public string? Gender { get; init; }
+    public string? Email { get; init; }
+    public string? Password { get; init; }
+    public string? FirstName { get; init; }
+    public string? LastName { get; init; }
     public string? JobTitle { get; init; }
-    public string Language { get; init; } = string.Empty;
-    public List<string> Permissions { get; init; } = new();
+    public string? Language { get; init; }
+    public List<string> Permissions { get; init; } = [];
 }
 
 public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
@@ -79,18 +79,17 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         var user = new ApplicationUser
         {
             TenantId = request.TenantId,
-            Gender = Gender.From(request.Gender),
+            Gender = Gender.From(request.Gender ?? Defaults.Gender),
             UserName = request.Email,
             Email = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            Image = request.Image,
             JobTitle = request.JobTitle,
-            Language = Language.From(request.Language),
+            Language = Language.From(request.Language ?? Defaults.Language),
             EmailConfirmed = true
         };
 
-        var result = await _userManager.CreateAsync(user, request.Password);
+        var result = await _userManager.CreateAsync(user, request.Password!);
         if (!result.Succeeded)
         {
             var errors = result.Errors.Select(e => e.Description).ToArray();
