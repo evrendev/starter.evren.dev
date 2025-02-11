@@ -78,28 +78,28 @@ export default {
       },
       todos: {
         header: "Todos",
-        title: "List"
+        title: "List Todos"
       },
       admin: {
         title: "Admin"
       },
       users: {
         title: "Users",
-        list: "List",
-        new: "New"
+        list: "List Users",
+        new: "Add User"
       },
       roles: {
         title: "Roles",
-        list: "List",
-        new: "New"
+        list: "List Roles",
+        new: "Add Role"
       },
       tenants: {
         title: "Tenants",
-        list: "List",
-        new: "New"
+        list: "List Tenants",
+        new: "Add Tenant"
       },
       audits: {
-        title: "Audits"
+        title: "Audit Logs"
       }
     }
   },
@@ -169,7 +169,7 @@ export default {
     },
     audits: {
       title: "Audit Logs",
-      list: "List",
+      list: "List Audit Logs",
       fields: {
         id: "ID",
         user: "User",
@@ -190,9 +190,9 @@ export default {
     },
     tenants: {
       title: "Tenants",
-      list: "List",
-      new: "New",
-      edit: "Edit",
+      list: "List Tenants",
+      new: "New Tenant",
+      edit: "Edit Tenant",
       fields: {
         id: "ID",
         name: "Name",
@@ -241,9 +241,9 @@ export default {
     },
     roles: {
       title: "Roles",
-      list: "List",
-      new: "New",
-      edit: "Edit",
+      list: "Roles List",
+      new: "New Role",
+      edit: "Edit Role",
       fields: {
         id: "ID",
         name: "Name",
@@ -266,9 +266,9 @@ export default {
     },
     users: {
       title: "Users",
-      list: "List",
-      new: "New",
-      edit: "Edit",
+      list: "List Users",
+      new: "New User",
+      edit: "Edit User",
       delete: {
         title: "Delete User",
         message: "Are you sure you want to delete this user?"
@@ -346,10 +346,7 @@ export default {
     cancel: "Cancel",
     verify: "Verify",
     confirm: "Confirm",
-    deleted: "Successfully deleted",
-    basicInformation: "Basic Information",
-    additionalParameters: "Additional Parameters",
-    permissions: "Permissions"
+    deleted: "Successfully deleted"
   },
   $vuetify: {
     ...en

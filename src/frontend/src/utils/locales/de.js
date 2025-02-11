@@ -281,7 +281,46 @@ export default {
         firstName: "Vorname",
         lastName: "Nachname",
         email: "E-Mail",
-        process: "Prozess"
+        process: "Prozess",
+        language: "Sprache",
+        password: "Passwort",
+        confirmPassword: "Passwort bestätigen"
+      },
+      validation: {
+        gender: {
+          required: "Geschlecht ist erforderlich"
+        },
+        email: {
+          required: "E-Mail ist erforderlich",
+          invalid: "Ungültige E-Mail-Adresse"
+        },
+        firstName: {
+          required: "Vorname ist erforderlich",
+          maxLength: "Vorname muss weniger als {max} Zeichen lang sein"
+        },
+        lastName: {
+          required: "Nachname ist erforderlich",
+          maxLength: "Nachname muss weniger als {max} Zeichen lang sein"
+        },
+        password: {
+          required: "Passwort ist erforderlich",
+          minLength: "Passwort muss mindestens {min} Zeichen lang sein",
+          uppercase: "Passwort muss mindestens einen Großbuchstaben enthalten",
+          lowercase: "Passwort muss mindestens einen Kleinbuchstaben enthalten",
+          number: "Passwort muss mindestens eine Zahl enthalten",
+          special: "Passwort muss mindestens ein Sonderzeichen enthalten"
+        },
+        confirmPassword: {
+          required: "Passwort bestätigen ist erforderlich",
+          match: "Passwörter stimmen nicht überein"
+        },
+        jobTitle: {
+          maxLength: "Berufsbezeichnung muss weniger als {max} Zeichen lang sein"
+        }
+      },
+      helpers: {
+        information: "Benutzerinformationen",
+        permissions: "Benutzerberechtigungen"
       }
     }
   },

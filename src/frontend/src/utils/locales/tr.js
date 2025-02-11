@@ -78,25 +78,25 @@ export default {
       },
       todos: {
         header: "Görevler",
-        title: "Liste"
+        title: "Görev Listesi"
       },
       admin: {
         title: "Yönetici"
       },
       users: {
         title: "Kullanıcılar",
-        list: "Liste",
-        new: "Yeni"
+        list: "Kullanıcı Listesi",
+        new: "Kullanıcı Ekle"
       },
       roles: {
         title: "Roller",
-        list: "Liste",
-        new: "Yeni"
+        list: "Rol Listesi",
+        new: "Rol Ekle"
       },
       tenants: {
-        title: "Kiracılar",
-        list: "Liste",
-        new: "Yeni"
+        title: "Kurumlar",
+        list: "Kurum Listesi",
+        new: "Kurum Ekle"
       },
       audits: {
         title: "İşlem Geçmişi"
@@ -172,7 +172,6 @@ export default {
     audits: {
       title: "İşlem Geçmişi",
       list: "Liste",
-      edit: "Düzenle",
       fields: {
         id: "ID",
         user: "Kullanıcı",
@@ -192,9 +191,10 @@ export default {
       }
     },
     tenants: {
-      title: "Kiracılar",
-      list: "Liste",
-      new: "Yeni",
+      title: "Kurumlar",
+      list: "Kurum Listesi",
+      new: "Yeni Kurum",
+      edit: "Kurum Düzenle",
       fields: {
         id: "ID",
         name: "Ad",
@@ -243,8 +243,9 @@ export default {
     },
     roles: {
       title: "Roller",
-      list: "Liste",
-      new: "Yeni",
+      list: "Rol Listesi",
+      new: "Yeni Rol",
+      edit: "Rol Düzenle",
       fields: {
         id: "ID",
         name: "Ad",
@@ -267,9 +268,9 @@ export default {
     },
     users: {
       title: "Kullanıcılar",
-      list: "Liste",
-      new: "Yeni",
-      edit: "Düzenle",
+      list: "Kullanıcı Listesi",
+      new: "Yeni Kullanıcı",
+      edit: "Kullanıcı Düzenle",
       delete: {
         title: "Kullanıcıyı Sil",
         message: "Kullanıcıyı silmek istediğinizden emin misiniz?"
@@ -281,7 +282,47 @@ export default {
         firstName: "Ad",
         lastName: "Soyad",
         email: "E-posta",
-        process: "İşlem"
+        jobTitle: "Ünvan",
+        process: "İşlem",
+        language: "Dil",
+        password: "Şifre",
+        confirmPassword: "Şifreyi Onayla"
+      },
+      validation: {
+        gender: {
+          required: "Cinsiyet seçmeniz gerekmektedir"
+        },
+        email: {
+          required: "E-posta adresi girmeniz gerekmektedir",
+          invalid: "Geçersiz e-posta adresi"
+        },
+        firstName: {
+          required: "Ad girmeniz gerekmektedir",
+          maxLength: "Ad en fazla {max} karakter olabilir"
+        },
+        lastName: {
+          required: "Soyad girmeniz gerekmektedir",
+          maxLength: "Soyad en fazla {max} karakter olabilir"
+        },
+        password: {
+          required: "Şifre girmeniz gerekmektedir",
+          minLength: "Şifre en az {min} karakter olmalıdır",
+          uppercase: "Şifre en az bir büyük harf içermelidir",
+          lowercase: "Şifre en az bir küçük harf içermelidir",
+          number: "Şifre en az bir rakam içermelidir",
+          special: "Şifre en az bir özel karakter içermelidir"
+        },
+        confirmPassword: {
+          required: "Şifreyi onaylamanız gerekmektedir",
+          match: "Şifreler eşleşmiyor"
+        },
+        jobTitle: {
+          maxLength: "Ünvan en fazla {max} karakter olabilir"
+        }
+      },
+      helpers: {
+        information: "Kullanıcı Bilgileri",
+        permissions: "İzinler"
       }
     }
   },
@@ -307,9 +348,7 @@ export default {
     cancel: "Vazgeç",
     verify: "Doğrula",
     confirm: "Onayla",
-    deleted: "Başarıyla silindi",
-    basicInformation: "Temel Bilgiler",
-    additionalParameters: "Ek Parametreler"
+    deleted: "Başarıyla silindi"
   },
   $vuetify: {
     ...tr
