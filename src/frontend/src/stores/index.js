@@ -6,4 +6,5 @@ export * from "./roles";
 export * from "./twoFactorAuth";
 export * from "./users";
 export * from "./customizer";
+export * from "./navigation";
 export * from "./predefined-values";

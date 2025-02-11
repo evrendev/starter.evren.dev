@@ -1,7 +1,6 @@
 <script setup>
-import { shallowRef } from "vue";
-import { useCustomizerStore } from "../../../stores/customizer";
-import sidebarItems from "./sidebarItem";
+import { onMounted } from "vue";
+import { useCustomizerStore, useNavigationStore } from "@/stores";
 
 import NavGroup from "./NavGroup/NavGroup.vue";
 import NavItem from "./NavItem/NavItem.vue";
@@ -9,7 +8,11 @@ import NavCollapse from "./NavCollapse/NavCollapse.vue";
 import Logo from "../logo/LogoMain.vue";
 
 const customizer = useCustomizerStore();
-const sidebarMenu = shallowRef(sidebarItems);
+const navigationStore = useNavigationStore();
+
+onMounted(() => {
+  navigationStore.generateSidebarItems();
+});
 </script>
 
 <template>
@@ -25,7 +28,6 @@ const sidebarMenu = shallowRef(sidebarItems);
     expand-on-hover
   >
     <!---Logo part -->
-
     <div class="pa-5">
       <Logo />
     </div>
@@ -35,7 +37,7 @@ const sidebarMenu = shallowRef(sidebarItems);
     <perfect-scrollbar class="scrollnavbar">
       <v-list class="pa-4">
         <!---Menu Loop -->
-        <template v-for="(item, i) in sidebarMenu" :key="i">
+        <template v-for="(item, i) in navigationStore.sidebarItems" :key="i">
           <!---Item Sub Header -->
           <NavGroup :item="item" v-if="item.header" :key="item.title" />
           <!---Item Divider -->
