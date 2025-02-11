@@ -50,9 +50,6 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         RuleFor(v => v.LastName)
             .NotEmpty().WithMessage(_localizer["api.users.create.last-name.required"])
             .MaximumLength(100).WithMessage(_localizer["api.users.create.last-name.maxlength"]);
-
-        RuleFor(v => v.TenantId)
-            .NotEmpty().WithMessage(_localizer["api.users.create.tenant-id.required"]);
     }
 
     private async Task<bool> EmailExists(string email)
@@ -64,21 +61,26 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<Guid>>
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITenantService _tenantService;
     private readonly IStringLocalizer<CreateUserCommandHandler> _localizer;
 
     public CreateUserCommandHandler(
         UserManager<ApplicationUser> userManager,
+        ITenantService tenantService,
         IStringLocalizer<CreateUserCommandHandler> localizer)
     {
         _userManager = userManager;
+        _tenantService = tenantService;
         _localizer = localizer;
     }
 
     public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        var tenantId = _tenantService.GetCurrentTenantId();
+
         var user = new ApplicationUser
         {
-            TenantId = request.TenantId,
+            TenantId = request.TenantId ?? tenantId,
             Gender = Gender.From(request.Gender ?? Defaults.Gender),
             UserName = request.Email,
             Email = request.Email,

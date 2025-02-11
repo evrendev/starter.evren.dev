@@ -3,7 +3,7 @@ import { ref, onMounted, watch, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
-import { object, string } from "yup";
+import { object, string, ref as yupRef } from "yup";
 import { useUserStore, usePredefinedValuesStore, useAppStore, useAuthStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import config from "@/config";
@@ -39,18 +39,15 @@ const schema = object().shape({
   password: string()
     .required(t("admin.users.validation.password.required"))
     .min(8, t("admin.users.validation.password.minLength"))
-    .matches(/^[A-Z]+$/, t("admin.users.validation.password.uppercase"))
-    .matches(/^[a-z]+$/, t("admin.users.validation.password.lowercase"))
-    .matches(/^[0-9]+$/, t("admin.users.validation.password.number"))
     .matches(/^[A-Za-z0-9!@#$%^&*()_+|~\-={}[\]:";<>?,./]+$/, t("admin.users.validation.password.special")),
   confirmPassword: string()
     .required(t("admin.users.validation.confirmPassword.required"))
-    .oneOf([ref("password"), null], t("admin.users.validation.confirmPassword.match")),
+    .oneOf([yupRef("password")], t("admin.users.validation.confirmPassword.match")),
   jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength"))
 });
 
 const defaultValues = {
-  tenantId: "",
+  tenantId: null,
   gender: "none",
   email: "",
   password: "",

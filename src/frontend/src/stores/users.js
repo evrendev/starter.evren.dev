@@ -9,7 +9,8 @@ export const useUserStore = defineStore({
     items: [],
     user: {},
     itemsLength: 0,
-    loading: false
+    loading: false,
+    reset: false
   }),
   actions: {
     async getItems({ page, itemsPerPage, sortBy, search, action, startDate, endDate }) {
@@ -38,6 +39,27 @@ export const useUserStore = defineStore({
       try {
         const response = await apiService.get(`/users/${id}`, false);
         this.user = response;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async delete(id) {
+      try {
+        this.loading = true;
+        this.reset = true;
+
+        await apiService.delete(`/users/${id}`);
+        this.loading = false;
+      } finally {
+        this.loading = false;
+        this.reset = false;
+      }
+    },
+    async create(user) {
+      try {
+        this.loading = true;
+        const response = await apiService.post("/users", user);
+        return response;
       } finally {
         this.loading = false;
       }
