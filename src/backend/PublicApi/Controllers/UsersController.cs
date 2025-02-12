@@ -2,6 +2,7 @@ using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Users.Commands.CreateUser;
 using EvrenDev.Application.Features.Users.Commands.DeleteUser;
+using EvrenDev.Application.Features.Users.Commands.RestoreUser;
 using EvrenDev.Application.Features.Users.Commands.UpdateUser;
 using EvrenDev.Application.Features.Users.Commands.UpdateUserPermissions;
 using EvrenDev.Application.Features.Users.Queries.GetUserById;
@@ -161,6 +162,31 @@ public class UsersController : ControllerBase
         try
         {
             var command = new DeleteUserCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("{id}/restore")]
+    [Authorize(Policy = $"{Modules.Users}.{Permissions.Restore}")]
+    public async Task<ActionResult<bool>> Restore(Guid? id)
+    {
+        try
+        {
+            var command = new RestoreUserCommand { Id = id };
             var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }

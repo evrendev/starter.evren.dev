@@ -54,6 +54,18 @@ export const useUserStore = defineStore("user", {
         this.reset = false;
       }
     },
+    async restore(id) {
+      try {
+        this.loading = true;
+        this.reset = true;
+
+        await apiService.post(`/users/${id}/restore`);
+        this.loading = false;
+      } finally {
+        this.loading = false;
+        this.reset = false;
+      }
+    },
     async create(user) {
       try {
         this.loading = true;

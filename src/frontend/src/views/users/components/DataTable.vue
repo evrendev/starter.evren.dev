@@ -55,7 +55,7 @@ const handleConfirm = async () => {
   if (operation.value === "delete") {
     await userStore.delete(userId.value);
   } else {
-    await userStore.activate(userId.value);
+    await userStore.restore(userId.value);
   }
 };
 
@@ -63,11 +63,16 @@ const handleCancel = () => {
   userId.value = null;
 };
 
-const showConfirmModal = (id, opt) => {
-  confirmModalTitle.value = t("admin.users.delete.title");
-  confirmModalMessage.value = t("admin.users.delete.message");
+const showConfirmModal = (id, opt, value) => {
+  if (opt === "delete") {
+    confirmModalTitle.value = t("admin.users.delete.title");
+    confirmModalMessage.value = t("admin.users.delete.message");
+  } else {
+    confirmModalTitle.value = t("admin.users.restore.title");
+    confirmModalMessage.value = t("admin.users.restore.message");
+  }
 
-  operation.value = opt;
+  operation.value = value;
   userId.value = id;
   showModal.value = true;
 };
