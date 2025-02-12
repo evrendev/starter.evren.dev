@@ -351,7 +351,8 @@ export default {
     confirm: "Confirm",
     deleted: "Successfully deleted",
     selectAll: "Select All",
-    error: "Error"
+    error: "Error",
+    navigation: "Navigation"
   },
   $vuetify: {
     ...en

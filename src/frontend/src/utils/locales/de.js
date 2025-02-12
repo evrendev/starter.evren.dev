@@ -353,7 +353,8 @@ export default {
     basicInformation: "Grundlegende Informationen",
     additionalParameters: "Zusätzliche Parameter",
     selectAll: "Wählen Sie alle",
-    error: "Fehler"
+    error: "Fehler",
+    navigation: "Navigation"
   },
   $vuetify: {
     ...de

@@ -353,7 +353,8 @@ export default {
     confirm: "Onayla",
     deleted: "Başarıyla silindi",
     selectAll: "Hepsini Seç",
-    error: "Hata"
+    error: "Hata",
+    navigation: "Navigasyon"
   },
   $vuetify: {
     ...tr

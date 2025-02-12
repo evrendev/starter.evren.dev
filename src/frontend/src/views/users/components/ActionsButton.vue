@@ -28,9 +28,14 @@ const handleReset = () => {
 const handleSubmit = () => {
   emit("submit");
 };
+
+const navigationItems = [
+  { title: t("admin.users.helpers.information"), icon: "$informationBox" },
+  { title: t("admin.users.helpers.permissions"), icon: "$shieldAccount" }
+];
 </script>
 <template>
-  <v-col col="12" sm="4" md="3" class="action-buttons">
+  <v-col col="12" sm="4" md="3">
     <v-card class="pa-4">
       <v-container :fluid="true">
         <v-row>
@@ -47,6 +52,7 @@ const handleSubmit = () => {
             </v-btn>
           </v-col>
         </v-row>
+
         <v-row>
           <v-col>
             <v-btn block color="error" :disabled="loading" @click="handleReset" prepend-icon="$refresh">
@@ -54,14 +60,28 @@ const handleSubmit = () => {
             </v-btn>
           </v-col>
         </v-row>
+
+        <v-divider class="my-4"></v-divider>
+
+        <v-row>
+          <v-col>
+            <h3 class="text-h3 text-center font-weight-thin">
+              {{ t("common.navigation") }}
+            </h3>
+            <v-list density="compact" nav>
+              <v-list-item
+                v-for="(item, index) in navigationItems"
+                :key="index"
+                :title="item.title"
+                :prepend-icon="item.icon"
+                link
+                class="mb-1"
+                color="primary"
+              />
+            </v-list>
+          </v-col>
+        </v-row>
       </v-container>
     </v-card>
   </v-col>
 </template>
-
-<style lang="scss">
-.action-buttons {
-  position: sticky;
-  top: 20px;
-}
-</style>
