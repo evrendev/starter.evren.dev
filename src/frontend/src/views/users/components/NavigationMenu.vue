@@ -56,7 +56,7 @@ const scrollToSection = (target) => {
 };
 </script>
 <template>
-  <v-col col="12" sm="4" md="3" class="navigation-container">
+  <v-col xs="12" sm="4" md="3">
     <v-card class="pa-4">
       <v-container :fluid="true">
         <v-row>
@@ -107,13 +107,3 @@ const scrollToSection = (target) => {
     </v-card>
   </v-col>
 </template>
-
-<style lang="scss">
-.navigation-container {
-  position: sticky;
-  position: -webkit-sticky;
-  bottom: 0;
-  z-index: 100;
-  overflow: hidden;
-}
-</style>

@@ -75,14 +75,22 @@ const handleReset = () => {
 </script>
 
 <template>
-  <v-form>
-    <v-row>
-      <v-col col="12" sm="8" md="9">
-        <informations-form ref="userInformationsFormRef" :is-edit="isEdit" :initial-data="initialData" />
-        <permissions-form ref="permissionsFormRef" :is-edit="isEdit" :permissions="permissions" />
-      </v-col>
+  <v-row class="form-container">
+    <v-col xs="12" sm="8" md="9" class="order-2 order-sm-1">
+      <informations-form ref="userInformationsFormRef" :is-edit="isEdit" :initial-data="initialData" />
+      <permissions-form ref="permissionsFormRef" :is-edit="isEdit" :permissions="permissions" />
+    </v-col>
 
-      <navigation-menu :isEdit="isEdit" @reset="handleReset" @submit="validateForms" />
-    </v-row>
-  </v-form>
+    <navigation-menu :isEdit="isEdit" @reset="handleReset" @submit="validateForms" class="navigation-container order-1 order-sm-2" />
+  </v-row>
 </template>
+
+<style lang="scss">
+.navigation-container {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 80px;
+  z-index: 100;
+  height: fit-content;
+}
+</style>
