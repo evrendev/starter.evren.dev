@@ -7,11 +7,10 @@ namespace EvrenDev.Application.Features.Users.Queries.GetUsers;
 
 public class GetUsersQuery : IRequest<Result<PaginatedList<BasicUserDto>>>
 {
-    public bool? ShowDeletedItems { get; set; } = false;
+    public bool? ShowDeletedItems { get; set; }
     public string? Search { get; set; }
-    public bool? IsDeleted { get; set; } = false;
-    public DateTime? StartDate { get; init; } = null;
-    public DateTime? EndDate { get; init; } = null;
+    public DateTime? StartDate { get; init; }
+    public DateTime? EndDate { get; init; }
     public int Page { get; init; } = 1;
     public int ItemsPerPage { get; init; } = 25;
     public string? SortBy { get; init; }
@@ -35,10 +34,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<Pagina
     {
         var query = _userManager.Users.AsQueryable();
 
-        if (!request.ShowDeletedItems.HasValue)
-            query = query.Where(u => !u.Deleted);
-
-        if (request.IsDeleted.HasValue)
+        if (request.ShowDeletedItems.HasValue && request.ShowDeletedItems.Value)
             query = query.IgnoreQueryFilters();
 
         if (request.StartDate != null)
@@ -54,9 +50,8 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<Pagina
                 x.JobTitle!.Contains(request.Search) ||
                 x.Email!.Contains(request.Search));
 
-        query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
-            ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
-            : query.OrderByDescending(x => x.CreatedTime);
+        if (!string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc))
+            query = ApplySorting(query, request.SortBy, request.SortDesc == "desc");
 
         var users = await query.ToListAsync(cancellationToken);
         var userDtos = new List<BasicUserDto>();
@@ -92,7 +87,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<Pagina
             "email" => sortDesc
                 ? query.OrderByDescending(x => x.Email)
                 : query.OrderBy(x => x.Email),
-            _ => query.OrderByDescending(x => x.CreatedTime) // Default sorting
+            _ => query.OrderByDescending(x => x.CreatedTime)
         };
     }
 }
