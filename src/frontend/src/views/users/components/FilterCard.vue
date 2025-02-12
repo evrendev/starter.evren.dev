@@ -36,7 +36,14 @@ const handleReset = () => {
   <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
       <v-col cols="12" md="6">
-        <v-text-field v-model="search" :label="t('common.search')" density="comfortable" hide-details variant="outlined"></v-text-field>
+        <v-text-field
+          v-model="search"
+          :disabled="loading"
+          :label="t('common.search')"
+          density="comfortable"
+          hide-details
+          variant="outlined"
+        />
       </v-col>
       <v-col cols="12" md="6">
         <v-row>
@@ -45,20 +52,22 @@ const handleReset = () => {
               v-model="dateRange[0]"
               :label="t('common.selectDate')"
               density="comfortable"
+              :disabled="loading"
               hide-details
               type="date"
               variant="outlined"
-            ></v-text-field>
+            />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="dateRange[1]"
               :label="t('common.selectDate')"
               density="comfortable"
+              :disabled="loading"
               hide-details
               type="date"
               variant="outlined"
-            ></v-text-field>
+            />
           </v-col>
         </v-row>
       </v-col>
