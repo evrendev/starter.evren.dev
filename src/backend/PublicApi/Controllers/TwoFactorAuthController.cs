@@ -1,6 +1,4 @@
 using System.Text;
-using System.Text.Encodings.Web;
-using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;

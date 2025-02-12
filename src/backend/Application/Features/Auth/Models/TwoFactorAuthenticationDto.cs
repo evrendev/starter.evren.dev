@@ -1,5 +1,3 @@
-using System;
-
 namespace EvrenDev.Application.Features.Auth.Models;
 
 public class TwoFactorAuthenticationDto

@@ -1,6 +1,5 @@
 using EvrenDev.Application.Features.Users.Models;
 using EvrenDev.Domain.Entities.Identity;
-using EvrenDev.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

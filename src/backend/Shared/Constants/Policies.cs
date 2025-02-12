@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace EvrenDev.Shared.Constants;
+﻿namespace EvrenDev.Shared.Constants;
 
 public abstract class Policies
 {
