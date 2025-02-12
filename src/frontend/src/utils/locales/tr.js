@@ -354,7 +354,8 @@ export default {
     deleted: "Başarıyla silindi",
     selectAll: "Hepsini Seç",
     error: "Hata",
-    navigation: "Navigasyon"
+    navigation: "Navigasyon",
+    goToTop: "Başa Dön"
   },
   $vuetify: {
     ...tr

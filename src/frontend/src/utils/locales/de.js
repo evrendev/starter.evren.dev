@@ -354,7 +354,8 @@ export default {
     additionalParameters: "Zusätzliche Parameter",
     selectAll: "Wählen Sie alle",
     error: "Fehler",
-    navigation: "Navigation"
+    navigation: "Navigation",
+    goToTop: "Gehe nach oben"
   },
   $vuetify: {
     ...de

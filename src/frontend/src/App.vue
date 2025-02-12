@@ -4,7 +4,7 @@ import { useRecaptchaProvider } from "vue-recaptcha";
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 import { VSonner } from "vuetify-sonner";
-import { Loader } from "@/components/shared";
+import { Loader, GoToTop } from "@/components/shared";
 
 const { locale } = useI18n();
 const key = computed(() => locale.value);
@@ -14,6 +14,7 @@ useRecaptchaProvider();
 <template>
   <loader />
   <v-sonner />
+  <go-to-top />
   <RouterView v-slot="{ Component }">
     <v-fade-transition mode="out-in">
       <component :is="Component" :key="key" />

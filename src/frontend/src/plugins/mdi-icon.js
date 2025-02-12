@@ -23,7 +23,8 @@ import {
   mdiContentSave,
   mdiShieldAccount,
   mdiShieldLockOpen,
-  mdiInformationBox
+  mdiInformationBox,
+  mdiChevronUp
 } from "@mdi/js";
 
 export const icons = {
@@ -51,5 +52,6 @@ export const icons = {
   contentSave: mdiContentSave,
   shieldAccount: mdiShieldAccount,
   shieldLockOpen: mdiShieldLockOpen,
-  informationBox: mdiInformationBox
+  informationBox: mdiInformationBox,
+  chevronUp: mdiChevronUp
 };
