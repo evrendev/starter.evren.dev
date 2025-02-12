@@ -1,4 +1,3 @@
-using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
 using EvrenDev.Infrastructure.Identity.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -7,15 +6,10 @@ namespace EvrenDev.Infrastructure.Identity.Data;
 
 public class IdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
-    private readonly ITenantService _tenantService;
-
     public IdentityDbContext(
-        DbContextOptions<IdentityDbContext> options,
-        ITenantService tenantService)
+        DbContextOptions<IdentityDbContext> options)
         : base(options)
-    {
-        _tenantService = tenantService;
-    }
+    { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
