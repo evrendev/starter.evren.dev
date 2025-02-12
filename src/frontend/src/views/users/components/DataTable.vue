@@ -63,7 +63,7 @@ const handleCancel = () => {
   userId.value = null;
 };
 
-const showConfirmModal = (id, opt, value) => {
+const showConfirmModal = (id, opt) => {
   if (opt === "delete") {
     confirmModalTitle.value = t("admin.users.delete.title");
     confirmModalMessage.value = t("admin.users.delete.message");
@@ -72,7 +72,7 @@ const showConfirmModal = (id, opt, value) => {
     confirmModalMessage.value = t("admin.users.restore.message");
   }
 
-  operation.value = value;
+  operation.value = opt;
   userId.value = id;
   showModal.value = true;
 };
@@ -118,7 +118,7 @@ const showConfirmModal = (id, opt, value) => {
           color="success"
           class="ml-2"
           v-show="hasUserRestorePermission && item.deleted"
-          @click="showConfirmModal(item.id, `restore`, true)"
+          @click="showConfirmModal(item.id, `restore`)"
           :title="t('admin.users.restore.title')"
         />
         <v-icon
@@ -127,7 +127,7 @@ const showConfirmModal = (id, opt, value) => {
           color="error"
           class="ml-2"
           v-show="hasUserDeletePermission && !item.deleted"
-          @click="showConfirmModal(item.id, `delete`, true)"
+          @click="showConfirmModal(item.id, `delete`)"
           :title="t('admin.users.delete.title')"
         />
       </template>

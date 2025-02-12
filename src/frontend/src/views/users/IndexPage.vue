@@ -1,5 +1,5 @@
 <script setup>
-import { ref, shallowRef } from "vue";
+import { ref, watch, shallowRef } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore, useAuthStore } from "@/stores";
 import { useI18n } from "vue-i18n";
@@ -21,8 +21,19 @@ const items = ref([]);
 const itemsLength = ref(0);
 const loading = ref(false);
 const userStore = useUserStore();
-const authStore = useAuthStore();
+const { reset } = storeToRefs(userStore);
 
+watch(
+  () => reset.value,
+  () => {
+    if (reset.value) {
+      loading.value = true;
+      handleFilterReset(1000);
+    }
+  }
+);
+
+const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 const adminPermissions = user.value?.permissions || [];
 const hasUserDeletePermission = adminPermissions.includes("Users.Delete");
