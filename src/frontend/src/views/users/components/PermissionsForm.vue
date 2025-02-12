@@ -57,6 +57,30 @@ const groupedPermissions = computed(() => {
   return modules;
 });
 
+const moduleSelectionState = computed(() => {
+  const state = {};
+  Object.entries(groupedPermissions.value).forEach(([moduleName, modulePermissions]) => {
+    const selectedCount = modulePermissions.filter((permission) => permissions.value.includes(permission)).length;
+    state[moduleName] = {
+      selected: selectedCount === modulePermissions.length,
+      indeterminate: selectedCount > 0 && selectedCount < modulePermissions.length
+    };
+  });
+  return state;
+});
+
+function toggleModulePermissions(moduleName) {
+  const modulePermissions = groupedPermissions.value[moduleName];
+  if (moduleSelectionState.value[moduleName].selected) {
+    // Deselect all permissions in the module
+    permissions.value = permissions.value.filter((p) => !modulePermissions.includes(p));
+  } else {
+    // Select all permissions in the module
+    const newPermissions = new Set([...permissions.value, ...modulePermissions]);
+    permissions.value = Array.from(newPermissions);
+  }
+}
+
 async function validateForm() {
   return await validate();
 }
@@ -72,10 +96,22 @@ async function validateForm() {
       <v-col cols="12">
         <div class="permissions-group">
           <div v-for="(modulePermissions, moduleName) in groupedPermissions" :key="moduleName" class="module-section mb-4">
-            <div class="text-h5 mb-2 text-capitalize">{{ moduleName }}</div>
+            <div class="d-flex align-center justify-space-between mb-2">
+              <div class="text-h4 text-capitalize">{{ moduleName }}</div>
+              <v-switch
+                class="ms-4"
+                :model-value="moduleSelectionState[moduleName].selected"
+                :indeterminate="moduleSelectionState[moduleName].indeterminate"
+                @update:model-value="toggleModulePermissions(moduleName)"
+                :label="t('common.selectAll')"
+                density="comfortable"
+                color="primary"
+                hide-details
+              />
+            </div>
             <v-row>
               <v-col v-for="permission in modulePermissions" :key="permission" cols="auto" xs="6" class="me-sm-auto">
-                <v-checkbox
+                <v-switch
                   v-model="permissions"
                   v-bind="permissionsProps"
                   :value="permission"

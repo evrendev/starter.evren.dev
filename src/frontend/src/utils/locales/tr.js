@@ -351,7 +351,8 @@ export default {
     cancel: "Vazgeç",
     verify: "Doğrula",
     confirm: "Onayla",
-    deleted: "Başarıyla silindi"
+    deleted: "Başarıyla silindi",
+    selectAll: "Hepsini Seç"
   },
   $vuetify: {
     ...tr
