@@ -63,7 +63,7 @@ const { validate, values, defineField, resetForm } = useForm({
   initialValues: defaultValues
 });
 
-defineExpose({ validateForm, values, resetForm });
+defineExpose({ validateForm, values, resetValues });
 
 const [gender, genderProps] = defineField("gender", vuetifyConfig);
 const [email, emailProps] = defineField("email", vuetifyConfig);
@@ -80,6 +80,10 @@ onMounted(async () => {
 
 async function validateForm() {
   return await validate();
+}
+
+function resetValues() {
+  resetForm();
 }
 </script>
 

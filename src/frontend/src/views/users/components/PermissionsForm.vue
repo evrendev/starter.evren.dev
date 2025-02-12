@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineExpose } from "vue";
+import { computed, defineExpose, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useForm } from "vee-validate";
 import { array, object } from "yup";
@@ -36,12 +36,12 @@ const vuetifyConfig = (state) => ({
   }
 });
 
-const { validate, values, errors, defineField, resetForm } = useForm({
+const { validate, values, defineField, resetForm } = useForm({
   validationSchema: schema,
   initialValues: defaultValues
 });
 
-defineExpose({ validateForm, values, errors, resetForm });
+defineExpose({ validateForm, values, resetValues });
 
 const [permissions, permissionsProps] = defineField("permissions", vuetifyConfig);
 
@@ -81,8 +81,17 @@ function toggleModulePermissions(moduleName) {
   }
 }
 
+const isValid = ref(false);
+
 async function validateForm() {
-  return await validate();
+  isValid.value = await validate();
+
+  return isValid.value;
+}
+
+function resetValues() {
+  resetForm();
+  isValid.value = false;
 }
 </script>
 
@@ -92,12 +101,23 @@ async function validateForm() {
       <v-toolbar-title :text="t('admin.users.helpers.permissions')" />
     </v-toolbar>
 
-    <v-row class="pa-4 mt-2">
+    <v-row class="pa-4" v-show="isValid">
+      <v-col>
+        <v-alert density="compact" :title="t('common.error')" type="error" :text="t('admin.users.validation.permissions.required')" />
+      </v-col>
+    </v-row>
+
+    <v-row class="pa-4 mt-1" v-for="(modulePermissions, moduleName) in groupedPermissions" :key="moduleName">
       <v-col cols="12">
-        <div class="permissions-group">
-          <div v-for="(modulePermissions, moduleName) in groupedPermissions" :key="moduleName" class="module-section mb-4">
-            <div class="d-flex align-center justify-space-between mb-2">
-              <div class="text-h4 text-capitalize">{{ moduleName }}</div>
+        <v-card class="mx-auto" border flat>
+          <v-list-item class="px-6">
+            <template v-slot:prepend>
+              <v-avatar color="surface-light" size="32">🎯</v-avatar>
+            </template>
+
+            <template v-slot:title> {{ moduleName }} </template>
+
+            <template v-slot:append>
               <v-switch
                 class="ms-4"
                 :model-value="moduleSelectionState[moduleName].selected"
@@ -108,8 +128,13 @@ async function validateForm() {
                 color="primary"
                 hide-details
               />
-            </div>
-            <v-row>
+            </template>
+          </v-list-item>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="text-medium-emphasis pa-6">
+            <div class="d-flex align-center justify-space-between">
               <v-col v-for="permission in modulePermissions" :key="permission" cols="auto" xs="6" class="me-sm-auto">
                 <v-switch
                   v-model="permissions"
@@ -121,23 +146,10 @@ async function validateForm() {
                   hide-details
                 />
               </v-col>
-            </v-row>
-          </div>
-        </div>
+            </div>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-card>
 </template>
-
-<style lang="scss" scoped>
-.permissions-group {
-  .module-section {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    padding-bottom: 1rem;
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-}
-</style>

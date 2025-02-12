@@ -350,7 +350,8 @@ export default {
     verify: "Verify",
     confirm: "Confirm",
     deleted: "Successfully deleted",
-    selectAll: "Select All"
+    selectAll: "Select All",
+    error: "Error"
   },
   $vuetify: {
     ...en

@@ -352,7 +352,8 @@ export default {
     deleted: "Erfolgreich gelöscht",
     basicInformation: "Grundlegende Informationen",
     additionalParameters: "Zusätzliche Parameter",
-    selectAll: "Wählen Sie alle"
+    selectAll: "Wählen Sie alle",
+    error: "Fehler"
   },
   $vuetify: {
     ...de

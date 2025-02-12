@@ -34,7 +34,7 @@ const validateForms = async () => {
   userInformationsValid.value = await userInformationsFormRef.value?.validateForm();
   permissionsValid.value = await permissionsFormRef.value?.validateForm();
 
-  if (userInformationsValid.value && permissionsValid.value.valid) {
+  if (userInformationsValid.value.valid && permissionsValid.value.valid) {
     await onSubmit();
   }
 };
@@ -66,8 +66,8 @@ const onSubmit = handleSubmit(async () => {
 });
 
 const handleReset = () => {
-  userInformationsFormRef.value?.resetForm();
-  permissionsFormRef.value?.resetForm();
+  userInformationsFormRef.value?.resetValues();
+  permissionsFormRef.value?.resetValues();
 
   userInformations.value = {};
   permissions.value = [];
