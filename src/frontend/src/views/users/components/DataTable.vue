@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useUserStore } from "@/stores/";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmModal } from "@/components/forms/";
-import { useUserStore } from "@/stores/";
 import config from "@/config";
 
 const { t } = useI18n();
@@ -19,6 +19,14 @@ defineProps({
     required: true
   },
   loading: {
+    type: Boolean,
+    default: false
+  },
+  hasUserDeletePermission: {
+    type: Boolean,
+    default: false
+  },
+  hasUserRestorePermission: {
     type: Boolean,
     default: false
   }
@@ -79,7 +87,7 @@ const showConfirmModal = (id, opt) => {
       @update:options="$emit('update:options', $event)"
     >
       <template #[`item.initial`]="{ item }">
-        <v-avatar size="24" color="primary">
+        <v-avatar size="24" :color="item.deleted ? 'error' : 'primary'">
           <span class="text-h6 text-white">
             {{ item?.initial }}
           </span>
@@ -101,9 +109,19 @@ const showConfirmModal = (id, opt) => {
         </router-link> -->
         <v-icon
           size="small"
+          icon="$restore"
+          color="success"
+          class="ml-2"
+          v-show="hasUserRestorePermission && item.deleted"
+          @click="showConfirmModal(item.id, `restore`, true)"
+          :title="t('admin.users.restore.title')"
+        />
+        <v-icon
+          size="small"
           icon="$trashCan"
           color="error"
           class="ml-2"
+          v-show="hasUserDeletePermission && !item.deleted"
           @click="showConfirmModal(item.id, `delete`, true)"
           :title="t('admin.users.delete.title')"
         />

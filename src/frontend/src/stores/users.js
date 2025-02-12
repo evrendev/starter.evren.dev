@@ -12,19 +12,19 @@ export const useUserStore = defineStore("user", {
     reset: false
   }),
   actions: {
-    async getItems({ page, itemsPerPage, sortBy, search, action, startDate, endDate }) {
+    async getItems(options) {
       this.loading = true;
-
       try {
         const params = new URLSearchParams({
-          page: page,
-          itemsPerPage,
-          ...(sortBy?.length && { sortBy: sortBy[0].key }),
-          ...(sortBy?.length && { sortDesc: sortBy[0].order }),
-          ...(search && { search }),
-          ...(action && { action }),
-          ...(startDate && { startDate }),
-          ...(endDate && { endDate })
+          page: options.page,
+          itemsPerPage: options.itemsPerPage,
+          ...(options.sortBy?.length && { sortBy: options.sortBy[0].key }),
+          ...(options.sortBy?.length && { sortDesc: options.sortBy[0].order }),
+          ...(options.search && { search: options.search }),
+          ...(options.action && { action: options.action }),
+          ...(options.startDate && { startDate: options.startDate }),
+          ...(options.endDate && { endDate: options.endDate }),
+          ...(options.showDeletedItems && { showDeletedItems: options.showDeletedItems })
         });
 
         const response = await apiService.get(`/users?${params}`, false);

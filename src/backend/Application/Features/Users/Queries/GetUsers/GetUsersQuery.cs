@@ -63,7 +63,8 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<Pagina
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            TwoFactorEnabled = user.TwoFactorEnabled
+            TwoFactorEnabled = user.TwoFactorEnabled,
+            Deleted = user.Deleted
         });
 
         var paginatedList = await PaginatedList<BasicUserDto>.CreateAsync(

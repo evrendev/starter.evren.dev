@@ -1,6 +1,7 @@
 <script setup>
 import { ref, shallowRef } from "vue";
-import { useUserStore } from "@/stores";
+import { storeToRefs } from "pinia";
+import { useUserStore, useAuthStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { FilterCard, DataTable } from "./components/";
 import { Breadcrumb } from "@/components/forms";
@@ -20,6 +21,12 @@ const items = ref([]);
 const itemsLength = ref(0);
 const loading = ref(false);
 const userStore = useUserStore();
+const authStore = useAuthStore();
+
+const { user } = storeToRefs(authStore);
+const adminPermissions = user.value?.permissions || [];
+const hasUserDeletePermission = adminPermissions.includes("Users.Delete");
+const hasUserRestorePermission = adminPermissions.includes("Users.Restore");
 
 const searchOptions = {
   page: 1,
@@ -28,7 +35,8 @@ const searchOptions = {
   groupBy: null,
   startDate: null,
   endDate: null,
-  search: null
+  search: null,
+  showDeletedItems: false
 };
 
 const handleFilterSubmit = (filters) => {
@@ -36,6 +44,7 @@ const handleFilterSubmit = (filters) => {
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
+  searchOptions.showDeletedItems = filters.showDeletedItems;
 
   getItems(searchOptions);
 };
@@ -45,6 +54,7 @@ const handleFilterReset = () => {
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
+  searchOptions.showDeletedItems = false;
 
   getItems(searchOptions);
 };
@@ -63,9 +73,22 @@ const getItems = async (options) => {
   <breadcrumb :title="t('admin.users.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
-      <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
+      <filter-card
+        :loading="loading"
+        :has-user-delete-permission="hasUserDeletePermission"
+        :has-user-restore-permission="hasUserRestorePermission"
+        @submit="handleFilterSubmit"
+        @reset="handleFilterReset"
+      />
 
-      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" />
+      <data-table
+        :items="items"
+        :items-length="itemsLength"
+        :loading="loading"
+        :has-user-delete-permission="hasUserDeletePermission"
+        :has-user-restore-permission="hasUserRestorePermission"
+        @update:options="getItems"
+      />
     </v-col>
   </v-row>
 </template>

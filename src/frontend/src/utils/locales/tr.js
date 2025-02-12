@@ -273,7 +273,15 @@ export default {
       edit: "Kullanıcı Düzenle",
       delete: {
         title: "Kullanıcıyı Sil",
-        message: "Kullanıcıyı silmek istediğinizden emin misiniz?"
+        message: "Kullanıcıyı silmek istediğinizden emin misiniz?",
+        options: {
+          true: "Evet",
+          false: "Hayır"
+        }
+      },
+      restore: {
+        title: "Kullanıcıyı Geri Yükle",
+        message: "Kullanıcıyı geri yüklemek istediğinizden emin misiniz?"
       },
       fields: {
         initial: "#",
@@ -355,7 +363,8 @@ export default {
     selectAll: "Hepsini Seç",
     error: "Hata",
     navigation: "Navigasyon",
-    goToTop: "Başa Dön"
+    goToTop: "Başa Dön",
+    showDeletedItems: "Silinmiş Öğeleri Göster"
   },
   $vuetify: {
     ...tr

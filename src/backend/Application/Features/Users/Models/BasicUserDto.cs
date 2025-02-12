@@ -10,4 +10,5 @@ public class BasicUserDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool TwoFactorEnabled { get; set; }
+    public bool Deleted { get; set; }
 }

@@ -9,6 +9,14 @@ defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  hasUserDeletePermission: {
+    type: Boolean,
+    default: false
+  },
+  hasUserRestorePermission: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -16,18 +24,26 @@ const emits = defineEmits(["submit", "reset"]);
 
 const search = ref("");
 const dateRange = ref([null, null]);
+const showDeletedItems = ref(false);
+const showDeletedItemsOptions = ref([
+  { title: t("admin.users.delete.options.true"), value: true },
+  { title: t("admin.users.delete.options.false"), value: false }
+]);
 
 const handleSubmit = () => {
   emits("submit", {
     search: search.value,
     startDate: dateRange.value[0],
-    endDate: dateRange.value[1]
+    endDate: dateRange.value[1],
+    showDeletedItems: showDeletedItems.value
   });
 };
 
 const handleReset = () => {
   search.value = "";
   dateRange.value = [null, null];
+  showDeletedItems.value = false;
+
   emits("reset");
 };
 </script>
@@ -35,7 +51,7 @@ const handleReset = () => {
 <template>
   <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
-      <v-col cols="12" md="6">
+      <v-col cols="12" :md="hasUserDeletePermission ? 4 : 6">
         <v-text-field
           v-model="search"
           :disabled="loading"
@@ -45,31 +61,40 @@ const handleReset = () => {
           variant="outlined"
         />
       </v-col>
-      <v-col cols="12" md="6">
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="dateRange[0]"
-              :label="t('common.selectDate')"
-              density="comfortable"
-              :disabled="loading"
-              hide-details
-              type="date"
-              variant="outlined"
-            />
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="dateRange[1]"
-              :label="t('common.selectDate')"
-              density="comfortable"
-              :disabled="loading"
-              hide-details
-              type="date"
-              variant="outlined"
-            />
-          </v-col>
-        </v-row>
+      <v-col cols="12" md="2" v-show="hasUserDeletePermission">
+        <v-select
+          v-model="showDeletedItems"
+          :items="showDeletedItemsOptions"
+          :label="t('common.showDeletedItems')"
+          :disabled="loading"
+          density="comfortable"
+          hide-details
+          item-title="title"
+          item-value="value"
+          variant="outlined"
+        />
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-text-field
+          v-model="dateRange[0]"
+          :label="t('common.selectDate')"
+          density="comfortable"
+          :disabled="loading"
+          hide-details
+          type="date"
+          variant="outlined"
+        />
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-text-field
+          v-model="dateRange[1]"
+          :label="t('common.selectDate')"
+          density="comfortable"
+          :disabled="loading"
+          hide-details
+          type="date"
+          variant="outlined"
+        />
       </v-col>
     </v-row>
     <v-row class="mt-2">

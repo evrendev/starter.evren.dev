@@ -271,7 +271,15 @@ export default {
       edit: "Edit User",
       delete: {
         title: "Delete User",
-        message: "Are you sure you want to delete this user?"
+        message: "Are you sure you want to delete this user?",
+        options: {
+          true: "Yes",
+          false: "No"
+        }
+      },
+      restore: {
+        title: "Restore User",
+        message: "Are you sure you want to restore this user?"
       },
       fields: {
         initial: "#",
@@ -353,7 +361,8 @@ export default {
     selectAll: "Select All",
     error: "Error",
     navigation: "Navigation",
-    goToTop: "Go to top"
+    goToTop: "Go to top",
+    showDeletedItems: "Show Deleted Items"
   },
   $vuetify: {
     ...en

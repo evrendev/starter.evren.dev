@@ -272,7 +272,15 @@ export default {
       edit: "Bearbeiten",
       delete: {
         title: "Benutzer löschen",
-        message: "Möchten Sie den Benutzer löschen?"
+        message: "Möchten Sie den Benutzer löschen?",
+        options: {
+          true: "Ja",
+          false: "Nein"
+        }
+      },
+      restore: {
+        title: "Benutzer wiederherstellen",
+        message: "Möchten Sie den Benutzer wiederherstellen?"
       },
       fields: {
         initial: "#",
@@ -355,7 +363,8 @@ export default {
     selectAll: "Wählen Sie alle",
     error: "Fehler",
     navigation: "Navigation",
-    goToTop: "Gehe nach oben"
+    goToTop: "Gehe nach oben",
+    showDeletedItems: "Show Deleted Items"
   },
   $vuetify: {
     ...de
