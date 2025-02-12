@@ -5,8 +5,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { apiService } from "@/utils/helpers";
 import LocaleHelper from "@/utils/helpers/locale";
 
-export const useAuthStore = defineStore({
-  id: "auth",
+export const useAuthStore = defineStore("auth", {
   state: () => ({
     auth: useLocalStorage("auth", {
       isAuthenticated: false,

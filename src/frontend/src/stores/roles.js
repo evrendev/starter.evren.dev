@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
 
-export const useRoleStore = defineStore({
-  id: "role",
+export const useRoleStore = defineStore("role", {
   state: () => ({
     items: [],
     role: {},

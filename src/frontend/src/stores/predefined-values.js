@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
 
-export const usePredefinedValuesStore = defineStore({
-  id: "predefinedValues",
+export const usePredefinedValuesStore = defineStore("predefined-values", {
   state: () => ({
     items: {},
     loading: false

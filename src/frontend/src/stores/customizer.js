@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { useLocalStorage } from "@vueuse/core";
 import config from "@/config";
 
-export const useCustomizerStore = defineStore({
-  id: "customizer",
+export const useCustomizerStore = defineStore("customizer", {
   state: () => ({
     sidebarDrawer: config.sidebarDrawer,
     customizerDrawer: config.customizerDrawer,

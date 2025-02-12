@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
 
-export const useTenantStore = defineStore({
-  id: "tenant",
+export const useTenantStore = defineStore("tenant", {
   state: () => ({
     items: [],
     tenant: {},

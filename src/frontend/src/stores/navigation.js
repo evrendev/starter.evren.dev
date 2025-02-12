@@ -21,8 +21,7 @@ const icons = {
   audits: markRaw(FileBarcodeIcon)
 };
 
-export const useNavigationStore = defineStore({
-  id: "navigation",
+export const useNavigationStore = defineStore("navigation", {
   state: () => ({
     items: []
   }),

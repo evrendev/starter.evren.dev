@@ -3,8 +3,7 @@ import { useAuthStore } from "@/stores/auth";
 import { apiService } from "@/utils/helpers";
 import LocaleHelper from "@/utils/helpers/locale";
 
-export const useUserStore = defineStore({
-  id: "user",
+export const useUserStore = defineStore("user", {
   state: () => ({
     items: [],
     user: {},
