@@ -30,12 +30,33 @@ const handleSubmit = () => {
 };
 
 const navigationItems = [
-  { title: t("admin.users.helpers.information"), icon: "$informationBox" },
-  { title: t("admin.users.helpers.permissions"), icon: "$shieldAccount" }
+  {
+    title: t("admin.users.helpers.information"),
+    icon: "$informationBox",
+    target: "user-information"
+  },
+  {
+    title: t("admin.users.helpers.permissions"),
+    icon: "$shieldAccount",
+    target: "user-permissions"
+  }
 ];
+
+const scrollToSection = (target) => {
+  const element = document.getElementById(target);
+  if (element) {
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - 80;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+  }
+};
 </script>
 <template>
-  <v-col col="12" sm="4" md="3">
+  <v-col col="12" sm="4" md="3" class="navigation-container">
     <v-card class="pa-4">
       <v-container :fluid="true">
         <v-row>
@@ -77,6 +98,7 @@ const navigationItems = [
                 link
                 class="mb-1"
                 color="primary"
+                @click="scrollToSection(item.target)"
               />
             </v-list>
           </v-col>
@@ -85,3 +107,13 @@ const navigationItems = [
     </v-card>
   </v-col>
 </template>
+
+<style lang="scss">
+.navigation-container {
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0;
+  z-index: 100;
+  overflow: hidden;
+}
+</style>

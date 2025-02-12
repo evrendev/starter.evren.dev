@@ -97,7 +97,7 @@ function resetValues() {
 
 <template>
   <v-card class="mt-4">
-    <v-toolbar color="primary">
+    <v-toolbar color="primary" id="user-permissions">
       <v-toolbar-title :text="t('admin.users.helpers.permissions')" />
       <v-btn icon>
         <v-icon icon="$shieldAccount" />

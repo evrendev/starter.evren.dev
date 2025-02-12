@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
 import { useUserStore, useAppStore } from "@/stores";
-import { PermissionsForm, InformationsForm, ActionsButton } from "./";
+import { PermissionsForm, InformationsForm, NavigationMenu } from "./";
 
 const props = defineProps({
   initialData: {
@@ -82,7 +82,7 @@ const handleReset = () => {
         <permissions-form ref="permissionsFormRef" :is-edit="isEdit" :permissions="permissions" />
       </v-col>
 
-      <actions-button :isEdit="isEdit" @reset="handleReset" @submit="validateForms" />
+      <navigation-menu :isEdit="isEdit" @reset="handleReset" @submit="validateForms" />
     </v-row>
   </v-form>
 </template>

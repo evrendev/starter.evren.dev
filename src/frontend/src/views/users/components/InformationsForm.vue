@@ -89,7 +89,7 @@ function resetValues() {
 
 <template>
   <v-card>
-    <v-toolbar color="primary">
+    <v-toolbar color="primary" id="user-information">
       <v-toolbar-title :text="t('admin.users.helpers.information')" dark />
       <v-btn icon>
         <v-icon icon="$informationBox" />
