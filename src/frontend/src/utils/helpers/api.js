@@ -1,6 +1,6 @@
 import axios from "axios";
-import NotificationService from "./notification";
 import { useAppStore } from "@/stores";
+import NotificationService from "./notification";
 import config from "@/config";
 
 const baseURL = import.meta.env.VITE_API_URL;
@@ -37,6 +37,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("auth");
+      window.location.href = "/auth/login";
     }
     return Promise.reject(error);
   }
