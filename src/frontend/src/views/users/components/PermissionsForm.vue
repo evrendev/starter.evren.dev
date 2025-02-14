@@ -118,7 +118,7 @@ function resetValues() {
               <v-avatar color="surface-light" size="32">🎯</v-avatar>
             </template>
 
-            <template v-slot:title> {{ moduleName }} </template>
+            <template v-slot:title> {{ t(`common.modules.${moduleName.toLowerCase()}`) }} </template>
 
             <template v-slot:append>
               <v-switch
@@ -143,7 +143,7 @@ function resetValues() {
                   v-model="permissions"
                   v-bind="permissionsProps"
                   :value="permission"
-                  :label="permission.split('.')[1]"
+                  :label="t(`common.permissions.${permission.split('.')[1].toLowerCase()}`)"
                   density="comfortable"
                   color="primary"
                   hide-details

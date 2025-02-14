@@ -362,7 +362,23 @@ export default {
     error: "Error",
     navigation: "Navigation",
     goToTop: "Go to top",
-    showDeletedItems: "Show Deleted Items"
+    showDeletedItems: "Show Deleted Items",
+    modules: {
+      todos: "Todos",
+      tenants: "Tenants",
+      roles: "Roles",
+      images: "Images",
+      users: "Users",
+      audits: "Audits",
+      files: "Files"
+    },
+    permissions: {
+      read: "Read",
+      create: "Create",
+      delete: "Delete",
+      restore: "Restore",
+      edit: "Edit"
+    }
   },
   $vuetify: {
     ...en

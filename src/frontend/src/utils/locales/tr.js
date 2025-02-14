@@ -364,7 +364,23 @@ export default {
     error: "Hata",
     navigation: "Navigasyon",
     goToTop: "Başa Dön",
-    showDeletedItems: "Silinmiş Öğeleri Göster"
+    showDeletedItems: "Silinmiş Öğeleri Göster",
+    modules: {
+      todos: "Görevler",
+      tenants: "Kurumlar",
+      roles: "Roller",
+      images: "Görseller",
+      users: "Kullanıcılar",
+      audits: "İşlem Geçmişi",
+      files: "Dosyalar"
+    },
+    permissions: {
+      read: "Oku",
+      create: "Oluştur",
+      delete: "Sil",
+      restore: "Geri Yükle",
+      edit: "Düzenle"
+    }
   },
   $vuetify: {
     ...tr
