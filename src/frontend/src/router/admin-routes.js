@@ -123,15 +123,15 @@ const AdminRoutes = {
           meta: {
             titleKey: "admin.users.new"
           }
+        },
+        {
+          name: "edit-user",
+          path: "edit/:id",
+          component: () => import("@/views/users/EditPage.vue"),
+          meta: {
+            titleKey: "admin.users.edit"
+          }
         }
-        // {
-        //   name: "edit-role",
-        //   path: "edit/:id",
-        //   component: () => import("@/views/roles/EditPage.vue"),
-        //   meta: {
-        //     titleKey: "admin.roles.edit"
-        //   }
-        // }
       ]
     }
   ]

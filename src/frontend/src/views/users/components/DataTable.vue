@@ -109,9 +109,9 @@ const showConfirmModal = (id, opt) => {
         />
       </template>
       <template #[`item.process`]="{ item }">
-        <!-- <router-link :to="{ name: 'edit-user', params: { id: item.id } }">
+        <router-link :to="{ name: 'edit-user', params: { id: item.id } }">
           <v-icon size="small" icon="$pencil" color="secondary" />
-        </router-link> -->
+        </router-link>
         <v-icon
           size="small"
           icon="$restore"
