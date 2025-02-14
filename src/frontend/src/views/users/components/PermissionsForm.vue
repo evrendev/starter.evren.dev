@@ -96,7 +96,7 @@ function resetValues() {
 </script>
 
 <template>
-  <v-card class="mt-4">
+  <v-card class="mt-3">
     <v-toolbar color="primary" id="user-permissions">
       <v-toolbar-title :text="t('admin.users.helpers.permissions')" />
       <v-btn icon>
