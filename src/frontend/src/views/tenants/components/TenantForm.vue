@@ -4,8 +4,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
 import { object, string, boolean, date } from "yup";
-import { useTenantStore } from "@/stores/tenants";
-import { useAppStore } from "@/stores/app";
+import { useTenantStore, useAppStore } from "@/stores";
 import { storeToRefs } from "pinia";
 
 const props = defineProps({

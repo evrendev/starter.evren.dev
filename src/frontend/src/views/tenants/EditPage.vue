@@ -2,8 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
-import { useTenantStore } from "@/stores/tenants";
-import { useAppStore } from "@/stores/app";
+import { useTenantStore, useAppStore } from "@/stores";
 import { Breadcrumb } from "@/components/forms";
 import { TenantForm } from "./components";
 
@@ -45,7 +44,7 @@ onMounted(async () => {
   <breadcrumb :title="t('admin.tenants.edit')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
-      <tenant-form v-if="tenant" :initial-data="tenant" :is-edit="true" />
+      <tenant-form :initial-data="tenant" :is-edit="true" />
     </v-col>
   </v-row>
 </template>
