@@ -2,14 +2,11 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
+import { storeToRefs } from "pinia";
 import { useUserStore, useAppStore } from "@/stores";
 import { PermissionsForm, InformationsForm, NavigationMenu } from "./";
 
 const props = defineProps({
-  initialData: {
-    type: Object,
-    default: () => null
-  },
   isEdit: {
     type: Boolean,
     default: false
@@ -20,8 +17,8 @@ const router = useRouter();
 const userStore = useUserStore();
 const appStore = useAppStore();
 
-const userInformations = ref({});
-const permissions = ref([]);
+const { userInformations, userPermissions } = storeToRefs(userStore);
+
 const userInformationsValid = ref(false);
 const permissionsValid = ref(false);
 
@@ -52,7 +49,7 @@ const onSubmit = handleSubmit(async () => {
     };
 
     if (props.isEdit) {
-      await userStore.update(props.initialData.id, submitData);
+      await userStore.update(submitData.id, submitData);
     } else {
       await userStore.create(submitData);
     }
@@ -70,15 +67,15 @@ const handleReset = () => {
   permissionsFormRef.value?.resetValues();
 
   userInformations.value = {};
-  permissions.value = [];
+  userPermissions.value = [];
 };
 </script>
 
 <template>
   <v-row class="form-container">
     <v-col xs="12" sm="8" md="9" class="order-2 order-sm-1">
-      <informations-form ref="userInformationsFormRef" :is-edit="isEdit" :initial-data="initialData" />
-      <permissions-form ref="permissionsFormRef" :is-edit="isEdit" :permissions="permissions" />
+      <informations-form ref="userInformationsFormRef" :is-edit="isEdit" :user-informations="userInformations" />
+      <permissions-form ref="permissionsFormRef" :is-edit="isEdit" :user-permissions="userPermissions" />
     </v-col>
 
     <navigation-menu :isEdit="isEdit" @reset="handleReset" @submit="validateForms" class="navigation-container order-1 order-sm-2" />

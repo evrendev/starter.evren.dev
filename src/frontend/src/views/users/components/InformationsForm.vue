@@ -14,8 +14,8 @@ const { genders, languages, loading } = storeToRefs(predefinedValues);
 
 const showPassword = ref(false);
 
-defineProps({
-  initialData: {
+const props = defineProps({
+  userInformations: {
     type: Object,
     default: () => null
   },
@@ -26,14 +26,15 @@ defineProps({
 });
 
 const defaultValues = {
-  tenantId: null,
-  gender: "none",
-  email: "",
+  id: props.userInformations?.id || null,
+  tenantId: props.userInformations?.tenantId || null,
+  gender: props.userInformations?.gender || "none",
+  email: props.userInformations?.email || "",
   password: "",
-  firstName: "",
-  lastName: "",
-  jobTitle: "",
-  language: config.defaultLocale
+  firstName: props.userInformations?.firstName || "",
+  lastName: props.userInformations?.lastName || "",
+  jobTitle: props.userInformations?.jobTitle || "",
+  language: props.userInformations?.default || config.defaultLocale
 };
 
 const schema = object().shape({
@@ -41,14 +42,20 @@ const schema = object().shape({
   email: string().required(t("admin.users.validation.email.required")).email(t("admin.users.validation.email.invalid")),
   firstName: string().required(t("admin.users.validation.firstName.required")).max(100, t("admin.users.validation.firstName.maxLength")),
   lastName: string().required(t("admin.users.validation.lastName.required")).max(100, t("admin.users.validation.lastName.maxLength")),
-  password: string()
-    .required(t("admin.users.validation.password.required"))
-    .min(8, t("admin.users.validation.password.minLength"))
-    .matches(/^[A-Za-z0-9!@#$%^&*()_+|~\-={}[\]:";<>?,./]+$/, t("admin.users.validation.password.special")),
-  confirmPassword: string()
-    .required(t("admin.users.validation.confirmPassword.required"))
-    .oneOf([yupRef("password")], t("admin.users.validation.confirmPassword.match")),
-  jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength")),
+  password: string().when("isEdit", {
+    is: () => !props.isEdit,
+    then: string()
+      .required(t("admin.users.validation.password.required"))
+      .min(8, t("admin.users.validation.password.minLength"))
+      .matches(/^[A-Za-z0-9!@#$%^&*()_+|~\-={}[\]:";<>?,./]+$/, t("admin.users.validation.password.special"))
+  }),
+  confirmPassword: string().when("isEdit", {
+    is: () => !props.isEdit,
+    then: string()
+      .required(t("admin.users.validation.confirmPassword.required"))
+      .oneOf([yupRef("password")], t("admin.users.validation.confirmPassword.match")),
+    jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength"))
+  }),
   language: string().required()
 });
 
@@ -155,7 +162,7 @@ function resetValues() {
         />
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" v-show="!props.isEdit">
         <v-text-field
           v-model="password"
           v-bind="passwordProps"
@@ -163,6 +170,7 @@ function resetValues() {
           :append-icon="showPassword ? '$eye' : '$eyeOff'"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
+          v-show="!props.isEdit"
           density="comfortable"
           variant="outlined"
           color="primary"
@@ -171,7 +179,7 @@ function resetValues() {
         />
       </v-col>
 
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" v-show="!props.isEdit">
         <v-text-field
           v-model="confirmPassword"
           v-bind="confirmPasswordProps"

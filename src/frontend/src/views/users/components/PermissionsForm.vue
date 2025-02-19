@@ -11,10 +11,10 @@ const { t } = useI18n();
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 
-defineProps({
-  initialData: {
-    type: Object,
-    default: () => null
+const props = defineProps({
+  userPermissions: {
+    type: Array,
+    default: () => []
   },
   isEdit: {
     type: Boolean,
@@ -23,7 +23,7 @@ defineProps({
 });
 
 const defaultValues = {
-  permissions: []
+  permissions: props.userPermissions || []
 };
 
 const schema = object().shape({

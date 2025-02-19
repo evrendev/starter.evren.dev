@@ -11,6 +11,23 @@ export const useUserStore = defineStore("user", {
     loading: false,
     reset: false
   }),
+  getters: {
+    userInformations: (state) =>
+      new Object({
+        id: state.user.id,
+        tenantId: state.user.tenantId,
+        gender: state.user.gender,
+        initial: state.user.initial,
+        email: state.user.email,
+        firstName: state.user.firstName,
+        lastName: state.user.lastName,
+        fullName: state.user.fullName,
+        jobTitle: state.user.jobTitle,
+        language: state.user.language,
+        twoFactorEnabled: state.user.twoFactorEnabled
+      }),
+    userPermissions: (state) => state.user.permissions
+  },
   actions: {
     async getItems(options) {
       this.loading = true;

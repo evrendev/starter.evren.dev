@@ -1,10 +1,16 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { useUserStore, useAppStore } from "@/stores";
 import { Breadcrumb } from "@/components/forms";
 import { UserForm } from "./components/";
 
 const { t } = useI18n();
+const route = useRoute();
+const userStore = useUserStore();
+const appStore = useAppStore();
+const user = ref(null);
 
 const breadcrumbs = ref([
   {
@@ -18,6 +24,20 @@ const breadcrumbs = ref([
     href: "#"
   }
 ]);
+
+onMounted(async () => {
+  const id = route.params.id;
+
+  try {
+    appStore.setPageLoader(true);
+    await userStore.getById(id);
+    user.value = userStore.user;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    appStore.setPageLoader(false);
+  }
+});
 </script>
 
 <template>
