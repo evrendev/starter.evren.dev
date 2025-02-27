@@ -8,12 +8,12 @@ const { t } = useI18n();
 
 const breadcrumbs = ref([
   {
-    title: t("admin.tenants.title"),
+    title: t("admin.roles.title"),
     disabled: false,
     href: "/admin/roles/list"
   },
   {
-    title: t("admin.tenants.new"),
+    title: t("admin.roles.new"),
     disabled: true,
     href: "#"
   }
@@ -21,7 +21,7 @@ const breadcrumbs = ref([
 </script>
 
 <template>
-  <breadcrumb :title="t('admin.tenants.new')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.roles.new')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <role-form :is-edit="false" />
