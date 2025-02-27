@@ -66,8 +66,7 @@ const handleReset = () => {
   userInformationsFormRef.value?.resetValues();
   permissionsFormRef.value?.resetValues();
 
-  userInformations.value = {};
-  userPermissions.value = [];
+  userStore.user = {};
 };
 </script>
 
