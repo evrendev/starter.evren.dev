@@ -237,6 +237,10 @@ export default {
           invalid: "Invalid date",
           future: "You must select a future date"
         }
+      },
+      helpers: {
+        information: "Tenant information",
+        connection: "Connection information"
       }
     },
     roles: {

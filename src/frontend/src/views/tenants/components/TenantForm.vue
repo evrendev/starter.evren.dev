@@ -1,11 +1,11 @@
 <script setup>
-import { ref, watch } from "vue";
+import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
 import { object, string, boolean, date } from "yup";
 import { useTenantStore, useAppStore } from "@/stores";
-import { storeToRefs } from "pinia";
+import { NavigationMenu } from "./";
 
 const props = defineProps({
   initialData: {
@@ -22,9 +22,6 @@ const { t } = useI18n();
 const router = useRouter();
 const tenantStore = useTenantStore();
 const appStore = useAppStore();
-const { loading } = storeToRefs(appStore);
-
-const tab = ref(0);
 
 const schema = object().shape({
   name: string().required(t("admin.tenants.validation.name.required")).max(200, t("admin.tenants.validation.name.maxLength")),
@@ -119,106 +116,115 @@ const handleReset = () => {
 </script>
 
 <template>
-  <v-card class="pa-6">
-    <v-form @submit="onSubmit">
-      <v-tabs v-model="tab" color="primary" align-tabs="start">
-        <v-tab :value="0">{{ t("common.basicInformation") }}</v-tab>
-        <v-tab :value="1">{{ t("common.additionalParameters") }}</v-tab>
-      </v-tabs>
-
-      <v-window v-model="tab">
-        <v-window-item :value="0">
-          <v-row class="mt-2">
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="name"
-                v-bind="nameProps"
-                :label="t('admin.tenants.fields.name')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="adminEmail"
-                v-bind="adminEmailProps"
-                :label="t('admin.tenants.fields.adminEmail')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="validUntil"
-                v-bind="validUntilProps"
-                :label="t('admin.tenants.fields.validUntil')"
-                type="date"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
-                v-model="description"
-                v-bind="descriptionProps"
-                :label="t('admin.tenants.fields.description')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-                rows="3"
-              />
-            </v-col>
-          </v-row>
-        </v-window-item>
-
-        <v-window-item :value="1">
-          <v-row class="mt-2">
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="connectionString"
-                v-bind="connectionStringProps"
-                :label="t('admin.tenants.fields.connectionString')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="host"
-                v-bind="hostProps"
-                :label="t('admin.tenants.fields.host')"
-                density="comfortable"
-                variant="outlined"
-                hide-details="auto"
-              />
-            </v-col>
-            <v-col cols="12" md="2">
-              <v-switch
-                v-model="isActive"
-                v-bind="isActiveProps"
-                :label="t('admin.tenants.fields.isActive')"
-                color="success"
-                hide-details="auto"
-              />
-            </v-col>
-          </v-row>
-        </v-window-item>
-      </v-window>
-
-      <v-row class="mt-4">
-        <v-col cols="12" class="d-flex justify-end gap-2">
-          <v-btn color="error" :disabled="loading" @click="handleReset" prepend-icon="$refresh">
-            {{ t("common.reset") }}
+  <v-row class="form-container">
+    <v-col xs="12" sm="8" md="9" class="order-2 order-sm-1">
+      <!-- Tenant Information Card -->
+      <v-card>
+        <v-toolbar color="primary" id="tenant-information">
+          <v-toolbar-title :text="t('admin.tenants.helpers.information')" dark />
+          <v-btn icon>
+            <v-icon icon="$informationBox" />
           </v-btn>
-          <v-btn color="primary" type="submit" :loading="loading" :prepend-icon="isEdit ? '$pencil' : '$contentSave'" class="ml-2">
-            {{ isEdit ? t("common.update") : t("common.save") }}
+        </v-toolbar>
+        <v-row class="pa-4 mt-2">
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="name"
+              v-bind="nameProps"
+              :label="t('admin.tenants.fields.name')"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+            />
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="adminEmail"
+              v-bind="adminEmailProps"
+              :label="t('admin.tenants.fields.adminEmail')"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+            />
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="validUntil"
+              v-bind="validUntilProps"
+              :label="t('admin.tenants.fields.validUntil')"
+              type="date"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="description"
+              v-bind="descriptionProps"
+              :label="t('admin.tenants.fields.description')"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+              rows="3"
+            />
+          </v-col>
+        </v-row>
+      </v-card>
+
+      <!-- Additional Parameters Card -->
+      <v-card class="mt-4">
+        <v-toolbar color="primary" id="tenant-parameters">
+          <v-toolbar-title :text="t('admin.tenants.helpers.connection')" dark />
+          <v-btn icon>
+            <v-icon icon="$informationBox" />
           </v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
-  </v-card>
+        </v-toolbar>
+        <v-row class="pa-4 mt-2">
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="connectionString"
+              v-bind="connectionStringProps"
+              :label="t('admin.tenants.fields.connectionString')"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+            />
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="host"
+              v-bind="hostProps"
+              :label="t('admin.tenants.fields.host')"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+            />
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-switch
+              v-model="isActive"
+              v-bind="isActiveProps"
+              :label="t('admin.tenants.fields.isActive')"
+              color="success"
+              hide-details="auto"
+            />
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-col>
+
+    <!-- Navigation Menu -->
+    <navigation-menu :isEdit="isEdit" @reset="handleReset" @submit="onSubmit" class="navigation-container order-1 order-sm-2" />
+  </v-row>
 </template>
+
+<style lang="scss">
+.navigation-container {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 80px;
+  z-index: 100;
+  height: fit-content;
+}
+</style>
