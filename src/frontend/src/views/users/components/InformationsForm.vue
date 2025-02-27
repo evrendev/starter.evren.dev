@@ -42,20 +42,22 @@ const schema = object().shape({
   email: string().required(t("admin.users.validation.email.required")).email(t("admin.users.validation.email.invalid")),
   firstName: string().required(t("admin.users.validation.firstName.required")).max(100, t("admin.users.validation.firstName.maxLength")),
   lastName: string().required(t("admin.users.validation.lastName.required")).max(100, t("admin.users.validation.lastName.maxLength")),
-  password: string().when("isEdit", {
+  password: string().when([], {
     is: () => !props.isEdit,
-    then: string()
-      .required(t("admin.users.validation.password.required"))
-      .min(8, t("admin.users.validation.password.minLength"))
-      .matches(/^[A-Za-z0-9!@#$%^&*()_+|~\-={}[\]:";<>?,./]+$/, t("admin.users.validation.password.special"))
+    then: () =>
+      string()
+        .required(t("admin.users.validation.password.required"))
+        .min(8, t("admin.users.validation.password.minLength"))
+        .matches(/^[A-Za-z0-9!@#$%^&*()_+|~\-={}[\]:";<>?,./]+$/, t("admin.users.validation.password.special"))
   }),
-  confirmPassword: string().when("isEdit", {
+  confirmPassword: string().when([], {
     is: () => !props.isEdit,
-    then: string()
-      .required(t("admin.users.validation.confirmPassword.required"))
-      .oneOf([yupRef("password")], t("admin.users.validation.confirmPassword.match")),
-    jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength"))
+    then: () =>
+      string()
+        .required(t("admin.users.validation.confirmPassword.required"))
+        .oneOf([yupRef("password")], t("admin.users.validation.confirmPassword.match"))
   }),
+  jobTitle: string().nullable().max(500, t("admin.users.validation.jobTitle.maxLength")),
   language: string().required()
 });
 
