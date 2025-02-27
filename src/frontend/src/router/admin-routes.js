@@ -18,7 +18,8 @@ const AdminRoutes = {
       path: "profile",
       component: () => import("@/views/profile/IndexPage.vue"),
       meta: {
-        titleKey: "admin.profile.title"
+        titleKey: "admin.profile.title",
+        showLoader: true
       }
     },
     {
@@ -43,7 +44,8 @@ const AdminRoutes = {
           path: "list",
           component: () => import("@/views/tenants/IndexPage.vue"),
           meta: {
-            titleKey: "admin.tenants.title"
+            titleKey: "admin.tenants.title",
+            showLoader: true
           }
         },
         {
@@ -59,7 +61,8 @@ const AdminRoutes = {
           path: "edit/:id",
           component: () => import("@/views/tenants/EditPage.vue"),
           meta: {
-            titleKey: "admin.tenants.edit"
+            titleKey: "admin.tenants.edit",
+            showLoader: true
           }
         }
       ]
@@ -78,7 +81,8 @@ const AdminRoutes = {
           path: "list",
           component: () => import("@/views/roles/IndexPage.vue"),
           meta: {
-            titleKey: "admin.roles.list"
+            titleKey: "admin.roles.list",
+            showLoader: true
           }
         },
         {
@@ -94,7 +98,8 @@ const AdminRoutes = {
           path: "edit/:id",
           component: () => import("@/views/roles/EditPage.vue"),
           meta: {
-            titleKey: "admin.roles.edit"
+            titleKey: "admin.roles.edit",
+            showLoader: true
           }
         }
       ]
@@ -113,7 +118,8 @@ const AdminRoutes = {
           path: "list",
           component: () => import("@/views/users/IndexPage.vue"),
           meta: {
-            titleKey: "admin.users.list"
+            titleKey: "admin.users.list",
+            showLoader: true
           }
         },
         {
@@ -121,7 +127,8 @@ const AdminRoutes = {
           path: "new",
           component: () => import("@/views/users/NewPage.vue"),
           meta: {
-            titleKey: "admin.users.new"
+            titleKey: "admin.users.new",
+            showLoader: true
           }
         },
         {
@@ -129,7 +136,8 @@ const AdminRoutes = {
           path: "edit/:id",
           component: () => import("@/views/users/EditPage.vue"),
           meta: {
-            titleKey: "admin.users.edit"
+            titleKey: "admin.users.edit",
+            showLoader: true
           }
         }
       ]

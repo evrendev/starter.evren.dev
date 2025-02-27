@@ -30,13 +30,13 @@ onMounted(async () => {
   const id = route.params.id;
 
   try {
-    appStore.setPageLoader(true);
+    appStore.setPageLoading(true);
     await roleStore.getById(id);
     role.value = roleStore.role;
   } catch (error) {
     console.error(error);
   } finally {
-    appStore.setPageLoader(false);
+    appStore.setPageLoading(false);
   }
 });
 </script>

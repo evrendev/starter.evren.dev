@@ -15,7 +15,7 @@ const showTwoFactorDialog = ref(false);
 const showConfirmDialog = ref(false);
 
 const handleTwoFactorDisabled = async () => {
-  appStore.setPageLoader(true);
+  appStore.setPageLoading(true);
 
   try {
     await twoFactorAuthStore.disable();
@@ -23,7 +23,7 @@ const handleTwoFactorDisabled = async () => {
   } catch (error) {
     console.error(error);
   } finally {
-    appStore.setPageLoader(false);
+    appStore.setPageLoading(false);
   }
 };
 

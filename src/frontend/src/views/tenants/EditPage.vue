@@ -29,13 +29,13 @@ onMounted(async () => {
   const id = route.params.id;
 
   try {
-    appStore.setPageLoader(true);
+    appStore.setPageLoading(true);
     await tenantStore.getById(id);
     tenant.value = tenantStore.tenant;
   } catch (error) {
     console.error(error);
   } finally {
-    appStore.setPageLoader(false);
+    appStore.setPageLoading(false);
   }
 });
 </script>

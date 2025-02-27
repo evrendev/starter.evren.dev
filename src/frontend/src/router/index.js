@@ -30,19 +30,24 @@ export const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const publicPages = ["/"];
   const authStore = useAuthStore();
+  const appStore = useAppStore();
   const { user, returnUrl } = authStore;
 
   const isPublicPage = publicPages.includes(to.path);
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
 
+  // Handle page transition loading
+  await appStore.handlePageTransition(to);
+
   // Set document title
   const title = to.meta.titleKey ? i18n.global.t(to.meta.titleKey) : null;
-
   document.title = title ? `${title} - ${APP_NAME}` : APP_NAME;
 
   if (authRequired && !user) {
+    appStore.clearPageLoading();
     next("/auth/login");
   } else if (user && to.path === "/auth/login") {
+    appStore.clearPageLoading();
     next({
       query: {
         ...to.query,
@@ -56,5 +61,5 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach(() => {
   const appStore = useAppStore();
-  appStore.setPageLoader(false);
+  appStore.clearPageLoading();
 });

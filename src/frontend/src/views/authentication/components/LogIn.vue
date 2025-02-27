@@ -42,14 +42,14 @@ const showPassword = ref(false);
 const onSubmit = handleSubmit(async (values) => {
   try {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    appStore.setPageLoader(true);
+    appStore.setPageLoading(true);
 
     await until(response).changed();
     await authStore.login(values);
   } catch (error) {
     resetForm();
     console.error(error);
-    appStore.setPageLoader(false);
+    appStore.setPageLoading(false);
   }
 });
 </script>
