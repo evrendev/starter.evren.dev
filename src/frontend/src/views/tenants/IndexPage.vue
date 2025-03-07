@@ -1,5 +1,5 @@
 <script setup>
-import { ref, shallowRef } from "vue";
+import { shallowRef } from "vue";
 import { useTenantStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { DataTable, FilterCard } from "./components";
