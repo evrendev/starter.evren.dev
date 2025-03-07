@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { useAuthStore } from "@/stores/auth";
 import { apiService } from "@/utils/helpers/api";
+import { useAppStore } from "@/stores";
 
 export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
   state: () => ({
-    loading: false,
     setupData: null
   }),
 
@@ -14,18 +14,21 @@ export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
 
   actions: {
     async setup() {
-      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
 
       try {
         const response = await apiService.get("/2fa/setup");
         this.setupData = response;
       } finally {
-        this.loading = false;
+        appStore.setLoading(false);
       }
     },
 
     async enable(code) {
-      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
       try {
         await apiService.post("/2fa/enable", { code });
 
@@ -34,12 +37,14 @@ export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
         user.twoFactorEnabled = true;
         authStore.updateUser(user);
       } finally {
-        this.loading = false;
+        appStore.setLoading(false);
       }
     },
 
     async disable() {
-      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
       try {
         await apiService.post("/2fa/disable");
 
@@ -48,7 +53,7 @@ export const useTwoFactorAuthStore = defineStore("twoFactorAuth", {
         user.twoFactorEnabled = false;
         authStore.updateUser(user);
       } finally {
-        this.loading = false;
+        appStore.setLoading(false);
       }
     }
   }
