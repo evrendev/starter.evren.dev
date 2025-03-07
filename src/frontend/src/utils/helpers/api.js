@@ -69,7 +69,7 @@ class ApiService {
   // POST request
   async post(endpoint, data) {
     const store = this.getStore();
-    store?.setPageLoading(true);
+    store?.setLoading(true);
 
     try {
       const response = await apiClient.post(endpoint, data);
@@ -79,14 +79,14 @@ class ApiService {
       this.handleError(error);
       throw error;
     } finally {
-      store?.setPageLoading(false);
+      store?.setLoading(false);
     }
   }
 
   // PUT request
   async put(endpoint, data) {
     const store = this.getStore();
-    store?.setPageLoading(true);
+    store?.setLoading(true);
 
     try {
       const response = await apiClient.put(endpoint, data);
@@ -96,14 +96,14 @@ class ApiService {
       this.handleError(error);
       throw error;
     } finally {
-      store?.setPageLoading(false);
+      store?.setLoading(false);
     }
   }
 
   // DELETE request
   async delete(endpoint) {
     const store = this.getStore();
-    store?.setPageLoading(true);
+    store?.setLoading(true);
 
     try {
       const response = await apiClient.delete(endpoint);
@@ -113,7 +113,7 @@ class ApiService {
       this.handleError(error);
       throw error;
     } finally {
-      store?.setPageLoading(false);
+      store?.setLoading(false);
     }
   }
 
