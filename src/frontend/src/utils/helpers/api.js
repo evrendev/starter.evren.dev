@@ -56,6 +56,9 @@ class ApiService {
 
   // GET request
   async get(endpoint, showNotification = true) {
+    const store = this.getStore();
+    store?.setLoading(true);
+
     try {
       const response = await apiClient.get(endpoint);
       if (showNotification) NotificationService.handleApiResponse(response);
@@ -63,6 +66,8 @@ class ApiService {
     } catch (error) {
       this.handleError(error);
       throw error;
+    } finally {
+      store?.setLoading(false);
     }
   }
 
