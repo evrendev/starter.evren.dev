@@ -29,11 +29,11 @@ const [email, emailProps] = defineField("email", vuetifyConfig);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    appStore.setPageLoading(true);
+    appStore.setLoading(true);
     await authStore.forgotPassword(values.email);
   } catch (error) {
     console.error(error);
-    appStore.setPageLoading(false);
+    appStore.setLoading(false);
   }
 });
 </script>

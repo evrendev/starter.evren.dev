@@ -45,7 +45,7 @@ const [language, languageProps] = defineField("language", vuetifyConfig);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    appStore.setPageLoading(true);
+    appStore.setLoading(true);
     const submitData = {
       ...values
     };
@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (values) => {
   } catch (error) {
     console.error(error);
   } finally {
-    appStore.setPageLoading(false);
+    appStore.setLoading(false);
   }
 });
 

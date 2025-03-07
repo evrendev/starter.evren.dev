@@ -82,7 +82,7 @@ const [description, descriptionProps] = defineField("description", vuetifyConfig
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    appStore.setPageLoading(true);
+    appStore.setLoading(true);
     const submitData = {
       ...values,
       validUntil: values.validUntil ? new Date(values.validUntil).toISOString() : null
@@ -98,7 +98,7 @@ const onSubmit = handleSubmit(async (values) => {
   } catch (error) {
     console.error(error);
   } finally {
-    appStore.setPageLoading(false);
+    appStore.setLoading(false);
   }
 });
 

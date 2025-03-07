@@ -38,7 +38,7 @@ const validateForms = async () => {
 
 const onSubmit = handleSubmit(async () => {
   try {
-    appStore.setPageLoading(true);
+    appStore.setLoading(true);
 
     const { ...informationFormValues } = userInformationsFormRef.value.values;
     const { ...permissionsFormValues } = permissionsFormRef.value.values;
@@ -58,7 +58,7 @@ const onSubmit = handleSubmit(async () => {
   } catch (error) {
     console.error(error);
   } finally {
-    appStore.setPageLoading(false);
+    appStore.setLoading(false);
   }
 });
 

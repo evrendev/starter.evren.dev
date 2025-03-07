@@ -40,11 +40,11 @@ const [code, codeProps] = defineField("code", vuetifyConfig);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    appStore.setPageLoading(true);
+    appStore.setLoading(true);
     await authStore.verify({ userId: user.value.id, code: values.code, rememberMachine: true });
   } catch (error) {
     console.error(error);
-    appStore.setPageLoading(false);
+    appStore.setLoading(false);
   }
 });
 </script>

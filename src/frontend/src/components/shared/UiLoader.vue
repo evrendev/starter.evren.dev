@@ -1,6 +1,6 @@
 <template>
   <!-- Global loading overlay with blur effect -->
-  <div v-if="pageLoading" class="page-loading-overlay">
+  <div v-if="loading" class="page-loading-overlay">
     <v-progress-linear color="primary" indeterminate height="4" class="page-loading-bar"></v-progress-linear>
   </div>
 
@@ -15,7 +15,7 @@ import { useAppStore } from "@/stores";
 import { storeToRefs } from "pinia";
 const appStore = useAppStore();
 
-const { loading, pageLoading } = storeToRefs(appStore);
+const { loading } = storeToRefs(appStore);
 </script>
 
 <style lang="scss" scoped>
