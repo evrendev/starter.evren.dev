@@ -204,13 +204,13 @@ export default {
         connectionString: "Connection String",
         host: "Host"
       },
-      activeOptions: {
-        true: "Active",
-        false: "Passive"
-      },
       delete: {
         title: "Delete Tenant",
         message: "Are you sure you want to delete this tenant?"
+      },
+      restore: {
+        title: "Restore Tenant",
+        message: "Are you sure you want to restore this tenant?"
       },
       activate: {
         title: "Activate Tenant",
@@ -367,6 +367,7 @@ export default {
     navigation: "Navigation",
     goToTop: "Go to top",
     showDeletedItems: "Show Deleted Items",
+    showOnlyActiveItems: "Show Active Items",
     modules: {
       todos: "Todos",
       tenants: "Tenants",
@@ -382,7 +383,11 @@ export default {
       delete: "Delete",
       restore: "Restore",
       edit: "Edit"
-    }
+    },
+    active: "Active",
+    passive: "Passive",
+    true: "Yes",
+    false: "No"
   },
   $vuetify: {
     ...en

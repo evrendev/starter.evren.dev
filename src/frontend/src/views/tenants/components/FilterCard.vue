@@ -1,23 +1,20 @@
 <script setup>
-import { watch, ref } from "vue";
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
-import { useTenantStore } from "@/stores";
-import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
-const tenantStore = useTenantStore();
-const { reset } = storeToRefs(tenantStore);
-
-watch(
-  () => reset.value,
-  () => {
-    if (reset.value) handleReset();
-  }
-);
 
 defineProps({
   loading: {
+    type: Boolean,
+    default: false
+  },
+  hasTenantDeletePermission: {
+    type: Boolean,
+    default: false
+  },
+  hasTenantRestorePermission: {
     type: Boolean,
     default: false
   }
@@ -30,14 +27,20 @@ const dateRange = ref([null, null]);
 const isActive = ref(null);
 const activeOptions = ref([
   { title: t("common.all"), value: null },
-  { title: t("admin.tenants.activeOptions.true"), value: true },
-  { title: t("admin.tenants.activeOptions.false"), value: false }
+  { title: t("common.true"), value: true },
+  { title: t("common.false"), value: false }
+]);
+const showDeletedItems = ref(false);
+const showDeletedItemsOptions = ref([
+  { title: t("common.true"), value: true },
+  { title: t("common.false"), value: false }
 ]);
 
 const handleSubmit = () => {
   emits("submit", {
     search: search.value,
     isActive: isActive.value,
+    showDeletedItems: showDeletedItems.value,
     startDate: dateRange.value[0],
     endDate: dateRange.value[1]
   });
@@ -46,8 +49,8 @@ const handleSubmit = () => {
 const handleReset = () => {
   search.value = "";
   isActive.value = null;
+  showDeletedItems.value = false;
   dateRange.value = [null, null];
-  reset.value = false;
   emits("reset");
 };
 </script>
@@ -55,14 +58,14 @@ const handleReset = () => {
 <template>
   <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
-      <v-col cols="12" md="3">
+      <v-col cols="12" md="4">
         <v-text-field v-model="search" :label="t('common.search')" density="comfortable" hide-details variant="outlined"></v-text-field>
       </v-col>
-      <v-col cols="12" md="3">
+      <v-col cols="12" md="2">
         <v-select
           v-model="isActive"
           :items="activeOptions"
-          :label="t('admin.tenants.fields.isActive')"
+          :label="t('common.showOnlyActiveItems')"
           density="comfortable"
           hide-details
           item-title="title"
@@ -70,7 +73,19 @@ const handleReset = () => {
           variant="outlined"
         ></v-select>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="2">
+        <v-select
+          v-model="showDeletedItems"
+          :items="showDeletedItemsOptions"
+          :label="t('common.showDeletedItems')"
+          density="comfortable"
+          hide-details
+          item-title="title"
+          item-value="value"
+          variant="outlined"
+        ></v-select>
+      </v-col>
+      <v-col cols="12" md="4">
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field

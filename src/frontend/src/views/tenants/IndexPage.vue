@@ -1,11 +1,11 @@
 <script setup>
-import { ref, watch, shallowRef } from "vue";
+import { ref, shallowRef } from "vue";
 import { useTenantStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { DataTable, FilterCard } from "./components";
-import { storeToRefs } from "pinia";
 import { Breadcrumb } from "@/components/forms";
 import config from "@/config";
+import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
 
@@ -17,21 +17,8 @@ const breadcrumbs = shallowRef([
   }
 ]);
 
-const items = ref([]);
-const itemsLength = ref(0);
-const loading = ref(false);
 const tenantStore = useTenantStore();
-const { reset } = storeToRefs(tenantStore);
-
-watch(
-  () => reset.value,
-  () => {
-    if (reset.value) {
-      loading.value = true;
-      handleFilterReset(1000);
-    }
-  }
-);
+const { loading, items, itemsLength } = storeToRefs(tenantStore);
 
 const searchOptions = {
   page: 1,
@@ -39,40 +26,36 @@ const searchOptions = {
   sortBy: null,
   groupBy: null,
   isActive: null,
+  showDeletedItems: false,
   startDate: null,
   endDate: null,
   search: null
 };
 
-const handleFilterSubmit = (filters) => {
+const handleFilterSubmit = async (filters) => {
   searchOptions.page = 1;
   searchOptions.isActive = filters.isActive;
+  searchOptions.showDeletedItems = filters.showDeletedItems;
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
 
-  getItems(searchOptions);
+  await getItems(searchOptions);
 };
 
-const handleFilterReset = (timeout = 0) => {
+const handleFilterReset = async () => {
   searchOptions.page = 1;
   searchOptions.isActive = null;
+  searchOptions.showDeletedItems = false;
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
-  reset.value = false;
 
-  setTimeout(() => {
-    getItems(searchOptions);
-  }, timeout);
+  await getItems(searchOptions);
 };
 
 const getItems = async (options) => {
-  loading.value = true;
   await tenantStore.getItems(options);
-  items.value = tenantStore.items;
-  itemsLength.value = tenantStore.itemsLength;
-  loading.value = false;
 };
 </script>
 

@@ -7,14 +7,14 @@ namespace EvrenDev.Application.Features.Tenants.Queries.GetTenants;
 public class GetTenantsQuery : IRequest<Result<PaginatedList<BasicTenantDto>>>
 {
     public string? Search { get; set; }
-    public bool? IsActive { get; set; } = true;
-    public bool? IsDeleted { get; set; } = false;
-    public DateTime? StartDate { get; init; } = null;
-    public DateTime? EndDate { get; init; } = null;
-    public int Page { get; init; } = 1;
-    public int ItemsPerPage { get; init; } = 25;
-    public string? SortBy { get; init; }
-    public string? SortDesc { get; init; }
+    public bool? IsActive { get; set; }
+    public bool? ShowDeletedItems { get; set; } = false;
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public int Page { get; set; } = 1;
+    public int ItemsPerPage { get; set; } = 25;
+    public string? SortBy { get; set; }
+    public string? SortDesc { get; set; }
 }
 
 public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<PaginatedList<BasicTenantDto>>>
@@ -30,8 +30,8 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
     {
         var query = _context.Tenants.AsQueryable();
 
-        if (request.IsDeleted.HasValue)
-            query = query.IgnoreQueryFilters();
+        if (request.ShowDeletedItems.HasValue)
+            query = query.IgnoreQueryFilters().Where(x => x.Deleted == request.ShowDeletedItems.Value);
 
         if (request.IsActive.HasValue)
             query = query.Where(x => x.IsActive == request.IsActive.Value);
@@ -57,6 +57,7 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
             Id = tenant.Id,
             Name = tenant.Name,
             IsActive = tenant.IsActive,
+            Deleted = tenant.Deleted,
             AdminEmail = tenant.AdminEmail,
             ValidUntil = DateTimeDto.Create.FromLocal(tenant.ValidUntil)
         });
@@ -73,16 +74,13 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
     {
         return sortBy.ToLower() switch
         {
-            "id" => sortDesc
-                ? query.OrderByDescending(x => x.Id)
-                : query.OrderBy(x => x.Id),
-            "isActive" => sortDesc
-                ? query.OrderByDescending(x => x.IsActive)
-                : query.OrderBy(x => x.IsActive),
-            "validUntil" => sortDesc
+            "name" => sortDesc
+                ? query.OrderByDescending(x => x.Name)
+                : query.OrderBy(x => x.Name),
+            "validuntil" => sortDesc
                 ? query.OrderByDescending(x => x.ValidUntil)
                 : query.OrderBy(x => x.ValidUntil),
-            _ => query.OrderByDescending(x => x.ValidUntil) // Default sorting
+            _ => query.OrderByDescending(x => x.ValidUntil)
         };
     }
 }

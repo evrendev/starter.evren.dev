@@ -38,7 +38,10 @@ export default defineConfig({
   },
   server: {
     port: 5002,
-    hot: true
+    hot: true,
+    watch: {
+      usePolling: true
+    }
   },
   css: {
     preprocessorOptions: {

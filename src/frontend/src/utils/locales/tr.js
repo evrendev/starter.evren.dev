@@ -206,26 +206,26 @@ export default {
         connectionString: "Bağlantı Dizesi",
         host: "Sunucu"
       },
-      activeOptions: {
-        true: "Aktif",
-        false: "Pasif"
-      },
       delete: {
-        title: "Kiracıyı Sil",
-        message: "Kiracıyı silmek istediğinizden emin misiniz?"
+        title: "Kurum Sil",
+        message: "Kurumu silmek istediğinizden emin misiniz?"
+      },
+      restore: {
+        title: "Kurumu Geri Yükle",
+        message: "Kurumu geri yüklemek istediğinizden emin misiniz?"
       },
       activate: {
-        title: "Kiracıyı Etkinleştir",
-        message: "Kiracıyı etkinleştirmek istediğinizden emin misiniz?"
+        title: "Kurumu Etkinleştir",
+        message: "Kurumu etkinleştirmek istediğinizden emin misiniz?"
       },
       deactivate: {
-        title: "Kiracıyı Devre Dışı Bırak",
-        message: "Kiracıyı devre dışı bırakmak istediğinizden emin misiniz?"
+        title: "Kurumu Devre Dışı Bırak",
+        message: "Kurumu devre dışı bırakmak istediğinizden emin misiniz?"
       },
       validation: {
         name: {
-          required: "Kiracı adı girmeniz gerekmektedir",
-          maxLength: "Kiracı adı en fazla {max} karakter olabilir"
+          required: "Kurum adı girmeniz gerekmektedir",
+          maxLength: "Kurum adı en fazla {max} karakter olabilir"
         },
         description: {
           maxLength: "Açıklama en fazla {max} karakter olabilir"
@@ -365,6 +365,7 @@ export default {
     navigation: "Navigasyon",
     goToTop: "Başa Dön",
     showDeletedItems: "Silinmiş Öğeleri Göster",
+    showOnlyActiveItems: "Aktif Öğeleri Göster",
     modules: {
       todos: "Görevler",
       tenants: "Kurumlar",
@@ -380,7 +381,11 @@ export default {
       delete: "Sil",
       restore: "Geri Yükle",
       edit: "Düzenle"
-    }
+    },
+    active: "Aktif",
+    passive: "Pasif",
+    true: "Evet",
+    false: "Hayır"
   },
   $vuetify: {
     ...tr

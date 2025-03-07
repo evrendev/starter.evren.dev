@@ -205,13 +205,13 @@ export default {
         connectionString: "Verbindungszeichenfolge",
         host: "Host"
       },
-      activeOptions: {
-        true: "Active",
-        false: "Passive"
-      },
       delete: {
         title: "Mandant löschen",
         message: "Möchten Sie den Mandanten löschen?"
+      },
+      restore: {
+        title: "Mandant wiederherstellen",
+        message: "Möchten Sie den Mandanten wiederherstellen?"
       },
       activate: {
         title: "Mandant aktivieren",
@@ -364,7 +364,8 @@ export default {
     error: "Fehler",
     navigation: "Navigation",
     goToTop: "Gehe nach oben",
-    showDeletedItems: "Show Deleted Items",
+    showDeletedItems: "Gelöschte Elemente anzeigen",
+    showOnlyActiveItems: "Aktive Elemente anzeigen",
     modules: {
       todos: "Todos Listen",
       tenants: "Mandanten",
@@ -380,7 +381,11 @@ export default {
       delete: "Löschen",
       restore: "Wiederherstellen",
       edit: "Bearbeiten"
-    }
+    },
+    active: "Aktiv",
+    passive: "Passiv",
+    true: "Ja",
+    false: "Nein"
   },
   $vuetify: {
     ...de

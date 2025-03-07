@@ -7,4 +7,5 @@ public class BasicTenantDto
     public bool IsActive { get; set; }
     public string? AdminEmail { get; set; }
     public DateTimeDto? ValidUntil { get; set; }
+    public bool Deleted { get; set; }
 }
