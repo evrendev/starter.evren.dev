@@ -6,15 +6,33 @@ namespace EvrenDev.Application.Features.Tenants.Queries.GetTenants;
 
 public class GetTenantsQuery : IRequest<Result<PaginatedList<BasicTenantDto>>>
 {
-    public string? Search { get; set; }
-    public bool? IsActive { get; set; }
-    public bool? ShowDeletedItems { get; set; } = false;
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public int Page { get; set; } = 1;
-    public int ItemsPerPage { get; set; } = 25;
-    public string? SortBy { get; set; }
-    public string? SortDesc { get; set; }
+    public string? Search { get; init; }
+    public bool? ShowActiveItems { get; init; }
+    public bool? ShowDeletedItems { get; init; }
+    public DateTime? StartDate { get; init; }
+    public DateTime? EndDate { get; init; }
+    public int Page { get; init; } = 1;
+    public int ItemsPerPage { get; init; } = 25;
+    public string? SortBy { get; init; }
+    public string? SortDesc { get; init; }
+}
+
+public class GetTenantsQueryValidator : AbstractValidator<GetTenantsQuery>
+{
+    private readonly IStringLocalizer<GetTenantsQueryValidator> _localizer;
+
+    public GetTenantsQueryValidator(IStringLocalizer<GetTenantsQueryValidator> localizer)
+    {
+        _localizer = localizer;
+
+        RuleFor(v => v.Page)
+            .NotEmpty().WithMessage(_localizer["api.tenants.activate.page.required"])
+            .GreaterThan(0).WithMessage(_localizer["api.tenants.activate.page.greater-than-zero"]);
+
+        RuleFor(v => v.ItemsPerPage)
+            .NotEmpty().WithMessage(_localizer["api.tenants.activate.page.required"])
+            .GreaterThan(0).WithMessage(_localizer["api.tenants.activate.items-per-page.greater-than-zero"]);
+    }
 }
 
 public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<PaginatedList<BasicTenantDto>>>
@@ -33,8 +51,8 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
         if (request.ShowDeletedItems.HasValue)
             query = query.IgnoreQueryFilters().Where(x => x.Deleted == request.ShowDeletedItems.Value);
 
-        if (request.IsActive.HasValue)
-            query = query.Where(x => x.IsActive == request.IsActive.Value);
+        if (request.ShowActiveItems.HasValue)
+            query = query.Where(x => x.IsActive == request.ShowActiveItems.Value);
 
         if (request.StartDate != null)
             query = query.Where(entity => entity.ValidUntil >= request.StartDate);

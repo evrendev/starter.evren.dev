@@ -36,20 +36,19 @@ const headers = ref([
 
 const dataTableRef = ref(null);
 const operation = ref("delete");
-const recover = ref(false);
 const showModal = ref(false);
 const tenantId = ref(null);
 const confirmModalTitle = ref(null);
 const confirmModalMessage = ref(null);
 
 const handleConfirm = async () => {
-  if (operation.value === "delete" && recover.value) {
+  if (operation.value === "delete") {
     await tenantStore.delete(tenantId.value);
-  } else if (operation.value === "delete" && !recover.value) {
+  } else if (operation.value === "restore") {
     await tenantStore.restore(tenantId.value);
-  } else if (operation.value === "activate" && recover.value) {
+  } else if (operation.value === "activate") {
     await tenantStore.activate(tenantId.value);
-  } else {
+  } else if (operation.value === "deactivate") {
     await tenantStore.deactivate(tenantId.value);
   }
 };
@@ -58,23 +57,11 @@ const handleCancel = () => {
   tenantId.value = null;
 };
 
-const showConfirmModal = (id, opt, rec) => {
-  let modalTitle = null;
-  let modalMessage = null;
-
-  if (opt === "activate") {
-    modalTitle = rec ? t("admin.tenants.deactivate.title") : t("admin.tenants.activate.title");
-    modalMessage = rec ? t("admin.tenants.deactivate.message") : t("admin.tenants.activate.message");
-  } else {
-    modalTitle = rec ? t("admin.tenants.delete.title") : t("admin.tenants.restore.title");
-    modalMessage = rec ? t("admin.tenants.delete.message") : t("admin.tenants.restore.message");
-  }
-
-  confirmModalTitle.value = modalTitle;
-  confirmModalMessage.value = modalMessage;
+const showConfirmModal = (id, opt) => {
+  confirmModalTitle.value = t(`admin.tenants.${opt}.title`);
+  confirmModalMessage.value = t(`admin.tenants.${opt}.message`);
 
   operation.value = opt;
-  recover.value = rec;
   tenantId.value = id;
   showModal.value = true;
 };
@@ -111,7 +98,7 @@ const showConfirmModal = (id, opt, rec) => {
           icon="$restore"
           color="error"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'delete', false)"
+          @click="showConfirmModal(item.id, 'restore')"
           :title="t('admin.tenants.restore.title')"
         />
         <v-icon
@@ -120,7 +107,7 @@ const showConfirmModal = (id, opt, rec) => {
           icon="$trashCan"
           color="error"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'delete', true)"
+          @click="showConfirmModal(item.id, 'delete')"
           :title="t('admin.tenants.delete.title')"
         />
         <v-icon
@@ -129,7 +116,7 @@ const showConfirmModal = (id, opt, rec) => {
           size-="small"
           color="warning"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'activate', true)"
+          @click="showConfirmModal(item.id, 'deactivate')"
           :title="t('admin.tenants.deactivate.title')"
         />
         <v-icon
@@ -139,7 +126,7 @@ const showConfirmModal = (id, opt, rec) => {
           size-="small"
           color="success"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'activate', false)"
+          @click="showConfirmModal(item.id, 'activate')"
           :title="t('admin.tenants.activate.title')"
         />
       </template>

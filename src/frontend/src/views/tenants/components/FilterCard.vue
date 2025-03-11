@@ -9,14 +9,6 @@ defineProps({
   loading: {
     type: Boolean,
     default: false
-  },
-  hasTenantDeletePermission: {
-    type: Boolean,
-    default: false
-  },
-  hasTenantRestorePermission: {
-    type: Boolean,
-    default: false
   }
 });
 
@@ -24,14 +16,15 @@ const emits = defineEmits(["submit", "reset"]);
 
 const search = ref("");
 const dateRange = ref([null, null]);
-const isActive = ref(null);
-const activeOptions = ref([
+const showActiveItems = ref(true);
+const showActiveItemsOptions = ref([
   { title: t("common.all"), value: null },
   { title: t("common.true"), value: true },
   { title: t("common.false"), value: false }
 ]);
 const showDeletedItems = ref(false);
 const showDeletedItemsOptions = ref([
+  { title: t("common.all"), value: null },
   { title: t("common.true"), value: true },
   { title: t("common.false"), value: false }
 ]);
@@ -39,7 +32,7 @@ const showDeletedItemsOptions = ref([
 const handleSubmit = () => {
   emits("submit", {
     search: search.value,
-    isActive: isActive.value,
+    showActiveItems: showActiveItems.value,
     showDeletedItems: showDeletedItems.value,
     startDate: dateRange.value[0],
     endDate: dateRange.value[1]
@@ -48,9 +41,10 @@ const handleSubmit = () => {
 
 const handleReset = () => {
   search.value = "";
-  isActive.value = null;
+  showActiveItems.value = true;
   showDeletedItems.value = false;
   dateRange.value = [null, null];
+
   emits("reset");
 };
 </script>
@@ -63,8 +57,8 @@ const handleReset = () => {
       </v-col>
       <v-col cols="12" md="2">
         <v-select
-          v-model="isActive"
-          :items="activeOptions"
+          v-model="showActiveItems"
+          :items="showActiveItemsOptions"
           :label="t('common.showOnlyActiveItems')"
           density="comfortable"
           hide-details

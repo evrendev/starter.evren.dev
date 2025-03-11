@@ -42,17 +42,7 @@ public class ActivateTenantCommandHandler : IRequestHandler<ActivateTenantComman
         if (entity == null)
             return Result<bool>.Failure(_localizer["api.tenants.not-found"]);
 
-        if (entity.Deleted)
-            return Result<bool>.Failure(_localizer["api.tenants.deleted"]);
-
-        if (entity.IsActive)
-        {
-            entity.Deactivate();
-        }
-        else
-        {
-            entity.Activate();
-        }
+        entity.Activate();
 
         await _context.SaveChangesAsync(cancellationToken);
 

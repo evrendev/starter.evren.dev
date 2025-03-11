@@ -17,18 +17,21 @@ export const useTenantStore = defineStore("tenant", {
       appStore.setLoading(true);
 
       try {
-        const params = new URLSearchParams({
-          page: searchOptions?.page ?? 1,
-          itemsPerPage: searchOptions?.itemsPerPage ?? config.itemsPerPage,
-          ...(searchOptions?.isActive !== undefined && searchOptions?.isActive !== null && { isActive: searchOptions?.isActive }),
-          ...(searchOptions?.showDeletedItems !== undefined &&
-            searchOptions?.showDeletedItems !== null && { showDeletedItems: searchOptions?.showDeletedItems }),
-          ...(searchOptions?.sortBy?.length && { sortBy: searchOptions?.sortBy[0]?.key }),
-          ...(searchOptions?.sortBy?.length && { sortDesc: searchOptions?.sortBy[0]?.order }),
-          ...(searchOptions?.search !== undefined && searchOptions?.search !== null && { search: searchOptions?.search }),
-          ...(searchOptions?.startDate !== undefined && searchOptions?.startDate !== null && { startDate: searchOptions?.startDate }),
-          ...(searchOptions?.endDate !== undefined && searchOptions?.endDate !== null && { endDate: searchOptions?.endDate })
-        });
+        const params = new URLSearchParams();
+
+        params.append("page", searchOptions?.page ?? config.page);
+        params.append("itemsPerPage", searchOptions?.itemsPerPage ?? config.itemsPerPage);
+        params.append("showActiveItems", searchOptions?.showActiveItems ?? config.showActiveItems);
+        params.append("showDeletedItems", searchOptions?.showDeletedItems ?? config.showDeletedItems);
+
+        if (searchOptions?.search != null) params.append("search", searchOptions.search);
+        if (searchOptions?.startDate != null) params.append("startDate", searchOptions.startDate);
+        if (searchOptions?.endDate != null) params.append("endDate", searchOptions.endDate);
+
+        if (searchOptions?.sortBy?.length) {
+          params.append("sortBy", searchOptions.sortBy[0]?.key);
+          params.append("sortDesc", searchOptions.sortBy[0]?.order);
+        }
 
         const response = await apiService.get(`/tenants?${params}`, false);
         this.items = response.items;

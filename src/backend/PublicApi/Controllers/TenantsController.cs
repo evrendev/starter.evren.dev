@@ -2,6 +2,7 @@ using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Tenants.Commands.ActivateTenant;
 using EvrenDev.Application.Features.Tenants.Commands.CreateTenant;
+using EvrenDev.Application.Features.Tenants.Commands.DeactivateTenant;
 using EvrenDev.Application.Features.Tenants.Commands.DeleteTenant;
 using EvrenDev.Application.Features.Tenants.Commands.RestoreTenant;
 using EvrenDev.Application.Features.Tenants.Commands.UpdateTenant;
@@ -185,6 +186,30 @@ public class TenantsController : ControllerBase
         try
         {
             var result = await _mediator.Send(new ActivateTenantCommand { Id = id });
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("{id}/deactivate")]
+    [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Restore}")]
+    public async Task<ActionResult<bool>> Deactivate(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new DeactivateTenantCommand { Id = id });
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)

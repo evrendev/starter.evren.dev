@@ -4,8 +4,8 @@ import { useTenantStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { DataTable, FilterCard } from "./components";
 import { Breadcrumb } from "@/components/forms";
-import config from "@/config";
 import { storeToRefs } from "pinia";
+import config from "@/config";
 
 const { t } = useI18n();
 
@@ -13,6 +13,11 @@ const breadcrumbs = shallowRef([
   {
     title: t("admin.tenants.title"),
     disabled: true,
+    href: "#"
+  },
+  {
+    title: t("admin.tenants.list"),
+    disabled: false,
     href: "#"
   }
 ]);
@@ -25,7 +30,7 @@ const searchOptions = {
   itemsPerPage: config.itemsPerPage,
   sortBy: null,
   groupBy: null,
-  isActive: null,
+  showActiveItems: true,
   showDeletedItems: false,
   startDate: null,
   endDate: null,
@@ -34,28 +39,28 @@ const searchOptions = {
 
 const handleFilterSubmit = async (filters) => {
   searchOptions.page = 1;
-  searchOptions.isActive = filters.isActive;
+  searchOptions.showActiveItems = filters.showActiveItems;
   searchOptions.showDeletedItems = filters.showDeletedItems;
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
 
-  await getItems(searchOptions);
+  await getItems();
 };
 
 const handleFilterReset = async () => {
   searchOptions.page = 1;
-  searchOptions.isActive = null;
+  searchOptions.showActiveItems = true;
   searchOptions.showDeletedItems = false;
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
 
-  await getItems(searchOptions);
+  await getItems();
 };
 
-const getItems = async (options) => {
-  await tenantStore.getItems(options);
+const getItems = async () => {
+  await tenantStore.getItems(searchOptions);
 };
 </script>
 
