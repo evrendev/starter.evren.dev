@@ -367,7 +367,7 @@ export default {
     navigation: "Navigation",
     goToTop: "Go to top",
     showDeletedItems: "Show Deleted Items",
-    showOnlyActiveItems: "Show Active Items",
+    showActiveItems: "Show Active Items",
     modules: {
       todos: "Todos",
       tenants: "Tenants",

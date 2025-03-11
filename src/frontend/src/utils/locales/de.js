@@ -365,7 +365,7 @@ export default {
     navigation: "Navigation",
     goToTop: "Gehe nach oben",
     showDeletedItems: "Gelöschte Elemente anzeigen",
-    showOnlyActiveItems: "Aktive Elemente anzeigen",
+    showActiveItems: "Aktive Elemente anzeigen",
     modules: {
       todos: "Todos Listen",
       tenants: "Mandanten",

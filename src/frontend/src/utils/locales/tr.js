@@ -365,7 +365,7 @@ export default {
     navigation: "Navigasyon",
     goToTop: "Başa Dön",
     showDeletedItems: "Silinmiş Öğeleri Göster",
-    showOnlyActiveItems: "Aktif Öğeleri Göster",
+    showActiveItems: "Aktif Öğeleri Göster",
     modules: {
       todos: "Görevler",
       tenants: "Kurumlar",

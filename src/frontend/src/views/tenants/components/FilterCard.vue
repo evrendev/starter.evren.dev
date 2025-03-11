@@ -59,7 +59,7 @@ const handleReset = () => {
         <v-select
           v-model="showActiveItems"
           :items="showActiveItemsOptions"
-          :label="t('common.showOnlyActiveItems')"
+          :label="t('common.showActiveItems')"
           density="comfortable"
           hide-details
           item-title="title"
