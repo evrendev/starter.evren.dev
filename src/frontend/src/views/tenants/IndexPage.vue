@@ -5,7 +5,6 @@ import { useI18n } from "vue-i18n";
 import { DataTable, FilterCard } from "./components";
 import { Breadcrumb } from "@/components/forms";
 import { storeToRefs } from "pinia";
-import config from "@/config";
 
 const { t } = useI18n();
 
@@ -25,42 +24,17 @@ const breadcrumbs = shallowRef([
 const tenantStore = useTenantStore();
 const { loading, items, itemsLength } = storeToRefs(tenantStore);
 
-const searchOptions = {
-  page: 1,
-  itemsPerPage: config.itemsPerPage,
-  sortBy: null,
-  groupBy: null,
-  showActiveItems: true,
-  showDeletedItems: false,
-  startDate: null,
-  endDate: null,
-  search: null
-};
-
-const handleFilterSubmit = async (filters) => {
-  searchOptions.page = 1;
-  searchOptions.showActiveItems = filters.showActiveItems;
-  searchOptions.showDeletedItems = filters.showDeletedItems;
-  searchOptions.startDate = filters.startDate;
-  searchOptions.endDate = filters.endDate;
-  searchOptions.search = filters.search;
-
+const handleFilterSubmit = async () => {
   await getItems();
 };
 
 const handleFilterReset = async () => {
-  searchOptions.page = 1;
-  searchOptions.showActiveItems = true;
-  searchOptions.showDeletedItems = false;
-  searchOptions.startDate = null;
-  searchOptions.endDate = null;
-  searchOptions.search = null;
-
+  tenantStore.resetFilters();
   await getItems();
 };
 
 const getItems = async () => {
-  await tenantStore.getItems(searchOptions);
+  await tenantStore.getItems();
 };
 </script>
 

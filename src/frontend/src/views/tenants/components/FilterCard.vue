@@ -2,8 +2,8 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
-
-const { t } = useI18n();
+import { useTenantStore } from "@/stores/";
+import { storeToRefs } from "pinia";
 
 defineProps({
   loading: {
@@ -14,15 +14,16 @@ defineProps({
 
 const emits = defineEmits(["submit", "reset"]);
 
-const search = ref("");
-const dateRange = ref([null, null]);
-const showActiveItems = ref(true);
+const { t } = useI18n();
+
+const tenantStore = useTenantStore();
+const { filters } = storeToRefs(tenantStore);
+
 const showActiveItemsOptions = ref([
   { title: t("common.all"), value: null },
   { title: t("common.true"), value: true },
   { title: t("common.false"), value: false }
 ]);
-const showDeletedItems = ref(false);
 const showDeletedItemsOptions = ref([
   { title: t("common.all"), value: null },
   { title: t("common.true"), value: true },
@@ -30,21 +31,10 @@ const showDeletedItemsOptions = ref([
 ]);
 
 const handleSubmit = () => {
-  emits("submit", {
-    search: search.value,
-    showActiveItems: showActiveItems.value,
-    showDeletedItems: showDeletedItems.value,
-    startDate: dateRange.value[0],
-    endDate: dateRange.value[1]
-  });
+  emits("submit");
 };
 
 const handleReset = () => {
-  search.value = "";
-  showActiveItems.value = true;
-  showDeletedItems.value = false;
-  dateRange.value = [null, null];
-
   emits("reset");
 };
 </script>
@@ -53,11 +43,17 @@ const handleReset = () => {
   <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
       <v-col cols="12" md="4">
-        <v-text-field v-model="search" :label="t('common.search')" density="comfortable" hide-details variant="outlined"></v-text-field>
+        <v-text-field
+          v-model="filters.search"
+          :label="t('common.search')"
+          density="comfortable"
+          hide-details
+          variant="outlined"
+        ></v-text-field>
       </v-col>
       <v-col cols="12" md="2">
         <v-select
-          v-model="showActiveItems"
+          v-model="filters.showActiveItems"
           :items="showActiveItemsOptions"
           :label="t('common.showActiveItems')"
           density="comfortable"
@@ -69,7 +65,7 @@ const handleReset = () => {
       </v-col>
       <v-col cols="12" md="2">
         <v-select
-          v-model="showDeletedItems"
+          v-model="filters.showDeletedItems"
           :items="showDeletedItemsOptions"
           :label="t('common.showDeletedItems')"
           density="comfortable"
@@ -83,7 +79,7 @@ const handleReset = () => {
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="dateRange[0]"
+              v-model="filters.startDate"
               :label="t('common.selectDate')"
               density="comfortable"
               hide-details
@@ -93,7 +89,7 @@ const handleReset = () => {
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="dateRange[1]"
+              v-model="filters.endDate"
               :label="t('common.selectDate')"
               density="comfortable"
               hide-details

@@ -8,29 +8,52 @@ export const useTenantStore = defineStore("tenant", {
     items: [],
     tenant: {},
     itemsLength: 0,
-    loading: false
+    loading: false,
+    filters: {
+      search: "",
+      startDate: null,
+      endDate: null,
+      showActiveItems: true,
+      showDeletedItems: false,
+      sortBy: [],
+      page: config.page,
+      itemsPerPage: config.itemsPerPage
+    }
   }),
   actions: {
-    async getItems(searchOptions) {
+    resetFilters() {
+      this.filters = {
+        search: "",
+        startDate: null,
+        endDate: null,
+        showActiveItems: true,
+        showDeletedItems: false,
+        sortBy: [],
+        page: config.page,
+        itemsPerPage: config.itemsPerPage
+      };
+    },
+    async getItems() {
       const appStore = useAppStore();
       this.loading = true;
       appStore.setLoading(true);
 
       try {
         const params = new URLSearchParams();
+        const { filters } = this; // Destructure filter state
 
-        params.append("page", searchOptions?.page ?? config.page);
-        params.append("itemsPerPage", searchOptions?.itemsPerPage ?? config.itemsPerPage);
+        params.append("page", filters?.page ?? config.page);
+        params.append("itemsPerPage", filters?.itemsPerPage ?? config.itemsPerPage);
 
-        if (searchOptions?.showActiveItems != null) params.append("showActiveItems", searchOptions.showActiveItems);
-        if (searchOptions?.showDeletedItems != null) params.append("showDeletedItems", searchOptions.showDeletedItems);
-        if (searchOptions?.search != null) params.append("search", searchOptions.search);
-        if (searchOptions?.startDate != null) params.append("startDate", searchOptions.startDate);
-        if (searchOptions?.endDate != null) params.append("endDate", searchOptions.endDate);
+        if (filters?.showActiveItems != null) params.append("showActiveItems", filters.showActiveItems);
+        if (filters?.showDeletedItems != null) params.append("showDeletedItems", filters.showDeletedItems);
+        if (filters?.search != null) params.append("search", filters.search);
+        if (filters?.startDate != null) params.append("startDate", filters.startDate);
+        if (filters?.endDate != null) params.append("endDate", filters.endDate);
 
-        if (searchOptions?.sortBy?.length) {
-          params.append("sortBy", searchOptions.sortBy[0]?.key);
-          params.append("sortDesc", searchOptions.sortBy[0]?.order);
+        if (filters?.sortBy?.length) {
+          params.append("sortBy", filters.sortBy[0]?.key);
+          params.append("sortDesc", filters.sortBy[0]?.order);
         }
 
         const response = await apiService.get(`/tenants?${params}`, false);
