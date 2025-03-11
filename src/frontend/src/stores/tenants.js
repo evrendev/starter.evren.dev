@@ -10,20 +10,24 @@ export const useTenantStore = defineStore("tenant", {
     itemsLength: 0,
     loading: false,
     filters: {
-      search: "",
+      search: null,
       startDate: null,
       endDate: null,
-      showActiveItems: true,
-      showDeletedItems: false,
+      showActiveItems: null,
+      showDeletedItems: null,
       sortBy: [],
       page: config.page,
       itemsPerPage: config.itemsPerPage
     }
   }),
+  getters: {
+    itemsPerPage: (state) => state.filters.itemsPerPage,
+    page: (state) => state.filters.page
+  },
   actions: {
     resetFilters() {
       this.filters = {
-        search: "",
+        search: null,
         startDate: null,
         endDate: null,
         showActiveItems: true,
@@ -32,6 +36,9 @@ export const useTenantStore = defineStore("tenant", {
         page: config.page,
         itemsPerPage: config.itemsPerPage
       };
+    },
+    setFilters(newFilters) {
+      this.filters = { ...this.filters, ...newFilters };
     },
     async getItems() {
       const appStore = useAppStore();

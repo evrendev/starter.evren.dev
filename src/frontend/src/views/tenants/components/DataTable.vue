@@ -4,7 +4,6 @@ import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmModal } from "@/components/forms/";
 import { useTenantStore } from "@/stores/";
-import config from "@/config";
 
 const { t } = useI18n();
 const tenantStore = useTenantStore();
@@ -14,7 +13,11 @@ defineProps({
     type: Array,
     required: true
   },
-  itemsLength: {
+  itemsPerPage: {
+    type: Number,
+    required: true
+  },
+  page: {
     type: Number,
     required: true
   },
@@ -65,20 +68,31 @@ const showConfirmModal = (id, opt) => {
   tenantId.value = id;
   showModal.value = true;
 };
+
+const updatePage = (page) => {
+  tenantStore.setFilters({ page });
+};
+
+const updateItemsPerPage = (itemsPerPage) => {
+  tenantStore.setFilters({ itemsPerPage });
+};
 </script>
 
 <template>
   <parent-card>
     <v-data-table-server
       ref="dataTableRef"
-      :items-per-page="config.itemsPerPage"
+      :items-per-page="itemsPerPage"
       :headers="headers"
       :items="items"
-      :items-length="itemsLength"
+      :items-length="itemsPerPage"
+      :page="page"
       :loading="loading"
       class="striped"
       item-value="id"
       @update:options="$emit('update:options', $event)"
+      @update:page="updatePage"
+      @update:items-per-page="updateItemsPerPage"
     >
       <template #[`item.isActive`]="{ item }">
         <v-icon size="small" :icon="item.isActive ? `$thumbUp` : `$thumbDown`" :color="item.isActive ? `success` : `error`" />

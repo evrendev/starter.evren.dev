@@ -22,7 +22,7 @@ const breadcrumbs = shallowRef([
 ]);
 
 const tenantStore = useTenantStore();
-const { loading, items, itemsLength } = storeToRefs(tenantStore);
+const { loading, items, itemsPerPage, page } = storeToRefs(tenantStore);
 
 const handleFilterSubmit = async () => {
   await getItems();
@@ -44,7 +44,7 @@ const getItems = async () => {
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
 
-      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" />
+      <data-table :items="items" :loading="loading" :items-per-page="itemsPerPage" :page="page" @update:options="getItems" />
     </v-col>
   </v-row>
 </template>
