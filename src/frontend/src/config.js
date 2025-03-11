@@ -9,9 +9,7 @@ const config = {
   fallbackLocale: "en",
   languages: ["tr", "en", "de"],
   itemsPerPage: 25,
-  page: 1,
-  showDeletedItems: false,
-  showActiveItems: true
+  page: 1
 };
 
 export default config;

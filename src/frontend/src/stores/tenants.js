@@ -21,9 +21,9 @@ export const useTenantStore = defineStore("tenant", {
 
         params.append("page", searchOptions?.page ?? config.page);
         params.append("itemsPerPage", searchOptions?.itemsPerPage ?? config.itemsPerPage);
-        params.append("showActiveItems", searchOptions?.showActiveItems ?? config.showActiveItems);
-        params.append("showDeletedItems", searchOptions?.showDeletedItems ?? config.showDeletedItems);
 
+        if (searchOptions?.showActiveItems != null) params.append("showActiveItems", searchOptions.showActiveItems);
+        if (searchOptions?.showDeletedItems != null) params.append("showDeletedItems", searchOptions.showDeletedItems);
         if (searchOptions?.search != null) params.append("search", searchOptions.search);
         if (searchOptions?.startDate != null) params.append("startDate", searchOptions.startDate);
         if (searchOptions?.endDate != null) params.append("endDate", searchOptions.endDate);
