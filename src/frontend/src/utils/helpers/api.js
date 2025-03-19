@@ -25,20 +25,13 @@ apiClient.interceptors.request.use(
 
     return cfg;
   },
-  (error) => {
-    // Handle request errors here
-    return Promise.reject(error);
-  }
-);
-
-// Add response interceptor for handling 401
-apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("auth");
       window.location.href = "/auth/login";
     }
+
     return Promise.reject(error);
   }
 );
