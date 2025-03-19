@@ -6,3 +6,4 @@ export { default as ChildCard } from "./UiChildCard.vue";
 export { default as ParentCard } from "./UiParentCard.vue";
 export { default as Loader } from "./UiLoader.vue";
 export { default as GoToTop } from "./GoToTop.vue";
+export { default as RecaptchaButton } from "./RecaptchaButton.vue";

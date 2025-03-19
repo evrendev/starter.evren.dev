@@ -4,10 +4,9 @@ import { ref } from "vue";
 import { useLocale } from "vuetify";
 import { useForm } from "vee-validate";
 import { object, string, boolean } from "yup";
-import { ChallengeV3 } from "vue-recaptcha";
-import { until } from "@vueuse/core";
 import { useAuthStore, useAppStore } from "@/stores/";
 import { storeToRefs } from "pinia";
+import RecaptchaButton from "@/components/shared/RecaptchaButton.vue";
 
 const { t } = useLocale();
 
@@ -15,11 +14,14 @@ const authStore = useAuthStore();
 const appStore = useAppStore();
 const { loading } = storeToRefs(appStore);
 
+// reCAPTCHA site key
+const siteKey = ref(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
+
+// Form schema
 const schema = object().shape({
   email: string().email(t("auth.login.email.invalid")).required(t("auth.login.email.required")).label(t("auth.login.email.label")),
   password: string().required(t("auth.login.password.required")).label(t("auth.login.password.label")),
-  rememberMe: boolean().default(false).label(t("auth.login.rememberMe")),
-  response: string().required(t("auth.login.recaptcha.required"))
+  rememberMe: boolean().default(false).label(t("auth.login.rememberMe"))
 });
 
 const { defineField, handleSubmit, resetForm } = useForm({
@@ -35,23 +37,54 @@ const vuetifyConfig = (state) => ({
 const [email, emailProps] = defineField("email", vuetifyConfig);
 const [password, passwordProps] = defineField("password", vuetifyConfig);
 const [rememberMe, rememberMeProps] = defineField("rememberMe", vuetifyConfig);
-const [response] = defineField("response", vuetifyConfig);
 
 const showPassword = ref(false);
+const recaptchaToken = ref("");
 
-const onSubmit = handleSubmit(async (values) => {
+// Handle reCAPTCHA success
+const handleRecaptchaSuccess = (token) => {
+  recaptchaToken.value = token;
+  submitForm();
+};
+
+// Handle reCAPTCHA error
+const handleRecaptchaError = (error) => {
+  console.error("reCAPTCHA error:", error);
+  appStore.setLoading(false);
+};
+
+// Prepare and validate form
+const onSubmit = handleSubmit(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  appStore.setLoading(true);
+  // Form validation passed, reCAPTCHA will be triggered by the button component
+});
+
+// Submit form with token
+const submitForm = async () => {
   try {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    appStore.setLoading(true);
+    if (!recaptchaToken.value) {
+      console.error("No reCAPTCHA token available");
+      appStore.setLoading(false);
+      return;
+    }
 
-    await until(response).changed();
+    // Prepare login data with form values and reCAPTCHA token
+    const values = {
+      email: email.value,
+      password: password.value,
+      rememberMe: rememberMe.value,
+      response: recaptchaToken.value
+    };
+
+    // Send login request
     await authStore.login(values);
   } catch (error) {
+    console.error("Login error:", error);
     resetForm();
-    console.error(error);
     appStore.setLoading(false);
   }
-});
+};
 </script>
 
 <template>
@@ -67,7 +100,7 @@ const onSubmit = handleSubmit(async (values) => {
     </v-col>
   </v-row>
 
-  <v-form class="mt-7 login-form" :disabled="loading" @submit="onSubmit">
+  <v-form class="mt-7 login-form" :disabled="loading" @submit.prevent="onSubmit">
     <v-text-field
       v-model="email"
       v-bind="emailProps"
@@ -120,11 +153,18 @@ const onSubmit = handleSubmit(async (values) => {
       <v-btn color="secondary" variant="flat" class="mr-4" @click="resetForm()" prepend-icon="$refresh" :disabled="loading">
         {{ t("auth.login.resetForm") }}
       </v-btn>
-      <challenge-v3 v-model="response" action="submit">
-        <v-btn color="primary" variant="flat" type="submit" :loading="loading" prepend-icon="$login">
-          {{ t("auth.login.submit") }}
-        </v-btn>
-      </challenge-v3>
+
+      <recaptcha-button
+        button-text="Login"
+        button-color="primary"
+        button-variant="flat"
+        button-icon="$login"
+        :loading="loading"
+        :site-key="siteKey"
+        action="login"
+        @recaptcha-success="handleRecaptchaSuccess"
+        @recaptcha-error="handleRecaptchaError"
+      />
     </div>
   </v-form>
 </template>
