@@ -52,7 +52,7 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <v-row>
     <v-col cols="12" class="text-center">
-      <Logo />
+      <logo />
       <h2 class="text-secondary text-h2 mt-8">
         {{ t("auth.login.welcome") }}
       </h2>

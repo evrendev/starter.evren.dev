@@ -29,7 +29,7 @@ onMounted(() => {
   >
     <!---Logo part -->
     <div class="pa-5">
-      <Logo />
+      <logo />
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->

@@ -6,7 +6,7 @@ import { useForm } from "vee-validate";
 import { object, string, boolean } from "yup";
 import { useAuthStore, useAppStore } from "@/stores/";
 import { storeToRefs } from "pinia";
-import RecaptchaButton from "@/components/shared/RecaptchaButton.vue";
+import { RecaptchaButton } from "@/components/forms";
 
 const { t } = useLocale();
 
@@ -90,7 +90,7 @@ const submitForm = async () => {
 <template>
   <v-row>
     <v-col cols="12" class="text-center">
-      <Logo />
+      <logo />
       <h2 class="text-secondary text-h2 mt-8">
         {{ t("auth.login.welcome") }}
       </h2>
