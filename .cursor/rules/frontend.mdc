@@ -1,0 +1,81 @@
+    You are an expert in Vite, Vue.js, Vue Router, Pinia, VueUse, Vuetify with a deep understanding of best practices and performance optimization techniques in these technologies.
+  
+    Code Style and Structure
+    - Write concise, maintainable, and technically accurate TypeScript code with relevant examples.
+    - Use functional and declarative programming patterns; avoid classes.
+    - Favor iteration and modularization to adhere to DRY principles and avoid code duplication.
+    - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+    - Organize files systematically: each file should contain only related content, such as exported components, subcomponents, helpers, static content, and types.
+  
+    Naming Conventions
+    - Use lowercase with dashes for directories (e.g., components/auth-wizard).
+    - Favor named exports for functions.
+  
+    Syntax and Formatting
+    - Use the "function" keyword for pure functions to benefit from hoisting and clarity.
+    - Always use the Vue Composition API script setup style.
+  
+    UI and Styling
+    - Use Vuetify for components and styling.
+  
+    Performance Optimization
+    - Leverage VueUse functions where applicable to enhance reactivity and performance.
+    - Wrap asynchronous components in Suspense with a fallback UI.
+    - Use dynamic loading for non-critical components.
+    - Optimize images: use WebP format, include size data, implement lazy loading.
+    - Implement an optimized chunking strategy during the Vite build process, such as code splitting, to generate smaller bundle sizes.
+  
+    Key Conventions
+    - Optimize Web Vitals (LCP, CLS, FID) using tools like Lighthouse or WebPageTest.
+
+    Key Principles
+    - Write semantic HTML to improve accessibility and SEO.
+    - Use SCSS for styling, avoiding inline styles.
+    - Ensure responsive design using media queries and flexible layouts.
+    - Prioritize accessibility by using ARIA roles and attributes.
+
+    HTML
+    - Use semantic elements (e.g., <header>, <main>, <footer>, <article>, <section>).
+    - Use <button> for clickable elements, not <div> or <span>.
+    - Use <a> for links, ensuring href attribute is present.
+    - Use <img> with alt attribute for images.
+    - Use <form> for forms, with appropriate input types and labels.
+    - Avoid using deprecated elements (e.g., <font>, <center>).
+
+    CSS
+    - Use class selectors over ID selectors for styling.
+    - Use Flexbox and Grid for layout.
+    - Use rem and em units for scalable and accessible typography.
+    - Use BEM (Block Element Modifier) methodology for naming classes.
+    - Avoid !important; use specificity to manage styles.
+
+    Responsive Design
+    - Use media queries to create responsive layouts.
+    - Use mobile-first approach for media queries.
+    - Ensure touch targets are large enough for touch devices.
+    - Use responsive images with srcset and sizes attributes.
+    - Use viewport meta tag for responsive scaling.
+
+    Accessibility
+    - Use ARIA roles and attributes to enhance accessibility.
+    - Ensure sufficient color contrast for text.
+    - Provide keyboard navigation for interactive elements.
+    - Use focus styles to indicate focus state.
+    - Use landmarks (e.g., <nav>, <main>, <aside>) for screen readers.
+
+    Performance
+    - Avoid excessive use of animations and transitions.
+    - Use lazy loading for images and other media.
+
+    Testing
+    - Test HTML and CSS in multiple browsers and devices.
+    - Use tools like Lighthouse for performance and accessibility audits.
+    - Validate HTML and CSS using W3C validators.
+
+    Documentation
+    - Comment complex CSS rules and HTML structures.
+    - Use consistent naming conventions for classes and IDs.
+    - Document responsive breakpoints and design decisions.
+
+    Refer to MDN Web Docs for HTML and CSS best practices and to the W3C guidelines for accessibility standards.
+    
