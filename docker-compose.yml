@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: src/backend/Dockerfile
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__CatalogConnection=Server=db,14330;Initial Catalog=evrendev-starter-catalog;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
@@ -24,7 +24,7 @@ services:
     ports:
       - "80:80"
     environment:
-      - VITE_API_URL=http://localhost:5000/api
+      - VITE_API_URL=http://localhost:5001/api
     depends_on:
       - backend
 

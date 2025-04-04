@@ -1,19 +1,17 @@
-# build aşaması
+# --- Build aşaması ---
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
-
+WORKDIR /src
 COPY . .
 
 RUN dotnet restore EvrenDev.sln
 RUN dotnet publish src/backend/PublicApi/PublicApi.csproj -c Release -o /out
 
-# runtime aşaması
+# --- Runtime aşaması ---
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-
 COPY --from=build /out ./
 
-ENV ASPNETCORE_URLS=http://+:5000
-EXPOSE 5000
+ENV ASPNETCORE_URLS=http://+:5001
+EXPOSE 5001
 
-ENTRYPOINT ["dotnet", "PublicApi.dll"]
+ENTRYPOINT ["dotnet", "EvrenDev.PublicApi.dll"]
