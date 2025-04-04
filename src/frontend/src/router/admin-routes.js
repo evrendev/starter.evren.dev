@@ -31,6 +31,14 @@ const AdminRoutes = {
       }
     },
     {
+      name: "donations",
+      path: "donations",
+      component: () => import("@/views/donations/IndexPage.vue"),
+      meta: {
+        titleKey: "admin.donations.title"
+      }
+    },
+    {
       name: "TenantsPage",
       path: "tenants",
       children: [

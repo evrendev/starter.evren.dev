@@ -76,6 +76,10 @@ export default {
         header: "Yönetim Paneli",
         title: "Anasayfa"
       },
+      donations: {
+        header: "Bağışlar",
+        title: "Bağış Listesi"
+      },
       todos: {
         header: "Görevler",
         title: "Görev Listesi"
@@ -185,6 +189,28 @@ export default {
         update: "Güncelle",
         delete: "Sil",
         recovered: "Kurtar"
+      },
+      details: {
+        title: "İşlem Detayı"
+      }
+    },
+    donations: {
+      title: "Bağışlar",
+      list: "Liste",
+      fields: {
+        id: "ID",
+        contact: "Bağışçı",
+        phone: "Telefon",
+        creationDate: "Tarih",
+        projectCode: "Proje Kodu",
+        info: "Bilgi",
+        detail: "İşlem"
+      },
+      projectCodes: {
+        bks: "BKS",
+        bgs: "BGS",
+        aki: "AKI",
+        agi: "AGI"
       },
       details: {
         title: "İşlem Detayı"

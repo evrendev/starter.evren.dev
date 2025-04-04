@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { markRaw } from "vue";
-import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon } from "vue-tabler-icons";
+import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon, CoinEuroIcon } from "vue-tabler-icons";
 import { useAuthStore } from "./auth";
 
+const DONATIONS_PERMISSIONS = ["Donations.Read", "Donations.Create", "Donations.Edit", "Donations.Delete"];
 const TODOS_PERMISSIONS = ["Todos.Read", "Todos.Create", "Todos.Edit", "Todos.Delete"];
 const USERS_PERMISSIONS = ["Users.Read", "Users.Create", "Users.Edit", "Users.Delete"];
 const ROLES_PERMISSIONS = ["Roles.Read", "Roles.Create", "Roles.Edit", "Roles.Delete"];
@@ -14,6 +15,7 @@ const ADMIN_PERMISSIONS = [...USERS_PERMISSIONS, ...ROLES_PERMISSIONS, ...TENANT
 // Mark icon components as raw to prevent reactivity
 const icons = {
   dashboard: markRaw(DashboardIcon),
+  donations: markRaw(CoinEuroIcon),
   todos: markRaw(ListCheckIcon),
   users: markRaw(UsersIcon),
   roles: markRaw(Category2Icon),
@@ -45,6 +47,17 @@ export const useNavigationStore = defineStore("navigation", {
           to: "/admin"
         }
       ];
+
+      if (this.hasAnyPermission(DONATIONS_PERMISSIONS)) {
+        items.push(
+          { header: "components.sidebar.donations.header" },
+          {
+            title: "components.sidebar.donations.title",
+            icon: icons.donations,
+            to: "/admin/donations"
+          }
+        );
+      }
 
       if (this.hasAnyPermission(TODOS_PERMISSIONS)) {
         items.push(

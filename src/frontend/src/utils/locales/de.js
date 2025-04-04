@@ -76,6 +76,10 @@ export default {
         header: "Dashboard",
         title: "Startseite"
       },
+      donations: {
+        header: "Spenden",
+        title: "Listen"
+      },
       todos: {
         header: "Todos",
         title: "Listen"
@@ -187,6 +191,28 @@ export default {
       },
       details: {
         title: "Audit-Detail"
+      }
+    },
+    donations: {
+      title: "Spenden",
+      list: "Liste",
+      fields: {
+        id: "ID",
+        contact: "Kontakt",
+        phone: "Telefon",
+        creationDate: "Datum",
+        info: "Info",
+        projectCode: "Projektcode",
+        detail: "Aktion"
+      },
+      projectCodes: {
+        bks: "BKS",
+        bgs: "BGS",
+        aki: "AKI",
+        agi: "AGI"
+      },
+      details: {
+        title: "Spenden-Detail"
       }
     },
     tenants: {

@@ -80,6 +80,10 @@ export default {
         header: "Todos",
         title: "List Todos"
       },
+      donations: {
+        header: "Donations",
+        title: "List Donations"
+      },
       admin: {
         title: "Admin"
       },
@@ -186,6 +190,28 @@ export default {
       },
       details: {
         title: "Audit Detail"
+      }
+    },
+    donations: {
+      title: "Donations",
+      list: "List Donations",
+      fields: {
+        id: "ID",
+        contact: "Contact",
+        phone: "Phone",
+        creationDate: "Date",
+        info: "Info",
+        projectCode: "Project Code",
+        detail: "Action"
+      },
+      projectCodes: {
+        bks: "BKS",
+        bgs: "BGS",
+        aki: "AKI",
+        agi: "AGI"
+      },
+      details: {
+        title: "Donation Detail"
       }
     },
     tenants: {

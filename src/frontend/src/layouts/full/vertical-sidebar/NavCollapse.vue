@@ -1,6 +1,5 @@
 <script setup>
-import NavItem from "../NavItem/NavItem.vue";
-import Icon from "../IconSet.vue";
+import { NavItem, IconSet } from "./";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
@@ -19,7 +18,7 @@ const props = defineProps({ item: Object, level: Number });
       <v-list-item v-bind="props" :value="item.title" rounded class="mb-1" color="secondary">
         <!---Icon  -->
         <template v-slot:prepend>
-          <Icon :item="item.icon" :level="level" />
+          <icon-set :item="item.icon" :level="level" />
         </template>
         <!---Title  -->
         <v-list-item-title class="mr-auto">{{ t(item.title) }}</v-list-item-title>
@@ -33,8 +32,8 @@ const props = defineProps({ item: Object, level: Number });
     <!---Sub Item-->
     <!-- ---------------------------------------------- -->
     <template v-for="(subitem, i) in item.children" :key="i">
-      <NavCollapse :item="subitem" v-if="subitem.children" :level="props.level + 1" />
-      <NavItem :item="subitem" :level="props.level + 1" v-else></NavItem>
+      <nav-collapse :item="subitem" v-if="subitem.children" :level="props.level + 1" />
+      <nav-item :item="subitem" :level="props.level + 1" v-else />
     </template>
   </v-list-group>
 

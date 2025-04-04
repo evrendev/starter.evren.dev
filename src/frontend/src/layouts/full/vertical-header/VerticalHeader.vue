@@ -1,10 +1,7 @@
 <script setup>
 import { useAuthStore, useCustomizerStore } from "@/stores";
 import { BellIcon, SettingsIcon, Menu2Icon, LanguageIcon, SunIcon, MoonIcon } from "vue-tabler-icons";
-
-import NotificationDD from "./NotificationDD.vue";
-import ProfileDD from "./ProfileDD.vue";
-import LanguageDD from "./LanguageDD.vue";
+import { Notifications, Profile, Languages } from "./";
 
 const customizer = useCustomizerStore();
 const authStore = useAuthStore();
@@ -23,7 +20,7 @@ const { user } = authStore;
       @click.stop="customizer.SET_MINI_SIDEBAR(!customizer.miniSidebar)"
       size="small"
     >
-      <Menu2Icon size="20" stroke-width="1.5" />
+      <menu2-icon size="20" stroke-width="1.5" />
     </v-btn>
     <v-btn
       class="hidden-lg-and-up text-secondary ms-3"
@@ -34,7 +31,7 @@ const { user } = authStore;
       @click.stop="customizer.SET_SIDEBAR_DRAWER"
       size="small"
     >
-      <Menu2Icon size="20" stroke-width="1.5" />
+      <menu2-icon size="20" stroke-width="1.5" />
     </v-btn>
 
     <v-spacer />
@@ -44,11 +41,11 @@ const { user } = authStore;
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn icon class="text-secondary mx-3" color="lightsecondary" rounded="sm" size="small" variant="flat" v-bind="props">
-          <BellIcon stroke-width="1.5" size="22" />
+          <bell-icon stroke-width="1.5" size="22" />
         </v-btn>
       </template>
       <v-sheet rounded="md" width="330" elevation="12">
-        <NotificationDD />
+        <notifications />
       </v-sheet>
     </v-menu>
 
@@ -58,11 +55,11 @@ const { user } = authStore;
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn icon class="text-secondary mx-3" color="surface-light" rounded="sm" size="small" variant="flat" v-bind="props">
-          <LanguageIcon stroke-width="1.5" size="22" />
+          <language-icon stroke-width="1.5" size="22" />
         </v-btn>
       </template>
       <v-sheet rounded="md" width="150" elevation="12">
-        <LanguageDD />
+        <languages />
       </v-sheet>
     </v-menu>
 
@@ -78,8 +75,8 @@ const { user } = authStore;
       variant="flat"
       @click="customizer.TOGGLE_THEME()"
     >
-      <SunIcon v-if="customizer.theme === 'dark'" stroke-width="1.5" size="22" />
-      <MoonIcon v-else stroke-width="1.5" size="22" />
+      <sun-icon v-if="customizer.theme === 'dark'" stroke-width="1.5" size="22" />
+      <moon-icon v-else stroke-width="1.5" size="22" />
     </v-btn>
 
     <!-- ---------------------------------------------- -->
@@ -91,11 +88,11 @@ const { user } = authStore;
           <v-avatar class="mr-4" color="primary" size="32">
             <span class="text-h5">{{ user.initial }}</span>
           </v-avatar>
-          <SettingsIcon stroke-width="1.5" />
+          <settings-icon stroke-width="1.5" />
         </v-btn>
       </template>
       <v-sheet rounded="md" width="300" elevation="12">
-        <ProfileDD />
+        <profile />
       </v-sheet>
     </v-menu>
   </v-app-bar>

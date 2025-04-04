@@ -1,6 +1,12 @@
 <script setup>
-import LogoDark from "./LogoDark.vue";
+import { RouterLink } from "vue-router";
+import { Logo } from "@/components/shared";
 </script>
+
 <template>
-  <LogoDark />
+  <div class="logo">
+    <RouterLink to="/">
+      <logo />
+    </RouterLink>
+  </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-import Icon from "../IconSet.vue";
+import { IconSet } from "./";
 
 const { t } = useI18n();
 
@@ -20,7 +20,7 @@ const props = defineProps({ item: Object, level: Number });
   >
     <!---If icon-->
     <template v-slot:prepend>
-      <Icon :item="props.item.icon" :level="props.level" />
+      <icon-set :item="props.item.icon" :level="props.level" />
     </template>
     <v-list-item-title>{{ t(item.title) }}</v-list-item-title>
     <!---If Caption-->

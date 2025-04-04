@@ -1,9 +1,10 @@
 <script setup>
 import { RouterView } from "vue-router";
-import VerticalSidebarVue from "./vertical-sidebar/VerticalSidebar.vue";
-import VerticalHeaderVue from "./vertical-header/VerticalHeader.vue";
-import FooterPanel from "./footer/FooterPanel.vue";
+import { VerticalSidebar } from "./vertical-sidebar";
+import { VerticalHeader } from "./vertical-header";
 import { useCustomizerStore } from "@/stores";
+import FooterPanel from "./footer/FooterPanel.vue";
+
 const customizer = useCustomizerStore();
 </script>
 
@@ -12,26 +13,20 @@ const customizer = useCustomizerStore();
     :theme="customizer.theme"
     :class="[customizer.fontTheme, customizer.miniSidebar ? 'mini-sidebar' : '', customizer.inputBg ? 'inputWithbg' : '']"
   >
-    <VerticalSidebarVue />
-    <VerticalHeaderVue />
+    <vertical-sidebar />
+    <vertical-header />
 
     <v-main>
       <v-container fluid class="page-wrapper">
         <div>
-          <RouterView />
+          <router-view />
         </div>
       </v-container>
       <v-container fluid class="pt-0">
         <div>
-          <FooterPanel />
+          <footer-panel />
         </div>
       </v-container>
     </v-main>
   </v-app>
 </template>
-
-<style lang="scss">
-.grecaptcha-badge {
-  display: none !important;
-}
-</style>
