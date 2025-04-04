@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__CatalogConnection=Server=db,14330;Initial Catalog=evrendev-starter-catalog;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
+      - ConnectionStrings__TenantConnection=Server=db,14330;Initial Catalog=evrendev-starter-tenant;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
+      - ConnectionStrings__IdentityConnection=Server=db,14330;Initial Catalog=evrendev-starter-identity;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
+      - ConnectionStrings__AuditConnection=Server=db,14330;Initial Catalog=evrendev-starter-logs;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
+      - Redis__ConnectionString=redis:6379
+    depends_on:
+      - db
+      - redis
+
+  frontend:
+    build:
+      context: ./src/frontend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    depends_on:
+      - backend
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "M@ster.01"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "14330:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  sql_data:

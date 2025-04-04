@@ -17,13 +17,8 @@ builder.Host.UseSerilog((context, conf) => conf.ReadFrom.Configuration(context.C
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
-    // Seed databases in development mode
     using var scope = app.Services.CreateScope();
     var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
     await seeder.SeedAllAsync();
@@ -32,6 +27,9 @@ else
 {
     app.UseHsts();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseSerilogRequestLogging();
 
