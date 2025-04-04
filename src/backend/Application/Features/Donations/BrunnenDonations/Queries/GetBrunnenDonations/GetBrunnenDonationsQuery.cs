@@ -7,12 +7,38 @@ public class GetBrunnenDonationsQuery : IRequest<Result<PaginatedList<BasicBrunn
 {
     public string? Search { get; set; }
     public string? ProjectCode { get; init; }
-    public DateTime? StartDate { get; init; } = null;
-    public DateTime? EndDate { get; init; } = null;
+    public DateTime? StartDate { get; init; }
+    public DateTime? EndDate { get; init; }
     public int Page { get; init; } = 1;
     public int ItemsPerPage { get; init; } = 25;
     public string? SortBy { get; init; }
     public string? SortDesc { get; init; }
+}
+
+public class GetBrunnenDonationsQueryValidator : AbstractValidator<GetBrunnenDonationsQuery>
+{
+    private readonly IStringLocalizer<GetBrunnenDonationsQueryValidator> _localizer;
+
+    public GetBrunnenDonationsQueryValidator(IStringLocalizer<GetBrunnenDonationsQueryValidator> localizer)
+    {
+        _localizer = localizer;
+
+        RuleFor(v => v.StartDate)
+            .LessThan(v => v.EndDate)
+            .WithMessage(_localizer["api.donations.startdate.less.than.enddate"]);
+
+        RuleFor(v => v.EndDate)
+            .GreaterThan(v => v.StartDate)
+            .WithMessage(_localizer["api.donations.enddate.greater.than.startdate"]);
+
+        RuleFor(v => v.Page)
+            .GreaterThan(0)
+            .WithMessage(_localizer["api.donations.page.greater.than.zero"]);
+
+        RuleFor(v => v.ItemsPerPage)
+            .GreaterThan(0)
+            .WithMessage(_localizer["api.donations.itemsperpage.greater.than.zero"]);
+    }
 }
 
 public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonationsQuery, Result<PaginatedList<BasicBrunnenDonationDto>>>
@@ -35,7 +61,7 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
             query = query.Where(entity => entity.Date <= request.EndDate);
 
         if (!string.IsNullOrEmpty(request.ProjectCode))
-            query = query.Where(entity => entity.Project == request.ProjectCode);
+            query = query.Where(entity => string.Equals(entity.ProjectCode, request.ProjectCode, StringComparison.OrdinalIgnoreCase));
 
         if (!string.IsNullOrEmpty(request.Search))
             query = query.Where(entity =>
@@ -44,6 +70,10 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
                 (entity.Phone != null && entity.Phone.Contains(request.Search))
                 ||
                 (entity.Banner != null && entity.Banner.Contains(request.Search))
+                ||
+                (entity.Project != null && entity.Project.Contains(request.Search))
+                ||
+                (entity.ProjectCode != null && entity.ProjectCode.Contains(request.Search))
                 ||
                 (entity.TransactionId != null && entity.TransactionId.Contains(request.Search))
             );
@@ -63,9 +93,9 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
         });
 
         var paginatedList = await PaginatedList<BasicBrunnenDonationDto>.CreateAsync(
-            dtoQuery,
-            request.Page,
-            request.ItemsPerPage);
+            source: dtoQuery,
+            page: request.Page,
+            itemsPerPage: request.ItemsPerPage);
 
         return Result<PaginatedList<BasicBrunnenDonationDto>>.Success(paginatedList);
     }
