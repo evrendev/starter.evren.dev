@@ -9,6 +9,7 @@ using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Interceptors;
 using EvrenDev.Infrastructure.Catalog.Services;
+using EvrenDev.Infrastructure.Donation.Data;
 using EvrenDev.Infrastructure.Identity.Data;
 using EvrenDev.Infrastructure.Identity.Interceptors;
 using EvrenDev.Infrastructure.Identity.Seed;
@@ -37,6 +38,10 @@ public static class DependencyInjection
         services.AddScoped<ISaveChangesInterceptor, AuditableTenantInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, AuditableIdentityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+        var donationConnectionString = configuration.GetConnectionString("DonationConnection");
+        Guard.Against.Null(donationConnectionString, message: "Donation Connection string 'DonationConnection' not found.");
+        services.AddDbContext<DonationDbContext>((sp, options) => options.UseSqlServer(donationConnectionString));
 
         var catalogConnectionString = configuration.GetConnectionString("CatalogConnection");
         Guard.Against.Null(catalogConnectionString, message: "Catalog Connection string 'CatalogConnection' not found.");
@@ -192,6 +197,7 @@ public static class DependencyInjection
             options.AddPolicy(permission, policy => policy.RequireClaim("permission", permission));
         }));
 
+        services.AddScoped<IDonationDbContext>(provider => provider.GetRequiredService<DonationDbContext>());
         services.AddScoped<ICatalogDbContext>(provider => provider.GetRequiredService<CatalogDbContext>());
         services.AddScoped<ITenantDbContext>(provider => provider.GetRequiredService<TenantDbContext>());
         services.AddScoped<IAuditLogDbContext>(provider => provider.GetRequiredService<AuditLogDbContext>());

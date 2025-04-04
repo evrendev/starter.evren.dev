@@ -13,6 +13,7 @@ public abstract class Policies
 
     public static class Modules
     {
+        public const string Donations = nameof(Donations);
         public const string Todos = nameof(Todos);
         public const string Tenants = nameof(Tenants);
         public const string Roles = nameof(Roles);
@@ -23,6 +24,7 @@ public abstract class Policies
     }
 
     public static string[] AllModules => [
+        Modules.Donations,
         Modules.Todos,
         Modules.Tenants,
         Modules.Roles,
@@ -41,6 +43,7 @@ public abstract class Policies
     ];
 
     public static string[] DefaultModules => [
+        Modules.Donations,
         Modules.Todos,
         Modules.Audits,
         Modules.Files,
