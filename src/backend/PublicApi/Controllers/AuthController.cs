@@ -50,8 +50,8 @@ public class AuthController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPost("refresh-token")]
+    [Authorize]
     public async Task<ActionResult<AuthResponse>> RefreshToken(RefreshTokenCommand command)
     {
         try
@@ -74,8 +74,8 @@ public class AuthController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPost("logout")]
+    [AllowAnonymous]
     public async Task<ActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
