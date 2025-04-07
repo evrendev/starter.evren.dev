@@ -15,7 +15,7 @@ const props = defineProps({ item: Object, level: Number });
     <!---Dropdown  -->
     <!-- ---------------------------------------------- -->
     <template v-slot:activator="{ props }">
-      <v-list-item v-bind="props" :value="item.title" rounded class="mb-1" color="secondary">
+      <v-list-item active-class="test" :exact="true" v-bind="props" :value="item.title" rounded class="mb-1" color="secondary">
         <!---Icon  -->
         <template v-slot:prepend>
           <icon-set :item="item.icon" :level="level" />

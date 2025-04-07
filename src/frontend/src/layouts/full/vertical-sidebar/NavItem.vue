@@ -12,11 +12,12 @@ const props = defineProps({ item: Object, level: Number });
   <v-list-item
     :to="item.type === 'external' ? '' : item.to"
     :href="item.type === 'external' ? item.to : ''"
-    rounded
-    class="mb-1"
-    color="secondary"
     :disabled="item.disabled"
     :target="item.type === 'external' ? '_blank' : ''"
+    :exact="true"
+    class="mb-1"
+    color="secondary"
+    rounded
   >
     <!---If icon-->
     <template v-slot:prepend>
