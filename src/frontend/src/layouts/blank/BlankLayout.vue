@@ -4,6 +4,6 @@ import { RouterView } from "vue-router";
 
 <template>
   <v-app>
-    <RouterView />
+    <router-view />
   </v-app>
 </template>
