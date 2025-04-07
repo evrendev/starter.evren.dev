@@ -29,6 +29,7 @@ defineEmits(["update:options"]);
 const donation = ref(null);
 const showDetailsModal = ref(false);
 const detailsLoading = ref(false);
+const copySuccess = ref(false);
 
 const headers = ref([
   { title: t("admin.donations.fields.contact"), key: "contact", sortable: true, width: "150px" },
@@ -43,6 +44,15 @@ const showDetails = async (item) => {
   await donationStore.getById(item);
   donation.value = donationStore.donation;
   showDetailsModal.value = true;
+};
+
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
+    copySuccess.value = true;
+    setTimeout(() => {
+      copySuccess.value = false;
+    }, 1000);
+  });
 };
 </script>
 
@@ -59,8 +69,22 @@ const showDetails = async (item) => {
       @update:options="$emit('update:options', $event)"
     >
       <template #[`item.info`]="{ item }">
-        <div class="info-wrapper">
-          {{ item.info }}
+        <div class="info-wrapper-container">
+          <div class="info-wrapper">
+            {{ item.info }}
+          </div>
+          <v-btn
+            icon
+            class="copy-button"
+            size="x-small"
+            :color="copySuccess ? 'primary' : 'default'"
+            @click.stop="copyToClipboard(item.info)"
+          >
+            <v-icon :icon="copySuccess ? '$check' : '$contentCopy'" size="small" />
+            <v-tooltip activator="parent" location="top">
+              {{ copySuccess ? t("common.copied") : t("common.copy") }}
+            </v-tooltip>
+          </v-btn>
         </div>
       </template>
       <template #[`item.actions`]="{ item }">
@@ -73,10 +97,29 @@ const showDetails = async (item) => {
 </template>
 
 <style lang="scss" scoped>
-.info-wrapper {
-  max-width: 250px;
-  overflow: auto;
-  text-overflow: ellipsis;
-  white-space: break-spaces;
+.info-wrapper-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    .copy-button {
+      opacity: 1;
+    }
+  }
+
+  .info-wrapper {
+    overflow: auto;
+    text-overflow: ellipsis;
+    white-space: break-spaces;
+    padding-right: 40px;
+  }
+
+  .copy-button {
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
 }
 </style>

@@ -401,6 +401,8 @@ export default {
     goToTop: "Başa Dön",
     showDeletedItems: "Silinmiş Öğeleri Göster",
     showActiveItems: "Aktif Öğeleri Göster",
+    copy: "Kopyala",
+    copied: "Kopyalandı",
     modules: {
       todos: "Görevler",
       tenants: "Kurumlar",

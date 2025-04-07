@@ -403,6 +403,8 @@ export default {
     goToTop: "Go to top",
     showDeletedItems: "Show Deleted Items",
     showActiveItems: "Show Active Items",
+    copy: "Copy",
+    copied: "Copied",
     modules: {
       todos: "Todos",
       tenants: "Tenants",

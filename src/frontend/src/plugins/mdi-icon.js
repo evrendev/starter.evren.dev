@@ -25,7 +25,8 @@ import {
   mdiShieldLockOpen,
   mdiInformationBox,
   mdiChevronUp,
-  mdiRestore
+  mdiRestore,
+  mdiContentCopy
 } from "@mdi/js";
 
 export const icons = {
@@ -55,5 +56,6 @@ export const icons = {
   shieldLockOpen: mdiShieldLockOpen,
   informationBox: mdiInformationBox,
   chevronUp: mdiChevronUp,
-  restore: mdiRestore
+  restore: mdiRestore,
+  contentCopy: mdiContentCopy
 };

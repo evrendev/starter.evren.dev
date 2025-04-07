@@ -1,7 +1,7 @@
 <script setup>
 import { useAuthStore, useCustomizerStore } from "@/stores";
-import { BellIcon, SettingsIcon, Menu2Icon, LanguageIcon, SunIcon, MoonIcon } from "vue-tabler-icons";
-import { Notifications, Profile, Languages } from "./";
+import { SettingsIcon, Menu2Icon, LanguageIcon, SunIcon, MoonIcon } from "vue-tabler-icons";
+import { Profile, Languages } from "./";
 
 const customizer = useCustomizerStore();
 const authStore = useAuthStore();
@@ -38,7 +38,8 @@ const { user } = authStore;
     <!-- ---------------------------------------------- -->
     <!-- Notification -->
     <!-- ---------------------------------------------- -->
-    <v-menu :close-on-content-click="false">
+
+    <!-- <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn icon class="text-secondary mx-3" color="lightsecondary" rounded="sm" size="small" variant="flat" v-bind="props">
           <bell-icon stroke-width="1.5" size="22" />
@@ -47,7 +48,7 @@ const { user } = authStore;
       <v-sheet rounded="md" width="330" elevation="12">
         <notifications />
       </v-sheet>
-    </v-menu>
+    </v-menu> -->
 
     <!-- ---------------------------------------------- -->
     <!-- Language -->

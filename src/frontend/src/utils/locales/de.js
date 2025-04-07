@@ -401,6 +401,8 @@ export default {
     goToTop: "Gehe nach oben",
     showDeletedItems: "Gelöschte Elemente anzeigen",
     showActiveItems: "Aktive Elemente anzeigen",
+    copy: "Kopieren",
+    copied: "Kopiert",
     modules: {
       todos: "Todos Listen",
       tenants: "Mandanten",
