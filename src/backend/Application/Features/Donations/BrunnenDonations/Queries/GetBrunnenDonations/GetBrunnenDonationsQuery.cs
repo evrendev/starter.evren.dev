@@ -25,10 +25,12 @@ public class GetBrunnenDonationsQueryValidator : AbstractValidator<GetBrunnenDon
 
         RuleFor(v => v.StartDate)
             .LessThan(v => v.EndDate)
+            .When(v => v.StartDate.HasValue && v.EndDate.HasValue)
             .WithMessage(_localizer["api.donations.startdate.less.than.enddate"]);
 
         RuleFor(v => v.EndDate)
             .GreaterThan(v => v.StartDate)
+            .When(v => v.StartDate.HasValue && v.EndDate.HasValue)
             .WithMessage(_localizer["api.donations.enddate.greater.than.startdate"]);
 
         RuleFor(v => v.Page)
@@ -61,7 +63,7 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
             query = query.Where(entity => entity.Date <= request.EndDate);
 
         if (!string.IsNullOrEmpty(request.ProjectCode))
-            query = query.Where(entity => string.Equals(entity.ProjectCode, request.ProjectCode, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(entity => entity.ProjectCode == request.ProjectCode);
 
         if (!string.IsNullOrEmpty(request.Search))
             query = query.Where(entity =>
