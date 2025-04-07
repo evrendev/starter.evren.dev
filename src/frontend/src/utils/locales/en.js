@@ -410,6 +410,7 @@ export default {
     copy: "Copy",
     copied: "Copied",
     modules: {
+      donations: "Donations",
       todos: "Todos",
       tenants: "Tenants",
       roles: "Roles",

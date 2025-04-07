@@ -408,6 +408,7 @@ export default {
     copy: "Kopyala",
     copied: "Kopyalandı",
     modules: {
+      donations: "Bağışlar",
       todos: "Görevler",
       tenants: "Kurumlar",
       roles: "Roller",

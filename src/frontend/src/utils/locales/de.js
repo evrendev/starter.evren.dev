@@ -408,6 +408,7 @@ export default {
     copy: "Kopieren",
     copied: "Kopiert",
     modules: {
+      donations: "Spenden",
       todos: "Todos Listen",
       tenants: "Mandanten",
       roles: "Rollen",
