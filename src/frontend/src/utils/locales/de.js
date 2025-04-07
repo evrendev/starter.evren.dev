@@ -204,6 +204,7 @@ export default {
         info: "Info",
         projectCode: "Projektcode",
         weeksSinceDonation: "Woche",
+        team: "Team",
         detail: "Aktion"
       },
       projectCodes: {

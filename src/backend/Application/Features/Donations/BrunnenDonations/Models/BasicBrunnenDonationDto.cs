@@ -10,4 +10,5 @@ public record BasicBrunnenDonationDto
             ? (int)Math.Round((DateTime.Today - creation).TotalDays / 7.0)
             : 0;
     public string? Info { get; set; }
+    public string? Team { get; set; }
 }

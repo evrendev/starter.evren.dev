@@ -91,7 +91,8 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
             Contact = entity.Contact,
             Phone = entity.Phone,
             CreationDate = DateTimeDto.Create.FromUtc(entity.Date),
-            Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}"
+            Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+            Team = entity.Team,
         });
 
         var paginatedList = await PaginatedList<BasicBrunnenDonationDto>.CreateAsync(

@@ -12,4 +12,5 @@ public record FullBrunnenDonationDto
     public string? TransactionId { get; set; }
     public string? Source { get; set; }
     public string? Info { get; set; }
+    public string? Team { get; set; }
 }

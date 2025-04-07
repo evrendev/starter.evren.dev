@@ -15,4 +15,5 @@ public class BrunnenDonation
     public string? ProjectCode { get; set; }
     public string? TransactionId { get; set; }
     public string? Source { get; set; }
+    public string? Team { get; set; }
 }

@@ -205,6 +205,7 @@ export default {
         projectCode: "Proje Kodu",
         info: "Bilgi",
         weeksSinceDonation: "Hafta",
+        team: "Takım",
         detail: "İşlem"
       },
       projectCodes: {

@@ -55,7 +55,8 @@ public class GetBrunnenDonationByIdQueryHandler : IRequestHandler<GetBrunnenDona
             TransactionId = entity.TransactionId,
             Source = entity.Source,
             CreationDate = DateTimeDto.Create.FromUtc(entity.Date),
-            Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}"
+            Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+            Team = entity.Team,
         };
 
         return Result<FullBrunnenDonationDto>.Success(donation);
