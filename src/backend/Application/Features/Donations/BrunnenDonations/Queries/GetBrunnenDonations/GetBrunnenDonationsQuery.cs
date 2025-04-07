@@ -1,3 +1,4 @@
+using Application.Common.Functions;
 using EvrenDev.Application.Features.Donations.BrunnenDonations.Models;
 using EvrenDev.Domain.Entities.Donation;
 
@@ -89,7 +90,7 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = entity.Phone,
+            Phone = !string.IsNullOrEmpty(entity.Phone) ? Tools.FormatPhoneNumber(entity.Phone) : null,
             CreationDate = DateTimeDto.Create.FromUtc(entity.Date),
             Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = entity.Team,

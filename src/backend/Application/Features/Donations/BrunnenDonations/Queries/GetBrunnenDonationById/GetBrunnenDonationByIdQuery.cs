@@ -1,3 +1,4 @@
+using Application.Common.Functions;
 using EvrenDev.Application.Features.Donations.BrunnenDonations.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,7 +48,7 @@ public class GetBrunnenDonationByIdQueryHandler : IRequestHandler<GetBrunnenDona
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = entity.Phone,
+            Phone = !string.IsNullOrEmpty(entity.Phone) ? Tools.FormatPhoneNumber(entity.Phone) : null,
             ProjectCode = entity.ProjectCode,
             Banner = entity.Banner,
             ProjectNumber = entity.ProjectNumber,
@@ -62,3 +63,5 @@ public class GetBrunnenDonationByIdQueryHandler : IRequestHandler<GetBrunnenDona
         return Result<FullBrunnenDonationDto>.Success(donation);
     }
 }
+
+
