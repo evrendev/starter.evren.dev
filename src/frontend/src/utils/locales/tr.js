@@ -204,6 +204,7 @@ export default {
         creationDate: "Tarih",
         projectCode: "Proje Kodu",
         info: "Bilgi",
+        weeksSinceDonation: "Hafta",
         detail: "İşlem"
       },
       projectCodes: {

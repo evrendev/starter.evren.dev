@@ -202,6 +202,7 @@ export default {
         creationDate: "Date",
         info: "Info",
         projectCode: "Project Code",
+        weeksSinceDonation: "Week",
         detail: "Action"
       },
       projectCodes: {
