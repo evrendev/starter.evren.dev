@@ -211,7 +211,16 @@ export default {
         agi: "AGI"
       },
       details: {
-        title: "Donation Detail"
+        creationDate: "Date",
+        contact: "Contact",
+        phone: "Phone",
+        project: "Project",
+        projectCode: "Project Code",
+        projectNumber: "Project Number",
+        banner: "Banner",
+        transactionId: "Transaction ID",
+        source: "Source",
+        link: "Link"
       }
     },
     tenants: {

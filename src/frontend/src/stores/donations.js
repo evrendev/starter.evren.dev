@@ -38,7 +38,10 @@ export const useDonationStore = defineStore("donation", {
 
       try {
         const response = await apiService.get(`/donations/${id}`, false);
-        this.audit = response;
+        this.donation = response;
+      } catch (error) {
+        console.error("Error fetching donation details:", error);
+        this.donation = {};
       } finally {
         appStore.setLoading(false);
       }

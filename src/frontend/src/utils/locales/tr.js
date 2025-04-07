@@ -213,7 +213,16 @@ export default {
         agi: "AGI"
       },
       details: {
-        title: "İşlem Detayı"
+        creationDate: "Tarih",
+        contact: "Bağışçı",
+        phone: "Telefon",
+        project: "Proje",
+        projectCode: "Proje Kodu",
+        projectNumber: "Proje Numarası",
+        banner: "Afiş",
+        transactionId: "İşlem ID",
+        source: "Kaynak",
+        link: "Bağış Linki"
       }
     },
     tenants: {
