@@ -1,32 +1,49 @@
 import axios from "axios";
 import { useAppStore } from "@/stores";
 import NotificationService from "./notification";
-import config from "@/config";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
-// Create axios instance
-const apiClient = axios.create({
-  baseURL
-});
+const apiClient = axios.create({ baseURL });
 
 // Add request interceptor for auth token
 apiClient.interceptors.request.use(
-  (cfg) => {
+  function (config) {
     const auth = JSON.parse(localStorage.getItem("auth"));
     const token = auth?.token;
 
     if (token) {
-      cfg.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
-    cfg.headers.Accept = "application/json";
-    cfg.headers["Accept-Language"] = localStorage.getItem("lang") ?? config.defaultLocale;
+    config.headers.Accept = "application/json";
+    config.headers["Accept-Language"] = localStorage.getItem("lang") ?? config.defaultLocale;
 
-    return cfg;
+    return config;
   },
-  (response) => response,
-  (error) => {
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for auth token
+apiClient.interceptors.response.use(
+  function (config) {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    const token = auth?.token;
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    config.headers.Accept = "application/json";
+    config.headers["Accept-Language"] = localStorage.getItem("lang") ?? config.defaultLocale;
+
+    return config;
+  },
+  function (error) {
+    console.log(error);
+
     if (error.response?.status === 401) {
       localStorage.removeItem("auth");
       window.location.href = "/auth/login";
