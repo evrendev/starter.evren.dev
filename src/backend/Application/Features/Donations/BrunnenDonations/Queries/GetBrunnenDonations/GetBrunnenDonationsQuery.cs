@@ -1,7 +1,7 @@
 using EvrenDev.Application.Features.Donations.BrunnenDonations.Models;
 using EvrenDev.Domain.Entities.Donation;
 
-namespace EvrenDev.Application.Features.BrunnenDonations.Queries.GetBrunnenDonations;
+namespace EvrenDev.Application.Features.Donations.BrunnenDonations.Queries.GetBrunnenDonations;
 
 public class GetBrunnenDonationsQuery : IRequest<Result<PaginatedList<BasicBrunnenDonationDto>>>
 {
@@ -65,17 +65,17 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
 
         if (!string.IsNullOrEmpty(request.Search))
             query = query.Where(entity =>
-                (entity.Contact != null && entity.Contact.Contains(request.Search))
+                entity.Contact != null && entity.Contact.Contains(request.Search)
                 ||
-                (entity.Phone != null && entity.Phone.Contains(request.Search))
+                entity.Phone != null && entity.Phone.Contains(request.Search)
                 ||
-                (entity.Banner != null && entity.Banner.Contains(request.Search))
+                entity.Banner != null && entity.Banner.Contains(request.Search)
                 ||
-                (entity.Project != null && entity.Project.Contains(request.Search))
+                entity.Project != null && entity.Project.Contains(request.Search)
                 ||
-                (entity.ProjectCode != null && entity.ProjectCode.Contains(request.Search))
+                entity.ProjectCode != null && entity.ProjectCode.Contains(request.Search)
                 ||
-                (entity.TransactionId != null && entity.TransactionId.Contains(request.Search))
+                entity.TransactionId != null && entity.TransactionId.Contains(request.Search)
             );
 
         // Apply sorting
