@@ -42,8 +42,9 @@ watch(
             </v-row>
           </div>
         </v-container>
-      </v-col> </v-row
-  ></v-app>
+      </v-col>
+    </v-row>
+  </v-app>
 </template>
 <style lang="scss">
 .login-box {
