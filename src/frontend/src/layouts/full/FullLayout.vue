@@ -18,14 +18,10 @@ const customizer = useCustomizerStore();
 
     <v-main>
       <v-container fluid class="page-wrapper">
-        <div>
-          <router-view />
-        </div>
+        <router-view />
       </v-container>
       <v-container fluid class="pt-0">
-        <div>
-          <footer-panel />
-        </div>
+        <footer-panel />
       </v-container>
     </v-main>
   </v-app>
