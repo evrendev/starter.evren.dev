@@ -202,7 +202,7 @@ export default {
         creationDate: "Date",
         info: "Info",
         projectCode: "Project Code",
-        weeksSinceDonation: "Week",
+        weeks: "Weeks",
         team: "Team",
         detail: "Action"
       },
@@ -214,6 +214,8 @@ export default {
       },
       details: {
         creationDate: "Date",
+        weeks: "Weeks",
+        team: "Team",
         contact: "Contact",
         phone: "Phone",
         project: "Project",

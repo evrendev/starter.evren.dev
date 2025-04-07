@@ -27,6 +27,10 @@ defineProps({
               <td>{{ donation.creationDate.displayDate }}</td>
             </tr>
             <tr>
+              <td>{{ t("admin.donations.details.weeks") }}</td>
+              <td>{{ donation.weeks }}</td>
+            </tr>
+            <tr>
               <td>{{ t("admin.donations.details.contact") }}</td>
               <td>{{ donation.contact }}</td>
             </tr>

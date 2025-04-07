@@ -204,7 +204,7 @@ export default {
         creationDate: "Tarih",
         projectCode: "Proje Kodu",
         info: "Bilgi",
-        weeksSinceDonation: "Hafta",
+        weeks: "Hafta",
         team: "Takım",
         detail: "İşlem"
       },
@@ -216,6 +216,8 @@ export default {
       },
       details: {
         creationDate: "Tarih",
+        weeks: "Hafta",
+        team: "Takım",
         contact: "Bağışçı",
         phone: "Telefon",
         project: "Proje",

@@ -36,7 +36,7 @@ const headers = ref([
   { title: t("admin.donations.fields.phone"), key: "phone", sortable: false, width: "100px" },
   { title: t("admin.donations.fields.creationDate"), key: "creationDate.displayDate", align: "center", sortable: true, width: "100px" },
   { title: t("admin.donations.fields.info"), key: "info", sortable: true },
-  { title: t("admin.donations.fields.weeksSinceDonation"), key: "weeksSinceDonation", sortable: false, align: "center" },
+  { title: t("admin.donations.fields.weeks"), key: "weeks", sortable: false, align: "center" },
   { title: t("admin.donations.fields.team"), key: "team", sortable: false, align: "center" },
   { title: t("admin.donations.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);

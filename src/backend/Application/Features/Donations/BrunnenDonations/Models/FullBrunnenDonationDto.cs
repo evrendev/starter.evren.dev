@@ -7,6 +7,10 @@ public record FullBrunnenDonationDto
     public string? Project { get; set; }
     public string? Banner { get; set; }
     public DateTimeDto? CreationDate { get; set; }
+    public int Weeks =>
+        CreationDate?.UtcDateTime is DateTime creation
+            ? (int)Math.Round((DateTime.Today - creation).TotalDays / 7.0)
+            : 0;
     public int? ProjectNumber { get; set; }
     public string? ProjectCode { get; set; }
     public string? TransactionId { get; set; }
