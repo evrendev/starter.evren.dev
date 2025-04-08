@@ -4,6 +4,10 @@ const AuthRoutes = {
   children: [
     {
       path: "",
+      redirect: "/auth/login"
+    },
+    {
+      path: "login",
       name: "login",
       component: () => import("@/views/authentication/LogIn.vue"),
       meta: {
