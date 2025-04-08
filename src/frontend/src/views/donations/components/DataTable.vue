@@ -64,8 +64,7 @@ const copyToClipboard = (text) => {
       :items="items"
       :items-length="itemsLength"
       :loading="loading"
-      fixed-header
-      class="text-caption striped"
+      class="text-caption striped donations-table"
       density="compact"
       item-value="id"
       @update:options="$emit('update:options', $event)"
@@ -98,8 +97,10 @@ const copyToClipboard = (text) => {
           <td>
             {{ item.creationDate.displayDate }}
           </td>
-          <td :class="`bg-${item.status.backgroundColor}`" class="text-center">
-            {{ item.weeks }}
+          <td class="text-center">
+            <v-chip :class="`bg-${item.status.backgroundColor}`" size="small" density="compact">
+              {{ item.weeks }}
+            </v-chip>
           </td>
           <td>
             {{ item.team }}
@@ -120,10 +121,16 @@ const copyToClipboard = (text) => {
   </parent-card>
 </template>
 
-<style lang="scss">
-table {
+<style lang="scss" scoped>
+::v-deep .donations-table {
   tbody {
     tr {
+      &:first-child {
+        td {
+          padding-top: 16px;
+        }
+      }
+
       td {
         .info-wrapper-container {
           position: relative;
