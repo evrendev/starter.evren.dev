@@ -81,8 +81,16 @@ export default {
         title: "List Todos"
       },
       donations: {
-        header: "Donations",
-        title: "List Donations"
+        title: "Donations",
+        fontains: {
+          title: "Fountain Donations",
+          all: "All Donations",
+          bks: "BKS",
+          bgs: "BGS",
+          aki: "AKI",
+          agi: "AGI"
+        },
+        new: "New Donation"
       },
       admin: {
         title: "Admin"

@@ -50,11 +50,46 @@ export const useNavigationStore = defineStore("navigation", {
 
       if (this.hasAnyPermission(DONATIONS_PERMISSIONS)) {
         items.push(
-          { header: "components.sidebar.donations.header" },
           {
-            title: "components.sidebar.donations.title",
+            divider: true
+          },
+          {
+            header: "components.sidebar.donations.title"
+          },
+          {
+            title: "components.sidebar.donations.fontains.title",
             icon: icons.donations,
-            to: "/admin/donations"
+            to: "#",
+            children: [
+              {
+                title: "components.sidebar.donations.fontains.all",
+                to: "/admin/donations/fontains/list"
+              },
+              {
+                title: "components.sidebar.donations.fontains.bks",
+                to: "/admin/donations/fontains/list?project=bks"
+              },
+              {
+                title: "components.sidebar.donations.fontains.bgs",
+                to: "/admin/donations/fontains/list?project=bgs"
+              },
+              {
+                title: "components.sidebar.donations.fontains.aki",
+                to: "/admin/donations/fontains/list?project=aki"
+              },
+              {
+                title: "components.sidebar.donations.fontains.agi",
+                to: "/admin/donations/fontains/list?project=agi"
+              },
+              ...(this.hasPermission("Users.Create")
+                ? [
+                    {
+                      title: "components.sidebar.donations.new",
+                      to: "/admin/donations/new"
+                    }
+                  ]
+                : [])
+            ]
           }
         );
       }
