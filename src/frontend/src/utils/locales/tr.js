@@ -205,8 +205,18 @@ export default {
         projectCode: "Proje Kodu",
         info: "Bilgi",
         weeks: "Hafta",
+        status: "Durum",
         team: "Takım",
         detail: "İşlem"
+      },
+      status: {
+        none: "Yok",
+        initialWeek: "Başlangıç Haftası",
+        ongoingEarlyWeeks: "Devam Eden İlk Haftalar",
+        week5Media: "5. Hafta Medya",
+        week6Warning: "6. Hafta Uyarı",
+        week8Critical: "8. Hafta Kritik",
+        published: "Yayınlandı"
       },
       projectCodes: {
         bks: "BKS",
@@ -407,6 +417,7 @@ export default {
     showActiveItems: "Aktif Öğeleri Göster",
     copy: "Kopyala",
     copied: "Kopyalandı",
+    showDetails: "Detayları Göster",
     modules: {
       donations: "Bağışlar",
       todos: "Görevler",

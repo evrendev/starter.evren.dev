@@ -204,6 +204,7 @@ export default {
         info: "Info",
         projectCode: "Projektcode",
         weeks: "Wochen",
+        status: "Status",
         team: "Team",
         detail: "Aktion"
       },
@@ -212,6 +213,15 @@ export default {
         bgs: "BGS",
         aki: "AKI",
         agi: "AGI"
+      },
+      status: {
+        none: "Keine",
+        initialWeek: "Initiale Woche",
+        ongoingEarlyWeeks: "Laufende frühe Wochen",
+        week5Media: "Woche 5 Medien",
+        week6Warning: "Woche 6 Warnung",
+        week8Critical: "Woche 8 kritisch",
+        published: "Veröffentlicht"
       },
       details: {
         creationDate: "Datum",
@@ -407,6 +417,7 @@ export default {
     showActiveItems: "Aktive Elemente anzeigen",
     copy: "Kopieren",
     copied: "Kopiert",
+    showDetails: "Details anzeigen",
     modules: {
       donations: "Spenden",
       todos: "Todos Listen",

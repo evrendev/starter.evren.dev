@@ -28,21 +28,19 @@ defineEmits(["update:options"]);
 
 const donation = ref(null);
 const showDetailsModal = ref(false);
-const detailsLoading = ref(false);
 const copySuccess = ref(false);
 
 const headers = ref([
   { title: t("admin.donations.fields.info"), key: "info", sortable: true },
-  { title: t("admin.donations.fields.contact"), key: "contact", sortable: true, width: "150px" },
+  { title: t("admin.donations.fields.contact"), key: "contact", sortable: true },
   { title: t("admin.donations.fields.phone"), key: "phone", sortable: false, width: "100px" },
   { title: t("admin.donations.fields.creationDate"), key: "creationDate.displayDate", align: "center", sortable: true, width: "100px" },
-  { title: t("admin.donations.fields.weeks"), key: "weeks", sortable: false, align: "center" },
-  { title: t("admin.donations.fields.team"), key: "team", sortable: false, align: "center" },
+  { title: t("admin.donations.fields.weeks"), key: "weeks", sortable: false, align: "center", width: "48px" },
+  { title: t("admin.donations.fields.team"), key: "team", sortable: false, align: "center", width: "64px" },
   { title: t("admin.donations.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
 const showDetails = async (item) => {
-  detailsLoading.value = true;
   await donationStore.getById(item);
   donation.value = donationStore.donation;
   showDetailsModal.value = true;
@@ -66,31 +64,57 @@ const copyToClipboard = (text) => {
       :items="items"
       :items-length="itemsLength"
       :loading="loading"
-      class="striped"
+      fixed-header
+      class="text-caption striped"
+      density="compact"
       item-value="id"
       @update:options="$emit('update:options', $event)"
     >
-      <template #[`item.info`]="{ item }">
-        <div class="info-wrapper-container">
-          <div class="info-wrapper">
-            {{ item.info }}
-          </div>
-          <v-btn
-            icon
-            class="copy-button"
-            size="x-small"
-            :color="copySuccess ? 'primary' : 'default'"
-            @click.stop="copyToClipboard(item.info)"
-          >
-            <v-icon :icon="copySuccess ? '$check' : '$contentCopy'" size="small" />
-            <v-tooltip activator="parent" location="top">
-              {{ copySuccess ? t("common.copied") : t("common.copy") }}
-            </v-tooltip>
-          </v-btn>
-        </div>
-      </template>
-      <template #[`item.actions`]="{ item }">
-        <v-icon @click="showDetails(item.id)" :loading="detailsLoading" size="small" icon="$magnifyExpand" />
+      <template v-slot:item="{ item }">
+        <tr>
+          <td>
+            <div class="info-wrapper-container">
+              <div class="info-wrapper">
+                {{ item.info }}
+              </div>
+              <v-btn
+                icon
+                class="copy-button"
+                size="x-small"
+                :color="copySuccess ? 'primary' : 'default'"
+                @click.stop="copyToClipboard(item.info)"
+              >
+                <v-icon :icon="copySuccess ? '$check' : '$contentCopy'" size="small" />
+                <v-tooltip activator="parent" location="top">
+                  {{ copySuccess ? t("common.copied") : t("common.copy") }}
+                </v-tooltip>
+              </v-btn>
+            </div>
+          </td>
+          <td>
+            {{ item.contact }}
+          </td>
+          <td>
+            {{ item.phone }}
+          </td>
+          <td>
+            {{ item.creationDate.displayDate }}
+          </td>
+          <td :class="`bg-${item.status.backgroundColor}`" class="text-center">
+            {{ item.weeks }}
+          </td>
+          <td>
+            {{ item.team }}
+          </td>
+          <td>
+            <v-btn icon size="x-small" density="compact" @click.stop="showDetails(item.id)">
+              <v-icon icon="$magnifyExpand" />
+              <v-tooltip activator="parent" location="top">
+                {{ t("common.showDetails") }}
+              </v-tooltip>
+            </v-btn>
+          </td>
+        </tr>
       </template>
     </v-data-table-server>
 
@@ -99,29 +123,37 @@ const copyToClipboard = (text) => {
 </template>
 
 <style lang="scss" scoped>
-.info-wrapper-container {
-  position: relative;
-  display: flex;
-  align-items: center;
+table {
+  tbody {
+    tr {
+      td {
+        .info-wrapper-container {
+          position: relative;
+          display: flex;
+          align-items: center;
 
-  &:hover {
-    .copy-button {
-      opacity: 1;
+          &:hover {
+            .copy-button {
+              opacity: 1;
+            }
+          }
+
+          .info-wrapper {
+            overflow: auto;
+            text-overflow: ellipsis;
+            white-space: break-spaces;
+            padding-right: 40px;
+          }
+
+          .copy-button {
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+          }
+        }
+      }
     }
-  }
-
-  .info-wrapper {
-    overflow: auto;
-    text-overflow: ellipsis;
-    white-space: break-spaces;
-    padding-right: 40px;
-  }
-
-  .copy-button {
-    position: absolute;
-    right: 0;
-    opacity: 0;
-    transition: opacity 0.2s ease;
   }
 }
 </style>

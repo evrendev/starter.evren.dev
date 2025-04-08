@@ -28,7 +28,11 @@ defineProps({
             </tr>
             <tr>
               <td>{{ t("admin.donations.details.weeks") }}</td>
-              <td>{{ donation.weeks }}</td>
+              <td>
+                <div :class="`bg-${donation.status.backgroundColor}`" class="text-center">
+                  {{ `${donation.weeks} - ${t(`admin.donations.status.${donation.status.name}`)}` }}
+                </div>
+              </td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.details.contact") }}</td>
