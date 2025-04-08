@@ -9,6 +9,18 @@ public record BasicBrunnenDonationDto
         CreationDate?.UtcDateTime is DateTime creation
             ? (int)Math.Round((DateTime.Today - creation).TotalDays / 7.0)
             : 0;
+
+    public DonationStatus Status =>
+    Weeks switch
+    {
+        <= 1 => DonationStatus.InitialWeek,
+        <= 4 => DonationStatus.OngoingEarlyWeeks,
+        5 => DonationStatus.Week5Media,
+        6 => DonationStatus.Week6Warning,
+        >= 8 => DonationStatus.Week8Critical,
+        _ => DonationStatus.Published
+    };
+
     public string? Info { get; set; }
     public string? Team { get; set; }
 }
