@@ -88,7 +88,7 @@ const handleReset = () => {
           :label="$t('admin.profile.gender')"
           :loading="authStore.loading"
           :disabled="disabled"
-          density="comfortable"
+          density="compact"
           variant="outlined"
           item-title="name"
           item-value="code"
@@ -102,7 +102,7 @@ const handleReset = () => {
           :label="$t('admin.profile.firstName')"
           :loading="authStore.loading"
           :disabled="disabled"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>
@@ -114,7 +114,7 @@ const handleReset = () => {
           :label="$t('admin.profile.lastName')"
           :loading="authStore.loading"
           :disabled="disabled"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>
@@ -129,7 +129,7 @@ const handleReset = () => {
           :disabled="disabled"
           item-title="name"
           item-value="code"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>
@@ -141,7 +141,7 @@ const handleReset = () => {
           :label="$t('admin.profile.jobTitle')"
           :loading="authStore.loading"
           :disabled="disabled"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>

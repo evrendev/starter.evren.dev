@@ -69,6 +69,7 @@ const showConfirmModal = (id) => {
       :items="items"
       :items-length="itemsLength"
       :loading="loading"
+      density="compact"
       class="striped"
       item-value="id"
       @update:options="$emit('update:options', $event)"

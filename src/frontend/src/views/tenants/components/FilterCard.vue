@@ -43,20 +43,14 @@ const handleReset = () => {
   <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
       <v-col cols="12" md="4">
-        <v-text-field
-          v-model="filters.search"
-          :label="t('common.search')"
-          density="comfortable"
-          hide-details
-          variant="outlined"
-        ></v-text-field>
+        <v-text-field v-model="filters.search" :label="t('common.search')" density="compact" hide-details variant="outlined"></v-text-field>
       </v-col>
       <v-col cols="12" md="2">
         <v-select
           v-model="filters.showActiveItems"
           :items="showActiveItemsOptions"
           :label="t('common.showActiveItems')"
-          density="comfortable"
+          density="compact"
           hide-details
           item-title="title"
           item-value="value"
@@ -68,7 +62,7 @@ const handleReset = () => {
           v-model="filters.showDeletedItems"
           :items="showDeletedItemsOptions"
           :label="t('common.showDeletedItems')"
-          density="comfortable"
+          density="compact"
           hide-details
           item-title="title"
           item-value="value"
@@ -81,7 +75,7 @@ const handleReset = () => {
             <v-text-field
               v-model="filters.startDate"
               :label="t('common.selectDate')"
-              density="comfortable"
+              density="compact"
               hide-details
               type="date"
               variant="outlined"
@@ -91,7 +85,7 @@ const handleReset = () => {
             <v-text-field
               v-model="filters.endDate"
               :label="t('common.selectDate')"
-              density="comfortable"
+              density="compact"
               hide-details
               type="date"
               variant="outlined"

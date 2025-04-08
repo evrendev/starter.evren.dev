@@ -88,6 +88,7 @@ const updateItemsPerPage = (itemsPerPage) => {
       :items-length="itemsPerPage"
       :page="page"
       :loading="loading"
+      density="compact"
       class="striped"
       item-value="id"
       @update:options="$emit('update:options', $event)"

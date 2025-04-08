@@ -70,7 +70,7 @@ const onSubmit = handleSubmit(async (values) => {
       :label="t('auth.twoFactorAuth.label')"
       maxlength="6"
       class="mt-4"
-      density="comfortable"
+      density="compact"
       hide-details="auto"
       variant="outlined"
       color="primary"

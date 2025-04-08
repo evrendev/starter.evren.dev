@@ -108,7 +108,7 @@ const handleReset = () => {
             v-model="name"
             v-bind="nameProps"
             :label="t('admin.roles.fields.name')"
-            density="comfortable"
+            density="compact"
             variant="outlined"
             hide-details="auto"
           />
@@ -118,7 +118,7 @@ const handleReset = () => {
             v-model="description"
             v-bind="descriptionProps"
             :label="t('admin.roles.fields.description')"
-            density="comfortable"
+            density="compact"
             variant="outlined"
             hide-details="auto"
           />

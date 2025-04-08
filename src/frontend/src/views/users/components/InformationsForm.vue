@@ -114,7 +114,7 @@ function resetValues() {
           :loading="loading"
           item-title="name"
           item-value="code"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>
@@ -126,7 +126,7 @@ function resetValues() {
           :items="genders || []"
           :label="$t('admin.users.fields.gender')"
           :loading="loading"
-          density="comfortable"
+          density="compact"
           variant="outlined"
           item-title="name"
           item-value="code"
@@ -138,7 +138,7 @@ function resetValues() {
           v-model="email"
           v-bind="emailProps"
           :label="$t('admin.users.fields.email')"
-          density="comfortable"
+          density="compact"
           variant="outlined"
           hide-details="auto"
         />
@@ -149,7 +149,7 @@ function resetValues() {
           v-model="firstName"
           v-bind="firstNameProps"
           :label="$t('admin.users.fields.firstName')"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>
@@ -159,7 +159,7 @@ function resetValues() {
           v-model="lastName"
           v-bind="lastNameProps"
           :label="$t('admin.users.fields.lastName')"
-          density="comfortable"
+          density="compact"
           variant="outlined"
         />
       </v-col>
@@ -173,7 +173,7 @@ function resetValues() {
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
           v-show="!props.isEdit"
-          density="comfortable"
+          density="compact"
           variant="outlined"
           color="primary"
           hide-details="auto"
@@ -186,7 +186,7 @@ function resetValues() {
           v-model="confirmPassword"
           v-bind="confirmPasswordProps"
           :label="$t('admin.users.fields.confirmPassword')"
-          density="comfortable"
+          density="compact"
           variant="outlined"
           type="password"
           hide-details="auto"
@@ -198,7 +198,7 @@ function resetValues() {
           v-model="jobTitle"
           v-bind="jobTitleProps"
           :label="t('admin.users.fields.jobTitle')"
-          density="comfortable"
+          density="compact"
           variant="outlined"
           hide-details="auto"
         />

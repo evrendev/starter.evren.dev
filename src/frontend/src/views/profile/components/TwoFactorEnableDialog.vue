@@ -156,7 +156,7 @@ onMounted(() => {
                         :loading="loading"
                         maxlength="6"
                         variant="outlined"
-                        density="comfortable"
+                        density="compact"
                         hide-details="auto"
                       />
                     </v-col>

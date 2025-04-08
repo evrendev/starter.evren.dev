@@ -132,7 +132,7 @@ const handleReset = () => {
               v-model="name"
               v-bind="nameProps"
               :label="t('admin.tenants.fields.name')"
-              density="comfortable"
+              density="compact"
               variant="outlined"
               hide-details="auto"
             />
@@ -142,7 +142,7 @@ const handleReset = () => {
               v-model="adminEmail"
               v-bind="adminEmailProps"
               :label="t('admin.tenants.fields.adminEmail')"
-              density="comfortable"
+              density="compact"
               variant="outlined"
               hide-details="auto"
             />
@@ -153,7 +153,7 @@ const handleReset = () => {
               v-bind="validUntilProps"
               :label="t('admin.tenants.fields.validUntil')"
               type="date"
-              density="comfortable"
+              density="compact"
               variant="outlined"
               hide-details="auto"
             />
@@ -163,7 +163,7 @@ const handleReset = () => {
               v-model="description"
               v-bind="descriptionProps"
               :label="t('admin.tenants.fields.description')"
-              density="comfortable"
+              density="compact"
               variant="outlined"
               hide-details="auto"
               rows="3"
@@ -186,7 +186,7 @@ const handleReset = () => {
               v-model="connectionString"
               v-bind="connectionStringProps"
               :label="t('admin.tenants.fields.connectionString')"
-              density="comfortable"
+              density="compact"
               variant="outlined"
               hide-details="auto"
             />
@@ -196,7 +196,7 @@ const handleReset = () => {
               v-model="host"
               v-bind="hostProps"
               :label="t('admin.tenants.fields.host')"
-              density="comfortable"
+              density="compact"
               variant="outlined"
               hide-details="auto"
             />

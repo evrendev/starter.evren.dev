@@ -127,7 +127,7 @@ function resetValues() {
                 :indeterminate="moduleSelectionState[moduleName].indeterminate"
                 @update:model-value="toggleModulePermissions(moduleName)"
                 :label="t('common.selectAll')"
-                density="comfortable"
+                density="compact"
                 color="primary"
                 hide-details
               />
@@ -144,7 +144,7 @@ function resetValues() {
                   v-bind="permissionsProps"
                   :value="permission"
                   :label="t(`common.permissions.${permission.split('.')[1].toLowerCase()}`)"
-                  density="comfortable"
+                  density="compact"
                   color="primary"
                   hide-details
                 />
