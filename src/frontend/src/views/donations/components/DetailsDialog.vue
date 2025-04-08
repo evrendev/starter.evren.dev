@@ -35,6 +35,10 @@ defineProps({
               </td>
             </tr>
             <tr>
+              <td>{{ t("admin.donations.details.banner") }}</td>
+              <td>{{ donation.banner }}</td>
+            </tr>
+            <tr>
               <td>{{ t("admin.donations.details.contact") }}</td>
               <td>{{ donation.contact }}</td>
             </tr>
@@ -53,10 +57,6 @@ defineProps({
             <tr>
               <td>{{ t("admin.donations.details.projectNumber") }}</td>
               <td>{{ donation.projectNumber }}</td>
-            </tr>
-            <tr>
-              <td>{{ t("admin.donations.details.banner") }}</td>
-              <td>{{ donation.banner }}</td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.details.transactionId") }}</td>
