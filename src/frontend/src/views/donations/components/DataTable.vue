@@ -120,7 +120,7 @@ const copyToClipboard = (text) => {
   </parent-card>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 table {
   tbody {
     tr {
