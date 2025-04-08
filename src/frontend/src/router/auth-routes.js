@@ -3,14 +3,27 @@ const AuthRoutes = {
   component: () => import("@/layouts/auth/AuthLayout.vue"),
   children: [
     {
-      path: ":page?",
+      path: "",
       name: "login",
-      component: () => import("@/views/authentication/IndexPage.vue"),
-      props: (route) => ({
-        page: route.params.page || "login"
-      }),
+      component: () => import("@/views/authentication/LogIn.vue"),
       meta: {
         titleKey: "auth.login.title"
+      }
+    },
+    {
+      path: "forgot-password",
+      name: "forgot-password",
+      component: () => import("@/views/authentication/ForgotPassword.vue"),
+      meta: {
+        titleKey: "auth.forgotPassword.title"
+      }
+    },
+    {
+      path: "2fa",
+      name: "2fa",
+      component: () => import("@/views/authentication/TwoFactorAuthentication.vue"),
+      meta: {
+        titleKey: "auth.2fa.title"
       }
     }
   ]

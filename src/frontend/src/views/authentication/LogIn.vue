@@ -1,5 +1,4 @@
 <script setup>
-import Logo from "@/layouts/full/logo/LogoDark.vue";
 import { ref } from "vue";
 import { useLocale } from "vuetify";
 import { useForm } from "vee-validate";
@@ -7,6 +6,7 @@ import { object, string, boolean } from "yup";
 import { useAuthStore, useAppStore } from "@/stores/";
 import { storeToRefs } from "pinia";
 import { RecaptchaButton } from "@/components/forms";
+import { Logo } from "@/layouts/full/logo";
 
 const { t } = useLocale();
 
@@ -136,11 +136,7 @@ const submitForm = async () => {
         hide-details
       />
       <div class="ml-auto">
-        <router-link
-          :to="{ name: 'login', params: { page: 'forgot-password' } }"
-          class="text-primary text-decoration-none"
-          v-show="!loading"
-        >
+        <router-link :to="{ name: 'forgot-password' }" class="text-primary text-decoration-none" v-show="!loading">
           <v-icon icon="$fish" />
           <span class="ml-2">
             {{ t("auth.login.forgotPassword") }}

@@ -34,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
           }
         };
 
-        router.push({ name: "login", params: { page: "2fa" } });
+        router.push({ name: "2fa" });
       } else {
         this.auth = {
           isAuthenticated: true,

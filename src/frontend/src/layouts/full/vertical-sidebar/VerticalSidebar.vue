@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import { useCustomizerStore, useNavigationStore } from "@/stores";
 import { NavGroup, NavItem, NavCollapse } from "./";
-import { LogoMain } from "../logo/";
+import { Logo } from "../logo/";
 
 const customizer = useCustomizerStore();
 const navigationStore = useNavigationStore();
@@ -26,7 +26,7 @@ onMounted(() => {
   >
     <!---Logo part -->
     <div class="pa-5">
-      <logo-main />
+      <logo />
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
