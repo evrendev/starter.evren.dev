@@ -74,15 +74,13 @@ const copyToClipboard = (text) => {
         <tr>
           <td>
             <div class="info-wrapper-container">
-              <div class="info-wrapper">
-                {{ item.info }}
-              </div>
+              <div class="info-wrapper" v-html="item.htmlBanner" />
               <v-btn
                 icon
                 class="copy-button"
                 size="x-small"
                 :color="copySuccess ? 'primary' : 'default'"
-                @click.stop="copyToClipboard(item.info)"
+                @click.stop="copyToClipboard(item.plainBanner)"
               >
                 <v-icon :icon="copySuccess ? '$check' : '$contentCopy'" size="small" />
                 <v-tooltip activator="parent" location="top">

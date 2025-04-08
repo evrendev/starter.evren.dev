@@ -21,6 +21,7 @@ public record BasicBrunnenDonationDto
         _ => DonationStatus.Published
     };
 
-    public string? Info { get; set; }
+    public string? HtmlBanner { get; set; }
+    public string? PlainBanner { get; set; }
     public string? Team { get; set; }
 }

@@ -92,7 +92,8 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
             Contact = entity.Contact,
             Phone = !string.IsNullOrEmpty(entity.Phone) ? Tools.FormatPhoneNumber(entity.Phone) : null,
             CreationDate = DateTimeDto.Create.FromUtc(entity.Date),
-            Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+            HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
+            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = entity.Team,
         });
 
