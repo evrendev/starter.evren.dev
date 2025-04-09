@@ -1,6 +1,6 @@
 <script setup>
-import { ref, shallowRef, watch } from "vue";
-import { useDonationStore } from "@/stores";
+import { ref, watch } from "vue";
+import { useFontainDonationStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { Breadcrumb } from "@/components/forms";
@@ -11,7 +11,7 @@ const { t } = useI18n();
 const route = useRoute();
 const projectCode = ref(route.query.projectCode || null);
 
-const breadcrumbs = shallowRef([
+const breadcrumbs = ref([
   {
     title: t("admin.donations.title"),
     disabled: true,
@@ -57,7 +57,7 @@ watch(
 const items = ref([]);
 const itemsLength = ref(0);
 const loading = ref(false);
-const donationStore = useDonationStore();
+const donationStore = useFontainDonationStore();
 
 const searchOptions = {
   page: 1,

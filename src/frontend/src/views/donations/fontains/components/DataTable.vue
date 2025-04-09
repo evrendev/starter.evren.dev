@@ -1,13 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useDonationStore } from "@/stores";
+import { useFontainDonationStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
 import { DetailsDialog } from "./";
 import config from "@/config";
 
 const { t } = useI18n();
-const donationStore = useDonationStore();
+const fountainDonationStore = useFontainDonationStore();
 
 defineProps({
   items: {
@@ -47,8 +47,8 @@ const headers = ref([
 ]);
 
 const showDetails = async (item) => {
-  await donationStore.getById(item);
-  donation.value = donationStore.donation;
+  await fountainDonationStore.getById(item);
+  donation.value = fountainDonationStore.donation;
   showDetailsModal.value = true;
 };
 

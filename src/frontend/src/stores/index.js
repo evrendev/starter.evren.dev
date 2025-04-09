@@ -8,4 +8,4 @@ export * from "./users";
 export * from "./customizer";
 export * from "./navigation";
 export * from "./predefined-values";
-export * from "./donations";
+export * from "./fontainDonations";

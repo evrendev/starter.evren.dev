@@ -2,10 +2,10 @@ import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
 import { useAppStore } from "@/stores";
 
-export const useDonationStore = defineStore("donation", {
+export const useFontainDonationStore = defineStore("fontainDonation", {
   state: () => ({
     items: [],
-    donation: {},
+    fontainDonation: {},
     itemsLength: 0
   }),
   actions: {
@@ -25,7 +25,7 @@ export const useDonationStore = defineStore("donation", {
           ...(endDate && { endDate })
         });
 
-        const response = await apiService.get(`/donations?${params}`, false);
+        const response = await apiService.get(`/donations/fontain?${params}`, false);
         this.items = response.items;
         this.itemsLength = response.itemsLength;
       } finally {
@@ -37,8 +37,8 @@ export const useDonationStore = defineStore("donation", {
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.get(`/donations/${id}`, false);
-        this.donation = response;
+        const response = await apiService.get(`/donations/fontain/${id}`, false);
+        this.fontainDonation = response;
       } finally {
         appStore.setLoading(false);
       }
