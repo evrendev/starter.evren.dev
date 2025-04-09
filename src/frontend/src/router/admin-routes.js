@@ -53,7 +53,7 @@ const AdminRoutes = {
               path: "list",
               component: () => import("@/views/donations/fontains/IndexPage.vue"),
               meta: {
-                titleKey: "admin.donations.fontains.list"
+                titleKey: "admin.donations.fontains.title"
               }
             },
             {
