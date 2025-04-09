@@ -14,7 +14,7 @@ const key = computed(() => locale.value);
   <v-sonner />
   <go-to-top />
   <router-view v-slot="{ Component }">
-    <v-fade-transition mode="out-in">
+    <v-fade-transition hide-on-leave>
       <component :is="Component" :key="key" />
     </v-fade-transition>
   </router-view>
