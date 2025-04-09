@@ -1,10 +1,10 @@
 using Application.Common.Functions;
-using EvrenDev.Application.Features.Donations.BrunnenDonations.Models;
+using EvrenDev.Application.Features.Donations.FontainDonations.Models;
 using EvrenDev.Domain.Entities.Donation;
 
-namespace EvrenDev.Application.Features.Donations.BrunnenDonations.Queries.GetBrunnenDonations;
+namespace EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonations;
 
-public class GetBrunnenDonationsQuery : IRequest<Result<PaginatedList<BasicBrunnenDonationDto>>>
+public class GetFontainDonationsQuery : IRequest<Result<PaginatedList<BasicFontainDonationDto>>>
 {
     public string? Search { get; set; }
     public string? ProjectCode { get; init; }
@@ -16,11 +16,11 @@ public class GetBrunnenDonationsQuery : IRequest<Result<PaginatedList<BasicBrunn
     public string? SortDesc { get; init; }
 }
 
-public class GetBrunnenDonationsQueryValidator : AbstractValidator<GetBrunnenDonationsQuery>
+public class GetFontainDonationsQueryValidator : AbstractValidator<GetFontainDonationsQuery>
 {
-    private readonly IStringLocalizer<GetBrunnenDonationsQueryValidator> _localizer;
+    private readonly IStringLocalizer<GetFontainDonationsQueryValidator> _localizer;
 
-    public GetBrunnenDonationsQueryValidator(IStringLocalizer<GetBrunnenDonationsQueryValidator> localizer)
+    public GetFontainDonationsQueryValidator(IStringLocalizer<GetFontainDonationsQueryValidator> localizer)
     {
         _localizer = localizer;
 
@@ -44,18 +44,18 @@ public class GetBrunnenDonationsQueryValidator : AbstractValidator<GetBrunnenDon
     }
 }
 
-public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonationsQuery, Result<PaginatedList<BasicBrunnenDonationDto>>>
+public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonationsQuery, Result<PaginatedList<BasicFontainDonationDto>>>
 {
     private readonly IDonationDbContext _context;
 
-    public GetBrunnenDonationsQueryHandler(IDonationDbContext context)
+    public GetFontainDonationsQueryHandler(IDonationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<Result<PaginatedList<BasicBrunnenDonationDto>>> Handle(GetBrunnenDonationsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<BasicFontainDonationDto>>> Handle(GetFontainDonationsQuery request, CancellationToken cancellationToken)
     {
-        var query = _context.BrunnenDonations.AsQueryable();
+        var query = _context.FontainDonations.AsQueryable();
 
         if (request.StartDate != null)
             query = query.Where(entity => entity.Date >= request.StartDate);
@@ -86,7 +86,7 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
             : query.OrderByDescending(x => x.Date);
 
-        var dtoQuery = query.Select(entity => new BasicBrunnenDonationDto
+        var dtoQuery = query.Select(entity => new BasicFontainDonationDto
         {
             Id = entity.Id,
             Contact = entity.Contact,
@@ -97,15 +97,15 @@ public class GetBrunnenDonationsQueryHandler : IRequestHandler<GetBrunnenDonatio
             Team = entity.Team,
         });
 
-        var paginatedList = await PaginatedList<BasicBrunnenDonationDto>.CreateAsync(
+        var paginatedList = await PaginatedList<BasicFontainDonationDto>.CreateAsync(
             source: dtoQuery,
             page: request.Page,
             itemsPerPage: request.ItemsPerPage);
 
-        return Result<PaginatedList<BasicBrunnenDonationDto>>.Success(paginatedList);
+        return Result<PaginatedList<BasicFontainDonationDto>>.Success(paginatedList);
     }
 
-    private static IQueryable<BrunnenDonation> ApplySorting(IQueryable<BrunnenDonation> query, string sortBy, bool sortDesc)
+    private static IQueryable<FontainDonation> ApplySorting(IQueryable<FontainDonation> query, string sortBy, bool sortDesc)
     {
         return sortBy.ToLower() switch
         {

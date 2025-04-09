@@ -1,8 +1,8 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
-using EvrenDev.Application.Features.Donations.BrunnenDonations.Models;
-using EvrenDev.Application.Features.Donations.BrunnenDonations.Queries.GetBrunnenDonationById;
-using EvrenDev.Application.Features.Donations.BrunnenDonations.Queries.GetBrunnenDonations;
+using EvrenDev.Application.Features.Donations.FontainDonations.Models;
+using EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonationById;
+using EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -25,9 +25,9 @@ public class DonationsController : ControllerBase
         _localizer = localizer;
     }
 
-    [HttpGet]
+    [HttpGet("fontain")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult<PaginatedList<BasicBrunnenDonationDto>>> GetAll([FromQuery] GetBrunnenDonationsQuery query)
+    public async Task<ActionResult<PaginatedList<BasicFontainDonationDto>>> GetAll([FromQuery] GetFontainDonationsQuery query)
     {
         try
         {
@@ -49,13 +49,13 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("fontain/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult<FullBrunnenDonationDto>> GetById(Guid id)
+    public async Task<ActionResult<FullFontainDonationDto>> GetById(Guid id)
     {
         try
         {
-            var result = await _mediator.Send(new GetBrunnenDonationByIdQuery { Id = id });
+            var result = await _mediator.Send(new GetFontainDonationByIdQuery { Id = id });
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)
