@@ -77,8 +77,16 @@ export default {
         title: "Startseite"
       },
       donations: {
-        header: "Spenden",
-        title: "Listen"
+        title: "Spenden",
+        fontains: {
+          title: "Brunnen",
+          all: "Alle",
+          bks: "BKS",
+          bgs: "BGS",
+          aki: "AKI",
+          agi: "AGI"
+        },
+        new: "Neu Spende"
       },
       todos: {
         header: "Todos",

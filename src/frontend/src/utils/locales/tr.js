@@ -77,8 +77,16 @@ export default {
         title: "Anasayfa"
       },
       donations: {
-        header: "Bağışlar",
-        title: "Bağış Listesi"
+        title: "Bağışlar",
+        fontains: {
+          title: "Kuyular",
+          all: "Tüm Kuyular",
+          bks: "BKS",
+          bgs: "BGS",
+          aki: "AKI",
+          agi: "AGI"
+        },
+        new: "Yeni Bağış"
       },
       todos: {
         header: "Görevler",
