@@ -216,6 +216,7 @@ export default {
           contact: "Contact",
           phone: "Phone",
           creationDate: "Date",
+          banner: "Banner",
           info: "Info",
           projectCode: "Project Code",
           weeks: "Weeks",
@@ -251,6 +252,28 @@ export default {
           transactionId: "Transaction ID",
           source: "Source",
           link: "Link"
+        },
+        validation: {
+          contact: {
+            required: "Contact is required.",
+            maxLength: "Contact must not exceed {max} characters."
+          },
+          phone: {
+            required: "Phone number is required.",
+            maxLength: "Phone number must not exceed {max} characters."
+          },
+          banner: {
+            required: "Banner is required.",
+            maxLength: "Banner must not exceed {max} characters."
+          },
+          creationDate: {
+            required: "Creation date is required.",
+            invalid: "Creation date is invalid."
+          },
+          projectCode: {
+            required: "Project code is required.",
+            invalid: "Project code is invalid."
+          }
         }
       }
     },

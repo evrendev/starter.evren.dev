@@ -1,8 +1,8 @@
 using Application.Common.Functions;
-using EvrenDev.Application.Features.Donations.FontainDonations.Models;
+using EvrenDev.Application.Features.Donations.Fontain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonationById;
+namespace EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonationById;
 
 public class GetFontainDonationByIdQuery : IRequest<Result<FullFontainDonationDto>>
 {
@@ -55,7 +55,7 @@ public class GetFontainDonationByIdQueryHandler : IRequestHandler<GetFontainDona
             Project = entity.Project,
             TransactionId = entity.TransactionId,
             Source = entity.Source,
-            CreationDate = DateTimeDto.Create.FromUtc(entity.Date),
+            CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = entity.Team,
         };

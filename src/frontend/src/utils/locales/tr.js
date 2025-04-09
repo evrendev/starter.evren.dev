@@ -218,6 +218,7 @@ export default {
           contact: "Bağışçı",
           phone: "Telefon",
           creationDate: "Tarih",
+          banner: "Afiş",
           projectCode: "Proje Kodu",
           info: "Bilgi",
           weeks: "Hafta",
@@ -253,6 +254,28 @@ export default {
           transactionId: "İşlem ID",
           source: "Kaynak",
           link: "Bağış Linki"
+        },
+        validation: {
+          contact: {
+            required: "Bağışçı bilgisini girmeniz gerekmektedir.",
+            maxLength: "Bağışçı bilgisi en fazla {max} karakter olmalıdır."
+          },
+          phone: {
+            required: "İletişim bilgisini girmeniz gerekmektedir.",
+            maxLength: "İletişim bilgisi en fazla {max} karakter olmalıdır."
+          },
+          banner: {
+            required: "Afiş bilgisini girmeniz gerekmektedir.",
+            maxLength: "Afiş bilgisi en fazla {max} karakter olmalıdır."
+          },
+          creationDate: {
+            required: "Bağış tarihini girmeniz gerekmektedir.",
+            invalid: "Bağış tarihi geçerli bir formatta değil."
+          },
+          projectCode: {
+            required: "Proje kodunu girmeniz gerekmektedir.",
+            invalid: "Proje kodu geçerli bir proje kodu değil."
+          }
         }
       }
     },

@@ -10,7 +10,7 @@ public class FontainDonation
     public string? Phone { get; set; }
     public string? Project { get; set; }
     public string? Banner { get; set; }
-    public DateTime Date { get; set; }
+    public DateTime CreationDate { get; set; }
     public int? ProjectNumber { get; set; }
     public string? ProjectCode { get; set; }
     public string? TransactionId { get; set; }

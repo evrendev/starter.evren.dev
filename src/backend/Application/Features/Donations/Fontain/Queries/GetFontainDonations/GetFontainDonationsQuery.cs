@@ -1,8 +1,8 @@
 using Application.Common.Functions;
-using EvrenDev.Application.Features.Donations.FontainDonations.Models;
+using EvrenDev.Application.Features.Donations.Fontain.Models;
 using EvrenDev.Domain.Entities.Donation;
 
-namespace EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonations;
+namespace EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonations;
 
 public class GetFontainDonationsQuery : IRequest<Result<PaginatedList<BasicFontainDonationDto>>>
 {
@@ -58,10 +58,10 @@ public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonatio
         var query = _context.FontainDonations.AsQueryable();
 
         if (request.StartDate != null)
-            query = query.Where(entity => entity.Date >= request.StartDate);
+            query = query.Where(entity => entity.CreationDate >= request.StartDate);
 
         if (request.EndDate != null)
-            query = query.Where(entity => entity.Date <= request.EndDate);
+            query = query.Where(entity => entity.CreationDate <= request.EndDate);
 
         if (!string.IsNullOrEmpty(request.ProjectCode))
             query = query.Where(entity => entity.ProjectCode == request.ProjectCode);
@@ -84,14 +84,14 @@ public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonatio
         // Apply sorting
         query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
-            : query.OrderByDescending(x => x.Date);
+            : query.OrderByDescending(x => x.CreationDate);
 
         var dtoQuery = query.Select(entity => new BasicFontainDonationDto
         {
             Id = entity.Id,
             Contact = entity.Contact,
             Phone = !string.IsNullOrEmpty(entity.Phone) ? Tools.FormatPhoneNumber(entity.Phone) : null,
-            CreationDate = DateTimeDto.Create.FromUtc(entity.Date),
+            CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = entity.Team,
@@ -121,7 +121,7 @@ public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonatio
             "info" => sortDesc
                 ? query.OrderByDescending(x => x.ProjectNumber)
                 : query.OrderBy(x => x.ProjectNumber),
-            _ => query.OrderByDescending(x => x.Date) // Default sorting
+            _ => query.OrderByDescending(x => x.CreationDate) // Default sorting
         };
     }
 }

@@ -1,8 +1,9 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
-using EvrenDev.Application.Features.Donations.FontainDonations.Models;
-using EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonationById;
-using EvrenDev.Application.Features.Donations.FontainDonations.Queries.GetFontainDonations;
+using EvrenDev.Application.Features.Donations.Fontain.Models;
+using EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonationById;
+using EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonations;
+using EvrenDev.Application.Features.Donations.Fontain.Commands.CreateFontainDonation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -56,6 +57,30 @@ public class DonationsController : ControllerBase
         try
         {
             var result = await _mediator.Send(new GetFontainDonationByIdQuery { Id = id });
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("fontain")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Create}")]
+    public async Task<ActionResult<Guid>> Create(CreateFontainDonationCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)

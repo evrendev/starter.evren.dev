@@ -1,9 +1,35 @@
-<script setup></script>
+<script setup>
+import { shallowRef } from "vue";
+import { useI18n } from "vue-i18n";
+import { Breadcrumb } from "@/components/forms";
+import { FontainForm } from "./components/";
+
+const { t } = useI18n();
+
+const breadcrumbs = shallowRef([
+  {
+    title: t("admin.donations.title"),
+    disabled: true,
+    href: "/admin/donations"
+  },
+  {
+    title: t("admin.donations.fontains.title"),
+    disabled: true,
+    href: "#"
+  },
+  {
+    title: t("admin.donations.new"),
+    disabled: true,
+    href: "#"
+  }
+]);
+</script>
 
 <template>
-  <div>
-    <h2>New Page</h2>
-  </div>
+  <breadcrumb :title="t('admin.donations.new')" :breadcrumbs="breadcrumbs" />
+  <v-row>
+    <v-col cols="12" md="12">
+      <fontain-form />
+    </v-col>
+  </v-row>
 </template>
-
-<style lang="scss" scoped></style>

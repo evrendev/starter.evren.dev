@@ -49,15 +49,15 @@ const AdminRoutes = {
               redirect: "list"
             },
             {
-              name: "list-donations",
+              name: "list-fontains",
               path: "list",
               component: () => import("@/views/donations/fontains/IndexPage.vue"),
               meta: {
-                titleKey: "admin.donations.list"
+                titleKey: "admin.donations.fontains.list"
               }
             },
             {
-              name: "add-donations",
+              name: "add-fontain",
               path: "new",
               component: () => import("@/views/donations/fontains/NewPage.vue"),
               meta: {

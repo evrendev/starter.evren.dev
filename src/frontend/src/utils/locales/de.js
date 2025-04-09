@@ -216,6 +216,7 @@ export default {
           id: "ID",
           contact: "Kontakt",
           phone: "Telefon",
+          banner: "Banner",
           creationDate: "Datum",
           info: "Info",
           projectCode: "Projektcode",
@@ -252,6 +253,28 @@ export default {
           transactionId: "Transaktions-ID",
           source: "Quelle",
           link: "Link"
+        },
+        validation: {
+          contact: {
+            required: "Kontakt ist erforderlich",
+            maxLength: "Kontakt muss weniger als {max} Zeichen lang sein"
+          },
+          phone: {
+            required: "Telefon ist erforderlich.",
+            maxLength: "Telefon muss weniger als {max} Zeichen lang sein"
+          },
+          banner: {
+            required: "Banner ist erforderlich.",
+            maxLength: "Banner muss weniger als {max} Zeichen lang sein"
+          },
+          creationDate: {
+            required: "Datum ist erforderlich.",
+            invalid: ""
+          },
+          projectCode: {
+            required: "Projektcode ist erforderlich.",
+            invalid: "Proje kodu geçerli bir proje kodu değil."
+          }
         }
       }
     },

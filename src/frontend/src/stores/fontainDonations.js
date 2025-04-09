@@ -5,7 +5,7 @@ import { useAppStore } from "@/stores";
 export const useFontainDonationStore = defineStore("fontainDonation", {
   state: () => ({
     items: [],
-    fontainDonation: {},
+    donation: {},
     itemsLength: 0
   }),
   actions: {
@@ -38,7 +38,18 @@ export const useFontainDonationStore = defineStore("fontainDonation", {
 
       try {
         const response = await apiService.get(`/donations/fontain/${id}`, false);
-        this.fontainDonation = response;
+        this.donation = response;
+      } finally {
+        appStore.setLoading(false);
+      }
+    },
+    async create(donation) {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const response = await apiService.post("/donations/fontain", donation);
+        this.donation = response;
       } finally {
         appStore.setLoading(false);
       }
