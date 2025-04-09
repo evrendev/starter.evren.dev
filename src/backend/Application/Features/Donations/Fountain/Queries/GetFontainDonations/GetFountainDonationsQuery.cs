@@ -1,10 +1,10 @@
 using Application.Common.Functions;
-using EvrenDev.Application.Features.Donations.Fontain.Models;
+using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Domain.Entities.Donation;
 
-namespace EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonations;
+namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
 
-public class GetFontainDonationsQuery : IRequest<Result<PaginatedList<BasicFontainDonationDto>>>
+public class GetFountainDonationsQuery : IRequest<Result<PaginatedList<BasicFountainDonationDto>>>
 {
     public string? Search { get; set; }
     public string? ProjectCode { get; init; }
@@ -16,46 +16,46 @@ public class GetFontainDonationsQuery : IRequest<Result<PaginatedList<BasicFonta
     public string? SortDesc { get; init; }
 }
 
-public class GetFontainDonationsQueryValidator : AbstractValidator<GetFontainDonationsQuery>
+public class GetFountainDonationsQueryValidator : AbstractValidator<GetFountainDonationsQuery>
 {
-    private readonly IStringLocalizer<GetFontainDonationsQueryValidator> _localizer;
+    private readonly IStringLocalizer<GetFountainDonationsQueryValidator> _localizer;
 
-    public GetFontainDonationsQueryValidator(IStringLocalizer<GetFontainDonationsQueryValidator> localizer)
+    public GetFountainDonationsQueryValidator(IStringLocalizer<GetFountainDonationsQueryValidator> localizer)
     {
         _localizer = localizer;
 
         RuleFor(v => v.StartDate)
             .LessThan(v => v.EndDate)
             .When(v => v.StartDate.HasValue && v.EndDate.HasValue)
-            .WithMessage(_localizer["api.donations.fontains.startdate.less.than.enddate"]);
+            .WithMessage(_localizer["api.donations.fountains.startdate.less.than.enddate"]);
 
         RuleFor(v => v.EndDate)
             .GreaterThan(v => v.StartDate)
             .When(v => v.StartDate.HasValue && v.EndDate.HasValue)
-            .WithMessage(_localizer["api.donations.fontains.enddate.greater.than.startdate"]);
+            .WithMessage(_localizer["api.donations.fountains.enddate.greater.than.startdate"]);
 
         RuleFor(v => v.Page)
             .GreaterThan(0)
-            .WithMessage(_localizer["api.donations.fontains.page.greater.than.zero"]);
+            .WithMessage(_localizer["api.donations.fountains.page.greater.than.zero"]);
 
         RuleFor(v => v.ItemsPerPage)
             .GreaterThan(0)
-            .WithMessage(_localizer["api.donations.fontains.itemsperpage.greater.than.zero"]);
+            .WithMessage(_localizer["api.donations.fountains.itemsperpage.greater.than.zero"]);
     }
 }
 
-public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonationsQuery, Result<PaginatedList<BasicFontainDonationDto>>>
+public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonationsQuery, Result<PaginatedList<BasicFountainDonationDto>>>
 {
     private readonly IDonationDbContext _context;
 
-    public GetFontainDonationsQueryHandler(IDonationDbContext context)
+    public GetFountainDonationsQueryHandler(IDonationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<Result<PaginatedList<BasicFontainDonationDto>>> Handle(GetFontainDonationsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<BasicFountainDonationDto>>> Handle(GetFountainDonationsQuery request, CancellationToken cancellationToken)
     {
-        var query = _context.FontainDonations.AsQueryable();
+        var query = _context.FountainDonations.AsQueryable();
 
         if (request.StartDate != null)
             query = query.Where(entity => entity.CreationDate >= request.StartDate);
@@ -86,7 +86,7 @@ public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonatio
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
             : query.OrderByDescending(x => x.CreationDate);
 
-        var dtoQuery = query.Select(entity => new BasicFontainDonationDto
+        var dtoQuery = query.Select(entity => new BasicFountainDonationDto
         {
             Id = entity.Id,
             Contact = entity.Contact,
@@ -97,15 +97,15 @@ public class GetFontainDonationsQueryHandler : IRequestHandler<GetFontainDonatio
             Team = entity.Team,
         });
 
-        var paginatedList = await PaginatedList<BasicFontainDonationDto>.CreateAsync(
+        var paginatedList = await PaginatedList<BasicFountainDonationDto>.CreateAsync(
             source: dtoQuery,
             page: request.Page,
             itemsPerPage: request.ItemsPerPage);
 
-        return Result<PaginatedList<BasicFontainDonationDto>>.Success(paginatedList);
+        return Result<PaginatedList<BasicFountainDonationDto>>.Success(paginatedList);
     }
 
-    private static IQueryable<FontainDonation> ApplySorting(IQueryable<FontainDonation> query, string sortBy, bool sortDesc)
+    private static IQueryable<FountainDonation> ApplySorting(IQueryable<FountainDonation> query, string sortBy, bool sortDesc)
     {
         return sortBy.ToLower() switch
         {

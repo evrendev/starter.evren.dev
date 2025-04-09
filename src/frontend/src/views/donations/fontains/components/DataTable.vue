@@ -1,13 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useFontainDonationStore } from "@/stores";
+import { useFountainDonationStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
 import { DetailsDialog } from "./";
 import config from "@/config";
 
 const { t } = useI18n();
-const fountainDonationStore = useFontainDonationStore();
+const fountainDonationStore = useFountainDonationStore();
 
 defineProps({
   items: {
@@ -31,19 +31,19 @@ const showDetailsModal = ref(false);
 const copySuccess = ref(false);
 
 const headers = ref([
-  { title: t("admin.donations.fontains.fields.info"), key: "info", sortable: true },
-  { title: t("admin.donations.fontains.fields.contact"), key: "contact", sortable: true },
-  { title: t("admin.donations.fontains.fields.phone"), key: "phone", sortable: false, width: "100px" },
+  { title: t("admin.donations.fountains.fields.info"), key: "info", sortable: true },
+  { title: t("admin.donations.fountains.fields.contact"), key: "contact", sortable: true },
+  { title: t("admin.donations.fountains.fields.phone"), key: "phone", sortable: false, width: "100px" },
   {
-    title: t("admin.donations.fontains.fields.creationDate"),
+    title: t("admin.donations.fountains.fields.creationDate"),
     key: "creationDate.displayDate",
     align: "center",
     sortable: true,
     width: "100px"
   },
-  { title: t("admin.donations.fontains.fields.weeks"), key: "weeks", sortable: false, align: "center", width: "48px" },
-  { title: t("admin.donations.fontains.fields.team"), key: "team", sortable: false, align: "center", width: "64px" },
-  { title: t("admin.donations.fontains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
+  { title: t("admin.donations.fountains.fields.weeks"), key: "weeks", sortable: false, align: "center", width: "48px" },
+  { title: t("admin.donations.fountains.fields.team"), key: "team", sortable: false, align: "center", width: "64px" },
+  { title: t("admin.donations.fountains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
 const showDetails = async (item) => {

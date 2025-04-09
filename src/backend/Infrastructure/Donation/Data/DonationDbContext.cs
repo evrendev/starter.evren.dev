@@ -7,7 +7,7 @@ public class DonationDbContext : DbContext, IDonationDbContext
     public DonationDbContext(DbContextOptions<DonationDbContext> options)
         : base(options) { }
 
-    public DbSet<FontainDonation> FontainDonations => Set<FontainDonation>();
+    public DbSet<FountainDonation> FountainDonations => Set<FountainDonation>();
 }
 
 

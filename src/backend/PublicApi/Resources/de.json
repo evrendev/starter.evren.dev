@@ -115,13 +115,13 @@
   "api.auth.reset-password.password.number": "Passwort muss mindestens eine Zahl enthalten",
   "api.auth.reset-password.password.special": "Passwort muss mindestens ein Sonderzeichen enthalten",
   "api.auth.reset-password.success": "Passwort wurde erfolgreich zurückgesetzt",
-  "api.donations.fontain.create.contact.require": "Kontakt ist erforderlich",
-  "api.donations.fontain.create.contact.maxlength": "Kontakt darf maximal 100 Zeichen lang sein",
-  "api.donations.fontain.create.phone.require": "Telefon ist erforderlich",
-  "api.donations.fontain.create.phone.maxlength": "Telefonnummer darf maximal 100 Zeichen lang sein",
-  "api.donations.fontain.create.banner.require": "Banner ist erforderlich",
-  "api.donations.fontain.create.banner.maxlength": "Banner darf maximal 1000 Zeichen lang sein",
-  "api.donations.fontain.create.project-code.require": "Projektcode ist erforderlich",
-  "api.donations.fontain.create.project-code.invalid": "Ungültiger Projektcode",
-  "api.donations.fontain.create.creation-date.require": "Erstellungsdatum ist erforderlich"
+  "api.donations.fountain.create.contact.require": "Kontakt ist erforderlich",
+  "api.donations.fountain.create.contact.maxlength": "Kontakt darf maximal 100 Zeichen lang sein",
+  "api.donations.fountain.create.phone.require": "Telefon ist erforderlich",
+  "api.donations.fountain.create.phone.maxlength": "Telefonnummer darf maximal 100 Zeichen lang sein",
+  "api.donations.fountain.create.banner.require": "Banner ist erforderlich",
+  "api.donations.fountain.create.banner.maxlength": "Banner darf maximal 1000 Zeichen lang sein",
+  "api.donations.fountain.create.project-code.require": "Projektcode ist erforderlich",
+  "api.donations.fountain.create.project-code.invalid": "Ungültiger Projektcode",
+  "api.donations.fountain.create.creation-date.require": "Erstellungsdatum ist erforderlich"
 }

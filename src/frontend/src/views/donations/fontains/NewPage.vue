@@ -2,7 +2,7 @@
 import { shallowRef } from "vue";
 import { useI18n } from "vue-i18n";
 import { Breadcrumb } from "@/components/forms";
-import { FontainForm } from "./components/";
+import { FountainForm } from "./components/";
 
 const { t } = useI18n();
 
@@ -13,7 +13,7 @@ const breadcrumbs = shallowRef([
     href: "/admin/donations"
   },
   {
-    title: t("admin.donations.fontains.title"),
+    title: t("admin.donations.fountains.title"),
     disabled: true,
     href: "#"
   },
@@ -29,7 +29,7 @@ const breadcrumbs = shallowRef([
   <breadcrumb :title="t('admin.donations.new')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
-      <fontain-form />
+      <fountain-form />
     </v-col>
   </v-row>
 </template>

@@ -5,6 +5,6 @@ namespace EvrenDev.Application.Common.Interfaces;
 
 public interface IDonationDbContext
 {
-    DbSet<FontainDonation> FontainDonations { get; }
+    DbSet<FountainDonation> FountainDonations { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

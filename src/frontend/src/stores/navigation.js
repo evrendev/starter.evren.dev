@@ -57,35 +57,35 @@ export const useNavigationStore = defineStore("navigation", {
             header: "components.sidebar.donations.title"
           },
           {
-            title: "components.sidebar.donations.fontains.title",
+            title: "components.sidebar.donations.fountains.title",
             icon: icons.donations,
             to: "#",
             children: [
               {
-                title: "components.sidebar.donations.fontains.all",
-                to: "/admin/donations/fontains/list"
+                title: "components.sidebar.donations.fountains.all",
+                to: "/admin/donations/fountains/list"
               },
               {
-                title: "components.sidebar.donations.fontains.bks",
-                to: "/admin/donations/fontains/list?projectCode=bks"
+                title: "components.sidebar.donations.fountains.bks",
+                to: "/admin/donations/fountains/list?projectCode=bks"
               },
               {
-                title: "components.sidebar.donations.fontains.bgs",
-                to: "/admin/donations/fontains/list?projectCode=bgs"
+                title: "components.sidebar.donations.fountains.bgs",
+                to: "/admin/donations/fountains/list?projectCode=bgs"
               },
               {
-                title: "components.sidebar.donations.fontains.aki",
-                to: "/admin/donations/fontains/list?projectCode=aki"
+                title: "components.sidebar.donations.fountains.aki",
+                to: "/admin/donations/fountains/list?projectCode=aki"
               },
               {
-                title: "components.sidebar.donations.fontains.agi",
-                to: "/admin/donations/fontains/list?projectCode=agi"
+                title: "components.sidebar.donations.fountains.agi",
+                to: "/admin/donations/fountains/list?projectCode=agi"
               },
               ...(this.hasPermission("Users.Create")
                 ? [
                     {
                       title: "components.sidebar.donations.new",
-                      to: "/admin/donations/fontains/new"
+                      to: "/admin/donations/fountains/new"
                     }
                   ]
                 : [])

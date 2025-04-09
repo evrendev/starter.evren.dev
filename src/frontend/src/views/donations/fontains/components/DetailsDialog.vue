@@ -23,47 +23,47 @@ defineProps({
         <v-table height="300px">
           <tbody>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.creationDate") }}</td>
+              <td>{{ t("admin.donations.fountains.details.creationDate") }}</td>
               <td>{{ donation.creationDate.displayDate }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.weeks") }}</td>
+              <td>{{ t("admin.donations.fountains.details.weeks") }}</td>
               <td>
                 <div :class="`bg-${donation.status.backgroundColor}`" class="text-center">
-                  {{ `${donation.weeks} - ${t(`admin.donations.fontains.status.${donation.status.name}`)}` }}
+                  {{ `${donation.weeks} - ${t(`admin.donations.fountains.status.${donation.status.name}`)}` }}
                 </div>
               </td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.banner") }}</td>
+              <td>{{ t("admin.donations.fountains.details.banner") }}</td>
               <td>{{ donation.banner }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.contact") }}</td>
+              <td>{{ t("admin.donations.fountains.details.contact") }}</td>
               <td>{{ donation.contact }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.phone") }}</td>
+              <td>{{ t("admin.donations.fountains.details.phone") }}</td>
               <td>{{ donation.phone }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.project") }}</td>
+              <td>{{ t("admin.donations.fountains.details.project") }}</td>
               <td>{{ donation.project }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.projectCode") }}</td>
+              <td>{{ t("admin.donations.fountains.details.projectCode") }}</td>
               <td>{{ donation.projectCode }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.projectNumber") }}</td>
+              <td>{{ t("admin.donations.fountains.details.projectNumber") }}</td>
               <td>{{ donation.projectNumber }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.transactionId") }}</td>
+              <td>{{ t("admin.donations.fountains.details.transactionId") }}</td>
               <td>{{ donation.transactionId }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fontains.details.source") }}</td>
+              <td>{{ t("admin.donations.fountains.details.source") }}</td>
               <td>{{ donation.source }}</td>
             </tr>
           </tbody>

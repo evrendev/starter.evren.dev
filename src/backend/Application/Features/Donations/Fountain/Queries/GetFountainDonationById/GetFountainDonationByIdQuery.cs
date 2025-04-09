@@ -1,19 +1,19 @@
 using Application.Common.Functions;
-using EvrenDev.Application.Features.Donations.Fontain.Models;
+using EvrenDev.Application.Features.Donations.Fountain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonationById;
+namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
 
-public class GetFontainDonationByIdQuery : IRequest<Result<FullFontainDonationDto>>
+public class GetFountainDonationByIdQuery : IRequest<Result<FullFountainDonationDto>>
 {
     public Guid Id { get; set; }
 }
 
-public class GetFontainDonationByIdQueryValidator : AbstractValidator<GetFontainDonationByIdQuery>
+public class GetFountainDonationByIdQueryValidator : AbstractValidator<GetFountainDonationByIdQuery>
 {
-    private readonly IStringLocalizer<GetFontainDonationByIdQueryValidator> _localizer;
+    private readonly IStringLocalizer<GetFountainDonationByIdQueryValidator> _localizer;
 
-    public GetFontainDonationByIdQueryValidator(IStringLocalizer<GetFontainDonationByIdQueryValidator> localizer)
+    public GetFountainDonationByIdQueryValidator(IStringLocalizer<GetFountainDonationByIdQueryValidator> localizer)
     {
         _localizer = localizer;
 
@@ -22,29 +22,29 @@ public class GetFontainDonationByIdQueryValidator : AbstractValidator<GetFontain
     }
 }
 
-public class GetFontainDonationByIdQueryHandler : IRequestHandler<GetFontainDonationByIdQuery, Result<FullFontainDonationDto>>
+public class GetFountainDonationByIdQueryHandler : IRequestHandler<GetFountainDonationByIdQuery, Result<FullFountainDonationDto>>
 {
     private readonly IDonationDbContext _context;
-    private readonly IStringLocalizer<GetFontainDonationByIdQueryHandler> _localizer;
+    private readonly IStringLocalizer<GetFountainDonationByIdQueryHandler> _localizer;
 
-    public GetFontainDonationByIdQueryHandler(
+    public GetFountainDonationByIdQueryHandler(
         IDonationDbContext context,
-        IStringLocalizer<GetFontainDonationByIdQueryHandler> localizer)
+        IStringLocalizer<GetFountainDonationByIdQueryHandler> localizer)
     {
         _context = context;
         _localizer = localizer;
     }
 
-    public async Task<Result<FullFontainDonationDto>> Handle(GetFontainDonationByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<FullFountainDonationDto>> Handle(GetFountainDonationByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.FontainDonations
+        var entity = await _context.FountainDonations
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(TodoList), request.Id.ToString());
 
-        var donation = new FullFontainDonationDto
+        var donation = new FullFountainDonationDto
         {
             Id = entity.Id,
             Contact = entity.Contact,
@@ -60,7 +60,7 @@ public class GetFontainDonationByIdQueryHandler : IRequestHandler<GetFontainDona
             Team = entity.Team,
         };
 
-        return Result<FullFontainDonationDto>.Success(donation);
+        return Result<FullFountainDonationDto>.Success(donation);
     }
 }
 

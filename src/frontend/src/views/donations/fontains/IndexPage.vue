@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useFontainDonationStore } from "@/stores";
+import { useFountainDonationStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { Breadcrumb } from "@/components/forms";
@@ -18,12 +18,12 @@ const breadcrumbs = ref([
     href: "/admin/donations"
   },
   {
-    title: t("admin.donations.fontains.title"),
+    title: t("admin.donations.fountains.title"),
     disabled: true,
     href: "#"
   },
   {
-    title: t(`components.sidebar.donations.fontains.${projectCode.value ?? "all"}`),
+    title: t(`components.sidebar.donations.fountains.${projectCode.value ?? "all"}`),
     href: "#"
   }
 ]);
@@ -39,12 +39,12 @@ watch(
         href: "/admin/donations"
       },
       {
-        title: t("admin.donations.fontains.title"),
+        title: t("admin.donations.fountains.title"),
         disabled: true,
         href: "#"
       },
       {
-        title: t(`components.sidebar.donations.fontains.${projectCode.value ?? "all"}`),
+        title: t(`components.sidebar.donations.fountains.${projectCode.value ?? "all"}`),
         href: "#"
       }
     ];
@@ -57,7 +57,7 @@ watch(
 const items = ref([]);
 const itemsLength = ref(0);
 const loading = ref(false);
-const donationStore = useFontainDonationStore();
+const donationStore = useFountainDonationStore();
 
 const searchOptions = {
   page: 1,
@@ -97,7 +97,7 @@ const getItems = async (options) => {
 </script>
 
 <template>
-  <breadcrumb :title="t('admin.donations.fontains.title')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.donations.fountains.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />

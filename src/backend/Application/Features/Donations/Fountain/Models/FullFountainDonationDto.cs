@@ -1,5 +1,5 @@
-namespace EvrenDev.Application.Features.Donations.Fontain.Models;
-public record FullFontainDonationDto
+namespace EvrenDev.Application.Features.Donations.Fountain.Models;
+public record FullFountainDonationDto
 {
     public Guid Id { get; set; }
     public string? Contact { get; set; }

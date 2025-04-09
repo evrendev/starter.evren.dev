@@ -1,23 +1,23 @@
 ﻿namespace EvrenDev.Shared.Enums;
 
-public class FontainDonationProject(string? name, string? alias)
+public class FountainDonationProject(string? name, string? alias)
 {
     public string? Name { get; private set; } = name;
     public string? Alias { get; private set; } = alias;
 
     // Predefined statuses
-    public static FontainDonationProject Bks => new("BKS", "BL01");
-    public static FontainDonationProject Bgs => new("BGS", "BL01");
-    public static FontainDonationProject Aki => new("AKI", "AF01");
-    public static FontainDonationProject Agi => new("AGI", "AF02");
+    public static FountainDonationProject Bks => new("BKS", "BL01");
+    public static FountainDonationProject Bgs => new("BGS", "BL01");
+    public static FountainDonationProject Aki => new("AKI", "AF01");
+    public static FountainDonationProject Agi => new("AGI", "AF02");
 
-    public static FontainDonationProject From(string? name)
+    public static FountainDonationProject From(string? name)
     {
         return ToList
             .FirstOrDefault(status => string.Equals(status.Name, name, StringComparison.OrdinalIgnoreCase)) ?? Bks;
     }
 
-    public static IEnumerable<FontainDonationProject> ToList
+    public static IEnumerable<FountainDonationProject> ToList
     {
         get
         {

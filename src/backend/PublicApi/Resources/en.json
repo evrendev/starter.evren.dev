@@ -115,13 +115,13 @@
   "api.auth.reset-password.password.number": "Password must contain at least one number",
   "api.auth.reset-password.password.special": "Password must contain at least one special character",
   "api.auth.reset-password.success": "Password has been reset successfully",
-  "api.donations.fontain.create.contact.require": "Contact is required",
-  "api.donations.fontain.create.contact.maxlength": "Contact is at most 100 characters",
-  "api.donations.fontain.create.phone.require": "Phone is required",
-  "api.donations.fontain.create.phone.maxlength": "Phone is at most 100 characters",
-  "api.donations.fontain.create.banner.require": "Banner is required",
-  "api.donations.fontain.create.banner.maxlength": "Banner is at most 1000 characters",
-  "api.donations.fontain.create.project-code.require": "Project code is required",
-  "api.donations.fontain.create.project-code.invalid": "Project code is invalid",
-  "api.donations.fontain.create.creation-date.require": "Creation Date is required"
+  "api.donations.fountain.create.contact.require": "Contact is required",
+  "api.donations.fountain.create.contact.maxlength": "Contact is at most 100 characters",
+  "api.donations.fountain.create.phone.require": "Phone is required",
+  "api.donations.fountain.create.phone.maxlength": "Phone is at most 100 characters",
+  "api.donations.fountain.create.banner.require": "Banner is required",
+  "api.donations.fountain.create.banner.maxlength": "Banner is at most 1000 characters",
+  "api.donations.fountain.create.project-code.require": "Project code is required",
+  "api.donations.fountain.create.project-code.invalid": "Project code is invalid",
+  "api.donations.fountain.create.creation-date.require": "Creation Date is required"
 }

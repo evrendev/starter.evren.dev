@@ -82,7 +82,7 @@ export default {
       },
       donations: {
         title: "Donations",
-        fontains: {
+        fountains: {
           title: "Fountain Donations",
           all: "All Donations",
           bks: "BKS",
@@ -209,7 +209,7 @@ export default {
         title: "Delete Donation",
         message: "Are you sure you want to delete this donation?"
       },
-      fontains: {
+      fountains: {
         title: "Fountain Donations",
         fields: {
           id: "ID",

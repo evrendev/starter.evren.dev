@@ -16,4 +16,5 @@ public class FontainDonation
     public string? TransactionId { get; set; }
     public string? Source { get; set; }
     public string? Team { get; set; }
+    public string? MediaStatus { get; set; }
 }

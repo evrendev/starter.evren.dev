@@ -78,7 +78,7 @@ export default {
       },
       donations: {
         title: "Spenden",
-        fontains: {
+        fountains: {
           title: "Brunnen Spenden",
           all: "Alle Spenden",
           bks: "BKS",
@@ -210,7 +210,7 @@ export default {
         title: "Spende löschen",
         message: "Möchten Sie die Spende löschen?"
       },
-      fontains: {
+      fountains: {
         title: "Brunnen Spenden",
         fields: {
           id: "ID",

@@ -4,39 +4,39 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
-import { useFontainDonationStore } from "@/stores/fontainDonations";
+import { useFountainDonationStore } from "@/stores/fountainDonations";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
 const router = useRouter();
-const fontainDonationStore = useFontainDonationStore();
+const fountainDonationStore = useFountainDonationStore();
 const appStore = useAppStore();
 const { loading } = storeToRefs(appStore);
 
 const validationSchema = object().shape({
   contact: string()
-    .required(t("admin.donations.fontains.validation.contact.required"))
-    .max(100, t("admin.donations.fontains.validation.contact.maxLength")),
+    .required(t("admin.donations.fountains.validation.contact.required"))
+    .max(100, t("admin.donations.fountains.validation.contact.maxLength")),
   phone: string()
-    .required(t("admin.donations.fontains.validation.phone.required"))
-    .max(100, t("admin.donations.fontains.validation.phone.maxLength")),
+    .required(t("admin.donations.fountains.validation.phone.required"))
+    .max(100, t("admin.donations.fountains.validation.phone.maxLength")),
   banner: string()
-    .required(t("admin.donations.fontains.validation.banner.required"))
-    .max(1000, t("admin.donations.fontains.validation.banner.maxLength")),
+    .required(t("admin.donations.fountains.validation.banner.required"))
+    .max(1000, t("admin.donations.fountains.validation.banner.maxLength")),
   projectCode: string()
-    .oneOf(["BKS", "BGS", "AKI", "AGI"], t("admin.donations.fontains.validation.projectCode.invalid"))
-    .required(t("admin.donations.fontains.validation.projectCode.required")),
+    .oneOf(["BKS", "BGS", "AKI", "AGI"], t("admin.donations.fountains.validation.projectCode.invalid"))
+    .required(t("admin.donations.fountains.validation.projectCode.required")),
   creationDate: string()
-    .required(t("admin.donations.fontains.validation.creationDate.required"))
-    .matches(/^\d{4}-\d{2}-\d{2}$/, t("admin.donations.fontains.validation.creationDate.invalid"))
+    .required(t("admin.donations.fountains.validation.creationDate.required"))
+    .matches(/^\d{4}-\d{2}-\d{2}$/, t("admin.donations.fountains.validation.creationDate.invalid"))
 });
 
 const projectCodes = ref([
-  { title: t("admin.donations.fontains.projectCodes.bks"), value: "BKS" },
-  { title: t("admin.donations.fontains.projectCodes.bgs"), value: "BGS" },
-  { title: t("admin.donations.fontains.projectCodes.aki"), value: "AKI" },
-  { title: t("admin.donations.fontains.projectCodes.agi"), value: "AGI" }
+  { title: t("admin.donations.fountains.projectCodes.bks"), value: "BKS" },
+  { title: t("admin.donations.fountains.projectCodes.bgs"), value: "BGS" },
+  { title: t("admin.donations.fountains.projectCodes.aki"), value: "AKI" },
+  { title: t("admin.donations.fountains.projectCodes.agi"), value: "AGI" }
 ]);
 
 const initialValues = {
@@ -67,10 +67,10 @@ const [projectCode, projectCodeProps] = defineField("projectCode", vuetifyConfig
 const onSubmit = handleSubmit(async (values) => {
   try {
     appStore.setLoading(true);
-    await fontainDonationStore.create({
+    await fountainDonationStore.create({
       ...values
     });
-    router.push({ name: "list-fontains" });
+    router.push({ name: "list-fountains" });
   } catch (error) {
     console.error(error);
   } finally {
@@ -92,7 +92,7 @@ const handleReset = async () => {
           <v-text-field
             v-model="contact"
             v-bind="contactProps"
-            :label="t('admin.donations.fontains.fields.contact')"
+            :label="t('admin.donations.fountains.fields.contact')"
             :max-length="100"
             density="compact"
             variant="outlined"
@@ -103,7 +103,7 @@ const handleReset = async () => {
           <v-text-field
             v-model="phone"
             v-bind="phoneProps"
-            :label="t('admin.donations.fontains.fields.phone')"
+            :label="t('admin.donations.fountains.fields.phone')"
             :max-length="100"
             density="compact"
             variant="outlined"
@@ -114,7 +114,7 @@ const handleReset = async () => {
           <v-text-field
             v-model="creationDate"
             v-bind="creationDateProps"
-            :label="t('admin.donations.fontains.fields.creationDate')"
+            :label="t('admin.donations.fountains.fields.creationDate')"
             type="date"
             density="compact"
             variant="outlined"
@@ -126,7 +126,7 @@ const handleReset = async () => {
             v-model="projectCode"
             v-bind="projectCodeProps"
             :items="projectCodes"
-            :label="t('admin.donations.fontains.fields.projectCode')"
+            :label="t('admin.donations.fountains.fields.projectCode')"
             density="compact"
             hide-details
             item-title="title"
@@ -138,7 +138,7 @@ const handleReset = async () => {
           <v-textarea
             v-model="banner"
             v-bind="bannerProps"
-            :label="t('admin.donations.fontains.fields.banner')"
+            :label="t('admin.donations.fountains.fields.banner')"
             :rows="3"
             :counter="1000"
             :max-length="1000"

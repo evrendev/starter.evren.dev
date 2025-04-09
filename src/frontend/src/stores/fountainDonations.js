@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
 import { useAppStore } from "@/stores";
 
-export const useFontainDonationStore = defineStore("fontainDonation", {
+export const useFountainDonationStore = defineStore("fountainDonation", {
   state: () => ({
     items: [],
     donation: {},
@@ -25,7 +25,7 @@ export const useFontainDonationStore = defineStore("fontainDonation", {
           ...(endDate && { endDate })
         });
 
-        const response = await apiService.get(`/donations/fontain?${params}`, false);
+        const response = await apiService.get(`/donations/fountain?${params}`, false);
         this.items = response.items;
         this.itemsLength = response.itemsLength;
       } finally {
@@ -37,7 +37,7 @@ export const useFontainDonationStore = defineStore("fontainDonation", {
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.get(`/donations/fontain/${id}`, false);
+        const response = await apiService.get(`/donations/fountain/${id}`, false);
         this.donation = response;
       } finally {
         appStore.setLoading(false);
@@ -48,7 +48,7 @@ export const useFontainDonationStore = defineStore("fontainDonation", {
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.post("/donations/fontain", donation);
+        const response = await apiService.post("/donations/fountain", donation);
         this.donation = response;
       } finally {
         appStore.setLoading(false);

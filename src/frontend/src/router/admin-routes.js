@@ -37,29 +37,29 @@ const AdminRoutes = {
         {
           path: "",
           name: "default-donations",
-          redirect: "fontains"
+          redirect: "fountains"
         },
         {
-          name: "fontains",
-          path: "fontains",
+          name: "fountains",
+          path: "fountains",
           children: [
             {
               path: "",
-              name: "list-fontains",
+              name: "list-fountains",
               redirect: "list"
             },
             {
-              name: "list-fontains",
+              name: "list-fountains",
               path: "list",
-              component: () => import("@/views/donations/fontains/IndexPage.vue"),
+              component: () => import("@/views/donations/fountains/IndexPage.vue"),
               meta: {
-                titleKey: "admin.donations.fontains.title"
+                titleKey: "admin.donations.fountains.title"
               }
             },
             {
-              name: "add-fontain",
+              name: "add-fountain",
               path: "new",
-              component: () => import("@/views/donations/fontains/NewPage.vue"),
+              component: () => import("@/views/donations/fountains/NewPage.vue"),
               meta: {
                 titleKey: "admin.donations.new"
               }

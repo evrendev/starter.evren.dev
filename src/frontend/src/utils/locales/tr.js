@@ -78,7 +78,7 @@ export default {
       },
       donations: {
         title: "Bağışlar",
-        fontains: {
+        fountains: {
           title: "Kuyu Bağışları",
           all: "Tüm Bağışlar",
           bks: "BKS",
@@ -211,7 +211,7 @@ export default {
         title: "Bağışı Sil",
         message: "Bağışı silmek istediğinizden emin misiniz?"
       },
-      fontains: {
+      fountains: {
         title: "Kuyu Bağışları",
         fields: {
           id: "ID",

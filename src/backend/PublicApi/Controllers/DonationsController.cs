@@ -1,9 +1,9 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
-using EvrenDev.Application.Features.Donations.Fontain.Models;
-using EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonationById;
-using EvrenDev.Application.Features.Donations.Fontain.Queries.GetFontainDonations;
-using EvrenDev.Application.Features.Donations.Fontain.Commands.CreateFontainDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Models;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateFountainDonation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -26,9 +26,9 @@ public class DonationsController : ControllerBase
         _localizer = localizer;
     }
 
-    [HttpGet("fontain")]
+    [HttpGet("fountain")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult<PaginatedList<BasicFontainDonationDto>>> GetAll([FromQuery] GetFontainDonationsQuery query)
+    public async Task<ActionResult<PaginatedList<BasicFountainDonationDto>>> GetAll([FromQuery] GetFountainDonationsQuery query)
     {
         try
         {
@@ -50,13 +50,13 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpGet("fontain/{id}")]
+    [HttpGet("fountain/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult<FullFontainDonationDto>> GetById(Guid id)
+    public async Task<ActionResult<FullFountainDonationDto>> GetById(Guid id)
     {
         try
         {
-            var result = await _mediator.Send(new GetFontainDonationByIdQuery { Id = id });
+            var result = await _mediator.Send(new GetFountainDonationByIdQuery { Id = id });
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)
@@ -74,9 +74,9 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpPost("fontain")]
+    [HttpPost("fountain")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Create}")]
-    public async Task<ActionResult<Guid>> Create(CreateFontainDonationCommand command)
+    public async Task<ActionResult<Guid>> Create(CreateFountainDonationCommand command)
     {
         try
         {

@@ -1,5 +1,5 @@
-namespace EvrenDev.Application.Features.Donations.Fontain.Models;
-public record BasicFontainDonationDto
+namespace EvrenDev.Application.Features.Donations.Fountain.Models;
+public record BasicFountainDonationDto
 {
     public Guid Id { get; set; }
     public string? Contact { get; set; }
@@ -24,4 +24,5 @@ public record BasicFontainDonationDto
     public string? HtmlBanner { get; set; }
     public string? PlainBanner { get; set; }
     public string? Team { get; set; }
+    private MediaStatus? MediaStatus { get; set; }
 }
