@@ -28,7 +28,7 @@ const customizer = useCustomizerStore();
 </template>
 
 <style lang="scss" scoped>
-::v-deep .grecaptcha-logo {
+:deep(.grecaptcha-logo) {
   display: none !important;
 }
 </style>

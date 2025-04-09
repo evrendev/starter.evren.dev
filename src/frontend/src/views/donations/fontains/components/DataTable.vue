@@ -128,7 +128,7 @@ const copyToClipboard = (text) => {
 </template>
 
 <style lang="scss" scoped>
-::v-deep .donations-table {
+:deep(.donations-table) {
   tbody {
     tr {
       &:first-child {
