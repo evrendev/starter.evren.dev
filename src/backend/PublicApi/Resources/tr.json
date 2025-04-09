@@ -114,5 +114,14 @@
   "api.auth.reset-password.password.lowercase": "Şifre en az bir küçük harf içermelidir",
   "api.auth.reset-password.password.number": "Şifre en az bir sayı içermelidir",
   "api.auth.reset-password.password.special": "Şifre en az bir özel karakter içermelidir",
-  "api.auth.reset-password.success": "Şifre başarıyla sıfırlandı"
+  "api.auth.reset-password.success": "Şifre başarıyla sıfırlandı",
+  "api.donations.fontain.create.contact.require": "Bağışçı bilgisi gerekli",
+  "api.donations.fontain.create.contact.maxlength": "Bağışçı bilgisi en fazla 100 karakter olmalıdır",
+  "api.donations.fontain.create.phone.require": "Telefon gerekli",
+  "api.donations.fontain.create.phone.maxlength": "Telefon en fazla 100 karakter olmalıdır",
+  "api.donations.fontain.create.banner.require": "Afiş gerekli",
+  "api.donations.fontain.create.banner.maxlength": "Afiş en fazla 1000 karakter olmalıdır",
+  "api.donations.fontain.create.project-code.require": "Proje kodu gerekli",
+  "api.donations.fontain.create.project-code.invalid": "Geçersiz proje kodu",
+  "api.donations.fontain.create.creation-date.require": "Oluşturma tarihi gerekli"
 }

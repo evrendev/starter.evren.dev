@@ -40,14 +40,13 @@ public class CreateFontainDonationCommandValidator : AbstractValidator<CreateFon
 
         RuleFor(x => x.ProjectCode)
             .NotEmpty()
-            .WithMessage(_localizer["api.donations.fontain.create.projectCode.required"])
+            .WithMessage(_localizer["api.donations.fontain.create.project-code.required"])
             .Must(code => new[] { "BKS", "BGS", "AKI", "AGI" }.Contains(code))
-            .WithMessage(_localizer["api.donations.fontain.create.projectCode.invalid"]);
+            .WithMessage(_localizer["api.donations.fontain.create.project-code.invalid"]);
 
         RuleFor(v => v.CreationDate)
             .NotNull()
-            .WithMessage(_localizer["api.donations.fontain.create.creationdate.required"])
-            .When(v => v.CreationDate.HasValue);
+            .WithMessage(_localizer["api.donations.fontain.create.creation-date.required"]);
     }
 }
 
