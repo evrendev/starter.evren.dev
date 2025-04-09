@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EvrenDev.Domain.Entities.Donation;
 
 [Table("Brunnen_Donations", Schema = "dbo")]
-public class FontainDonation
+public class FountainDonation
 {
     public Guid Id { get; set; }
     public string? Contact { get; set; }

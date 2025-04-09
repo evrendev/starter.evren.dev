@@ -24,5 +24,6 @@ public record BasicFountainDonationDto
     public string? HtmlBanner { get; set; }
     public string? PlainBanner { get; set; }
     public string? Team { get; set; }
-    private MediaStatus? MediaStatus { get; set; }
+    private string? MediaStatus { get; set; }
+    public MediaStatus? Media => Shared.Enums.MediaStatus.From(MediaStatus);
 }
