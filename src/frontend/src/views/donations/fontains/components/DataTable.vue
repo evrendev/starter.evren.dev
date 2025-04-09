@@ -31,13 +31,19 @@ const showDetailsModal = ref(false);
 const copySuccess = ref(false);
 
 const headers = ref([
-  { title: t("admin.donations.fields.info"), key: "info", sortable: true },
-  { title: t("admin.donations.fields.contact"), key: "contact", sortable: true },
-  { title: t("admin.donations.fields.phone"), key: "phone", sortable: false, width: "100px" },
-  { title: t("admin.donations.fields.creationDate"), key: "creationDate.displayDate", align: "center", sortable: true, width: "100px" },
-  { title: t("admin.donations.fields.weeks"), key: "weeks", sortable: false, align: "center", width: "48px" },
-  { title: t("admin.donations.fields.team"), key: "team", sortable: false, align: "center", width: "64px" },
-  { title: t("admin.donations.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
+  { title: t("admin.donations.fontains.fields.info"), key: "info", sortable: true },
+  { title: t("admin.donations.fontains.fields.contact"), key: "contact", sortable: true },
+  { title: t("admin.donations.fontains.fields.phone"), key: "phone", sortable: false, width: "100px" },
+  {
+    title: t("admin.donations.fontains.fields.creationDate"),
+    key: "creationDate.displayDate",
+    align: "center",
+    sortable: true,
+    width: "100px"
+  },
+  { title: t("admin.donations.fontains.fields.weeks"), key: "weeks", sortable: false, align: "center", width: "48px" },
+  { title: t("admin.donations.fontains.fields.team"), key: "team", sortable: false, align: "center", width: "64px" },
+  { title: t("admin.donations.fontains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
 const showDetails = async (item) => {

@@ -27,20 +27,20 @@ public class GetBrunnenDonationsQueryValidator : AbstractValidator<GetBrunnenDon
         RuleFor(v => v.StartDate)
             .LessThan(v => v.EndDate)
             .When(v => v.StartDate.HasValue && v.EndDate.HasValue)
-            .WithMessage(_localizer["api.donations.startdate.less.than.enddate"]);
+            .WithMessage(_localizer["api.donations.fontains.startdate.less.than.enddate"]);
 
         RuleFor(v => v.EndDate)
             .GreaterThan(v => v.StartDate)
             .When(v => v.StartDate.HasValue && v.EndDate.HasValue)
-            .WithMessage(_localizer["api.donations.enddate.greater.than.startdate"]);
+            .WithMessage(_localizer["api.donations.fontains.enddate.greater.than.startdate"]);
 
         RuleFor(v => v.Page)
             .GreaterThan(0)
-            .WithMessage(_localizer["api.donations.page.greater.than.zero"]);
+            .WithMessage(_localizer["api.donations.fontains.page.greater.than.zero"]);
 
         RuleFor(v => v.ItemsPerPage)
             .GreaterThan(0)
-            .WithMessage(_localizer["api.donations.itemsperpage.greater.than.zero"]);
+            .WithMessage(_localizer["api.donations.fontains.itemsperpage.greater.than.zero"]);
     }
 }
 

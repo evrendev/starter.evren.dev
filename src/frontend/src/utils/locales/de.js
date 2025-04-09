@@ -79,8 +79,8 @@ export default {
       donations: {
         title: "Spenden",
         fontains: {
-          title: "Brunnen",
-          all: "Alle",
+          title: "Brunnen Spenden",
+          all: "Alle Spenden",
           bks: "BKS",
           bgs: "BGS",
           aki: "AKI",
@@ -204,46 +204,55 @@ export default {
     donations: {
       title: "Spenden",
       list: "Liste",
-      fields: {
-        id: "ID",
-        contact: "Kontakt",
-        phone: "Telefon",
-        creationDate: "Datum",
-        info: "Info",
-        projectCode: "Projektcode",
-        weeks: "Wochen",
-        status: "Status",
-        team: "Team",
-        detail: "Aktion"
+      new: "Neue Spende",
+      edit: "Bearbeiten",
+      delete: {
+        title: "Spende löschen",
+        message: "Möchten Sie die Spende löschen?"
       },
-      projectCodes: {
-        bks: "BKS",
-        bgs: "BGS",
-        aki: "AKI",
-        agi: "AGI"
-      },
-      status: {
-        none: "Keine",
-        initialWeek: "Initiale Woche",
-        ongoingEarlyWeeks: "Laufende frühe Wochen",
-        week5Media: "Woche 5 Medien",
-        week6Warning: "Woche 6 Warnung",
-        week8Critical: "Woche 8 kritisch",
-        published: "Veröffentlicht"
-      },
-      details: {
-        creationDate: "Datum",
-        weeks: "Wochen",
-        team: "Team",
-        contact: "Kontakt",
-        phone: "Telefon",
-        project: "Projekt",
-        projectCode: "Projektcode",
-        projectNumber: "Projektnummer",
-        banner: "Banner",
-        transactionId: "Transaktions-ID",
-        source: "Quelle",
-        link: "Link"
+      fontains: {
+        title: "Brunnen Spenden",
+        fields: {
+          id: "ID",
+          contact: "Kontakt",
+          phone: "Telefon",
+          creationDate: "Datum",
+          info: "Info",
+          projectCode: "Projektcode",
+          weeks: "Wochen",
+          status: "Status",
+          team: "Team",
+          detail: "Aktion"
+        },
+        projectCodes: {
+          bks: "BKS",
+          bgs: "BGS",
+          aki: "AKI",
+          agi: "AGI"
+        },
+        status: {
+          none: "Keine",
+          initialWeek: "Initiale Woche",
+          ongoingEarlyWeeks: "Laufende frühe Wochen",
+          week5Media: "Woche 5 Medien",
+          week6Warning: "Woche 6 Warnung",
+          week8Critical: "Woche 8 kritisch",
+          published: "Veröffentlicht"
+        },
+        details: {
+          creationDate: "Datum",
+          weeks: "Wochen",
+          team: "Team",
+          contact: "Kontakt",
+          phone: "Telefon",
+          project: "Projekt",
+          projectCode: "Projektcode",
+          projectNumber: "Projektnummer",
+          banner: "Banner",
+          transactionId: "Transaktions-ID",
+          source: "Quelle",
+          link: "Link"
+        }
       }
     },
     tenants: {

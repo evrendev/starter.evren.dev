@@ -16,19 +16,10 @@ const emits = defineEmits(["submit", "reset"]);
 
 const search = ref("");
 const dateRange = ref([null, null]);
-const selectedProjectCode = ref(null);
-const projectCodes = ref([
-  { title: t("common.all"), value: null },
-  { title: t("admin.donations.projectCodes.bks"), value: "BKS" },
-  { title: t("admin.donations.projectCodes.bgs"), value: "BGS" },
-  { title: t("admin.donations.projectCodes.aki"), value: "AKI" },
-  { title: t("admin.donations.projectCodes.agi"), value: "AGI" }
-]);
 
 const handleSubmit = () => {
   emits("submit", {
     search: search.value,
-    projectCode: selectedProjectCode.value,
     startDate: dateRange.value[0],
     endDate: dateRange.value[1]
   });
@@ -36,7 +27,6 @@ const handleSubmit = () => {
 
 const handleReset = () => {
   search.value = "";
-  selectedProjectCode.value = null;
   dateRange.value = [null, null];
   emits("reset");
 };
@@ -45,20 +35,8 @@ const handleReset = () => {
 <template>
   <parent-card class="mb-4" :title="t('common.filters')">
     <v-row>
-      <v-col cols="12" md="3">
+      <v-col cols="12" md="6">
         <v-text-field v-model="search" :label="t('common.search')" density="compact" hide-details variant="outlined"></v-text-field>
-      </v-col>
-      <v-col cols="12" md="3">
-        <v-select
-          v-model="selectedProjectCode"
-          :items="projectCodes"
-          :label="t('admin.donations.fields.projectCode')"
-          density="compact"
-          hide-details
-          item-title="title"
-          item-value="value"
-          variant="outlined"
-        ></v-select>
       </v-col>
       <v-col cols="12" md="6">
         <v-row>

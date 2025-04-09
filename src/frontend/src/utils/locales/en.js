@@ -203,46 +203,55 @@ export default {
     donations: {
       title: "Donations",
       list: "List Donations",
-      fields: {
-        id: "ID",
-        contact: "Contact",
-        phone: "Phone",
-        creationDate: "Date",
-        info: "Info",
-        projectCode: "Project Code",
-        weeks: "Weeks",
-        status: "Status",
-        team: "Team",
-        detail: "Action"
+      new: "New Donation",
+      edit: "Edit Donation",
+      delete: {
+        title: "Delete Donation",
+        message: "Are you sure you want to delete this donation?"
       },
-      projectCodes: {
-        bks: "BKS",
-        bgs: "BGS",
-        aki: "AKI",
-        agi: "AGI"
-      },
-      status: {
-        none: "No details available",
-        initialWeek: "Initial Week",
-        ongoingEarlyWeeks: "Ongoing Early Weeks",
-        week5Media: "Week 5 Media",
-        week6Warning: "Week 6 Warning",
-        week8Critical: "Week 8 Critical",
-        published: "Published"
-      },
-      details: {
-        creationDate: "Date",
-        weeks: "Weeks",
-        team: "Team",
-        contact: "Contact",
-        phone: "Phone",
-        project: "Project",
-        projectCode: "Project Code",
-        projectNumber: "Project Number",
-        banner: "Banner",
-        transactionId: "Transaction ID",
-        source: "Source",
-        link: "Link"
+      fontains: {
+        title: "Fountain Donations",
+        fields: {
+          id: "ID",
+          contact: "Contact",
+          phone: "Phone",
+          creationDate: "Date",
+          info: "Info",
+          projectCode: "Project Code",
+          weeks: "Weeks",
+          status: "Status",
+          team: "Team",
+          detail: "Action"
+        },
+        projectCodes: {
+          bks: "BKS",
+          bgs: "BGS",
+          aki: "AKI",
+          agi: "AGI"
+        },
+        status: {
+          none: "No details available",
+          initialWeek: "Initial Week",
+          ongoingEarlyWeeks: "Ongoing Early Weeks",
+          week5Media: "Week 5 Media",
+          week6Warning: "Week 6 Warning",
+          week8Critical: "Week 8 Critical",
+          published: "Published"
+        },
+        details: {
+          creationDate: "Date",
+          weeks: "Weeks",
+          team: "Team",
+          contact: "Contact",
+          phone: "Phone",
+          project: "Project",
+          projectCode: "Project Code",
+          projectNumber: "Project Number",
+          banner: "Banner",
+          transactionId: "Transaction ID",
+          source: "Source",
+          link: "Link"
+        }
       }
     },
     tenants: {

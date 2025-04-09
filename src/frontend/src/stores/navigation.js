@@ -67,25 +67,25 @@ export const useNavigationStore = defineStore("navigation", {
               },
               {
                 title: "components.sidebar.donations.fontains.bks",
-                to: "/admin/donations/fontains/list?project=bks"
+                to: "/admin/donations/fontains/list?projectCode=bks"
               },
               {
                 title: "components.sidebar.donations.fontains.bgs",
-                to: "/admin/donations/fontains/list?project=bgs"
+                to: "/admin/donations/fontains/list?projectCode=bgs"
               },
               {
                 title: "components.sidebar.donations.fontains.aki",
-                to: "/admin/donations/fontains/list?project=aki"
+                to: "/admin/donations/fontains/list?projectCode=aki"
               },
               {
                 title: "components.sidebar.donations.fontains.agi",
-                to: "/admin/donations/fontains/list?project=agi"
+                to: "/admin/donations/fontains/list?projectCode=agi"
               },
               ...(this.hasPermission("Users.Create")
                 ? [
                     {
                       title: "components.sidebar.donations.new",
-                      to: "/admin/donations/new"
+                      to: "/admin/donations/fontains/new"
                     }
                   ]
                 : [])

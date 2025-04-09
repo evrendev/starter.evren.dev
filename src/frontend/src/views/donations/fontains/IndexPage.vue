@@ -1,20 +1,58 @@
 <script setup>
-import { ref, shallowRef } from "vue";
+import { ref, shallowRef, watch } from "vue";
 import { useDonationStore } from "@/stores";
 import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 import { Breadcrumb } from "@/components/forms";
 import { FilterCard, DataTable } from "./components/";
 import config from "@/config";
 
 const { t } = useI18n();
+const route = useRoute();
+const projectCode = ref(route.query.projectCode || null);
 
 const breadcrumbs = shallowRef([
   {
     title: t("admin.donations.title"),
     disabled: true,
+    href: "/admin/donations"
+  },
+  {
+    title: t("admin.donations.fontains.title"),
+    disabled: true,
+    href: "#"
+  },
+  {
+    title: t(`components.sidebar.donations.fontains.${projectCode.value ?? "all"}`),
     href: "#"
   }
 ]);
+
+watch(
+  () => route.query,
+  (query) => {
+    projectCode.value = query.projectCode;
+    breadcrumbs.value = [
+      {
+        title: t("admin.donations.title"),
+        disabled: true,
+        href: "/admin/donations"
+      },
+      {
+        title: t("admin.donations.fontains.title"),
+        disabled: true,
+        href: "#"
+      },
+      {
+        title: t(`components.sidebar.donations.fontains.${projectCode.value ?? "all"}`),
+        href: "#"
+      }
+    ];
+
+    searchOptions.projectCode = projectCode.value;
+    getItems(searchOptions);
+  }
+);
 
 const items = ref([]);
 const itemsLength = ref(0);
@@ -26,7 +64,7 @@ const searchOptions = {
   itemsPerPage: config.itemsPerPage,
   sortBy: null,
   groupBy: null,
-  action: null,
+  projectCode: projectCode.value,
   startDate: null,
   endDate: null,
   search: null
@@ -34,7 +72,6 @@ const searchOptions = {
 
 const handleFilterSubmit = (filters) => {
   searchOptions.page = 1;
-  searchOptions.projectCode = filters.projectCode;
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
@@ -43,7 +80,6 @@ const handleFilterSubmit = (filters) => {
 
 const handleFilterReset = () => {
   searchOptions.page = 1;
-  searchOptions.projectCode = null;
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
@@ -52,6 +88,7 @@ const handleFilterReset = () => {
 
 const getItems = async (options) => {
   loading.value = true;
+  options.projectCode = projectCode.value;
   await donationStore.getItems(options);
   items.value = donationStore.items;
   itemsLength.value = donationStore.itemsLength;
@@ -60,7 +97,7 @@ const getItems = async (options) => {
 </script>
 
 <template>
-  <breadcrumb :title="t('admin.donations.title')" :breadcrumbs="breadcrumbs" />
+  <breadcrumb :title="t('admin.donations.fontains.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />

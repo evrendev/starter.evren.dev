@@ -79,8 +79,8 @@ export default {
       donations: {
         title: "Bağışlar",
         fontains: {
-          title: "Kuyular",
-          all: "Tüm Kuyular",
+          title: "Kuyu Bağışları",
+          all: "Tüm Bağışlar",
           bks: "BKS",
           bgs: "BGS",
           aki: "AKI",
@@ -204,47 +204,56 @@ export default {
     },
     donations: {
       title: "Bağışlar",
-      list: "Liste",
-      fields: {
-        id: "ID",
-        contact: "Bağışçı",
-        phone: "Telefon",
-        creationDate: "Tarih",
-        projectCode: "Proje Kodu",
-        info: "Bilgi",
-        weeks: "Hafta",
-        status: "Durum",
-        team: "Takım",
-        detail: "İşlem"
+      list: "Bağış Listesi",
+      new: "Yeni Bağış",
+      edit: "Bağış Düzenle",
+      delete: {
+        title: "Bağışı Sil",
+        message: "Bağışı silmek istediğinizden emin misiniz?"
       },
-      status: {
-        none: "Yok",
-        initialWeek: "Başlangıç Haftası",
-        ongoingEarlyWeeks: "Devam Eden İlk Haftalar",
-        week5Media: "5. Hafta Medya",
-        week6Warning: "6. Hafta Uyarı",
-        week8Critical: "8. Hafta Kritik",
-        published: "Yayınlandı"
-      },
-      projectCodes: {
-        bks: "BKS",
-        bgs: "BGS",
-        aki: "AKI",
-        agi: "AGI"
-      },
-      details: {
-        creationDate: "Tarih",
-        weeks: "Hafta",
-        team: "Takım",
-        contact: "Bağışçı",
-        phone: "Telefon",
-        project: "Proje",
-        projectCode: "Proje Kodu",
-        projectNumber: "Proje Numarası",
-        banner: "Afiş",
-        transactionId: "İşlem ID",
-        source: "Kaynak",
-        link: "Bağış Linki"
+      fontains: {
+        title: "Kuyu Bağışları",
+        fields: {
+          id: "ID",
+          contact: "Bağışçı",
+          phone: "Telefon",
+          creationDate: "Tarih",
+          projectCode: "Proje Kodu",
+          info: "Bilgi",
+          weeks: "Hafta",
+          status: "Durum",
+          team: "Takım",
+          detail: "İşlem"
+        },
+        status: {
+          none: "Yok",
+          initialWeek: "Başlangıç Haftası",
+          ongoingEarlyWeeks: "Devam Eden İlk Haftalar",
+          week5Media: "5. Hafta Medya",
+          week6Warning: "6. Hafta Uyarı",
+          week8Critical: "8. Hafta Kritik",
+          published: "Yayınlandı"
+        },
+        projectCodes: {
+          bks: "BKS",
+          bgs: "BGS",
+          aki: "AKI",
+          agi: "AGI"
+        },
+        details: {
+          creationDate: "Tarih",
+          weeks: "Hafta",
+          team: "Takım",
+          contact: "Bağışçı",
+          phone: "Telefon",
+          project: "Proje",
+          projectCode: "Proje Kodu",
+          projectNumber: "Proje Numarası",
+          banner: "Afiş",
+          transactionId: "İşlem ID",
+          source: "Kaynak",
+          link: "Bağış Linki"
+        }
       }
     },
     tenants: {
