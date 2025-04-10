@@ -286,7 +286,7 @@ export default {
           missing: "Fehlend",
           arrived: "Ist gekommen",
           edited: "Geschnitten",
-          published: "Online",
+          online: "Online",
           transferred: "Transferiert",
           reviewed: "Kontrolliert"
         }

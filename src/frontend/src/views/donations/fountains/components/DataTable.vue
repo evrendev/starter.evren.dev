@@ -126,7 +126,7 @@ const changeMediaStatus = async (id, mediastatus) => {
           <td>
             <div class="d-flex ga-2 justify-end">
               <div
-                :class="`bg-${item.media.backgroundColor}`"
+                :class="`bg-${item.mediaStatus.backgroundColor}`"
                 :style="{
                   width: '12px',
                   height: '12px',
@@ -134,7 +134,7 @@ const changeMediaStatus = async (id, mediastatus) => {
                 }"
               />
               <span>
-                {{ t(`admin.donations.media.status.${item.media.name}`) }}
+                {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
               </span>
             </div>
           </td>
@@ -175,6 +175,7 @@ const changeMediaStatus = async (id, mediastatus) => {
           &:hover {
             .copy-button {
               opacity: 1;
+              z-index: 2;
             }
           }
 
@@ -182,7 +183,6 @@ const changeMediaStatus = async (id, mediastatus) => {
             overflow: auto;
             text-overflow: ellipsis;
             white-space: break-spaces;
-            padding-right: 40px;
           }
 
           .copy-button {
