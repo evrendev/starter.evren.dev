@@ -27,14 +27,20 @@ const handleMediaChange = (statusName) => {
 </script>
 <template>
   <div class="d-flex ga-2 justify-end">
-    <v-btn density="compact" @click.stop="$emit('showDetails', donationId)" prepend-icon="$information" size="small">
-      {{ t("admin.donations.info") }}
+    <v-btn icon density="compact" @click.stop="$emit('showDetails', donationId)">
+      <v-icon size="x-small">$information</v-icon>
+      <v-tooltip activator="parent" location="top">
+        {{ t("common.showDetails") }}
+      </v-tooltip>
     </v-btn>
 
     <v-menu v-model="menuOpen">
       <template #activator="{ props }">
-        <v-btn v-bind="props" prepend-icon="$media" append-icon="$chevronDown" density="compact" size="small">
-          {{ t("admin.donations.media.title") }}
+        <v-btn icon v-bind="props" density="compact">
+          <v-icon size="x-small">$media</v-icon>
+          <v-tooltip activator="parent" location="top">
+            {{ t("admin.donations.media.change") }}
+          </v-tooltip>
         </v-btn>
       </template>
 

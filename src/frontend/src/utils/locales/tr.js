@@ -283,6 +283,7 @@ export default {
       },
       media: {
         title: "Medya",
+        change: "Medya Durumu Değiştir",
         status: {
           none: "Hiçbiri",
           missing: "Eksik",

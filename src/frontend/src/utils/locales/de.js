@@ -282,6 +282,7 @@ export default {
       },
       media: {
         title: "Medien",
+        change: "Ändern Medien Status",
         status: {
           none: "Keine",
           missing: "Fehlend",

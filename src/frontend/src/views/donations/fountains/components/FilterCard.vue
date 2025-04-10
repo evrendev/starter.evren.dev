@@ -43,7 +43,7 @@ const handleReset = () => {
           <v-col cols="12" md="6">
             <v-text-field
               v-model="dateRange[0]"
-              :label="t('common.selectDate')"
+              :label="t('common.startDate')"
               density="compact"
               hide-details
               type="date"
@@ -53,7 +53,7 @@ const handleReset = () => {
           <v-col cols="12" md="6">
             <v-text-field
               v-model="dateRange[1]"
-              :label="t('common.selectDate')"
+              :label="t('common.endDate')"
               density="compact"
               hide-details
               type="date"

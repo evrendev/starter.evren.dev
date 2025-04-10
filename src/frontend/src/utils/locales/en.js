@@ -281,6 +281,7 @@ export default {
       },
       media: {
         title: "Media",
+        change: "Change Media Status",
         status: {
           none: "None",
           missing: "Missing",
