@@ -59,6 +59,14 @@ defineProps({
               <td>{{ donation.projectNumber }}</td>
             </tr>
             <tr>
+              <td>{{ t("admin.donations.fountains.details.mediaStatus") }}</td>
+              <td>
+                <div :class="`bg-${donation.mediaStatus.backgroundColor}`" class="text-center">
+                  {{ t(`admin.donations.media.status.${donation.mediaStatus.name}`) }}
+                </div>
+              </td>
+            </tr>
+            <tr>
               <td>{{ t("admin.donations.fountains.details.transactionId") }}</td>
               <td>{{ donation.transactionId }}</td>
             </tr>

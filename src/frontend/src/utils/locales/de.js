@@ -252,6 +252,7 @@ export default {
           projectCode: "Projektcode",
           projectNumber: "Projektnummer",
           banner: "Banner",
+          mediaStatus: "Medien",
           transactionId: "Transaktions-ID",
           source: "Quelle",
           link: "Link"

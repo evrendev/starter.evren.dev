@@ -83,7 +83,6 @@ const changeMediaStatus = async (id, mediastatus) => {
       :items-length="itemsLength"
       :loading="loading"
       class="text-caption striped donations-table"
-      density="compact"
       item-value="id"
       @update:options="$emit('update:options', $event)"
     >
@@ -124,7 +123,7 @@ const changeMediaStatus = async (id, mediastatus) => {
             {{ item.team }}
           </td>
           <td>
-            <div class="d-flex ga-2 justify-end">
+            <div class="d-flex ga-2">
               <div
                 :class="`bg-${item.mediaStatus.backgroundColor}`"
                 :style="{

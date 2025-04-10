@@ -251,6 +251,7 @@ export default {
           projectCode: "Project Code",
           projectNumber: "Project Number",
           banner: "Banner",
+          mediaStatus: "Media",
           transactionId: "Transaction ID",
           source: "Source",
           link: "Link"
