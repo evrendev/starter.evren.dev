@@ -6,7 +6,7 @@ public class MediaStatus(string? name, string? backgroundColor)
     public string? BackgroundColor { get; private set; } = backgroundColor;
 
     // Predefined statuses
-    public static MediaStatus None => new("none", "none");
+    public static MediaStatus None => new("none", "secondary");
     public static MediaStatus Missing => new("missing", "error");
     public static MediaStatus Arrived => new("arrived", "lighterror");
     public static MediaStatus Online => new("online", "success");
@@ -25,6 +25,7 @@ public class MediaStatus(string? name, string? backgroundColor)
     {
         get
         {
+            yield return None;
             yield return Missing;
             yield return Arrived;
             yield return Edited;

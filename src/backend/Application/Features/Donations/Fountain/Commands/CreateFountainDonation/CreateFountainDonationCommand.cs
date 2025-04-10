@@ -41,7 +41,7 @@ public class CreateFountainDonationCommandValidator : AbstractValidator<CreateFo
         RuleFor(x => x.ProjectCode)
             .NotEmpty()
             .WithMessage(_localizer["api.donations.fountain.create.project-code.required"])
-            .Must(code => new[] { "BKS", "BGS", "AKI", "AGI" }.Contains(code))
+            .Must(code => FountainDonationProject.ToList.Select(pc => pc.Name).Contains(code))
             .WithMessage(_localizer["api.donations.fountain.create.project-code.invalid"]);
 
         RuleFor(v => v.CreationDate)
