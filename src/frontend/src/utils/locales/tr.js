@@ -207,6 +207,7 @@ export default {
       list: "Bağış Listesi",
       new: "Yeni Bağış",
       edit: "Bağış Düzenle",
+      info: "Bilgi",
       delete: {
         title: "Bağışı Sil",
         message: "Bağışı silmek istediğinizden emin misiniz?"
@@ -224,6 +225,7 @@ export default {
           weeks: "Hafta",
           status: "Durum",
           team: "Takım",
+          media: "Medya",
           detail: "İşlem"
         },
         status: {
@@ -276,6 +278,18 @@ export default {
             required: "Proje kodunu girmeniz gerekmektedir.",
             invalid: "Proje kodu geçerli bir proje kodu değil."
           }
+        }
+      },
+      media: {
+        title: "Medya",
+        status: {
+          none: "Hiçbiri",
+          missing: "Eksik",
+          arrived: "Geldi",
+          edited: "Düzenlendi",
+          online: "Yayınlandı",
+          transferred: "Gönderildi",
+          reviewed: "Gözden Geçiriliyor"
         }
       }
     },

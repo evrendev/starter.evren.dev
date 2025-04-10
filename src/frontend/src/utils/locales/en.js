@@ -205,6 +205,7 @@ export default {
       list: "List Donations",
       new: "New Donation",
       edit: "Edit Donation",
+      info: "Info",
       delete: {
         title: "Delete Donation",
         message: "Are you sure you want to delete this donation?"
@@ -222,6 +223,7 @@ export default {
           weeks: "Weeks",
           status: "Status",
           team: "Team",
+          media: "Media",
           detail: "Action"
         },
         projectCodes: {
@@ -274,6 +276,18 @@ export default {
             required: "Project code is required.",
             invalid: "Project code is invalid."
           }
+        }
+      },
+      media: {
+        title: "Media",
+        status: {
+          none: "None",
+          missing: "Missing",
+          arrived: "Arrived",
+          edited: "Edited",
+          online: "Published",
+          transferred: "Transferred",
+          reviewed: "Reviewed"
         }
       }
     },

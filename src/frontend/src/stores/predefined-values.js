@@ -4,6 +4,7 @@ import { apiService } from "@/utils/helpers";
 export const usePredefinedValuesStore = defineStore("predefined-values", {
   state: () => ({
     items: {},
+    mediaStatuses: [],
     loading: false
   }),
   getters: {
@@ -11,11 +12,20 @@ export const usePredefinedValuesStore = defineStore("predefined-values", {
     languages: (state) => state.items.languages
   },
   actions: {
-    async get() {
+    async getAll() {
       this.loading = true;
 
       try {
-        this.items = await apiService.get("/predefined-values", false);
+        this.items = await apiService.get("/predefined-values/all", false);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async getMediaStatuses() {
+      this.loading = true;
+
+      try {
+        this.mediaStatuses = await apiService.get("/predefined-values/media-statuses", false);
       } finally {
         this.loading = false;
       }

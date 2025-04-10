@@ -206,6 +206,7 @@ export default {
       list: "Liste",
       new: "Neue Spende",
       edit: "Bearbeiten",
+      info: "Info",
       delete: {
         title: "Spende löschen",
         message: "Möchten Sie die Spende löschen?"
@@ -223,6 +224,7 @@ export default {
           weeks: "Wochen",
           status: "Status",
           team: "Team",
+          media: "Medien",
           detail: "Aktion"
         },
         projectCodes: {
@@ -275,6 +277,18 @@ export default {
             required: "Projektcode ist erforderlich.",
             invalid: "Proje kodu geçerli bir proje kodu değil."
           }
+        }
+      },
+      media: {
+        title: "Medien",
+        status: {
+          none: "Keine",
+          missing: "Fehlend",
+          arrived: "Ist gekommen",
+          edited: "Geschnitten",
+          published: "Online",
+          transferred: "Transferiert",
+          reviewed: "Kontrolliert"
         }
       }
     },

@@ -1,13 +1,20 @@
-<script setup>
-import { ref } from "vue";
+<script setup async>
+import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import { useFountainDonationStore } from "@/stores";
+import { useFountainDonationStore, usePredefinedValuesStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
-import { DetailsDialog } from "./";
+import { DetailsDialog, ActionButtons } from "./";
 import config from "@/config";
 
 const { t } = useI18n();
 const fountainDonationStore = useFountainDonationStore();
+const preDefinedValuesStore = usePredefinedValuesStore();
+const { mediaStatuses } = storeToRefs(preDefinedValuesStore);
+
+onMounted(async () => {
+  await preDefinedValuesStore.getMediaStatuses();
+});
 
 defineProps({
   items: {
@@ -43,6 +50,7 @@ const headers = ref([
   },
   { title: t("admin.donations.fountains.fields.weeks"), key: "weeks", sortable: false, align: "center", width: "48px" },
   { title: t("admin.donations.fountains.fields.team"), key: "team", sortable: false, align: "center", width: "64px" },
+  { title: t("admin.donations.fountains.fields.media"), key: "media", sortable: false, align: "center", width: "64px" },
   { title: t("admin.donations.fountains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
@@ -59,6 +67,10 @@ const copyToClipboard = (text) => {
       copySuccess.value = false;
     }, 1000);
   });
+};
+
+const changeMediaStatus = async (id, mediastatus) => {
+  await fountainDonationStore.changeMediaStatus(id, mediastatus);
 };
 </script>
 
@@ -104,7 +116,7 @@ const copyToClipboard = (text) => {
             {{ item.creationDate.displayDate }}
           </td>
           <td class="text-center">
-            <v-chip :class="`bg-${item.status.backgroundColor}`" size="small" density="compact">
+            <v-chip :class="`bg-${item.status.backgroundColor}`" size="small">
               {{ item.weeks }}
             </v-chip>
           </td>
@@ -112,12 +124,29 @@ const copyToClipboard = (text) => {
             {{ item.team }}
           </td>
           <td>
-            <v-btn icon size="x-small" density="compact" @click.stop="showDetails(item.id)">
-              <v-icon icon="$magnifyExpand" />
-              <v-tooltip activator="parent" location="top">
-                {{ t("common.showDetails") }}
-              </v-tooltip>
-            </v-btn>
+            <div class="d-flex ga-2 justify-end">
+              <div
+                :class="`bg-${item.media.backgroundColor}`"
+                :style="{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%'
+                }"
+              />
+              <span>
+                {{ t(`admin.donations.media.status.${item.media.name}`) }}
+              </span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex ga-2 justify-end">
+              <action-buttons
+                :donation-id="item.id"
+                :media-statuses="mediaStatuses"
+                @showDetails="showDetails"
+                @changeMediaStatus="changeMediaStatus"
+              />
+            </div>
           </td>
         </tr>
       </template>

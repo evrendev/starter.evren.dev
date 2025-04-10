@@ -53,6 +53,16 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
       } finally {
         appStore.setLoading(false);
       }
+    },
+    async changeMediaStatus(id, mediastatus) {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        await apiService.put(`/donations/fountain/media-status/${id}`, { id, mediastatus });
+      } finally {
+        appStore.setLoading(false);
+      }
     }
   }
 });
