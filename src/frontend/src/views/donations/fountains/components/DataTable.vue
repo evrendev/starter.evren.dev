@@ -110,7 +110,7 @@ const deleteDonation = async () => {
       @update:options="$emit('update:options', $event)"
     >
       <template v-slot:item="{ item }">
-        <tr>
+        <tr :key="item.id" class="donation-row">
           <td>
             <div class="info-wrapper-container">
               <div class="info-wrapper" v-html="item.htmlBanner" />
@@ -189,12 +189,46 @@ const deleteDonation = async () => {
 
 <style lang="scss" scoped>
 :deep(.donations-table) {
+  thead {
+    th {
+      background-color: rgb(var(--v-theme-surface-light));
+
+      &:first-child {
+        border-radius: 1rem 0 0 1rem;
+      }
+
+      &:last-child {
+        border-radius: 0 1rem 1rem 0;
+      }
+      span {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+  }
   tbody {
+    &:hover tr {
+      opacity: 0.5;
+      filter: blur(1px);
+    }
+
     tr {
+      transition: all 0.1s ease;
+
       &:first-child {
         td {
           padding-top: 16px;
         }
+      }
+
+      &:hover {
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        opacity: 1 !important;
+        filter: none !important;
+        cursor: pointer;
       }
 
       td {
