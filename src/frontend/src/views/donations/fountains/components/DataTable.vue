@@ -225,7 +225,9 @@ const deleteDonation = async () => {
       &:hover {
         position: relative;
         z-index: 10;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.2),
+          inset 10px 0 0 0 rgb(var(--v-theme-primary));
         opacity: 1 !important;
         filter: none !important;
         cursor: pointer;
