@@ -59,7 +59,8 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
       appStore.setLoading(true);
 
       try {
-        await apiService.put(`/donations/fountain/media-status/${id}`, { id, mediastatus });
+        const response = await apiService.put(`/donations/fountain/media-status/${id}`, { id, mediastatus });
+        this.donation = response;
       } finally {
         appStore.setLoading(false);
       }
