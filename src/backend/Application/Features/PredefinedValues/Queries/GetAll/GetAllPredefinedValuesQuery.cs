@@ -1,4 +1,6 @@
-namespace EvrenDev.Application.Features.PredefinedValues.Queries;
+using EvrenDev.Application.Features.PredefinedValues.Models;
+
+namespace EvrenDev.Application.Features.PredefinedValues.Queries.GetAll;
 public class GetAllPredefinedValuesQuery : IRequest<Result<PredefinedValuesVm>>
 {
 }

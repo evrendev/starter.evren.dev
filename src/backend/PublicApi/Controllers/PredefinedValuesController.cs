@@ -1,5 +1,8 @@
 using EvrenDev.Application.Common.Exceptions;
-using EvrenDev.Application.Features.PredefinedValues.Queries;
+using EvrenDev.Application.Features.PredefinedValues.Models;
+using EvrenDev.Application.Features.PredefinedValues.Queries.GetMediaStatuses;
+using EvrenDev.Application.Features.PredefinedValues.Queries.GetAll;
+using EvrenDev.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -21,8 +24,32 @@ public class PredefinedValuesController : ControllerBase
         _localizer = localizer;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<ActionResult<PredefinedValuesVm>> GetAll([FromQuery] GetAllPredefinedValuesQuery query)
+    {
+        try
+        {
+            var result = await _mediator.Send(query);
+
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpGet("media-statuses")]
+    public async Task<ActionResult<IEnumerable<MediaStatus>?>> GetMedianStatuses([FromQuery] GetMediaStatusesQuery query)
     {
         try
         {

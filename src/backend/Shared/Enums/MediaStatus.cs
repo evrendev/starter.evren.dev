@@ -28,6 +28,7 @@ public class MediaStatus(string? name, string? backgroundColor)
             yield return Missing;
             yield return Arrived;
             yield return Edited;
+            yield return Online;
             yield return Transferred;
             yield return Reviewed;
         }

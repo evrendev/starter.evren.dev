@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Application.Features.PredefinedValues.Queries;
+﻿namespace EvrenDev.Application.Features.PredefinedValues.Models;
 
 public class PredefinedValuesVm
 {
