@@ -14,11 +14,11 @@ public class MediaStatus(string? name, string? backgroundColor)
     public static MediaStatus Transferred => new("transferred", "info");
     public static MediaStatus Reviewed => new("reviewed", "primary");
 
-
     public static MediaStatus From(string? name)
     {
-        return ToList
-            .FirstOrDefault(status => string.Equals(status.Name, name, StringComparison.OrdinalIgnoreCase)) ?? None;
+        var response = ToList.FirstOrDefault(status => status.Name == name) ?? None;
+
+        return response;
     }
 
     public static IEnumerable<MediaStatus> ToList

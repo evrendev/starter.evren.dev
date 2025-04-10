@@ -95,6 +95,7 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = entity.Team,
+            MediaStatus = MediaStatus.From(entity.MediaStatus),
         });
 
         var paginatedList = await PaginatedList<BasicFountainDonationDto>.CreateAsync(

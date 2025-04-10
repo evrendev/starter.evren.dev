@@ -28,4 +28,5 @@ public record FullFountainDonationDto
     public string? Source { get; set; }
     public string? Info { get; set; }
     public string? Team { get; set; }
+    public MediaStatus? MediaStatus { get; set; }
 }

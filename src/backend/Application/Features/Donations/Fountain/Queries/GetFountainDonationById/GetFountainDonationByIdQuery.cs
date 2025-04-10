@@ -58,6 +58,7 @@ public class GetFountainDonationByIdQueryHandler : IRequestHandler<GetFountainDo
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = entity.Team,
+            MediaStatus = MediaStatus.From(entity.MediaStatus),
         };
 
         return Result<FullFountainDonationDto>.Success(donation);
