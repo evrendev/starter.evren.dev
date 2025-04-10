@@ -464,6 +464,7 @@ export default {
     cancel: "Vazgeç",
     verify: "Doğrula",
     confirm: "Onayla",
+    delete: "Sil",
     deleted: "Başarıyla silindi",
     selectAll: "Hepsini Seç",
     error: "Hata",

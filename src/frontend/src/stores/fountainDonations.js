@@ -68,6 +68,18 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
       } finally {
         appStore.setLoading(false);
       }
+    },
+    async delete(id) {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const index = this.items.findIndex((item) => item.id === id);
+        await apiService.delete(`/donations/fountain/${id}`);
+        if (index !== -1) this.items.splice(index, 1);
+      } finally {
+        appStore.setLoading(false);
+      }
     }
   }
 });

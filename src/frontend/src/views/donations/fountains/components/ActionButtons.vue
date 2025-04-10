@@ -17,7 +17,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(["showDetails", "changeMediaStatus"]);
+const emit = defineEmits(["showDonation", "showConfirmModal", "changeMediaStatus"]);
 const menuOpen = ref(false);
 
 const handleMediaChange = (statusName) => {
@@ -27,10 +27,17 @@ const handleMediaChange = (statusName) => {
 </script>
 <template>
   <div class="d-flex ga-2 justify-end">
-    <v-btn icon density="compact" @click.stop="$emit('showDetails', donationId)">
+    <v-btn icon density="compact" @click.stop="$emit('showDonation', donationId)">
       <v-icon size="x-small">$information</v-icon>
       <v-tooltip activator="parent" location="top">
         {{ t("common.showDetails") }}
+      </v-tooltip>
+    </v-btn>
+
+    <v-btn icon density="compact" @click.stop="$emit('showConfirmModal', donationId)">
+      <v-icon size="x-small">$trashCan</v-icon>
+      <v-tooltip activator="parent" location="top">
+        {{ t("common.delete") }}
       </v-tooltip>
     </v-btn>
 

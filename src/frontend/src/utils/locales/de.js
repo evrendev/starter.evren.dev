@@ -462,6 +462,7 @@ export default {
     cancel: "Stornieren",
     verify: "Überprüfen",
     confirm: "Bestätigen",
+    delete: "Löschen",
     deleted: "Erfolgreich gelöscht",
     basicInformation: "Grundlegende Informationen",
     additionalParameters: "Zusätzliche Parameter",

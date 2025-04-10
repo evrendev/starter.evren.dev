@@ -466,6 +466,7 @@ export default {
     cancel: "Cancel",
     verify: "Verify",
     confirm: "Confirm",
+    delete: "Delete",
     deleted: "Successfully deleted",
     selectAll: "Select All",
     error: "Error",

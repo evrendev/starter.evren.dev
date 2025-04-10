@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useFountainDonationStore, usePredefinedValuesStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
+import { ConfirmModal } from "@/components/forms/";
 import { DetailsDialog, ActionButtons } from "./";
 import config from "@/config";
 
@@ -34,7 +35,7 @@ defineProps({
 defineEmits(["update:options"]);
 
 const donation = ref(null);
-const showDetailsModal = ref(false);
+const showDonationModal = ref(false);
 const copySuccess = ref(false);
 
 const headers = ref([
@@ -54,10 +55,10 @@ const headers = ref([
   { title: t("admin.donations.fountains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
-const showDetails = async (item) => {
+const showDonation = async (item) => {
   await fountainDonationStore.getById(item);
   donation.value = fountainDonationStore.donation;
-  showDetailsModal.value = true;
+  showDonationModal.value = true;
 };
 
 const copyToClipboard = (text) => {
@@ -71,6 +72,28 @@ const copyToClipboard = (text) => {
 
 const changeMediaStatus = async (id, mediastatus) => {
   await fountainDonationStore.changeMediaStatus(id, mediastatus);
+};
+
+const confirmModalTitle = ref(null);
+const confirmModalMessage = ref(null);
+const showModal = ref(false);
+const donationId = ref(null);
+
+const showConfirmModal = (id) => {
+  confirmModalTitle.value = t("admin.donations.delete.title");
+  confirmModalMessage.value = t("admin.donations.delete.message");
+
+  donationId.value = id;
+  showModal.value = true;
+};
+
+const handleCancel = () => {
+  donationId.value = null;
+  showModal.value = false;
+};
+
+const deleteDonation = async () => {
+  await fountainDonationStore.delete(donationId.value);
 };
 </script>
 
@@ -142,7 +165,8 @@ const changeMediaStatus = async (id, mediastatus) => {
               <action-buttons
                 :donation-id="item.id"
                 :media-statuses="mediaStatuses"
-                @showDetails="showDetails"
+                @showDonation="showDonation"
+                @showConfirmModal="showConfirmModal"
                 @changeMediaStatus="changeMediaStatus"
               />
             </div>
@@ -151,7 +175,15 @@ const changeMediaStatus = async (id, mediastatus) => {
       </template>
     </v-data-table-server>
 
-    <details-dialog v-model="showDetailsModal" :donation="donation" />
+    <details-dialog v-model="showDonationModal" :donation="donation" />
+
+    <confirm-modal
+      v-model="showModal"
+      :title="confirmModalTitle"
+      :message="confirmModalMessage"
+      @confirm="deleteDonation"
+      @cancel="handleCancel"
+    />
   </parent-card>
 </template>
 

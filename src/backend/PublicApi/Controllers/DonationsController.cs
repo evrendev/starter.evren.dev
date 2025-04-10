@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using static EvrenDev.Shared.Constants.Policies;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaStatus;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -29,7 +30,7 @@ public class DonationsController : ControllerBase
 
     [HttpGet("fountain")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult<PaginatedList<BasicFountainDonationDto>>> GetAll([FromQuery] GetFountainDonationsQuery query)
+    public async Task<ActionResult<PaginatedList<BasicFountainDonationDto>>> GetAllFountainDonations([FromQuery] GetFountainDonationsQuery query)
     {
         try
         {
@@ -77,7 +78,7 @@ public class DonationsController : ControllerBase
 
     [HttpPost("fountain")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Create}")]
-    public async Task<ActionResult<Guid>> Create(CreateFountainDonationCommand command)
+    public async Task<ActionResult<Guid>> CreateFountainDonation(CreateFountainDonationCommand command)
     {
         try
         {
@@ -101,11 +102,35 @@ public class DonationsController : ControllerBase
 
     [HttpPut("fountain/media-status/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Edit}")]
-    public async Task<ActionResult<Guid>> Create(Guid id, ChangeMediaStatusCommand command)
+    public async Task<ActionResult<Guid>> ChangeMediaStatus(Guid id, ChangeMediaStatusCommand command)
     {
         try
         {
             var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpDelete("fountain/{id}")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Delete}")]
+    public async Task<ActionResult<bool>> DeleteFountainDonation(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new DeleteDonationCommand { Id = id });
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)
