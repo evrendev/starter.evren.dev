@@ -61,6 +61,11 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
       try {
         const response = await apiService.put(`/donations/fountain/media-status/${id}`, { id, mediastatus });
         this.donation = response;
+        const index = this.items.findIndex((item) => item.id === id);
+        console.log(index);
+        if (index !== -1) {
+          this.items[index] = { ...response };
+        }
       } finally {
         appStore.setLoading(false);
       }
