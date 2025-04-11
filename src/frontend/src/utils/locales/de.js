@@ -213,6 +213,7 @@ export default {
       },
       fountains: {
         title: "Brunnen Spenden",
+        addEmptyProject: "Leeres Projekt hinzufügen",
         fields: {
           id: "ID",
           contact: "Kontakt",

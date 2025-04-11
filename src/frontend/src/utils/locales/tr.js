@@ -214,6 +214,7 @@ export default {
       },
       fountains: {
         title: "Kuyu Bağışları",
+        addEmptyProject: "Boş Proje Ekle",
         fields: {
           id: "ID",
           contact: "Bağışçı",

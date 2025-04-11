@@ -17,7 +17,7 @@ onMounted(async () => {
   await preDefinedValuesStore.getMediaStatuses();
 });
 
-defineProps({
+const props = defineProps({
   items: {
     type: Array,
     required: true
@@ -29,6 +29,10 @@ defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  projectCode: {
+    type: String,
+    default: null
   }
 });
 
@@ -94,6 +98,10 @@ const abortDelete = () => {
 const deleteDonation = async () => {
   await fountainDonationStore.delete(donationId.value);
 };
+
+const createEmptyProject = async () => {
+  await fountainDonationStore.createEmptyProject(props.projectCode);
+};
 </script>
 
 <template>
@@ -108,6 +116,23 @@ const deleteDonation = async () => {
       item-value="id"
       @update:options="$emit('update:options', $event)"
     >
+      <template v-slot:top>
+        <v-toolbar flat class="mb-4 rounded" color="secondary" v-show="projectCode == 'aki' || projectCode == 'agi'" density="compact">
+          <v-toolbar-title>
+            <v-icon icon="$accountMultiplePlusOutline" size="x-small" start></v-icon>
+            {{ t("admin.donations.fountains.fields.team") }}
+          </v-toolbar-title>
+          <v-btn
+            class="me-2"
+            prepend-icon="$plus"
+            rounded="lg"
+            :text="t('admin.donations.fountains.addEmptyProject')"
+            border
+            @click.stop="createEmptyProject"
+          />
+        </v-toolbar>
+      </template>
+
       <template v-slot:item="{ item }">
         <tr :key="item.id" class="donation-row">
           <td>

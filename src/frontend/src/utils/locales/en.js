@@ -212,6 +212,7 @@ export default {
       },
       fountains: {
         title: "Fountain Donations",
+        addEmptyProject: "Add Empty Project",
         fields: {
           id: "ID",
           contact: "Contact",

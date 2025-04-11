@@ -29,7 +29,8 @@ import {
   mdiContentCopy,
   mdiMessageVideo,
   mdiMenuDown,
-  mdiChevronDown
+  mdiChevronDown,
+  mdiAccountMultiplePlusOutline
 } from "@mdi/js";
 
 export const icons = {
@@ -63,5 +64,6 @@ export const icons = {
   contentCopy: mdiContentCopy,
   media: mdiMessageVideo,
   menuDown: mdiMenuDown,
-  chevronDown: mdiChevronDown
+  chevronDown: mdiChevronDown,
+  accountMultiplePlusOutline: mdiAccountMultiplePlusOutline
 };

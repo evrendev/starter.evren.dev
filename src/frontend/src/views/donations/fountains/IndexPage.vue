@@ -102,7 +102,7 @@ const getItems = async (options) => {
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
 
-      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" />
+      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" :project-code="projectCode" />
     </v-col>
   </v-row>
 </template>
