@@ -54,12 +54,12 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
-    async createEmptyProject(projectCode) {
+    async createEmptyDonation(donation) {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.post("/donations/fountain/empty-project", { projectCode });
+        const response = await apiService.post("/donations/fountain/empty-donation", donation);
         this.donation = response;
       } finally {
         appStore.setLoading(false);

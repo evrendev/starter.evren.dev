@@ -11,6 +11,7 @@ using static EvrenDev.Shared.Constants.Policies;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaStatus;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -80,6 +81,30 @@ public class DonationsController : ControllerBase
     [HttpPost("fountain")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Create}")]
     public async Task<ActionResult<Guid>> CreateFountainDonation(CreateFountainDonationCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("fountain/empty-donation")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Create}")]
+    public async Task<ActionResult<Guid>> CreateEmptyDonation(CreateEmptyDonationCommand command)
     {
         try
         {

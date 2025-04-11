@@ -38,6 +38,8 @@ const props = defineProps({
 
 defineEmits(["update:options"]);
 
+const teams = ref(["Morteza", "Idris"]);
+const team = ref("Morteza");
 const headers = ref([
   { title: t("admin.donations.fountains.fields.info"), key: "info", sortable: true },
   { title: t("admin.donations.fountains.fields.contact"), key: "contact", sortable: true },
@@ -99,8 +101,8 @@ const deleteDonation = async () => {
   await fountainDonationStore.delete(donationId.value);
 };
 
-const createEmptyProject = async () => {
-  await fountainDonationStore.createEmptyProject(props.projectCode);
+const createEmptyDonation = async () => {
+  await fountainDonationStore.createEmptyDonation({ projectCode: props.projectCode.toLocaleUpperCase(), team: team.value });
 };
 </script>
 
@@ -117,19 +119,33 @@ const createEmptyProject = async () => {
       @update:options="$emit('update:options', $event)"
     >
       <template v-slot:top>
-        <v-toolbar flat class="mb-4 rounded" color="secondary" v-show="projectCode == 'aki' || projectCode == 'agi'" density="compact">
-          <v-toolbar-title>
-            <v-icon icon="$accountMultiplePlusOutline" size="x-small" start></v-icon>
+        <v-toolbar
+          :elevation="0"
+          class="mb-4 py-2 px-4 rounded-lg border"
+          color="surface"
+          v-show="projectCode == 'aki' || projectCode == 'agi'"
+        >
+          <v-toolbar-title class="text-medium-emphasis">
+            <v-icon icon="$accountMultiplePlusOutline" size="small" class="mr-2" />
             {{ t("admin.donations.fountains.fields.team") }}
           </v-toolbar-title>
-          <v-btn
-            class="me-2"
-            prepend-icon="$plus"
-            rounded="lg"
-            :text="t('admin.donations.fountains.addEmptyProject')"
-            border
-            @click.stop="createEmptyProject"
-          />
+
+          <template #append>
+            <div class="d-flex align-center ga-2">
+              <v-select v-model="team" :items="teams" density="compact" variant="outlined" hide-details class="min-w-[140px]" />
+
+              <v-btn
+                color="primary"
+                prepend-icon="$plus"
+                variant="outlined"
+                class="font-medium text-caption"
+                density="comfortable"
+                @click.stop="createEmptyDonation"
+              >
+                {{ t("admin.donations.fountains.addEmptyProject") }}
+              </v-btn>
+            </div>
+          </template>
         </v-toolbar>
       </template>
 
@@ -216,11 +232,11 @@ const createEmptyProject = async () => {
       background-color: rgb(var(--v-theme-surface-light));
 
       &:first-child {
-        border-radius: 1rem 0 0 1rem;
+        border-radius: 0.25rem 0 0 0.25rem;
       }
 
       &:last-child {
-        border-radius: 0 1rem 1rem 0;
+        border-radius: 0 0.25rem 0.25rem 0;
       }
       span {
         font-size: 0.75rem;
