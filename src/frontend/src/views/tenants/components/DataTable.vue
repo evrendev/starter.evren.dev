@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
-import { ConfirmModal } from "@/components/forms/";
+import { ConfirmDialog } from "@/components/forms/";
 import { useTenantStore } from "@/stores/";
 
 const { t } = useI18n();
@@ -60,7 +60,7 @@ const handleCancel = () => {
   tenantId.value = null;
 };
 
-const showConfirmModal = (id, opt) => {
+const showConfirmDialog = (id, opt) => {
   confirmModalTitle.value = t(`admin.tenants.${opt}.title`);
   confirmModalMessage.value = t(`admin.tenants.${opt}.message`);
 
@@ -113,7 +113,7 @@ const updateItemsPerPage = (itemsPerPage) => {
           icon="$restore"
           color="error"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'restore')"
+          @click="showConfirmDialog(item.id, 'restore')"
           :title="t('admin.tenants.restore.title')"
         />
         <v-icon
@@ -122,7 +122,7 @@ const updateItemsPerPage = (itemsPerPage) => {
           icon="$trashCan"
           color="error"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'delete')"
+          @click="showConfirmDialog(item.id, 'delete')"
           :title="t('admin.tenants.delete.title')"
         />
         <v-icon
@@ -131,7 +131,7 @@ const updateItemsPerPage = (itemsPerPage) => {
           size-="small"
           color="warning"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'deactivate')"
+          @click="showConfirmDialog(item.id, 'deactivate')"
           :title="t('admin.tenants.deactivate.title')"
         />
         <v-icon
@@ -141,14 +141,14 @@ const updateItemsPerPage = (itemsPerPage) => {
           size-="small"
           color="success"
           class="ml-2"
-          @click="showConfirmModal(item.id, 'activate')"
+          @click="showConfirmDialog(item.id, 'activate')"
           :title="t('admin.tenants.activate.title')"
         />
       </template>
     </v-data-table-server>
   </parent-card>
 
-  <confirm-modal
+  <confirm-dialog
     v-model="showModal"
     :title="confirmModalTitle"
     :message="confirmModalMessage"

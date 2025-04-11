@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ParentCard } from "@/components/shared/";
-import { ConfirmModal } from "@/components/forms/";
+import { ConfirmDialog } from "@/components/forms/";
 import { useRoleStore } from "@/stores/";
 import config from "@/config";
 
@@ -51,7 +51,7 @@ const handleCancel = () => {
   roleId.value = null;
 };
 
-const showConfirmModal = (id) => {
+const showConfirmDialog = (id) => {
   confirmModalTitle.value = t("admin.roles.delete.title");
   confirmModalMessage.value = t("admin.roles.delete.message");
 
@@ -87,14 +87,14 @@ const showConfirmModal = (id) => {
           icon="$trashCan"
           color="error"
           class="ml-2"
-          @click="showConfirmModal(item.id, `delete`, true)"
+          @click="showConfirmDialog(item.id, `delete`, true)"
           :title="t('admin.roles.delete.title')"
         />
       </template>
     </v-data-table-server>
   </parent-card>
 
-  <confirm-modal
+  <confirm-dialog
     v-model="showModal"
     :title="confirmModalTitle"
     :message="confirmModalMessage"

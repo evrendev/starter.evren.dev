@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from "@/stores/";
 import { ParentCard } from "@/components/shared/";
-import { ConfirmModal } from "@/components/forms/";
+import { ConfirmDialog } from "@/components/forms/";
 import config from "@/config";
 
 const { t } = useI18n();
@@ -63,7 +63,7 @@ const handleCancel = () => {
   userId.value = null;
 };
 
-const showConfirmModal = (id, opt) => {
+const showConfirmDialog = (id, opt) => {
   if (opt === "delete") {
     confirmModalTitle.value = t("admin.users.delete.title");
     confirmModalMessage.value = t("admin.users.delete.message");
@@ -119,7 +119,7 @@ const showConfirmModal = (id, opt) => {
           color="success"
           class="ml-2"
           v-show="hasUserRestorePermission && item.deleted"
-          @click="showConfirmModal(item.id, `restore`)"
+          @click="showConfirmDialog(item.id, `restore`)"
           :title="t('admin.users.restore.title')"
         />
         <v-icon
@@ -128,14 +128,14 @@ const showConfirmModal = (id, opt) => {
           color="error"
           class="ml-2"
           v-show="hasUserDeletePermission && !item.deleted"
-          @click="showConfirmModal(item.id, `delete`)"
+          @click="showConfirmDialog(item.id, `delete`)"
           :title="t('admin.users.delete.title')"
         />
       </template>
     </v-data-table-server>
   </parent-card>
 
-  <confirm-modal
+  <confirm-dialog
     v-model="showModal"
     :title="confirmModalTitle"
     :message="confirmModalMessage"
