@@ -45,7 +45,7 @@ const AdminRoutes = {
           children: [
             {
               path: "",
-              name: "list-fountains",
+              name: "fountains-root",
               redirect: "list"
             },
             {
@@ -62,6 +62,14 @@ const AdminRoutes = {
               component: () => import("@/views/donations/fountains/NewPage.vue"),
               meta: {
                 titleKey: "admin.donations.new"
+              }
+            },
+            {
+              name: "edit-fountain",
+              path: "edit/:id",
+              component: () => import("@/views/donations/fountains/EditPage.vue"),
+              meta: {
+                titleKey: "admin.donations.edit"
               }
             }
           ]

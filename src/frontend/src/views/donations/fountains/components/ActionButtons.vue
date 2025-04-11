@@ -29,25 +29,24 @@ const handleMediaChange = (statusName) => {
   <div class="d-flex ga-2 justify-end">
     <v-btn icon density="compact" @click.stop="$emit('showAllInformation', donationId)">
       <v-icon size="x-small">$information</v-icon>
-      <v-tooltip activator="parent" location="top">
-        {{ t("common.showDetails") }}
-      </v-tooltip>
+      <v-tooltip activator="parent" location="top" :text="t('common.showDetails')" />
+    </v-btn>
+
+    <v-btn icon density="compact" :to="{ name: 'edit-fountain', params: { id: donationId } }">
+      <v-icon size="x-small">$pencil</v-icon>
+      <v-tooltip activator="parent" location="top" :text="t('common.update')" />
     </v-btn>
 
     <v-btn icon density="compact" @click.stop="$emit('showConfirmDialog', donationId)">
       <v-icon size="x-small">$trashCan</v-icon>
-      <v-tooltip activator="parent" location="top">
-        {{ t("common.delete") }}
-      </v-tooltip>
+      <v-tooltip activator="parent" location="top" :text="t('common.delete')" />
     </v-btn>
 
     <v-menu v-model="mediaMenuOpen">
       <template #activator="{ props }">
         <v-btn icon v-bind="props" density="compact">
           <v-icon size="x-small">$media</v-icon>
-          <v-tooltip activator="parent" location="top">
-            {{ t("admin.donations.media.change") }}
-          </v-tooltip>
+          <v-tooltip activator="parent" location="top" :text="t('admin.donations.media.change')" />
         </v-btn>
       </template>
 

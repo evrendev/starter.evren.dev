@@ -80,6 +80,10 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
       } finally {
         appStore.setLoading(false);
       }
+    },
+    async update(id, donation) {
+      const response = await apiService.put(`/donations/fountain/${id}`, donation);
+      return response;
     }
   }
 });

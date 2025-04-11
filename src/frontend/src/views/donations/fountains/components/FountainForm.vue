@@ -8,6 +8,17 @@ import { useFountainDonationStore } from "@/stores/fountainDonations";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 
+const props = defineProps({
+  initialData: {
+    type: Object,
+    default: () => null
+  },
+  isEdit: {
+    type: Boolean,
+    default: false
+  }
+});
+
 const { t } = useI18n();
 const router = useRouter();
 const fountainDonationStore = useFountainDonationStore();
@@ -40,11 +51,11 @@ const projectCodes = ref([
 ]);
 
 const initialValues = {
-  contact: "",
-  phone: "",
-  banner: "",
-  projectCode: "BKS",
-  creationDate: new Date().toISOString().split("T")[0]
+  contact: props.isEdit ? props.initialData.contact : "",
+  phone: props.isEdit ? props.initialData.phone : "",
+  banner: props.isEdit ? props.initialData.banner : "",
+  projectCode: props.isEdit ? props.initialData.projectCode : "BKS",
+  creationDate: props.isEdit ? props.initialData.creationDate.pluginDate : new Date().toISOString().split("T")[0]
 };
 
 const { defineField, handleSubmit, resetForm } = useForm({
@@ -67,9 +78,16 @@ const [projectCode, projectCodeProps] = defineField("projectCode", vuetifyConfig
 const onSubmit = handleSubmit(async (values) => {
   try {
     appStore.setLoading(true);
-    await fountainDonationStore.create({
-      ...values
-    });
+
+    if (props.isEdit) {
+      await fountainDonationStore.update(props.initialData.id, {
+        ...values
+      });
+    } else {
+      await fountainDonationStore.create({
+        ...values
+      });
+    }
     router.push({ name: "list-fountains" });
   } catch (error) {
     console.error(error);
@@ -154,8 +172,8 @@ const handleReset = async () => {
           <v-btn color="error" :disabled="loading" @click="handleReset" prepend-icon="$refresh">
             {{ t("common.reset") }}
           </v-btn>
-          <v-btn color="primary" type="submit" :loading="loading" prepend-icon="$contentSave" class="ml-2">
-            {{ t("common.save") }}
+          <v-btn color="primary" type="submit" :loading="loading" :prepend-icon="isEdit ? '$pencil' : '$contentSave'" class="ml-2">
+            {{ isEdit ? t("common.update") : t("common.save") }}
           </v-btn>
         </v-col>
       </v-row>

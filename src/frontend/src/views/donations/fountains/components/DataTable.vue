@@ -34,10 +34,6 @@ defineProps({
 
 defineEmits(["update:options"]);
 
-const donation = ref(null);
-const showAllInformationDialog = ref(false);
-const copySuccess = ref(false);
-
 const headers = ref([
   { title: t("admin.donations.fountains.fields.info"), key: "info", sortable: true },
   { title: t("admin.donations.fountains.fields.contact"), key: "contact", sortable: true },
@@ -55,8 +51,16 @@ const headers = ref([
   { title: t("admin.donations.fountains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
-const showAllInformation = async (item) => {
-  await fountainDonationStore.getById(item);
+const donation = ref(null);
+const showAllInformationDialog = ref(false);
+const copySuccess = ref(false);
+const deleteTitle = ref(null);
+const deleteMessage = ref(null);
+const showDeleteConfirmDialog = ref(false);
+const donationId = ref(null);
+
+const showAllInformation = async (id) => {
+  await fountainDonationStore.getById(id);
   donation.value = fountainDonationStore.donation;
   showAllInformationDialog.value = true;
 };
@@ -74,12 +78,7 @@ const changeMediaStatus = async (id, mediastatus) => {
   await fountainDonationStore.changeMediaStatus(id, mediastatus);
 };
 
-const deleteTitle = ref(null);
-const deleteMessage = ref(null);
-const showDeleteConfirmDialog = ref(false);
-const donationId = ref(null);
-
-const showConfirmDialog = (id) => {
+const showDeleteConfirmationDialog = (id) => {
   deleteTitle.value = t("admin.donations.delete.title");
   deleteMessage.value = t("admin.donations.delete.message");
 
@@ -122,9 +121,7 @@ const deleteDonation = async () => {
                 @click.stop="copyToClipboard(item.plainBanner)"
               >
                 <v-icon :icon="copySuccess ? '$check' : '$contentCopy'" size="small" />
-                <v-tooltip activator="parent" location="top">
-                  {{ copySuccess ? t("common.copied") : t("common.copy") }}
-                </v-tooltip>
+                <v-tooltip activator="parent" location="top" :text="copySuccess ? t('common.copied') : t('common.copy')" />
               </v-btn>
             </div>
           </td>
@@ -166,7 +163,7 @@ const deleteDonation = async () => {
                 :donation-id="item.id"
                 :media-statuses="mediaStatuses"
                 @show-all-information="showAllInformation"
-                @show-confirm-dialog="showConfirmDialog"
+                @show-confirm-dialog="showDeleteConfirmationDialog"
                 @change-media-status="changeMediaStatus"
               />
             </div>
