@@ -12,6 +12,7 @@ using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaStatu
 using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeTeamName;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -129,6 +130,30 @@ public class DonationsController : ControllerBase
     [HttpPut("fountain/media-status/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Edit}")]
     public async Task<ActionResult<Guid>> ChangeMediaStatus(Guid id, ChangeMediaStatusCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPut("fountain/team-name/{id}")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Edit}")]
+    public async Task<ActionResult<Guid>> ChangeTeamName(Guid id, ChangeTeamNameCommand command)
     {
         try
         {

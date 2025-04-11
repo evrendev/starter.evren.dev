@@ -1,5 +1,5 @@
 <script setup async>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { useFountainDonationStore, usePredefinedValuesStore } from "@/stores";
@@ -64,6 +64,7 @@ const deleteTitle = ref(null);
 const deleteMessage = ref(null);
 const showDeleteConfirmDialog = ref(false);
 const donationId = ref(null);
+const showTeamOptions = computed(() => props.projectCode == "aki" || props.projectCode == "agi");
 
 const showAllInformation = async (id) => {
   await fountainDonationStore.getById(id);
@@ -82,6 +83,10 @@ const copyToClipboard = (text) => {
 
 const changeMediaStatus = async (id, mediastatus) => {
   await fountainDonationStore.changeMediaStatus(id, mediastatus);
+};
+
+const changeTeam = async (id, teamName) => {
+  await fountainDonationStore.changeTeam(id, teamName);
 };
 
 const showDeleteConfirmationDialog = (id) => {
@@ -119,12 +124,7 @@ const createEmptyDonation = async () => {
       @update:options="$emit('update:options', $event)"
     >
       <template v-slot:top>
-        <v-toolbar
-          :elevation="0"
-          class="mb-4 py-2 px-4 rounded-lg border"
-          color="surface"
-          v-show="projectCode == 'aki' || projectCode == 'agi'"
-        >
+        <v-toolbar :elevation="0" class="mb-4 py-2 px-4 rounded-lg border" color="surface" v-show="showTeamOptions">
           <v-toolbar-title class="text-medium-emphasis">
             <v-icon icon="$accountMultiplePlusOutline" size="small" class="mr-2" />
             {{ t("admin.donations.fountains.fields.team") }}
@@ -169,10 +169,46 @@ const createEmptyDonation = async () => {
             </v-chip>
           </td>
           <td>
-            {{ item.team }}
+            <div v-if="showTeamOptions">
+              <v-menu>
+                <template #activator="{ props }">
+                  <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
+                    {{ item.team }}
+                    <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item v-for="teamName in teams" :key="teamName" @click="changeTeam(item.id, teamName)">
+                    <v-list-item-title>{{ teamName }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+            <div v-else class="text-center">-</div>
           </td>
           <td>
-            <div class="d-flex ga-2">
+            <v-menu>
+              <template #activator="{ props }">
+                <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
+                  <v-avatar size="12" class="mr-1" :color="item.mediaStatus.backgroundColor" />
+                  {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
+                  <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item v-for="status in mediaStatuses" :key="status.name" @click="changeMediaStatus(item.id, status.name)">
+                  <v-list-item-title>
+                    <div class="d-flex align-center ga-1">
+                      <v-avatar size="8" :color="status.backgroundColor" />
+                      {{ t(`admin.donations.media.status.${status.name}`) }}
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+            <!-- <div class="d-flex ga-2">
               <div
                 :class="`bg-${item.mediaStatus.backgroundColor}`"
                 :style="{
@@ -184,7 +220,7 @@ const createEmptyDonation = async () => {
               <span>
                 {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
               </span>
-            </div>
+            </div> -->
           </td>
           <td>
             <div class="d-flex ga-2 justify-end">
@@ -259,6 +295,14 @@ const createEmptyDonation = async () => {
         opacity: 1 !important;
         filter: none !important;
         cursor: pointer;
+      }
+
+      td {
+        .info-wrapper {
+          overflow: auto;
+          text-overflow: ellipsis;
+          white-space: break-spaces;
+        }
       }
     }
   }
