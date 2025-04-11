@@ -2,8 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
-import { useRoleStore } from "@/stores/roles";
-import { useAppStore } from "@/stores/app";
+import { useRoleStore, useAppStore } from "@/stores";
 import { Breadcrumb } from "@/components/forms";
 import { RoleForm } from "./components";
 
