@@ -150,21 +150,9 @@ const createEmptyDonation = async () => {
       </template>
 
       <template v-slot:item="{ item }">
-        <tr :key="item.id" class="donation-row">
+        <tr :key="item.id" class="donation-row" @click="copyToClipboard(item.plainBanner)">
           <td>
-            <div class="info-wrapper-container">
-              <div class="info-wrapper" v-html="item.htmlBanner" />
-              <v-btn
-                icon
-                class="copy-button"
-                size="x-small"
-                :color="copySuccess ? 'primary' : 'default'"
-                @click.stop="copyToClipboard(item.plainBanner)"
-              >
-                <v-icon :icon="copySuccess ? '$check' : '$contentCopy'" size="small" />
-                <v-tooltip activator="parent" location="top" :text="copySuccess ? t('common.copied') : t('common.copy')" />
-              </v-btn>
-            </div>
+            <div class="info-wrapper" v-html="item.htmlBanner" />
           </td>
           <td>
             {{ item.contact }}
@@ -222,6 +210,12 @@ const createEmptyDonation = async () => {
       @confirm="deleteDonation"
       @cancel="abortDelete"
     />
+
+    <v-snackbar v-model="copySuccess" :timeout="2000" class="elevation-24" color="primary" variant="tonal">
+      <div class="d-flex align-center ga-2">
+        {{ copySuccess ? t("common.copied") : t("common.copy") }}
+      </div>
+    </v-snackbar>
   </parent-card>
 </template>
 
@@ -269,34 +263,6 @@ const createEmptyDonation = async () => {
         opacity: 1 !important;
         filter: none !important;
         cursor: pointer;
-      }
-
-      td {
-        .info-wrapper-container {
-          position: relative;
-          display: flex;
-          align-items: center;
-
-          &:hover {
-            .copy-button {
-              opacity: 1;
-              z-index: 2;
-            }
-          }
-
-          .info-wrapper {
-            overflow: auto;
-            text-overflow: ellipsis;
-            white-space: break-spaces;
-          }
-
-          .copy-button {
-            position: absolute;
-            right: 0;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-          }
-        }
       }
     }
   }
