@@ -211,11 +211,7 @@ const createEmptyDonation = async () => {
       @cancel="abortDelete"
     />
 
-    <v-snackbar v-model="copySuccess" :timeout="2000" class="elevation-24" color="primary" variant="tonal">
-      <div class="d-flex align-center ga-2">
-        {{ copySuccess ? t("common.copied") : t("common.copy") }}
-      </div>
-    </v-snackbar>
+    <v-snackbar v-model="copySuccess" :timeout="2000" class="elevation-24" :text="copySuccess ? t('common.copied') : t('common.copy')" />
   </parent-card>
 </template>
 
@@ -223,7 +219,7 @@ const createEmptyDonation = async () => {
 :deep(.donations-table) {
   thead {
     th {
-      background-color: rgb(var(--v-theme-surface-light));
+      background-color: rgb(var(--v-theme-lightprimary));
 
       &:first-child {
         border-radius: 0.25rem 0 0 0.25rem;
