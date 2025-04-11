@@ -10,6 +10,7 @@ using Microsoft.Extensions.Localization;
 using static EvrenDev.Shared.Constants.Policies;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaStatus;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -131,6 +132,32 @@ public class DonationsController : ControllerBase
         try
         {
             var result = await _mediator.Send(new DeleteDonationCommand { Id = id });
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+    [HttpPut("fountain/{id}")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Delete}")]
+    public async Task<ActionResult<bool>> UpdateFountainDonation(Guid id, UpdateFountainDonationCommand command)
+    {
+        try
+        {
+            if (id != command.Id)
+                return BadRequest();
+
+            var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)

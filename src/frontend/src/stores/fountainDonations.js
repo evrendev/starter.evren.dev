@@ -82,7 +82,11 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
       }
     },
     async update(id, donation) {
-      const response = await apiService.put(`/donations/fountain/${id}`, donation);
+      const payload = {
+        ...donation,
+        id
+      };
+      const response = await apiService.put(`/donations/fountain/${id}`, payload);
       return response;
     }
   }
