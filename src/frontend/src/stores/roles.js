@@ -76,12 +76,10 @@ export const useRoleStore = defineStore("role", {
       }
     },
     async create(role) {
-      // No need to manage loading state here as apiService.post already handles it
       const response = await apiService.post("/roles", role);
       return response;
     },
     async update(id, role) {
-      // No need to manage loading state here as apiService.put already handles it
       const response = await apiService.put(`/roles/${id}`, role);
       return response;
     }
