@@ -17,31 +17,31 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(["showDonation", "showConfirmModal", "changeMediaStatus"]);
-const menuOpen = ref(false);
+const emit = defineEmits(["showAllInformation", "showConfirmDialog", "changeMediaStatus"]);
+const mediaMenuOpen = ref(false);
 
 const handleMediaChange = (statusName) => {
   emit("changeMediaStatus", props.donationId, statusName);
-  menuOpen.value = false; // Menu kapanır
+  mediaMenuOpen.value = false;
 };
 </script>
 <template>
   <div class="d-flex ga-2 justify-end">
-    <v-btn icon density="compact" @click.stop="$emit('showDonation', donationId)">
+    <v-btn icon density="compact" @click.stop="$emit('showAllInformation', donationId)">
       <v-icon size="x-small">$information</v-icon>
       <v-tooltip activator="parent" location="top">
         {{ t("common.showDetails") }}
       </v-tooltip>
     </v-btn>
 
-    <v-btn icon density="compact" @click.stop="$emit('showConfirmModal', donationId)">
+    <v-btn icon density="compact" @click.stop="$emit('showConfirmDialog', donationId)">
       <v-icon size="x-small">$trashCan</v-icon>
       <v-tooltip activator="parent" location="top">
         {{ t("common.delete") }}
       </v-tooltip>
     </v-btn>
 
-    <v-menu v-model="menuOpen">
+    <v-menu v-model="mediaMenuOpen">
       <template #activator="{ props }">
         <v-btn icon v-bind="props" density="compact">
           <v-icon size="x-small">$media</v-icon>
