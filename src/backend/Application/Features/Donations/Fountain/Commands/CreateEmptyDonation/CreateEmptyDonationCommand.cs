@@ -1,9 +1,11 @@
+using Application.Common.Functions;
+using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Domain.Entities.Donation;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
 
-public class CreateEmptyDonationCommand : IRequest<Result<Guid>>
+public class CreateEmptyDonationCommand : IRequest<Result<BasicFountainDonationDto>>
 {
     public string? ProjectCode { get; set; }
     public string? Team { get; set; }
@@ -31,7 +33,7 @@ public class CreateEmptyDonationCommandValidator : AbstractValidator<CreateEmpty
     }
 }
 
-public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDonationCommand, Result<Guid>>
+public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDonationCommand, Result<BasicFountainDonationDto>>
 {
     private readonly IDonationDbContext _context;
 
@@ -40,7 +42,7 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
         _context = context;
     }
 
-    public async Task<Result<Guid>> Handle(CreateEmptyDonationCommand request, CancellationToken cancellationToken)
+    public async Task<Result<BasicFountainDonationDto>> Handle(CreateEmptyDonationCommand request, CancellationToken cancellationToken)
     {
         var lastDonation = await _context.FountainDonations
             .Where(x => x.ProjectCode == request.ProjectCode)
@@ -67,6 +69,18 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
         _context.FountainDonations.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Result<Guid>.Success(entity.Id);
+        var dto = new BasicFountainDonationDto
+        {
+            Id = entity.Id,
+            Contact = entity.Contact,
+            CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
+            HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
+            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+            Team = entity.Team,
+            MediaStatus = MediaStatus.From(entity.MediaStatus),
+        };
+
+
+        return Result<BasicFountainDonationDto>.Success(dto);
     }
 }

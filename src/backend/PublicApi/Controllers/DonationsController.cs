@@ -104,7 +104,7 @@ public class DonationsController : ControllerBase
 
     [HttpPost("fountain/empty-donation")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Create}")]
-    public async Task<ActionResult<Guid>> CreateEmptyDonation(CreateEmptyDonationCommand command)
+    public async Task<ActionResult<BasicFountainDonationDto>> CreateEmptyDonation(CreateEmptyDonationCommand command)
     {
         try
         {

@@ -60,7 +60,8 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
 
       try {
         const response = await apiService.post("/donations/fountain/empty-donation", donation);
-        this.donation = response;
+        this.items.pop();
+        this.items.unshift(response);
       } finally {
         appStore.setLoading(false);
       }
@@ -71,7 +72,6 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
 
       try {
         const response = await apiService.put(`/donations/fountain/media-status/${id}`, { id, mediastatus });
-        this.donation = response;
         const index = this.items.findIndex((item) => item.id === id);
         if (index !== -1) {
           this.items[index] = { ...response };
