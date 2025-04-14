@@ -18,7 +18,7 @@ const breadcrumbs = shallowRef([
 const predefinedValues = usePredefinedValuesStore();
 
 onMounted(async () => {
-  await predefinedValues.get();
+  await predefinedValues.getAll();
 });
 </script>
 

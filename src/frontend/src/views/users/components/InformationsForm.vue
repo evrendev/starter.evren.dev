@@ -84,7 +84,7 @@ const [jobTitle, jobTitleProps] = defineField("jobTitle", vuetifyConfig);
 const [language, languageProps] = defineField("language", vuetifyConfig);
 
 onMounted(async () => {
-  await predefinedValues.get();
+  await predefinedValues.getAll();
 });
 
 async function validateForm() {
