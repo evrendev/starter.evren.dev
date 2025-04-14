@@ -3,6 +3,7 @@ using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Tenant.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Infrastructure.Tenant.Services;
 
@@ -26,14 +27,16 @@ public class TenantDatabaseSeeder : IDatabaseSeeder
     {
         try
         {
+            _logger.LogInformation("Starting tenant database seeding...");
+
             if (_context.Tenants == null)
             {
                 _logger.LogWarning("Tenants table not found in the database.");
                 return;
             }
-            ;
 
             var defaultTenant = _configuration.GetSection("DefaultTenant").Get<TenantEntity>();
+            _logger.LogInformation("DefaultTenant configuration: {@DefaultTenant}", defaultTenant);
 
             if (defaultTenant == null)
             {
@@ -41,14 +44,23 @@ public class TenantDatabaseSeeder : IDatabaseSeeder
                 return;
             }
 
+            var existingTenant = await _context.Tenants.FirstOrDefaultAsync(t => t.Id == defaultTenant.Id);
+            if (existingTenant != null)
+            {
+                _logger.LogInformation("Default tenant already exists with ID: {TenantId}", defaultTenant.Id);
+                return;
+            }
+
             await _context.Tenants.AddAsync(defaultTenant);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Default tenant created: {TenantName}", defaultTenant.Name);
+            _logger.LogInformation("Default tenant created successfully: {TenantName} (ID: {TenantId})",
+                defaultTenant.Name, defaultTenant.Id);
         }
         catch (Exception ex)
         {
-            _logger.LogError("An error occurred while seeding the database.: {Message}", ex.Message);
+            _logger.LogError(ex, "An error occurred while seeding the tenant database: {Message}", ex.Message);
+            throw;
         }
     }
 }

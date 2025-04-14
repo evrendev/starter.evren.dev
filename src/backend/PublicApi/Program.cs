@@ -1,7 +1,12 @@
+using EvrenDev.Infrastructure.Audit.Data;
+using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Services;
+using EvrenDev.Infrastructure.Identity.Data;
+using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Middleware;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +22,21 @@ builder.Host.UseSerilog((context, conf) => conf.ReadFrom.Configuration(context.C
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     using var scope = app.Services.CreateScope();
+    var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+    catalogDb.Database.Migrate();
+
+    var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+    identityDb.Database.Migrate();
+
+    var tenantDb = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
+    tenantDb.Database.Migrate();
+
+    var auditDb = scope.ServiceProvider.GetRequiredService<AuditLogDbContext>();
+    auditDb.Database.Migrate();
+
     var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
     await seeder.SeedAllAsync();
 }

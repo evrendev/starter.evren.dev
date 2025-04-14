@@ -1,33 +1,4 @@
-version: "3.9"
-
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: src/backend/Dockerfile
-    ports:
-      - "5001:5001"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__CatalogConnection=Server=db,14330;Initial Catalog=evrendev-starter-catalog;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
-      - ConnectionStrings__TenantConnection=Server=db,14330;Initial Catalog=evrendev-starter-tenant;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
-      - ConnectionStrings__IdentityConnection=Server=db,14330;Initial Catalog=evrendev-starter-identity;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
-      - ConnectionStrings__AuditConnection=Server=db,14330;Initial Catalog=evrendev-starter-logs;User Id=sa;Password=M@ster.01;MultipleActiveResultSets=True;TrustServerCertificate=true;
-      - Redis__ConnectionString=redis:6379
-    depends_on:
-      - db
-      - redis
-
-  frontend:
-    build:
-      context: ./src/frontend
-    ports:
-      - "80:80"
-    environment:
-      - VITE_API_URL=http://localhost:5001/api
-    depends_on:
-      - backend
-
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -42,6 +13,39 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+
+  backend-migrator:
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile.migrator
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    profiles:
+      - migrate
+    depends_on:
+      - db
+
+  backend:
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    depends_on:
+      - db
+      - redis
+
+  frontend:
+    build:
+      context: ./src/frontend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_URL=http://localhost:5001/api
+    depends_on:
+      - backend
 
 volumes:
   sql_data:
