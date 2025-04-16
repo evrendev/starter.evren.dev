@@ -30,9 +30,18 @@ public static class DependencyInjection
         services.AddCors(options =>
             options.AddPolicy("AllowSpecificOrigins",
                 policy =>
-                    policy.WithOrigins("https://panel.evren.dev", "http://localhost:5002", "http://localhost")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
+                    policy.WithOrigins(
+                        "https://panel.evren.dev",
+                        "https://donation.help-dunya.com:5002",
+                        "https://donation.help-dunya.com",
+                        "http://localhost:5002",
+                        "http://localhost",
+                        "http://10.10.10.19:5002",
+                        "http://10.10.10.19"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
                 )
         );
 

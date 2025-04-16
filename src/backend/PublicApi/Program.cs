@@ -25,20 +25,42 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     using var scope = app.Services.CreateScope();
-    var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-    catalogDb.Database.Migrate();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-    var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
-    identityDb.Database.Migrate();
+    try
+    {
+        logger.LogInformation("Starting database migrations...");
 
-    var tenantDb = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
-    tenantDb.Database.Migrate();
+        var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+        logger.LogInformation("Migrating Catalog database...");
+        catalogDb.Database.Migrate();
+        logger.LogInformation("Catalog database migration completed.");
 
-    var auditDb = scope.ServiceProvider.GetRequiredService<AuditLogDbContext>();
-    auditDb.Database.Migrate();
+        var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+        logger.LogInformation("Migrating Identity database...");
+        identityDb.Database.Migrate();
+        logger.LogInformation("Identity database migration completed.");
 
-    var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
-    await seeder.SeedAllAsync();
+        var tenantDb = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
+        logger.LogInformation("Migrating Tenant database...");
+        tenantDb.Database.Migrate();
+        logger.LogInformation("Tenant database migration completed.");
+
+        var auditDb = scope.ServiceProvider.GetRequiredService<AuditLogDbContext>();
+        logger.LogInformation("Migrating Audit database...");
+        auditDb.Database.Migrate();
+        logger.LogInformation("Audit database migration completed.");
+
+        logger.LogInformation("Starting database seeding...");
+        var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
+        await seeder.SeedAllAsync();
+        logger.LogInformation("Database seeding completed.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while setting up the database.");
+        // Don't rethrow the exception, let the application continue
+    }
 }
 else
 {

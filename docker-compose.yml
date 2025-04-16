@@ -1,6 +1,7 @@
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: helpdunya-db
     environment:
       SA_PASSWORD: "M@ster.01"
       ACCEPT_EULA: "Y"
@@ -8,44 +9,74 @@ services:
       - "14330:1433"
     volumes:
       - sql_data:/var/opt/mssql
+    networks:
+      - helpdunya-network
 
   redis:
+    container_name: helpdunya-redis
     image: redis:alpine
     ports:
       - "6379:6379"
+    networks:
+      - helpdunya-network
 
   backend-migrator:
+    container_name: helpdunya-migrator
+    image: helpdunya-migrator
     build:
       context: .
       dockerfile: src/backend/Dockerfile.migrator
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
+      - Logging__LogLevel__Default=Debug
+      - Logging__LogLevel__Microsoft=Debug
+      - Logging__LogLevel__Microsoft.Hosting.Lifetime=Debug
     profiles:
       - migrate
     depends_on:
       - db
+    networks:
+      - helpdunya-network
 
   backend:
+    container_name: helpdunya-backend
+    image: helpdunya-backend
     build:
       context: .
       dockerfile: src/backend/Dockerfile
-    ports:
-      - "5001:5001"
+    # ports:
+    #   - "6001:6001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
+      - Logging__LogLevel__Default=Debug
+      - Logging__LogLevel__Microsoft=Debug
+      - Logging__LogLevel__Microsoft.Hosting.Lifetime=Debug
+    restart: unless-stopped
     depends_on:
       - db
       - redis
+    networks:
+      - helpdunya-network
 
   frontend:
+    container_name: helpdunya-frontend
+    image: helpdunya-frontend
     build:
       context: ./src/frontend
-    ports:
-      - "80:80"
+    # ports:
+    #   - "6002:6002"
     environment:
-      - VITE_API_URL=http://localhost:5001/api
+      - VITE_API_URL=https://donation.help-dunya.com:5001/api
+
     depends_on:
       - backend
+    networks:
+      - helpdunya-network
 
 volumes:
   sql_data:
+
+networks:
+  helpdunya-network:
+    name: helpdunya-network
+    driver: bridge
