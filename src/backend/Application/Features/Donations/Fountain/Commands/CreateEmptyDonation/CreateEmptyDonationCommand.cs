@@ -1,4 +1,3 @@
-using Application.Common.Functions;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Domain.Entities.Donation;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +57,7 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
             CreationDate = DateTime.Now,
             Phone = string.Empty,
             ProjectCode = request.ProjectCode,
-            Project = FountainDonationProject.From(request.ProjectCode).Alias,
+            Project = FountainDonationProject.FromName(request.ProjectCode).Alias,
             ProjectNumber = projectNumber,
             Team = request.Team,
             MediaStatus = MediaStatus.None.Name,

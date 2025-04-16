@@ -75,7 +75,7 @@ public class CreateFountainDonationCommandHandler : IRequestHandler<CreateFounta
             CreationDate = request.CreationDate ?? DateTime.UtcNow,
             Phone = request.Phone,
             ProjectCode = request.ProjectCode,
-            Project = FountainDonationProject.From(request.ProjectCode).Alias,
+            Project = FountainDonationProject.FromName(request.ProjectCode).Alias,
             ProjectNumber = projectNumber,
             Source = "MANUEL",
         };

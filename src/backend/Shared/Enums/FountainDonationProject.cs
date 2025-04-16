@@ -11,10 +11,16 @@ public class FountainDonationProject(string? name, string? alias)
     public static FountainDonationProject Aki => new("AKI", "AF01");
     public static FountainDonationProject Agi => new("AGI", "AF02");
 
-    public static FountainDonationProject From(string? name)
+    public static FountainDonationProject FromName(string? name)
     {
         return ToList
-            .FirstOrDefault(status => string.Equals(status.Name, name, StringComparison.OrdinalIgnoreCase)) ?? Bks;
+            .FirstOrDefault(project => string.Equals(project.Name, name, StringComparison.OrdinalIgnoreCase)) ?? Bks;
+    }
+
+    public static FountainDonationProject FromAlias(string? alias)
+    {
+        return ToList
+            .FirstOrDefault(project => string.Equals(project.Name, alias, StringComparison.OrdinalIgnoreCase)) ?? Bks;
     }
 
     public static IEnumerable<FountainDonationProject> ToList
