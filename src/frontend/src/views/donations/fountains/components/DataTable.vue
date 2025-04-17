@@ -72,6 +72,11 @@ const showAllInformation = async (id) => {
   showAllInformationDialog.value = true;
 };
 
+const openWhatsapp = (url, text) => {
+  window.open(url, "_blank");
+  copyToClipboard(text);
+};
+
 const copyToClipboard = (text) => {
   navigator.clipboard.writeText(text).then(() => {
     copySuccess.value = true;
@@ -150,15 +155,21 @@ const createEmptyDonation = async () => {
       </template>
 
       <template v-slot:item="{ item }">
-        <tr :key="item.id" class="donation-row" @click="copyToClipboard(item.plainBanner)">
+        <tr :key="item.id" class="donation-row">
           <td>
-            <div class="info-wrapper" v-html="item.htmlBanner" />
+            <div class="info-wrapper" v-html="item.htmlBanner" @click="copyToClipboard(item.plainBanner)" />
           </td>
           <td>
             {{ item.contact }}
           </td>
           <td>
-            <a :href="`${item.phone.whatsapp}`" target="_blank">
+            <a
+              href="#"
+              target="_blank"
+              class="flex items-center text-decoration-none"
+              @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner)"
+            >
+              <v-icon icon="$whatsapp" size="small" class="mr-1" />
               {{ item.phone.formattedNumber }}
             </a>
           </td>

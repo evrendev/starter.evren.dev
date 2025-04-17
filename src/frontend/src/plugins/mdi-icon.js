@@ -30,7 +30,8 @@ import {
   mdiMessageVideo,
   mdiMenuDown,
   mdiChevronDown,
-  mdiAccountMultiplePlusOutline
+  mdiAccountMultiplePlusOutline,
+  mdiWhatsapp
 } from "@mdi/js";
 
 export const icons = {
@@ -65,5 +66,6 @@ export const icons = {
   media: mdiMessageVideo,
   menuDown: mdiMenuDown,
   chevronDown: mdiChevronDown,
-  accountMultiplePlusOutline: mdiAccountMultiplePlusOutline
+  accountMultiplePlusOutline: mdiAccountMultiplePlusOutline,
+  whatsapp: mdiWhatsapp
 };
