@@ -7,7 +7,7 @@ public class FountainDonationProject(string? name, string? alias)
 
     // Predefined statuses
     public static FountainDonationProject Bks => new("BKS", "BL01");
-    public static FountainDonationProject Bgs => new("BGS", "BL01");
+    public static FountainDonationProject Bgs => new("BGS", "BL02");
     public static FountainDonationProject Aki => new("AKI", "AF01");
     public static FountainDonationProject Agi => new("AGI", "AF02");
 
