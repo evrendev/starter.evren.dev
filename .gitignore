@@ -404,3 +404,4 @@ secrets.json
 secrets.Development.json
 .env
 .env.development
+.env.docker
