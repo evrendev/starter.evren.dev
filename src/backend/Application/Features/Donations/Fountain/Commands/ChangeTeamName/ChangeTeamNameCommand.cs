@@ -1,4 +1,4 @@
-using Application.Common.Functions;
+using EvrenDev.Application.Common.Functions;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Domain.Entities.Donation;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +56,7 @@ public class ChangeTeamNameCommandHandler : IRequestHandler<ChangeTeamNameComman
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = Tools.FormatPhoneNumber(entity.Phone ?? string.Empty),
+            Phone = Tools.CreatePhone(number: entity.Phone, message: $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}"),
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",

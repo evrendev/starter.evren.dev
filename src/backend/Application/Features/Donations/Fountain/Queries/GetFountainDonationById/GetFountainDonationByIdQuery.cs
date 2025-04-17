@@ -1,4 +1,4 @@
-using Application.Common.Functions;
+using EvrenDev.Application.Common.Functions;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,9 +48,10 @@ public class GetFountainDonationByIdQueryHandler : IRequestHandler<GetFountainDo
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = !string.IsNullOrEmpty(entity.Phone) ? Tools.FormatPhoneNumber(entity.Phone) : null,
+            Phone = Tools.CreatePhone(number: entity.Phone, message: $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}"),
             ProjectCode = entity.ProjectCode,
-            Banner = entity.Banner,
+            HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
+            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             ProjectNumber = entity.ProjectNumber,
             Project = entity.Project,
             TransactionId = entity.TransactionId,

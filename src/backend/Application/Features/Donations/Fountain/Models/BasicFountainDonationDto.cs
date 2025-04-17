@@ -1,9 +1,11 @@
+using static EvrenDev.Application.Common.Functions.Tools;
+
 namespace EvrenDev.Application.Features.Donations.Fountain.Models;
 public record BasicFountainDonationDto
 {
     public Guid Id { get; set; }
     public string? Contact { get; set; }
-    public string? Phone { get; set; }
+    public Phone? Phone { get; set; }
     public DateTimeDto? CreationDate { get; set; }
     public int Weeks =>
         CreationDate?.UtcDateTime is DateTime creation

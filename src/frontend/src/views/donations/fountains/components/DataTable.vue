@@ -158,7 +158,9 @@ const createEmptyDonation = async () => {
             {{ item.contact }}
           </td>
           <td>
-            {{ item.phone }}
+            <a :href="`${item.phone.whatsapp}`" target="_blank">
+              {{ item.phone.formattedNumber }}
+            </a>
           </td>
           <td>
             {{ item.creationDate.displayDate }}

@@ -1,4 +1,4 @@
-using Application.Common.Functions;
+using EvrenDev.Application.Common.Functions;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Domain.Entities.Donation;
 
@@ -90,7 +90,7 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = !string.IsNullOrEmpty(entity.Phone) ? Tools.FormatPhoneNumber(entity.Phone) : null,
+            Phone = Tools.CreatePhone(entity.Phone, $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}"),
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
