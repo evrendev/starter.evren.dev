@@ -208,19 +208,6 @@ const createEmptyDonation = async () => {
                 </v-list-item>
               </v-list>
             </v-menu>
-            <!-- <div class="d-flex ga-2">
-              <div
-                :class="`bg-${item.mediaStatus.backgroundColor}`"
-                :style="{
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%'
-                }"
-              />
-              <span>
-                {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
-              </span>
-            </div> -->
           </td>
           <td>
             <div class="d-flex ga-2 justify-end">
@@ -273,8 +260,8 @@ const createEmptyDonation = async () => {
   }
   tbody {
     &:hover tr {
-      opacity: 0.5;
-      filter: blur(1px);
+      opacity: 0.75;
+      filter: blur(0.5px);
     }
 
     tr {
