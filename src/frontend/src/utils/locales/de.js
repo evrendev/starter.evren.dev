@@ -476,6 +476,9 @@ export default {
     copy: "Kopieren",
     copied: "Kopiert",
     showDetails: "Details anzeigen",
+    openWhatsapp: "Öffne Whatsapp",
+    changeTeam: "Team wechseln",
+    changeMediaStatus: "Medienstatus ändern",
     modules: {
       donations: "Spenden",
       todos: "Todos Listen",

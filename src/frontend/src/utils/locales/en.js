@@ -478,6 +478,9 @@ export default {
     copy: "Copy",
     copied: "Copied",
     showDetails: "Show Details",
+    openWhatsapp: "Open WhatsApp",
+    changeTeam: "Change Team",
+    changeMediaStatus: "Change Media Status",
     modules: {
       donations: "Donations",
       todos: "Todos",

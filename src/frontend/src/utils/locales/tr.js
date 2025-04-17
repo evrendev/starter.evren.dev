@@ -476,6 +476,10 @@ export default {
     copy: "Kopyala",
     copied: "Kopyalandı",
     showDetails: "Detayları Göster",
+    openWhatsapp: "WhatsApp Aç",
+    changeTeam: "Takım Değiştir",
+    openWhatsapp: "WhatsApp Aç",
+    changeMediaStatus: "Medya Durumunu Değiştir",
     modules: {
       donations: "Bağışlar",
       todos: "Görevler",

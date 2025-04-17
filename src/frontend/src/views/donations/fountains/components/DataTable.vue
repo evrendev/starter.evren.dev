@@ -158,20 +158,17 @@ const createEmptyDonation = async () => {
         <tr :key="item.id" class="donation-row">
           <td>
             <div class="info-wrapper" v-html="item.htmlBanner" @click="copyToClipboard(item.plainBanner)" />
+            <v-tooltip activator="parent" location="top" :text="t('common.copy')" />
           </td>
           <td>
             {{ item.contact }}
           </td>
           <td>
-            <a
-              href="#"
-              target="_blank"
-              class="flex items-center text-decoration-none"
-              @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner)"
-            >
+            <v-btn size="x-small" color="success" @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner)">
               <v-icon icon="$whatsapp" size="small" class="mr-1" />
               {{ item.phone.formattedNumber }}
-            </a>
+              <v-tooltip activator="parent" location="top" :text="t('common.openWhatsapp')" />
+            </v-btn>
           </td>
           <td>
             {{ item.creationDate.displayDate }}
@@ -188,6 +185,7 @@ const createEmptyDonation = async () => {
                   <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
                     {{ item.team }}
                     <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                    <v-tooltip activator="parent" location="top" :text="t('common.changeTeam')" />
                   </v-btn>
                 </template>
 
@@ -204,9 +202,10 @@ const createEmptyDonation = async () => {
             <v-menu>
               <template #activator="{ props }">
                 <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
-                  <v-avatar size="12" class="mr-1" :color="item.mediaStatus.backgroundColor" />
+                  <v-avatar size="8" class="mr-1" :color="item.mediaStatus.backgroundColor" />
                   {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
                   <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                  <v-tooltip activator="parent" location="top" :text="t('common.changeMediaStatus')" />
                 </v-btn>
               </template>
 

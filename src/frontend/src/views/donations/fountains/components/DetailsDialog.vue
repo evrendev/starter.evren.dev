@@ -13,6 +13,20 @@ defineProps({
     default: null
   }
 });
+
+const openWhatsapp = (url, text) => {
+  window.open(url, "_blank");
+  copyToClipboard(text);
+};
+
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
+    copySuccess.value = true;
+    setTimeout(() => {
+      copySuccess.value = false;
+    }, 1000);
+  });
+};
 </script>
 
 <template>
@@ -36,7 +50,7 @@ defineProps({
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.banner") }}</td>
-              <td>{{ donation.banner }}</td>
+              <td><div v-html="donation.htmlBanner" /></td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.contact") }}</td>
@@ -44,7 +58,13 @@ defineProps({
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.phone") }}</td>
-              <td>{{ donation.phone }}</td>
+              <td>
+                <v-btn size="x-small" color="success" @click.stop="openWhatsapp(donation.phone.whatsapp, donation.plainBanner)">
+                  <v-icon icon="$whatsapp" size="small" class="mr-1" />
+                  {{ donation.phone.formattedNumber }}
+                  <v-tooltip activator="parent" location="top" :text="t('common.openWhatsapp')" />
+                </v-btn>
+              </td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.project") }}</td>
@@ -68,7 +88,7 @@ defineProps({
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.transactionId") }}</td>
-              <td>{{ donation.transactionId }}</td>
+              <td>{{ donation.transactionId ?? "-" }}</td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.source") }}</td>
