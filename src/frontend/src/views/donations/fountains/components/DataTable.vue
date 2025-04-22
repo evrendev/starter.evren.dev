@@ -11,10 +11,11 @@ import config from "@/config";
 const { t } = useI18n();
 const fountainDonationStore = useFountainDonationStore();
 const preDefinedValuesStore = usePredefinedValuesStore();
-const { mediaStatuses } = storeToRefs(preDefinedValuesStore);
+const { mediaStatuses, fountainTeams } = storeToRefs(preDefinedValuesStore);
 
 onMounted(async () => {
   await preDefinedValuesStore.getMediaStatuses();
+  await preDefinedValuesStore.getFountainTeams();
 });
 
 const props = defineProps({
@@ -38,8 +39,6 @@ const props = defineProps({
 
 defineEmits(["update:options"]);
 
-const teams = ref(["Morteza", "Idris"]);
-const team = ref("Morteza");
 const headers = ref([
   { title: t("admin.donations.fountains.fields.info"), key: "info", sortable: true },
   { title: t("admin.donations.fountains.fields.contact"), key: "contact", sortable: true },
@@ -57,6 +56,7 @@ const headers = ref([
   { title: t("admin.donations.fountains.fields.detail"), key: "actions", align: "center", sortable: false, width: "64px" }
 ]);
 
+const teamName = ref("none");
 const donation = ref(null);
 const showAllInformationDialog = ref(false);
 const copySuccess = ref(false);
@@ -90,8 +90,8 @@ const changeMediaStatus = async (id, mediastatus) => {
   await fountainDonationStore.changeMediaStatus(id, mediastatus);
 };
 
-const changeTeam = async (id, teamName) => {
-  await fountainDonationStore.changeTeam(id, teamName);
+const changeTeam = async (id, team) => {
+  await fountainDonationStore.changeTeam(id, team);
 };
 
 const showDeleteConfirmationDialog = (id) => {
@@ -112,7 +112,7 @@ const deleteDonation = async () => {
 };
 
 const createEmptyDonation = async () => {
-  await fountainDonationStore.createEmptyDonation({ projectCode: props.projectCode.toLocaleUpperCase(), team: team.value });
+  await fountainDonationStore.createEmptyDonation({ projectCode: props.projectCode.toLocaleUpperCase(), team: teamName.value });
 };
 </script>
 
@@ -128,16 +128,36 @@ const createEmptyDonation = async () => {
       item-value="id"
       @update:options="$emit('update:options', $event)"
     >
-      <template v-slot:top>
-        <v-toolbar :elevation="0" class="mb-4 py-2 px-4 rounded-lg border" color="surface" v-show="showTeamOptions">
+      <template v-slot:top v-show="showTeamOptions">
+        <v-toolbar :elevation="0" class="px-2 py-0 mb-2 rounded-sm border" color="surface">
           <v-toolbar-title class="text-medium-emphasis">
-            <v-icon icon="$accountMultiplePlusOutline" size="small" class="mr-2" />
-            {{ t("admin.donations.fountains.fields.team") }}
+            <v-icon icon="$accountMultiplePlusOutline" size="x-small" class="mr-2" />
+            <span class="text-h6 font-weight-bold">
+              {{ t("admin.donations.fountains.fields.team") }}
+            </span>
           </v-toolbar-title>
 
           <template #append>
             <div class="d-flex align-center ga-2">
-              <v-select v-model="team" :items="teams" density="compact" variant="outlined" hide-details class="min-w-[140px]" />
+              <v-menu>
+                <template #activator="{ props }">
+                  <v-btn v-bind="props" variant="outlined" size="small">
+                    {{ t(`admin.donations.fountains.team.${teamName}`) }}
+                    <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item v-for="team in fountainTeams" :key="team" @click.once="teamName = team.name">
+                    <v-list-item-title>
+                      <div class="d-flex align-center ga-1">
+                        <v-avatar size="8" :color="team.backgroundColor" />
+                        {{ t(`admin.donations.fountains.team.${team.name}`) }}
+                      </div>
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
 
               <v-btn
                 color="primary"
@@ -147,7 +167,7 @@ const createEmptyDonation = async () => {
                 density="comfortable"
                 @click.stop="createEmptyDonation"
               >
-                {{ t("admin.donations.fountains.addEmptyProject") }}
+                {{ t("admin.donations.fountains.addEmptyDonation") }}
               </v-btn>
             </div>
           </template>
@@ -157,14 +177,14 @@ const createEmptyDonation = async () => {
       <template v-slot:item="{ item }">
         <tr :key="item.id" class="donation-row">
           <td>
-            <div class="info-wrapper" v-html="item.htmlBanner" @click="copyToClipboard(item.plainBanner)" />
+            <div class="info-wrapper" v-html="item.htmlBanner" @click.stop="copyToClipboard(item.plainBanner)" />
             <v-tooltip activator="parent" location="top" :text="t('common.copy')" />
           </td>
           <td>
             {{ item.contact }}
           </td>
           <td>
-            <v-btn size="x-small" color="success" @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner)">
+            <v-btn v-if="item.phone" size="x-small" color="success" @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner)">
               <v-icon icon="$whatsapp" size="small" class="mr-1" />
               {{ item.phone.formattedNumber }}
               <v-tooltip activator="parent" location="top" :text="t('common.openWhatsapp')" />
@@ -182,16 +202,26 @@ const createEmptyDonation = async () => {
             <div v-if="showTeamOptions">
               <v-menu>
                 <template #activator="{ props }">
-                  <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
-                    {{ item.team }}
-                    <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                  <v-btn v-bind="props" variant="outlined" density="compact" class="d-flex w-100 text-capitalize" size="small">
+                    <div class="d-flex align-center ga-1">
+                      <v-avatar size="8" :color="item.team.backgroundColor" />
+                      <span>{{ t(`admin.donations.fountains.team.${item.team.name}`) }}</span>
+                    </div>
+
+                    <v-icon icon="$chevronDown" size="x-small" class="ml-auto" />
+
                     <v-tooltip activator="parent" location="top" :text="t('common.changeTeam')" />
                   </v-btn>
                 </template>
 
                 <v-list>
-                  <v-list-item v-for="teamName in teams" :key="teamName" @click="changeTeam(item.id, teamName)">
-                    <v-list-item-title>{{ teamName }}</v-list-item-title>
+                  <v-list-item v-for="team in fountainTeams" :key="team" @click.once="changeTeam(item.id, team.name)">
+                    <v-list-item-title>
+                      <div class="d-flex align-center ga-1">
+                        <v-avatar size="8" :color="team.backgroundColor" />
+                        {{ t(`admin.donations.fountains.team.${team.name}`) }}
+                      </div>
+                    </v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -210,7 +240,7 @@ const createEmptyDonation = async () => {
               </template>
 
               <v-list>
-                <v-list-item v-for="status in mediaStatuses" :key="status.name" @click="changeMediaStatus(item.id, status.name)">
+                <v-list-item v-for="status in mediaStatuses" :key="status.name" @click.once="changeMediaStatus(item.id, status.name)">
                   <v-list-item-title>
                     <div class="d-flex align-center ga-1">
                       <v-avatar size="8" :color="status.backgroundColor" />

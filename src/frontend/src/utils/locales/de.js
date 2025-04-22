@@ -213,7 +213,7 @@ export default {
       },
       fountains: {
         title: "Brunnen Spenden",
-        addEmptyProject: "Leeres Projekt hinzufügen",
+        addEmptyDonation: "Leeres Spendenformular hinzufügen",
         fields: {
           id: "ID",
           contact: "Kontakt",
@@ -227,6 +227,11 @@ export default {
           team: "Team",
           media: "Medien",
           detail: "Aktion"
+        },
+        team: {
+          none: "Keine",
+          morteza: "Team Morteza",
+          idris: "Team Idris"
         },
         projectCodes: {
           bks: "BKS",
@@ -478,6 +483,7 @@ export default {
     showDetails: "Details anzeigen",
     openWhatsapp: "Öffne Whatsapp",
     changeTeam: "Team wechseln",
+    select: "Wählen",
     changeMediaStatus: "Medienstatus ändern",
     modules: {
       donations: "Spenden",

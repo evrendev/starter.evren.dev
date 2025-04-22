@@ -1,13 +1,13 @@
 using System.Text.RegularExpressions;
-using System.Web; // URL encode için gerekli
+using System.Web;
 
 namespace EvrenDev.Application.Common.Functions
 {
     public class Tools
     {
-        public static Phone CreatePhone(string? number, string? message = null)
+        public static Phone? CreatePhone(string? number, string? message = null)
         {
-            return new Phone(number, message);
+            return string.IsNullOrWhiteSpace(number) ? null : new Phone(number, message);
         }
 
         private static string? FormatPhoneNumber(string? input)

@@ -214,7 +214,7 @@ export default {
       },
       fountains: {
         title: "Kuyu Bağışları",
-        addEmptyProject: "Boş Proje Ekle",
+        addEmptyDonation: "Boş Bağış Ekle",
         fields: {
           id: "ID",
           contact: "Bağışçı",
@@ -228,6 +228,11 @@ export default {
           team: "Takım",
           media: "Medya",
           detail: "İşlem"
+        },
+        team: {
+          none: "Yok",
+          morteza: "Morteza Takımı",
+          idris: "Idris Takımı"
         },
         status: {
           none: "Yok",
@@ -479,6 +484,7 @@ export default {
     openWhatsapp: "WhatsApp Aç",
     changeTeam: "Takım Değiştir",
     openWhatsapp: "WhatsApp Aç",
+    select: "Bir Seçenek Seçin",
     changeMediaStatus: "Medya Durumunu Değiştir",
     modules: {
       donations: "Bağışlar",

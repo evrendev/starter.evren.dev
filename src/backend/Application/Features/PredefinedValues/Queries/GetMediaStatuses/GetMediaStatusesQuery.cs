@@ -1,20 +1,20 @@
-namespace EvrenDev.Application.Features.PredefinedValues.Queries.GetMediaStatuses;
-public class GetMediaStatusesQuery : IRequest<Result<IEnumerable<MediaStatus>?>>
+namespace EvrenDev.Application.Features.PredefinedValues.Queries.GetFountaionTeams;
+public class GetFountaionTeamsQuery : IRequest<Result<IEnumerable<FountaionTeam>?>>
 {
 }
 
-public class GetMediaStatusesQueryHandler : IRequestHandler<GetMediaStatusesQuery, Result<IEnumerable<MediaStatus>?>>
+public class GetFountaionTeamsQueryHandler : IRequestHandler<GetFountaionTeamsQuery, Result<IEnumerable<FountaionTeam>?>>
 {
-    private readonly IStringLocalizer<GetMediaStatusesQueryHandler> _localizer;
-    public GetMediaStatusesQueryHandler(IStringLocalizer<GetMediaStatusesQueryHandler> localizer)
+    private readonly IStringLocalizer<GetFountaionTeamsQueryHandler> _localizer;
+    public GetFountaionTeamsQueryHandler(IStringLocalizer<GetFountaionTeamsQueryHandler> localizer)
     {
         _localizer = localizer;
     }
 
-    public async Task<Result<IEnumerable<MediaStatus>?>> Handle(GetMediaStatusesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<FountaionTeam>?>> Handle(GetFountaionTeamsQuery request, CancellationToken cancellationToken)
     {
-        var values = MediaStatus.ToList;
+        var values = FountaionTeam.ToList;
 
-        return await Task.FromResult(Result<IEnumerable<MediaStatus>?>.Success(values));
+        return await Task.FromResult(Result<IEnumerable<FountaionTeam>?>.Success(values));
     }
 }

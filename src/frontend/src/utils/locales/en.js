@@ -212,7 +212,7 @@ export default {
       },
       fountains: {
         title: "Fountain Donations",
-        addEmptyProject: "Add Empty Project",
+        addEmptyDonation: "Add Empty Donation",
         fields: {
           id: "ID",
           contact: "Contact",
@@ -232,6 +232,11 @@ export default {
           bgs: "BGS",
           aki: "AKI",
           agi: "AGI"
+        },
+        team: {
+          none: "None",
+          morteza: "Team Morteza",
+          idris: "Team Idris"
         },
         status: {
           none: "No details available",
@@ -480,6 +485,7 @@ export default {
     showDetails: "Show Details",
     openWhatsapp: "Open WhatsApp",
     changeTeam: "Change Team",
+    select: "Choose",
     changeMediaStatus: "Change Media Status",
     modules: {
       donations: "Donations",

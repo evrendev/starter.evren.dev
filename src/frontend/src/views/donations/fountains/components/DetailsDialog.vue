@@ -59,9 +59,14 @@ const copyToClipboard = (text) => {
             <tr>
               <td>{{ t("admin.donations.fountains.details.phone") }}</td>
               <td>
-                <v-btn size="x-small" color="success" @click.stop="openWhatsapp(donation.phone.whatsapp, donation.plainBanner)">
+                <v-btn
+                  v-if="donation.phone"
+                  size="x-small"
+                  color="success"
+                  @click.stop="openWhatsapp(donation.phone?.whatsapp, donation.plainBanner)"
+                >
                   <v-icon icon="$whatsapp" size="small" class="mr-1" />
-                  {{ donation.phone.formattedNumber }}
+                  {{ donation.phone?.formattedNumber }}
                   <v-tooltip activator="parent" location="top" :text="t('common.openWhatsapp')" />
                 </v-btn>
               </td>
@@ -77,6 +82,14 @@ const copyToClipboard = (text) => {
             <tr>
               <td>{{ t("admin.donations.fountains.details.projectNumber") }}</td>
               <td>{{ donation.projectNumber }}</td>
+            </tr>
+            <tr>
+              <td>{{ t("admin.donations.fountains.details.team") }}</td>
+              <td>
+                <div :class="`bg-${donation.team.backgroundColor}`" class="text-center">
+                  {{ t(`admin.donations.fountains.team.${donation.team.name}`) }}
+                </div>
+              </td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.mediaStatus") }}</td>

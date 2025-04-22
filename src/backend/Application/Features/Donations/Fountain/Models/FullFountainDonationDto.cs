@@ -30,6 +30,6 @@ public record FullFountainDonationDto
     public string? TransactionId { get; set; }
     public string? Source { get; set; }
     public string? Info { get; set; }
-    public string? Team { get; set; }
+    public FountaionTeam? Team { get; set; }
     public MediaStatus? MediaStatus { get; set; }
 }

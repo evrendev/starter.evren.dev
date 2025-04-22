@@ -75,7 +75,7 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
-            Team = entity.Team,
+            Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
         };
 

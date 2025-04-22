@@ -5,6 +5,7 @@ export const usePredefinedValuesStore = defineStore("predefined-values", {
   state: () => ({
     items: {},
     mediaStatuses: [],
+    fountainTeams: [],
     loading: false
   }),
   getters: {
@@ -26,6 +27,15 @@ export const usePredefinedValuesStore = defineStore("predefined-values", {
 
       try {
         this.mediaStatuses = await apiService.get("/predefined-values/media-statuses", false);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async getFountainTeams() {
+      this.loading = true;
+
+      try {
+        this.fountainTeams = await apiService.get("/predefined-values/fountain-teams", false);
       } finally {
         this.loading = false;
       }

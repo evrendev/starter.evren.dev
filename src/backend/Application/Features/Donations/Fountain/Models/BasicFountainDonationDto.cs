@@ -25,6 +25,6 @@ public record BasicFountainDonationDto
 
     public string? HtmlBanner { get; set; }
     public string? PlainBanner { get; set; }
-    public string? Team { get; set; }
+    public FountaionTeam? Team { get; set; }
     public MediaStatus? MediaStatus { get; set; }
 }
