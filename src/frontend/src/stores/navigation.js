@@ -4,7 +4,7 @@ import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon,
 import { useAuthStore } from "./auth";
 
 const DONATIONS_PERMISSIONS = ["Donations.Read", "Donations.Create", "Donations.Edit", "Donations.Delete"];
-const TODOS_PERMISSIONS = ["Todos.Read", "Todos.Create", "Todos.Edit", "Todos.Delete"];
+// const TODOS_PERMISSIONS = ["Todos.Read", "Todos.Create", "Todos.Edit", "Todos.Delete"];
 const USERS_PERMISSIONS = ["Users.Read", "Users.Create", "Users.Edit", "Users.Delete"];
 const ROLES_PERMISSIONS = ["Roles.Read", "Roles.Create", "Roles.Edit", "Roles.Delete"];
 const TENANTS_PERMISSIONS = ["Tenants.Read", "Tenants.Create", "Tenants.Edit", "Tenants.Delete"];
@@ -94,17 +94,17 @@ export const useNavigationStore = defineStore("navigation", {
         );
       }
 
-      if (this.hasAnyPermission(TODOS_PERMISSIONS)) {
-        items.push(
-          { divider: true },
-          { header: "components.sidebar.todos.header" },
-          {
-            title: "components.sidebar.todos.title",
-            icon: icons.todos,
-            to: "/admin/todos"
-          }
-        );
-      }
+      // if (this.hasAnyPermission(TODOS_PERMISSIONS)) {
+      //   items.push(
+      //     { divider: true },
+      //     { header: "components.sidebar.todos.header" },
+      //     {
+      //       title: "components.sidebar.todos.title",
+      //       icon: icons.todos,
+      //       to: "/admin/todos"
+      //     }
+      //   );
+      // }
 
       if (this.hasAnyPermission(ADMIN_PERMISSIONS)) {
         items.push({ divider: true }, { header: "components.sidebar.admin.title" });
