@@ -11,7 +11,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /out ./
 
-# ENV ASPNETCORE_URLS=http://+:5001
-# EXPOSE 5001
+ENV ASPNETCORE_URLS=http://+:5001
+EXPOSE 5001
 
 ENTRYPOINT ["dotnet", "EvrenDev.PublicApi.dll"]
