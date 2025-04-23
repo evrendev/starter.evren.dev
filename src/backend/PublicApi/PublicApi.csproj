@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>EvrenDev.PublicApi</RootNamespace>
     <AssemblyName>EvrenDev.PublicApi</AssemblyName>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
