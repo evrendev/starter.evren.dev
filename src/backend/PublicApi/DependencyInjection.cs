@@ -31,7 +31,9 @@ public static class DependencyInjection
             options.AddPolicy("AllowSpecificOrigins",
                 policy =>
                     policy.WithOrigins(
+                        "https://donation.help-dunya.com:5001",
                         "https://donation.help-dunya.com:5002",
+                        "http://localhost:5001",
                         "http://localhost:5002"
                     )
                     .AllowAnyHeader()
