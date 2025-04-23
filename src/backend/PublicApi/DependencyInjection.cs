@@ -31,13 +31,8 @@ public static class DependencyInjection
             options.AddPolicy("AllowSpecificOrigins",
                 policy =>
                     policy.WithOrigins(
-                        "https://panel.evren.dev",
                         "https://donation.help-dunya.com:5002",
-                        "https://donation.help-dunya.com",
-                        "http://localhost:5002",
-                        "http://localhost",
-                        "http://10.10.10.19:5002",
-                        "http://10.10.10.19"
+                        "http://localhost:5002"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod()

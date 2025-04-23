@@ -59,7 +59,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
     catch (Exception ex)
     {
         logger.LogError(ex, "An error occurred while setting up the database.");
-        // Don't rethrow the exception, let the application continue
     }
 }
 else
