@@ -53,16 +53,16 @@ public static class DependencyInjection
                 {
                     Title = "EvrenDev API",
                     Version = "v1",
-                    TermsOfService = new Uri("https://evren.dev/terms"),
+                    TermsOfService = new Uri("https://donation.help-dunya.com:5002/terms"),
                     Contact = new OpenApiContact
                     {
                         Name = "Contact",
-                        Url = new Uri("https://evren.dev/contact")
+                        Url = new Uri("https://donation.help-dunya.com:5002/contact")
                     },
                     License = new OpenApiLicense
                     {
                         Name = "License",
-                        Url = new Uri("https://evren.dev/license")
+                        Url = new Uri("https://donation.help-dunya.com:5002/license")
                     }
                 }
             )
