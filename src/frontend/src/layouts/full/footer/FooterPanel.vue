@@ -6,15 +6,15 @@ const { t } = useLocale();
 const footerLink = shallowRef([
   {
     title: t("components.footerPanel.home"),
-    url: "https://evren.dev/"
+    url: "https://help-dunya.com/"
   },
   {
     title: t("components.footerPanel.documentation"),
-    url: "https://evren.dev/panel/documentation"
+    url: "https://support.help-dunya.com/documentation"
   },
   {
     title: t("components.footerPanel.support"),
-    url: "https://support.evren.dev/"
+    url: "https://support.help-dunya.com/"
   }
 ]);
 </script>
