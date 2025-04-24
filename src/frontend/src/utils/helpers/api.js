@@ -42,8 +42,6 @@ apiClient.interceptors.response.use(
     return config;
   },
   function (error) {
-    console.log(error);
-
     if (error.response?.status === 401) {
       localStorage.removeItem("auth");
       window.location.href = "/auth/login";

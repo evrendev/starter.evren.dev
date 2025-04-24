@@ -7,7 +7,6 @@ import { useVersion } from "@/composables/useVersion";
 import FooterPanel from "./footer/FooterPanel.vue";
 
 const { versionInfo } = useVersion();
-console.log("versionInfo", useVersion());
 const customizer = useCustomizerStore();
 </script>
 
