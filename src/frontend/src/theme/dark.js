@@ -6,7 +6,7 @@ const dark = {
     "carousel-control-size": 10
   },
   colors: {
-    primary: "#2196f3",
+    primary: "#009846",
     secondary: "#94a3b8",
     info: "#0288d1",
     success: "#4caf50",

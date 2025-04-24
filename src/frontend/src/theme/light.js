@@ -6,7 +6,7 @@ const light = {
     "carousel-control-size": 10
   },
   colors: {
-    primary: "#5e35b1",
+    primary: "#009846",
     secondary: "#1c1e54",
     info: "#03c9d7",
     success: "#00c853",

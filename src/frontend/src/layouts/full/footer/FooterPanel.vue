@@ -24,7 +24,7 @@ const footerLink = shallowRef([
       <v-col cols="12" sm="6">
         <p class="text-body-1 mb-0 text-sm-left text-center">
           Made with
-          <v-icon size="small" icon="$heart" color="error"></v-icon> in Germany
+          <v-icon size="small" icon="$heart" color="error"></v-icon> in Bremen
         </p>
       </v-col>
       <v-col class="text-sm-right text-center" cols="12" sm="6">
