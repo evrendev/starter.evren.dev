@@ -17,4 +17,5 @@ public class FountainDonation
     public string? Source { get; set; }
     public string? Team { get; set; }
     public string? MediaStatus { get; set; }
+    public string? MediaInformation { get; set; }
 }

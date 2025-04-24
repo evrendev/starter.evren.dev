@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using static EvrenDev.Shared.Constants.Policies;
-using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaStatus;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaInformation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
@@ -127,9 +127,9 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpPut("fountain/media-status/{id}")]
+    [HttpPut("fountain/media-information/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Edit}")]
-    public async Task<ActionResult<Guid>> ChangeMediaStatus(Guid id, ChangeMediaStatusCommand command)
+    public async Task<ActionResult<Guid>> ChangeMediaInformation(Guid id, ChangeMediaInformationCommand command)
     {
         try
         {

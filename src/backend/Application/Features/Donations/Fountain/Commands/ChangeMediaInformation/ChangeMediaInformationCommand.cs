@@ -3,27 +3,28 @@ using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Domain.Entities.Donation;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaStatus;
+namespace EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaInformation;
 
-public class ChangeMediaStatusCommand : IRequest<Result<BasicFountainDonationDto>>
+public class ChangeMediaInformationCommand : IRequest<Result<BasicFountainDonationDto>>
 {
     public Guid Id { get; set; }
 
-    public string? MediaStatus { get; set; }
+    public string? Status { get; set; }
+    public string? Information { get; set; }
 }
 
-public class ChangeMediaStatusCommandValidator : AbstractValidator<ChangeMediaStatusCommand>
+public class ChangeMediaInformationCommandValidator : AbstractValidator<ChangeMediaInformationCommand>
 {
-    private readonly IStringLocalizer<ChangeMediaStatusCommandValidator> _localizer;
+    private readonly IStringLocalizer<ChangeMediaInformationCommandValidator> _localizer;
 
-    public ChangeMediaStatusCommandValidator(IStringLocalizer<ChangeMediaStatusCommandValidator> localizer)
+    public ChangeMediaInformationCommandValidator(IStringLocalizer<ChangeMediaInformationCommandValidator> localizer)
     {
         _localizer = localizer;
 
         RuleFor(v => v.Id)
             .NotEmpty().WithMessage(_localizer["api.todo-lists.delete.id.required"]);
 
-        RuleFor(x => x.MediaStatus)
+        RuleFor(x => x.Status)
             .NotEmpty()
             .WithMessage(_localizer["api.donations.fountain.update.media-status.required"])
             .Must(code => MediaStatus.ToList.Select(status => status.Name).Contains(code))
@@ -31,27 +32,28 @@ public class ChangeMediaStatusCommandValidator : AbstractValidator<ChangeMediaSt
     }
 }
 
-public class ChangeMediaStatusCommandHandler : IRequestHandler<ChangeMediaStatusCommand, Result<BasicFountainDonationDto>>
+public class ChangeMediaInformationCommandHandler : IRequestHandler<ChangeMediaInformationCommand, Result<BasicFountainDonationDto>>
 {
     private readonly IDonationDbContext _context;
-    private readonly IStringLocalizer<ChangeMediaStatusCommandHandler> _localizer;
+    private readonly IStringLocalizer<ChangeMediaInformationCommandHandler> _localizer;
 
-    public ChangeMediaStatusCommandHandler(
+    public ChangeMediaInformationCommandHandler(
         IDonationDbContext context,
-        IStringLocalizer<ChangeMediaStatusCommandHandler> localizer)
+        IStringLocalizer<ChangeMediaInformationCommandHandler> localizer)
     {
         _context = context;
         _localizer = localizer;
     }
 
-    public async Task<Result<BasicFountainDonationDto>> Handle(ChangeMediaStatusCommand request, CancellationToken cancellationToken)
+    public async Task<Result<BasicFountainDonationDto>> Handle(ChangeMediaInformationCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.FountainDonations.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (entity == null)
             throw new NotFoundException(nameof(FountainDonation), request.Id.ToString());
 
-        entity.MediaStatus = request.MediaStatus;
+        entity.MediaStatus = request.Status;
+        entity.MediaInformation = request.Information;
         await _context.SaveChangesAsync(cancellationToken);
 
         var response = new BasicFountainDonationDto
@@ -64,6 +66,7 @@ public class ChangeMediaStatusCommandHandler : IRequestHandler<ChangeMediaStatus
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
+            MediaInformation = entity.MediaInformation,
         };
 
         return Result<BasicFountainDonationDto>.Success(response);

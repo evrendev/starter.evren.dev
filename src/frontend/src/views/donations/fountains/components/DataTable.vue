@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 import { useFountainDonationStore, usePredefinedValuesStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmDialog } from "@/components/forms/";
-import { DetailsDialog, ActionButtons } from "./";
+import { DetailsDialog, MediaInformationDialog, ActionButtons } from "./";
 import config from "@/config";
 
 const { t } = useI18n();
@@ -57,8 +57,10 @@ const headers = ref([
 ]);
 
 const teamName = ref("none");
+const media = ref(null);
 const donation = ref(null);
 const showAllInformationDialog = ref(false);
+const showMediaInformationDialog = ref(false);
 const copySuccess = ref(false);
 const deleteTitle = ref(null);
 const deleteMessage = ref(null);
@@ -86,8 +88,18 @@ const copyToClipboard = (text) => {
   });
 };
 
-const changeMediaStatus = async (id, mediastatus) => {
-  await fountainDonationStore.changeMediaStatus(id, mediastatus);
+const showUpdateMediaInformationDialog = async (id, status) => {
+  media.value = {
+    id,
+    status
+  };
+
+  showMediaInformationDialog.value = true;
+};
+
+const saveMediaInformation = async (mediaInformation) => {
+  media.value.information = mediaInformation;
+  await fountainDonationStore.changeMediaInformation(media.value);
 };
 
 const changeTeam = async (id, team) => {
@@ -97,7 +109,6 @@ const changeTeam = async (id, team) => {
 const showDeleteConfirmationDialog = (id) => {
   deleteTitle.value = t("admin.donations.delete.title");
   deleteMessage.value = t("admin.donations.delete.message");
-
   donationId.value = id;
   showDeleteConfirmDialog.value = true;
 };
@@ -229,27 +240,39 @@ const createEmptyDonation = async () => {
             <div v-else class="text-center">-</div>
           </td>
           <td>
-            <v-menu>
-              <template #activator="{ props }">
-                <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
-                  <v-avatar size="8" class="mr-1" :color="item.mediaStatus.backgroundColor" />
-                  {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
-                  <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
-                  <v-tooltip activator="parent" location="top" :text="t('common.changeMediaStatus')" />
-                </v-btn>
-              </template>
+            <div class="d-flex align-center justify-start ga-1">
+              <v-menu>
+                <template #activator="{ props }">
+                  <v-btn v-bind="props" variant="outlined" density="compact" class="text-capitalize w-100" size="small">
+                    <v-avatar size="8" class="mr-1" :color="item.mediaStatus.backgroundColor" />
+                    {{ t(`admin.donations.media.status.${item.mediaStatus.name}`) }}
+                    <v-icon icon="$chevronDown" size="x-small" class="ml-1" />
+                    <v-tooltip activator="parent" location="top" :text="t('common.changeMediaStatus')" />
+                  </v-btn>
+                </template>
 
-              <v-list>
-                <v-list-item v-for="status in mediaStatuses" :key="status.name" @click.once="changeMediaStatus(item.id, status.name)">
-                  <v-list-item-title>
-                    <div class="d-flex align-center ga-1">
-                      <v-avatar size="8" :color="status.backgroundColor" />
-                      {{ t(`admin.donations.media.status.${status.name}`) }}
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+                <v-list>
+                  <v-list-item
+                    v-for="status in mediaStatuses"
+                    :key="status.name"
+                    @click.once="showUpdateMediaInformationDialog(item.id, status.name)"
+                  >
+                    <v-list-item-title>
+                      <div class="d-flex align-center ga-1">
+                        <v-avatar size="8" :color="status.backgroundColor" />
+                        {{ t(`admin.donations.media.status.${status.name}`) }}
+                      </div>
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+
+              <v-tooltip :text="item.mediaInformation" v-if="item.mediaInformation">
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" size="small" icon="$information" />
+                </template>
+              </v-tooltip>
+            </div>
           </td>
           <td>
             <div class="d-flex ga-2 justify-end">
@@ -258,13 +281,18 @@ const createEmptyDonation = async () => {
                 :media-statuses="mediaStatuses"
                 @show-all-information="showAllInformation"
                 @show-confirm-dialog="showDeleteConfirmationDialog"
-                @change-media-status="changeMediaStatus"
               />
             </div>
           </td>
         </tr>
       </template>
     </v-data-table-server>
+
+    <media-information-dialog
+      v-model="showMediaInformationDialog"
+      :media-status="media?.status"
+      @save:mediaInformation="saveMediaInformation"
+    />
 
     <details-dialog v-model="showAllInformationDialog" :donation="donation" />
 

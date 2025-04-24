@@ -60,6 +60,7 @@ public class GetFountainDonationByIdQueryHandler : IRequestHandler<GetFountainDo
             Info = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
+            MediaInformation = entity.MediaInformation,
         };
 
         return Result<FullFountainDonationDto>.Success(donation);

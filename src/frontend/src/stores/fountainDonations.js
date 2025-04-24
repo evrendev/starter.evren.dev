@@ -66,13 +66,13 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
-    async changeMediaStatus(id, mediastatus) {
+    async changeMediaInformation(mediaInformation) {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.put(`/donations/fountain/media-status/${id}`, { id, mediastatus });
-        const index = this.items.findIndex((item) => item.id === id);
+        const response = await apiService.put(`/donations/fountain/media-information/${mediaInformation.id}`, mediaInformation);
+        const index = this.items.findIndex((item) => item.id === mediaInformation.id);
         if (index !== -1) {
           this.items[index] = { ...response };
         }

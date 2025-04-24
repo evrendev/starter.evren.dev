@@ -15,17 +15,14 @@ defineProps({
 });
 
 const openWhatsapp = (url, text) => {
-  window.open(url, "_blank");
-  copyToClipboard(text);
-};
-
-const copyToClipboard = (text) => {
-  navigator.clipboard.writeText(text).then(() => {
-    copySuccess.value = true;
-    setTimeout(() => {
-      copySuccess.value = false;
-    }, 1000);
-  });
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      window.open(url, "_blank");
+    })
+    .catch((err) => {
+      console.error("Failed to copy text: ", err);
+    });
 };
 </script>
 

@@ -260,6 +260,7 @@ export default {
           projectNumber: "Proje Numarası",
           banner: "Afiş",
           mediaStatus: "Medya",
+          mediaInformation: "Medya Bilgisi",
           transactionId: "İşlem ID",
           source: "Kaynak",
           link: "Bağış Linki"
