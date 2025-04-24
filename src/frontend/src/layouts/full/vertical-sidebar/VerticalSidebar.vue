@@ -7,6 +7,12 @@ import { Logo } from "../logo/";
 const customizer = useCustomizerStore();
 const navigationStore = useNavigationStore();
 
+defineProps({
+  versionInfo: {
+    required: false
+  }
+});
+
 onMounted(() => {
   navigationStore.generateSidebarItems();
 });
@@ -46,9 +52,22 @@ onMounted(() => {
           <!---End Single Item-->
         </template>
       </v-list>
-      <div class="pa-4 text-center">
-        <v-chip color="inputBorder" size="small"> v1.0.1 </v-chip>
+      <div class="d-flex flex-column ga-1 bg-lighten-5 text-muted version-info">
+        <div class="d-flex align-center justify-center ga-1">
+          <v-icon size="12" color="teal-darken-3" icon="$info" />
+          <span>v{{ versionInfo?.version }}</span>
+        </div>
+        <div class="d-flex align-center justify-center ga-1">
+          <v-icon size="12" color="teal-darken-3" icon="$clockTimeEightOutline" />
+          <span>{{ versionInfo?.buildTime }}</span>
+        </div>
       </div>
     </perfect-scrollbar>
   </v-navigation-drawer>
 </template>
+
+<style lang="scss" scoped>
+.version-info {
+  font-size: 0.5rem;
+}
+</style>
