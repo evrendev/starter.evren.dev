@@ -128,8 +128,8 @@ const createEmptyDonation = async () => {
       item-value="id"
       @update:options="$emit('update:options', $event)"
     >
-      <template v-slot:top v-show="showTeamOptions">
-        <v-toolbar :elevation="0" class="px-2 py-0 mb-2 rounded-sm border" color="surface">
+      <template v-slot:top>
+        <v-toolbar :elevation="0" class="px-2 py-0 mb-2 rounded-sm border" color="surface" v-show="showTeamOptions">
           <v-toolbar-title class="text-medium-emphasis">
             <v-icon icon="$accountMultiplePlusOutline" size="x-small" class="mr-2" />
             <span class="text-h6 font-weight-bold">
