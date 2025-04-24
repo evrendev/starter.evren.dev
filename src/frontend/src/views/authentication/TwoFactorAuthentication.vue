@@ -51,8 +51,10 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <v-row>
-    <v-col cols="12" class="text-center">
+    <v-col cols="8" offset="2" class="text-center">
       <logo />
+    </v-col>
+    <v-col cols="12" class="text-center">
       <h2 class="text-secondary text-h2 mt-8">
         {{ t("auth.login.welcome") }}
       </h2>
