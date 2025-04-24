@@ -37,10 +37,6 @@ public class GetFountainDonationsQueryValidator : AbstractValidator<GetFountainD
         RuleFor(v => v.Page)
             .GreaterThan(0)
             .WithMessage(_localizer["api.donations.fountains.page.greater.than.zero"]);
-
-        RuleFor(v => v.ItemsPerPage)
-            .GreaterThan(0)
-            .WithMessage(_localizer["api.donations.fountains.itemsperpage.greater.than.zero"]);
     }
 }
 

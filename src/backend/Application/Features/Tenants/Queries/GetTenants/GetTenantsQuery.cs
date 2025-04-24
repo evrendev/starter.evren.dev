@@ -28,10 +28,6 @@ public class GetTenantsQueryValidator : AbstractValidator<GetTenantsQuery>
         RuleFor(v => v.Page)
             .NotEmpty().WithMessage(_localizer["api.tenants.activate.page.required"])
             .GreaterThan(0).WithMessage(_localizer["api.tenants.activate.page.greater-than-zero"]);
-
-        RuleFor(v => v.ItemsPerPage)
-            .NotEmpty().WithMessage(_localizer["api.tenants.activate.page.required"])
-            .GreaterThan(0).WithMessage(_localizer["api.tenants.activate.items-per-page.greater-than-zero"]);
     }
 }
 
