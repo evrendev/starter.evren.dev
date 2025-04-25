@@ -508,7 +508,8 @@ export default {
     active: "Active",
     passive: "Passive",
     true: "Yes",
-    false: "No"
+    false: "No",
+    count: "Count"
   },
   $vuetify: {
     ...en

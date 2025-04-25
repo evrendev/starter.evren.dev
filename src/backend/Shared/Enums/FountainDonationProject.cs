@@ -1,15 +1,16 @@
 ﻿namespace EvrenDev.Shared.Enums;
 
-public class FountainDonationProject(string? name, string? alias)
+public class FountainDonationProject(string? name, string? alias, string? color)
 {
     public string? Name { get; private set; } = name;
     public string? Alias { get; private set; } = alias;
+    public string? Color { get; private set; } = color;
 
     // Predefined statuses
-    public static FountainDonationProject Bks => new("BKS", "BL01");
-    public static FountainDonationProject Bgs => new("BGS", "BL02");
-    public static FountainDonationProject Aki => new("AKI", "AF01");
-    public static FountainDonationProject Agi => new("AGI", "AF02");
+    public static FountainDonationProject Bks => new("BKS", "BL01", "primary");
+    public static FountainDonationProject Bgs => new("BGS", "BL02", "info");
+    public static FountainDonationProject Aki => new("AKI", "AF01", "warning");
+    public static FountainDonationProject Agi => new("AGI", "AF02", "error");
 
     public static FountainDonationProject FromName(string? name)
     {

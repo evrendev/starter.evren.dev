@@ -1,18 +1,25 @@
 <script setup>
-import { ref, shallowRef } from "vue";
+import { useI18n } from "vue-i18n";
+import { onMounted, ref, shallowRef } from "vue";
 import { Breadcrumb } from "@/components/forms";
-import { ParentCard } from "@/components/shared";
+import { useFountainDonationStore } from "@/stores";
+import { storeToRefs } from "pinia";
+import CountsCard from "./components/ProjectCountCard.vue";
 
-const page = ref({ title: "Sample Page" });
+const { t } = useI18n();
+
+const fountainDonationStore = useFountainDonationStore();
+const { counts: projects } = storeToRefs(fountainDonationStore);
+
+onMounted(() => {
+  fountainDonationStore.getCounts();
+});
+
+const page = ref({ title: t("components.sidebar.dashboard.title") });
 const breadcrumbs = shallowRef([
   {
-    title: "Others",
+    title: t("components.sidebar.dashboard.header"),
     disabled: false,
-    href: "#"
-  },
-  {
-    title: "Sample Page",
-    disabled: true,
     href: "#"
   }
 ]);
@@ -21,13 +28,8 @@ const breadcrumbs = shallowRef([
 <template>
   <breadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <v-row>
-    <v-col cols="12" md="12">
-      <parent-card title="Simple Title">
-        Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-        minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-        reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui
-        officiate descent molls anim id est labours.
-      </parent-card>
+    <v-col cols="3" xs="12" v-for="(item, index) in projects" :key="index">
+      <counts-card :item="item" />
     </v-col>
   </v-row>
 </template>

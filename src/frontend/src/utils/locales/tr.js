@@ -484,7 +484,6 @@ export default {
     showDetails: "Detayları Göster",
     openWhatsapp: "WhatsApp Aç",
     changeTeam: "Takım Değiştir",
-    openWhatsapp: "WhatsApp Aç",
     select: "Bir Seçenek Seçin",
     changeMediaStatus: "Medya Durumunu Değiştir",
     modules: {
@@ -507,7 +506,8 @@ export default {
     active: "Aktif",
     passive: "Pasif",
     true: "Evet",
-    false: "Hayır"
+    false: "Hayır",
+    count: "Adet"
   },
   $vuetify: {
     ...tr

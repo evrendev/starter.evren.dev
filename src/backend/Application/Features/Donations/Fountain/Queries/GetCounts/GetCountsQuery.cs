@@ -56,7 +56,7 @@ public class GetCountsQueryHandler : IRequestHandler<GetCountsQuery, Result<List
             .GroupBy(x => x.ProjectCode)
             .Select(g => new ProjectsCountDto
             {
-                ProjectCode = g.Key,
+                Project = FountainDonationProject.FromName(g.Key),
                 Count = g.Count()
             })
             .ToListAsync(cancellationToken);
