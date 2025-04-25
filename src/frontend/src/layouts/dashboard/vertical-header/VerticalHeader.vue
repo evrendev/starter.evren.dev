@@ -1,7 +1,7 @@
 <script setup>
 import { useAuthStore, useCustomizerStore } from "@/stores";
 import { SettingsIcon, Menu2Icon, LanguageIcon, SunIcon, MoonIcon } from "vue-tabler-icons";
-import { Profile, Languages } from "./";
+import { Profile, Languages } from ".";
 
 const customizer = useCustomizerStore();
 const authStore = useAuthStore();

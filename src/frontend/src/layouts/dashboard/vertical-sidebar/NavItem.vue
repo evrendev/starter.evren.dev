@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-import { IconSet } from "./";
+import { IconSet } from ".";
 
 const { t } = useI18n();
 

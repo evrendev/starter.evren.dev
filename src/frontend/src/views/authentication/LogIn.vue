@@ -6,7 +6,7 @@ import { object, string, boolean } from "yup";
 import { useAuthStore, useAppStore } from "@/stores/";
 import { storeToRefs } from "pinia";
 import { RecaptchaButton } from "@/components/forms";
-import { Logo } from "@/layouts/full/logo";
+import { Logo } from "@/layouts/dashboard/logo";
 
 const { t } = useLocale();
 

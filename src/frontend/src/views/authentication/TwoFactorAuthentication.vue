@@ -6,7 +6,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import { Logo } from "@/layouts/full/logo/";
+import { Logo } from "@/layouts/dashboard/logo";
 
 const { t } = useLocale();
 

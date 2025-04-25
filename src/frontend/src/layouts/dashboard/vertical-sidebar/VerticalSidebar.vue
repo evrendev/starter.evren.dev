@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
 import { useCustomizerStore, useNavigationStore } from "@/stores";
-import { NavGroup, NavItem, NavCollapse, VersionInfo } from "./";
-import { Logo } from "../logo/";
+import { NavGroup, NavItem, NavCollapse, VersionInfo } from ".";
+import { Logo } from "../logo";
 
 const customizer = useCustomizerStore();
 const navigationStore = useNavigationStore();

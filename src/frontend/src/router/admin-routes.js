@@ -3,7 +3,7 @@ const AdminRoutes = {
   meta: {
     requiresAuth: true
   },
-  component: () => import("@/layouts/full/FullLayout.vue"),
+  component: () => import("@/layouts/dashboard/DashboardLayout.vue"),
   children: [
     {
       name: "home",

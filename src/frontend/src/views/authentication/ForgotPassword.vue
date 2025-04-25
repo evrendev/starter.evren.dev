@@ -4,7 +4,7 @@ import { useLocale } from "vuetify";
 import { object, string } from "yup";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
-import { Logo } from "@/layouts/full/logo";
+import { Logo } from "@/layouts/dashboard/logo";
 
 const { t } = useLocale();
 
