@@ -55,12 +55,12 @@ const breadcrumbs = shallowRef([
 <template>
   <breadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <v-row>
-    <v-col lg="10" sm="12" md="6">
+    <v-col lg="8" sm="12" md="9">
       <v-sheet class="pa-2 ma-2">
         <counts-card v-for="(item, index) in projects" :key="index" :item="item" class="mb-2" />
       </v-sheet>
     </v-col>
-    <v-col lg="2" sm="12" md="6">
+    <v-col lg="4" sm="12" md="3">
       <v-sheet class="pa-2 ma-2">
         <doughnut-card :chart-data="chartData" :options="options" />
       </v-sheet>
