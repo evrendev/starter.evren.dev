@@ -22,10 +22,10 @@ const options = ref({
 });
 
 const colorMap = {
-  primary: "#1976D2",
-  warning: "#FB8C00",
-  info: "#2196F3",
-  error: "#E53935"
+  primary: "#009846",
+  warning: "#ffc107",
+  info: "#03c9d7",
+  error: "#f44336"
 };
 
 const chartData = computed(() => {
@@ -55,11 +55,15 @@ const breadcrumbs = shallowRef([
 <template>
   <breadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <v-row>
-    <v-col cols="8" xs="12">
-      <counts-card v-for="(item, index) in projects" :key="index" :item="item" class="mb-2" />
+    <v-col lg="10" sm="12" md="6">
+      <v-sheet class="pa-2 ma-2">
+        <counts-card v-for="(item, index) in projects" :key="index" :item="item" class="mb-2" />
+      </v-sheet>
     </v-col>
-    <v-col cols="4" xs="12">
-      <doughnut-card :chart-data="chartData" :options="options" />
+    <v-col lg="2" sm="12" md="6">
+      <v-sheet class="pa-2 ma-2">
+        <doughnut-card :chart-data="chartData" :options="options" />
+      </v-sheet>
     </v-col>
   </v-row>
 </template>
