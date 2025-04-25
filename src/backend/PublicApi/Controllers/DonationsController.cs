@@ -4,15 +4,16 @@ using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateFountainDonation;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using static EvrenDev.Shared.Constants.Policies;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaInformation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeTeamName;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetCounts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using static EvrenDev.Shared.Constants.Policies;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -224,4 +225,29 @@ public class DonationsController : ControllerBase
             });
         }
     }
+
+    [HttpGet("fountain/counts")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
+    public async Task<ActionResult> GetCounts([FromQuery] GetCountsQuery query)
+    {
+        try
+        {
+            var result = await _mediator.Send(query);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
 }
