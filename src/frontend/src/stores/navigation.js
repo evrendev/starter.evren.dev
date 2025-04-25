@@ -81,7 +81,7 @@ export const useNavigationStore = defineStore("navigation", {
                 title: "components.sidebar.donations.fountains.agi",
                 to: "/admin/donations/fountains/list?projectCode=agi"
               },
-              ...(this.hasPermission("Users.Create")
+              ...(this.hasPermission("Donations.Create")
                 ? [
                     {
                       title: "components.sidebar.donations.new",
