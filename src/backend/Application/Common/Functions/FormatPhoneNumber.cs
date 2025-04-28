@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -59,7 +60,28 @@ namespace EvrenDev.Application.Common.Functions
 
             if (!string.IsNullOrWhiteSpace(text))
             {
-                string encodedText = HttpUtility.UrlEncode(text);
+                string fixedMessage =
+                    "Hallo und Salam Aleykum,\n\n" +
+                    "Vielen Dank für Ihre großzügige Unterstützung. 💚🤲🏼\n\n" +
+                    "Dein Brunnencode lautet:\n\n" +
+                    $"{text}\n\n" +
+                    "Bitte genau durchlesen:\n\n" +
+                    "Die Bauzeit beträgt ca. 8–16 Wochen. Ab der 8. Woche kannst du unter dem angegebenen Link nachsehen,\n" +
+                    "ob der Brunnen fertiggestellt ist und zum Download bereitsteht.\n\n" +
+                    "Alle „Vorher-/Nachher-Bilder“ und das Video werden zusammen nach der Fertigstellung hochgeladen.\n\n" +
+                    "ACHTUNG:\n\n" +
+                    "Bitte denkt daran, diese Daten mehrfach zu sichern, da sie nach etwa zwei Monaten von\n" +
+                    "unserer Seite entfernt werden und danach schwer zugänglich sind. Sichert euch die Dateien rechtzeitig!\n\n" +
+                    "https://brunnen.help-dunya.com/\n\n" +
+                    "Möge Gott Ihre Spende annehmen und Ihre Taten segnen, sie vervielfachen und Ihnen im Dies- und Jenseits Gutes erweisen.\n\n" +
+                    "https://help-dunya.com/\n\n" +
+                    "Viele Grüße Help Dunya e.V.\n\n" +
+                    "Über eine Bewertung würden wir uns sehr freuen! Vielen Dank im Voraus.\n\n" +
+                    "https://g.page/HelpDunya/review?mpg.page\n\n" +
+                    "https://m.facebook.com/pg/HelpDunya/reviews/\n\n" +
+                    "https://help-dunya.com/help-dunya-e-v-rezension/";
+
+                string encodedText = EncodeUtf8(fixedMessage);
                 return $"{baseLink}?text={encodedText}";
             }
 
@@ -71,5 +93,27 @@ namespace EvrenDev.Application.Common.Functions
             public string? Whatsapp { get; set; } = GenerateWhatsappLink(input: number, text: message);
             public string? FormattedNumber { get; set; } = FormatPhoneNumber(input: number);
         }
+
+        private static string EncodeUtf8(string text)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                if ((b >= 0x30 && b <= 0x39) ||  // 0-9
+                    (b >= 0x41 && b <= 0x5A) ||  // A-Z
+                    (b >= 0x61 && b <= 0x7A) ||  // a-z
+                    b == 0x2D || b == 0x2E || b == 0x5F || b == 0x7E) // - . _ ~
+                {
+                    builder.Append((char)b);
+                }
+                else
+                {
+                    builder.Append('%' + b.ToString("X2"));
+                }
+            }
+            return builder.ToString();
+        }
+
     }
 }
