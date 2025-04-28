@@ -67,6 +67,8 @@ public class ChangeMediaInformationCommandHandler : IRequestHandler<ChangeMediaI
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
             MediaInformation = entity.MediaInformation,
+            IsDonorNotified = entity.IsDonorNotified,
+            IsConstructionTeamNotified = entity.IsConstructionTeamNotified
         };
 
         return Result<BasicFountainDonationDto>.Success(response);

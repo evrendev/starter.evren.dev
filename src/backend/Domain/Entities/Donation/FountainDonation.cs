@@ -18,4 +18,6 @@ public class FountainDonation
     public string? Team { get; set; }
     public string? MediaStatus { get; set; }
     public string? MediaInformation { get; set; }
+    public bool IsDonorNotified { get; set; }
+    public bool IsConstructionTeamNotified { get; set; }
 }

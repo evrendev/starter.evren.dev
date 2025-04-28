@@ -62,6 +62,8 @@ public class ChangeTeamNameCommandHandler : IRequestHandler<ChangeTeamNameComman
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
+            IsDonorNotified = entity.IsDonorNotified,
+            IsConstructionTeamNotified = entity.IsConstructionTeamNotified
         };
 
         return Result<BasicFountainDonationDto>.Success(response);

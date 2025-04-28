@@ -68,7 +68,7 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
         _context.FountainDonations.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        var dto = new BasicFountainDonationDto
+        var donation = new BasicFountainDonationDto
         {
             Id = entity.Id,
             Contact = entity.Contact,
@@ -77,9 +77,11 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
+            IsDonorNotified = entity.IsDonorNotified,
+            IsConstructionTeamNotified = entity.IsConstructionTeamNotified
         };
 
 
-        return Result<BasicFountainDonationDto>.Success(dto);
+        return Result<BasicFountainDonationDto>.Success(donation);
     }
 }
