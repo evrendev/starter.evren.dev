@@ -1,14 +1,13 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace EvrenDev.Application.Common.Functions
 {
     public class Tools
     {
-        public static Phone? CreatePhone(string? number, string? message = null)
+        public static Phone? CreatePhone(string? number, string? projectCode, string? banner)
         {
-            return string.IsNullOrWhiteSpace(number) ? null : new Phone(number, message);
+            return string.IsNullOrWhiteSpace(number) ? null : new Phone(number, projectCode, banner);
         }
 
         private static string? FormatPhoneNumber(string? input)
@@ -36,7 +35,7 @@ namespace EvrenDev.Application.Common.Functions
             return input;
         }
 
-        private static string? GenerateWhatsappLink(string? input, string? text)
+        private static string? GenerateWhatsappLink(string? input, string? projectCode, string? banner)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -58,13 +57,14 @@ namespace EvrenDev.Application.Common.Functions
 
             string baseLink = $"https://wa.me/{cleaned}";
 
-            if (!string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrWhiteSpace(projectCode))
             {
                 string fixedMessage =
                     "Hallo und Salam Aleykum,\n\n" +
-                    "Vielen Dank für Ihre großzügige Unterstützung. 💚🤲🏼\n\n" +
+                    "Vielen Dank für Ihre großzügige Unterstützung. %F0%9F%92%9A%F0%9F%A4%B2%F0%9F%8F%BC\n\n" +
                     "Dein Brunnencode lautet:\n\n" +
-                    $"{text}\n\n" +
+                    $"{projectCode}\n\n" +
+                    $"{banner}\n\n" +
                     "Bitte genau durchlesen:\n\n" +
                     "Die Bauzeit beträgt ca. 8–16 Wochen. Ab der 8. Woche kannst du unter dem angegebenen Link nachsehen,\n" +
                     "ob der Brunnen fertiggestellt ist und zum Download bereitsteht.\n\n" +
@@ -88,9 +88,9 @@ namespace EvrenDev.Application.Common.Functions
             return baseLink;
         }
 
-        public class Phone(string? number, string? message = null)
+        public class Phone(string? number, string? projectCode, string? banner)
         {
-            public string? Whatsapp { get; set; } = GenerateWhatsappLink(input: number, text: message);
+            public string? Whatsapp { get; set; } = GenerateWhatsappLink(input: number, projectCode: projectCode, banner: banner);
             public string? FormattedNumber { get; set; } = FormatPhoneNumber(input: number);
         }
 

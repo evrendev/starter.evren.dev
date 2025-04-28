@@ -60,7 +60,7 @@ public class ChangeMediaInformationCommandHandler : IRequestHandler<ChangeMediaI
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = Tools.CreatePhone(number: entity.Phone, message: $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}"),
+            Phone = Tools.CreatePhone(entity.Phone, $"{entity.ProjectCode}{entity.ProjectNumber}", entity.Banner),
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
             PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
