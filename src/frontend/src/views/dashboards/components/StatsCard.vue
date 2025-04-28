@@ -12,10 +12,15 @@ defineProps({
 </script>
 
 <template>
-  <v-card elevation="0" :class="`bg-${item?.project.color} overflow-hidden`">
-    <v-card-text>
-      <h2 class="text-h1 font-weight-medium" v-text="`${item?.count} ${t('common.count')}`" />
-      <span class="text-subtitle-1 text-medium-emphasis text-white" v-text="item?.project.name" />
-    </v-card-text>
-  </v-card>
+  <router-link
+    :to="{ name: 'list-fountains', query: { projectCode: item?.project.name.toLocaleLowerCase() } }"
+    class="d-block mb-2 text-decoration-none"
+  >
+    <v-card elevation="0" :class="`bg-${item?.project.color} overflow-hidden`">
+      <v-card-text>
+        <h2 class="text-h1 font-weight-medium" v-text="`${item?.count} ${t('common.count')}`" />
+        <span class="text-subtitle-1 text-medium-emphasis text-white" v-text="item?.project.name" />
+      </v-card-text>
+    </v-card>
+  </router-link>
 </template>
