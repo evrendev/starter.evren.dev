@@ -80,7 +80,7 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
         // Apply sorting
         query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
-            : query.OrderByDescending(x => x.CreationDate);
+            : query.OrderByDescending(x => x.ProjectNumber).ThenByDescending(x => x.CreationDate);
 
         var dtoQuery = query.Select(entity => new BasicFountainDonationDto
         {
