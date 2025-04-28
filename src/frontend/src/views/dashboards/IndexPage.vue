@@ -2,18 +2,19 @@
 import { useI18n } from "vue-i18n";
 import { computed, onMounted, ref, shallowRef } from "vue";
 import { Breadcrumb } from "@/components/forms";
-import { useFountainDonationStore } from "@/stores";
+import { useFountainDonationStore, useAppStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import CountsCard from "./components/ProjectCountCard.vue";
-import DoughnutCard from "./components/DoughnutCard.vue";
+import { StatsCard, DoughnutCard, DataTable } from "./components/";
 
 const { t } = useI18n();
 
+const appStore = useAppStore();
+const { loading } = storeToRefs(appStore);
 const fountainDonationStore = useFountainDonationStore();
-const { counts: projects } = storeToRefs(fountainDonationStore);
+const { overview } = storeToRefs(fountainDonationStore);
 
 onMounted(() => {
-  fountainDonationStore.getCounts();
+  fountainDonationStore.getOverviews();
 });
 
 const options = ref({
@@ -29,14 +30,14 @@ const colorMap = {
 };
 
 const chartData = computed(() => {
-  if (!projects.value?.length) return null;
+  if (!overview.value.stats?.length) return null;
 
   return {
-    labels: projects.value.map((p) => p.project.name),
+    labels: overview.value.stats?.map((s) => s.project.name),
     datasets: [
       {
-        data: projects.value.map((p) => p.count),
-        backgroundColor: projects.value.map((p) => colorMap[p.project.color] || "#CCCCCC")
+        data: overview.value.stats.map((p) => p.count),
+        backgroundColor: overview.value.stats.map((p) => colorMap[p.project.color] || "#CCCCCC")
       }
     ]
   };
@@ -57,12 +58,15 @@ const breadcrumbs = shallowRef([
   <v-row>
     <v-col lg="8" sm="12" md="9">
       <v-sheet class="pa-2 ma-2">
-        <counts-card v-for="(item, index) in projects" :key="index" :item="item" class="mb-2" />
+        <data-table v-if="overview?.donations" :items="overview?.donations" :loading="loading" hide-default-footer />
       </v-sheet>
     </v-col>
     <v-col lg="4" sm="12" md="3">
       <v-sheet class="pa-2 ma-2">
         <doughnut-card :chart-data="chartData" :options="options" />
+      </v-sheet>
+      <v-sheet class="pa-2 ma-2">
+        <stats-card v-for="(item, index) in overview.stats" :key="index" :item="item" class="mb-2" />
       </v-sheet>
     </v-col>
   </v-row>

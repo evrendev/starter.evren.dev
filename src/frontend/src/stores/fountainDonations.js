@@ -6,7 +6,7 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
   state: () => ({
     items: [],
     donation: {},
-    counts: {},
+    overview: {},
     itemsLength: 0
   }),
   actions: {
@@ -44,13 +44,13 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
-    async getCounts() {
+    async getOverviews() {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.get("/donations/fountain/counts", false);
-        this.counts = response;
+        const response = await apiService.get("/donations/fountain/overview", false);
+        this.overview = response;
       } finally {
         appStore.setLoading(false);
       }

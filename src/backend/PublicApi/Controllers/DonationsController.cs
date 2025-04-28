@@ -3,13 +3,13 @@ using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsOverview;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaInformation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeTeamName;
-using EvrenDev.Application.Features.Donations.Fountain.Queries.GetCounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -226,9 +226,9 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpGet("fountain/counts")]
+    [HttpGet("fountain/overview")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult> GetCounts([FromQuery] GetCountsQuery query)
+    public async Task<ActionResult> GetCounts([FromQuery] GetDonationsOverviewQuery query)
     {
         try
         {
