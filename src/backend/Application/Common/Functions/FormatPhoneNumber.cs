@@ -41,28 +41,28 @@ namespace EvrenDev.Application.Common.Functions
             if (string.IsNullOrWhiteSpace(input))
                 return null;
 
-            string cleaned = Regex.Replace(input, @"[^\d+]", "");
+            string phoneNumber = Regex.Replace(input, @"[^\d+]", "");
 
-            if (cleaned.StartsWith("00"))
-                cleaned = cleaned.Substring(2);
-            else if (cleaned.StartsWith("+"))
-                cleaned = cleaned.Substring(1);
-            else if (cleaned.StartsWith("0"))
-                cleaned = "49" + cleaned.Substring(1);
-            else if (cleaned.StartsWith("1"))
-                cleaned = "49" + cleaned;
-            else if (cleaned.StartsWith("49"))
-                cleaned = "49" + cleaned.Substring(2);
+            if (phoneNumber.StartsWith("00"))
+                phoneNumber = phoneNumber.Substring(2);
+            else if (phoneNumber.StartsWith("+"))
+                phoneNumber = phoneNumber.Substring(1);
+            else if (phoneNumber.StartsWith("0"))
+                phoneNumber = "49" + phoneNumber.Substring(1);
+            else if (phoneNumber.StartsWith("1"))
+                phoneNumber = "49" + phoneNumber;
+            else if (phoneNumber.StartsWith("49"))
+                phoneNumber = "49" + phoneNumber.Substring(2);
             else
-                cleaned = "49" + cleaned;
+                phoneNumber = "49" + phoneNumber;
 
-            string baseLink = $"https://wa.me/{cleaned}";
+            string baseLink = $"https://api.whatsapp.com/send/?phone={phoneNumber}";
 
             if (!string.IsNullOrWhiteSpace(projectCode))
             {
                 string fixedMessage =
                     "Hallo und Salam Aleykum,\n\n" +
-                    "Vielen Dank für Ihre großzügige Unterstützung. \n\n" +
+                    $"Vielen Dank für Ihre großzügige Unterstützung. 💚🤲🏼\n\n" +
                     "Dein Brunnencode lautet:\n\n" +
                     $"{projectCode}:\n" +
                     $"{banner}\n\n" +
@@ -82,8 +82,8 @@ namespace EvrenDev.Application.Common.Functions
                     "https://m.facebook.com/pg/HelpDunya/reviews/\n\n" +
                     "https://help-dunya.com/help-dunya-e-v-rezension/";
 
-                string encodedText = HttpUtility.UrlEncode(fixedMessage);
-                return $"{baseLink}?text={encodedText}";
+                string encodedText = Uri.EscapeDataString(fixedMessage);
+                return $"{baseLink}&text={encodedText}";
             }
 
             return baseLink;
@@ -94,26 +94,5 @@ namespace EvrenDev.Application.Common.Functions
             public string? Whatsapp { get; set; } = GenerateWhatsappLink(input: number, projectCode: projectCode, banner: banner);
             public string? FormattedNumber { get; set; } = FormatPhoneNumber(input: number);
         }
-
-        // private static string EncodeUtf8(string text)
-        // {
-        //     byte[] bytes = Encoding.UTF8.GetBytes(text);
-        //     StringBuilder builder = new StringBuilder();
-        //     foreach (byte b in bytes)
-        //     {
-        //         if ((b >= 0x30 && b <= 0x39) ||  // 0-9
-        //             (b >= 0x41 && b <= 0x5A) ||  // A-Z
-        //             (b >= 0x61 && b <= 0x7A) ||  // a-z
-        //             b == 0x2D || b == 0x2E || b == 0x5F || b == 0x7E) // - . _ ~
-        //         {
-        //             builder.Append((char)b);
-        //         }
-        //         else
-        //         {
-        //             builder.Append('%' + b.ToString("X2"));
-        //         }
-        //     }
-        //     return builder.ToString();
-        // }
     }
 }
