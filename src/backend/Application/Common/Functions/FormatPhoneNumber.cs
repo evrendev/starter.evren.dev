@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace EvrenDev.Application.Common.Functions
 {
@@ -61,9 +62,9 @@ namespace EvrenDev.Application.Common.Functions
             {
                 string fixedMessage =
                     "Hallo und Salam Aleykum,\n\n" +
-                    "Vielen Dank für Ihre großzügige Unterstützung. %F0%9F%92%9A%F0%9F%A4%B2%F0%9F%8F%BC\n\n" +
+                    "Vielen Dank für Ihre großzügige Unterstützung. \n\n" +
                     "Dein Brunnencode lautet:\n\n" +
-                    $"{projectCode}\n\n" +
+                    $"{projectCode}:\n" +
                     $"{banner}\n\n" +
                     "Bitte genau durchlesen:\n\n" +
                     "Die Bauzeit beträgt ca. 8–16 Wochen. Ab der 8. Woche kannst du unter dem angegebenen Link nachsehen,\n" +
@@ -81,7 +82,7 @@ namespace EvrenDev.Application.Common.Functions
                     "https://m.facebook.com/pg/HelpDunya/reviews/\n\n" +
                     "https://help-dunya.com/help-dunya-e-v-rezension/";
 
-                string encodedText = EncodeUtf8(fixedMessage);
+                string encodedText = HttpUtility.UrlEncode(fixedMessage);
                 return $"{baseLink}?text={encodedText}";
             }
 
@@ -94,26 +95,25 @@ namespace EvrenDev.Application.Common.Functions
             public string? FormattedNumber { get; set; } = FormatPhoneNumber(input: number);
         }
 
-        private static string EncodeUtf8(string text)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(text);
-            StringBuilder builder = new StringBuilder();
-            foreach (byte b in bytes)
-            {
-                if ((b >= 0x30 && b <= 0x39) ||  // 0-9
-                    (b >= 0x41 && b <= 0x5A) ||  // A-Z
-                    (b >= 0x61 && b <= 0x7A) ||  // a-z
-                    b == 0x2D || b == 0x2E || b == 0x5F || b == 0x7E) // - . _ ~
-                {
-                    builder.Append((char)b);
-                }
-                else
-                {
-                    builder.Append('%' + b.ToString("X2"));
-                }
-            }
-            return builder.ToString();
-        }
-
+        // private static string EncodeUtf8(string text)
+        // {
+        //     byte[] bytes = Encoding.UTF8.GetBytes(text);
+        //     StringBuilder builder = new StringBuilder();
+        //     foreach (byte b in bytes)
+        //     {
+        //         if ((b >= 0x30 && b <= 0x39) ||  // 0-9
+        //             (b >= 0x41 && b <= 0x5A) ||  // A-Z
+        //             (b >= 0x61 && b <= 0x7A) ||  // a-z
+        //             b == 0x2D || b == 0x2E || b == 0x5F || b == 0x7E) // - . _ ~
+        //         {
+        //             builder.Append((char)b);
+        //         }
+        //         else
+        //         {
+        //             builder.Append('%' + b.ToString("X2"));
+        //         }
+        //     }
+        //     return builder.ToString();
+        // }
     }
 }
