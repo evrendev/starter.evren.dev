@@ -65,6 +65,9 @@ const copySuccess = ref(false);
 const deleteTitle = ref(null);
 const deleteMessage = ref(null);
 const showDeleteConfirmDialog = ref(false);
+const donorNotifiedTitle = ref(null);
+const donorNotifiedMessage = ref(null);
+const showDonorNotifiedConfirmDialog = ref(false);
 const donationId = ref(null);
 const showTeamOptions = computed(() => props.projectCode == "aki" || props.projectCode == "agi");
 
@@ -74,9 +77,10 @@ const showAllInformation = async (id) => {
   showAllInformationDialog.value = true;
 };
 
-const openWhatsapp = (url, text) => {
+const openWhatsapp = (url, text, id) => {
   window.open(url, "_blank");
   copyToClipboard(text);
+  showDonorNotifiedConfirmationDialog(id);
 };
 
 const copyToClipboard = (text) => {
@@ -120,6 +124,22 @@ const abortDelete = () => {
 
 const deleteDonation = async () => {
   await fountainDonationStore.delete(donationId.value);
+};
+
+const abortDonorNotified = () => {
+  donationId.value = null;
+  showDonorNotifiedConfirmDialog.value = false;
+};
+
+const updateDonorNotified = async () => {
+  await fountainDonationStore.donorNotified(donationId.value);
+};
+
+const showDonorNotifiedConfirmationDialog = (id) => {
+  donorNotifiedTitle.value = t("admin.donations.donorNotified.title");
+  donorNotifiedMessage.value = t("admin.donations.donorNotified.message");
+  donationId.value = id;
+  showDonorNotifiedConfirmDialog.value = true;
 };
 
 const createEmptyDonation = async () => {
@@ -195,7 +215,13 @@ const createEmptyDonation = async () => {
             {{ item.contact }}
           </td>
           <td>
-            <v-btn v-if="item.phone" size="x-small" color="success" @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner)">
+            <v-btn
+              v-if="item.phone"
+              size="x-small"
+              class="d-block w-100 text-truncate"
+              :color="item.isDonorNotified ? 'success' : 'warning'"
+              @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner, item.id)"
+            >
               <v-icon icon="$whatsapp" size="small" class="mr-1" />
               {{ item.phone.formattedNumber }}
               <v-tooltip activator="parent" location="top" :text="t('common.openWhatsapp')" />
@@ -302,6 +328,14 @@ const createEmptyDonation = async () => {
       :message="deleteMessage"
       @confirm="deleteDonation"
       @cancel="abortDelete"
+    />
+
+    <confirm-dialog
+      v-model="showDonorNotifiedConfirmDialog"
+      :title="donorNotifiedTitle"
+      :message="donorNotifiedMessage"
+      @confirm="updateDonorNotified"
+      @cancel="abortDonorNotified"
     />
 
     <v-snackbar v-model="copySuccess" :timeout="2000" class="elevation-24" :text="copySuccess ? t('common.copied') : t('common.copy')" />

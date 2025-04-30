@@ -212,6 +212,10 @@ export default {
         title: "Bağışı Sil",
         message: "Bağışı silmek istediğinizden emin misiniz?"
       },
+      donorNotified: {
+        title: "Bağışçı Bilgilendirilmesi",
+        message: "Bağışçıya bilgilendirme mesajı gönderdiniz mi?"
+      },
       fountains: {
         title: "Kuyu Bağışları",
         addEmptyDonation: "Boş Bağış Ekle",

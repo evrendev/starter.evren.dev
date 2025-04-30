@@ -211,6 +211,10 @@ export default {
         title: "Spende löschen",
         message: "Möchten Sie die Spende löschen?"
       },
+      donorNotified: {
+        title: "Spender Benachrichtigung",
+        message: "Haben Sie eine Informationsnachricht an den Spender geschickt?"
+      },
       fountains: {
         title: "Brunnen Spenden",
         addEmptyDonation: "Leeres Spendenformular hinzufügen",

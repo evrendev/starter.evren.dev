@@ -210,6 +210,10 @@ export default {
         title: "Delete Donation",
         message: "Are you sure you want to delete this donation?"
       },
+      donorNotified: {
+        title: "Notify Donor",
+        message: "Did you send an information message to the donor?"
+      },
       fountains: {
         title: "Fountain Donations",
         addEmptyDonation: "Add Empty Donation",

@@ -10,6 +10,7 @@ using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeTeamName;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateDonorNotified;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -176,6 +177,31 @@ public class DonationsController : ControllerBase
         }
     }
 
+    [HttpPut("fountain/donor-notified/{id}")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Edit}")]
+    public async Task<ActionResult<BasicFountainDonationDto>> DonorNotified(Guid id)
+    {
+        try
+        {
+            var command = new UpdateDonorNotifiedCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
     [HttpDelete("fountain/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Delete}")]
     public async Task<ActionResult<bool>> DeleteFountainDonation(Guid id)
@@ -199,6 +225,7 @@ public class DonationsController : ControllerBase
             });
         }
     }
+
     [HttpPut("fountain/{id}")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Delete}")]
     public async Task<ActionResult<bool>> UpdateFountainDonation(Guid id, UpdateFountainDonationCommand command)
