@@ -139,6 +139,8 @@ const showConfirmDialog = (id, opt) => {
     v-model="showModal"
     :title="confirmModalTitle"
     :message="confirmModalMessage"
+    :confirm-button-text="t('common.confirm')"
+    :cancel-button-text="t('common.cancel')"
     @confirm="handleConfirm"
     @cancel="handleCancel"
   />

@@ -331,6 +331,8 @@ const createEmptyDonation = async () => {
       v-model="showDeleteConfirmDialog"
       :title="deleteTitle"
       :message="deleteMessage"
+      :confirm-button-text="t('common.confirm')"
+      :cancel-button-text="t('common.cancel')"
       @confirm="deleteDonation"
       @cancel="abortDelete"
     />
