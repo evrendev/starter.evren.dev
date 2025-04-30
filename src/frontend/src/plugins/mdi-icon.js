@@ -32,7 +32,8 @@ import {
   mdiChevronDown,
   mdiAccountMultiplePlusOutline,
   mdiWhatsapp,
-  mdiClockTimeEightOutline
+  mdiClockTimeEightOutline,
+  mdiAccountHardHatOutline
 } from "@mdi/js";
 
 export const icons = {
@@ -69,5 +70,6 @@ export const icons = {
   chevronDown: mdiChevronDown,
   accountMultiplePlusOutline: mdiAccountMultiplePlusOutline,
   whatsapp: mdiWhatsapp,
-  clockTimeEightOutline: mdiClockTimeEightOutline
+  clockTimeEightOutline: mdiClockTimeEightOutline,
+  accountHardHatOutline: mdiAccountHardHatOutline
 };

@@ -490,6 +490,7 @@ export default {
     changeTeam: "Takım Değiştir",
     select: "Bir Seçenek Seçin",
     changeMediaStatus: "Medya Durumunu Değiştir",
+    notifyConstructionTeam: "İnşaat Ekibi Bilgilendirildi",
     modules: {
       donations: "Bağışlar",
       todos: "Görevler",

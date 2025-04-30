@@ -120,6 +120,20 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
+    async notifyConstructionTeam(id) {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const response = await apiService.put(`/donations/fountain/construction-team-notified/${id}`);
+        const index = this.items.findIndex((item) => item.id === id);
+        if (index !== -1) {
+          this.items[index] = { ...response };
+        }
+      } finally {
+        appStore.setLoading(false);
+      }
+    },
     async delete(id) {
       const appStore = useAppStore();
       appStore.setLoading(true);

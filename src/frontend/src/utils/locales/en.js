@@ -492,6 +492,7 @@ export default {
     changeTeam: "Change Team",
     select: "Choose",
     changeMediaStatus: "Change Media Status",
+    notifyConstructionTeam: "Notified Construction Team",
     modules: {
       donations: "Donations",
       todos: "Todos",

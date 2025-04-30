@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using static EvrenDev.Shared.Constants.Policies;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateConstructionTeamNotified;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -184,6 +185,31 @@ public class DonationsController : ControllerBase
         try
         {
             var command = new UpdateDonorNotifiedCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPut("fountain/construction-team-notified/{id}")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Edit}")]
+    public async Task<ActionResult<BasicFountainDonationDto>> ConstructionTeamNotified(Guid id)
+    {
+        try
+        {
+            var command = new UpdateConstructionTeamNotifiedCommand { Id = id };
             var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }

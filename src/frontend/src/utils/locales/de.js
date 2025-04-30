@@ -490,6 +490,7 @@ export default {
     changeTeam: "Team wechseln",
     select: "Wählen",
     changeMediaStatus: "Medienstatus ändern",
+    notifyConstructionTeam: "Benachrichtigen Sie das Bau-Team",
     modules: {
       donations: "Spenden",
       todos: "Todos Listen",

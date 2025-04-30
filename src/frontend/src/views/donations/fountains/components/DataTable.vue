@@ -135,6 +135,10 @@ const updateDonorNotified = async () => {
   await fountainDonationStore.donorNotified(donationId.value);
 };
 
+const notifyConstructionTeam = async (id) => {
+  await fountainDonationStore.notifyConstructionTeam(id);
+};
+
 const showDonorNotifiedConfirmationDialog = (id) => {
   donorNotifiedTitle.value = t("admin.donations.donorNotified.title");
   donorNotifiedMessage.value = t("admin.donations.donorNotified.message");
@@ -304,7 +308,8 @@ const createEmptyDonation = async () => {
             <div class="d-flex ga-2 justify-end">
               <action-buttons
                 :donation-id="item.id"
-                :media-statuses="mediaStatuses"
+                :is-construction-team-notified="item.isConstructionTeamNotified"
+                @notify-construction-team="notifyConstructionTeam"
                 @show-all-information="showAllInformation"
                 @show-confirm-dialog="showDeleteConfirmationDialog"
               />
