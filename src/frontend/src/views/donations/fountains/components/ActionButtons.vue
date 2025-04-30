@@ -21,7 +21,7 @@ defineEmits(["showAllInformation", "showConfirmDialog", "notifyConstructionTeam"
   <div class="d-flex ga-2 justify-end">
     <v-btn
       icon
-      :color="isConstructionTeamNotified ? 'success' : ''"
+      :color="isConstructionTeamNotified ? 'success' : 'warning'"
       density="compact"
       @click.stop="$emit('notifyConstructionTeam', donationId)"
       :disabled="isConstructionTeamNotified"
