@@ -80,7 +80,7 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
         // Apply sorting
         query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
-            : query.OrderByDescending(x => x.ProjectNumber).ThenByDescending(x => x.CreationDate);
+            : query.OrderByDescending(x => x.CreationDate).ThenByDescending(x => x.ProjectNumber);
 
         var dtoQuery = query.Select(entity => new BasicFountainDonationDto
         {
@@ -93,6 +93,8 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
             MediaInformation = entity.MediaInformation,
+            IsDonorNotified = entity.IsDonorNotified,
+            IsConstructionTeamNotified = entity.IsConstructionTeamNotified
         });
 
         var paginatedList = await PaginatedList<BasicFountainDonationDto>.CreateAsync(
