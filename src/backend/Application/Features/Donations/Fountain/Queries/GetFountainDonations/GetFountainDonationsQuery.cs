@@ -89,7 +89,7 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             Phone = Tools.CreatePhone(entity.Phone, $"{entity.ProjectCode}{entity.ProjectNumber}", entity.Banner),
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
             HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
-            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}:\n{entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
             MediaInformation = entity.MediaInformation,
