@@ -67,15 +67,17 @@ public class CreateFountainDonationCommandHandler : IRequestHandler<CreateFounta
             .FirstOrDefaultAsync(cancellationToken);
 
         var projectNumber = lastDonation?.ProjectNumber + 1 ?? 1;
+        var projectDate = request.CreationDate ?? DateTime.UtcNow;
+        var creatationDate = new DateTime(projectDate.Year, projectDate.Month, projectDate.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
         var entity = new FountainDonation
         {
             Banner = request.Banner,
             Contact = request.Contact,
-            CreationDate = request.CreationDate ?? DateTime.UtcNow,
             Phone = request.Phone,
             ProjectCode = request.ProjectCode,
             Project = FountainDonationProject.FromName(request.ProjectCode).Alias,
+            CreationDate = creatationDate,
             ProjectNumber = projectNumber,
             Source = "MANUEL",
         };

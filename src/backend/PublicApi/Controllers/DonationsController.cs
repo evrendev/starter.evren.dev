@@ -1,21 +1,22 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsOverview;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
-using EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsOverview;
-using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeMediaInformation;
-using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
-using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
-using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.ChangeTeamName;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateAutomaticFountainDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.CreateFountainDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.DeleteDonation;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateConstructionTeamNotified;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateDonorNotified;
+using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using static EvrenDev.Shared.Constants.Policies;
-using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateConstructionTeamNotified;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -112,6 +113,50 @@ public class DonationsController : ControllerBase
     {
         try
         {
+            var result = await _mediator.Send(command);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpPost("fountain/automatic-donation")]
+    [AllowAnonymous]
+    public async Task<ActionResult<BasicFountainDonationDto>> CreateAutomaticDonation(CreateAutomaticFountainDonationCommand command)
+    {
+        try
+        {
+            // var jsonString = test.ToString();
+            // var command = !string.IsNullOrEmpty(jsonString)
+            //     ? JsonConvert.DeserializeObject<CreateAutomaticFountainDonationCommand>(jsonString)
+            //     : null;
+
+            // if (command == null)
+            //     return BadRequest(new
+            //     {
+            //         Error = true,
+            //         message = _localizer["api.validations.failed"].Value,
+            //         Errors = new List<object>
+            //         {
+            //             new
+            //             {
+            //                 key = "command",
+            //                 value = _localizer["api.donations.fountain.create.command.required"].Value
+            //             }
+            //         }
+            //     });
+
             var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
