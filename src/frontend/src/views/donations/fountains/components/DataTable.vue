@@ -31,7 +31,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  projectCode: {
+  project: {
     type: String,
     default: null
   }
@@ -69,7 +69,7 @@ const donorNotifiedTitle = ref(null);
 const donorNotifiedMessage = ref(null);
 const showDonorNotifiedConfirmDialog = ref(false);
 const donationId = ref(null);
-const showTeamOptions = computed(() => props.projectCode == "aki" || props.projectCode == "agi");
+const showTeamOptions = computed(() => props.project == "af01" || props.project == "af02");
 
 const showAllInformation = async (id) => {
   await fountainDonationStore.getById(id);
@@ -147,7 +147,7 @@ const showDonorNotifiedConfirmationDialog = (id) => {
 };
 
 const createEmptyDonation = async () => {
-  await fountainDonationStore.createEmptyDonation({ projectCode: props.projectCode.toLocaleUpperCase(), team: teamName.value });
+  await fountainDonationStore.createEmptyDonation({ project: props.project.toLocaleUpperCase(), team: teamName.value });
 };
 </script>
 

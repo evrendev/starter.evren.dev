@@ -85,10 +85,10 @@ export default {
         fountains: {
           title: "Fountain Donations",
           all: "All Donations",
-          bks: "BKS",
-          bgs: "BGS",
-          aki: "AKI",
-          agi: "AGI"
+          bl01: "BL01",
+          bl02: "BL02",
+          af01: "AF01",
+          af02: "AF02"
         },
         new: "New Donation"
       },
@@ -224,18 +224,18 @@ export default {
           creationDate: "Date",
           banner: "Banner",
           info: "Info",
-          projectCode: "Project Code",
+          project: "Project",
           weeks: "Weeks",
           status: "Status",
           team: "Team",
           media: "Media",
           detail: "Action"
         },
-        projectCodes: {
-          bks: "BKS",
-          bgs: "BGS",
-          aki: "AKI",
-          agi: "AGI"
+        projects: {
+          bl01: "BL01",
+          bl02: "BL02",
+          af01: "AF01",
+          af02: "AF02"
         },
         team: {
           none: "None",
@@ -258,7 +258,6 @@ export default {
           contact: "Contact",
           phone: "Phone",
           project: "Project",
-          projectCode: "Project Code",
           projectNumber: "Project Number",
           banner: "Banner",
           mediaStatus: "Media",
@@ -284,9 +283,9 @@ export default {
             required: "Creation date is required.",
             invalid: "Creation date is invalid."
           },
-          projectCode: {
-            required: "Project code is required.",
-            invalid: "Project code is invalid."
+          project: {
+            required: "Project is required.",
+            invalid: "Project is invalid."
           }
         }
       },

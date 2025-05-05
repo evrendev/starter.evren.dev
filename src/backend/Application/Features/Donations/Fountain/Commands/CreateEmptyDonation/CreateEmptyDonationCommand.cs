@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Features.Donations.Fountain.Commands.CreateEmptyD
 
 public class CreateEmptyDonationCommand : IRequest<Result<BasicFountainDonationDto>>
 {
-    public string? ProjectCode { get; set; }
+    public string? Project { get; set; }
     public string? Team { get; set; }
 }
 
@@ -24,11 +24,11 @@ public class CreateEmptyDonationCommandValidator : AbstractValidator<CreateEmpty
             .MaximumLength(100)
             .WithMessage(_localizer["api.donations.fountain.create.team.maxlength"]);
 
-        RuleFor(x => x.ProjectCode)
+        RuleFor(x => x.Project)
             .NotEmpty()
-            .WithMessage(_localizer["api.donations.fountain.create.project-code.required"])
+            .WithMessage(_localizer["api.donations.fountain.create.project.required"])
             .Must(code => FountainDonationProject.ToList.Select(pc => pc.Name).Contains(code))
-            .WithMessage(_localizer["api.donations.fountain.create.project-code.invalid"]);
+            .WithMessage(_localizer["api.donations.fountain.create.project.invalid"]);
     }
 }
 
@@ -44,7 +44,7 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
     public async Task<Result<BasicFountainDonationDto>> Handle(CreateEmptyDonationCommand request, CancellationToken cancellationToken)
     {
         var lastDonation = await _context.FountainDonations
-            .Where(x => x.ProjectCode == request.ProjectCode)
+            .Where(x => x.Project == request.Project)
             .OrderByDescending(x => x.ProjectNumber)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -56,8 +56,7 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
             Contact = string.Empty,
             CreationDate = DateTime.Now,
             Phone = string.Empty,
-            ProjectCode = request.ProjectCode,
-            Project = FountainDonationProject.FromName(request.ProjectCode).Alias,
+            Project = request.Project,
             ProjectNumber = projectNumber,
             Team = request.Team,
             MediaStatus = MediaStatus.None.Name,
@@ -73,8 +72,8 @@ public class CreateEmptyDonationCommandHandler : IRequestHandler<CreateEmptyDona
             Id = entity.Id,
             Contact = entity.Contact,
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
-            HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
-            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+            HtmlBanner = $"<strong>{entity.Project}-{entity.ProjectNumber}:</strong> {entity.Banner}",
+            PlainBanner = $"{entity.Project}-{entity.ProjectNumber}: {entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
             IsDonorNotified = entity.IsDonorNotified,

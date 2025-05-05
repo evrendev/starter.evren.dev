@@ -121,7 +121,7 @@
   "api.donations.fountain.create.phone.maxlength": "Phone is at most 100 characters",
   "api.donations.fountain.create.banner.require": "Banner is required",
   "api.donations.fountain.create.banner.maxlength": "Banner is at most 1000 characters",
-  "api.donations.fountain.create.project-code.require": "Project code is required",
-  "api.donations.fountain.create.project-code.invalid": "Project code is invalid",
+  "api.donations.fountain.create.project.require": "Project code is required",
+  "api.donations.fountain.create.project.invalid": "Project code is invalid",
   "api.donations.fountain.create.creation-date.require": "Creation Date is required"
 }

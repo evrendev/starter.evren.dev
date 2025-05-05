@@ -10,7 +10,7 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
     itemsLength: 0
   }),
   actions: {
-    async getItems({ page, itemsPerPage, sortBy, search, projectCode, startDate, endDate }) {
+    async getItems({ page, itemsPerPage, sortBy, search, project, startDate, endDate }) {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
@@ -21,7 +21,7 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
           ...(sortBy?.length && { sortBy: sortBy[0].key }),
           ...(sortBy?.length && { sortDesc: sortBy[0].order }),
           ...(search && { search }),
-          ...(projectCode && { projectCode }),
+          ...(project && { project }),
           ...(startDate && { startDate }),
           ...(endDate && { endDate })
         });

@@ -6,9 +6,9 @@ namespace EvrenDev.Application.Common.Functions
 {
     public class Tools
     {
-        public static Phone? CreatePhone(string? number, string? projectCode, string? banner)
+        public static Phone? CreatePhone(string? number, string? project, string? banner)
         {
-            return string.IsNullOrWhiteSpace(number) ? null : new Phone(number, projectCode, banner);
+            return string.IsNullOrWhiteSpace(number) ? null : new Phone(number, project, banner);
         }
 
         private static string? FormatPhoneNumber(string? input)
@@ -36,7 +36,7 @@ namespace EvrenDev.Application.Common.Functions
             return input;
         }
 
-        private static string? GenerateWhatsappLink(string? input, string? projectCode, string? banner)
+        private static string? GenerateWhatsappLink(string? input, string? project, string? banner)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -58,13 +58,13 @@ namespace EvrenDev.Application.Common.Functions
 
             string baseLink = $"https://api.whatsapp.com/send/?phone={phoneNumber}";
 
-            if (!string.IsNullOrWhiteSpace(projectCode))
+            if (!string.IsNullOrWhiteSpace(project))
             {
                 string fixedMessage =
                     "Hallo und Salam Aleykum,\n\n" +
                     $"Vielen Dank für Ihre großzügige Unterstützung. 💚🤲🏼\n\n" +
                     "Dein Brunnencode lautet:\n\n" +
-                    $"{projectCode}:\n" +
+                    $"{project}:\n" +
                     $"{banner}\n\n" +
                     "Bitte genau durchlesen:\n\n" +
                     "Die Bauzeit beträgt ca. 8–16 Wochen. Ab der 8. Woche kannst du unter dem angegebenen Link nachsehen,\n" +
@@ -89,9 +89,9 @@ namespace EvrenDev.Application.Common.Functions
             return baseLink;
         }
 
-        public class Phone(string? number, string? projectCode, string? banner)
+        public class Phone(string? number, string? project, string? banner)
         {
-            public string? Whatsapp { get; set; } = GenerateWhatsappLink(input: number, projectCode: projectCode, banner: banner);
+            public string? Whatsapp { get; set; } = GenerateWhatsappLink(input: number, project: project, banner: banner);
             public string? FormattedNumber { get; set; } = FormatPhoneNumber(input: number);
         }
     }

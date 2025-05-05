@@ -35,26 +35,26 @@ const validationSchema = object().shape({
   banner: string()
     .required(t("admin.donations.fountains.validation.banner.required"))
     .max(1000, t("admin.donations.fountains.validation.banner.maxLength")),
-  projectCode: string()
-    .oneOf(["BKS", "BGS", "AKI", "AGI"], t("admin.donations.fountains.validation.projectCode.invalid"))
-    .required(t("admin.donations.fountains.validation.projectCode.required")),
+  project: string()
+    .oneOf(["BL01", "BL02", "AF01", "AF02"], t("admin.donations.fountains.validation.project.invalid"))
+    .required(t("admin.donations.fountains.validation.project.required")),
   creationDate: string()
     .required(t("admin.donations.fountains.validation.creationDate.required"))
     .matches(/^\d{4}-\d{2}-\d{2}$/, t("admin.donations.fountains.validation.creationDate.invalid"))
 });
 
-const projectCodes = ref([
-  { title: t("admin.donations.fountains.projectCodes.bks"), value: "BKS" },
-  { title: t("admin.donations.fountains.projectCodes.bgs"), value: "BGS" },
-  { title: t("admin.donations.fountains.projectCodes.aki"), value: "AKI" },
-  { title: t("admin.donations.fountains.projectCodes.agi"), value: "AGI" }
+const projects = ref([
+  { title: t("admin.donations.fountains.projects.bl01"), value: "BL01" },
+  { title: t("admin.donations.fountains.projects.bl02"), value: "BL02" },
+  { title: t("admin.donations.fountains.projects.af01"), value: "AF01" },
+  { title: t("admin.donations.fountains.projects.af02"), value: "AF02" }
 ]);
 
 const initialValues = {
   contact: props.isEdit ? props.initialData.contact : "",
   phone: props.isEdit ? props.initialData.phone : "",
   banner: props.isEdit ? props.initialData.banner : "",
-  projectCode: props.isEdit ? props.initialData.projectCode : "BKS",
+  project: props.isEdit ? props.initialData.project : "BL01",
   creationDate: props.isEdit ? props.initialData.creationDate.pluginDate : new Date().toISOString().split("T")[0]
 };
 
@@ -73,7 +73,7 @@ const [contact, contactProps] = defineField("contact", vuetifyConfig);
 const [phone, phoneProps] = defineField("phone", vuetifyConfig);
 const [banner, bannerProps] = defineField("banner", vuetifyConfig);
 const [creationDate, creationDateProps] = defineField("creationDate", vuetifyConfig);
-const [projectCode, projectCodeProps] = defineField("projectCode", vuetifyConfig);
+const [project, projectProps] = defineField("project", vuetifyConfig);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
@@ -141,10 +141,10 @@ const handleReset = async () => {
         </v-col>
         <v-col cols="12" md="3">
           <v-select
-            v-model="projectCode"
-            v-bind="projectCodeProps"
-            :items="projectCodes"
-            :label="t('admin.donations.fountains.fields.projectCode')"
+            v-model="project"
+            v-bind="projectProps"
+            :items="projects"
+            :label="t('admin.donations.fountains.fields.project')"
             density="compact"
             hide-details
             item-title="title"

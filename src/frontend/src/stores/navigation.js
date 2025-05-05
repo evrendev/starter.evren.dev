@@ -66,20 +66,20 @@ export const useNavigationStore = defineStore("navigation", {
                 to: "/admin/donations/fountains/list"
               },
               {
-                title: "components.sidebar.donations.fountains.bks",
-                to: "/admin/donations/fountains/list?projectCode=bks"
+                title: "components.sidebar.donations.fountains.bl01",
+                to: "/admin/donations/fountains/list?project=bl01"
               },
               {
-                title: "components.sidebar.donations.fountains.bgs",
-                to: "/admin/donations/fountains/list?projectCode=bgs"
+                title: "components.sidebar.donations.fountains.bl02",
+                to: "/admin/donations/fountains/list?project=bl02"
               },
               {
-                title: "components.sidebar.donations.fountains.aki",
-                to: "/admin/donations/fountains/list?projectCode=aki"
+                title: "components.sidebar.donations.fountains.af01",
+                to: "/admin/donations/fountains/list?project=af01"
               },
               {
-                title: "components.sidebar.donations.fountains.agi",
-                to: "/admin/donations/fountains/list?projectCode=agi"
+                title: "components.sidebar.donations.fountains.af02",
+                to: "/admin/donations/fountains/list?project=af02"
               },
               ...(this.hasPermission("Donations.Create")
                 ? [

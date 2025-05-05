@@ -7,7 +7,7 @@ namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDo
 public class GetFountainDonationsQuery : IRequest<Result<PaginatedList<BasicFountainDonationDto>>>
 {
     public string? Search { get; set; }
-    public string? ProjectCode { get; init; }
+    public string? Project { get; init; }
     public DateTime? StartDate { get; init; }
     public DateTime? EndDate { get; init; }
     public int Page { get; init; } = 1;
@@ -59,8 +59,8 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
         if (request.EndDate != null)
             query = query.Where(entity => entity.CreationDate <= request.EndDate);
 
-        if (!string.IsNullOrEmpty(request.ProjectCode))
-            query = query.Where(entity => entity.ProjectCode == request.ProjectCode);
+        if (!string.IsNullOrEmpty(request.Project))
+            query = query.Where(entity => entity.Project == request.Project);
 
         if (!string.IsNullOrEmpty(request.Search))
             query = query.Where(entity =>
@@ -71,8 +71,6 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
                 entity.Banner != null && entity.Banner.Contains(request.Search)
                 ||
                 entity.Project != null && entity.Project.Contains(request.Search)
-                ||
-                entity.ProjectCode != null && entity.ProjectCode.Contains(request.Search)
                 ||
                 entity.TransactionId != null && entity.TransactionId.Contains(request.Search)
             );
@@ -86,10 +84,10 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
         {
             Id = entity.Id,
             Contact = entity.Contact,
-            Phone = Tools.CreatePhone(entity.Phone, $"{entity.ProjectCode}{entity.ProjectNumber}", entity.Banner),
+            Phone = Tools.CreatePhone(entity.Phone, $"{entity.Project}-{entity.ProjectNumber}", entity.Banner),
             CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
-            HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
-            PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}:\n{entity.Banner}",
+            HtmlBanner = $"<strong>{entity.Project}-{entity.ProjectNumber}:</strong> {entity.Banner}",
+            PlainBanner = $"{entity.Project}-{entity.ProjectNumber}:\n{entity.Banner}",
             Team = FountaionTeam.From(entity.Team),
             MediaStatus = MediaStatus.From(entity.MediaStatus),
             MediaInformation = entity.MediaInformation,
@@ -115,9 +113,9 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             "contact" => sortDesc
                 ? query.OrderByDescending(x => x.Contact)
                 : query.OrderBy(x => x.Contact),
-            "projectcode" => sortDesc
-                ? query.OrderByDescending(x => x.ProjectCode)
-                : query.OrderBy(x => x.ProjectCode),
+            "project" => sortDesc
+                ? query.OrderByDescending(x => x.Project)
+                : query.OrderBy(x => x.Project),
             "info" => sortDesc
                 ? query.OrderByDescending(x => x.ProjectNumber)
                 : query.OrderBy(x => x.ProjectNumber),

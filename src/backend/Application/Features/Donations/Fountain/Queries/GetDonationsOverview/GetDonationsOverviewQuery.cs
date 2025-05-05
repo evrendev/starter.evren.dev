@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsO
 
 public class GetDonationsOverviewQuery : IRequest<Result<DonationOverview?>>
 {
-    public string? ProjectCode { get; init; }
+    public string? Project { get; init; }
     public DateTime? StartDate { get; init; } = new DateTime(DateTime.Now.Year, 1, 1);
     public DateTime? EndDate { get; init; } = new DateTime(DateTime.Now.Year, 12, 31);
 }
@@ -50,11 +50,11 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
         if (request.EndDate != null)
             query = query.Where(entity => entity.CreationDate <= request.EndDate);
 
-        if (!string.IsNullOrEmpty(request.ProjectCode))
-            query = query.Where(entity => entity.ProjectCode == request.ProjectCode);
+        if (!string.IsNullOrEmpty(request.Project))
+            query = query.Where(entity => entity.Project == request.Project);
 
         var stats = await query
-            .GroupBy(x => x.ProjectCode)
+            .GroupBy(x => x.Project)
             .Select(g => new ProjectsCountDto
             {
                 Project = FountainDonationProject.FromName(g.Key),
@@ -63,7 +63,7 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
             .ToListAsync(cancellationToken);
 
         var groupedDonations = await query
-            .GroupBy(d => d.ProjectCode)
+            .GroupBy(d => d.Project)
             .ToListAsync(cancellationToken);
 
         var donations = groupedDonations
@@ -74,10 +74,10 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
             {
                 Id = entity.Id,
                 Contact = entity.Contact,
-                Phone = Tools.CreatePhone(entity.Phone, $"{entity.ProjectCode}{entity.ProjectNumber}", entity.Banner),
+                Phone = Tools.CreatePhone(entity.Phone, $"{entity.Project}-{entity.ProjectNumber}", entity.Banner),
                 CreationDate = DateTimeDto.Create.FromUtc(entity.CreationDate),
-                HtmlBanner = $"<strong>{entity.ProjectCode}{entity.ProjectNumber}:</strong> {entity.Banner}",
-                PlainBanner = $"{entity.ProjectCode}{entity.ProjectNumber}: {entity.Banner}",
+                HtmlBanner = $"<strong>{entity.Project}-{entity.ProjectNumber}:</strong> {entity.Banner}",
+                PlainBanner = $"{entity.Project}-{entity.ProjectNumber}: {entity.Banner}",
                 Team = FountaionTeam.From(entity.Team),
                 MediaStatus = MediaStatus.From(entity.MediaStatus),
                 MediaInformation = entity.MediaInformation,

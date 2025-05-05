@@ -9,7 +9,7 @@ import config from "@/config";
 
 const { t } = useI18n();
 const route = useRoute();
-const projectCode = ref(route.query.projectCode || null);
+const project = ref(route.query.project || null);
 
 const breadcrumbs = ref([
   {
@@ -23,7 +23,7 @@ const breadcrumbs = ref([
     href: "#"
   },
   {
-    title: t(`components.sidebar.donations.fountains.${projectCode.value ?? "all"}`),
+    title: t(`components.sidebar.donations.fountains.${project.value ?? "all"}`),
     href: "#"
   }
 ]);
@@ -31,7 +31,7 @@ const breadcrumbs = ref([
 watch(
   () => route.query,
   (query) => {
-    projectCode.value = query.projectCode;
+    project.value = query.project;
     breadcrumbs.value = [
       {
         title: t("admin.donations.title"),
@@ -44,12 +44,12 @@ watch(
         href: "#"
       },
       {
-        title: t(`components.sidebar.donations.fountains.${projectCode.value ?? "all"}`),
+        title: t(`components.sidebar.donations.fountains.${project.value ?? "all"}`),
         href: "#"
       }
     ];
 
-    searchOptions.projectCode = projectCode.value;
+    searchOptions.project = project.value;
     getItems(searchOptions);
   }
 );
@@ -64,7 +64,7 @@ const searchOptions = {
   itemsPerPage: config.itemsPerPage,
   sortBy: null,
   groupBy: null,
-  projectCode: projectCode.value,
+  project: project.value,
   startDate: null,
   endDate: null,
   search: null
@@ -88,7 +88,7 @@ const handleFilterReset = () => {
 
 const getItems = async (options) => {
   loading.value = true;
-  options.projectCode = projectCode.value;
+  options.project = project.value;
   await donationStore.getItems(options);
   items.value = donationStore.items;
   itemsLength.value = donationStore.itemsLength;
@@ -102,7 +102,7 @@ const getItems = async (options) => {
     <v-col cols="12" md="12">
       <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
 
-      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" :project-code="projectCode" />
+      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" :project="project" />
     </v-col>
   </v-row>
 </template>

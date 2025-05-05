@@ -73,8 +73,8 @@ const openWhatsapp = (url, text) => {
               <td>{{ donation.project }}</td>
             </tr>
             <tr>
-              <td>{{ t("admin.donations.fountains.details.projectCode") }}</td>
-              <td>{{ donation.projectCode }}</td>
+              <td>{{ t("admin.donations.fountains.details.project") }}</td>
+              <td>{{ donation.project }}</td>
             </tr>
             <tr>
               <td>{{ t("admin.donations.fountains.details.projectNumber") }}</td>

@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <router-link
-    :to="{ name: 'list-fountains', query: { projectCode: item?.project.name.toLocaleLowerCase() } }"
+    :to="{ name: 'list-fountains', query: { project: item?.project.name.toLocaleLowerCase() } }"
     class="d-block mb-2 text-decoration-none"
   >
     <v-card elevation="0" :class="`bg-${item?.project.color} overflow-hidden`">

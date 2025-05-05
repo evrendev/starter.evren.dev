@@ -81,10 +81,10 @@ export default {
         fountains: {
           title: "Brunnen Spenden",
           all: "Alle Spenden",
-          bks: "BKS",
-          bgs: "BGS",
-          aki: "AKI",
-          agi: "AGI"
+          bl01: "BL01",
+          bl02: "BL02",
+          af01: "AF01",
+          af02: "AF02"
         },
         new: "Neu Spende"
       },
@@ -225,7 +225,7 @@ export default {
           banner: "Banner",
           creationDate: "Datum",
           info: "Info",
-          projectCode: "Projektcode",
+          project: "Projekt",
           weeks: "Wochen",
           status: "Status",
           team: "Team",
@@ -237,11 +237,11 @@ export default {
           morteza: "Team Morteza",
           idris: "Team Idris"
         },
-        projectCodes: {
-          bks: "BKS",
-          bgs: "BGS",
-          aki: "AKI",
-          agi: "AGI"
+        projects: {
+          bl01: "BL01",
+          bl02: "BL02",
+          af01: "AF01",
+          af02: "AF02"
         },
         status: {
           none: "Keine",
@@ -259,7 +259,6 @@ export default {
           contact: "Kontakt",
           phone: "Telefon",
           project: "Projekt",
-          projectCode: "Projektcode",
           projectNumber: "Projektnummer",
           banner: "Banner",
           mediaStatus: "Medien",
@@ -285,9 +284,9 @@ export default {
             required: "Datum ist erforderlich.",
             invalid: ""
           },
-          projectCode: {
-            required: "Projektcode ist erforderlich.",
-            invalid: "Proje kodu geçerli bir proje kodu değil."
+          project: {
+            required: "Projekt ist erforderlich.",
+            invalid: "Proje geçerli bir proje değil."
           }
         }
       },

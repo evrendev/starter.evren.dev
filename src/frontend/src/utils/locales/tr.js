@@ -81,10 +81,10 @@ export default {
         fountains: {
           title: "Kuyu Bağışları",
           all: "Tüm Bağışlar",
-          bks: "BKS",
-          bgs: "BGS",
-          aki: "AKI",
-          agi: "AGI"
+          bl01: "BL01",
+          bl02: "BL02",
+          af01: "AF01",
+          af02: "AF02"
         },
         new: "Yeni Bağış"
       },
@@ -225,7 +225,7 @@ export default {
           phone: "Telefon",
           creationDate: "Tarih",
           banner: "Afiş",
-          projectCode: "Proje Kodu",
+          project: "Proje",
           info: "Bilgi",
           weeks: "Hafta",
           status: "Durum",
@@ -247,11 +247,11 @@ export default {
           week8Critical: "8. Hafta Kritik",
           published: "Yayınlandı"
         },
-        projectCodes: {
-          bks: "BKS",
-          bgs: "BGS",
-          aki: "AKI",
-          agi: "AGI"
+        projects: {
+          bl01: "BL01",
+          bl02: "BL02",
+          af01: "AF01",
+          af02: "AF02"
         },
         details: {
           creationDate: "Tarih",
@@ -260,7 +260,6 @@ export default {
           contact: "Bağışçı",
           phone: "Telefon",
           project: "Proje",
-          projectCode: "Proje Kodu",
           projectNumber: "Proje Numarası",
           banner: "Afiş",
           mediaStatus: "Medya",
@@ -286,9 +285,9 @@ export default {
             required: "Bağış tarihini girmeniz gerekmektedir.",
             invalid: "Bağış tarihi geçerli bir formatta değil."
           },
-          projectCode: {
-            required: "Proje kodunu girmeniz gerekmektedir.",
-            invalid: "Proje kodu geçerli bir proje kodu değil."
+          project: {
+            required: "Proje seçmeniz gerekmektedir.",
+            invalid: "Proje geçerli bir proje değil."
           }
         }
       },

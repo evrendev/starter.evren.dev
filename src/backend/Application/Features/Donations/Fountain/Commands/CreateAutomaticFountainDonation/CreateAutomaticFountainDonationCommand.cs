@@ -76,7 +76,7 @@ public class CreateFountainDonationCommandValidator : AbstractValidator<CreateAu
 
         RuleFor(x => x.ProjectCode)
             .NotEmpty()
-            .WithMessage(_localizer["api.donations.fountain.create.project-code.required"]);
+            .WithMessage(_localizer["api.donations.fountain.create.project.required"]);
 
         RuleFor(v => v.DateOfDonation)
             .NotNull()
@@ -113,7 +113,6 @@ public class CreateAutomaticFountainDonationCommandHandler : IRequestHandler<Cre
             Banner = request.Banner,
             Contact = request.Contact,
             Phone = request.Phone,
-            ProjectCode = request.ProjectCode,
             Project = request.Project,
             CreationDate = request.CreationDate,
             ProjectNumber = projectNumber,
@@ -123,6 +122,6 @@ public class CreateAutomaticFountainDonationCommandHandler : IRequestHandler<Cre
         _context.FountainDonations.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Success($"{entity.ProjectCode}-{entity.ProjectNumber}");
+        return Result<string>.Success($"{entity.Project}-{entity.ProjectNumber}");
     }
 }

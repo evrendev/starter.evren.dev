@@ -7,7 +7,7 @@ public class UpdateFountainDonationCommand : IRequest<Result<Guid>>
     public string? Contact { get; set; }
     public DateTime? CreationDate { get; set; }
     public string? Phone { get; set; }
-    public string? ProjectCode { get; set; }
+    public string? Project { get; set; }
 }
 
 public class UpdateFountainDonationCommandValidator : AbstractValidator<UpdateFountainDonationCommand>
@@ -39,11 +39,11 @@ public class UpdateFountainDonationCommandValidator : AbstractValidator<UpdateFo
             .MaximumLength(1000)
             .WithMessage(_localizer["api.donations.fountain.update.banner.maxlength"]);
 
-        RuleFor(x => x.ProjectCode)
+        RuleFor(x => x.Project)
             .NotEmpty()
-            .WithMessage(_localizer["api.donations.fountain.update.project-code.required"])
+            .WithMessage(_localizer["api.donations.fountain.update.project.required"])
             .Must(code => FountainDonationProject.ToList.Select(pc => pc.Name).Contains(code))
-            .WithMessage(_localizer["api.donations.fountain.update.project-code.invalid"]);
+            .WithMessage(_localizer["api.donations.fountain.update.project.invalid"]);
 
         RuleFor(v => v.CreationDate)
             .NotNull()
@@ -71,7 +71,7 @@ public class UpdateFountainDonationCommandHandler : IRequestHandler<UpdateFounta
         entity.Contact = request.Contact;
         entity.CreationDate = request.CreationDate ?? DateTime.UtcNow;
         entity.Phone = request.Phone;
-        entity.ProjectCode = request.ProjectCode;
+        entity.Project = request.Project;
 
         await _context.SaveChangesAsync(cancellationToken);
 

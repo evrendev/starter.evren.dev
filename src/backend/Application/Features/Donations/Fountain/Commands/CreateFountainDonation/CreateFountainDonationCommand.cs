@@ -9,7 +9,7 @@ public class CreateFountainDonationCommand : IRequest<Result<Guid>>
     public string? Contact { get; set; }
     public DateTime? CreationDate { get; set; }
     public string? Phone { get; set; }
-    public string? ProjectCode { get; set; }
+    public string? Project { get; set; }
 }
 
 public class CreateFountainDonationCommandValidator : AbstractValidator<CreateFountainDonationCommand>
@@ -38,11 +38,11 @@ public class CreateFountainDonationCommandValidator : AbstractValidator<CreateFo
             .MaximumLength(1000)
             .WithMessage(_localizer["api.donations.fountain.create.banner.maxlength"]);
 
-        RuleFor(x => x.ProjectCode)
+        RuleFor(x => x.Project)
             .NotEmpty()
-            .WithMessage(_localizer["api.donations.fountain.create.project-code.required"])
+            .WithMessage(_localizer["api.donations.fountain.create.project.required"])
             .Must(code => FountainDonationProject.ToList.Select(pc => pc.Name).Contains(code))
-            .WithMessage(_localizer["api.donations.fountain.create.project-code.invalid"]);
+            .WithMessage(_localizer["api.donations.fountain.create.project.invalid"]);
 
         RuleFor(v => v.CreationDate)
             .NotNull()
@@ -62,7 +62,7 @@ public class CreateFountainDonationCommandHandler : IRequestHandler<CreateFounta
     public async Task<Result<Guid>> Handle(CreateFountainDonationCommand request, CancellationToken cancellationToken)
     {
         var lastDonation = await _context.FountainDonations
-            .Where(x => x.ProjectCode == request.ProjectCode)
+            .Where(x => x.Project == request.Project)
             .OrderByDescending(x => x.ProjectNumber)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -75,8 +75,7 @@ public class CreateFountainDonationCommandHandler : IRequestHandler<CreateFounta
             Banner = request.Banner,
             Contact = request.Contact,
             Phone = request.Phone,
-            ProjectCode = request.ProjectCode,
-            Project = FountainDonationProject.FromName(request.ProjectCode).Alias,
+            Project = request.Project,
             CreationDate = creatationDate,
             ProjectNumber = projectNumber,
             Source = "MANUEL",
