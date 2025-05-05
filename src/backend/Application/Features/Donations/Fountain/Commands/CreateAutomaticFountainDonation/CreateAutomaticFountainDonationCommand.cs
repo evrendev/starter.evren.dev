@@ -115,6 +115,7 @@ public class CreateAutomaticFountainDonationCommandHandler : IRequestHandler<Cre
             Phone = request.Phone,
             Project = request.Project,
             CreationDate = request.CreationDate,
+            TransactionId = request.TransactionId,
             ProjectNumber = projectNumber,
             Source = "AUTOMATIC",
         };
