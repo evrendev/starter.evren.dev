@@ -67,8 +67,8 @@ public class UpdateFountainDonationCommandHandler : IRequestHandler<UpdateFounta
         if (entity == null)
             throw new NotFoundException(nameof(TodoList), request.Id.ToString());
 
-        entity.Banner = request.Banner;
-        entity.Contact = request.Contact;
+        entity.Banner = request.Banner!.Trim();
+        entity.Contact = request.Contact!.Trim();
         entity.CreationDate = request.CreationDate ?? DateTime.UtcNow;
         entity.Phone = request.Phone;
         entity.Project = request.Project;

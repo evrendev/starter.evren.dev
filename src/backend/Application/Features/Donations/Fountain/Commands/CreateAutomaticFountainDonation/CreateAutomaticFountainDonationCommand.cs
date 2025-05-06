@@ -110,8 +110,8 @@ public class CreateAutomaticFountainDonationCommandHandler : IRequestHandler<Cre
 
         var entity = new FountainDonation
         {
-            Banner = request.Banner,
-            Contact = request.Contact,
+            Banner = request.Banner!.Trim(),
+            Contact = request.Contact!.Trim(),
             Phone = request.Phone,
             Project = request.Project,
             CreationDate = request.CreationDate,
