@@ -511,7 +511,8 @@ export default {
     passive: "Passiv",
     true: "Ja",
     false: "Nein",
-    count: "Anzahl"
+    count: "Anzahl",
+    getLastDonations: "Erhalten Sie die letzten Spenden"
   },
   $vuetify: {
     ...de

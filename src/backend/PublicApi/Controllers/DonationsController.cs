@@ -28,9 +28,13 @@ public class DonationsController : ControllerBase
     private readonly IMediator _mediator;
     private readonly IStringLocalizer<DonationsController> _localizer;
 
+    private readonly IHttpClientFactory _httpClientFactory;
+
     public DonationsController(IMediator mediator,
+        IHttpClientFactory httpClientFactory,
         IStringLocalizer<DonationsController> localizer)
     {
+        _httpClientFactory = httpClientFactory;
         _mediator = mediator;
         _localizer = localizer;
     }
@@ -137,26 +141,6 @@ public class DonationsController : ControllerBase
     {
         try
         {
-            // var jsonString = test.ToString();
-            // var command = !string.IsNullOrEmpty(jsonString)
-            //     ? JsonConvert.DeserializeObject<CreateAutomaticFountainDonationCommand>(jsonString)
-            //     : null;
-
-            // if (command == null)
-            //     return BadRequest(new
-            //     {
-            //         Error = true,
-            //         message = _localizer["api.validations.failed"].Value,
-            //         Errors = new List<object>
-            //         {
-            //             new
-            //             {
-            //                 key = "command",
-            //                 value = _localizer["api.donations.fountain.create.command.required"].Value
-            //             }
-            //         }
-            //     });
-
             var result = await _mediator.Send(command);
             return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
@@ -348,4 +332,34 @@ public class DonationsController : ControllerBase
         }
     }
 
+    [HttpGet("fountain/get-last-donations")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
+    public async Task<ActionResult> GetLastDonations()
+    {
+        try
+        {
+            var url = "https://prod-29.germanywestcentral.logic.azure.com:443/workflows/bc6612ba523e487cb94d202b736865a0/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m19ivN7YS_IXoEq1LZBQLuKKwH5AWbcMcefQVutXWuM";
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+                return BadRequest(new { message = "Failed to check donations." });
+
+            var content = await response.Content.ReadAsStringAsync();
+            return Ok(new { message = content });
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
 }

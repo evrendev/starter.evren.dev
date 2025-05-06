@@ -511,7 +511,8 @@ export default {
     passive: "Pasif",
     true: "Evet",
     false: "Hayır",
-    count: "Adet"
+    count: "Adet",
+    getLastDonations: "Son Bağışları Al"
   },
   $vuetify: {
     ...tr

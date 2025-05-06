@@ -86,6 +86,12 @@ const handleFilterReset = () => {
   getItems(searchOptions);
 };
 
+const getLastDonations = async () => {
+  loading.value = true;
+  await donationStore.getLastDonations();
+  loading.value = false;
+};
+
 const getItems = async (options) => {
   loading.value = true;
   options.project = project.value;
@@ -100,7 +106,7 @@ const getItems = async (options) => {
   <breadcrumb :title="t('admin.donations.fountains.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
-      <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" />
+      <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" @getLastDonations="getLastDonations" />
 
       <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" :project="project" />
     </v-col>

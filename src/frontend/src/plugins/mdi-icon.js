@@ -33,7 +33,8 @@ import {
   mdiAccountMultiplePlusOutline,
   mdiWhatsapp,
   mdiClockTimeEightOutline,
-  mdiAccountHardHatOutline
+  mdiAccountHardHatOutline,
+  mdiDownload
 } from "@mdi/js";
 
 export const icons = {
@@ -71,5 +72,6 @@ export const icons = {
   accountMultiplePlusOutline: mdiAccountMultiplePlusOutline,
   whatsapp: mdiWhatsapp,
   clockTimeEightOutline: mdiClockTimeEightOutline,
-  accountHardHatOutline: mdiAccountHardHatOutline
+  accountHardHatOutline: mdiAccountHardHatOutline,
+  download: mdiDownload
 };

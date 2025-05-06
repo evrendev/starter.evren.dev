@@ -513,7 +513,8 @@ export default {
     passive: "Passive",
     true: "Yes",
     false: "No",
-    count: "Count"
+    count: "Count",
+    getLastDonations: "Get Last Donations"
   },
   $vuetify: {
     ...en

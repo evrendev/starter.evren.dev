@@ -55,6 +55,17 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
+    async getLastDonations() {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const response = await apiService.get("/donations/fountain/get-last-donations", false);
+        this.overview = response;
+      } finally {
+        appStore.setLoading(false);
+      }
+    },
     async create(donation) {
       const appStore = useAppStore();
       appStore.setLoading(true);

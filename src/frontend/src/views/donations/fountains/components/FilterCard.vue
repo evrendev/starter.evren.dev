@@ -12,7 +12,7 @@ defineProps({
   }
 });
 
-const emits = defineEmits(["submit", "reset"]);
+const emits = defineEmits(["submit", "reset", "getLastDonations"]);
 
 const search = ref("");
 const dateRange = ref([null, null]);
@@ -30,10 +30,26 @@ const handleReset = () => {
   dateRange.value = [null, null];
   emits("reset");
 };
+
+const getLastDonations = () => {
+  emits("getLastDonations");
+};
 </script>
 
 <template>
-  <parent-card class="mb-4" :title="t('common.filters')">
+  <parent-card
+    class="mb-4"
+    :title="t('common.filters')"
+    :actionButton="{
+      text: t('common.getLastDonations'),
+      color: 'warning',
+      icon: '$download',
+      loading: loading,
+      onClick: getLastDonations,
+      size: 'x-small',
+      disabled: loading
+    }"
+  >
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field v-model="search" :label="t('common.search')" density="compact" hide-details variant="outlined"></v-text-field>
