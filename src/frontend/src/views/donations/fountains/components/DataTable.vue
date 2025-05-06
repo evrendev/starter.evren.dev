@@ -224,7 +224,7 @@ const createEmptyDonation = async () => {
               size="x-small"
               class="d-block w-100 text-truncate"
               :color="item.isDonorNotified ? 'success' : 'warning'"
-              @click.stop="openWhatsapp(item.phone.whatsapp, item.plainBanner, item.id)"
+              @click.stop="openWhatsapp(item.phone.whatsapp, item.phone.message, item.id)"
             >
               <v-icon icon="$whatsapp" size="small" class="mr-1" />
               {{ item.phone.formattedNumber }}
