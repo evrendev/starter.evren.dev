@@ -512,6 +512,7 @@ export default {
     true: "Evet",
     false: "Hayır",
     count: "Adet",
+    checkingForNewDonations: "Yeni Bağışlar Kontrol Ediliyor...",
     getLastDonations: "Son Bağışları Al"
   },
   $vuetify: {

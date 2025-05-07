@@ -512,6 +512,7 @@ export default {
     true: "Ja",
     false: "Nein",
     count: "Anzahl",
+    checkingForNewDonations: "Überprüfen auf neue Spenden...",
     getLastDonations: "Erhalten Sie die letzten Spenden"
   },
   $vuetify: {

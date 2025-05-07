@@ -123,5 +123,7 @@
   "api.donations.fountain.create.banner.maxlength": "Afiş en fazla 1000 karakter olmalıdır",
   "api.donations.fountain.create.project.require": "Proje kodu gerekli",
   "api.donations.fountain.create.project.invalid": "Geçersiz proje kodu",
-  "api.donations.fountain.create.creation-date.require": "Oluşturma tarihi gerekli"
+  "api.donations.fountain.create.creation-date.require": "Oluşturma tarihi gerekli",
+  "api.donations.fountain.notification.found": "Yeni bağış kaydı bulundu",
+  "api.donations.fountain.notification.not-found": "Yeni bağış kaydı bulunamadı"
 }

@@ -88,7 +88,8 @@ const handleFilterReset = () => {
 
 const getLastDonations = async () => {
   loading.value = true;
-  await donationStore.getLastDonations();
+  const message = t("common.checkingForNewDonations");
+  await donationStore.getLastDonations(message);
   loading.value = false;
 };
 

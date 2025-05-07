@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { apiService } from "@/utils/helpers";
+import { NotificationService } from "@/utils/helpers";
 import { useAppStore } from "@/stores";
 
 export const useFountainDonationStore = defineStore("fountainDonation", {
@@ -55,13 +56,13 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
-    async getLastDonations() {
+    async getLastDonations(message) {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.get("/donations/fountain/get-last-donations", false);
-        this.overview = response;
+        await apiService.get("/donations/fountain/get-last-donations", false);
+        NotificationService.success(message);
       } finally {
         appStore.setLoading(false);
       }

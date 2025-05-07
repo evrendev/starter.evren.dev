@@ -123,5 +123,7 @@
   "api.donations.fountain.create.banner.maxlength": "Banner is at most 1000 characters",
   "api.donations.fountain.create.project.require": "Project code is required",
   "api.donations.fountain.create.project.invalid": "Project code is invalid",
-  "api.donations.fountain.create.creation-date.require": "Creation Date is required"
+  "api.donations.fountain.create.creation-date.require": "Creation Date is required",
+  "api.donations.fountain.notification.found": "New donation record found",
+  "api.donations.fountain.notification.not-found": "No donation record found"
 }

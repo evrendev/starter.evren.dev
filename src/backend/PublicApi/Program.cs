@@ -4,6 +4,7 @@ using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.Infrastructure.Identity.Data;
 using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.PublicApi.Extensions;
+using EvrenDev.PublicApi.Hub;
 using EvrenDev.PublicApi.Middleware;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -113,5 +114,7 @@ app.UseMiddleware<TenantMiddleware>();
 app.UseExceptionHandlerMiddleware();
 
 app.MapControllers();
+
+app.MapHub<NotificationHub>("/notificationhub");
 
 app.Run();

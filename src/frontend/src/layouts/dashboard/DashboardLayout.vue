@@ -4,10 +4,13 @@ import { VerticalSidebar } from "./vertical-sidebar";
 import { VerticalHeader } from "./vertical-header";
 import { useCustomizerStore } from "@/stores";
 import { useVersion } from "@/composables/useVersion";
+import useSignalR from "@/composables/useSignalR";
 import FooterPanel from "./footer/FooterPanel.vue";
 
 const { versionInfo } = useVersion();
 const customizer = useCustomizerStore();
+
+useSignalR();
 </script>
 
 <template>

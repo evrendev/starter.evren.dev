@@ -514,6 +514,7 @@ export default {
     true: "Yes",
     false: "No",
     count: "Count",
+    checkingForNewDonations: "Checking for new donations...",
     getLastDonations: "Get Last Donations"
   },
   $vuetify: {

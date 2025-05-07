@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using static EvrenDev.Shared.Constants.Policies;
+using Microsoft.AspNetCore.SignalR;
+using EvrenDev.PublicApi.Hub;
 
 namespace EvrenDev.PublicApi.Controllers;
 
@@ -27,14 +29,16 @@ public class DonationsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IStringLocalizer<DonationsController> _localizer;
-
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHubContext<NotificationHub> _hubContext;
 
     public DonationsController(IMediator mediator,
         IHttpClientFactory httpClientFactory,
+        IHubContext<NotificationHub> hubContext,
         IStringLocalizer<DonationsController> localizer)
     {
         _httpClientFactory = httpClientFactory;
+        _hubContext = hubContext;
         _mediator = mediator;
         _localizer = localizer;
     }
@@ -361,5 +365,16 @@ public class DonationsController : ControllerBase
                 }).ToList()
             });
         }
+    }
+
+    [HttpGet("fountain/notifications")]
+    [AllowAnonymous]
+    public async Task Notifications([FromQuery] bool donationFound = false)
+    {
+        var message = donationFound
+            ? _localizer["api.donations.fountain.notification.found"].Value
+            : _localizer["api.donations.fountain.notification.not-found"].Value;
+
+        await _hubContext.Clients.All.SendAsync("ReceiveNotification", message);
     }
 }

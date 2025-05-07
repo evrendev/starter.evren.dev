@@ -72,6 +72,8 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.AddDistributedMemoryCache();
 
+        services.AddSignalR();
+
         return services;
     }
 }
