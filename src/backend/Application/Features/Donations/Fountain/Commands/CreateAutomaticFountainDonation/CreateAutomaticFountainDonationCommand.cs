@@ -101,28 +101,52 @@ public class CreateAutomaticFountainDonationCommandHandler : IRequestHandler<Cre
         if (isTransactionIdExists)
             return Result<string>.Failure("Exists");
 
-        var lastDonation = await _context.FountainDonations
-            .Where(x => x.Project == request.Project)
-            .OrderByDescending(x => x.ProjectNumber)
+        var emptyDonation = await _context.FountainDonations
+            .Where(x => x.Source == "EMPTY" && x.Project == request.Project)
+            .OrderBy(x => x.ProjectNumber)
             .FirstOrDefaultAsync(cancellationToken);
 
-        var projectNumber = lastDonation?.ProjectNumber + 1 ?? 1;
-
-        var entity = new FountainDonation
+        if (emptyDonation != null)
         {
-            Banner = request.Banner!.Trim(),
-            Contact = request.Contact!.Trim(),
-            Phone = request.Phone,
-            Project = request.Project,
-            CreationDate = request.CreationDate,
-            TransactionId = request.TransactionId,
-            ProjectNumber = projectNumber,
-            Source = "AUTOMATIC",
-        };
+            emptyDonation.Banner = request.Banner!.Trim();
+            emptyDonation.Contact = request.Contact!.Trim();
+            emptyDonation.Phone = request.Phone;
+            emptyDonation.CreationDate = request.CreationDate;
+            emptyDonation.TransactionId = request.TransactionId;
+            emptyDonation.Source = "AUTOMATIC";
 
-        _context.FountainDonations.Add(entity);
-        await _context.SaveChangesAsync(cancellationToken);
+            _context.FountainDonations.Update(emptyDonation);
+            await _context.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Success($"{entity.Project}-{entity.ProjectNumber}");
+            return Result<string>.Success($"{emptyDonation.Project}-{emptyDonation.ProjectNumber}");
+        }
+        else
+        {
+
+            var lastDonation = await _context.FountainDonations
+                .Where(x => x.Project == request.Project)
+                .OrderByDescending(x => x.ProjectNumber)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            var projectNumber = lastDonation?.ProjectNumber + 1 ?? 1;
+
+            var entity = new FountainDonation
+            {
+                Banner = request.Banner!.Trim(),
+                Contact = request.Contact!.Trim(),
+                Phone = request.Phone,
+                Project = request.Project,
+                CreationDate = request.CreationDate,
+                TransactionId = request.TransactionId,
+                ProjectNumber = projectNumber,
+                Source = "AUTOMATIC",
+
+            };
+
+            _context.FountainDonations.Add(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+            return Result<string>.Success($"{entity.Project}-{entity.ProjectNumber}");
+            ;
+        }
     }
 }
