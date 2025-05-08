@@ -66,24 +66,47 @@ public class CreateFountainDonationCommandHandler : IRequestHandler<CreateFounta
             .OrderByDescending(x => x.ProjectNumber)
             .FirstOrDefaultAsync(cancellationToken);
 
-        var projectNumber = lastDonation?.ProjectNumber + 1 ?? 1;
+        var emptyDonation = await _context.FountainDonations
+            .Where(x => x.Source == "EMPTY" && x.Project == request.Project)
+            .OrderBy(x => x.ProjectNumber)
+            .FirstOrDefaultAsync(cancellationToken);
+
         var projectDate = request.CreationDate ?? DateTime.UtcNow;
         var creatationDate = new DateTime(projectDate.Year, projectDate.Month, projectDate.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
-        var entity = new FountainDonation
+
+        if (emptyDonation != null)
         {
-            Banner = request.Banner!.Trim(),
-            Contact = request.Contact!.Trim(),
-            Phone = request.Phone,
-            Project = request.Project,
-            CreationDate = creatationDate,
-            ProjectNumber = projectNumber,
-            Source = "MANUEL",
-        };
+            emptyDonation.Banner = request.Banner!.Trim();
+            emptyDonation.Contact = request.Contact!.Trim();
+            emptyDonation.Phone = request.Phone;
+            emptyDonation.CreationDate = creatationDate;
+            emptyDonation.Source = "MANUEL";
 
-        _context.FountainDonations.Add(entity);
-        await _context.SaveChangesAsync(cancellationToken);
+            _context.FountainDonations.Update(emptyDonation);
+            await _context.SaveChangesAsync(cancellationToken);
 
-        return Result<Guid>.Success(entity.Id);
+            return Result<Guid>.Success(emptyDonation.Id);
+        }
+        else
+        {
+            var projectNumber = lastDonation?.ProjectNumber + 1 ?? 1;
+
+            var entity = new FountainDonation
+            {
+                Banner = request.Banner!.Trim(),
+                Contact = request.Contact!.Trim(),
+                Phone = request.Phone,
+                Project = request.Project,
+                CreationDate = creatationDate,
+                ProjectNumber = projectNumber,
+                Source = "MANUEL",
+            };
+
+            _context.FountainDonations.Add(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Result<Guid>.Success(entity.Id);
+        }
     }
 }
