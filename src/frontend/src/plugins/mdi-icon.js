@@ -34,7 +34,8 @@ import {
   mdiWhatsapp,
   mdiClockTimeEightOutline,
   mdiAccountHardHatOutline,
-  mdiDownload
+  mdiDownload,
+  mdiPlusCircle
 } from "@mdi/js";
 
 export const icons = {
@@ -73,5 +74,6 @@ export const icons = {
   whatsapp: mdiWhatsapp,
   clockTimeEightOutline: mdiClockTimeEightOutline,
   accountHardHatOutline: mdiAccountHardHatOutline,
-  download: mdiDownload
+  download: mdiDownload,
+  plusCircle: mdiPlusCircle
 };

@@ -5,8 +5,7 @@ namespace EvrenDev.Application.Common.Interfaces;
 public interface ICatalogDbContext
 {
     DbSet<TodoList> TodoLists { get; }
-
     DbSet<TodoItem> TodoItems { get; }
-
+    DbSet<Absence> Absences { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -31,6 +31,14 @@ const AdminRoutes = {
       }
     },
     {
+      name: "absences",
+      path: "absences",
+      component: () => import("@/views/absences/IndexPage.vue"),
+      meta: {
+        titleKey: "admin.absences.title"
+      }
+    },
+    {
       name: "donations",
       path: "donations",
       children: [

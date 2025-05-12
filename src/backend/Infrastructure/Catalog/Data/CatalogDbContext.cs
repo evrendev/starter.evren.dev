@@ -23,6 +23,8 @@ public class CatalogDbContext : DbContext, ICatalogDbContext
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
+    public DbSet<Absence> Absences => Set<Absence>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

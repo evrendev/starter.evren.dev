@@ -92,6 +92,10 @@ export default {
         header: "Görevler",
         title: "Görev Listesi"
       },
+      absence: {
+        header: "Personel İzinleri",
+        title: "İzin Listesi"
+      },
       admin: {
         title: "Yönetici İşlemleri"
       },
@@ -201,6 +205,11 @@ export default {
       details: {
         title: "İşlem Detayı"
       }
+    },
+    absences: {
+      title: "İzinler",
+      list: "Liste",
+      new: "Yeni İzin"
     },
     donations: {
       title: "Bağışlar",
@@ -466,6 +475,7 @@ export default {
     selectDate: "Tarih Seç",
     all: "Hepsi",
     submit: "Gönder",
+    new: "Yeni",
     save: "Kaydet",
     reset: "Sıfırla",
     edit: "Bilgileri Düzenle",

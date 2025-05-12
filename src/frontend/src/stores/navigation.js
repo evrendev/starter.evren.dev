@@ -1,10 +1,18 @@
 import { defineStore } from "pinia";
 import { markRaw } from "vue";
-import { DashboardIcon, ListCheckIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon, CoinEuroIcon } from "vue-tabler-icons";
+import {
+  DashboardIcon,
+  UsersIcon,
+  Category2Icon,
+  GitCompareIcon,
+  FileBarcodeIcon,
+  CoinEuroIcon,
+  CalendarCheckIcon
+} from "vue-tabler-icons";
 import { useAuthStore } from "./auth";
 
 const DONATIONS_PERMISSIONS = ["Donations.Read", "Donations.Create", "Donations.Edit", "Donations.Delete"];
-// const TODOS_PERMISSIONS = ["Todos.Read", "Todos.Create", "Todos.Edit", "Todos.Delete"];
+const ABSENCE_PERMISSIONS = ["Absence.Read", "Absence.Create", "Absence.Edit", "Absence.Delete"];
 const USERS_PERMISSIONS = ["Users.Read", "Users.Create", "Users.Edit", "Users.Delete"];
 const ROLES_PERMISSIONS = ["Roles.Read", "Roles.Create", "Roles.Edit", "Roles.Delete"];
 const TENANTS_PERMISSIONS = ["Tenants.Read", "Tenants.Create", "Tenants.Edit", "Tenants.Delete"];
@@ -16,7 +24,7 @@ const ADMIN_PERMISSIONS = [...USERS_PERMISSIONS, ...ROLES_PERMISSIONS, ...TENANT
 const icons = {
   dashboard: markRaw(DashboardIcon),
   donations: markRaw(CoinEuroIcon),
-  todos: markRaw(ListCheckIcon),
+  absences: markRaw(CalendarCheckIcon),
   users: markRaw(UsersIcon),
   roles: markRaw(Category2Icon),
   tenants: markRaw(GitCompareIcon),
@@ -94,17 +102,17 @@ export const useNavigationStore = defineStore("navigation", {
         );
       }
 
-      // if (this.hasAnyPermission(TODOS_PERMISSIONS)) {
-      //   items.push(
-      //     { divider: true },
-      //     { header: "components.sidebar.todos.header" },
-      //     {
-      //       title: "components.sidebar.todos.title",
-      //       icon: icons.todos,
-      //       to: "/admin/todos"
-      //     }
-      //   );
-      // }
+      if (this.hasAnyPermission(ABSENCE_PERMISSIONS)) {
+        items.push(
+          { divider: true },
+          { header: "components.sidebar.absence.header" },
+          {
+            title: "components.sidebar.absence.title",
+            icon: icons.absences,
+            to: "/admin/absences"
+          }
+        );
+      }
 
       if (this.hasAnyPermission(ADMIN_PERMISSIONS)) {
         items.push({ divider: true }, { header: "components.sidebar.admin.title" });

@@ -92,22 +92,26 @@ export default {
         header: "Todos",
         title: "Listen"
       },
+      absence: {
+        header: "Abwesenheit",
+        title: "Listen"
+      },
       admin: {
         title: "Admin"
       },
       users: {
         title: "Benutzer",
-        list: "Liste",
+        list: "Listen",
         new: "Neu"
       },
       roles: {
         title: "Rollen",
-        list: "Liste",
+        list: "Listen",
         new: "Neu"
       },
       tenants: {
         title: "Mandanten",
-        list: "Liste",
+        list: "Listen",
         new: "Neu"
       },
       audits: {
@@ -182,7 +186,7 @@ export default {
     },
     audits: {
       title: "Audits",
-      list: "Liste",
+      list: "Listen",
       fields: {
         id: "ID",
         user: "Benutzer",
@@ -201,9 +205,14 @@ export default {
         title: "Audit-Detail"
       }
     },
+    absences: {
+      title: "Abwesenheit",
+      list: "Listen",
+      new: "Neu Abwesenheit"
+    },
     donations: {
       title: "Spenden",
-      list: "Liste",
+      list: "Listen",
       new: "Neue Spende",
       edit: "Bearbeiten",
       info: "Info",
@@ -306,7 +315,7 @@ export default {
     },
     tenants: {
       title: "Mandanten",
-      list: "Liste",
+      list: "Listen",
       new: "Neu",
       edit: "Bearbeiten",
       fields: {
@@ -357,7 +366,7 @@ export default {
     },
     roles: {
       title: "Rollen",
-      list: "Liste",
+      list: "Listen",
       new: "Neu",
       edit: "Bearbeiten",
       fields: {
@@ -382,7 +391,7 @@ export default {
     },
     users: {
       title: "Benutzer",
-      list: "Liste",
+      list: "Listen",
       new: "Neu",
       edit: "Bearbeiten",
       delete: {
@@ -463,6 +472,7 @@ export default {
     endDate: "Enddatum",
     selectDate: "Datum auswählen",
     all: "Alle",
+    new: "Neu",
     submit: "Einreichen",
     save: "Speichern",
     reset: "Zurücksetzen",

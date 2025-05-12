@@ -80,6 +80,10 @@ export default {
         header: "Todos",
         title: "List Todos"
       },
+      absence: {
+        header: "Absence",
+        title: "All Absences"
+      },
       donations: {
         title: "Donations",
         fountains: {
@@ -199,6 +203,11 @@ export default {
       details: {
         title: "Audit Detail"
       }
+    },
+    absences: {
+      title: "Absences",
+      list: "List Absences",
+      new: "New Absence"
     },
     donations: {
       title: "Donations",
@@ -467,6 +476,7 @@ export default {
     endDate: "End Date",
     selectDate: "Select Date",
     all: "All",
+    new: "New",
     submit: "Submit",
     save: "Save",
     reset: "Reset",
