@@ -12,7 +12,7 @@ import {
 import { useAuthStore } from "./auth";
 
 const DONATIONS_PERMISSIONS = ["Donations.Read", "Donations.Create", "Donations.Edit", "Donations.Delete"];
-const ABSENCE_PERMISSIONS = ["Absence.Read", "Absence.Create", "Absence.Edit", "Absence.Delete"];
+const ABSENCE_PERMISSIONS = ["Absences.Read", "Absences.Create", "Absences.Edit", "Absences.Delete"];
 const USERS_PERMISSIONS = ["Users.Read", "Users.Create", "Users.Edit", "Users.Delete"];
 const ROLES_PERMISSIONS = ["Roles.Read", "Roles.Create", "Roles.Edit", "Roles.Delete"];
 const TENANTS_PERMISSIONS = ["Tenants.Read", "Tenants.Create", "Tenants.Edit", "Tenants.Delete"];
