@@ -502,6 +502,7 @@ export default {
     notifyConstructionTeam: "Benachrichtigen Sie das Bau-Team",
     modules: {
       donations: "Spenden",
+      absences: "Abwesenheit",
       todos: "Todos Listen",
       tenants: "Mandanten",
       roles: "Rollen",

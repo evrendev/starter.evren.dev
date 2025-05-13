@@ -502,6 +502,7 @@ export default {
     notifyConstructionTeam: "İnşaat Ekibi Bilgilendirildi",
     modules: {
       donations: "Bağışlar",
+      absences: "İzinler",
       todos: "Görevler",
       tenants: "Kurumlar",
       roles: "Roller",

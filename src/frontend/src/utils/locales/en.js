@@ -504,6 +504,7 @@ export default {
     notifyConstructionTeam: "Notified Construction Team",
     modules: {
       donations: "Donations",
+      absences: "Absences",
       todos: "Todos",
       tenants: "Tenants",
       roles: "Roles",
