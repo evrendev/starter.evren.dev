@@ -18,21 +18,18 @@ namespace EvrenDev.Infrastructure.Tenant.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Tenant")
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EvrenDev.Domain.Entities.Tenant.TenantEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("AdminEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConnectionString")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreatedTime")
@@ -53,8 +50,8 @@ namespace EvrenDev.Infrastructure.Tenant.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Host")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Identifier")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -72,6 +69,10 @@ namespace EvrenDev.Infrastructure.Tenant.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Identifier")
+                        .IsUnique()
+                        .HasFilter("[Identifier] IS NOT NULL");
 
                     b.ToTable("Tenants", "Tenant");
                 });

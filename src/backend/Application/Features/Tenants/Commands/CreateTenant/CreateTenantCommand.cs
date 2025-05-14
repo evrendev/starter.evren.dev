@@ -2,11 +2,9 @@ using EvrenDev.Domain.Entities.Tenant;
 
 namespace EvrenDev.Application.Features.Tenants.Commands.CreateTenant;
 
-public class CreateTenantCommand : IRequest<Result<Guid>>
+public class CreateTenantCommand : IRequest<Result<string?>>
 {
     public string? Name { get; set; }
-    public string? ConnectionString { get; set; }
-    public string? Host { get; set; }
     public bool IsActive { get; set; }
     public string? AdminEmail { get; set; }
     public DateTime? ValidUntil { get; set; }
@@ -40,7 +38,7 @@ public class CreateTenantCommandValidator : AbstractValidator<CreateTenantComman
     }
 }
 
-public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, Result<Guid>>
+public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, Result<string?>>
 {
     private readonly ITenantDbContext _context;
 
@@ -49,13 +47,11 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, R
         _context = context;
     }
 
-    public async Task<Result<Guid>> Handle(CreateTenantCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string?>> Handle(CreateTenantCommand request, CancellationToken cancellationToken)
     {
         var entity = new TenantEntity
         {
             Name = request.Name,
-            ConnectionString = request.ConnectionString,
-            Host = request.Host,
             IsActive = request.IsActive,
             AdminEmail = request.AdminEmail,
             ValidUntil = request.ValidUntil,
@@ -66,6 +62,6 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, R
         _context.Tenants.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Result<Guid>.Success(entity.Id);
+        return Result<string?>.Success(entity.Id);
     }
 }

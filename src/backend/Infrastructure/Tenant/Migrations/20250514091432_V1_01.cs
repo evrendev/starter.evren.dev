@@ -3,31 +3,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EvrenDev.Infrastructure.Catalog.Migrations
+namespace EvrenDev.Infrastructure.Tenant.Migrations
 {
     /// <inheritdoc />
-    public partial class V1_03 : Migration
+    public partial class V1_01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Catalog");
+                name: "Tenant");
 
             migrationBuilder.CreateTable(
-                name: "Absences",
-                schema: "Catalog",
+                name: "Tenants",
+                schema: "Tenant",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Employee = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Calendar = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Identifier = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    AdminEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ValidUntil = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -38,16 +36,24 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Absences", x => x.Id);
+                    table.PrimaryKey("PK_Tenants", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tenants_Identifier",
+                schema: "Tenant",
+                table: "Tenants",
+                column: "Identifier",
+                unique: true,
+                filter: "[Identifier] IS NOT NULL");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Absences",
-                schema: "Catalog");
+                name: "Tenants",
+                schema: "Tenant");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace EvrenDev.Infrastructure.Audit.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Audit")
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -53,8 +53,10 @@ namespace EvrenDev.Infrastructure.Audit.Migrations
                     b.Property<string>("TablePk")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -62,6 +64,8 @@ namespace EvrenDev.Infrastructure.Audit.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AuditLogs", "Audit");
+
+                    b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 #pragma warning restore 612, 618
         }

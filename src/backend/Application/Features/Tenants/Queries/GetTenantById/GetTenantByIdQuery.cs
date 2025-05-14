@@ -5,7 +5,7 @@ namespace EvrenDev.Application.Features.Tenants.Queries.GetTenantById;
 
 public class GetTenantByIdQuery : IRequest<Result<FullTenantDto>>
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 }
 
 public class GetTenantByIdQueryValidator : AbstractValidator<GetTenantByIdQuery>
@@ -40,15 +40,13 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQuery, Res
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (entity == null)
-            throw new NotFoundException(nameof(TodoList), request.Id.ToString());
+        if (entity == null || string.IsNullOrEmpty(request.Id))
+            throw new NotFoundException(nameof(TodoList), request.Id ?? string.Empty);
 
         var tenant = new FullTenantDto
         {
             Id = entity.Id,
             Name = entity.Name,
-            ConnectionString = entity.ConnectionString,
-            Host = entity.Host,
             IsActive = entity.IsActive,
             AdminEmail = entity.AdminEmail,
             ValidUntil = DateTimeDto.Create.FromLocal(entity.ValidUntil),

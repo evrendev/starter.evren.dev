@@ -15,20 +15,17 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IConfiguration _configuration;
     private readonly ILogger<IdentityDatabaseSeeder> _logger;
-    private readonly ITenantService _tenantService;
 
     public IdentityDatabaseSeeder(
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
         IConfiguration configuration,
-        ILogger<IdentityDatabaseSeeder> logger,
-        ITenantService tenantService)
+        ILogger<IdentityDatabaseSeeder> logger)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _configuration = configuration;
         _logger = logger;
-        _tenantService = tenantService;
     }
 
     public async Task SeedAsync()
@@ -58,7 +55,7 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             // Create default admin user if not exists
             var adminEmail = _configuration["DefaultAdmin:Email"] ?? "help@help-dunya.org";
             var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);
-            var tenantId = _tenantService.GetDefaultTenantId();
+            var tenantId = _configuration["DefaultTenant:Id"] ?? "fe85ff99-db67-4ac9-822f-a98ac8c1138c";
 
             if (superAdminUser == null)
             {

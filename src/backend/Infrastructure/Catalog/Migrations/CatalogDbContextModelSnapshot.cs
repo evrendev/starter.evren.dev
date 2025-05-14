@@ -18,7 +18,7 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Catalog")
-                .HasAnnotation("ProductVersion", "8.0.14")
+                .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -74,8 +74,10 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -85,6 +87,8 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Absences", "Catalog");
+
+                    b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
             modelBuilder.Entity("EvrenDev.Domain.Entities.Catalog.TodoItem", b =>
@@ -129,8 +133,10 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                     b.Property<DateTime?>("Reminder")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -142,6 +148,8 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                     b.HasIndex("ListId");
 
                     b.ToTable("TodoItems", "Catalog");
+
+                    b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
             modelBuilder.Entity("EvrenDev.Domain.Entities.Catalog.TodoList", b =>
@@ -171,8 +179,10 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                     b.Property<string>("Modifier")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TenantId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -182,6 +192,8 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TodoLists", "Catalog");
+
+                    b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
             modelBuilder.Entity("EvrenDev.Domain.Entities.Catalog.TodoItem", b =>

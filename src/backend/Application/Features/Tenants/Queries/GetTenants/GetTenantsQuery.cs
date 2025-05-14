@@ -59,7 +59,6 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
         if (!string.IsNullOrWhiteSpace(request.Search))
             query = query.Where(x =>
                 x.Name!.Contains(request.Search) ||
-                x.Host!.Contains(request.Search) ||
                 x.AdminEmail!.Contains(request.Search));
 
         query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)

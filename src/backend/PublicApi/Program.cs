@@ -6,6 +6,7 @@ using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Hub;
 using EvrenDev.PublicApi.Middleware;
+using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -103,13 +104,9 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 // Add CORS before authentication
 app.UseCors("AllowSpecificOrigins");
 
-// Add authentication before tenant middleware
 app.UseAuthentication();
-
+app.UseMultiTenant();
 app.UseAuthorization();
-
-// Add tenant middleware before authorization
-app.UseMiddleware<TenantMiddleware>();
 
 app.UseExceptionHandlerMiddleware();
 

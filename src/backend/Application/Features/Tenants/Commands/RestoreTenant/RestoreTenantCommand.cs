@@ -4,7 +4,7 @@ namespace EvrenDev.Application.Features.Tenants.Commands.RestoreTenant;
 
 public class RestoreTenantCommand : IRequest<Result<bool>>
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 }
 
 public class RestoreTenantCommandValidator : AbstractValidator<RestoreTenantCommand>

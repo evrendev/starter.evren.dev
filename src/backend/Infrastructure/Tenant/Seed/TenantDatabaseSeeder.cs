@@ -3,22 +3,21 @@ using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Tenant.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 
-namespace EvrenDev.Infrastructure.Tenant.Services;
+namespace EvrenDev.Infrastructure.Tenant.Seed;
 
 public class TenantDatabaseSeeder : IDatabaseSeeder
 {
-    private readonly TenantDbContext _context;
+    private readonly TenantDbContext _tenantDbContext;
     private readonly IConfiguration _configuration;
     private readonly ILogger<TenantDatabaseSeeder> _logger;
 
     public TenantDatabaseSeeder(
-        TenantDbContext context,
+        TenantDbContext tenantDbContext,
         ILogger<TenantDatabaseSeeder> logger,
         IConfiguration configuration)
     {
-        _context = context;
+        _tenantDbContext = tenantDbContext;
         _configuration = configuration;
         _logger = logger;
     }
@@ -29,7 +28,7 @@ public class TenantDatabaseSeeder : IDatabaseSeeder
         {
             _logger.LogInformation("Starting tenant database seeding...");
 
-            if (_context.Tenants == null)
+            if (_tenantDbContext.Tenants == null)
             {
                 _logger.LogWarning("Tenants table not found in the database.");
                 return;
@@ -44,15 +43,15 @@ public class TenantDatabaseSeeder : IDatabaseSeeder
                 return;
             }
 
-            var existingTenant = await _context.Tenants.FirstOrDefaultAsync(t => t.Id == defaultTenant.Id);
+            var existingTenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == defaultTenant.Id);
             if (existingTenant != null)
             {
                 _logger.LogInformation("Default tenant already exists with ID: {TenantId}", defaultTenant.Id);
                 return;
             }
 
-            await _context.Tenants.AddAsync(defaultTenant);
-            await _context.SaveChangesAsync();
+            await _tenantDbContext.Tenants.AddAsync(defaultTenant);
+            await _tenantDbContext.SaveChangesAsync();
 
             _logger.LogInformation("Default tenant created successfully: {TenantName} (ID: {TenantId})",
                 defaultTenant.Name, defaultTenant.Id);

@@ -1,12 +1,13 @@
+using Finbuckle.MultiTenant.Abstractions;
+
 namespace EvrenDev.Domain.Entities.Tenant;
 
 [AuditInclude]
-public class TenantEntity
+public class TenantEntity : ITenantInfo
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
     public string? Name { get; set; }
-    public string? ConnectionString { get; set; }
-    public string? Host { get; set; }
+    public string? Identifier { get; set; }
     public bool IsActive { get; set; }
     public string? AdminEmail { get; set; }
     public DateTime? ValidUntil { get; set; }

@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Features.Users.Commands.CreateUser;
 
 public record CreateUserCommand : IRequest<Result<Guid>>
 {
-    public Guid? TenantId { get; init; }
+    public string? TenantId { get; init; }
     public string? Gender { get; init; }
     public string? Email { get; init; }
     public string? Password { get; init; }
@@ -61,26 +61,21 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<Guid>>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ITenantService _tenantService;
     private readonly IStringLocalizer<CreateUserCommandHandler> _localizer;
 
     public CreateUserCommandHandler(
         UserManager<ApplicationUser> userManager,
-        ITenantService tenantService,
         IStringLocalizer<CreateUserCommandHandler> localizer)
     {
         _userManager = userManager;
-        _tenantService = tenantService;
         _localizer = localizer;
     }
 
     public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _tenantService.GetCurrentTenantId();
-
         var user = new ApplicationUser
         {
-            TenantId = request.TenantId ?? tenantId,
+            TenantId = request.TenantId,
             Gender = Gender.From(request.Gender ?? Defaults.Gender),
             UserName = request.Email,
             Email = request.Email,

@@ -58,7 +58,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<Pagina
         var dtoQuery = query.Select(user => new BasicUserDto
         {
             Id = user.Id,
-            Tenant = user.TenantId.ToString(),
+            TenantId = user.TenantId,
             Gender = _localizer[$"api.predefined-values.gender.{user.Gender!.Code}"],
             Email = user.Email,
             FirstName = user.FirstName,

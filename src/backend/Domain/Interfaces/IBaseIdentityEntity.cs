@@ -1,6 +1,6 @@
 namespace EvrenDev.Domain.Interfaces;
 
-public interface IBaseIdentityEntity : ITenant
+public interface IBaseIdentityEntity
 {
     public DateTimeOffset CreatedTime { get; set; }
 

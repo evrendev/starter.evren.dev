@@ -4,7 +4,7 @@ namespace EvrenDev.Application.Features.Tenants.Commands.ActivateTenant;
 
 public class ActivateTenantCommand : IRequest<Result<bool>>
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 }
 
 public class ActivateTenantCommandValidator : AbstractValidator<ActivateTenantCommand>

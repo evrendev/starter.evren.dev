@@ -6,8 +6,6 @@ public class UpdateTenantCommand : IRequest<Result<bool>>
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }
-    public string? ConnectionString { get; set; }
-    public string? Host { get; set; }
     public bool IsActive { get; set; }
     public string? AdminEmail { get; set; }
     public DateTime? ValidUntil { get; set; }
@@ -65,8 +63,6 @@ public class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommand, R
             throw new NotFoundException(nameof(TenantEntity), request.Id.ToString());
 
         entity.Name = request.Name;
-        entity.ConnectionString = request.ConnectionString;
-        entity.Host = request.Host;
         entity.IsActive = request.IsActive;
         entity.AdminEmail = request.AdminEmail;
         entity.ValidUntil = request.ValidUntil;

@@ -1,14 +1,16 @@
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Identity.Configurations;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Finbuckle.MultiTenant.Abstractions;
+using Finbuckle.MultiTenant.EntityFrameworkCore;
 
 namespace EvrenDev.Infrastructure.Identity.Data;
 
-public class IdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+public class IdentityDbContext : MultiTenantIdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
-    public IdentityDbContext(
+    public IdentityDbContext(IMultiTenantContextAccessor<TenantEntity> multiTenantContextAccessor,
         DbContextOptions<IdentityDbContext> options)
-        : base(options)
+        : base(multiTenantContextAccessor, options)
     { }
 
     protected override void OnModelCreating(ModelBuilder builder)

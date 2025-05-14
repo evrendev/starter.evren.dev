@@ -1,4 +1,5 @@
 ﻿using EvrenDev.Shared.ValueObjects;
+using Finbuckle.MultiTenant;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Catalog.Configurations;
@@ -18,5 +19,7 @@ public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
                 .HasColumnName("Colour")
                 .IsRequired(false)
         );
+
+        builder.IsMultiTenant();
     }
 }

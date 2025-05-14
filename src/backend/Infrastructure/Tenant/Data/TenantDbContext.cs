@@ -1,10 +1,11 @@
 using System.Reflection;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Tenant;
+using Finbuckle.MultiTenant.EntityFrameworkCore.Stores.EFCoreStore;
 
 namespace EvrenDev.Infrastructure.Tenant.Data;
 
-public class TenantDbContext : DbContext, ITenantDbContext
+public class TenantDbContext : EFCoreStoreDbContext<TenantEntity>, ITenantDbContext
 {
     public TenantDbContext(DbContextOptions<TenantDbContext> options)
         : base(options)

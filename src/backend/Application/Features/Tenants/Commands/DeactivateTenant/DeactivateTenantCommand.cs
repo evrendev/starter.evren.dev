@@ -4,7 +4,7 @@ namespace EvrenDev.Application.Features.Tenants.Commands.DeactivateTenant;
 
 public class DeactivateTenantCommand : IRequest<Result<bool>>
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 }
 
 public class DeactivateTenantCommandValidator : AbstractValidator<DeactivateTenantCommand>

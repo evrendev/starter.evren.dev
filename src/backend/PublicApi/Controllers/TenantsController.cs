@@ -58,7 +58,7 @@ public class TenantsController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Read}")]
-    public async Task<ActionResult<FullTenantDto>> GetById(Guid id)
+    public async Task<ActionResult<FullTenantDto>> GetById(string? id)
     {
         try
         {
@@ -157,7 +157,7 @@ public class TenantsController : ControllerBase
 
     [HttpPost("{id}/restore")]
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Restore}")]
-    public async Task<ActionResult<bool>> Restore(Guid id)
+    public async Task<ActionResult<bool>> Restore(string? id)
     {
         try
         {
@@ -181,7 +181,7 @@ public class TenantsController : ControllerBase
 
     [HttpPost("{id}/activate")]
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Restore}")]
-    public async Task<ActionResult<bool>> Activate(Guid id)
+    public async Task<ActionResult<bool>> Activate(string? id)
     {
         try
         {
@@ -205,7 +205,7 @@ public class TenantsController : ControllerBase
 
     [HttpPost("{id}/deactivate")]
     [Authorize(Policy = $"{Modules.Tenants}.{Permissions.Restore}")]
-    public async Task<ActionResult<bool>> Deactivate(Guid id)
+    public async Task<ActionResult<bool>> Deactivate(string? id)
     {
         try
         {

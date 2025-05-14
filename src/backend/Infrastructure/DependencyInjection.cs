@@ -5,6 +5,7 @@ using Audit.Core;
 using Audit.EntityFramework;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Interceptors;
@@ -17,9 +18,11 @@ using EvrenDev.Infrastructure.Identity.Services;
 using EvrenDev.Infrastructure.Services;
 using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.Infrastructure.Tenant.Interceptors;
-using EvrenDev.Infrastructure.Tenant.Services;
+using EvrenDev.Infrastructure.Tenant.Seed;
 using EvrenDev.Shared.Configurations;
 using EvrenDev.Shared.Constants;
+using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -69,11 +72,11 @@ public static class DependencyInjection
                 .AuditEntityAction<AuditLog>((ev, entry, entity) =>
                 {
                     var user = services.BuildServiceProvider().GetService<ICurrentUser>();
-                    var tenant = services.BuildServiceProvider().GetService<ITenantService>();
+                    var tenant = services.BuildServiceProvider().GetService<IMultiTenantContext<TenantEntity>>();
                     var ipAddress = services.BuildServiceProvider().GetService<IHttpContextAccessor>()?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
 
                     entity.Id = Guid.NewGuid();
-                    entity.TenantId = tenant?.GetCurrentTenantId();
+                    entity.TenantId = tenant?.TenantInfo?.Id;
                     entity.Action = entry.Action;
                     entity.AuditData = entry.ToJson();
                     entity.EntityType = entry.EntityType.Name;
@@ -201,7 +204,6 @@ public static class DependencyInjection
         services.AddScoped<ICatalogDbContext>(provider => provider.GetRequiredService<CatalogDbContext>());
         services.AddScoped<ITenantDbContext>(provider => provider.GetRequiredService<TenantDbContext>());
         services.AddScoped<IAuditLogDbContext>(provider => provider.GetRequiredService<AuditLogDbContext>());
-        services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ITotpService, TotpService>();
 
@@ -222,6 +224,10 @@ public static class DependencyInjection
         services.AddHttpClient("CloudflareImages");
         services.AddScoped<ICloudflareImageService, CloudflareImageService>();
         services.AddScoped<ICloudflareR2Service, CloudflareR2Service>();
+
+        services.AddMultiTenant<TenantEntity>()
+            .WithClaimStrategy("tenant_id")
+            .WithEFCoreStore<TenantDbContext, TenantEntity>();
 
         return services;
     }

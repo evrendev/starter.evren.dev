@@ -1,9 +1,7 @@
-﻿using EvrenDev.Domain.Interfaces;
-
-namespace EvrenDev.Domain.Entities.Catalog;
+﻿namespace EvrenDev.Domain.Entities.Catalog;
 
 [AuditInclude]
-public class Absence : BaseAuditableEntity, ITenant
+public class Absence : BaseAuditableEntity
 {
     public string? Title { get; set; }
     public DateTime StartDate { get; set; }

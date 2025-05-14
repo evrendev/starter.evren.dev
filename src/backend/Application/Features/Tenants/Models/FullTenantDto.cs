@@ -2,7 +2,7 @@ namespace EvrenDev.Application.Features.Tenants.Models;
 
 public class FullTenantDto
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
     public string? Name { get; set; }
     public string? ConnectionString { get; set; }
     public string? Host { get; set; }

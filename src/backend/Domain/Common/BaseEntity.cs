@@ -6,7 +6,7 @@ public abstract class BaseEntity
 {
     public Guid Id { get; set; }
 
-    public Guid? TenantId { get; set; }
+    public string? TenantId { get; set; }
 
     private readonly List<BaseEvent> _domainEvents = new();
 
