@@ -34,7 +34,7 @@ public class TenantDatabaseSeeder : IDatabaseSeeder
                 return;
             }
 
-            var defaultTenant = _configuration.GetSection("DefaultTenant").Get<TenantEntity>();
+            var defaultTenant = _configuration.GetSection("DefaultTenant").Get<AppTenantInfo>();
             _logger.LogInformation("DefaultTenant configuration: {@DefaultTenant}", defaultTenant);
 
             if (defaultTenant == null)

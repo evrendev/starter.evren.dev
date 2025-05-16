@@ -8,7 +8,7 @@ namespace EvrenDev.Infrastructure.Audit.Data;
 
 public class AuditLogDbContext : MultiTenantDbContext, IAuditLogDbContext
 {
-    public AuditLogDbContext(IMultiTenantContextAccessor<TenantEntity> multiTenantContextAccessor, DbContextOptions<AuditLogDbContext> options) : base(multiTenantContextAccessor, options)
+    public AuditLogDbContext(IMultiTenantContextAccessor<AppTenantInfo> multiTenantContextAccessor, DbContextOptions<AuditLogDbContext> options) : base(multiTenantContextAccessor, options)
     {
     }
     public DbSet<AuditLog> Audits => Set<AuditLog>();

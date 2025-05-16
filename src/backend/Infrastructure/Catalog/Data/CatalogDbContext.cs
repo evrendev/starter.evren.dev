@@ -13,7 +13,7 @@ public class CatalogDbContext : MultiTenantDbContext, ICatalogDbContext
 {
     private readonly ILogger<CatalogDbContext> _logger;
 
-    public CatalogDbContext(IMultiTenantContextAccessor<TenantEntity> multiTenantContextAccessor,
+    public CatalogDbContext(IMultiTenantContextAccessor<AppTenantInfo> multiTenantContextAccessor,
         DbContextOptions<CatalogDbContext> options,
         ILogger<CatalogDbContext> logger) : base(multiTenantContextAccessor, options)
     {

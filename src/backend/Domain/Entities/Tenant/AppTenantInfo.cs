@@ -3,7 +3,7 @@ using Finbuckle.MultiTenant.Abstractions;
 namespace EvrenDev.Domain.Entities.Tenant;
 
 [AuditInclude]
-public class TenantEntity : ITenantInfo
+public class AppTenantInfo : ITenantInfo
 {
     public string? Id { get; set; }
     public string? Name { get; set; }

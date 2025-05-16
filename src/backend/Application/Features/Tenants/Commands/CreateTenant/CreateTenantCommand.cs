@@ -49,7 +49,7 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, R
 
     public async Task<Result<string?>> Handle(CreateTenantCommand request, CancellationToken cancellationToken)
     {
-        var entity = new TenantEntity
+        var entity = new AppTenantInfo
         {
             Name = request.Name,
             IsActive = request.IsActive,

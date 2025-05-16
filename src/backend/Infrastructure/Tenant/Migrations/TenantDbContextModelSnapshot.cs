@@ -23,7 +23,7 @@ namespace EvrenDev.Infrastructure.Tenant.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EvrenDev.Domain.Entities.Tenant.TenantEntity", b =>
+            modelBuilder.Entity("EvrenDev.Domain.Entities.Tenant.AppTenantInfo", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)

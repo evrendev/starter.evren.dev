@@ -38,7 +38,7 @@ public class DeleteTenantCommandHandler : IRequestHandler<DeleteTenantCommand, R
         var entity = await _context.Tenants.FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (entity == null)
-            throw new NotFoundException(nameof(TenantEntity), request.Id.ToString());
+            throw new NotFoundException(nameof(AppTenantInfo), request.Id.ToString());
 
         _context.Tenants.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);

@@ -36,7 +36,7 @@ public class AuditableTenantInterceptor : SaveChangesInterceptor
     {
         if (context == null) return;
 
-        var entries = context.ChangeTracker.Entries<TenantEntity>();
+        var entries = context.ChangeTracker.Entries<AppTenantInfo>();
 
         foreach (var entry in entries)
         {

@@ -5,6 +5,6 @@ namespace EvrenDev.Application.Common.Interfaces;
 
 public interface ITenantDbContext
 {
-    DbSet<TenantEntity> Tenants { get; }
+    DbSet<AppTenantInfo> Tenants { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

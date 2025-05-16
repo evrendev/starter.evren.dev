@@ -1,3 +1,4 @@
+using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Services;
@@ -7,6 +8,7 @@ using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Hub;
 using EvrenDev.PublicApi.Middleware;
 using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -35,22 +37,22 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 
         var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
         logger.LogInformation("Migrating Catalog database...");
-        catalogDb.Database.Migrate();
+        await catalogDb.Database.MigrateAsync();
         logger.LogInformation("Catalog database migration completed.");
 
         var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
         logger.LogInformation("Migrating Identity database...");
-        identityDb.Database.Migrate();
+        await identityDb.Database.MigrateAsync();
         logger.LogInformation("Identity database migration completed.");
 
         var tenantDb = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
         logger.LogInformation("Migrating Tenant database...");
-        tenantDb.Database.Migrate();
+        await tenantDb.Database.MigrateAsync();
         logger.LogInformation("Tenant database migration completed.");
 
         var auditDb = scope.ServiceProvider.GetRequiredService<AuditLogDbContext>();
         logger.LogInformation("Migrating Audit database...");
-        auditDb.Database.Migrate();
+        await auditDb.Database.MigrateAsync();
         logger.LogInformation("Audit database migration completed.");
 
         logger.LogInformation("Starting database seeding...");
@@ -101,11 +103,10 @@ app.UseHealthChecks("/health", new HealthCheckOptions
     }
 });
 
-// Add CORS before authentication
 app.UseCors("AllowSpecificOrigins");
 
-app.UseAuthentication();
 app.UseMultiTenant();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseExceptionHandlerMiddleware();
@@ -113,5 +114,35 @@ app.UseExceptionHandlerMiddleware();
 app.MapControllers();
 
 app.MapHub<NotificationHub>("/notificationhub");
+
+using (var scope = app.Services.CreateScope())
+{
+    var tenantStore = scope.ServiceProvider.GetRequiredService<IMultiTenantStore<AppTenantInfo>>();
+    var tenantAccessor = scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor<AppTenantInfo>>();
+
+    var tenant = await tenantStore.TryGetByIdentifierAsync("helpdunya");
+    if (tenant != null)
+    {
+        var context = new MultiTenantContext<AppTenantInfo>
+        {
+            TenantInfo = tenant
+        };
+
+        var accessorType = tenantAccessor.GetType();
+        var prop = accessorType.GetProperty("MultiTenantContext");
+        if (prop != null && prop.CanWrite)
+        {
+            prop.SetValue(tenantAccessor, context);
+        }
+        else
+        {
+            var field = accessorType.GetField("_multiTenantContext", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            field?.SetValue(tenantAccessor, context);
+        }
+    }
+
+    var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
+    await seeder.SeedAllAsync();
+}
 
 app.Run();

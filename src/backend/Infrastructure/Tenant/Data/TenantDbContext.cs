@@ -5,13 +5,13 @@ using Finbuckle.MultiTenant.EntityFrameworkCore.Stores.EFCoreStore;
 
 namespace EvrenDev.Infrastructure.Tenant.Data;
 
-public class TenantDbContext : EFCoreStoreDbContext<TenantEntity>, ITenantDbContext
+public class TenantDbContext : EFCoreStoreDbContext<AppTenantInfo>, ITenantDbContext
 {
     public TenantDbContext(DbContextOptions<TenantDbContext> options)
         : base(options)
     {
     }
-    public DbSet<TenantEntity> Tenants => Set<TenantEntity>();
+    public DbSet<AppTenantInfo> Tenants => Set<AppTenantInfo>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -33,7 +33,7 @@ public class TenantDbContext : EFCoreStoreDbContext<TenantEntity>, ITenantDbCont
             }
         }
 
-        builder.Entity<TenantEntity>().ToTable("Tenants");
+        builder.Entity<AppTenantInfo>().ToTable("Tenants");
         builder.HasDefaultSchema("Tenant");
     }
 

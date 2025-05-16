@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Shared.Constants;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,17 +16,20 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IConfiguration _configuration;
+    private readonly IMultiTenantContextAccessor<AppTenantInfo> _multiTenantContextAccessor;
     private readonly ILogger<IdentityDatabaseSeeder> _logger;
 
     public IdentityDatabaseSeeder(
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
         IConfiguration configuration,
+        IMultiTenantContextAccessor<AppTenantInfo> multiTenantContextAccessor,
         ILogger<IdentityDatabaseSeeder> logger)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _configuration = configuration;
+        _multiTenantContextAccessor = multiTenantContextAccessor;
         _logger = logger;
     }
 
@@ -55,14 +60,17 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             // Create default admin user if not exists
             var adminEmail = _configuration["DefaultAdmin:Email"] ?? "help@help-dunya.org";
             var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);
-            var tenantId = _configuration["DefaultTenant:Id"] ?? "fe85ff99-db67-4ac9-822f-a98ac8c1138c";
+            var tenantInfo = _multiTenantContextAccessor?.MultiTenantContext?.TenantInfo;
+
+            if (tenantInfo == null)
+                tenantInfo = _configuration.GetSection("DefaultTenant").Get<AppTenantInfo>();
 
             if (superAdminUser == null)
             {
 
                 superAdminUser = new ApplicationUser
                 {
-                    TenantId = tenantId,
+                    TenantId = tenantInfo?.Id,
                     UserName = adminEmail,
                     Email = adminEmail,
                     EmailConfirmed = true,

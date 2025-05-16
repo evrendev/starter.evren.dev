@@ -1,5 +1,4 @@
 using EvrenDev.Domain.Entities.Identity;
-using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Identity.Configurations;
 using Finbuckle.MultiTenant.Abstractions;
 using Finbuckle.MultiTenant.EntityFrameworkCore;
@@ -8,10 +7,11 @@ namespace EvrenDev.Infrastructure.Identity.Data;
 
 public class IdentityDbContext : MultiTenantIdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
-    public IdentityDbContext(IMultiTenantContextAccessor<TenantEntity> multiTenantContextAccessor,
+    public IdentityDbContext(IMultiTenantContextAccessor multiTenantContextAccessor,
         DbContextOptions<IdentityDbContext> options)
         : base(multiTenantContextAccessor, options)
     { }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -65,27 +65,27 @@ public static class DependencyInjection
             .Options;
 
         Audit.Core.Configuration.Setup()
-            .UseEntityFramework(_ => _
+            .UseEntityFramework(entity => entity
                 .UseDbContext<AuditLogDbContext>(auditDbCtxOptions)
                 .DisposeDbContext()
                 .AuditTypeMapper(t => typeof(AuditLog))
-                .AuditEntityAction<AuditLog>((ev, entry, entity) =>
+                .AuditEntityAction<AuditLog>((ev, entry, audit) =>
                 {
                     var user = services.BuildServiceProvider().GetService<ICurrentUser>();
-                    var tenant = services.BuildServiceProvider().GetService<IMultiTenantContext<TenantEntity>>();
+                    var tenant = services.BuildServiceProvider().GetService<IMultiTenantContext<AppTenantInfo>>();
                     var ipAddress = services.BuildServiceProvider().GetService<IHttpContextAccessor>()?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
 
-                    entity.Id = Guid.NewGuid();
-                    entity.TenantId = tenant?.TenantInfo?.Id;
-                    entity.Action = entry.Action;
-                    entity.AuditData = entry.ToJson();
-                    entity.EntityType = entry.EntityType.Name;
-                    entity.AuditDateTimeUtc = DateTime.UtcNow;
-                    entity.IpAddress = ipAddress;
-                    entity.UserId = user?.Id;
-                    entity.Email = user?.Email;
-                    entity.FullName = user?.FullName;
-                    entity.TablePk = entry.PrimaryKey.First().Value.ToString();
+                    audit.Id = Guid.NewGuid();
+                    audit.TenantId = tenant?.TenantInfo?.Id;
+                    audit.Action = entry.Action;
+                    audit.AuditData = entry.ToJson();
+                    audit.EntityType = entry.EntityType.Name;
+                    audit.AuditDateTimeUtc = DateTime.UtcNow;
+                    audit.IpAddress = ipAddress;
+                    audit.UserId = user?.Id;
+                    audit.Email = user?.Email;
+                    audit.FullName = user?.FullName;
+                    audit.TablePk = entry.PrimaryKey.First().Value.ToString();
 
                     if (entry.Action == "Update")
                     {
@@ -95,7 +95,7 @@ public static class DependencyInjection
                             (bool?)entry?.Changes?.FirstOrDefault(c => c.ColumnName == "Deleted")?.OriginalValue;
                         bool originalIsDeleted = deleteOriginalValue != deleteNewValue;
 
-                        entity.Action = originalIsDeleted && deleteNewValue == true
+                        audit.Action = originalIsDeleted && deleteNewValue == true
                             ? "Delete"
                             : originalIsDeleted && deleteNewValue == false
                                 ? "Recovered"
@@ -103,16 +103,6 @@ public static class DependencyInjection
                     }
                 })
                 .IgnoreMatchedProperties());
-
-        var tenantConnectionString = configuration.GetConnectionString("TenantConnection");
-        Guard.Against.Null(tenantConnectionString, message: "Tenant Connection string 'TenantConnection' not found.");
-        services.AddDbContext<TenantDbContext>((sp, options) =>
-        {
-            options.AddInterceptors(new AuditSaveChangesInterceptor());
-            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-
-            options.UseSqlServer(tenantConnectionString);
-        });
 
         var identityConnectionString = configuration.GetConnectionString("IdentityConnection");
         Guard.Against.Null(identityConnectionString, message: "Identity Connection string 'IdentityConnection' not found.");
@@ -193,6 +183,22 @@ public static class DependencyInjection
             };
         });
 
+        var tenantConnectionString = configuration.GetConnectionString("TenantConnection");
+        Guard.Against.Null(tenantConnectionString, message: "Tenant Connection string 'TenantConnection' not found.");
+        services.AddDbContext<TenantDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(new AuditSaveChangesInterceptor());
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+
+            options.UseSqlServer(tenantConnectionString);
+        });
+
+        services.AddMultiTenant<AppTenantInfo>()
+            .WithConfigurationStore()
+            .WithPerTenantAuthentication()
+            .WithClaimStrategy("tenant_id")
+            .WithEFCoreStore<TenantDbContext, AppTenantInfo>();
+
         var permissions = Policies.AllModulesWithPermissions.ToList();
 
         services.AddAuthorization(options => permissions.ForEach(permission =>
@@ -214,7 +220,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUserService>();
         services.AddSingleton(TimeProvider.System);
 
-        // Register database seeders
+        // // Register database seeders
         services.AddScoped<IDatabaseSeeder, TenantDatabaseSeeder>();
         services.AddScoped<IDatabaseSeeder, IdentityDatabaseSeeder>();
         services.AddScoped<DevelopmentDatabaseSeeder>();
@@ -224,10 +230,6 @@ public static class DependencyInjection
         services.AddHttpClient("CloudflareImages");
         services.AddScoped<ICloudflareImageService, CloudflareImageService>();
         services.AddScoped<ICloudflareR2Service, CloudflareR2Service>();
-
-        services.AddMultiTenant<TenantEntity>()
-            .WithClaimStrategy("tenant_id")
-            .WithEFCoreStore<TenantDbContext, TenantEntity>();
 
         return services;
     }

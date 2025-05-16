@@ -83,7 +83,7 @@ public class GetTenantsQueryHandler : IRequestHandler<GetTenantsQuery, Result<Pa
         return Result<PaginatedList<BasicTenantDto>>.Success(paginatedList);
     }
 
-    private static IQueryable<TenantEntity> ApplySorting(IQueryable<TenantEntity> query, string sortBy, bool sortDesc)
+    private static IQueryable<AppTenantInfo> ApplySorting(IQueryable<AppTenantInfo> query, string sortBy, bool sortDesc)
     {
         return sortBy.ToLower() switch
         {

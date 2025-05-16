@@ -60,7 +60,7 @@ public class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommand, R
         var entity = await _context.Tenants.FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (entity == null)
-            throw new NotFoundException(nameof(TenantEntity), request.Id.ToString());
+            throw new NotFoundException(nameof(AppTenantInfo), request.Id.ToString());
 
         entity.Name = request.Name;
         entity.IsActive = request.IsActive;
