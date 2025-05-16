@@ -65,8 +65,13 @@ public static class DependencyInjection
             .Options;
 
         Audit.Core.Configuration.Setup()
-            .UseEntityFramework(entity => entity
-                .UseDbContext<AuditLogDbContext>(auditDbCtxOptions)
+            .UseEntityFramework(_ => _
+                .UseDbContext(sp =>
+                {
+                    var contextAccessor = services.BuildServiceProvider().GetRequiredService<IMultiTenantContextAccessor<AppTenantInfo>>();
+                    var options = services.BuildServiceProvider().GetRequiredService<DbContextOptions<AuditLogDbContext>>();
+                    return new AuditLogDbContext(contextAccessor, options);
+                })
                 .DisposeDbContext()
                 .AuditTypeMapper(t => typeof(AuditLog))
                 .AuditEntityAction<AuditLog>((ev, entry, audit) =>
