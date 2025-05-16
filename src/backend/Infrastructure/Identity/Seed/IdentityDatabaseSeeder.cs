@@ -86,6 +86,8 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
 
                 if (result.Succeeded)
                 {
+                    // Assign roles to the admin user
+                    await _userManager.AddToRolesAsync(superAdminUser, roles);
                     _logger.LogInformation("Created admin user: {Email}", adminEmail);
                 }
                 else
