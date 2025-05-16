@@ -5,23 +5,24 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Ardalis.GuardClauses" Version="5.0.0" />
-    <PackageVersion Include="Audit.EntityFramework.Core" Version="27.5.3" />
+    <PackageVersion Include="Audit.EntityFramework.Core" Version="29.0.1" />
+    <PackageVersion Include="Audit.EntityFramework.Identity.Core" Version="29.0.1" />
     <PackageVersion Include="AWSSDK.S3" Version="4.0.0.3" />
-    <PackageVersion Include="Finbuckle.MultiTenant.AspNetCore" Version="9.1.3" />
-    <PackageVersion Include="Finbuckle.MultiTenant.EntityFrameworkCore" Version="9.1.3" />
+    <PackageVersion Include="Finbuckle.MultiTenant.AspNetCore" Version="9.1.4" />
+    <PackageVersion Include="Finbuckle.MultiTenant.EntityFrameworkCore" Version="9.1.4" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageVersion Include="MediatR" Version="12.5.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.15" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.16" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.15" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.16" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.16" />
     <PackageVersion Include="Otp.Net" Version="1.4.0" />
     <PackageVersion Include="Serilog" Version="4.2.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />

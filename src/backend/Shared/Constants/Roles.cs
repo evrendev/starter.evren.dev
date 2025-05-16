@@ -8,7 +8,7 @@ public abstract class Roles
     public const string Finance = nameof(Finance);
     public const string Editor = nameof(Editor);
     public const string User = nameof(User);
-    public static string[] AllRoles => [
+    public static string[] ToList => [
         SuperAdmin,
         Administrator,
         Management,

@@ -33,7 +33,7 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
         try
         {
             // Add default roles
-            var roles = Roles.AllRoles.ToList();
+            var roles = Roles.ToList;
 
             foreach (var roleName in roles)
             {
