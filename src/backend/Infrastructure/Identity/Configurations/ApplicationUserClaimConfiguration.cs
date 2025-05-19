@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Identity.Configurations;
 
-public class IdentityUserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim<Guid>>
+public class ApplicationUserClaimConfiguration : IEntityTypeConfiguration<ApplicationUserClaim>
 {
-    public void Configure(EntityTypeBuilder<IdentityUserClaim<Guid>> builder)
+    public void Configure(EntityTypeBuilder<ApplicationUserClaim> builder)
     {
         builder.HasOne<ApplicationUser>()
             .WithMany()
@@ -14,5 +14,10 @@ public class IdentityUserClaimConfiguration : IEntityTypeConfiguration<IdentityU
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.ToTable("UserClaims");
+
+        builder.Property(e => e.TenantId)
+            .HasMaxLength(100)
+            .IsRequired(false);
     }
 }
+

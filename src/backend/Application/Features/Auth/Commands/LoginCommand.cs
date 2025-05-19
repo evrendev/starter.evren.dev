@@ -1,5 +1,7 @@
 using EvrenDev.Application.Common.Extensions;
 using EvrenDev.Domain.Entities.Identity;
+using EvrenDev.Domain.Entities.Tenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,89 +59,72 @@ public class LoginCommandResponse
 public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResponse>>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly ITenantDbContext _tenantDbContext;
     private readonly ITokenService _tokenService;
+    private readonly IMultiTenantStore<AppTenantInfo> _tenantStore;
     private readonly IPermissionService _permissionService;
     private readonly IStringLocalizer<LoginCommandHandler> _localizer;
 
     public LoginCommandHandler(
         UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        ITenantDbContext tenantDbContext,
         ITokenService tokenService,
+        IMultiTenantStore<AppTenantInfo> tenantStore,
         IPermissionService permissionService,
         IStringLocalizer<LoginCommandHandler> localizer)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
-        _tenantDbContext = tenantDbContext;
         _tokenService = tokenService;
+        _tenantStore = tenantStore;
         _permissionService = permissionService;
         _localizer = localizer;
     }
 
     public async Task<Result<AuthResponse>> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(email: command.Email);
-        if (user == null)
-            return Result<AuthResponse>.Failure(_localizer["api.auth.login.not-found"]);
-
-        if (user.Deleted)
-            return Result<AuthResponse>.Failure(_localizer["api.auth.login.deleted"]);
-
-        var signInResult = await _signInManager.PasswordSignInAsync(
-            user: user,
-            password: command.Password,
-            isPersistent: command.RememberMe,
-            lockoutOnFailure: true
-        );
-
-        if (signInResult.IsLockedOut)
-            return Result<AuthResponse>.Failure(_localizer["api.auth.login.locked-out"]);
-
-        if (signInResult.RequiresTwoFactor)
+        try
         {
-            return Result<AuthResponse>.Success(new AuthResponse
+            var user = await _userManager.FindByEmailAsync(command.Email);
+            if (user == null || user.Deleted)
+                return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-credentials"]);
+
+            var isValid = await _userManager.CheckPasswordAsync(user, command.Password);
+            if (!isValid)
+                return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-credentials"]);
+
+            var tenant = await _tenantStore.TryGetAsync(user.TenantId ?? string.Empty);
+            if (tenant == null || tenant.Deleted || !tenant.IsActive || tenant.ValidUntil < DateTime.UtcNow)
+                return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-tenant"]);
+
+            var existingClaims = await _userManager.GetClaimsAsync(user);
+            var permissions = await _permissionService.GetUserPermissions(user.Id);
+            var token = await _tokenService.GenerateJwtTokenAsync(user, permissions, tenant.Id ?? string.Empty);
+            var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
+
+            var response = new AuthResponse
             {
-                RequiresTwoFactor = true,
-                UserId = user.Id
-            });
+                Token = token,
+                RefreshToken = refreshToken,
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    TenantId = user.TenantId,
+                    Gender = user.Gender?.Code,
+                    Email = user.Email!,
+                    FirstName = user.FirstName!,
+                    LastName = user.LastName!,
+                    FullName = user.FullName,
+                    Image = user.Image,
+                    JobTitle = user.JobTitle ?? string.Empty,
+                    Language = user.Language?.Code,
+                    Permissions = permissions,
+                    TwoFactorEnabled = user.TwoFactorEnabled
+                }
+            };
+
+            return Result<AuthResponse>.Success(response);
         }
-
-        if (!signInResult.Succeeded)
-            return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-credentials"]);
-
-        var tenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == user.TenantId, cancellationToken);
-
-        if (tenant == null || !tenant.IsActive || tenant.Deleted)
-            return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-tenant"]);
-
-        var permissions = await _permissionService.GetUserPermissions(user.Id);
-        var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
-        var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
-
-        var response = new AuthResponse
+        catch (Exception ex)
         {
-            Token = token,
-            RefreshToken = refreshToken,
-            User = new UserDto
-            {
-                Id = user.Id,
-                TenantId = user.TenantId,
-                Gender = user.Gender?.Code,
-                Email = user.Email!,
-                FirstName = user.FirstName!,
-                LastName = user.LastName!,
-                FullName = user.FullName,
-                Image = user.Image,
-                JobTitle = user.JobTitle ?? string.Empty,
-                Language = user.Language?.Code,
-                Permissions = permissions,
-                TwoFactorEnabled = user.TwoFactorEnabled
-            }
-        };
-
-        return Result<AuthResponse>.Success(response);
+            return Result<AuthResponse>.Failure(ex.Message);
+        }
     }
 }

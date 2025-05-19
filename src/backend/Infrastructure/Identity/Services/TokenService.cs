@@ -14,18 +14,15 @@ namespace EvrenDev.Infrastructure.Identity.Services;
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
-    private readonly IPermissionService _permissionService;
     private readonly IDistributedCache _cache;
     private readonly ILogger<TokenService> _logger;
 
     public TokenService(
         IConfiguration configuration,
-        IPermissionService permissionService,
         IDistributedCache cache,
         ILogger<TokenService> logger)
     {
         _configuration = configuration;
-        _permissionService = permissionService;
         _cache = cache;
         _logger = logger;
     }
@@ -64,7 +61,7 @@ public class TokenService : ITokenService
         return Convert.ToBase64String(randomNumber);
     }
 
-    public Task<string> GenerateJwtTokenAsync(ApplicationUser user, IList<string> permissions)
+    public Task<string> GenerateJwtTokenAsync(ApplicationUser user, IList<string> permissions, string? tenantId)
     {
         _logger.LogInformation("Generating JWT token for user {UserId}", user.Id);
 
@@ -73,7 +70,7 @@ public class TokenService : ITokenService
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email ?? string.Empty),
-            new("tenant_id", user.TenantId ?? string.Empty),
+            new("tenant_id", tenantId ?? user.TenantId ?? "NOT_SET"),
         };
 
         foreach (var permission in permissions)

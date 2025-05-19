@@ -199,7 +199,6 @@ public static class DependencyInjection
         });
 
         services.AddMultiTenant<AppTenantInfo>()
-            .WithConfigurationStore()
             .WithPerTenantAuthentication()
             .WithClaimStrategy("tenant_id")
             .WithEFCoreStore<TenantDbContext, AppTenantInfo>();
