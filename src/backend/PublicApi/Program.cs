@@ -1,4 +1,3 @@
-using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Services;
@@ -8,7 +7,6 @@ using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Hub;
 using EvrenDev.PublicApi.Middleware;
 using Finbuckle.MultiTenant;
-using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -114,35 +112,5 @@ app.UseExceptionHandlerMiddleware();
 app.MapControllers();
 
 app.MapHub<NotificationHub>("/notificationhub");
-
-using (var scope = app.Services.CreateScope())
-{
-    var tenantStore = scope.ServiceProvider.GetRequiredService<IMultiTenantStore<AppTenantInfo>>();
-    var tenantAccessor = scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor<AppTenantInfo>>();
-
-    var tenant = await tenantStore.TryGetByIdentifierAsync("helpdunya");
-    if (tenant != null)
-    {
-        var context = new MultiTenantContext<AppTenantInfo>
-        {
-            TenantInfo = tenant
-        };
-
-        var accessorType = tenantAccessor.GetType();
-        var prop = accessorType.GetProperty("MultiTenantContext");
-        if (prop != null && prop.CanWrite)
-        {
-            prop.SetValue(tenantAccessor, context);
-        }
-        else
-        {
-            var field = accessorType.GetField("_multiTenantContext", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field?.SetValue(tenantAccessor, context);
-        }
-    }
-
-    var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
-    await seeder.SeedAllAsync();
-}
 
 app.Run();

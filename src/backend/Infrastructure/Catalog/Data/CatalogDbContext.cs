@@ -2,7 +2,6 @@
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Catalog.Configurations;
-using Finbuckle.MultiTenant;
 using Finbuckle.MultiTenant.Abstractions;
 using Finbuckle.MultiTenant.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -53,6 +52,6 @@ public class CatalogDbContext : MultiTenantDbContext, ICatalogDbContext
 
     private static void SoftFilterDelete<TEntity>(ModelBuilder modelBuilder) where TEntity : BaseAuditableEntity
     {
-        modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.Deleted == false);
+        modelBuilder.Entity<TEntity>().HasQueryFilter(e => !e.Deleted);
     }
 }

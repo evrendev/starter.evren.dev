@@ -165,8 +165,7 @@ public static class DependencyInjection
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = configuration["Jwt:Issuer"],
                 ValidAudience = configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? string.Empty))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? string.Empty))
             };
             options.Events = new JwtBearerEvents
             {
@@ -199,7 +198,6 @@ public static class DependencyInjection
         });
 
         services.AddMultiTenant<AppTenantInfo>()
-            .WithPerTenantAuthentication()
             .WithClaimStrategy("tenant_id")
             .WithEFCoreStore<TenantDbContext, AppTenantInfo>();
 
