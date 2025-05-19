@@ -6,7 +6,6 @@ namespace EvrenDev.Application.Features.Users.Commands.CreateUser;
 
 public record CreateUserCommand : IRequest<Result<Guid>>
 {
-    public string? TenantId { get; init; }
     public string? Gender { get; init; }
     public string? Email { get; init; }
     public string? Password { get; init; }
@@ -75,7 +74,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
     {
         var user = new ApplicationUser
         {
-            TenantId = request.TenantId,
             Gender = Gender.From(request.Gender ?? Defaults.Gender),
             UserName = request.Email,
             Email = request.Email,

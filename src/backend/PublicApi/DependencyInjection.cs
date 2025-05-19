@@ -1,7 +1,6 @@
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Identity.Data;
-using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.PublicApi.Infrastructure;
 using EvrenDev.PublicApi.Localization;
 using EvrenDev.PublicApi.Middleware;
@@ -17,8 +16,7 @@ public static class DependencyInjection
         services.AddHealthChecks()
             .AddDbContextCheck<CatalogDbContext>()
             .AddDbContextCheck<IdentityDbContext>()
-            .AddDbContextCheck<AuditLogDbContext>()
-            .AddDbContextCheck<TenantDbContext>();
+            .AddDbContextCheck<AuditLogDbContext>();
 
         services.AddExceptionHandler<CustomExceptionHandler>();
 

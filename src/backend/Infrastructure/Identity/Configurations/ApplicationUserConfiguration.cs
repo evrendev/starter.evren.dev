@@ -1,5 +1,4 @@
 using EvrenDev.Domain.Entities.Identity;
-using Finbuckle.MultiTenant;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Identity.Configurations;
@@ -33,7 +32,6 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
                 .HasColumnName("Gender")
         );
 
-        builder.IsMultiTenant();
         builder.ToTable("Users");
     }
 }

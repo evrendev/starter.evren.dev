@@ -1,6 +1,4 @@
-﻿
-using Finbuckle.MultiTenant;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Catalog.Configurations;
 
@@ -11,7 +9,5 @@ public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
         builder.Property(t => t.Title)
             .HasMaxLength(200)
             .IsRequired();
-
-        builder.IsMultiTenant();
     }
 }

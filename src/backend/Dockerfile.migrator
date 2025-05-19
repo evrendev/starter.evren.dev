@@ -18,6 +18,5 @@ ENV ASPNETCORE_ENVIRONMENT=Docker
 ENTRYPOINT ["sh", "-c", "\
 dotnet ef database update -c CatalogDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose && \
 dotnet ef database update -c IdentityDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose && \
-dotnet ef database update -c TenantDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose && \
 dotnet ef database update -c AuditLogDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose \
 "]

@@ -2,11 +2,9 @@ using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Services;
 using EvrenDev.Infrastructure.Identity.Data;
-using EvrenDev.Infrastructure.Tenant.Data;
 using EvrenDev.PublicApi.Extensions;
 using EvrenDev.PublicApi.Hub;
 using EvrenDev.PublicApi.Middleware;
-using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -42,11 +40,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
         logger.LogInformation("Migrating Identity database...");
         await identityDb.Database.MigrateAsync();
         logger.LogInformation("Identity database migration completed.");
-
-        var tenantDb = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
-        logger.LogInformation("Migrating Tenant database...");
-        await tenantDb.Database.MigrateAsync();
-        logger.LogInformation("Tenant database migration completed.");
 
         var auditDb = scope.ServiceProvider.GetRequiredService<AuditLogDbContext>();
         logger.LogInformation("Migrating Audit database...");
@@ -103,7 +96,6 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 
 app.UseCors("AllowSpecificOrigins");
 
-app.UseMultiTenant();
 app.UseAuthentication();
 app.UseAuthorization();
 

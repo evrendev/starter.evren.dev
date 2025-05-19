@@ -1,9 +1,6 @@
 using EvrenDev.Application.Common.Extensions;
 using EvrenDev.Domain.Entities.Identity;
-using EvrenDev.Domain.Entities.Tenant;
-using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 
@@ -60,20 +57,17 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
-    private readonly IMultiTenantStore<AppTenantInfo> _tenantStore;
     private readonly IPermissionService _permissionService;
     private readonly IStringLocalizer<LoginCommandHandler> _localizer;
 
     public LoginCommandHandler(
         UserManager<ApplicationUser> userManager,
         ITokenService tokenService,
-        IMultiTenantStore<AppTenantInfo> tenantStore,
         IPermissionService permissionService,
         IStringLocalizer<LoginCommandHandler> localizer)
     {
         _userManager = userManager;
         _tokenService = tokenService;
-        _tenantStore = tenantStore;
         _permissionService = permissionService;
         _localizer = localizer;
     }
@@ -90,13 +84,9 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
             if (!isValid)
                 return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-credentials"]);
 
-            var tenant = await _tenantStore.TryGetAsync(user.TenantId ?? string.Empty);
-            if (tenant == null || tenant.Deleted || !tenant.IsActive || tenant.ValidUntil < DateTime.UtcNow)
-                return Result<AuthResponse>.Failure(_localizer["api.auth.login.invalid-tenant"]);
-
             var existingClaims = await _userManager.GetClaimsAsync(user);
             var permissions = await _permissionService.GetUserPermissions(user.Id);
-            var token = await _tokenService.GenerateJwtTokenAsync(user, permissions, tenant.Id ?? string.Empty);
+            var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
 
             var response = new AuthResponse
@@ -106,7 +96,6 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthResp
                 User = new UserDto
                 {
                     Id = user.Id,
-                    TenantId = user.TenantId,
                     Gender = user.Gender?.Code,
                     Email = user.Email!,
                     FirstName = user.FirstName!,

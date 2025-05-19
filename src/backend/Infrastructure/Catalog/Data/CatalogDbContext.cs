@@ -1,20 +1,16 @@
 ﻿using System.Reflection;
 using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Catalog.Configurations;
-using Finbuckle.MultiTenant.Abstractions;
-using Finbuckle.MultiTenant.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Catalog.Data;
 
-public class CatalogDbContext : MultiTenantDbContext, ICatalogDbContext
+public class CatalogDbContext : DbContext, ICatalogDbContext
 {
     private readonly ILogger<CatalogDbContext> _logger;
 
-    public CatalogDbContext(IMultiTenantContextAccessor<AppTenantInfo> multiTenantContextAccessor,
-        DbContextOptions<CatalogDbContext> options,
-        ILogger<CatalogDbContext> logger) : base(multiTenantContextAccessor, options)
+    public CatalogDbContext(DbContextOptions<CatalogDbContext> options,
+        ILogger<CatalogDbContext> logger) : base(options)
     {
         _logger = logger;
     }

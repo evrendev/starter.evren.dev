@@ -5,7 +5,6 @@ using Audit.Core;
 using Audit.EntityFramework;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
-using EvrenDev.Domain.Entities.Tenant;
 using EvrenDev.Infrastructure.Audit.Data;
 using EvrenDev.Infrastructure.Catalog.Data;
 using EvrenDev.Infrastructure.Catalog.Interceptors;
@@ -16,13 +15,8 @@ using EvrenDev.Infrastructure.Identity.Interceptors;
 using EvrenDev.Infrastructure.Identity.Seed;
 using EvrenDev.Infrastructure.Identity.Services;
 using EvrenDev.Infrastructure.Services;
-using EvrenDev.Infrastructure.Tenant.Data;
-using EvrenDev.Infrastructure.Tenant.Interceptors;
-using EvrenDev.Infrastructure.Tenant.Seed;
 using EvrenDev.Shared.Configurations;
 using EvrenDev.Shared.Constants;
-using Finbuckle.MultiTenant;
-using Finbuckle.MultiTenant.Abstractions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +32,6 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, AuditableTenantInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, AuditableIdentityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
@@ -68,20 +61,17 @@ public static class DependencyInjection
             .UseEntityFramework(_ => _
                 .UseDbContext(sp =>
                 {
-                    var contextAccessor = services.BuildServiceProvider().GetRequiredService<IMultiTenantContextAccessor<AppTenantInfo>>();
                     var options = services.BuildServiceProvider().GetRequiredService<DbContextOptions<AuditLogDbContext>>();
-                    return new AuditLogDbContext(contextAccessor, options);
+                    return new AuditLogDbContext(options);
                 })
                 .DisposeDbContext()
                 .AuditTypeMapper(t => typeof(AuditLog))
                 .AuditEntityAction<AuditLog>((ev, entry, audit) =>
                 {
                     var user = services.BuildServiceProvider().GetService<ICurrentUser>();
-                    var tenant = services.BuildServiceProvider().GetService<IMultiTenantContext<AppTenantInfo>>();
                     var ipAddress = services.BuildServiceProvider().GetService<IHttpContextAccessor>()?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
 
                     audit.Id = Guid.NewGuid();
-                    audit.TenantId = tenant?.TenantInfo?.Id;
                     audit.Action = entry.Action;
                     audit.AuditData = entry.ToJson();
                     audit.EntityType = entry.EntityType.Name;
@@ -187,20 +177,6 @@ public static class DependencyInjection
             };
         });
 
-        var tenantConnectionString = configuration.GetConnectionString("TenantConnection");
-        Guard.Against.Null(tenantConnectionString, message: "Tenant Connection string 'TenantConnection' not found.");
-        services.AddDbContext<TenantDbContext>((sp, options) =>
-        {
-            options.AddInterceptors(new AuditSaveChangesInterceptor());
-            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-
-            options.UseSqlServer(tenantConnectionString);
-        });
-
-        services.AddMultiTenant<AppTenantInfo>()
-            .WithClaimStrategy("tenant_id")
-            .WithEFCoreStore<TenantDbContext, AppTenantInfo>();
-
         var permissions = Policies.AllModulesWithPermissions.ToList();
 
         services.AddAuthorization(options => permissions.ForEach(permission =>
@@ -210,7 +186,6 @@ public static class DependencyInjection
 
         services.AddScoped<IDonationDbContext>(provider => provider.GetRequiredService<DonationDbContext>());
         services.AddScoped<ICatalogDbContext>(provider => provider.GetRequiredService<CatalogDbContext>());
-        services.AddScoped<ITenantDbContext>(provider => provider.GetRequiredService<TenantDbContext>());
         services.AddScoped<IAuditLogDbContext>(provider => provider.GetRequiredService<AuditLogDbContext>());
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ITotpService, TotpService>();
@@ -223,7 +198,6 @@ public static class DependencyInjection
         services.AddSingleton(TimeProvider.System);
 
         // // Register database seeders
-        services.AddScoped<IDatabaseSeeder, TenantDatabaseSeeder>();
         services.AddScoped<IDatabaseSeeder, IdentityDatabaseSeeder>();
         services.AddScoped<DevelopmentDatabaseSeeder>();
 

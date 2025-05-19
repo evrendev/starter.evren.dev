@@ -17,8 +17,7 @@ public class TokenService : ITokenService
     private readonly IDistributedCache _cache;
     private readonly ILogger<TokenService> _logger;
 
-    public TokenService(
-        IConfiguration configuration,
+    public TokenService(IConfiguration configuration,
         IDistributedCache cache,
         ILogger<TokenService> logger)
     {
@@ -34,8 +33,7 @@ public class TokenService : ITokenService
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email ?? string.Empty),
-            new("fullname", user.FullName ?? string.Empty),
-            new("tenant_id", user.TenantId ?? string.Empty)
+            new("fullname", user.FullName ?? string.Empty)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty));
@@ -61,7 +59,7 @@ public class TokenService : ITokenService
         return Convert.ToBase64String(randomNumber);
     }
 
-    public Task<string> GenerateJwtTokenAsync(ApplicationUser user, IList<string> permissions, string? tenantId)
+    public Task<string> GenerateJwtTokenAsync(ApplicationUser user, IList<string> permissions)
     {
         _logger.LogInformation("Generating JWT token for user {UserId}", user.Id);
 
@@ -70,7 +68,6 @@ public class TokenService : ITokenService
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email ?? string.Empty),
-            new("tenant_id", tenantId ?? user.TenantId ?? "NOT_SET"),
         };
 
         foreach (var permission in permissions)

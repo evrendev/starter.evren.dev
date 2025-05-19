@@ -6,7 +6,6 @@ namespace EvrenDev.Application.Features.Users.Commands.UpdateUser;
 public record UpdateUserCommand : IRequest<Result<bool>>
 {
     public Guid Id { get; init; }
-    public string? TenantId { get; init; }
     public string Gender { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string FirstName { get; init; } = string.Empty;
@@ -44,9 +43,6 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(v => v.LastName)
             .NotEmpty().WithMessage(_localizer["api.users.update.last-name.required"])
             .MaximumLength(100).WithMessage(_localizer["api.users.update.last-name.maxlength"]);
-
-        RuleFor(v => v.TenantId)
-            .NotEmpty().WithMessage(_localizer["api.users.update.tenant-id.required"]);
     }
 
     private async Task<bool> EmailBelongsToUser(Guid userId, string email)
@@ -75,7 +71,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Resul
         if (user == null)
             return Result<bool>.Failure(_localizer["api.users.not-found"].Value);
 
-        user.TenantId = request.TenantId;
         user.Gender = Gender.From(request.Gender);
         user.UserName = request.Email;
         user.Email = request.Email;

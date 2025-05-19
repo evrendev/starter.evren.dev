@@ -19,7 +19,6 @@ public class TwoFactorAuthController : ControllerBase
     private readonly IStringLocalizer<TwoFactorAuthController> _localizer;
     private readonly ITokenService _tokenService;
     private readonly IPermissionService _permissionService;
-    private readonly ITenantDbContext _tenantDbContext;
     private readonly ITotpService _totpService;
 
     public TwoFactorAuthController(
@@ -28,7 +27,6 @@ public class TwoFactorAuthController : ControllerBase
         IStringLocalizer<TwoFactorAuthController> localizer,
         ITokenService tokenService,
         IPermissionService permissionService,
-        ITenantDbContext tenantDbContext,
         ITotpService totpService)
     {
         _userManager = userManager;
@@ -36,7 +34,6 @@ public class TwoFactorAuthController : ControllerBase
         _localizer = localizer;
         _tokenService = tokenService;
         _permissionService = permissionService;
-        _tenantDbContext = tenantDbContext;
         _totpService = totpService;
     }
 
@@ -142,12 +139,6 @@ public class TwoFactorAuthController : ControllerBase
         // Mark 2FA verification as complete for this session
         await _signInManager.SignInAsync(user, request.RememberMachine);
 
-        var tenant = await _tenantDbContext.Tenants.FirstOrDefaultAsync(t => t.Id == user.TenantId);
-        if (tenant == null || !tenant.IsActive || tenant.Deleted)
-        {
-            return BadRequest(_localizer["api.auth.login.invalid-tenant"].Value);
-        }
-
         var permissions = await _permissionService.GetUserPermissions(user.Id);
         var token = await _tokenService.GenerateJwtTokenAsync(user, permissions);
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
@@ -159,7 +150,6 @@ public class TwoFactorAuthController : ControllerBase
             User = new UserDto
             {
                 Id = user.Id,
-                TenantId = user.TenantId,
                 Gender = user.Gender?.Code,
                 Email = user.Email!,
                 FirstName = user.FirstName!,

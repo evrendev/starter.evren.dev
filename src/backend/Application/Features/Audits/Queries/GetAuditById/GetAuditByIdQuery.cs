@@ -17,7 +17,7 @@ public class GetAuditByIdQueryValidator : AbstractValidator<GetAuditByIdQuery>
         _localizer = localizer;
 
         RuleFor(v => v.Id)
-            .NotEmpty().WithMessage(_localizer["api.tenants.get.id.required"]);
+            .NotEmpty().WithMessage(_localizer["api.audit.get.id.required"]);
     }
 }
 
@@ -43,10 +43,9 @@ public class GetAuditByIdQueryHandler : IRequestHandler<GetAuditByIdQuery, Resul
         if (entity == null)
             throw new NotFoundException(nameof(TodoList), request.Id.ToString());
 
-        var tenant = new FullAuditDto
+        var audit = new FullAuditDto
         {
             Id = entity.Id,
-            TenantId = entity.TenantId,
             IpAddress = entity.IpAddress,
             UserId = entity.UserId,
             Email = entity.Email,
@@ -58,6 +57,6 @@ public class GetAuditByIdQueryHandler : IRequestHandler<GetAuditByIdQuery, Resul
             TablePk = entity.TablePk
         };
 
-        return Result<FullAuditDto>.Success(tenant);
+        return Result<FullAuditDto>.Success(audit);
     }
 }

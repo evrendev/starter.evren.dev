@@ -1,5 +1,4 @@
-﻿using Finbuckle.MultiTenant;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Catalog.Configurations;
 
@@ -26,7 +25,5 @@ public class AbsenceConfiguration : IEntityTypeConfiguration<Absence>
         builder.Property(t => t.Calendar)
             .HasMaxLength(10)
             .IsRequired(true);
-
-        builder.IsMultiTenant();
     }
 }

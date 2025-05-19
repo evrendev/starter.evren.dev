@@ -16,7 +16,6 @@ public abstract class Policies
         public const string Donations = nameof(Donations);
         public const string Todos = nameof(Todos);
         public const string Absences = nameof(Absences);
-        public const string Tenants = nameof(Tenants);
         public const string Roles = nameof(Roles);
         public const string Users = nameof(Users);
         public const string Audits = nameof(Audits);
@@ -28,7 +27,6 @@ public abstract class Policies
         Modules.Donations,
         Modules.Todos,
         Modules.Absences,
-        Modules.Tenants,
         Modules.Roles,
         Modules.Images,
         Modules.Users,

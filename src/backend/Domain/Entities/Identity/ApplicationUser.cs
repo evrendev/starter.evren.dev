@@ -6,8 +6,6 @@ namespace EvrenDev.Domain.Entities.Identity;
 [AuditInclude]
 public class ApplicationUser : IdentityUser<Guid>, IBaseIdentityEntity
 {
-    public string? TenantId { get; set; }
-
     public Gender? Gender { get; set; }
 
     public string? FirstName { get; set; }

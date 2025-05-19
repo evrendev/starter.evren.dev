@@ -1,14 +1,10 @@
 ﻿using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Domain.Entities.Tenant;
-using Finbuckle.MultiTenant;
-using Finbuckle.MultiTenant.Abstractions;
-using Finbuckle.MultiTenant.EntityFrameworkCore;
 
 namespace EvrenDev.Infrastructure.Audit.Data;
 
-public class AuditLogDbContext : MultiTenantDbContext, IAuditLogDbContext
+public class AuditLogDbContext : DbContext, IAuditLogDbContext
 {
-    public AuditLogDbContext(IMultiTenantContextAccessor<AppTenantInfo> multiTenantContextAccessor, DbContextOptions<AuditLogDbContext> options) : base(multiTenantContextAccessor, options)
+    public AuditLogDbContext(DbContextOptions<AuditLogDbContext> options) : base(options)
     {
     }
     public DbSet<AuditLog> Audits => Set<AuditLog>();
@@ -17,7 +13,7 @@ public class AuditLogDbContext : MultiTenantDbContext, IAuditLogDbContext
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<AuditLog>().ToTable("AuditLogs").IsMultiTenant();
+        builder.Entity<AuditLog>().ToTable("AuditLogs");
         builder.HasDefaultSchema("Audit");
     }
 }

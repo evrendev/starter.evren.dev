@@ -47,7 +47,6 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
         var userDto = new UserDto
         {
             Id = user.Id,
-            TenantId = user.TenantId,
             Gender = user.Gender?.Code,
             Email = user.Email!,
             FirstName = user.FirstName!,

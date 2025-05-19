@@ -15,8 +15,6 @@ public class CurrentUserService : ICurrentUser
 
     public string Id => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
 
-    public string TenantId => _httpContextAccessor.HttpContext?.User?.FindFirstValue("tenant_id") ?? string.Empty;
-
     public bool IsAuthenticated => _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
 
     public string? Email => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email) ?? string.Empty;

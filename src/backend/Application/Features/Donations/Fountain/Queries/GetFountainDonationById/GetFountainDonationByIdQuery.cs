@@ -18,7 +18,7 @@ public class GetFountainDonationByIdQueryValidator : AbstractValidator<GetFounta
         _localizer = localizer;
 
         RuleFor(v => v.Id)
-            .NotEmpty().WithMessage(_localizer["api.tenants.get.id.required"]);
+            .NotEmpty().WithMessage(_localizer["api.fountains.get.id.required"]);
     }
 }
 

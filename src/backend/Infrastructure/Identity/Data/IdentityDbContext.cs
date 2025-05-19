@@ -1,23 +1,15 @@
 using EvrenDev.Domain.Entities.Identity;
 using EvrenDev.Infrastructure.Identity.Configurations;
-using Finbuckle.MultiTenant.Abstractions;
-using Finbuckle.MultiTenant.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace EvrenDev.Infrastructure.Identity.Data;
 
-public class IdentityDbContext : MultiTenantIdentityDbContext<ApplicationUser,
+public class IdentityDbContext : IdentityDbContext<ApplicationUser,
     ApplicationRole,
-    Guid,
-    ApplicationUserClaim,
-    IdentityUserRole<Guid>,
-    IdentityUserLogin<Guid>,
-    IdentityRoleClaim<Guid>,
-    IdentityUserToken<Guid>>
+    Guid>
 {
-    public IdentityDbContext(IMultiTenantContextAccessor multiTenantContextAccessor,
-        DbContextOptions<IdentityDbContext> options)
-        : base(multiTenantContextAccessor, options)
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
+        : base(options)
     { }
 
 
@@ -29,7 +21,7 @@ public class IdentityDbContext : MultiTenantIdentityDbContext<ApplicationUser,
 
         builder.ApplyConfiguration(new ApplicationRoleConfiguration());
         builder.ApplyConfiguration(new ApplicationUserConfiguration());
-        builder.ApplyConfiguration(new ApplicationUserClaimConfiguration());
+        builder.ApplyConfiguration(new IdentityUserClaimConfiguration());
         builder.ApplyConfiguration(new IdentityRoleClaimConfiguration());
         builder.ApplyConfiguration(new IdentityUserLoginConfiguration());
         builder.ApplyConfiguration(new IdentityUserRoleConfiguration());

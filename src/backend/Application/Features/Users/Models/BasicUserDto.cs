@@ -3,7 +3,6 @@ namespace EvrenDev.Application.Features.Users.Models;
 public class BasicUserDto
 {
     public Guid Id { get; set; }
-    public string? TenantId { get; set; }
     public string? Gender { get; set; }
     public string Initial => !string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName) ? $"{FirstName?[0]}{LastName?[0]}" : string.Empty;
     public string? Email { get; set; }
