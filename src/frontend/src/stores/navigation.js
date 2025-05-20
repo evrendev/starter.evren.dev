@@ -161,27 +161,27 @@ export const useNavigationStore = defineStore("navigation", {
           });
         }
 
-        if (this.hasAnyPermission(TENANTS_PERMISSIONS)) {
-          items.push({
-            title: "components.sidebar.tenants.title",
-            icon: icons.tenants,
-            to: "#",
-            children: [
-              {
-                title: "components.sidebar.tenants.list",
-                to: "/admin/tenants/list"
-              },
-              ...(this.hasPermission("Tenants.Create")
-                ? [
-                    {
-                      title: "components.sidebar.tenants.new",
-                      to: "/admin/tenants/new"
-                    }
-                  ]
-                : [])
-            ]
-          });
-        }
+        // if (this.hasAnyPermission(TENANTS_PERMISSIONS)) {
+        //   items.push({
+        //     title: "components.sidebar.tenants.title",
+        //     icon: icons.tenants,
+        //     to: "#",
+        //     children: [
+        //       {
+        //         title: "components.sidebar.tenants.list",
+        //         to: "/admin/tenants/list"
+        //       },
+        //       ...(this.hasPermission("Tenants.Create")
+        //         ? [
+        //             {
+        //               title: "components.sidebar.tenants.new",
+        //               to: "/admin/tenants/new"
+        //             }
+        //           ]
+        //         : [])
+        //     ]
+        //   });
+        // }
 
         if (this.hasAnyPermission(AUDITS_PERMISSIONS)) {
           items.push({
