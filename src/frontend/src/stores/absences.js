@@ -22,7 +22,9 @@ export const useAbsenceStore = defineStore("absence", {
       this.reset = true;
 
       try {
+        const index = this.events.findIndex((event) => event.id === id);
         await apiService.delete(`/absences/${id}`);
+        if (index !== -1) this.events.splice(index, 1);
       } finally {
         this.reset = false;
       }
