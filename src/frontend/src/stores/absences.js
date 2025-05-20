@@ -4,19 +4,16 @@ import { useAppStore } from "@/stores";
 
 export const useAbsenceStore = defineStore("absence", {
   state: () => ({
-    items: [],
-    itemsLength: 0,
+    events: [],
     reset: false
   }),
   actions: {
-    async getItems() {
+    async getEvents() {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.get("/absences", false);
-        this.items = response.items;
-        this.itemsLength = response.itemsLength;
+        this.events = await apiService.get("/absences", false);
       } finally {
         appStore.setLoading(false);
       }

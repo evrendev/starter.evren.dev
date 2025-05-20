@@ -30,8 +30,8 @@ public class GetAbsencesQueryHandler : IRequestHandler<GetAbsencesQuery, Result<
             {
                 Id = entity.Id,
                 Title = entity.Title,
-                StartDate = DateTimeDto.Create.FromUtc(entity.StartDate),
-                EndDate = DateTimeDto.Create.FromUtc(entity.EndDate),
+                Start = entity.StartDate.ToString("yyyy-MM-dd"),
+                End = entity.EndDate.ToString("yyyy-MM-dd"),
                 Description = entity.Description,
                 Location = entity.Location,
                 Employee = entity.Employee,

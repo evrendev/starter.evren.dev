@@ -21,10 +21,10 @@ const breadcrumbs = shallowRef([
 
 const loading = ref(false);
 const showAbsenceForm = ref(false);
-const items = ref([]);
 const absenceStore = useAbsenceStore();
 const customizerStore = useCustomizerStore();
 const { theme } = storeToRefs(customizerStore);
+const { events } = storeToRefs(absenceStore);
 
 const localeMap = {
   tr: "tr-TR",
@@ -32,23 +32,56 @@ const localeMap = {
   de: "de-DE"
 };
 
-onMounted(() => {
-  absenceStore.getItems();
-  items.value = absenceStore.items;
-});
-
 const viewMonthGrid = createViewMonthGrid();
 const viewMonthAgenda = createViewMonthAgenda();
 
 const calendarApp = createCalendar({
   views: [viewMonthGrid, viewMonthAgenda],
   defaultView: viewMonthGrid.name,
-  events: items.value,
   firstDayOfWeek: 1,
+  calendars: {
+    absence: {
+      label: "Absence",
+      colorName: "absence",
+      lightColors: {
+        main: "#d0b316",
+        container: "#fff5aa",
+        onContainer: "#594800"
+      },
+      darkColors: {
+        main: "#fff5c0",
+        onContainer: "#fff5de",
+        container: "#a29742"
+      }
+    },
+    sick: {
+      label: "Sick",
+      colorName: "sick",
+      lightColors: {
+        main: "#f91c45",
+        container: "#ffd2dc",
+        onContainer: "#59000d"
+      },
+      darkColors: {
+        main: "#ffc0cc",
+        onContainer: "#ffdee6",
+        container: "#a24258"
+      }
+    }
+  },
+  dayBoundaries: {
+    start: "08:00",
+    end: "18:00"
+  },
   showWeekNumbers: true,
   isResponsive: true,
   isDark: theme.value === "dark",
+  events: events.value,
   locale: localeMap[LocaleHelper.currentLocale] || "de-DE"
+});
+
+onMounted(async () => {
+  await absenceStore.getEvents();
 });
 
 watch(
@@ -62,6 +95,7 @@ watch(
 
 const openAbsenceForm = () => {
   showAbsenceForm.value = true;
+  calendarApp.events = events.value;
 };
 </script>
 
@@ -98,6 +132,9 @@ const openAbsenceForm = () => {
 
 <style lang="scss" scoped>
 :deep(.sx-vue-calendar-wrapper) {
+  height: 800px;
+  max-height: 90vh;
+
   .sx__calendar-header {
     display: flex;
     justify-content: space-between;
