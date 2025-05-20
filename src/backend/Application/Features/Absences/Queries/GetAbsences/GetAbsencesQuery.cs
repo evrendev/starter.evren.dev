@@ -34,7 +34,7 @@ public class GetAbsencesQueryHandler : IRequestHandler<GetAbsencesQuery, Result<
                 Description = entity.Description,
                 Location = entity.Location,
                 Employee = entity.Employee,
-                CalendarId = entity.Calendar
+                CalendarId = entity.CalendarId
             })
             .ToListAsync(cancellationToken);
 

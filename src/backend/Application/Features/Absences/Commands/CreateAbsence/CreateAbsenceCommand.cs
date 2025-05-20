@@ -7,7 +7,7 @@ public class CreateAbsenceCommand : IRequest<Result<Guid>>
     public string? Description { get; set; }
     public string? Location { get; set; }
     public string? Employee { get; set; }
-    public string? Calendar { get; set; }
+    public string? CalendarId { get; set; }
 }
 
 public class CreateAbsenceCommandValidator : AbstractValidator<CreateAbsenceCommand>
@@ -29,7 +29,7 @@ public class CreateAbsenceCommandValidator : AbstractValidator<CreateAbsenceComm
             .NotEmpty().WithMessage(_localizer["api.absence.create.employee.required"])
             .MaximumLength(100).WithMessage(_localizer["api.absence.create.employee.maxlength"]);
 
-        RuleFor(v => v.Calendar)
+        RuleFor(v => v.CalendarId)
             .NotEmpty().WithMessage(_localizer["api.absence.create.calendar.required"])
             .MaximumLength(10).WithMessage(_localizer["api.absence.create.calendar.maxlength"]);
 
@@ -59,7 +59,7 @@ public class CreateAbsenceCommandHandler : IRequestHandler<CreateAbsenceCommand,
             Description = request.Description,
             Location = request.Location,
             Employee = request.Employee,
-            Calendar = request.Calendar,
+            CalendarId = request.CalendarId,
         };
 
         _context.Absences.Add(entity);

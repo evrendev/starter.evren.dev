@@ -15,6 +15,12 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                 schema: "Catalog",
                 table: "Absences");
 
+            migrationBuilder.RenameColumn(
+                name: "Calendar",
+                schema: "Catalog",
+                table: "Absences",
+                newName: "CalendarId");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Location",
                 schema: "Catalog",
@@ -32,6 +38,12 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "CalendarId",
+                schema: "Catalog",
+                table: "Absences",
+                newName: "Calendar");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Location",
                 schema: "Catalog",

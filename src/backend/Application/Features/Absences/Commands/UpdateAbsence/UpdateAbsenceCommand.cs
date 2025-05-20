@@ -9,7 +9,7 @@ public class UpdateAbsenceCommand : IRequest<Result<bool>>
     public string? Description { get; set; }
     public string? Location { get; set; }
     public string? Employee { get; set; }
-    public string? Calendar { get; set; }
+    public string? CalendarId { get; set; }
 }
 
 public class UpdateAbsenceCommandValidator : AbstractValidator<UpdateAbsenceCommand>
@@ -38,7 +38,7 @@ public class UpdateAbsenceCommandValidator : AbstractValidator<UpdateAbsenceComm
             .NotEmpty().WithMessage(_localizer["api.absence.create.employee.required"])
             .MaximumLength(100).WithMessage(_localizer["api.absence.create.employee.maxlength"]);
 
-        RuleFor(v => v.Calendar)
+        RuleFor(v => v.CalendarId)
             .NotEmpty().WithMessage(_localizer["api.absence.create.calendar.required"])
             .MaximumLength(10).WithMessage(_localizer["api.absence.create.calendar.maxlength"]);
 
@@ -75,7 +75,7 @@ public class UpdateAbsenceCommandHandler : IRequestHandler<UpdateAbsenceCommand,
         entity.Description = request.Description;
         entity.Location = request.Location;
         entity.Employee = request.Employee;
-        entity.Calendar = request.Calendar;
+        entity.CalendarId = request.CalendarId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

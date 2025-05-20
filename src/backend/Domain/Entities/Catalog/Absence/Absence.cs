@@ -8,5 +8,5 @@ public class Absence : BaseAuditableEntity
     public string? Description { get; set; }
     public string? Location { get; set; }
     public string? Employee { get; set; }
-    public string? Calendar { get; set; }
+    public string? CalendarId { get; set; }
 }

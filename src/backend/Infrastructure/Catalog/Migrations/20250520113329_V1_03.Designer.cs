@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvrenDev.Infrastructure.Catalog.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20250520100853_V1_03")]
+    [Migration("20250520113329_V1_03")]
     partial class V1_03
     {
         /// <inheritdoc />
@@ -32,7 +32,7 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Calendar")
+                    b.Property<string>("CalendarId")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");

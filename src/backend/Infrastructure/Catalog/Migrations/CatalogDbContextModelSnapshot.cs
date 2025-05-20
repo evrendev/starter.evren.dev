@@ -29,7 +29,7 @@ namespace EvrenDev.Infrastructure.Catalog.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Calendar")
+                    b.Property<string>("CalendarId")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
