@@ -33,13 +33,20 @@ public class CatalogDbContext : DbContext, ICatalogDbContext
         {
             var entityClrType = entityType.ClrType;
 
-            if (typeof(BaseAuditableEntity).IsAssignableFrom(entityClrType))
+            if (!typeof(BaseAuditableEntity).IsAssignableFrom(entityClrType))
+                continue;
+
+            try
             {
                 var filter = typeof(CatalogDbContext)
-                    .GetMethod(nameof(SoftFilterDelete), BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetMethod(nameof(SoftFilterDelete), BindingFlags.NonPublic | BindingFlags.Static)
                     ?.MakeGenericMethod(entityClrType);
 
-                filter?.Invoke(this, [builder]);
+                filter?.Invoke(null, new object[] { builder });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Soft delete filter for {entityClrType.Name} failed.");
             }
         }
 
