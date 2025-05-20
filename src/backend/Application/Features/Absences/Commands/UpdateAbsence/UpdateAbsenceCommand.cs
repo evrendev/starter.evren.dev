@@ -70,7 +70,6 @@ public class UpdateAbsenceCommandHandler : IRequestHandler<UpdateAbsenceCommand,
         if (entity == null)
             throw new NotFoundException(nameof(Absence), request.Id.ToString());
 
-        entity.Title = request.Title;
         entity.StartDate = request.StartDate;
         entity.EndDate = request.EndDate;
         entity.Description = request.Description;

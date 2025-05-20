@@ -2,9 +2,8 @@ namespace EvrenDev.Application.Features.Absences.Commands.CreateAbsence;
 
 public class CreateAbsenceCommand : IRequest<Result<Guid>>
 {
-    public string? Title { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
     public string? Description { get; set; }
     public string? Location { get; set; }
     public string? Employee { get; set; }
@@ -19,15 +18,11 @@ public class CreateAbsenceCommandValidator : AbstractValidator<CreateAbsenceComm
     {
         _localizer = localizer;
 
-        RuleFor(v => v.Title)
-            .NotEmpty().WithMessage(_localizer["api.absence.create.title.required"])
-            .MaximumLength(200).WithMessage(_localizer["api.absence.create.title.maxlength"]);
-
-        RuleFor(v => v.StartDate)
+        RuleFor(v => v.Start)
             .NotEmpty().WithMessage(_localizer["api.absence.create.startdate.required"])
-            .LessThan(v => v.EndDate).WithMessage(_localizer["api.absence.create.startdate.lessThanEndDate"]);
+            .LessThanOrEqualTo(v => v.End).WithMessage(_localizer["api.absence.create.startdate.lessThanEndDate"]);
 
-        RuleFor(v => v.EndDate)
+        RuleFor(v => v.End)
             .NotEmpty().WithMessage(_localizer["api.absence.create.enddate.required"]);
 
         RuleFor(v => v.Employee)
@@ -59,9 +54,8 @@ public class CreateAbsenceCommandHandler : IRequestHandler<CreateAbsenceCommand,
     {
         var entity = new Absence
         {
-            Title = request.Title,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
+            StartDate = request.Start,
+            EndDate = request.End,
             Description = request.Description,
             Location = request.Location,
             Employee = request.Employee,

@@ -29,13 +29,12 @@ public class GetAbsencesQueryHandler : IRequestHandler<GetAbsencesQuery, Result<
             .Select(entity => new AbsenceDto
             {
                 Id = entity.Id,
-                Title = entity.Title,
                 Start = entity.StartDate.ToString("yyyy-MM-dd"),
                 End = entity.EndDate.ToString("yyyy-MM-dd"),
                 Description = entity.Description,
                 Location = entity.Location,
                 Employee = entity.Employee,
-                Calendar = entity.Calendar
+                CalendarId = entity.Calendar
             })
             .ToListAsync(cancellationToken);
 
