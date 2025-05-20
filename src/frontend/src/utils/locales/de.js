@@ -208,7 +208,45 @@ export default {
     absences: {
       title: "Abwesenheit",
       list: "Listen",
-      new: "Neu Abwesenheit"
+      new: "Neu Abwesenheit",
+      fields: {
+        employee: "Mitarbeiter",
+        location: "Standort",
+        calendar: "Abwesenheit Grund",
+        start: "Startdatum",
+        end: "Enddatum",
+        description: "Beschreibung"
+      },
+      calendar: {
+        absence: "Abwesenheit Grund",
+        sick: "Krankheit"
+      },
+      validation: {
+        employee: {
+          required: "Mitarbeiter ist erforderlich",
+          maxLength: "Mitarbeiter muss weniger als {max} Zeichen lang sein"
+        },
+        calendar: {
+          required: "Abwesenheit Grund ist erforderlich",
+          invalid: "Ungültiger Abwesenheit Grund"
+        },
+        location: {
+          required: "Standort ist erforderlich",
+          invalid: "Ungültiger Standort"
+        },
+        description: {
+          maxLength: "Beschreibung muss weniger als {max} Zeichen lang sein"
+        },
+        start: {
+          required: "Startdatum ist erforderlich",
+          typeError: "Startdatum ist kein gültiges Datum"
+        },
+        end: {
+          required: "Enddatum ist erforderlich",
+          typeError: "Enddatum ist kein gültiges Datum",
+          isGreater: "Enddatum muss nach dem Startdatum liegen"
+        }
+      }
     },
     donations: {
       title: "Spenden",

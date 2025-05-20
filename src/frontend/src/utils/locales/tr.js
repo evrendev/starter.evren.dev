@@ -209,7 +209,45 @@ export default {
     absences: {
       title: "İzinler",
       list: "Liste",
-      new: "Yeni İzin"
+      new: "Yeni İzin",
+      fields: {
+        employee: "Çalışan",
+        location: "Lokasyon",
+        calendar: "İzin Tipi",
+        start: "Başlangıç Tarihi",
+        end: "Bitiş Tarihi",
+        description: "Açıklama"
+      },
+      calendar: {
+        absence: "İzin",
+        sick: "Hastalık"
+      },
+      validation: {
+        employee: {
+          required: "Çalışan seçmeniz gerekmektedir",
+          maxLength: "Çalışan adı en fazla {max} karakter olabilir"
+        },
+        calendar: {
+          required: "İzin tipi seçmeniz gerekmektedir",
+          invalid: "Geçersiz izin tipi"
+        },
+        location: {
+          required: "Lokasyon seçmeniz gerekmektedir",
+          invalid: "Geçersiz lokasyon"
+        },
+        description: {
+          maxLength: "Açıklama en fazla {max} karakter olabilir"
+        },
+        start: {
+          required: "Başlangıç tarihi girmeniz gerekmektedir",
+          typeError: "Başlangıç tarihi geçerli bir tarih değil"
+        },
+        end: {
+          required: "Bitiş tarihi girmeniz gerekmektedir",
+          typeError: "Bitiş tarihi geçerli bir tarih değil",
+          isGreater: "Bitiş tarihi başlangıç tarihinden büyük olmalıdır"
+        }
+      }
     },
     donations: {
       title: "Bağışlar",

@@ -207,7 +207,45 @@ export default {
     absences: {
       title: "Absences",
       list: "List Absences",
-      new: "New Absence"
+      new: "New Absence",
+      fields: {
+        employee: "Employee",
+        location: "Location",
+        calendar: "Absence Type",
+        start: "Start Date",
+        end: "End Date",
+        description: "Description"
+      },
+      calendar: {
+        absence: "Absence",
+        sick: "Sick Leave"
+      },
+      validation: {
+        employee: {
+          required: "Employee name is required",
+          maxLength: "Employee name must be less than {max} characters"
+        },
+        calendar: {
+          required: "Absence type is required",
+          invalid: "Invalid absence type"
+        },
+        location: {
+          required: "Location is required",
+          invalid: "Invalid location"
+        },
+        description: {
+          maxLength: "Description must be less than {max} characters"
+        },
+        start: {
+          required: "Start date is required",
+          typeError: "Start date is not a valid date"
+        },
+        end: {
+          required: "End date is required",
+          typeError: "End date is not a valid date",
+          isGreater: "End date must be greater than start date"
+        }
+      }
     },
     donations: {
       title: "Donations",

@@ -27,8 +27,10 @@ export const useAbsenceStore = defineStore("absence", {
         this.reset = false;
       }
     },
-    async create(absence) {
+    async save(absence) {
       const response = await apiService.post("/absences", absence);
+      absence.id = response;
+      this.events.push(absence);
       return response;
     },
     async update(id, absence) {
