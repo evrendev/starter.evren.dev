@@ -71,11 +71,15 @@ const [start, startProps] = defineField("start", vuetifyConfig);
 const [end, endProps] = defineField("end", vuetifyConfig);
 const [description, descriptionProps] = defineField("description", vuetifyConfig);
 
-const emits = defineEmits(["closeEventDialog", "saveEvent"]);
+const emits = defineEmits(["closeEventDialog", "saveEvent", "deleteEvent"]);
 
 const onSubmit = handleSubmit((values) => {
   emits("saveEvent", values);
 });
+
+const handleDelete = () => {
+  emits("deleteEvent", props.event.id);
+};
 </script>
 <template>
   <v-form @submit="onSubmit">
@@ -156,6 +160,10 @@ const onSubmit = handleSubmit((values) => {
 
     <v-row class="mt-4">
       <v-col cols="12" class="d-flex justify-end gap-2">
+        <v-btn color="error" prepend-icon="$trashCan" class="ml-2" @click="handleDelete">
+          {{ t("common.delete") }}
+        </v-btn>
+
         <v-btn color="primary" type="submit" prepend-icon="$contentSave" class="ml-2">
           {{ t("common.save") }}
         </v-btn>

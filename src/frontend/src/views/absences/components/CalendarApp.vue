@@ -22,11 +22,6 @@ const props = defineProps({
     type: Boolean,
     required: true,
     default: false
-  },
-  render: {
-    type: Boolean,
-    required: true,
-    default: false
   }
 });
 
@@ -105,9 +100,14 @@ const emits = defineEmits(["showEventDialog"]);
     <v-col cols="12">
       <schedule-x-calendar :calendar-app="calendar">
         <template #headerContentRightAppend>
-          <v-btn color="primary" size="small" :loading="loading" @click="$emit('showEventDialog')" prepend-icon="$plusCircle">{{
-            t("common.new")
-          }}</v-btn>
+          <v-btn
+            color="primary"
+            size="small"
+            prepend-icon="$plusCircle"
+            :loading="loading"
+            @click="$emit('showEventDialog')"
+            :text="t('common.new')"
+          />
         </template>
       </schedule-x-calendar>
     </v-col>

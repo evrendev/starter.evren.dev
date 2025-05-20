@@ -17,7 +17,6 @@ const breadcrumbs = shallowRef([
 ]);
 
 const loading = ref(true);
-const render = ref(false);
 const event = ref(null);
 const showEventDialog = ref(false);
 const absenceStore = useAbsenceStore();
@@ -33,17 +32,33 @@ const saveEvent = async (event) => {
   await absenceStore.save(event);
   loading.value = false;
   showEventDialog.value = false;
-  render.value = true;
+};
+
+const deleteEvent = async (eventId) => {
+  loading.value = true;
+  await absenceStore.delete(eventId);
+  loading.value = false;
+  showEventDialog.value = false;
 };
 
 const showEvent = (values) => {
   showEventDialog.value = true;
   event.value = values;
 };
+
+const closeDialog = () => {
+  showEventDialog.value = false;
+};
 </script>
 
 <template>
   <breadcrumb :title="t('admin.absences.title')" :breadcrumbs="breadcrumbs" />
-  <calendar-app :loading="loading" :render="render" @show-event-dialog="showEvent" :events="events" />
-  <event-dialog :showEventDialog="showEventDialog" :event="event" @save="saveEvent" />
+  <calendar-app v-if="!loading" :loading="loading" :events="events" @show-event-dialog="showEvent" />
+  <event-dialog
+    :showEventDialog="showEventDialog"
+    :event="event"
+    @save-event="saveEvent"
+    @delete-event="deleteEvent"
+    @close-dialog="closeDialog"
+  />
 </template>
