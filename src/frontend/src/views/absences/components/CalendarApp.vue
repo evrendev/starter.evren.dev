@@ -77,7 +77,12 @@ const calendar = createCalendar({
   isResponsive: true,
   isDark: theme.value === "dark",
   events: props.events,
-  locale: localeMap[LocaleHelper.currentLocale] || "de-DE"
+  locale: localeMap[LocaleHelper.currentLocale] || "de-DE",
+  callbacks: {
+    onEventClick: (event) => {
+      emits("showEventDialog", event);
+    }
+  }
 });
 
 onMounted(() => {
@@ -85,17 +90,15 @@ onMounted(() => {
 });
 
 watch(
-  () => [theme.value, LocaleHelper.currentLocale, props.loading, props.render],
+  () => [theme.value, LocaleHelper.currentLocale],
   ([themeValue, localeValue]) => {
     calendar.setLocale = localeMap[localeValue] || "de-DE";
     calendar.setTheme(themeValue);
-    calendar.events = props.events;
-    if (props.render) calendar.render();
   },
   { immediate: true }
 );
 
-defineEmits(["showEventDialog"]);
+const emits = defineEmits(["showEventDialog"]);
 </script>
 <template>
   <v-row>

@@ -25,13 +25,18 @@ const saveEvent = (event) => {
 </script>
 
 <template>
-  <v-dialog :model-value="showEventDialog" max-width="800" class="dialog-colored-title">
+  <v-dialog
+    :model-value="showEventDialog"
+    @update:model-value="$emit('update:modelValue', $event)"
+    max-width="800"
+    class="dialog-colored-title"
+  >
     <v-card>
       <v-card-title class="text-h4">
         {{ t("admin.absences.new") }}
       </v-card-title>
       <v-card-text>
-        <event-form @save-event="saveEvent" />
+        <event-form @save-event="saveEvent" :event="event" />
       </v-card-text>
     </v-card>
   </v-dialog>

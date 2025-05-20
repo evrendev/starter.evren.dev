@@ -213,12 +213,12 @@ export default {
       fields: {
         employee: "Çalışan",
         location: "Lokasyon",
-        calendar: "İzin Tipi",
+        calendarId: "İzin Tipi",
         start: "Başlangıç Tarihi",
         end: "Bitiş Tarihi",
         description: "Açıklama"
       },
-      calendar: {
+      calendars: {
         absence: "İzin",
         sick: "Hastalık"
       },
@@ -227,7 +227,7 @@ export default {
           required: "Çalışan seçmeniz gerekmektedir",
           maxLength: "Çalışan adı en fazla {max} karakter olabilir"
         },
-        calendar: {
+        calendarId: {
           required: "İzin tipi seçmeniz gerekmektedir",
           invalid: "Geçersiz izin tipi"
         },

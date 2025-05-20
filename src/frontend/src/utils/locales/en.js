@@ -211,12 +211,12 @@ export default {
       fields: {
         employee: "Employee",
         location: "Location",
-        calendar: "Absence Type",
+        calendarId: "Absence Type",
         start: "Start Date",
         end: "End Date",
         description: "Description"
       },
-      calendar: {
+      calendars: {
         absence: "Absence",
         sick: "Sick Leave"
       },
@@ -225,7 +225,7 @@ export default {
           required: "Employee name is required",
           maxLength: "Employee name must be less than {max} characters"
         },
-        calendar: {
+        calendarId: {
           required: "Absence type is required",
           invalid: "Invalid absence type"
         },

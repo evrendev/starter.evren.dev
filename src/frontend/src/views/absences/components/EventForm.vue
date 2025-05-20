@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import { useForm } from "vee-validate";
 import { date, object, string } from "yup";
 
-defineProps({
+const props = defineProps({
   event: {
     type: Object,
     default: () => null
@@ -14,28 +14,30 @@ defineProps({
 const { t } = useI18n();
 
 const calendars = ref([
-  { title: t("admin.absences.calendar.absence"), value: "absence" },
-  { title: t("admin.absences.calendar.sick"), value: "sick" }
+  { title: t("admin.absences.calendars.absence"), value: "absence" },
+  { title: t("admin.absences.calendars.sick"), value: "sick" }
 ]);
 
 const locations = ref(["Bremen", "Essen"]);
 
+const today = new Date().toISOString().slice(0, 10).replace(/-/g, "-");
+const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10).replace(/-/g, "-");
 const defaultValues = {
-  calendar: calendars.value[0].value,
-  employee: "",
-  description: "",
-  start: new Date().toISOString().slice(0, 10).replace(/-/g, "-"),
-  end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10).replace(/-/g, "-"),
-  location: locations.value[0]
+  calendarId: props.event?.calendarId || "absence",
+  employee: props.event?.employee || "",
+  description: props.event?.description || "",
+  start: props.event?.start || today,
+  end: props.event?.end || tomorrow,
+  location: props.event?.location || locations.value[0]
 };
 
 const schema = object().shape({
   employee: string().required(t("admin.absences.validation.employee.required")).max(100, t("admin.absences.validation.employee.maxLength")),
-  calendar: string()
-    .required(t("admin.absences.validation.calendar.required"))
+  calendarId: string()
+    .required(t("admin.absences.validation.calendarId.required"))
     .oneOf(
       calendars.value.map((item) => item.value),
-      t("admin.absences.validation.calendar.invalid")
+      t("admin.absences.validation.calendarId.invalid")
     ),
   location: string()
     .required(t("admin.absences.validation.location.required"))
@@ -63,7 +65,7 @@ const vuetifyConfig = (state) => ({
 });
 
 const [employee, nameProps] = defineField("employee", vuetifyConfig);
-const [calendar, calendarProps] = defineField("calendar", vuetifyConfig);
+const [calendarId, calendarIdProps] = defineField("calendarId", vuetifyConfig);
 const [location, locationProps] = defineField("location", vuetifyConfig);
 const [start, startProps] = defineField("start", vuetifyConfig);
 const [end, endProps] = defineField("end", vuetifyConfig);
@@ -105,10 +107,10 @@ const onSubmit = handleSubmit((values) => {
     <v-row class="mt-2">
       <v-col cols="12" md="4">
         <v-select
-          v-model="calendar"
-          v-bind="calendarProps"
+          v-model="calendarId"
+          v-bind="calendarIdProps"
           :items="calendars"
-          :label="t('admin.absences.fields.calendar')"
+          :label="t('admin.absences.fields.calendarId')"
           density="compact"
           hide-details
           item-title="title"

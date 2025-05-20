@@ -212,12 +212,12 @@ export default {
       fields: {
         employee: "Mitarbeiter",
         location: "Standort",
-        calendar: "Abwesenheit Grund",
+        calendarId: "Abwesenheit Grund",
         start: "Startdatum",
         end: "Enddatum",
         description: "Beschreibung"
       },
-      calendar: {
+      calendars: {
         absence: "Abwesenheit Grund",
         sick: "Krankheit"
       },
@@ -226,7 +226,7 @@ export default {
           required: "Mitarbeiter ist erforderlich",
           maxLength: "Mitarbeiter muss weniger als {max} Zeichen lang sein"
         },
-        calendar: {
+        calendarId: {
           required: "Abwesenheit Grund ist erforderlich",
           invalid: "Ungültiger Abwesenheit Grund"
         },
