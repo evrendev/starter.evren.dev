@@ -50,7 +50,7 @@ const headers = ref([
             {{ item.contact }}
           </td>
           <td>
-            <v-btn v-if="item.phone" size="x-small" color="success">
+            <v-btn v-if="item.phone" size="x-small" color="success" class="d-block w-100 text-truncate">
               <v-icon icon="$whatsapp" size="small" class="mr-1" />
               {{ item.phone.formattedNumber }}
             </v-btn>
