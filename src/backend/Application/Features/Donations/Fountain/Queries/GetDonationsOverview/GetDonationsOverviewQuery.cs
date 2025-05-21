@@ -55,6 +55,7 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
 
         var stats = await query
             .GroupBy(x => x.Project)
+            .OrderBy(x => x.Key)
             .Select(g => new ProjectsCountDto
             {
                 Project = FountainDonationProject.FromName(g.Key),
@@ -69,7 +70,9 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
         var donations = groupedDonations
             .SelectMany(g => g
                 .OrderByDescending(d => d.CreationDate)
-                .Take(3))
+                .Take(3)
+            )
+            .OrderBy(d => d.Project)
             .Select(entity => new BasicFountainDonationDto
             {
                 Id = entity.Id,
