@@ -9,17 +9,23 @@ defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  mediaStatuses: {
+    type: Array,
+    default: () => []
   }
 });
 
 const emits = defineEmits(["submit", "reset", "getLastDonations"]);
 
 const search = ref("");
+const mediaStatus = ref(null);
 const dateRange = ref([null, null]);
 
 const handleSubmit = () => {
   emits("submit", {
     search: search.value,
+    mediaStatus: mediaStatus.value,
     startDate: dateRange.value[0],
     endDate: dateRange.value[1]
   });
@@ -27,6 +33,7 @@ const handleSubmit = () => {
 
 const handleReset = () => {
   search.value = "";
+  mediaStatus.value = null;
   dateRange.value = [null, null];
   emits("reset");
 };
@@ -51,32 +58,26 @@ const getLastDonations = () => {
     }"
   >
     <v-row>
-      <v-col cols="12" md="6">
-        <v-text-field v-model="search" :label="t('common.search')" density="compact" hide-details variant="outlined"></v-text-field>
+      <v-col cols="12" md="3">
+        <v-text-field v-model="search" :label="t('common.search')" density="compact" hide-details variant="outlined" />
       </v-col>
-      <v-col cols="12" md="6">
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="dateRange[0]"
-              :label="t('common.startDate')"
-              density="compact"
-              hide-details
-              type="date"
-              variant="outlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="dateRange[1]"
-              :label="t('common.endDate')"
-              density="compact"
-              hide-details
-              type="date"
-              variant="outlined"
-            ></v-text-field>
-          </v-col>
-        </v-row>
+      <v-col cols="12" md="3">
+        <v-select
+          v-model="mediaStatus"
+          :items="mediaStatuses"
+          :label="t('admin.donations.fountains.fields.media')"
+          density="compact"
+          hide-details
+          :item-title="(item) => t(`admin.donations.media.status.${item.name}`)"
+          item-value="name"
+          variant="outlined"
+        ></v-select>
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-text-field v-model="dateRange[0]" :label="t('common.startDate')" density="compact" hide-details type="date" variant="outlined" />
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-text-field v-model="dateRange[1]" :label="t('common.endDate')" density="compact" hide-details type="date" variant="outlined" />
       </v-col>
     </v-row>
     <v-row class="mt-2">

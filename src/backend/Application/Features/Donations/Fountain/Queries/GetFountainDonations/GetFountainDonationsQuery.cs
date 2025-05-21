@@ -8,6 +8,7 @@ public class GetFountainDonationsQuery : IRequest<Result<PaginatedList<BasicFoun
 {
     public string? Search { get; set; }
     public string? Project { get; init; }
+    public string? MediaStatus { get; init; }
     public DateTime? StartDate { get; init; }
     public DateTime? EndDate { get; init; }
     public int Page { get; init; } = 1;
@@ -61,6 +62,9 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
 
         if (!string.IsNullOrEmpty(request.Project))
             query = query.Where(entity => entity.Project == request.Project);
+
+        if (!string.IsNullOrEmpty(request.MediaStatus))
+            query = query.Where(entity => entity.MediaStatus == request.MediaStatus);
 
         if (!string.IsNullOrEmpty(request.Search))
         {

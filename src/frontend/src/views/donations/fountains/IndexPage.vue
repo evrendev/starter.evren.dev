@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from "vue";
-import { useFountainDonationStore } from "@/stores";
+import { ref, watch, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useFountainDonationStore, usePredefinedValuesStore } from "@/stores";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { Breadcrumb } from "@/components/forms";
@@ -27,6 +28,14 @@ const breadcrumbs = ref([
     href: "#"
   }
 ]);
+
+const preDefinedValuesStore = usePredefinedValuesStore();
+const { mediaStatuses, fountainTeams } = storeToRefs(preDefinedValuesStore);
+
+onMounted(async () => {
+  await preDefinedValuesStore.getMediaStatuses();
+  await preDefinedValuesStore.getFountainTeams();
+});
 
 watch(
   () => route.query,
@@ -67,7 +76,8 @@ const searchOptions = {
   project: project.value,
   startDate: null,
   endDate: null,
-  search: null
+  search: null,
+  mediaStatus: null
 };
 
 const handleFilterSubmit = (filters) => {
@@ -75,6 +85,7 @@ const handleFilterSubmit = (filters) => {
   searchOptions.startDate = filters.startDate;
   searchOptions.endDate = filters.endDate;
   searchOptions.search = filters.search;
+  searchOptions.mediaStatus = filters.mediaStatus;
   getItems(searchOptions);
 };
 
@@ -83,6 +94,7 @@ const handleFilterReset = () => {
   searchOptions.startDate = null;
   searchOptions.endDate = null;
   searchOptions.search = null;
+  searchOptions.mediaStatus = null;
   getItems(searchOptions);
 };
 
@@ -96,6 +108,7 @@ const getLastDonations = async () => {
 const getItems = async (options) => {
   loading.value = true;
   options.project = project.value;
+  console.log("getItems", options);
   await donationStore.getItems(options);
   items.value = donationStore.items;
   itemsLength.value = donationStore.itemsLength;
@@ -107,9 +120,23 @@ const getItems = async (options) => {
   <breadcrumb :title="t('admin.donations.fountains.title')" :breadcrumbs="breadcrumbs" />
   <v-row>
     <v-col cols="12" md="12">
-      <filter-card :loading="loading" @submit="handleFilterSubmit" @reset="handleFilterReset" @getLastDonations="getLastDonations" />
+      <filter-card
+        :loading="loading"
+        :media-statuses="mediaStatuses"
+        @submit="handleFilterSubmit"
+        @reset="handleFilterReset"
+        @getLastDonations="getLastDonations"
+      />
 
-      <data-table :items="items" :items-length="itemsLength" :loading="loading" @update:options="getItems" :project="project" />
+      <data-table
+        :items="items"
+        :media-statuses="mediaStatuses"
+        :fountain-teams="fountainTeams"
+        :items-length="itemsLength"
+        :loading="loading"
+        @update:options="getItems"
+        :project="project"
+      />
     </v-col>
   </v-row>
 </template>

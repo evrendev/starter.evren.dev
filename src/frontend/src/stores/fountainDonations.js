@@ -11,7 +11,7 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
     itemsLength: 0
   }),
   actions: {
-    async getItems({ page, itemsPerPage, sortBy, search, project, startDate, endDate }) {
+    async getItems({ page, itemsPerPage, sortBy, search, project, startDate, endDate, mediaStatus }) {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
@@ -24,7 +24,8 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
           ...(search && { search }),
           ...(project && { project }),
           ...(startDate && { startDate }),
-          ...(endDate && { endDate })
+          ...(endDate && { endDate }),
+          ...(mediaStatus && { mediaStatus })
         });
 
         const response = await apiService.get(`/donations/fountain?${params}`, false);

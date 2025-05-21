@@ -1,8 +1,7 @@
 <script setup async>
-import { ref, onMounted, computed } from "vue";
-import { storeToRefs } from "pinia";
+import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { useFountainDonationStore, usePredefinedValuesStore } from "@/stores";
+import { useFountainDonationStore } from "@/stores";
 import { ParentCard } from "@/components/shared/";
 import { ConfirmDialog } from "@/components/forms/";
 import { DetailsDialog, MediaInformationDialog, ActionButtons } from "./";
@@ -10,13 +9,6 @@ import config from "@/config";
 
 const { t } = useI18n();
 const fountainDonationStore = useFountainDonationStore();
-const preDefinedValuesStore = usePredefinedValuesStore();
-const { mediaStatuses, fountainTeams } = storeToRefs(preDefinedValuesStore);
-
-onMounted(async () => {
-  await preDefinedValuesStore.getMediaStatuses();
-  await preDefinedValuesStore.getFountainTeams();
-});
 
 const props = defineProps({
   items: {
@@ -34,6 +26,14 @@ const props = defineProps({
   project: {
     type: String,
     default: null
+  },
+  mediaStatuses: {
+    type: Array,
+    default: () => []
+  },
+  fountainTeams: {
+    type: Array,
+    default: () => []
   }
 });
 
