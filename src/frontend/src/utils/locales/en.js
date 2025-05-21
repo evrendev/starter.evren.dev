@@ -350,6 +350,7 @@ export default {
           arrived: "Arrived",
           edited: "Edited",
           online: "Published",
+          delegated: "Delegated",
           transferred: "Transferred",
           reviewed: "Reviewed"
         }

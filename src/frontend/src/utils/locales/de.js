@@ -351,6 +351,7 @@ export default {
           arrived: "Ist gekommen",
           edited: "Geschnitten",
           online: "Online",
+          delegated: "Delegiert",
           transferred: "Transferiert",
           reviewed: "Kontrolliert"
         }

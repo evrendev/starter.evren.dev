@@ -352,6 +352,7 @@ export default {
           arrived: "Geldi",
           edited: "Düzenlendi",
           online: "Yayınlandı",
+          delegated: "Devredildi",
           transferred: "Gönderildi",
           reviewed: "Gözden Geçiriliyor"
         }
