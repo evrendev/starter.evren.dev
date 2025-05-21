@@ -1,7 +1,6 @@
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Identity.Services;

@@ -1,6 +1,5 @@
 using EvrenDev.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Features.Auth.Commands;
 

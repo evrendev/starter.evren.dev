@@ -1,8 +1,8 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Features.PredefinedValues.Models;
-using EvrenDev.Application.Features.PredefinedValues.Queries.GetMediaStatuses;
-using EvrenDev.Application.Features.PredefinedValues.Queries.GetFountaionTeams;
 using EvrenDev.Application.Features.PredefinedValues.Queries.GetAll;
+using EvrenDev.Application.Features.PredefinedValues.Queries.GetFountaionTeams;
+using EvrenDev.Application.Features.PredefinedValues.Queries.GetMediaStatuses;
 using EvrenDev.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
