@@ -160,7 +160,7 @@ const handleDelete = () => {
 
     <v-row class="mt-4">
       <v-col cols="12" class="d-flex justify-end gap-2">
-        <v-btn color="error" prepend-icon="$trashCan" class="ml-2" @click="handleDelete">
+        <v-btn v-if="event" color="error" prepend-icon="$trashCan" class="ml-2" @click="handleDelete">
           {{ t("common.delete") }}
         </v-btn>
 
