@@ -219,8 +219,13 @@ export default {
         description: "Açıklama"
       },
       calendars: {
-        absence: "İzin",
-        sick: "Hastalık"
+        holiday: "Tatil",
+        ill: "Hastalık",
+        appointment: "Randevu",
+        travel: "Seyahat",
+        school: "Okul",
+        medicalAppointment: "Tıbbi Randevu",
+        visit: "Ziyaret"
       },
       validation: {
         employee: {

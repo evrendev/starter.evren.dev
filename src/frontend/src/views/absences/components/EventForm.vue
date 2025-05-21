@@ -14,8 +14,13 @@ const props = defineProps({
 const { t } = useI18n();
 
 const calendars = ref([
-  { title: t("admin.absences.calendars.absence"), value: "absence" },
-  { title: t("admin.absences.calendars.sick"), value: "sick" }
+  { title: t("admin.absences.calendars.holiday"), value: "holiday" },
+  { title: t("admin.absences.calendars.ill"), value: "ill" },
+  { title: t("admin.absences.calendars.appointment"), value: "appointment" },
+  { title: t("admin.absences.calendars.travel"), value: "travel" },
+  { title: t("admin.absences.calendars.school"), value: "school" },
+  { title: t("admin.absences.calendars.medicalAppointment"), value: "medicalAppointment" },
+  { title: t("admin.absences.calendars.visit"), value: "visit" }
 ]);
 
 const locations = ref(["Bremen", "Essen"]);
@@ -23,7 +28,7 @@ const locations = ref(["Bremen", "Essen"]);
 const today = new Date().toISOString().slice(0, 10).replace(/-/g, "-");
 const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10).replace(/-/g, "-");
 const defaultValues = {
-  calendarId: props.event?.calendarId || "absence",
+  calendarId: props.event?.calendarId || "holiday",
   employee: props.event?.employee || "",
   description: props.event?.description || "",
   start: props.event?.start || today,

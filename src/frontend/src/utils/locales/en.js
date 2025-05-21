@@ -217,8 +217,13 @@ export default {
         description: "Description"
       },
       calendars: {
-        absence: "Absence",
-        sick: "Sick Leave"
+        holiday: "Holiday",
+        ill: "Illness",
+        appointment: "Appointment",
+        travel: "Travel",
+        school: "School",
+        medicalAppointment: "Medical Appointment",
+        visit: "Visit"
       },
       validation: {
         employee: {

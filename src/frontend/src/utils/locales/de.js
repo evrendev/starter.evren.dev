@@ -218,8 +218,13 @@ export default {
         description: "Beschreibung"
       },
       calendars: {
-        absence: "Abwesenheit Grund",
-        sick: "Krankheit"
+        holiday: "Urlaub",
+        ill: "Krank",
+        appointment: "Termin",
+        travel: "Reise",
+        school: "Schule",
+        medicalAppointment: "Arzttermin",
+        visit: "Behördengang"
       },
       validation: {
         employee: {
