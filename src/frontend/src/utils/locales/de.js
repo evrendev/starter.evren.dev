@@ -94,7 +94,7 @@ export default {
       },
       absence: {
         header: "Abwesenheit",
-        title: "Listen"
+        title: "Kalender"
       },
       admin: {
         title: "Admin"
@@ -206,7 +206,7 @@ export default {
       }
     },
     absences: {
-      title: "Abwesenheit",
+      title: "Kalender",
       list: "Listen",
       new: "Neu Abwesenheit",
       fields: {

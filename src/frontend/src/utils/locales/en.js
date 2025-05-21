@@ -82,7 +82,7 @@ export default {
       },
       absence: {
         header: "Absence",
-        title: "All Absences"
+        title: "Calendar"
       },
       donations: {
         title: "Donations",
@@ -205,7 +205,7 @@ export default {
       }
     },
     absences: {
-      title: "Absences",
+      title: "Calendar",
       list: "List Absences",
       new: "New Absence",
       fields: {

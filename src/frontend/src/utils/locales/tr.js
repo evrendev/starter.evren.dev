@@ -94,7 +94,7 @@ export default {
       },
       absence: {
         header: "Personel İzinleri",
-        title: "İzin Listesi"
+        title: "Takvim"
       },
       admin: {
         title: "Yönetici İşlemleri"
@@ -207,8 +207,8 @@ export default {
       }
     },
     absences: {
-      title: "İzinler",
-      list: "Liste",
+      title: "Takvim",
+      list: "İzin Listesi",
       new: "Yeni İzin",
       fields: {
         employee: "Çalışan",
