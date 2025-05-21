@@ -1,5 +1,5 @@
 <script setup>
-import { shallowRef, ref, onMounted } from "vue";
+import { shallowRef, ref, onMounted, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import { Breadcrumb } from "@/components/forms";
 import { useAbsenceStore, useAuthStore } from "@/stores";
@@ -39,16 +39,19 @@ onMounted(async () => {
   loading.value = false;
 });
 
-const saveEvent = async (event) => {
+const saveEvent = async (item) => {
   loading.value = true;
-  await absenceStore.save(event);
+  const id = await absenceStore.save(item);
+  item.id = id;
+  updateEventInformationOnDOM(item);
   loading.value = false;
   showEventDialog.value = false;
 };
 
-const updateEvent = async (event) => {
+const updateEvent = async (item) => {
   loading.value = true;
-  await absenceStore.update(event.id, event);
+  await absenceStore.update(item.id, item);
+  updateEventInformationOnDOM(item);
   loading.value = false;
   showEventDialog.value = false;
 };
@@ -67,6 +70,19 @@ const showEvent = (values) => {
 
 const closeDialog = () => {
   showEventDialog.value = false;
+};
+
+const updateEventInformationOnDOM = async (item) => {
+  await nextTick();
+  setTimeout(() => {
+    const el = document.querySelector(`[data-event-id="${item.id}"]`);
+    if (el) {
+      const titleElement = el.querySelector(".sx__month-grid-event-title");
+      if (titleElement) {
+        titleElement.textContent = `${item.employee} - ${item.location} - ${item.description}`;
+      }
+    }
+  }, 1000);
 };
 </script>
 

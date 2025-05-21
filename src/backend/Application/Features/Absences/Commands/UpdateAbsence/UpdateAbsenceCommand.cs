@@ -35,7 +35,7 @@ public class UpdateAbsenceCommandValidator : AbstractValidator<UpdateAbsenceComm
 
         RuleFor(v => v.CalendarId)
             .NotEmpty().WithMessage(_localizer["api.absence.create.calendar.required"])
-            .MaximumLength(10).WithMessage(_localizer["api.absence.create.calendar.maxlength"]);
+            .MaximumLength(100).WithMessage(_localizer["api.absence.create.calendar.maxlength"]);
 
         RuleFor(v => v.Description)
             .MaximumLength(1000).WithMessage(_localizer["api.absence.create.description.maxlength"]);

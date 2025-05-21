@@ -19,7 +19,7 @@ public class AbsenceConfiguration : IEntityTypeConfiguration<Absence>
             .IsRequired(true);
 
         builder.Property(t => t.CalendarId)
-            .HasMaxLength(10)
+            .HasMaxLength(100)
             .IsRequired(true);
     }
 }
