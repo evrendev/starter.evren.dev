@@ -61,7 +61,13 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             query = query.Where(entity => entity.CreationDate <= request.EndDate);
 
         if (!string.IsNullOrEmpty(request.Project))
+        {
             query = query.Where(entity => entity.Project == request.Project);
+        }
+        else
+        {
+            query = query.Where(entity => entity.Source != "EMPTY");
+        }
 
         if (!string.IsNullOrEmpty(request.MediaStatus))
             query = query.Where(entity => entity.MediaStatus == request.MediaStatus);
@@ -84,10 +90,16 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             );
         }
 
+        var projectInAfrica = string.Equals(request.Project, FountainDonationProject.AF01.Name, StringComparison.OrdinalIgnoreCase)
+        ||
+        string.Equals(request.Project, FountainDonationProject.AF02.Name, StringComparison.OrdinalIgnoreCase);
+
         // Apply sorting
         query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
-            : query.OrderByDescending(x => x.ProjectNumber).ThenByDescending(x => x.CreationDate);
+            : projectInAfrica
+                ? query.OrderByDescending(x => x.ProjectNumber).ThenByDescending(x => x.CreationDate)
+                : query.OrderByDescending(x => x.CreationDate).ThenByDescending(x => x.ProjectNumber);
 
         var dtoQuery = query.Select(entity => new BasicFountainDonationDto
         {

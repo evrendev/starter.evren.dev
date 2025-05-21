@@ -108,7 +108,6 @@ const getLastDonations = async () => {
 const getItems = async (options) => {
   loading.value = true;
   options.project = project.value;
-  console.log("getItems", options);
   await donationStore.getItems(options);
   items.value = donationStore.items;
   itemsLength.value = donationStore.itemsLength;
