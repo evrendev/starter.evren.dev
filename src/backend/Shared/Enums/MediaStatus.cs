@@ -12,6 +12,7 @@ public class MediaStatus(string? name, string? backgroundColor)
     public static MediaStatus Online => new("online", "success");
     public static MediaStatus Edited => new("edited", "warning");
     public static MediaStatus Transferred => new("transferred", "info");
+    public static MediaStatus Delegated => new("delegated", "accent");
     public static MediaStatus Reviewed => new("reviewed", "primary");
 
     public static MediaStatus From(string? name)
@@ -31,6 +32,7 @@ public class MediaStatus(string? name, string? backgroundColor)
             yield return Edited;
             yield return Online;
             yield return Transferred;
+            yield return Delegated;
             yield return Reviewed;
         }
     }
