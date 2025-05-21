@@ -3,9 +3,8 @@ namespace EvrenDev.Application.Features.Absences.Commands.UpdateAbsence;
 public class UpdateAbsenceCommand : IRequest<Result<bool>>
 {
     public Guid Id { get; set; }
-    public string? Title { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
     public string? Description { get; set; }
     public string? Location { get; set; }
     public string? Employee { get; set; }
@@ -23,15 +22,11 @@ public class UpdateAbsenceCommandValidator : AbstractValidator<UpdateAbsenceComm
         RuleFor(v => v.Id)
             .NotEmpty().WithMessage(_localizer["api.absence.update.id.required"]);
 
-        RuleFor(v => v.Title)
-            .NotEmpty().WithMessage(_localizer["api.absence.create.title.required"])
-            .MaximumLength(200).WithMessage(_localizer["api.absence.create.title.maxlength"]);
-
-        RuleFor(v => v.StartDate)
+        RuleFor(v => v.Start)
             .NotEmpty().WithMessage(_localizer["api.absence.create.startdate.required"])
-            .LessThan(v => v.EndDate).WithMessage(_localizer["api.absence.create.startdate.lessThanEndDate"]);
+            .LessThan(v => v.End).WithMessage(_localizer["api.absence.create.startdate.lessThanEndDate"]);
 
-        RuleFor(v => v.EndDate)
+        RuleFor(v => v.End)
             .NotEmpty().WithMessage(_localizer["api.absence.create.enddate.required"]);
 
         RuleFor(v => v.Employee)
@@ -70,8 +65,8 @@ public class UpdateAbsenceCommandHandler : IRequestHandler<UpdateAbsenceCommand,
         if (entity == null)
             throw new NotFoundException(nameof(Absence), request.Id.ToString());
 
-        entity.StartDate = request.StartDate;
-        entity.EndDate = request.EndDate;
+        entity.StartDate = request.Start;
+        entity.EndDate = request.End;
         entity.Description = request.Description;
         entity.Location = request.Location;
         entity.Employee = request.Employee;

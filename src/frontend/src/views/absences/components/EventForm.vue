@@ -8,6 +8,21 @@ const props = defineProps({
   event: {
     type: Object,
     default: () => null
+  },
+  hasCreatePermission: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  hasUpdatePermission: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  hasDeletePermission: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
@@ -76,10 +91,15 @@ const [start, startProps] = defineField("start", vuetifyConfig);
 const [end, endProps] = defineField("end", vuetifyConfig);
 const [description, descriptionProps] = defineField("description", vuetifyConfig);
 
-const emits = defineEmits(["closeEventDialog", "saveEvent", "deleteEvent"]);
+const emits = defineEmits(["closeEventDialog", "saveEvent", "updateEvent", "deleteEvent"]);
 
 const onSubmit = handleSubmit((values) => {
-  emits("saveEvent", values);
+  if (props.event) {
+    values.id = props.event.id;
+    emits("updateEvent", values);
+  } else {
+    emits("saveEvent", values);
+  }
 });
 
 const handleDelete = () => {
@@ -93,6 +113,7 @@ const handleDelete = () => {
         <v-text-field
           v-model="employee"
           v-bind="nameProps"
+          :disabled="event && !hasUpdatePermission"
           :label="t('admin.absences.fields.employee')"
           density="compact"
           variant="outlined"
@@ -104,6 +125,7 @@ const handleDelete = () => {
           v-model="location"
           v-bind="locationProps"
           :items="locations"
+          :disabled="event && !hasUpdatePermission"
           :label="t('admin.absences.fields.location')"
           density="compact"
           hide-details
@@ -119,6 +141,7 @@ const handleDelete = () => {
           v-model="calendarId"
           v-bind="calendarIdProps"
           :items="calendars"
+          :disabled="event && !hasUpdatePermission"
           :label="t('admin.absences.fields.calendarId')"
           density="compact"
           hide-details
@@ -131,6 +154,7 @@ const handleDelete = () => {
         <v-text-field
           v-model="start"
           v-bind="startProps"
+          :disabled="event && !hasUpdatePermission"
           :label="t('common.selectDate')"
           density="compact"
           hide-details
@@ -142,6 +166,7 @@ const handleDelete = () => {
         <v-text-field
           v-model="end"
           v-bind="endProps"
+          :disabled="event && !hasUpdatePermission"
           :label="t('common.selectDate')"
           density="compact"
           hide-details
@@ -155,6 +180,7 @@ const handleDelete = () => {
         <v-text-field
           v-model="description"
           v-bind="descriptionProps"
+          :disabled="event && !hasUpdatePermission"
           :label="t('admin.absences.fields.description')"
           density="compact"
           variant="outlined"
@@ -165,12 +191,16 @@ const handleDelete = () => {
 
     <v-row class="mt-4">
       <v-col cols="12" class="d-flex justify-end gap-2">
-        <v-btn v-if="event" color="error" prepend-icon="$trashCan" class="ml-2" @click="handleDelete">
+        <v-btn v-if="event && hasDeletePermission" color="error" prepend-icon="$trashCan" class="ml-2" @click="handleDelete">
           {{ t("common.delete") }}
         </v-btn>
 
-        <v-btn color="primary" type="submit" prepend-icon="$contentSave" class="ml-2">
+        <v-btn v-if="!event && hasCreatePermission" color="primary" type="submit" prepend-icon="$contentSave" class="ml-2">
           {{ t("common.save") }}
+        </v-btn>
+
+        <v-btn v-if="event && hasUpdatePermission" color="primary" type="submit" prepend-icon="$pencil" class="ml-2">
+          {{ t("common.update") }}
         </v-btn>
       </v-col>
     </v-row>

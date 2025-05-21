@@ -21,7 +21,8 @@ export const useAuthStore = defineStore("auth", {
     user: (state) => state.auth.user,
     token: (state) => state.auth.token,
     refreshToken: (state) => state.auth.refreshToken,
-    returnUrl: (state) => state.auth.returnUrl
+    returnUrl: (state) => state.auth.returnUrl,
+    permissions: (state) => state.auth.user?.permissions
   },
   actions: {
     async login(data) {

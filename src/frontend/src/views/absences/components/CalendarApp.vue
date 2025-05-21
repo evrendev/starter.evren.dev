@@ -22,6 +22,11 @@ const props = defineProps({
     type: Boolean,
     required: true,
     default: false
+  },
+  hasCreatePermission: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
@@ -171,6 +176,7 @@ const emits = defineEmits(["showEventDialog"]);
           <v-btn
             color="primary"
             size="small"
+            v-if="hasCreatePermission"
             prepend-icon="$plusCircle"
             :loading="loading"
             @click="$emit('showEventDialog')"

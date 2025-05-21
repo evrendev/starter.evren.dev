@@ -37,6 +37,10 @@ export const useAbsenceStore = defineStore("absence", {
     },
     async update(id, absence) {
       const response = await apiService.put(`/absences/${id}`, absence);
+      const index = this.events.findIndex((event) => event.id === id);
+      if (index !== -1) {
+        this.events[index] = { ...absence };
+      }
       return response;
     }
   }

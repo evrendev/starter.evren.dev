@@ -2,7 +2,7 @@
 import { shallowRef, ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { Breadcrumb } from "@/components/forms";
-import { useAbsenceStore } from "@/stores";
+import { useAbsenceStore, useAuthStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { EventDialog, CalendarApp } from "./components/";
 
@@ -15,6 +15,18 @@ const breadcrumbs = shallowRef([
     href: "#"
   }
 ]);
+
+const authStore = useAuthStore();
+const { permissions } = storeToRefs(authStore);
+const ABSENCE_PERMISSIONS = {
+  Create: "Absences.Create",
+  Update: "Absences.Edit",
+  Delete: "Absences.Delete"
+};
+
+const hasCreatePermission = permissions.value.some((p) => p === ABSENCE_PERMISSIONS.Create);
+const hasUpdatePermission = permissions.value.some((p) => p === ABSENCE_PERMISSIONS.Update);
+const hasDeletePermission = permissions.value.some((p) => p === ABSENCE_PERMISSIONS.Delete);
 
 const loading = ref(true);
 const event = ref(null);
@@ -30,6 +42,13 @@ onMounted(async () => {
 const saveEvent = async (event) => {
   loading.value = true;
   await absenceStore.save(event);
+  loading.value = false;
+  showEventDialog.value = false;
+};
+
+const updateEvent = async (event) => {
+  loading.value = true;
+  await absenceStore.update(event.id, event);
   loading.value = false;
   showEventDialog.value = false;
 };
@@ -53,11 +72,21 @@ const closeDialog = () => {
 
 <template>
   <breadcrumb :title="t('admin.absences.title')" :breadcrumbs="breadcrumbs" />
-  <calendar-app v-if="!loading" :loading="loading" :events="events" @show-event-dialog="showEvent" />
+  <calendar-app
+    v-if="!loading"
+    :loading="loading"
+    :has-create-permission="hasCreatePermission"
+    :events="events"
+    @show-event-dialog="showEvent"
+  />
   <event-dialog
     :showEventDialog="showEventDialog"
     :event="event"
+    :has-create-permission="hasCreatePermission"
+    :has-update-permission="hasUpdatePermission"
+    :has-delete-permission="hasDeletePermission"
     @save-event="saveEvent"
+    @update-event="updateEvent"
     @delete-event="deleteEvent"
     @close-dialog="closeDialog"
   />

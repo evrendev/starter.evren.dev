@@ -14,13 +14,32 @@ defineProps({
     type: Boolean,
     required: true,
     default: false
+  },
+  hasCreatePermission: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  hasUpdatePermission: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  hasDeletePermission: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
-const emits = defineEmits(["saveEvent", "deleteEvent", "closeDialog"]);
+const emits = defineEmits(["saveEvent", "updateEvent", "deleteEvent", "closeDialog"]);
 
 const saveEvent = (event) => {
   emits("saveEvent", event);
+};
+
+const updateEvent = (event) => {
+  emits("updateEvent", event);
 };
 
 const deleteEvent = (eventId) => {
@@ -39,7 +58,15 @@ const closeDialog = () => {
         {{ t("admin.absences.new") }}
       </v-card-title>
       <v-card-text>
-        <event-form @save-event="saveEvent" @delete-event="deleteEvent" :event="event" />
+        <event-form
+          :has-create-permission="hasCreatePermission"
+          :has-update-permission="hasUpdatePermission"
+          :has-delete-permission="hasDeletePermission"
+          @save-event="saveEvent"
+          @update-event="updateEvent"
+          @delete-event="deleteEvent"
+          :event="event"
+        />
       </v-card-text>
     </v-card>
   </v-dialog>
