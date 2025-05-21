@@ -90,11 +90,6 @@ const headers = ref([
     }
   }
   tbody {
-    &:hover tr {
-      opacity: 0.75;
-      filter: blur(0.5px);
-    }
-
     tr {
       transition: all 0.1s ease;
 
@@ -110,8 +105,6 @@ const headers = ref([
         box-shadow:
           0 4px 20px rgba(0, 0, 0, 0.2),
           inset 10px 0 0 0 rgb(var(--v-theme-primary));
-        opacity: 1 !important;
-        filter: none !important;
         cursor: pointer;
       }
 
