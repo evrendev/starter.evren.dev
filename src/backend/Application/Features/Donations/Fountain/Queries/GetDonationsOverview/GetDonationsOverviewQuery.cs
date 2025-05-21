@@ -42,7 +42,7 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
 
     public async Task<Result<DonationOverview?>> Handle(GetDonationsOverviewQuery request, CancellationToken cancellationToken)
     {
-        var query = _context.FountainDonations.AsQueryable();
+        var query = _context.FountainDonations.AsQueryable().Where(donation => donation.Source != "EMPTY");
 
         if (request.StartDate != null)
             query = query.Where(entity => entity.CreationDate >= request.StartDate);
