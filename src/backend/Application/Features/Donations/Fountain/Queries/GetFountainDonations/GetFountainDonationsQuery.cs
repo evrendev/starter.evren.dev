@@ -63,7 +63,11 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
             query = query.Where(entity => entity.Project == request.Project);
 
         if (!string.IsNullOrEmpty(request.Search))
+        {
+            bool isNumeric = int.TryParse(request.Search, out int searchNumber);
             query = query.Where(entity =>
+                (isNumeric && entity.ProjectNumber != null && entity.ProjectNumber == searchNumber)
+                ||
                 entity.Contact != null && entity.Contact.Contains(request.Search)
                 ||
                 entity.Phone != null && entity.Phone.Contains(request.Search)
@@ -74,11 +78,12 @@ public class GetFountainDonationsQueryHandler : IRequestHandler<GetFountainDonat
                 ||
                 entity.TransactionId != null && entity.TransactionId.Contains(request.Search)
             );
+        }
 
         // Apply sorting
         query = !string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortDesc)
             ? ApplySorting(query, request.SortBy, request.SortDesc == "desc")
-            : query.OrderByDescending(x => x.CreationDate).ThenByDescending(x => x.ProjectNumber);
+            : query.OrderByDescending(x => x.ProjectNumber).ThenByDescending(x => x.CreationDate);
 
         var dtoQuery = query.Select(entity => new BasicFountainDonationDto
         {
