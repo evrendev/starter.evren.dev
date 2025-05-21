@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "vue-chartjs";
 
@@ -9,12 +10,12 @@ defineProps({
     type: Object,
     default: () => ({}),
     required: false
-  },
-  options: {
-    type: Object,
-    default: () => ({}),
-    required: false
   }
+});
+
+const options = ref({
+  responsive: true,
+  maintainAspectRatio: false
 });
 </script>
 

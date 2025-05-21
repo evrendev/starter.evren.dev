@@ -126,7 +126,10 @@ export default {
   admin: {
     dashboard: {
       title: "Dashboard",
-      subtitle: "This is a good place to start"
+      subtitle: "This is a good place to start",
+      chart: {
+        yaxis: "Fountain Count"
+      }
     },
     profile: {
       title: "Profile",
@@ -570,7 +573,22 @@ export default {
     false: "No",
     count: "Count",
     checkingForNewDonations: "Checking for new donations...",
-    getLastDonations: "Get Last Donations"
+    getLastDonations: "Get Last Donations",
+    fountains: "Fountains",
+    months: {
+      Jan: "January",
+      Feb: "February",
+      Mar: "March",
+      Apr: "April",
+      May: "May",
+      Jun: "June",
+      Jul: "July",
+      Aug: "August",
+      Sep: "September",
+      Oct: "October",
+      Nov: "November",
+      Dec: "December"
+    }
   },
   $vuetify: {
     ...en

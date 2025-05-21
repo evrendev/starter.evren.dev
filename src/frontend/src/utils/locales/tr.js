@@ -126,7 +126,10 @@ export default {
   admin: {
     dashboard: {
       title: "Yönetim Paneli",
-      subtitle: "Yönetim Paneline Hoşgeldiniz"
+      subtitle: "Yönetim Paneline Hoşgeldiniz",
+      chart: {
+        yaxis: "Kuyu Sayısı"
+      }
     },
     profile: {
       title: "Profil",
@@ -568,7 +571,22 @@ export default {
     false: "Hayır",
     count: "Adet",
     checkingForNewDonations: "Yeni Bağışlar Kontrol Ediliyor...",
-    getLastDonations: "Son Bağışları Al"
+    getLastDonations: "Son Bağışları Al",
+    fountains: "Kuyu",
+    months: {
+      Jan: "Ocak",
+      Feb: "Şubat",
+      Mar: "Mart",
+      Apr: "Nisan",
+      May: "Mayıs",
+      Jun: "Haziran",
+      Jul: "Temmuz",
+      Aug: "Ağustos",
+      Sep: "Eylül",
+      Oct: "Ekim",
+      Nov: "Kasım",
+      Dec: "Aralık"
+    }
   },
   $vuetify: {
     ...tr

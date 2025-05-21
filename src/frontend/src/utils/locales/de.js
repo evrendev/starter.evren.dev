@@ -126,7 +126,10 @@ export default {
   admin: {
     dashboard: {
       title: "Dashboard",
-      subtitle: "Willkommen bei der Admin-Panel"
+      subtitle: "Willkommen bei der Admin-Panel",
+      chart: {
+        yaxis: "Anzahl der Brunnen"
+      }
     },
     profile: {
       title: "Profil",
@@ -568,7 +571,22 @@ export default {
     false: "Nein",
     count: "Anzahl",
     checkingForNewDonations: "Überprüfen auf neue Spenden...",
-    getLastDonations: "Erhalten Sie die letzten Spenden"
+    getLastDonations: "Erhalten Sie die letzten Spenden",
+    fountains: "Brunnen",
+    months: {
+      Jan: "Januar",
+      Feb: "Februar",
+      Mar: "März",
+      Apr: "April",
+      May: "Mai",
+      Jun: "Juni",
+      Jul: "Juli",
+      Aug: "August",
+      Sep: "September",
+      Oct: "Oktober",
+      Nov: "November",
+      Dec: "Dezember"
+    }
   },
   $vuetify: {
     ...de

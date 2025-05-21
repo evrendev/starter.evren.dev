@@ -4,7 +4,7 @@ import { computed, onMounted, ref, shallowRef } from "vue";
 import { Breadcrumb } from "@/components/forms";
 import { useFountainDonationStore, useAppStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { StatsCard, DoughnutCard, DataTable } from "./components/";
+import { StatsCard, DoughnutCard, DataTable, MonthlyProjectBarChart } from "./components/";
 
 const { t } = useI18n();
 
@@ -17,11 +17,6 @@ onMounted(() => {
   fountainDonationStore.getOverviews();
 });
 
-const options = ref({
-  responsive: true,
-  maintainAspectRatio: false
-});
-
 const colorMap = {
   primary: "#009846",
   warning: "#ffc107",
@@ -29,7 +24,7 @@ const colorMap = {
   error: "#f44336"
 };
 
-const chartData = computed(() => {
+const doughnutChartData = computed(() => {
   if (!overview.value.stats?.length) return null;
 
   return {
@@ -56,17 +51,24 @@ const breadcrumbs = shallowRef([
 <template>
   <breadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <v-row>
+    <v-col md="12">
+      <v-sheet class="pa-2 ma-2">
+        <monthly-project-bar-chart :loading="loading" v-if="overview?.donations" :monthly-project-stats="overview?.monthlyProjectStats" />
+      </v-sheet>
+    </v-col>
+  </v-row>
+  <v-row class="mt-2">
     <v-col lg="8" sm="12" md="9">
       <v-sheet class="pa-2 ma-2">
-        <data-table v-if="overview?.donations" :items="overview?.donations" :loading="loading" hide-default-footer />
+        <data-table :loading="loading" v-if="overview?.donations" :items="overview?.donations" hide-default-footer />
       </v-sheet>
     </v-col>
     <v-col lg="4" sm="12" md="3">
       <v-sheet class="pa-2 ma-2">
-        <doughnut-card :chart-data="chartData" :options="options" />
+        <doughnut-card :chart-data="doughnutChartData" />
       </v-sheet>
       <v-sheet class="pa-2 ma-2">
-        <stats-card v-for="(item, index) in overview.stats" :key="index" :item="item" class="mb-2" />
+        <stats-card v-for="(item, index) in overview?.stats" :key="index" :item="item" class="mb-2" />
       </v-sheet>
     </v-col>
   </v-row>
