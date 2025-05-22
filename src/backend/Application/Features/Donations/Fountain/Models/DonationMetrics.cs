@@ -2,7 +2,7 @@ namespace EvrenDev.Application.Features.Donations.Fountain.Models;
 
 public record DonationMetrics
 {
-    public IReadOnlyList<ProjectsCountDto>? Stats { get; set; }
-    public IReadOnlyList<BasicFountainDonationDto>? Donations { get; set; }
+    public IReadOnlyList<ProjectsCountDto>? TotalFountainCountsByProject { get; set; }
+    public IReadOnlyList<BasicFountainDonationDto>? RecentFountainDonations { get; set; }
     public List<MonthlyProjectStatsDto>? MonthlyProjectStats { get; set; }
 }

@@ -61,7 +61,7 @@ public class GetDonationsMetricsQueryHandler : IRequestHandler<GetDonationsMetri
             if (!string.IsNullOrEmpty(request.Project))
                 query = query.Where(entity => entity.Project == request.Project);
 
-            var stats = await query
+            var totalFountainCountsByProject = await query
                 .GroupBy(x => x.Project)
                 .OrderBy(x => x.Key)
                 .Select(g => new ProjectsCountDto
@@ -75,7 +75,7 @@ public class GetDonationsMetricsQueryHandler : IRequestHandler<GetDonationsMetri
                 .GroupBy(d => d.Project)
                 .ToListAsync(cancellationToken);
 
-            var donations = groupedDonations
+            var recentFountainDonations = groupedDonations
                 .SelectMany(g => g
                     .OrderByDescending(d => d.CreationDate)
                     .Take(3)
@@ -95,7 +95,7 @@ public class GetDonationsMetricsQueryHandler : IRequestHandler<GetDonationsMetri
                 })
                 .ToList();
 
-            var monthlyProjectStats = await query
+            var donationCountByMonth = await query
                 .GroupBy(d => new { d.CreationDate.Year, d.CreationDate.Month, d.Project })
                 .Select(g => new
                 {
@@ -106,7 +106,7 @@ public class GetDonationsMetricsQueryHandler : IRequestHandler<GetDonationsMetri
                 })
                 .ToListAsync(cancellationToken);
 
-            var formattedStats = monthlyProjectStats
+            var monthlyProjectStats = donationCountByMonth
                 .Select(g => new MonthlyProjectStatsDto
                 {
                     Month = new DateTime(g.Year, g.Month, 1).ToString("MMM", CultureInfo.InvariantCulture),
@@ -119,9 +119,9 @@ public class GetDonationsMetricsQueryHandler : IRequestHandler<GetDonationsMetri
 
             var response = new DonationMetrics()
             {
-                Stats = stats,
-                Donations = donations,
-                MonthlyProjectStats = formattedStats
+                TotalFountainCountsByProject = totalFountainCountsByProject,
+                RecentFountainDonations = recentFountainDonations,
+                MonthlyProjectStats = monthlyProjectStats
             };
 
             return Result<DonationMetrics?>.Success(response);

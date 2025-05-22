@@ -6,7 +6,7 @@ import { ParentCard } from "@/components/shared/";
 const { t } = useI18n();
 
 defineProps({
-  items: {
+  recentFountainDonations: {
     type: Array,
     required: true
   },
@@ -35,7 +35,7 @@ const headers = ref([
   <parent-card>
     <v-data-table-server
       :headers="headers"
-      :items="items"
+      :items="recentFountainDonations"
       :loading="loading"
       items-length="12"
       hide-default-footer

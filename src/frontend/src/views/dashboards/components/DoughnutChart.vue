@@ -6,9 +6,9 @@ import { Doughnut } from "vue-chartjs";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const props = defineProps({
-  chartData: {
-    type: Object,
-    default: () => ({}),
+  totalFountainCountsByProject: {
+    type: Array,
+    default: () => [],
     required: false
   },
   colorMap: {
@@ -18,15 +18,15 @@ const props = defineProps({
   }
 });
 
-const chartData = computed(() => {
-  if (!props.chartData?.length) return null;
+const data = computed(() => {
+  if (!props.totalFountainCountsByProject?.length) return null;
 
   return {
-    labels: props.chartData?.map((s) => s.project.name),
+    labels: props.totalFountainCountsByProject?.map((s) => s.project.name),
     datasets: [
       {
-        data: props.chartData.map((p) => p.count),
-        backgroundColor: props.chartData.map((p) => props.colorMap[p.project.color] || "#CCCCCC")
+        data: props.totalFountainCountsByProject?.map((p) => p.count),
+        backgroundColor: props.totalFountainCountsByProject?.map((p) => props.colorMap[p.project.color] || "#CCCCCC")
       }
     ]
   };
@@ -39,5 +39,5 @@ const options = ref({
 </script>
 
 <template>
-  <Doughnut v-if="chartData" :data="chartData" :options="options" />
+  <Doughnut v-if="data" :data="data" :options="options" />
 </template>
