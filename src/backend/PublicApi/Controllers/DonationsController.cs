@@ -13,6 +13,7 @@ using EvrenDev.Application.Features.Donations.Fountain.Models;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsMetrics;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetWeeklyReports;
 using EvrenDev.PublicApi.Hub;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -351,6 +352,31 @@ public class DonationsController : ControllerBase
 
             var content = await response.Content.ReadAsStringAsync();
             return Ok(new { message = content });
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new
+            {
+                Error = true,
+                message = _localizer["api.validations.failed"].Value,
+                Errors = ex.Errors.Select(x => new
+                {
+                    key = x.Key.ToLowerInvariant(),
+                    value = x.Value[0]
+                }).ToList()
+            });
+        }
+    }
+
+    [HttpGet("fountain/get-weekly-reports")]
+    [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
+    public async Task<ActionResult> GetWeeklyReports()
+    {
+        try
+        {
+            var query = new GetWeeklyReportsQuery();
+            var result = await _mediator.Send(query);
+            return result.Succeeded ? Ok(result.Data) : BadRequest(result.Errors);
         }
         catch (ValidationException ex)
         {

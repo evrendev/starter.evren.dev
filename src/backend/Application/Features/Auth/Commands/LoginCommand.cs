@@ -33,11 +33,11 @@ public class LoginCommandValidator : AbstractValidator<LoginCommand>
         RuleFor(v => v.Password)
             .NotEmpty().WithMessage(_localizer["api.auth.login.password.required"]);
 
-        RuleFor(v => v.Response)
-            .NotEmpty().NotNull().WithMessage(_localizer["api.auth.login.captcha.required"])
-            .MustAsync(ValidateRecaptcha)
-            .WithMessage(_localizer["api.auth.login.captcha.error"])
-            .WithErrorCode("not_verified");
+        // RuleFor(v => v.Response)
+        //     .NotEmpty().NotNull().WithMessage(_localizer["api.auth.login.captcha.required"])
+        //     .MustAsync(ValidateRecaptcha)
+        //     .WithMessage(_localizer["api.auth.login.captcha.error"])
+        //     .WithErrorCode("not_verified");
     }
 
     public async Task<bool> ValidateRecaptcha(string? response, CancellationToken cancellationToken)
