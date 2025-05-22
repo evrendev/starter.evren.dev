@@ -576,18 +576,54 @@ export default {
     getLastDonations: "Get Last Donations",
     fountains: "Fountains",
     months: {
-      Jan: "January",
-      Feb: "February",
-      Mar: "March",
-      Apr: "April",
-      May: "May",
-      Jun: "June",
-      Jul: "July",
-      Aug: "August",
-      Sep: "September",
-      Oct: "October",
-      Nov: "November",
-      Dec: "December"
+      Jan: {
+        short: "Jan",
+        full: "January"
+      },
+      Feb: {
+        short: "Feb",
+        full: "February"
+      },
+      Mar: {
+        short: "Mar",
+        full: "March"
+      },
+      Apr: {
+        short: "Apr",
+        full: "April"
+      },
+      May: {
+        short: "May",
+        full: "May"
+      },
+      Jun: {
+        short: "Jun",
+        full: "June"
+      },
+      Jul: {
+        short: "Jul",
+        full: "July"
+      },
+      Aug: {
+        short: "Aug",
+        full: "August"
+      },
+      Sep: {
+        short: "Sep",
+        full: "September"
+      },
+      Oct: {
+        short: "Oct",
+        full: "October"
+      },
+      Nov: {
+        short: "Nov",
+        full: "November"
+      },
+      Dec: {
+        short: "Dec",
+        full: "December"
+      }
     }
   },
   $vuetify: {

@@ -574,18 +574,54 @@ export default {
     getLastDonations: "Son Bağışları Al",
     fountains: "Kuyu",
     months: {
-      Jan: "Ocak",
-      Feb: "Şubat",
-      Mar: "Mart",
-      Apr: "Nisan",
-      May: "Mayıs",
-      Jun: "Haziran",
-      Jul: "Temmuz",
-      Aug: "Ağustos",
-      Sep: "Eylül",
-      Oct: "Ekim",
-      Nov: "Kasım",
-      Dec: "Aralık"
+      Jan: {
+        short: "Oca",
+        long: "Ocak"
+      },
+      Feb: {
+        short: "Şub",
+        long: "Şubat"
+      },
+      Mar: {
+        short: "Mar",
+        long: "Mart"
+      },
+      Apr: {
+        short: "Nis",
+        long: "Nisan"
+      },
+      May: {
+        short: "May",
+        long: "Mayıs"
+      },
+      Jun: {
+        short: "Haz",
+        long: "Haziran"
+      },
+      Jul: {
+        short: "Tem",
+        long: "Temmuz"
+      },
+      Aug: {
+        short: "Ağu",
+        long: "Ağustos"
+      },
+      Sep: {
+        short: "Eyl",
+        long: "Eylül"
+      },
+      Oct: {
+        short: "Eki",
+        long: "Ekim"
+      },
+      Nov: {
+        short: "Kas",
+        long: "Kasım"
+      },
+      Dec: {
+        short: "Ara",
+        long: "Aralık"
+      }
     }
   },
   $vuetify: {

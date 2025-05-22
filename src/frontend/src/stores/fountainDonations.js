@@ -10,6 +10,11 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
     overview: {},
     itemsLength: 0
   }),
+  getters: {
+    doughnutChartData: (state) => state.overview?.stats,
+    monthlyProjectStats: (state) => state.overview?.monthlyProjectStats,
+    donations: (state) => state.overview?.donations
+  },
   actions: {
     async getItems({ page, itemsPerPage, sortBy, search, project, startDate, endDate, mediaStatus }) {
       const appStore = useAppStore();

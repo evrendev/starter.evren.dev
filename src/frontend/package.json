@@ -38,7 +38,7 @@
     "vue3-apexcharts": "1.8.0",
     "vue3-perfect-scrollbar": "2.0.0",
     "vue3-print-nb": "0.1.4",
-    "vuetify": "3.8.5",
+    "vuetify": "3.8.6",
     "vuetify-sonner": "^0.3.21",
     "webpack-plugin-vuetify": "3.1.1",
     "yup": "^1.6.1"

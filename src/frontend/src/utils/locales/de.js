@@ -574,18 +574,54 @@ export default {
     getLastDonations: "Erhalten Sie die letzten Spenden",
     fountains: "Brunnen",
     months: {
-      Jan: "Januar",
-      Feb: "Februar",
-      Mar: "März",
-      Apr: "April",
-      May: "Mai",
-      Jun: "Juni",
-      Jul: "Juli",
-      Aug: "August",
-      Sep: "September",
-      Oct: "Oktober",
-      Nov: "November",
-      Dec: "Dezember"
+      Jan: {
+        short: "Jan",
+        long: "Januar"
+      },
+      Feb: {
+        short: "Feb",
+        long: "Februar"
+      },
+      Mar: {
+        short: "Mär",
+        long: "März"
+      },
+      Apr: {
+        short: "Apr",
+        long: "April"
+      },
+      May: {
+        short: "Mai",
+        long: "Mai"
+      },
+      Jun: {
+        short: "Jun",
+        long: "Juni"
+      },
+      Jul: {
+        short: "Jul",
+        long: "Juli"
+      },
+      Aug: {
+        short: "Aug",
+        long: "August"
+      },
+      Sep: {
+        short: "Sep",
+        long: "September"
+      },
+      Oct: {
+        short: "Okt",
+        long: "Oktober"
+      },
+      Nov: {
+        short: "Nov",
+        long: "November"
+      },
+      Dec: {
+        short: "Dez",
+        long: "Dezember"
+      }
     }
   },
   $vuetify: {
