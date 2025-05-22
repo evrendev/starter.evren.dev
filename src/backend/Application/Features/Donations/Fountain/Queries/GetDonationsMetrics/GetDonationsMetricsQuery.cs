@@ -4,20 +4,20 @@ using EvrenDev.Application.Features.Donations.Fountain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsOverview;
+namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsMetrics;
 
-public class GetDonationsOverviewQuery : IRequest<Result<DonationOverview?>>
+public class GetDonationsMetricsQuery : IRequest<Result<DonationMetrics?>>
 {
     public string? Project { get; init; }
     public DateTime? StartDate { get; init; } = new DateTime(DateTime.Now.Year, 1, 1);
     public DateTime? EndDate { get; init; } = new DateTime(DateTime.Now.Year, 12, 31);
 }
 
-public class GetDonationsOverviewQueryValidator : AbstractValidator<GetDonationsOverviewQuery>
+public class GetDonationsMetricsQueryValidator : AbstractValidator<GetDonationsMetricsQuery>
 {
-    private readonly IStringLocalizer<GetDonationsOverviewQueryValidator> _localizer;
+    private readonly IStringLocalizer<GetDonationsMetricsQueryValidator> _localizer;
 
-    public GetDonationsOverviewQueryValidator(IStringLocalizer<GetDonationsOverviewQueryValidator> localizer)
+    public GetDonationsMetricsQueryValidator(IStringLocalizer<GetDonationsMetricsQueryValidator> localizer)
     {
         _localizer = localizer;
 
@@ -33,19 +33,19 @@ public class GetDonationsOverviewQueryValidator : AbstractValidator<GetDonations
     }
 }
 
-public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOverviewQuery, Result<DonationOverview?>>
+public class GetDonationsMetricsQueryHandler : IRequestHandler<GetDonationsMetricsQuery, Result<DonationMetrics?>>
 {
     private readonly IDonationDbContext _context;
-    private readonly ILogger<GetDonationsOverviewQueryHandler> _logger;
+    private readonly ILogger<GetDonationsMetricsQueryHandler> _logger;
 
-    public GetDonationsOverviewQueryHandler(IDonationDbContext context,
-        ILogger<GetDonationsOverviewQueryHandler> logger)
+    public GetDonationsMetricsQueryHandler(IDonationDbContext context,
+        ILogger<GetDonationsMetricsQueryHandler> logger)
     {
         _context = context;
         _logger = logger;
     }
 
-    public async Task<Result<DonationOverview?>> Handle(GetDonationsOverviewQuery request, CancellationToken cancellationToken)
+    public async Task<Result<DonationMetrics?>> Handle(GetDonationsMetricsQuery request, CancellationToken cancellationToken)
     {
         try
         {
@@ -117,19 +117,19 @@ public class GetDonationsOverviewQueryHandler : IRequestHandler<GetDonationsOver
                 .ThenBy(g => g.Project?.Name)
                 .ToList();
 
-            var response = new DonationOverview()
+            var response = new DonationMetrics()
             {
                 Stats = stats,
                 Donations = donations,
                 MonthlyProjectStats = formattedStats
             };
 
-            return Result<DonationOverview?>.Success(response);
+            return Result<DonationMetrics?>.Success(response);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error while getting donations overview");
-            return Result<DonationOverview?>.Failure(new[] { "api.donations.fountains.overview.error" });
+            return Result<DonationMetrics?>.Failure(new[] { "api.donations.fountains.overview.error" });
             throw;
         }
     }

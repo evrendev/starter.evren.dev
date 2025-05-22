@@ -7,13 +7,13 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
   state: () => ({
     items: [],
     donation: {},
-    overview: {},
+    metrics: {},
     itemsLength: 0
   }),
   getters: {
-    doughnutChartData: (state) => state.overview?.stats,
-    monthlyProjectStats: (state) => state.overview?.monthlyProjectStats,
-    donations: (state) => state.overview?.donations
+    doughnutChartData: (state) => state.metrics?.stats,
+    monthlyProjectStats: (state) => state.metrics?.monthlyProjectStats,
+    donations: (state) => state.metrics?.donations
   },
   actions: {
     async getItems({ page, itemsPerPage, sortBy, search, project, startDate, endDate, mediaStatus }) {
@@ -51,13 +51,13 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
         appStore.setLoading(false);
       }
     },
-    async getOverviews() {
+    async getMetrics() {
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       try {
-        const response = await apiService.get("/donations/fountain/overview", false);
-        this.overview = response;
+        const response = await apiService.get("/donations/fountain/metrics", false);
+        this.metrics = response;
       } finally {
         appStore.setLoading(false);
       }

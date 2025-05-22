@@ -22,7 +22,7 @@ const fountainDonationStore = useFountainDonationStore();
 const { doughnutChartData, monthlyProjectStats, donations } = storeToRefs(fountainDonationStore);
 
 onMounted(() => {
-  fountainDonationStore.getOverviews();
+  fountainDonationStore.getMetrics();
 });
 
 const colorMap = {

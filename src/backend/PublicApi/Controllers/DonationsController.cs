@@ -10,7 +10,7 @@ using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateConstructi
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateDonorNotified;
 using EvrenDev.Application.Features.Donations.Fountain.Commands.UpdateFountainDonation;
 using EvrenDev.Application.Features.Donations.Fountain.Models;
-using EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsOverview;
+using EvrenDev.Application.Features.Donations.Fountain.Queries.GetDonationsMetrics;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonationById;
 using EvrenDev.Application.Features.Donations.Fountain.Queries.GetFountainDonations;
 using EvrenDev.PublicApi.Hub;
@@ -312,9 +312,9 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpGet("fountain/overview")]
+    [HttpGet("fountain/metrics")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
-    public async Task<ActionResult> GetCounts([FromQuery] GetDonationsOverviewQuery query)
+    public async Task<ActionResult> GetCounts([FromQuery] GetDonationsMetricsQuery query)
     {
         try
         {
