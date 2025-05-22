@@ -368,7 +368,7 @@ public class DonationsController : ControllerBase
         }
     }
 
-    [HttpGet("fountain/get-weekly-reports")]
+    [HttpGet("fountain/weekly-reports")]
     [Authorize(Policy = $"{Modules.Donations}.{Permissions.Read}")]
     public async Task<ActionResult> GetWeeklyReports()
     {
