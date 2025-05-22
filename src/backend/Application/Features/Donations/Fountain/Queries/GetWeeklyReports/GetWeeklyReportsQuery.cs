@@ -108,32 +108,32 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                     Project = project,
                     LastOnlineFountain = new FountainItemDto
                     {
-                        FountainCode = $"{lastOnlineFountain?.Project}-{lastOnlineFountain?.ProjectNumber}",
+                        Code = $"{lastOnlineFountain?.Project}-{lastOnlineFountain?.ProjectNumber}",
                         CreationDate = lastOnlineFountain?.CreationDate,
                     },
                     PendingMediaFountains = pendingMediaFountains.Select(d => new FountainItemDto
                     {
-                        FountainCode = $"{d.Project}-{d.ProjectNumber}",
+                        Code = $"{d.Project}-{d.ProjectNumber}",
                         CreationDate = d.CreationDate,
                     }).ToList(),
                     LastAssignedFountainCode = new FountainItemDto
                     {
-                        FountainCode = $"{lastAssignedFountainCode?.Project}-{lastAssignedFountainCode?.ProjectNumber}",
+                        Code = $"{lastAssignedFountainCode?.Project}-{lastAssignedFountainCode?.ProjectNumber}",
                         CreationDate = lastAssignedFountainCode?.CreationDate,
                     },
                     MissingSince6Weeks = missingSince6Weeks.Select(d => new FountainItemDto
                     {
-                        FountainCode = $"{d.Project}-{d.ProjectNumber}",
+                        Code = $"{d.Project}-{d.ProjectNumber}",
                         CreationDate = d.CreationDate,
                     }).ToList(),
                     MissingSince8Weeks = missingSince8Weeks.Select(d => new FountainItemDto
                     {
-                        FountainCode = $"{d.Project}-{d.ProjectNumber}",
+                        Code = $"{d.Project}-{d.ProjectNumber}",
                         CreationDate = d.CreationDate,
                     }).ToList(),
                     MissingSince13Weeks = missingSince13Weeks.Select(d => new FountainItemDto
                     {
-                        FountainCode = $"{d.Project}-{d.ProjectNumber}",
+                        Code = $"{d.Project}-{d.ProjectNumber}",
                         CreationDate = d.CreationDate,
                     }).ToList(),
                 });

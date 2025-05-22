@@ -79,6 +79,14 @@ const AdminRoutes = {
               meta: {
                 titleKey: "admin.donations.edit"
               }
+            },
+            {
+              name: "weekly-report",
+              path: "weekly-report",
+              component: () => import("@/views/donations/fountains/WeeklyReportPage.vue"),
+              meta: {
+                titleKey: "admin.donations.fountains.weeklyReport.title"
+              }
             }
           ]
         }

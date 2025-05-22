@@ -84,7 +84,8 @@ export default {
           bl01: "BL01",
           bl02: "BL02",
           af01: "AF01",
-          af02: "AF02"
+          af02: "AF02",
+          weeklyReport: "Wöchentlicher Bericht"
         },
         new: "Neu Spende"
       },
@@ -343,6 +344,9 @@ export default {
             required: "Projekt ist erforderlich.",
             invalid: "Proje geçerli bir proje değil."
           }
+        },
+        weeklyReport: {
+          title: "Wöchentlicher Bericht"
         }
       },
       media: {

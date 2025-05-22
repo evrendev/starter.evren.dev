@@ -96,7 +96,11 @@ export const useNavigationStore = defineStore("navigation", {
                       to: "/admin/donations/fountains/new"
                     }
                   ]
-                : [])
+                : []),
+              {
+                title: "components.sidebar.donations.fountains.weeklyReport",
+                to: "/admin/donations/fountains/weekly-report"
+              }
             ]
           }
         );

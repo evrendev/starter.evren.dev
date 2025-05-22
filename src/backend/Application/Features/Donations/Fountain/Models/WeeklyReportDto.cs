@@ -13,8 +13,9 @@ public record WeeklyReportDto
 
 public record FountainItemDto
 {
-    public string? FountainCode { get; set; }
+    public string? Code { get; set; }
     public DateTime? CreationDate { get; set; }
+    public string? Date => CreationDate?.ToString("dd MMM yyyy");
     public int Weeks => CreationDate.HasValue
         ? (int)Math.Round((DateTime.Today - CreationDate.Value).TotalDays / 7.0)
         : 0;
