@@ -19,12 +19,12 @@ const props = defineProps({
 
 const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-const rawCategories = computed(() => {
+const months = computed(() => {
   const months = [...new Set(props.monthlyProjectStats.map((s) => s.month))];
   return monthOrder.filter((m) => months.includes(m));
 });
 
-const translatedCategories = computed(() => rawCategories.value.map((m) => t(`common.months.${m}.short`)));
+const translatedMonths = computed(() => months.value.map((month) => t(`common.months.${month.toLocaleLowerCase()}.short`)));
 
 const projects = computed(() => {
   return [...new Set(props.monthlyProjectStats.map((s) => s.project.name))];
@@ -34,7 +34,7 @@ const chartSeries = computed(() => {
   return projects.value.map((project) => {
     return {
       name: project,
-      data: rawCategories.value.map((month) => {
+      data: months.value.map((month) => {
         const record = props.monthlyProjectStats.find((s) => s.project.name === project && s.month === month);
         return record ? record.count : 0;
       })
@@ -71,7 +71,7 @@ const chartOptions = computed(() => ({
     colors: ["transparent"]
   },
   xaxis: {
-    categories: translatedCategories.value
+    categories: translatedMonths.value
   },
   yaxis: {
     title: {

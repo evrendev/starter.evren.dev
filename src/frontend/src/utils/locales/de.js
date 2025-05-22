@@ -574,51 +574,51 @@ export default {
     getLastDonations: "Erhalten Sie die letzten Spenden",
     fountains: "Brunnen",
     months: {
-      Jan: {
+      jan: {
         short: "Jan",
         long: "Januar"
       },
-      Feb: {
+      feb: {
         short: "Feb",
         long: "Februar"
       },
-      Mar: {
+      mar: {
         short: "Mär",
         long: "März"
       },
-      Apr: {
+      apr: {
         short: "Apr",
         long: "April"
       },
-      May: {
+      may: {
         short: "Mai",
         long: "Mai"
       },
-      Jun: {
+      jun: {
         short: "Jun",
         long: "Juni"
       },
-      Jul: {
+      jul: {
         short: "Jul",
         long: "Juli"
       },
-      Aug: {
+      aug: {
         short: "Aug",
         long: "August"
       },
-      Sep: {
+      sep: {
         short: "Sep",
         long: "September"
       },
-      Oct: {
+      oct: {
         short: "Okt",
         long: "Oktober"
       },
-      Nov: {
+      nov: {
         short: "Nov",
         long: "November"
       },
-      Dec: {
+      dec: {
         short: "Dez",
         long: "Dezember"
       }

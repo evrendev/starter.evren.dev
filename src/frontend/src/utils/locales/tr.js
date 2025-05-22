@@ -574,51 +574,51 @@ export default {
     getLastDonations: "Son Bağışları Al",
     fountains: "Kuyu",
     months: {
-      Jan: {
+      jan: {
         short: "Oca",
         long: "Ocak"
       },
-      Feb: {
+      feb: {
         short: "Şub",
         long: "Şubat"
       },
-      Mar: {
+      mar: {
         short: "Mar",
         long: "Mart"
       },
-      Apr: {
+      apr: {
         short: "Nis",
         long: "Nisan"
       },
-      May: {
+      may: {
         short: "May",
         long: "Mayıs"
       },
-      Jun: {
+      jun: {
         short: "Haz",
         long: "Haziran"
       },
-      Jul: {
+      jul: {
         short: "Tem",
         long: "Temmuz"
       },
-      Aug: {
+      aug: {
         short: "Ağu",
         long: "Ağustos"
       },
-      Sep: {
+      sep: {
         short: "Eyl",
         long: "Eylül"
       },
-      Oct: {
+      oct: {
         short: "Eki",
         long: "Ekim"
       },
-      Nov: {
+      nov: {
         short: "Kas",
         long: "Kasım"
       },
-      Dec: {
+      dec: {
         short: "Ara",
         long: "Aralık"
       }

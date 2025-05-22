@@ -576,51 +576,51 @@ export default {
     getLastDonations: "Get Last Donations",
     fountains: "Fountains",
     months: {
-      Jan: {
+      jan: {
         short: "Jan",
         full: "January"
       },
-      Feb: {
+      feb: {
         short: "Feb",
         full: "February"
       },
-      Mar: {
+      mar: {
         short: "Mar",
         full: "March"
       },
-      Apr: {
+      apr: {
         short: "Apr",
         full: "April"
       },
-      May: {
+      may: {
         short: "May",
         full: "May"
       },
-      Jun: {
+      jun: {
         short: "Jun",
         full: "June"
       },
-      Jul: {
+      jul: {
         short: "Jul",
         full: "July"
       },
-      Aug: {
+      aug: {
         short: "Aug",
         full: "August"
       },
-      Sep: {
+      sep: {
         short: "Sep",
         full: "September"
       },
-      Oct: {
+      oct: {
         short: "Oct",
         full: "October"
       },
-      Nov: {
+      nov: {
         short: "Nov",
         full: "November"
       },
-      Dec: {
+      dec: {
         short: "Dec",
         full: "December"
       }
