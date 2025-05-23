@@ -586,6 +586,7 @@ export default {
     checkingForNewDonations: "Yeni Bağışlar Kontrol Ediliyor...",
     getLastDonations: "Son Bağışları Al",
     fountains: "Kuyu",
+    createPdf: "PDF Oluştur",
     months: {
       jan: {
         short: "Oca",

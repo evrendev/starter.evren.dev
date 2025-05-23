@@ -586,6 +586,7 @@ export default {
     checkingForNewDonations: "Überprüfen auf neue Spenden...",
     getLastDonations: "Erhalten Sie die letzten Spenden",
     fountains: "Brunnen",
+    createPdf: "PDF erstellen",
     months: {
       jan: {
         short: "Jan",

@@ -35,7 +35,8 @@ import {
   mdiClockTimeEightOutline,
   mdiAccountHardHatOutline,
   mdiDownload,
-  mdiPlusCircle
+  mdiPlusCircle,
+  mdiFilePdfBox
 } from "@mdi/js";
 
 export const icons = {
@@ -75,5 +76,6 @@ export const icons = {
   clockTimeEightOutline: mdiClockTimeEightOutline,
   accountHardHatOutline: mdiAccountHardHatOutline,
   download: mdiDownload,
-  plusCircle: mdiPlusCircle
+  plusCircle: mdiPlusCircle,
+  filePdfBox: mdiFilePdfBox
 };
