@@ -61,11 +61,22 @@ const exportToPDF = async () => {
           </template>
         </v-card>
         <div id="weekly-report-container">
-          <report-table v-for="item in projects" :key="item.project.name" :item="item" />
+          <report-table v-for="item in projects" :key="item.project.name" :item="item" class="report-section" />
         </div>
       </v-sheet>
     </v-col>
   </v-row>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#weekly-report-container {
+  page-break-inside: avoid;
+
+  .report-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    page-break-after: auto;
+    margin-bottom: 20px;
+  }
+}
+</style>
