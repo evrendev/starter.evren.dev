@@ -1,13 +1,10 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-// import { useAppStore } from "@/stores";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import ReportTable from "./ReportTable.vue";
 
 const { t } = useI18n();
-
-// const appStore = useAppStore();
 
 const props = defineProps({
   projects: {
