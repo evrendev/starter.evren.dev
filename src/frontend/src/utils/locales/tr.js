@@ -347,7 +347,15 @@ export default {
           }
         },
         weeklyReport: {
-          title: "Haftalık Rapor"
+          title: "Haftalık Rapor",
+          weeks: "Hafta",
+          thoseInNAS: "NAS içinde olanlar",
+          lastOnlineFountain: "Son Düzenlenen Kuyu",
+          pendingMediaFountains: "Henüz Düzenlenmemiş Kuyu",
+          lastAssignedFountain: "En Son Atanan Kuyu",
+          missingSince6Weeks: "6 Haftadır Eksik Klasör/Dosya",
+          missingSince8Weeks: "8 Haftadır Eksik Klasör/Dosya",
+          missingSince13Weeks: "Kritik Olarak 13 Haftadır Gecikmiş"
         }
       },
       media: {
@@ -518,6 +526,7 @@ export default {
     home: "Anasayfa"
   },
   common: {
+    none: "Yok",
     search: "Ara",
     filters: "Filtreler",
     action: "İşlem",

@@ -14,7 +14,10 @@ export const useFountainDonationStore = defineStore("fountainDonation", {
   getters: {
     totalFountainCountsByProject: (state) => state.metrics?.totalFountainCountsByProject,
     monthlyProjectStats: (state) => state.metrics?.monthlyProjectStats,
-    recentFountainDonations: (state) => state.metrics?.recentFountainDonations
+    recentFountainDonations: (state) => state.metrics?.recentFountainDonations,
+    projects: (state) => state.reports?.projects,
+    isoYear: (state) => state.reports?.isoYear,
+    isoWeekNumber: (state) => state.reports?.isoWeekNumber
   },
   actions: {
     async getItems({ page, itemsPerPage, sortBy, search, project, startDate, endDate, mediaStatus }) {

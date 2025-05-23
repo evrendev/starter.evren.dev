@@ -28,7 +28,7 @@ const breadcrumbs = shallowRef([
 const appStore = useAppStore();
 const fountainDonationStore = useFountainDonationStore();
 const { loading } = storeToRefs(appStore);
-const { reports } = storeToRefs(fountainDonationStore);
+const { isoYear, isoWeekNumber, projects } = storeToRefs(fountainDonationStore);
 
 onMounted(() => {
   fountainDonationStore.getWeeklyReports();
@@ -40,46 +40,56 @@ onMounted(() => {
   <v-row>
     <v-col md="12" v-show="!loading">
       <v-sheet class="pa-2">
-        <v-table density="compact" class="mb-4 border rounded-sm" v-for="report in reports" :key="report.project.name">
+        <h2 class="text-center mt-2">{{ isoYear }}-KW{{ isoWeekNumber }}</h2>
+        <v-table density="compact" class="mb-4 mt-4 border rounded-sm" v-for="item in projects" :key="item.project.name">
           <thead>
             <tr class="bg-lightprimary">
               <th colspan="2" class="text-center">
-                <h3>{{ report.project.name }}</h3>
+                <h3>{{ item.project.name }}</h3>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
-                <span class="text-no-wrap text-subtitle-1"> Letzter geschnittener Brunnen (Online): </span>
+              <td class="w-50">
+                <span class="text-no-wrap text-subtitle-1">
+                  {{ t("admin.donations.fountains.weeklyReport.lastOnlineFountain") }}
+                  <v-chip color="success" size="x-small" class="border" elevation="2">
+                    ({{ t("admin.donations.media.status.online") }})
+                  </v-chip>
+                </span>
               </td>
               <td class="bg-lightsuccess">
-                <div class="fountain-item">
+                <div class="fountain-item" v-if="item.lastOnlineFountain">
                   <code>
-                    {{ report.lastOnlineFountain.code }}
+                    {{ item.lastOnlineFountain.code }}
                   </code>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-if="report.lastOnlineFountain">
-                    ({{ report.lastOnlineFountain.date }} - {{ report.lastOnlineFountain.weeks }} Woche)
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2 ml-2">
+                    ({{ item.lastOnlineFountain.date }} - {{ item.lastOnlineFountain.weeks }}
+                    {{ t("admin.donations.fountains.weeklyReport.weeks") }})
                   </span>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-else> (Kein Brunnen) </span>
+                </div>
+                <div class="fountain-item" v-else>
+                  <code> - </code>
                 </div>
               </td>
             </tr>
             <tr>
-              <td>
+              <td class="w-50">
                 <span class="text-no-wrap text-subtitle-1">
-                  Aktueller nicht geschnittener Brunnen:
+                  {{ t("admin.donations.fountains.weeklyReport.pendingMediaFountains") }}
                   <br />
-                  Die Brunnen die im Nas sind*
+                  {{ t("admin.donations.fountains.weeklyReport.thoseInNAS") }}
+                  <span class="text-error">*</span>
                 </span>
               </td>
-              <td v-if="report.pendingMediaFountains.length > 0" class="bg-lightwarning">
-                <div class="fountain-item" v-for="item in report.pendingMediaFountains" :key="item.code">
+              <td v-if="item.pendingMediaFountains.length > 0" class="bg-lightwarning">
+                <div class="fountain-item" v-for="item in item.pendingMediaFountains" :key="item.code">
                   <code>
                     {{ item.code }}
                   </code>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2">
-                    ({{ item.date }} - {{ item.weeks }} Woche)
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2 ml-2">
+                    ({{ item.date }} - {{ item.weeks }} {{ t("admin.donations.fountains.weeklyReport.weeks") }})
                   </span>
                 </div>
               </td>
@@ -88,68 +98,85 @@ onMounted(() => {
               </td>
             </tr>
             <tr>
-              <td>
-                <span class="text-no-wrap text-subtitle-1"> Letzter Vergebener Brunnencode: </span>
+              <td class="w-50">
+                <span class="text-no-wrap text-subtitle-1">
+                  {{ t("admin.donations.fountains.weeklyReport.lastAssignedFountain") }}
+                </span>
               </td>
               <td class="bg-lightwarning">
-                <div class="fountain-item">
+                <div class="fountain-item" v-if="item.lastOnlineFountain">
                   <code>
-                    {{ report.lastAssignedFountainCode.code }}
+                    {{ item.lastAssignedFountain.code }}
                   </code>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-if="report.lastAssignedFountainCode">
-                    ({{ report.lastAssignedFountainCode.date }} - {{ report.lastAssignedFountainCode.weeks }} Woche)
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2 ml-2">
+                    ({{ item.lastAssignedFountain.date }} - {{ item.lastAssignedFountain.weeks }}
+                    {{ t("admin.donations.fountains.weeklyReport.weeks") }})
                   </span>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-else> (Kein Brunnen) </span>
+                </div>
+                <div class="fountain-item" v-else>
+                  <code> - </code>
                 </div>
               </td>
             </tr>
             <tr>
-              <td>
-                <span class="text-no-wrap text-subtitle-1"> Ordner/Dateien die fehlen ab 6 Woche: </span>
+              <td class="w-50">
+                <span class="text-no-wrap text-subtitle-1">
+                  {{ t("admin.donations.fountains.weeklyReport.missingSince6Weeks") }}
+                </span>
               </td>
-              <td v-if="report.missingSince6Weeks.length > 0" class="bg-lighterror">
-                <div class="fountain-item" v-for="item in report.missingSince6Weeks" :key="item.code">
+              <td v-if="item.missingSince6Weeks.length > 0" class="bg-lighterror">
+                <div class="fountain-item" v-for="item in item.missingSince6Weeks" :key="item.code">
                   <code>
                     {{ item.code }}
                   </code>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2"
-                    >({{ item.date }} - {{ item.weeks }} Woche)</span
-                  >
-                </div>
-              </td>
-              <td v-else class="bg-lighterror"><span class="text-error"> Keine </span></td>
-            </tr>
-            <tr>
-              <td>
-                <span class="text-no-wrap text-subtitle-1"> Ordner/Dateien die fehlen ab 8 Woche </span>
-              </td>
-              <td v-if="report.missingSince8Weeks.length > 0" class="bg-lighterror">
-                <div class="fountain-item" v-for="item in report.missingSince8Weeks" :key="item.code">
-                  <code>
-                    {{ item.code }}
-                  </code>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2">
-                    ({{ item.date }} - {{ item.weeks }} Woche)
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2 ml-2">
+                    ({{ item.date }} - {{ item.weeks }} {{ t("admin.donations.fountains.weeklyReport.weeks") }})
                   </span>
                 </div>
               </td>
-              <td v-else class="bg-lighterror"><span class="text-error"> Keine </span></td>
+              <td v-else class="bg-lighterror">
+                <span class="text-error"> {{ t("common.none") }} </span>
+              </td>
             </tr>
             <tr>
-              <td>
-                <span class="text-no-wrap text-subtitle-1"> Nicht gut in der Zeit ab 13 Woche: </span>
+              <td class="w-50">
+                <span class="text-no-wrap text-subtitle-1">
+                  {{ t("admin.donations.fountains.weeklyReport.missingSince8Weeks") }}
+                </span>
               </td>
-              <td v-if="report.missingSince13Weeks.length > 0" class="bg-lighterror">
-                <div class="fountain-item" v-for="item in report.missingSince8Weeks" :key="item.code">
+              <td v-if="item.missingSince8Weeks.length > 0" class="bg-lighterror">
+                <div class="fountain-item" v-for="item in item.missingSince8Weeks" :key="item.code">
                   <code>
                     {{ item.code }}
                   </code>
-                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2">
-                    ({{ item.date }} - {{ item.weeks }} Woche)
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2 ml-2">
+                    ({{ item.date }} - {{ item.weeks }} {{ t("admin.donations.fountains.weeklyReport.weeks") }})
                   </span>
                 </div>
               </td>
-              <td v-else class="bg-lighterror"><span class="text-error"> Keine </span></td>
+              <td v-else class="bg-lighterror">
+                <span class="text-error"> {{ t("common.none") }} </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="w-50">
+                <span class="text-no-wrap text-subtitle-1">
+                  {{ t("admin.donations.fountains.weeklyReport.missingSince13Weeks") }}
+                </span>
+              </td>
+              <td v-if="item.missingSince13Weeks.length > 0" class="bg-lighterror">
+                <div class="fountain-item" v-for="item in item.missingSince13Weeks" :key="item.code">
+                  <code>
+                    {{ item.code }}
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2 ml-2">
+                    ({{ item.date }} - {{ item.weeks }} {{ t("admin.donations.fountains.weeklyReport.weeks") }})
+                  </span>
+                </div>
+              </td>
+              <td v-else class="bg-lighterror">
+                <span class="text-error"> {{ t("common.none") }} </span>
+              </td>
             </tr>
           </tbody>
         </v-table>

@@ -345,7 +345,15 @@ export default {
           }
         },
         weeklyReport: {
-          title: "Weekly Report"
+          title: "Weekly Report",
+          weeks: "Weeks",
+          thoseInNAS: "Those in NAS",
+          lastOnlineFountain: "Last Online Fountain",
+          pendingMediaFountains: "Currently Unedited Fountain",
+          lastAssignedFountain: "Last Assigned Fountain",
+          missingSince6Weeks: "Folder/File Missing for 6 Weeks",
+          missingSince8Weeks: "Folder/File Missing for 8 Weeks",
+          missingSince13Weeks: "Criticaly Delayed for 13 Weeks"
         }
       },
       media: {
@@ -520,6 +528,7 @@ export default {
     home: "Home"
   },
   common: {
+    none: "None",
     search: "Search",
     filters: "Filters",
     action: "Actions",

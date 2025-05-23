@@ -346,7 +346,15 @@ export default {
           }
         },
         weeklyReport: {
-          title: "Wöchentlicher Bericht"
+          title: "Wöchentlicher Bericht",
+          weeks: "Wochen",
+          thoseInNAS: "Die Brunnen die im Nas sind",
+          lastOnlineFountain: "Letzter geschnittener Brunnen",
+          pendingMediaFountains: "Aktueller nicht geschnittener Brunnen",
+          lastAssignedFountain: "Letzter Vergebener Brunnencode",
+          missingSince6Weeks: "Ordner/Dateien die fehlen ab 6 Woche",
+          missingSince8Weeks: "Ordner/Dateien die fehlen ab 8 Woche",
+          missingSince13Weeks: "Nicht gut in der Zeit ab 13 Woche"
         }
       },
       media: {
@@ -516,6 +524,7 @@ export default {
     home: "Startseite"
   },
   common: {
+    none: "Keine",
     search: "Suche",
     filters: "Filter",
     action: "Aktion",

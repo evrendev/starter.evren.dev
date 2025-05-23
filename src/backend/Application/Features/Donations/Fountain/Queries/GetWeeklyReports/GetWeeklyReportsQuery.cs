@@ -4,11 +4,11 @@ using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Application.Features.Donations.Fountain.Queries.GetWeeklyReports;
 
-public class GetWeeklyReportsQuery : IRequest<Result<List<WeeklyReportDto>?>>
+public class GetWeeklyReportsQuery : IRequest<Result<WeeklyReportDto?>>
 {
 }
 
-public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuery, Result<List<WeeklyReportDto>?>>
+public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuery, Result<WeeklyReportDto?>>
 {
     private readonly IDonationDbContext _context;
     private readonly ILogger<GetWeeklyReportsQueryHandler> _logger;
@@ -20,12 +20,12 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
         _logger = logger;
     }
 
-    public async Task<Result<List<WeeklyReportDto>?>> Handle(GetWeeklyReportsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<WeeklyReportDto?>> Handle(GetWeeklyReportsQuery request, CancellationToken cancellationToken)
     {
         try
         {
             var query = _context.FountainDonations.AsQueryable().Where(donation => donation.Source != "EMPTY");
-            var response = new List<WeeklyReportDto>();
+            var projects = new List<ProjectReportDto>();
 
             foreach (var project in FountainDonationProject.ToList)
             {
@@ -47,7 +47,7 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                     .OrderBy(d => d.CreationDate)
                     .ToList();
 
-                var lastAssignedFountainCode = await query
+                var lastAssignedFountain = await query
                     .Where(d => d.Project == project.Name)
                     .OrderByDescending(d => d.CreationDate)
                     .FirstOrDefaultAsync(cancellationToken);
@@ -103,7 +103,7 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                     .OrderBy(d => d.CreationDate)
                     .ToList();
 
-                response.Add(new WeeklyReportDto
+                projects.Add(new ProjectReportDto
                 {
                     Project = project,
                     LastOnlineFountain = new FountainItemDto
@@ -116,10 +116,10 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                         Code = $"{d.Project}-{d.ProjectNumber}",
                         CreationDate = d.CreationDate,
                     }).ToList(),
-                    LastAssignedFountainCode = new FountainItemDto
+                    LastAssignedFountain = new FountainItemDto
                     {
-                        Code = $"{lastAssignedFountainCode?.Project}-{lastAssignedFountainCode?.ProjectNumber}",
-                        CreationDate = lastAssignedFountainCode?.CreationDate,
+                        Code = $"{lastAssignedFountain?.Project}-{lastAssignedFountain?.ProjectNumber}",
+                        CreationDate = lastAssignedFountain?.CreationDate,
                     },
                     MissingSince6Weeks = missingSince6Weeks.Select(d => new FountainItemDto
                     {
@@ -139,13 +139,17 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                 });
             }
 
+            var report = new WeeklyReportDto
+            {
+                Projects = projects,
+            };
 
-            return Result<List<WeeklyReportDto>?>.Success(response);
+            return Result<WeeklyReportDto?>.Success(report);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error while getting donations overview");
-            return Result<List<WeeklyReportDto>?>.Failure(new[] { "api.donations.fountains.overview.error" });
+            return Result<WeeklyReportDto?>.Failure("api.donations.fountains.overview.error");
             throw;
         }
     }
