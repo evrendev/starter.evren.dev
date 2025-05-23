@@ -1,9 +1,12 @@
 <script setup>
 import { useI18n } from "vue-i18n";
+import { useAppStore } from "@/stores";
 import html2pdf from "html2pdf.js";
 import ReportTable from "./ReportTable.vue";
 
 const { t } = useI18n();
+
+const appStore = useAppStore();
 
 const props = defineProps({
   projects: {
@@ -22,11 +25,22 @@ const props = defineProps({
   }
 });
 
-const exportToPDF = () => {
-  html2pdf(document.getElementById("weekly-report-container"), {
-    margin: 15,
-    filename: `${props.isoYear}-KW${props.isoWeekNumber}.pdf`
-  });
+const exportToPDF = async () => {
+  appStore.setLoading(true);
+
+  try {
+    await html2pdf()
+      .from(document.getElementById("weekly-report-container"))
+      .set({
+        margin: 15,
+        filename: `${props.isoYear}-KW${props.isoWeekNumber}.pdf`
+      })
+      .save();
+  } catch (e) {
+    console.error("PDF export failed:", e);
+  } finally {
+    appStore.setLoading(false);
+  }
 };
 </script>
 <template>
