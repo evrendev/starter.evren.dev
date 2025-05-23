@@ -26,8 +26,8 @@ const breadcrumbs = shallowRef([
 ]);
 
 const appStore = useAppStore();
-const { loading } = storeToRefs(appStore);
 const fountainDonationStore = useFountainDonationStore();
+const { loading } = storeToRefs(appStore);
 const { reports } = storeToRefs(fountainDonationStore);
 
 onMounted(() => {
@@ -40,9 +40,9 @@ onMounted(() => {
   <v-row>
     <v-col md="12" v-show="!loading">
       <v-sheet class="pa-2">
-        <v-table density="compact" class="mb-4" v-for="report in reports" :key="report.project.name">
+        <v-table density="compact" class="mb-4 border rounded-sm" v-for="report in reports" :key="report.project.name">
           <thead>
-            <tr>
+            <tr class="bg-lightprimary">
               <th colspan="2" class="text-center">
                 <h3>{{ report.project.name }}</h3>
               </th>
@@ -50,69 +50,106 @@ onMounted(() => {
           </thead>
           <tbody>
             <tr>
-              <td>Letzter geschnittener Brunnen (Online):</td>
               <td>
-                {{ report.lastOnlineFountain.code }}
-                ({{ report.lastOnlineFountain.date }} - {{ report.lastOnlineFountain.weeks }} Woche)
+                <span class="text-no-wrap text-subtitle-1"> Letzter geschnittener Brunnen (Online): </span>
+              </td>
+              <td class="bg-lightsuccess">
+                <div class="fountain-item">
+                  <code>
+                    {{ report.lastOnlineFountain.code }}
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-if="report.lastOnlineFountain">
+                    ({{ report.lastOnlineFountain.date }} - {{ report.lastOnlineFountain.weeks }} Woche)
+                  </span>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-else> (Kein Brunnen) </span>
+                </div>
               </td>
             </tr>
             <tr>
               <td>
-                Aktueller nicht geschnittener Brunnen:
-                <br />
-                Die Brunnen die im Nas sind*
+                <span class="text-no-wrap text-subtitle-1">
+                  Aktueller nicht geschnittener Brunnen:
+                  <br />
+                  Die Brunnen die im Nas sind*
+                </span>
               </td>
-              <td v-if="report.pendingMediaFountains.length > 0">
+              <td v-if="report.pendingMediaFountains.length > 0" class="bg-lightwarning">
                 <div class="fountain-item" v-for="item in report.pendingMediaFountains" :key="item.code">
-                  <span class="code">
+                  <code>
                     {{ item.code }}
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2">
+                    ({{ item.date }} - {{ item.weeks }} Woche)
                   </span>
-                  <span class="date">({{ item.date }} - {{ item.weeks }} Woche)</span>
                 </div>
+              </td>
+              <td v-else class="bg-lightwarning">
+                <code> - </code>
               </td>
             </tr>
             <tr>
-              <td>Letzter Vergebener Brunnencode:</td>
               <td>
-                {{ report.lastAssignedFountainCode.code }}
-                ({{ report.lastAssignedFountainCode.date }} - {{ report.lastAssignedFountainCode.weeks }} Woche)
+                <span class="text-no-wrap text-subtitle-1"> Letzter Vergebener Brunnencode: </span>
+              </td>
+              <td class="bg-lightwarning">
+                <div class="fountain-item">
+                  <code>
+                    {{ report.lastAssignedFountainCode.code }}
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-if="report.lastAssignedFountainCode">
+                    ({{ report.lastAssignedFountainCode.date }} - {{ report.lastAssignedFountainCode.weeks }} Woche)
+                  </span>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2" v-else> (Kein Brunnen) </span>
+                </div>
               </td>
             </tr>
             <tr>
-              <td>Ordner/Dateien die fehlen ab 6 Woche:</td>
-              <td v-if="report.missingSince6Weeks.length > 0">
+              <td>
+                <span class="text-no-wrap text-subtitle-1"> Ordner/Dateien die fehlen ab 6 Woche: </span>
+              </td>
+              <td v-if="report.missingSince6Weeks.length > 0" class="bg-lighterror">
                 <div class="fountain-item" v-for="item in report.missingSince6Weeks" :key="item.code">
-                  <span class="code">
+                  <code>
                     {{ item.code }}
-                  </span>
-                  <span class="date">({{ item.date }} - {{ item.weeks }} Woche)</span>
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2"
+                    >({{ item.date }} - {{ item.weeks }} Woche)</span
+                  >
                 </div>
               </td>
-              <td v-else>Keine</td>
+              <td v-else class="bg-lighterror"><span class="text-error"> Keine </span></td>
             </tr>
             <tr>
-              <td>Ordner/Dateien die fehlen ab 8 Woche</td>
-              <td v-if="report.missingSince8Weeks.length > 0">
+              <td>
+                <span class="text-no-wrap text-subtitle-1"> Ordner/Dateien die fehlen ab 8 Woche </span>
+              </td>
+              <td v-if="report.missingSince8Weeks.length > 0" class="bg-lighterror">
                 <div class="fountain-item" v-for="item in report.missingSince8Weeks" :key="item.code">
-                  <span class="code">
+                  <code>
                     {{ item.code }}
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2">
+                    ({{ item.date }} - {{ item.weeks }} Woche)
                   </span>
-                  <span class="date">({{ item.date }} - {{ item.weeks }} Woche)</span>
                 </div>
               </td>
-              <td v-else>Keine</td>
+              <td v-else class="bg-lighterror"><span class="text-error"> Keine </span></td>
             </tr>
             <tr>
-              <td>Nicht gut in der Zeit ab 13 Woche:</td>
-              <td v-if="report.missingSince13Weeks.length > 0">
+              <td>
+                <span class="text-no-wrap text-subtitle-1"> Nicht gut in der Zeit ab 13 Woche: </span>
+              </td>
+              <td v-if="report.missingSince13Weeks.length > 0" class="bg-lighterror">
                 <div class="fountain-item" v-for="item in report.missingSince8Weeks" :key="item.code">
-                  <span class="code">
+                  <code>
                     {{ item.code }}
+                  </code>
+                  <span class="text-no-wrap font-weight-light text-medium-emphasis text-subtitle-2">
+                    ({{ item.date }} - {{ item.weeks }} Woche)
                   </span>
-                  <span class="date">({{ item.date }} - {{ item.weeks }} Woche)</span>
                 </div>
               </td>
-              <td v-else>Keine</td>
+              <td v-else class="bg-lighterror"><span class="text-error"> Keine </span></td>
             </tr>
           </tbody>
         </v-table>
@@ -120,75 +157,3 @@ onMounted(() => {
     </v-col>
   </v-row>
 </template>
-
-<style lang="scss" scoped>
-.v-table {
-  font-size: 14px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-
-  thead {
-    background-color: #f5f7fa;
-
-    th {
-      text-align: center;
-      font-weight: 600;
-      font-size: 16px;
-      color: #333;
-      padding: 12px;
-    }
-  }
-
-  tbody {
-    tr {
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: #f9f9f9;
-      }
-
-      td {
-        padding: 10px 14px;
-        border-bottom: 1px solid #f0f0f0;
-
-        .fountain-item {
-          display: flex;
-          align-items: center;
-          padding: 4px 0;
-          font-size: 14px;
-          width: fit-content;
-          gap: 4px;
-
-          .code {
-            font-weight: 500;
-            color: #2c3e50;
-            font-family: monospace;
-          }
-
-          .date {
-            color: #7f8c8d;
-            font-size: 13px;
-            white-space: nowrap;
-          }
-        }
-
-        &:first-child {
-          font-weight: 500;
-          color: #444;
-          width: 35%;
-          white-space: pre-line;
-        }
-
-        &:last-child {
-          color: #2c3e50;
-        }
-      }
-
-      &:last-child td {
-        border-bottom: none;
-      }
-    }
-  }
-}
-</style>
