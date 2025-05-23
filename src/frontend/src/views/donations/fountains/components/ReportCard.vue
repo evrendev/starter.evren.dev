@@ -1,12 +1,13 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-import { useAppStore } from "@/stores";
-import html2pdf from "html2pdf.js";
+// import { useAppStore } from "@/stores";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import ReportTable from "./ReportTable.vue";
 
 const { t } = useI18n();
 
-const appStore = useAppStore();
+// const appStore = useAppStore();
 
 const props = defineProps({
   projects: {
@@ -25,22 +26,97 @@ const props = defineProps({
   }
 });
 
-const exportToPDF = async () => {
-  appStore.setLoading(true);
+const exportToPDF = () => {
+  const doc = new jsPDF("p", "mm", "a4");
+  const marginTop = 14;
+  let currentY = marginTop;
 
-  try {
-    await html2pdf()
-      .from(document.getElementById("weekly-report-container"))
-      .set({
-        margin: 15,
-        filename: `${props.isoYear}-KW${props.isoWeekNumber}.pdf`
-      })
-      .save();
-  } catch (e) {
-    console.error("PDF export failed:", e);
-  } finally {
-    appStore.setLoading(false);
-  }
+  doc.setFontSize(16);
+  doc.setFont("helvetica", "bold");
+  doc.text(`${props.isoYear}-KW${props.isoWeekNumber}`, 105, currentY, { align: "center" });
+  currentY += 10;
+
+  props.projects.forEach((project, idx) => {
+    const body = [];
+
+    const section = (label, items, color) => {
+      const labelText = t(`admin.donations.fountains.weeklyReport.${label}`);
+
+      if (!items || items.length === 0) {
+        body.push([
+          { content: labelText },
+          {
+            content: t("common.none"),
+            styles: { fillColor: color }
+          }
+        ]);
+        return;
+      }
+
+      const lines = items
+        .map((item) => `${item.code} (${item.date} - ${item.weeks} ${t("admin.donations.fountains.weeklyReport.weeks")})`)
+        .join("\n");
+
+      body.push([
+        { content: labelText },
+        {
+          content: lines,
+          styles: {
+            fillColor: color,
+            cellPadding: { top: 3, left: 3, bottom: 3 },
+            halign: "left",
+            valign: "top"
+          }
+        }
+      ]);
+    };
+
+    body.unshift([
+      {
+        content: project.project.name,
+        colSpan: 2,
+        styles: {
+          halign: "center",
+          fontStyle: "bold",
+          fontSize: 12,
+          fillColor: [245, 245, 245],
+          textColor: 40
+        }
+      }
+    ]);
+
+    section("lastOnlineFountain", [project.lastOnlineFountain], [212, 237, 218]);
+    section("pendingMediaFountains", project.pendingMediaFountains, [255, 243, 205]);
+    section("lastAssignedFountain", [project.lastAssignedFountain], [255, 243, 205]);
+    section("missingSince6Weeks", project.missingSince6Weeks, [248, 215, 218]);
+    section("missingSince8Weeks", project.missingSince8Weeks, [245, 198, 203]);
+    section("missingSince13Weeks", project.missingSince13Weeks, [241, 176, 183]);
+
+    autoTable(doc, {
+      startY: currentY,
+      head: [],
+      body,
+      styles: {
+        fontSize: 9,
+        cellPadding: 3,
+        overflow: "linebreak",
+        valign: "middle",
+        lineWidth: 0.1,
+        lineColor: 150
+      },
+      margin: { left: 14, right: 14 },
+      didDrawPage: (data) => {
+        currentY = data.cursor.y + 10;
+      }
+    });
+
+    if (idx < props.projects.length - 1) {
+      doc.addPage();
+      currentY = marginTop;
+    }
+  });
+
+  doc.save(`${props.isoYear}-KW${props.isoWeekNumber}.pdf`);
 };
 </script>
 <template>
