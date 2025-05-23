@@ -29,43 +29,47 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
 
             foreach (var project in FountainDonationProject.ToList)
             {
+                // OK
                 var lastOnlineFountain = await query
                     .Where(d => d.Project == project.Name && d.MediaStatus == MediaStatus.Online.Name)
                     .OrderByDescending(d => d.CreationDate)
                     .FirstOrDefaultAsync(cancellationToken);
 
+                // OK
                 var pendingMediaFountains = await query
                     .Where(d =>
                         d.Project == project.Name
                         &&
-                        (d.MediaStatus == MediaStatus.None.Name || d.MediaStatus == MediaStatus.Missing.Name)
+                        (d.MediaStatus == MediaStatus.Arrived.Name || d.MediaStatus == MediaStatus.Reviewed.Name)
                     )
+                    .OrderBy(d => d.CreationDate)
                     .ToListAsync(cancellationToken);
 
-                pendingMediaFountains = pendingMediaFountains
-                    .Where(d => GetWeekNumber(d.CreationDate) == 7)
-                    .OrderBy(d => d.CreationDate)
-                    .ToList();
-
+                // OK
                 var lastAssignedFountain = await query
                     .Where(d => d.Project == project.Name)
                     .OrderByDescending(d => d.CreationDate)
                     .FirstOrDefaultAsync(cancellationToken);
 
+                // OK
                 var missingSince6Weeks = await query
                     .Where(d =>
                         d.Project == project.Name
                         &&
                         (
-                            d.MediaStatus == MediaStatus.None.Name
-                            ||
                             d.MediaStatus == MediaStatus.Missing.Name
+                            ||
+                            d.MediaStatus == MediaStatus.None.Name
                         )
                     )
                     .ToListAsync(cancellationToken);
 
                 missingSince6Weeks = missingSince6Weeks
-                    .Where(d => GetWeekNumber(d.CreationDate) == 6)
+                    .Where(d =>
+                        GetWeekNumber(d.CreationDate) == 6
+                        ||
+                        GetWeekNumber(d.CreationDate) == 7
+                    )
                     .OrderBy(d => d.CreationDate)
                     .ToList();
 
@@ -74,15 +78,19 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                         d.Project == project.Name
                         &&
                         (
-                            d.MediaStatus == MediaStatus.None.Name
-                            ||
                             d.MediaStatus == MediaStatus.Missing.Name
+                            ||
+                            d.MediaStatus == MediaStatus.None.Name
                         )
                     )
                     .ToListAsync(cancellationToken);
 
                 missingSince8Weeks = missingSince8Weeks
-                    .Where(d => GetWeekNumber(d.CreationDate) == 8)
+                    .Where(d =>
+                        GetWeekNumber(d.CreationDate) >= 8
+                        &&
+                        GetWeekNumber(d.CreationDate) < 13
+                    )
                     .OrderBy(d => d.CreationDate)
                     .ToList();
 
@@ -90,16 +98,12 @@ public class GetWeeklyReportsQueryHandler : IRequestHandler<GetWeeklyReportsQuer
                     .Where(d =>
                         d.Project == project.Name
                         &&
-                        (
-                            d.MediaStatus == MediaStatus.None.Name
-                            ||
-                            d.MediaStatus == MediaStatus.Missing.Name
-                        )
+                        d.MediaStatus != MediaStatus.Online.Name
                     )
                     .ToListAsync(cancellationToken);
 
                 missingSince13Weeks = missingSince13Weeks
-                    .Where(d => GetWeekNumber(d.CreationDate) == 13)
+                    .Where(d => GetWeekNumber(d.CreationDate) >= 13)
                     .OrderBy(d => d.CreationDate)
                     .ToList();
 
