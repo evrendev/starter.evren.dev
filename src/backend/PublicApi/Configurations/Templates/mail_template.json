@@ -1,9 +1,9 @@
 {
   "MailSettings": {
-    "DisplayName": "EvrenDev",
+    "DisplayName": "DisplayName",
     "From": "mail@evren.dev",
-    "Host": "smtp.yandex.com",
-    "Password": "Os08_s3qwOs08_s3qw",
+    "Host": "smtp.evren.dev",
+    "Password": "S3(r3tP@55w0rd",
     "Port": 465,
     "UserName": "mail@evren.dev"
   }
