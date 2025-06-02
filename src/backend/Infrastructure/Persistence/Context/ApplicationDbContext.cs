@@ -18,6 +18,7 @@ public class ApplicationDbContext(
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Brand> Brands => Set<Brand>();
+    public DbSet<Absence> Absences => Set<Absence>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
