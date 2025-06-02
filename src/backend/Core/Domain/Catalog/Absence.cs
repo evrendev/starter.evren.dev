@@ -2,9 +2,8 @@
 
 public class Absence : AuditableEntity, IAggregateRoot
 {
-    public Absence(string id, DateTime startDate, DateTime endDate, string? description = null, string? location = null, string? employee = null, string? calendarId = null)
+    public Absence(DateTime startDate, DateTime endDate, string location, string employee, string calendarId, string? description = null)
     {
-        Id = id;
         StartDate = startDate;
         EndDate = endDate;
         Description = description;
@@ -13,12 +12,12 @@ public class Absence : AuditableEntity, IAggregateRoot
         CalendarId = calendarId;
     }
 
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public string? Description { get; set; }
-    public string? Location { get; set; }
-    public string? Employee { get; set; }
-    public string? CalendarId { get; set; }
+    public DateTime StartDate { get; private set; } = default!;
+    public DateTime EndDate { get; private set; } = default!;
+    public string? Description { get; private set; }
+    public string Location { get; private set; } = default!;
+    public string Employee { get; private set; } = default!;
+    public string CalendarId { get; private set; } = default!;
 
     public Absence Update(DateTime startDate, DateTime endDate, string? description, string? location, string? employee, string? calendarId)
     {
