@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Common.Services;
 
-public class EventPublisher(IPublisher mediator) : IEventPublisher
+public class EventPublisher(IPublisher mediator, ILogger<EventPublisher> logger) : IEventPublisher
 {
     public Task PublishAsync(IEvent @event)
     {
         var eventName = @event?.GetType().Name;
-        LoggerMessage.Define<EventPublisher>(LogLevel.Information, new EventId(1, eventName), $"Publishing Event : {eventName}");
+        logger.LogInformation("Publishing Event : {EventName}", eventName);
         return mediator.Publish(CreateEventNotification(@event!));
     }
 
