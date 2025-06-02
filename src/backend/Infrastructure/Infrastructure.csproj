@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
+    <PackageReference Include="ClosedXML" />
     <PackageReference Include="Finbuckle.MultiTenant.AspNetCore" />
     <PackageReference Include="Finbuckle.MultiTenant.EntityFrameworkCore" />
     <PackageReference Include="Hangfire" />
