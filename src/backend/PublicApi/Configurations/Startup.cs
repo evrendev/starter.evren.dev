@@ -1,4 +1,4 @@
-﻿namespace Backend.Host.Configurations;
+﻿namespace EvrenDev.Host.Configurations;
 
 internal static class Startup
 {
