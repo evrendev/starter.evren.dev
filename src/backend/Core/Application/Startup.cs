@@ -7,9 +7,9 @@ public static class Startup
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        return services
-            .AddValidatorsFromAssembly(assembly)
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+        return services;
     }
 }
