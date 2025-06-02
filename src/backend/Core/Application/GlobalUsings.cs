@@ -1,9 +1,13 @@
-﻿global using Ardalis.GuardClauses;
+﻿global using Ardalis.Specification;
 global using EvrenDev.Application.Common.Interfaces;
 global using EvrenDev.Application.Common.Models;
-global using EvrenDev.Domain.Entities.Catalog;
-global using EvrenDev.Shared.Enums;
-global using EvrenDev.Shared.ValueObjects;
+global using EvrenDev.Application.Common.Validation;
+global using EvrenDev.Application.Identity.Users.Password;
+global using EvrenDev.Domain.Common;
+global using EvrenDev.Domain.Common.Contracts;
+global using EvrenDev.Shared.Events;
 global using FluentValidation;
+global using FluentValidation.Validators;
 global using MediatR;
 global using Microsoft.Extensions.Localization;
+
