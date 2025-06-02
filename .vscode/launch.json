@@ -9,7 +9,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/backend/PublicApi/bin/Debug/net8.0/EvrenDev.PublicApi.dll",
+      "program": "${workspaceFolder}/src/backend/PublicApi/bin/Debug/net9.0/EvrenDev.PublicApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/backend/PublicApi",
       "stopAtEntry": false,
