@@ -1,20 +1,20 @@
 ﻿using System.Reflection;
-using Backend.Infrastructure.Auth;
-using Backend.Infrastructure.BackgroundJobs;
-using Backend.Infrastructure.Caching;
-using Backend.Infrastructure.Common;
-using Backend.Infrastructure.Cors;
-using Backend.Infrastructure.FileStorage;
-using Backend.Infrastructure.Localization;
-using Backend.Infrastructure.Mailing;
-using Backend.Infrastructure.Mapping;
-using Backend.Infrastructure.Middleware;
-using Backend.Infrastructure.Multitenancy;
-using Backend.Infrastructure.Notifications;
-using Backend.Infrastructure.OpenApi;
-using Backend.Infrastructure.Persistence;
-using Backend.Infrastructure.Persistence.Initialization;
-using Backend.Infrastructure.SecurityHeaders;
+using EvrenDev.Infrastructure.Auth;
+using EvrenDev.Infrastructure.BackgroundJobs;
+using EvrenDev.Infrastructure.Caching;
+using EvrenDev.Infrastructure.Common;
+using EvrenDev.Infrastructure.Cors;
+using EvrenDev.Infrastructure.FileStorage;
+using EvrenDev.Infrastructure.Localization;
+using EvrenDev.Infrastructure.Mailing;
+using EvrenDev.Infrastructure.Mapping;
+using EvrenDev.Infrastructure.Middleware;
+using EvrenDev.Infrastructure.Multitenancy;
+using EvrenDev.Infrastructure.Notifications;
+using EvrenDev.Infrastructure.OpenApi;
+using EvrenDev.Infrastructure.Persistence;
+using EvrenDev.Infrastructure.Persistence.Initialization;
+using EvrenDev.Infrastructure.SecurityHeaders;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Infrastructure;
+namespace EvrenDev.Infrastructure;
 
 public static class Startup
 {
