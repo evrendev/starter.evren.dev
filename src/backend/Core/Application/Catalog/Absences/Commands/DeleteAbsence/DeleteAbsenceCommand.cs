@@ -1,47 +1,29 @@
 namespace EvrenDev.Application.Catalog.Absences.Commands.DeleteAbsence;
 
-public class DeleteAbsenceCommand : IRequest<Result<bool>>
+public class DeleteAbsenceCommand(Guid id) : IRequest<Guid>
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = id;
 }
 
-public class DeleteAbsenceCommandValidator : AbstractValidator<DeleteAbsenceCommand>
+public class DeleteAbsenceCommandValidator : CustomValidator<DeleteAbsenceCommand>
 {
-    private readonly IStringLocalizer<DeleteAbsenceCommandValidator> _localizer;
-
-    public DeleteAbsenceCommandValidator(IStringLocalizer<DeleteAbsenceCommandValidator> localizer)
+    public DeleteAbsenceCommandValidator(IReadRepositoryBase<Brand> repository, IStringLocalizer<DeleteAbsenceCommandValidator> localizer)
     {
-        _localizer = localizer;
-
         RuleFor(v => v.Id)
-            .NotEmpty().WithMessage(_localizer["api.todo-lists.delete.id.required"]);
+            .NotEmpty().WithMessage(localizer["api.absence.delete.id.required"]);
     }
 }
 
-public class DeleteAbsenceCommandHandler : IRequestHandler<DeleteAbsenceCommand, Result<bool>>
+public class DeleteAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository) : IRequestHandler<DeleteAbsenceCommand, Guid>
 {
-    private readonly ICatalogDbContext _context;
-    private readonly IStringLocalizer<DeleteAbsenceCommandHandler> _localizer;
-
-    public DeleteAbsenceCommandHandler(
-        ICatalogDbContext context,
-        IStringLocalizer<DeleteAbsenceCommandHandler> localizer)
+    public async Task<Guid> Handle(DeleteAbsenceCommand command, CancellationToken cancellationToken)
     {
-        _context = context;
-        _localizer = localizer;
-    }
+        var absence = await repository.GetByIdAsync(command.Id, cancellationToken);
 
-    public async Task<Result<bool>> Handle(DeleteAbsenceCommand request, CancellationToken cancellationToken)
-    {
-        var entity = await _context.Absences.FindAsync([request.Id], cancellationToken);
+        _ = absence ?? throw new NotFoundException(localizer["api.absence.notfound"]);
 
-        if (entity == null)
-            throw new NotFoundException(nameof(Absence), request.Id.ToString());
+        await repository.DeleteAsync(absence, cancellationToken);
 
-        _context.Absences.Remove(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
-
-        return Result<bool>.Success(true);
+        return command.Id;
     }
 }

@@ -3,23 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvrenDev.Application.Catalog.Absences.Queries.GetAbsences;
 
-public class GetAbsencesQuery : IRequest<Result<List<AbsenceDto>>>
+public class GetAbsencesQuery : IRequest<List<AbsenceDto>>
 {
-    public bool ShowDeletedItems { get; set; } = false;
 }
 
-public class GetAbsencesQueryHandler : IRequestHandler<GetAbsencesQuery, Result<List<AbsenceDto>>>
+public class GetAbsencesQueryHandler(IReadRepository<Absence> repository) : IRequestHandler<GetAbsencesQuery, List<AbsenceDto>>
 {
-    private readonly ICatalogDbContext _context;
-
-    public GetAbsencesQueryHandler(ICatalogDbContext context)
+    public async Task<List<AbsenceDto>> Handle(GetAbsencesQuery request, CancellationToken cancellationToken)
     {
-        _context = context;
-    }
-
-    public async Task<Result<List<AbsenceDto>>> Handle(GetAbsencesQuery request, CancellationToken cancellationToken)
-    {
-        var query = _context.Absences.AsQueryable();
+        var query = repository.AsQueryable();
 
         if (request.ShowDeletedItems)
             query = query.IgnoreQueryFilters();
@@ -38,6 +30,6 @@ public class GetAbsencesQueryHandler : IRequestHandler<GetAbsencesQuery, Result<
             })
             .ToListAsync(cancellationToken);
 
-        return Result<List<AbsenceDto>>.Success(entities);
+        return entities;
     }
 }
