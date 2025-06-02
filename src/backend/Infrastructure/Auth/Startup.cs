@@ -1,5 +1,4 @@
 ﻿using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Infrastructure.Auth.AzureAd;
 using EvrenDev.Infrastructure.Auth.Jwt;
 using EvrenDev.Infrastructure.Auth.Permissions;
 using EvrenDev.Infrastructure.Identity;
@@ -14,16 +13,13 @@ internal static class Startup
 {
     internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config)
     {
-        services
-            .AddCurrentUser()
+        services.AddCurrentUser()
             .AddPermissions()
-
-            // Must add identity before adding auth!
             .AddIdentity();
+
         services.Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)));
-        return config["SecuritySettings:Provider"]!.Equals("AzureAd", StringComparison.OrdinalIgnoreCase)
-            ? services.AddAzureAdAuth(config)
-            : services.AddJwtAuth(config);
+
+        return services.AddJwtAuth(config);
     }
 
     internal static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app) =>

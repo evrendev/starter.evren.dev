@@ -1,6 +1,6 @@
-﻿using System.Data.SqlClient;
-using EvrenDev.Application.Common.Persistence;
+﻿using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Infrastructure.Common;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 
 namespace EvrenDev.Infrastructure.Persistence.ConnectionString;

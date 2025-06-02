@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using EvrenDev.Infrastructure.Auth;
-using EvrenDev.Infrastructure.BackgroundJobs;
 using EvrenDev.Infrastructure.Caching;
 using EvrenDev.Infrastructure.Common;
 using EvrenDev.Infrastructure.Cors;
@@ -39,7 +38,7 @@ public static class Startup
             .AddHealthCheck()
             .AddLocalization(config)
             .AddMailing(config)
-            .AddMediatR(Assembly.GetExecutingAssembly())
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()))
             .AddMultitenancy(config)
             .AddNotifications(config)
             .AddOpenApiDocumentation(config)

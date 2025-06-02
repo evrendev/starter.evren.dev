@@ -1,6 +1,5 @@
-using System.Text;
 using System.Text.Encodings.Web;
-using EvrenDev.Application.Common.Interfaces;
+using EvrenDev.Application.Identity.Interfaces;
 using OtpNet;
 
 namespace EvrenDev.Infrastructure.Identity.Services;
@@ -35,7 +34,8 @@ public class TotpService : ITotpService
 
     public bool VerifyTotpCode(string secretKey, string code)
     {
-        if (string.IsNullOrWhiteSpace(code)) return false;
+        if (string.IsNullOrWhiteSpace(code))
+            return false;
 
         code = code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
@@ -50,22 +50,5 @@ public class TotpService : ITotpService
         var keyBytes = Base32Encoding.ToBytes(secretKey);
         var totp = new Totp(keyBytes);
         return totp.ComputeTotp();
-    }
-
-    private string FormatKey(string unformattedKey)
-    {
-        var result = new StringBuilder();
-        int currentPosition = 0;
-        while (currentPosition + 4 < unformattedKey.Length)
-        {
-            result.Append(unformattedKey.AsSpan(currentPosition, 4)).Append(" ");
-            currentPosition += 4;
-        }
-        if (currentPosition < unformattedKey.Length)
-        {
-            result.Append(unformattedKey.AsSpan(currentPosition));
-        }
-
-        return result.ToString().ToLowerInvariant();
     }
 }
