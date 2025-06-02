@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EvrenDev.Infrastructure.Auth;
+using EvrenDev.Infrastructure.BackgroundJobs;
 using EvrenDev.Infrastructure.Caching;
 using EvrenDev.Infrastructure.Common;
 using EvrenDev.Infrastructure.Cors;
@@ -31,7 +32,7 @@ public static class Startup
         return services
             .AddApiVersioning()
             .AddAuth(config)
-            // .AddBackgroundJobs(config)
+            .AddBackgroundJobs(config)
             .AddCaching(config)
             .AddCorsPolicy(config)
             .AddExceptionMiddleware()
@@ -82,7 +83,7 @@ public static class Startup
             .UseMultiTenancy()
             .UseAuthorization()
             .UseRequestLogging(config)
-            // .UseHangfireDashboard(config)
+            .UseHangfireDashboard(config)
             .UseOpenApiDocumentation(config);
 
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
