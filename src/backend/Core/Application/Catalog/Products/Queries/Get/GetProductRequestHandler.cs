@@ -3,7 +3,6 @@ using EvrenDev.Application.Catalog.Products.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Catalog.Products.Queries.Get;
 

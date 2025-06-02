@@ -3,7 +3,6 @@ using EvrenDev.Application.Catalog.Brands.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Catalog.Brands.Queries.Get;
 

@@ -4,7 +4,6 @@ using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
 using EvrenDev.Domain.Common.Events;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Catalog.Products.Queries.Update;
 

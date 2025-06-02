@@ -3,7 +3,6 @@ using EvrenDev.Application.Common.Specification;
 using EvrenDev.Application.Identity.Roles;
 using EvrenDev.Application.Identity.Users;
 using EvrenDev.Domain.Catalog;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Dashboard;
 

@@ -1,6 +1,5 @@
 ﻿using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Application.Multitenancy.Interfaces;
-using Microsoft.Extensions.Localization;
 
 namespace EvrenDev.Application.Multitenancy.Queries.Create;
 
