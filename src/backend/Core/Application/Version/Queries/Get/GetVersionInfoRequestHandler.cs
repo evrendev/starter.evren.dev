@@ -3,7 +3,7 @@ using EvrenDev.Application.Version.Entities;
 
 namespace EvrenDev.Application.Version.Queries.Get;
 
-public class GetVersionInfoRequestHandler : IRequest<VersionInfoDto>
+public class GetVersionInfoRequest : IRequest<VersionInfoDto>
 {
 }
 

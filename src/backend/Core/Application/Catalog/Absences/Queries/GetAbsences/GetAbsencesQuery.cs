@@ -1,5 +1,6 @@
 using EvrenDev.Application.Catalog.Absences.Models;
-using Microsoft.EntityFrameworkCore;
+using EvrenDev.Application.Common.Persistence;
+using EvrenDev.Domain.Catalog;
 
 namespace EvrenDev.Application.Catalog.Absences.Queries.GetAbsences;
 
@@ -11,25 +12,21 @@ public class GetAbsencesQueryHandler(IReadRepository<Absence> repository) : IReq
 {
     public async Task<List<AbsenceDto>> Handle(GetAbsencesQuery request, CancellationToken cancellationToken)
     {
-        var query = repository.AsQueryable();
+        var entities = await repository
+            .ListAsync(cancellationToken);
 
-        if (request.ShowDeletedItems)
-            query = query.IgnoreQueryFilters();
+        var response = entities.Select(entity => new AbsenceDto
+        {
+            Id = entity.Id,
+            Start = entity.StartDate.ToString("yyyy-MM-dd"),
+            End = entity.EndDate.ToString("yyyy-MM-dd"),
+            Description = entity.Description,
+            Location = entity.Location,
+            Employee = entity.Employee,
+            CalendarId = entity.CalendarId
+        })
+        .ToList();
 
-        var entities = await query
-            .AsNoTracking()
-            .Select(entity => new AbsenceDto
-            {
-                Id = entity.Id,
-                Start = entity.StartDate.ToString("yyyy-MM-dd"),
-                End = entity.EndDate.ToString("yyyy-MM-dd"),
-                Description = entity.Description,
-                Location = entity.Location,
-                Employee = entity.Employee,
-                CalendarId = entity.CalendarId
-            })
-            .ToListAsync(cancellationToken);
-
-        return entities;
+        return response;
     }
 }

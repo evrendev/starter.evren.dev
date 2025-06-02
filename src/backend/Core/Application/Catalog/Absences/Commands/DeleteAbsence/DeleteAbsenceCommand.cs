@@ -1,3 +1,7 @@
+using EvrenDev.Application.Common.Exceptions;
+using EvrenDev.Application.Common.Persistence;
+using EvrenDev.Domain.Catalog;
+
 namespace EvrenDev.Application.Catalog.Absences.Commands.DeleteAbsence;
 
 public class DeleteAbsenceCommand(Guid id) : IRequest<Guid>
@@ -14,7 +18,8 @@ public class DeleteAbsenceCommandValidator : CustomValidator<DeleteAbsenceComman
     }
 }
 
-public class DeleteAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository) : IRequestHandler<DeleteAbsenceCommand, Guid>
+public class DeleteAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository,
+    IStringLocalizer<DeleteAbsenceCommandHandler> localizer) : IRequestHandler<DeleteAbsenceCommand, Guid>
 {
     public async Task<Guid> Handle(DeleteAbsenceCommand command, CancellationToken cancellationToken)
     {

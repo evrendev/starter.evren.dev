@@ -1,3 +1,7 @@
+using EvrenDev.Application.Common.Exceptions;
+using EvrenDev.Application.Common.Persistence;
+using EvrenDev.Domain.Catalog;
+
 namespace EvrenDev.Application.Catalog.Absences.Commands.UpdateAbsence;
 
 public class UpdateAbsenceCommand : IRequest<Guid>
@@ -13,16 +17,16 @@ public class UpdateAbsenceCommand : IRequest<Guid>
 
 public class UpdateAbsenceCommandValidator : CustomValidator<UpdateAbsenceCommand>
 {
-    public UpdateAbsenceCommandValidator(IRepository<Brand> repository, IStringLocalizer<UpdateAbsenceCommandValidator> localizer)
+    public UpdateAbsenceCommandValidator(IRepository<Absence> repository, IStringLocalizer<UpdateAbsenceCommandValidator> localizer)
     {
         RuleFor(v => v.Id)
             .NotEmpty().WithMessage(localizer["api.absence.update.id.required"]);
 
-        RuleFor(v => v.Start)
+        RuleFor(v => v.StartDate)
             .NotEmpty().WithMessage(localizer["api.absence.create.startdate.required"])
-            .LessThan(v => v.End).WithMessage(localizer["api.absence.create.startdate.lessThanEndDate"]);
+            .LessThan(v => v.EndDate).WithMessage(localizer["api.absence.create.startdate.lessThanEndDate"]);
 
-        RuleFor(v => v.End)
+        RuleFor(v => v.EndDate)
             .NotEmpty().WithMessage(localizer["api.absence.create.enddate.required"]);
 
         RuleFor(v => v.Employee)
@@ -41,13 +45,13 @@ public class UpdateAbsenceCommandValidator : CustomValidator<UpdateAbsenceComman
     }
 }
 
-public class UpdateAbsenceCommandHandler(IRepositoryWithEvents<Brand> repository, IStringLocalizer<UpdateBrandRequestHandler> localizer) : IRequestHandler<UpdateAbsenceCommand, Guid>
+public class UpdateAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository, IStringLocalizer<UpdateAbsenceCommandHandler> localizer) : IRequestHandler<UpdateAbsenceCommand, Guid>
 {
     public async Task<Guid> Handle(UpdateAbsenceCommand command, CancellationToken cancellationToken)
     {
         var absence = await repository.GetByIdAsync(command.Id, cancellationToken);
 
-        _ = absence ?? throw new NotFoundException(string.Format(localizer["api.absence.notfound"], request.Id));
+        _ = absence ?? throw new NotFoundException(string.Format(localizer["api.absence.notfound"], command.Id));
 
         absence.Update(
             command.StartDate,

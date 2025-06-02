@@ -1,3 +1,6 @@
+using EvrenDev.Application.Common.Persistence;
+using EvrenDev.Domain.Catalog;
+
 namespace EvrenDev.Application.Catalog.Absences.Commands.CreateAbsence;
 
 public class CreateAbsenceCommand : IRequest<Guid>
@@ -14,11 +17,11 @@ public class CreateAbsenceCommandValidator : CustomValidator<CreateAbsenceComman
 {
     public CreateAbsenceCommandValidator(IReadRepositoryBase<Brand> repository, IStringLocalizer<CreateAbsenceCommandValidator> localizer)
     {
-        RuleFor(v => v.Start)
+        RuleFor(v => v.StartDate)
             .NotEmpty().WithMessage(localizer["api.absence.create.startdate.required"])
-            .LessThanOrEqualTo(v => v.End).WithMessage(localizer["api.absence.create.startdate.lessThanEndDate"]);
+            .LessThanOrEqualTo(v => v.EndDate).WithMessage(localizer["api.absence.create.startdate.lessThanEndDate"]);
 
-        RuleFor(v => v.End)
+        RuleFor(v => v.EndDate)
             .NotEmpty().WithMessage(localizer["api.absence.create.enddate.required"]);
 
         RuleFor(v => v.Employee)
@@ -41,17 +44,9 @@ public class CreateAbsenceCommandHandler(IRepositoryWithEvents<Absence> reposito
 {
     public async Task<Guid> Handle(CreateAbsenceCommand command, CancellationToken cancellationToken)
     {
-        var absence = new Absence
-        {
-            StartDate = command.Start,
-            EndDate = command.End,
-            Description = command.Description,
-            Location = command.Location,
-            Employee = command.Employee,
-            CalendarId = command.CalendarId,
-        };
+        var absence = new Absence(command.StartDate, command.EndDate, command.Location, command.Employee, command.CalendarId, command.Description);
 
-        repository.AddAsync(absence, cancellationToken);
-        return entity.Id;
+        await repository.AddAsync(absence, cancellationToken);
+        return absence.Id;
     }
 }
