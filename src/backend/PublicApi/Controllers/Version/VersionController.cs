@@ -5,7 +5,7 @@ namespace EvrenDev.Host.Controllers.Version;
 
 public class VersionController : VersionNeutralApiController
 {
-    [HttpGet("info")]
+    [HttpGet]
     [AllowAnonymous]
     [OpenApiOperation("Get application information.", "")]
     public Task<VersionInfoDto> GetAsync()
