@@ -39,60 +39,6 @@ const AdminRoutes = {
       }
     },
     {
-      name: "donations",
-      path: "donations",
-      children: [
-        {
-          path: "",
-          name: "default-donations",
-          redirect: "fountains"
-        },
-        {
-          name: "fountains",
-          path: "fountains",
-          children: [
-            {
-              path: "",
-              name: "fountains-root",
-              redirect: "list"
-            },
-            {
-              name: "list-fountains",
-              path: "list",
-              component: () => import("@/views/donations/fountains/IndexPage.vue"),
-              meta: {
-                titleKey: "admin.donations.fountains.title"
-              }
-            },
-            {
-              name: "add-fountain",
-              path: "new",
-              component: () => import("@/views/donations/fountains/NewPage.vue"),
-              meta: {
-                titleKey: "admin.donations.new"
-              }
-            },
-            {
-              name: "edit-fountain",
-              path: "edit/:id",
-              component: () => import("@/views/donations/fountains/EditPage.vue"),
-              meta: {
-                titleKey: "admin.donations.edit"
-              }
-            },
-            {
-              name: "weekly-report",
-              path: "weekly-report",
-              component: () => import("@/views/donations/fountains/WeeklyReportPage.vue"),
-              meta: {
-                titleKey: "admin.donations.fountains.weeklyReport.title"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       name: "TenantsPage",
       path: "tenants",
       children: [

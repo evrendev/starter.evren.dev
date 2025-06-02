@@ -4,6 +4,8 @@ import * as signalR from "@microsoft/signalr";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
+console.log("SignalR base URL:", baseURL);
+
 export default function useSignalR() {
   onMounted(async () => {
     try {

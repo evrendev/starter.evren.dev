@@ -1,17 +1,8 @@
 import { defineStore } from "pinia";
 import { markRaw } from "vue";
-import {
-  DashboardIcon,
-  UsersIcon,
-  Category2Icon,
-  GitCompareIcon,
-  FileBarcodeIcon,
-  CoinEuroIcon,
-  CalendarCheckIcon
-} from "vue-tabler-icons";
+import { DashboardIcon, UsersIcon, Category2Icon, GitCompareIcon, FileBarcodeIcon, CalendarCheckIcon } from "vue-tabler-icons";
 import { useAuthStore } from "./auth";
 
-const DONATIONS_PERMISSIONS = ["Donations.Read", "Donations.Create", "Donations.Edit", "Donations.Delete"];
 const ABSENCE_PERMISSIONS = ["Absences.Read", "Absences.Create", "Absences.Edit", "Absences.Delete"];
 const USERS_PERMISSIONS = ["Users.Read", "Users.Create", "Users.Edit", "Users.Delete"];
 const ROLES_PERMISSIONS = ["Roles.Read", "Roles.Create", "Roles.Edit", "Roles.Delete"];
@@ -23,7 +14,6 @@ const ADMIN_PERMISSIONS = [...USERS_PERMISSIONS, ...ROLES_PERMISSIONS, ...TENANT
 // Mark icon components as raw to prevent reactivity
 const icons = {
   dashboard: markRaw(DashboardIcon),
-  donations: markRaw(CoinEuroIcon),
   absences: markRaw(CalendarCheckIcon),
   users: markRaw(UsersIcon),
   roles: markRaw(Category2Icon),
@@ -55,56 +45,6 @@ export const useNavigationStore = defineStore("navigation", {
           to: "/admin"
         }
       ];
-
-      if (this.hasAnyPermission(DONATIONS_PERMISSIONS)) {
-        items.push(
-          {
-            divider: true
-          },
-          {
-            header: "components.sidebar.donations.title"
-          },
-          {
-            title: "components.sidebar.donations.fountains.title",
-            icon: icons.donations,
-            to: "#",
-            children: [
-              {
-                title: "components.sidebar.donations.fountains.all",
-                to: "/admin/donations/fountains/list"
-              },
-              {
-                title: "components.sidebar.donations.fountains.bl01",
-                to: "/admin/donations/fountains/list?project=bl01"
-              },
-              {
-                title: "components.sidebar.donations.fountains.bl02",
-                to: "/admin/donations/fountains/list?project=bl02"
-              },
-              {
-                title: "components.sidebar.donations.fountains.af01",
-                to: "/admin/donations/fountains/list?project=af01"
-              },
-              {
-                title: "components.sidebar.donations.fountains.af02",
-                to: "/admin/donations/fountains/list?project=af02"
-              },
-              ...(this.hasPermission("Donations.Create")
-                ? [
-                    {
-                      title: "components.sidebar.donations.new",
-                      to: "/admin/donations/fountains/new"
-                    }
-                  ]
-                : []),
-              {
-                title: "components.sidebar.donations.fountains.weeklyReport",
-                to: "/admin/donations/fountains/weekly-report"
-              }
-            ]
-          }
-        );
-      }
 
       if (this.hasAnyPermission(ABSENCE_PERMISSIONS)) {
         items.push(

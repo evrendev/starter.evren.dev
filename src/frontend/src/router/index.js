@@ -4,7 +4,7 @@ import AdminRoutes from "./admin-routes";
 import AuthRoutes from "./auth-routes";
 import i18n from "@/plugins/i18n";
 
-const APP_NAME = "Help Dünya";
+const APP_NAME = "Evren.Dev";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

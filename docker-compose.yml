@@ -1,7 +1,7 @@
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: helpdunya-db
+    container_name: evrendev-db
     environment:
       SA_PASSWORD: "M@ster.01"
       ACCEPT_EULA: "Y"
@@ -10,19 +10,19 @@ services:
     volumes:
       - sql_data:/var/opt/mssql
     networks:
-      - helpdunya-network
+      - evrendev-network
 
   redis:
-    container_name: helpdunya-redis
+    container_name: evrendev-redis
     image: redis:alpine
     ports:
       - "6379:6379"
     networks:
-      - helpdunya-network
+      - evrendev-network
 
   backend-migrator:
-    container_name: helpdunya-migrator
-    image: helpdunya-migrator
+    container_name: evrendev-migrator
+    image: evrendev-migrator
     build:
       context: .
       dockerfile: src/backend/Dockerfile.migrator
@@ -36,11 +36,11 @@ services:
     depends_on:
       - db
     networks:
-      - helpdunya-network
+      - evrendev-network
 
   backend:
-    container_name: helpdunya-backend
-    image: helpdunya-backend
+    container_name: evrendev-backend
+    image: evrendev-backend
     build:
       context: .
       dockerfile: src/backend/Dockerfile
@@ -56,11 +56,11 @@ services:
       - db
       - redis
     networks:
-      - helpdunya-network
+      - evrendev-network
 
   frontend:
-    container_name: helpdunya-frontend
-    image: helpdunya-frontend
+    container_name: evrendev-frontend
+    image: evrendev-frontend
     build:
       context: ./src/frontend
     # ports:
@@ -71,12 +71,12 @@ services:
     depends_on:
       - backend
     networks:
-      - helpdunya-network
+      - evrendev-network
 
 volumes:
   sql_data:
 
 networks:
-  helpdunya-network:
-    name: helpdunya-network
+  evrendev-network:
+    name: evrendev-network
     driver: bridge
