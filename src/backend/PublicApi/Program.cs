@@ -1,108 +1,42 @@
-using EvrenDev.Infrastructure.Audit.Data;
-using EvrenDev.Infrastructure.Catalog.Data;
-using EvrenDev.Infrastructure.Catalog.Services;
-using EvrenDev.Infrastructure.Identity.Data;
-using EvrenDev.PublicApi.Extensions;
-using EvrenDev.PublicApi.Hub;
-using EvrenDev.PublicApi.Middleware;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
+using EvrenDev.Application;
+using EvrenDev.Host;
+using EvrenDev.Host.Configurations;
+using EvrenDev.Host.Controllers;
+using EvrenDev.Infrastructure;
+using EvrenDev.Infrastructure.Common;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+[assembly: ApiConventionType(typeof(ApiConventions))]
 
-var configuration = builder.Configuration;
-configuration.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
-
-builder.Services.AddApplicationServices(configuration);
-builder.Services.AddInfrastructureServices(configuration);
-builder.Services.AddWebServices(configuration);
-
-builder.Host.UseSerilog((context, conf) => conf.ReadFrom.Configuration(context.Configuration));
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
+StaticLogger.EnsureInitialized();
+Log.Information("Server Booting Up...");
+try
 {
-    using var scope = app.Services.CreateScope();
-    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    var builder = WebApplication.CreateBuilder(args);
 
-    try
-    {
-        logger.LogInformation("Starting database migrations...");
+    builder.AddConfigurations();
+    builder.AddSerilog();
 
-        var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-        logger.LogInformation("Migrating Catalog database...");
-        await catalogDb.Database.MigrateAsync();
-        logger.LogInformation("Catalog database migration completed.");
+    builder.Services.AddControllers();
+    builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddApplication();
 
-        var identityDb = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
-        logger.LogInformation("Migrating Identity database...");
-        await identityDb.Database.MigrateAsync();
-        logger.LogInformation("Identity database migration completed.");
+    var app = builder.Build();
 
-        var auditDb = scope.ServiceProvider.GetRequiredService<AuditLogDbContext>();
-        logger.LogInformation("Migrating Audit database...");
-        await auditDb.Database.MigrateAsync();
-        logger.LogInformation("Audit database migration completed.");
+    await app.Services.InitializeDatabasesAsync();
 
-        logger.LogInformation("Starting database seeding...");
-        var seeder = scope.ServiceProvider.GetRequiredService<DevelopmentDatabaseSeeder>();
-        await seeder.SeedAllAsync();
-        logger.LogInformation("Database seeding completed.");
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred while setting up the database.");
-    }
+    app.UseInfrastructure(builder.Configuration);
+    app.MapEndpoints();
+    await app.RunAsync();
 }
-else
+catch (Exception ex) when (!ex.GetType().Name.Equals("StopTheHostException", StringComparison.Ordinal))
 {
-    app.UseHsts();
+    StaticLogger.EnsureInitialized();
+    Log.Fatal(ex, "Unhandled exception");
 }
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseSerilogRequestLogging();
-
-app.UseHttpsRedirection();
-
-app.UseRequestLocalization();
-
-app.UseMiddleware<LocalizationMiddleware>();
-
-app.UseHealthChecks("/health", new HealthCheckOptions
+finally
 {
-    ResponseWriter = async (context, report) =>
-    {
-        var currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        context.Response.ContentType = "application/json";
-        var result = System.Text.Json.JsonSerializer.Serialize(new
-        {
-            status = report.Status.ToString(),
-            currentTime,
-            details = report.Entries.Select(e => new
-            {
-                key = e.Key,
-                value = e.Value.Status.ToString(),
-                description = e.Value.Description,
-                data = e.Value.Data
-            })
-        });
-        await context.Response.WriteAsync(result);
-    }
-});
-
-app.UseCors("AllowSpecificOrigins");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseExceptionHandlerMiddleware();
-
-app.MapControllers();
-
-app.MapHub<NotificationHub>("/notificationhub");
-
-app.Run();
+    StaticLogger.EnsureInitialized();
+    Log.Information("Server Shutting down...");
+    await Log.CloseAndFlushAsync();
+}

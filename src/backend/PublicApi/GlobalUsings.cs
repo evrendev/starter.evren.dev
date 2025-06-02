@@ -1,2 +1,9 @@
-﻿global using EvrenDev.Application.Common.Interfaces;
-global using MediatR;
+﻿global using EvrenDev.Application.Common.Exceptions;
+global using EvrenDev.Application.Common.Models;
+global using EvrenDev.Infrastructure.Auth.Permissions;
+global using EvrenDev.Infrastructure.Middleware;
+global using EvrenDev.Infrastructure.OpenApi;
+global using EvrenDev.Shared.Authorization;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using NSwag.Annotations;
