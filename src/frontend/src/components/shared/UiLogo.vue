@@ -5,7 +5,7 @@ const primary = ref("rgb(var(--v-theme-primary))");
 
 <template>
   <div class="logo-wrapper">
-    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" class="help-dunya-logo" viewBox="0 0 448 64" preserveAspectRatio="xMidYMid meet">
+    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" class="evren-dev-logo" viewBox="0 0 448 64" preserveAspectRatio="xMidYMid meet">
       <g
         transform="translate(0.000000,560.000000) scale(0.100000,-0.100000)"
         id="svgGroup"
@@ -48,7 +48,7 @@ const primary = ref("rgb(var(--v-theme-primary))");
 
 <style lang="scss" scoped>
 .logo-wrapper {
-  .help-dunya-logo {
+  .evren-dev-logo {
     width: 100%;
   }
 }

@@ -29,8 +29,7 @@ public static class DependencyInjection
             options.AddPolicy("AllowSpecificOrigins",
                 policy =>
                     policy.WithOrigins(
-                        "https://secure.fundraisingbox.com",
-                        "https://donation.help-dunya.com:5002",
+                        "https://evren.dev",
                         "http://localhost:5002"
                     )
                     .AllowAnyHeader()
@@ -52,16 +51,16 @@ public static class DependencyInjection
                 {
                     Title = "EvrenDev API",
                     Version = "v1",
-                    TermsOfService = new Uri("https://donation.help-dunya.com:5002/terms"),
+                    TermsOfService = new Uri("https://evren.dev/terms"),
                     Contact = new OpenApiContact
                     {
                         Name = "Contact",
-                        Url = new Uri("https://donation.help-dunya.com:5002/contact")
+                        Url = new Uri("https://evren.dev/contact")
                     },
                     License = new OpenApiLicense
                     {
                         Name = "License",
-                        Url = new Uri("https://donation.help-dunya.com:5002/license")
+                        Url = new Uri("https://evren.dev/license")
                     }
                 }
             )

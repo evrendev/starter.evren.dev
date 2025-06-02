@@ -52,7 +52,7 @@ public class IdentityDatabaseSeeder : IDatabaseSeeder
             }
 
             // Create default admin user if not exists
-            var adminEmail = _configuration["DefaultAdmin:Email"] ?? "help@help-dunya.org";
+            var adminEmail = _configuration["DefaultAdmin:Email"] ?? "mail@evren.dev";
             var superAdminUser = await _userManager.FindByEmailAsync(adminEmail);
 
             if (superAdminUser == null)

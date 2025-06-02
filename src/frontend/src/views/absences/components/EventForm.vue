@@ -38,7 +38,7 @@ const calendars = ref([
   { title: t("admin.absences.calendars.visit"), value: "visit" }
 ]);
 
-const locations = ref(["Bremen", "Essen"]);
+const locations = ref(["Delmenhorst", "Izmir"]);
 
 const today = new Date().toISOString().slice(0, 10).replace(/-/g, "-");
 const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10).replace(/-/g, "-");
