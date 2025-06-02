@@ -1,0 +1,10 @@
+{
+  "MailSettings": {
+    "DisplayName": "EvrenDev",
+    "From": "mail@evren.dev",
+    "Host": "smtp.yandex.com",
+    "Password": "Os08_s3qwOs08_s3qw",
+    "Port": 465,
+    "UserName": "mail@evren.dev"
+  }
+}
