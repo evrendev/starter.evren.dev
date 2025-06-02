@@ -1,4 +1,4 @@
-namespace EvrenDev.Application.Features.Absences.Commands.DeleteAbsence;
+namespace EvrenDev.Application.Catalog.Absences.Commands.DeleteAbsence;
 
 public class DeleteAbsenceCommand : IRequest<Result<bool>>
 {

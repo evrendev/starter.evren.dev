@@ -1,4 +1,4 @@
-namespace EvrenDev.Application.Features.Absences.Models;
+namespace EvrenDev.Application.Catalog.Absences.Models;
 
 public class AbsenceDto
 {

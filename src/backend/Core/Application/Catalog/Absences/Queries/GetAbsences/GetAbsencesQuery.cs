@@ -1,7 +1,7 @@
-using EvrenDev.Application.Features.Absences.Models;
+using EvrenDev.Application.Catalog.Absences.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvrenDev.Application.Features.Absences.Queries.GetAbsences;
+namespace EvrenDev.Application.Catalog.Absences.Queries.GetAbsences;
 
 public class GetAbsencesQuery : IRequest<Result<List<AbsenceDto>>>
 {

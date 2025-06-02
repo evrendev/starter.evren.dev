@@ -1,9 +1,9 @@
 using EvrenDev.Application.Common.Exceptions;
-using EvrenDev.Application.Features.Absences.Commands.CreateAbsence;
-using EvrenDev.Application.Features.Absences.Commands.DeleteAbsence;
-using EvrenDev.Application.Features.Absences.Commands.UpdateAbsence;
-using EvrenDev.Application.Features.Absences.Models;
-using EvrenDev.Application.Features.Absences.Queries.GetAbsences;
+using EvrenDev.Application.Catalog.Absences.Commands.CreateAbsence;
+using EvrenDev.Application.Catalog.Absences.Commands.DeleteAbsence;
+using EvrenDev.Application.Catalog.Absences.Commands.UpdateAbsence;
+using EvrenDev.Application.Catalog.Absences.Models;
+using EvrenDev.Application.Catalog.Absences.Queries.GetAbsences;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;

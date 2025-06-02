@@ -1,4 +1,4 @@
-namespace EvrenDev.Application.Features.Absences.Commands.CreateAbsence;
+namespace EvrenDev.Application.Catalog.Absences.Commands.CreateAbsence;
 
 public class CreateAbsenceCommand : IRequest<Result<Guid>>
 {

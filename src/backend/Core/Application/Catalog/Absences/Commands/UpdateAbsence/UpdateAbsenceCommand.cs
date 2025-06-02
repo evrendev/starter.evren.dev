@@ -1,4 +1,4 @@
-namespace EvrenDev.Application.Features.Absences.Commands.UpdateAbsence;
+namespace EvrenDev.Application.Catalog.Absences.Commands.UpdateAbsence;
 
 public class UpdateAbsenceCommand : IRequest<Result<bool>>
 {
