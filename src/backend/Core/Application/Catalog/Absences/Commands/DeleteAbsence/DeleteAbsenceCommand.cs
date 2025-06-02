@@ -11,7 +11,7 @@ public class DeleteAbsenceCommand(Guid id) : IRequest<Guid>
 
 public class DeleteAbsenceCommandValidator : CustomValidator<DeleteAbsenceCommand>
 {
-    public DeleteAbsenceCommandValidator(IReadRepositoryBase<Brand> repository, IStringLocalizer<DeleteAbsenceCommandValidator> localizer)
+    public DeleteAbsenceCommandValidator(IReadRepositoryBase<Absence> repository, IStringLocalizer<DeleteAbsenceCommandValidator> localizer)
     {
         RuleFor(v => v.Id)
             .NotEmpty().WithMessage(localizer["api.absence.delete.id.required"]);

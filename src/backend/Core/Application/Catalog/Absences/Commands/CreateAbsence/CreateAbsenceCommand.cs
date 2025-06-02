@@ -15,7 +15,7 @@ public class CreateAbsenceCommand : IRequest<Guid>
 
 public class CreateAbsenceCommandValidator : CustomValidator<CreateAbsenceCommand>
 {
-    public CreateAbsenceCommandValidator(IReadRepositoryBase<Brand> repository, IStringLocalizer<CreateAbsenceCommandValidator> localizer)
+    public CreateAbsenceCommandValidator(IReadRepositoryBase<Absence> repository, IStringLocalizer<CreateAbsenceCommandValidator> localizer)
     {
         RuleFor(v => v.StartDate)
             .NotEmpty().WithMessage(localizer["api.absence.create.startdate.required"])
