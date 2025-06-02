@@ -14,7 +14,7 @@ const footerLink = shallowRef([
   },
   {
     title: t("components.footerPanel.support"),
-    url: "https://evren.dev/"
+    url: "https://evren.dev/support/"
   }
 ]);
 </script>
