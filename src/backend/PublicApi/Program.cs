@@ -1,9 +1,9 @@
 using EvrenDev.Application;
-using EvrenDev.Host;
 using EvrenDev.Host.Configurations;
 using EvrenDev.Host.Controllers;
 using EvrenDev.Infrastructure;
 using EvrenDev.Infrastructure.Common;
+using EvrenDev.PublicApi;
 using Serilog;
 
 [assembly: ApiConventionType(typeof(ApiConventions))]

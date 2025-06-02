@@ -1,5 +1,5 @@
-using EvrenDev.Version.Version.Entities;
-using EvrenDev.Version.Version.Queries.Get;
+using EvrenDev.Application.Version.Entities;
+using EvrenDev.Application.Version.Queries.Get;
 
 namespace EvrenDev.Host.Controllers.Version;
 
