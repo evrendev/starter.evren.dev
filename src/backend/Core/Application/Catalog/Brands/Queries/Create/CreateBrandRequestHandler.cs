@@ -12,7 +12,7 @@ public class CreateBrandRequest : IRequest<Guid>
 
 public class CreateBrandRequestValidator : CustomValidator<CreateBrandRequest>
 {
-    public CreateBrandRequestValidator(IReadRepositoryBase<Brand> repository, IStringLocalizer localizer) =>
+    public CreateBrandRequestValidator(IReadRepository<Brand> repository, IStringLocalizer<CreateBrandRequestValidator> localizer) =>
         RuleFor(p => p.Name)
             .NotEmpty()
             .MaximumLength(75)
