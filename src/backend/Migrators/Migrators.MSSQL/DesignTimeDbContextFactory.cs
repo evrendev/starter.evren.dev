@@ -1,6 +1,6 @@
-using Backend.Infrastructure.Multitenancy;
-using Backend.Infrastructure.Persistence.Context;
-using Backend.Shared.Multitenancy;
+using EvrenDev.Infrastructure.Multitenancy;
+using EvrenDev.Infrastructure.Persistence.Context;
+using EvrenDev.Shared.Multitenancy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -52,7 +52,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<TenantDbCo
             builder.Options,
             null!, // ICurrentUser
             null!, // ISerializerService
-            Microsoft.Extensions.Options.Options.Create(new Backend.Infrastructure.Persistence.DatabaseSettings { DbProvider = "SqlServer" }), // DatabaseSettings
+            Microsoft.Extensions.Options.Options.Create(new EvrenDev.Infrastructure.Persistence.DatabaseSettings { DbProvider = "SqlServer" }), // DatabaseSettings
             null!); // IEventPublisher
     }
 }
