@@ -3,4 +3,7 @@
     <RootNamespace>EvrenDev.Shared</RootNamespace>
     <AssemblyName>EvrenDev.Shared</AssemblyName>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Remove="Roslynator.Analyzers" />
+  </ItemGroup>
 </Project>
