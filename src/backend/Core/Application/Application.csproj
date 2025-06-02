@@ -6,14 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses" />
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+      <PackageReference Include="Ardalis.Specification" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+      <PackageReference Include="Mapster" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+      <PackageReference Include="Microsoft.Extensions.Localization" />
+      <PackageReference Remove="Roslynator.Analyzers" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
-
 </Project>
