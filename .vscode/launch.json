@@ -1,7 +1,4 @@
 {
-  // Use IntelliSense to find out which attributes exist for C# debugging
-  // Use hover for the description of the existing attributes
-  // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
   "version": "0.2.0",
   "configurations": [
     {
@@ -13,33 +10,26 @@
       "args": [],
       "cwd": "${workspaceFolder}/src/backend/PublicApi",
       "stopAtEntry": false,
-      "internalConsoleOptions": "openOnSessionStart",
-      "launchBrowser": {
-        "enabled": true,
-        "args": "${auto-detect-url}",
-        "windows": {
-          "command": "cmd.exe",
-          "args": "/C start ${auto-detect-url}"
-        },
-        "osx": {
-          "command": "open"
-        },
-        "linux": {
-          "command": "xdg-open"
-        }
-      },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "suppressJITOptimizations": true,
-      "justMyCode": false,
-      "enableStepFiltering": false
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
     },
     {
       "name": ".NET Core Attach",
       "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:pickProcess}"
+      "request": "attach"
+    },
+    {
+      "name": "Docker .NET Core Launch",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "netCore": {
+        "appProject": "${workspaceFolder}/src/backend/PublicApi/PublicApi.csproj"
+      }
     }
   ]
 }
