@@ -1,11 +1,11 @@
 {
   "SwaggerSettings": {
     "Enable": true,
-    "Title": "Web API using .NET",
+    "Title": "EvrenDev Clean Architecture Template",
     "Version": "v1",
-    "Description": "Clean Architecture Template for .NET 9.0 Web API built with Multitenancy Support.",
+    "Description": "This is a template for building web APIs using Clean Architecture principles in .NET.",
     "License": true,
     "LicenseName": "MIT License",
-    "LicenseUrl": "https://github.com/Pettor/template-web-api-dotnet/blob/main/LICENSE"
+    "LicenseUrl": "https://github.com/evrendev/clean-architecture-template/blob/main/LICENSE"
   }
 }
