@@ -30,7 +30,10 @@
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "suppressJITOptimizations": true,
+      "justMyCode": false,
+      "enableStepFiltering": false
     },
     {
       "name": ".NET Core Attach",
