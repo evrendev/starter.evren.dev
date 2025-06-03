@@ -1,6 +1,6 @@
 using EvrenDev.Application;
-using EvrenDev.Host.Configurations;
-using EvrenDev.Host.Controllers;
+using EvrenDev.PublicApi.Configurations;
+using EvrenDev.PublicApi.Controllers;
 using EvrenDev.Infrastructure;
 using EvrenDev.Infrastructure.Common;
 using EvrenDev.PublicApi;

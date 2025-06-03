@@ -6,7 +6,7 @@ using EvrenDev.Application.Multitenancy.Queries.Get;
 using EvrenDev.Application.Multitenancy.Queries.GetAll;
 using EvrenDev.Application.Multitenancy.Queries.Upgrade;
 
-namespace EvrenDev.Host.Controllers.Multitenancy;
+namespace EvrenDev.PublicApi.Controllers.Multitenancy;
 
 public class TenantsController : VersionNeutralApiController
 {

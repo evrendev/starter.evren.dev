@@ -3,7 +3,7 @@ using EvrenDev.Application.Auditing.Queries.Get;
 using EvrenDev.Application.Identity.Users;
 using EvrenDev.Application.Identity.Users.Password;
 
-namespace EvrenDev.Host.Controllers.Personal;
+namespace EvrenDev.PublicApi.Controllers.Personal;
 
 public class PersonalController(IUserService userService) : VersionNeutralApiController
 {

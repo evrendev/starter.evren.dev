@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Application.Identity.Roles;
 
-namespace EvrenDev.Host.Controllers.Identity;
+namespace EvrenDev.PublicApi.Controllers.Identity;
 
 public class RolesController(IRoleService roleService) : VersionNeutralApiController
 {

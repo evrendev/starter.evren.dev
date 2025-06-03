@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
-namespace EvrenDev.Host.Controllers;
+namespace EvrenDev.PublicApi.Controllers;
 
 #nullable disable
 #pragma warning disable RCS1163

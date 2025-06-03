@@ -6,7 +6,7 @@ using EvrenDev.Application.Catalog.Products.Queries.Get;
 using EvrenDev.Application.Catalog.Products.Queries.Search;
 using EvrenDev.Application.Catalog.Products.Queries.Update;
 
-namespace EvrenDev.Host.Controllers.Catalog;
+namespace EvrenDev.PublicApi.Controllers.Catalog;
 
 public class ProductsController : VersionedApiController
 {

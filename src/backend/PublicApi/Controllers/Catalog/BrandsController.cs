@@ -6,7 +6,7 @@ using EvrenDev.Application.Catalog.Brands.Queries.Get;
 using EvrenDev.Application.Catalog.Brands.Queries.Search;
 using EvrenDev.Application.Catalog.Brands.Queries.Update;
 
-namespace EvrenDev.Host.Controllers.Catalog;
+namespace EvrenDev.PublicApi.Controllers.Catalog;
 
 public class BrandsController : VersionedApiController
 {

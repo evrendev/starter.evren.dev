@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Application.Dashboard;
 
-namespace EvrenDev.Host.Controllers.Dashboard;
+namespace EvrenDev.PublicApi.Controllers.Dashboard;
 
 public class DashboardController : VersionedApiController
 {

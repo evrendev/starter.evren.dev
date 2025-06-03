@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Application.Identity.Tokens;
 
-namespace EvrenDev.Host.Controllers.Identity;
+namespace EvrenDev.PublicApi.Controllers.Identity;
 
 public sealed class TokensController(ITokenService tokenService) : VersionNeutralApiController
 {

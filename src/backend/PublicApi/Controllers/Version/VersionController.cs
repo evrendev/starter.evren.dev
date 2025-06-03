@@ -1,7 +1,7 @@
 using EvrenDev.Application.Version.Entities;
 using EvrenDev.Application.Version.Queries.Get;
 
-namespace EvrenDev.Host.Controllers.Version;
+namespace EvrenDev.PublicApi.Controllers.Version;
 
 public class VersionController : VersionNeutralApiController
 {

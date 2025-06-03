@@ -1,7 +1,7 @@
 ﻿using EvrenDev.Application.Identity.Users;
 using EvrenDev.Application.Identity.Users.Password;
 
-namespace EvrenDev.Host.Controllers.Identity;
+namespace EvrenDev.PublicApi.Controllers.Identity;
 
 public class UsersController(IUserService userService) : VersionNeutralApiController
 {

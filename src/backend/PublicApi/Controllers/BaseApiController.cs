@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace EvrenDev.Host.Controllers;
+namespace EvrenDev.PublicApi.Controllers;
 
 [ApiController]
 public class BaseApiController : ControllerBase

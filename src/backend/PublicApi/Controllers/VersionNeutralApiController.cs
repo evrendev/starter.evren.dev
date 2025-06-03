@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Host.Controllers;
+﻿namespace EvrenDev.PublicApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiVersionNeutral]
