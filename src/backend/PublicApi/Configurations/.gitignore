@@ -1,3 +1,4 @@
 ﻿database.json
 hangfire.json
 mail.json
+secrets.json

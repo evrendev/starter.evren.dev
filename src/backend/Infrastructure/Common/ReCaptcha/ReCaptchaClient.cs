@@ -2,17 +2,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace EvrenDev.Application.Common.Extensions;
+namespace EvrenDev.Infrastructure.Common.ReCaptcha;
 
-public class ReCaptcha
+public class ReCaptchaClient
 {
     private readonly HttpClient _captchaClient;
     private readonly IConfiguration _configuration;
-    private readonly ILogger<ReCaptcha> _logger;
+    private readonly ILogger<ReCaptchaClient> _logger;
 
-    public ReCaptcha(HttpClient captchaClient,
+    public ReCaptchaClient(HttpClient captchaClient,
         IConfiguration configuration,
-        ILogger<ReCaptcha> logger)
+        ILogger<ReCaptchaClient> logger)
     {
         _captchaClient = captchaClient;
         _configuration = configuration;

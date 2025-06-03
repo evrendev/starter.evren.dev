@@ -1,14 +1,25 @@
 ﻿using EvrenDev.Application.Common.Interfaces;
+using EvrenDev.Infrastructure.Common.ReCaptcha;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EvrenDev.Infrastructure.Common;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddServices(this IServiceCollection services) =>
+    internal static IServiceCollection AddServices(this IServiceCollection services)
+    {
         services
             .AddServices(typeof(ITransientService), ServiceLifetime.Transient)
             .AddServices(typeof(IScopedService), ServiceLifetime.Scoped);
+
+        services
+            .AddHttpClient<ReCaptchaClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://www.google.com/recaptcha/api/siteverify");
+            });
+
+        return services;
+    }
 
     internal static IServiceCollection AddServices(this IServiceCollection services, Type interfaceType, ServiceLifetime lifetime)
     {

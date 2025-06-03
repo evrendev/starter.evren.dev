@@ -6,6 +6,7 @@ using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Identity.Tokens;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Infrastructure.Auth.Jwt;
+using EvrenDev.Infrastructure.Common.ReCaptcha;
 using EvrenDev.Infrastructure.Multitenancy;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
@@ -21,7 +22,8 @@ internal class TokenService(
     IOptions<JwtSettings> jwtSettings,
     IStringLocalizer<TokenService> localizer,
     TenantInfo? currentTenant,
-    IOptions<SecuritySettings> securitySettings)
+    IOptions<SecuritySettings> securitySettings,
+    ReCaptchaClient reCaptchaClient)
     : ITokenService
 {
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
@@ -32,6 +34,11 @@ internal class TokenService(
         if (string.IsNullOrWhiteSpace(currentTenant?.Id))
         {
             throw new UnauthorizedException(localizer["tenant.invalid"]);
+        }
+
+        if (_securitySettings.RequireReCaptcha && !await reCaptchaClient.IsValid(request.Response))
+        {
+            throw new UnauthorizedException(localizer["identity.invalidcaptcha"]);
         }
 
         var user = await userManager.FindByEmailAsync(request.Email.Trim().Normalize());

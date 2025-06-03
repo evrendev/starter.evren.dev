@@ -1,3 +1,3 @@
 ﻿namespace EvrenDev.Application.Identity.Tokens;
 
-public record TokenRequest(string Email, string Password);
+public record TokenRequest(string Email, string Password, string Response, bool RememberMe);

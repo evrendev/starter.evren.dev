@@ -24,6 +24,8 @@ internal static class Startup
                 .AddJsonFile($"{configurationsDirectory}/middleware.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/security.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/security.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"{configurationsDirectory}/secrets.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"{configurationsDirectory}/secrets.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/openapi.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/openapi.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/signalr.json", optional: false, reloadOnChange: true)
