@@ -2,9 +2,6 @@
 
 namespace EvrenDev.PublicApi.Controllers;
 
-#nullable disable
-#pragma warning disable RCS1163
-
 public static class ApiConventions
 {
     [ProducesResponseType(200)]
