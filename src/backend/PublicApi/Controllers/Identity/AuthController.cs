@@ -2,9 +2,9 @@
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
-public sealed class TokensController(ITokenService tokenService) : VersionNeutralApiController
+public sealed class AuthController(ITokenService tokenService) : VersionNeutralApiController
 {
-    [HttpPost]
+    [HttpPost("login")]
     [AllowAnonymous]
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using credentials.", "")]
@@ -18,7 +18,7 @@ public sealed class TokensController(ITokenService tokenService) : VersionNeutra
         return new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime);
     }
 
-    [HttpDelete]
+    [HttpPost("logout")]
     [AllowAnonymous]
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using credentials.", "")]
@@ -28,7 +28,7 @@ public sealed class TokensController(ITokenService tokenService) : VersionNeutra
         return Ok();
     }
 
-    [HttpGet("refresh")]
+    [HttpGet("refresh-token")]
     [AllowAnonymous]
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using a refresh token.", "")]
