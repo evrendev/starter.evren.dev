@@ -1,9 +1,13 @@
 {
   "SwaggerSettings": {
     "Enable": true,
-    "Title": "EvrenDev Clean Architecture Template",
+    "Title": "EvrenDev API",
     "Version": "v1",
     "Description": "This is a template for building web APIs using Clean Architecture principles in .NET.",
+    "ContactName": "Evren.Dev",
+    "ContactEmail": "mail@evren.dev",
+    "ContactUrl": "https://evren.dev",
+    "TermsOfService": "https://evren.dev/terms",
     "License": true,
     "LicenseName": "MIT License",
     "LicenseUrl": "https://github.com/evrendev/clean-architecture-template/blob/main/LICENSE"

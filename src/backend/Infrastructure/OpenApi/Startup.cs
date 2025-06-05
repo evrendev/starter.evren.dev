@@ -38,6 +38,7 @@ internal static class Startup
                     Name = settings.LicenseName,
                     Url = settings.LicenseUrl
                 };
+                doc.Info.TermsOfService = settings.TermsOfService;
             };
 
             if (config["SecuritySettings:Provider"]!.Equals("AzureAd", StringComparison.OrdinalIgnoreCase))

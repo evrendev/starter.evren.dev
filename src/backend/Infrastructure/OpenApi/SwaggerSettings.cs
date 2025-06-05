@@ -9,6 +9,7 @@ public class SwaggerSettings
     public string? ContactName { get; set; }
     public string? ContactEmail { get; set; }
     public string? ContactUrl { get; set; }
+    public string? TermsOfService { get; set; }
     public bool License { get; set; }
     public string? LicenseName { get; set; }
     public string? LicenseUrl { get; set; }
