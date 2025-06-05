@@ -1,6 +1,6 @@
 ﻿using Ardalis.Specification;
 using EvrenDev.Application.Common.Persistence;
-using EvrenDev.Domain.Common.Events;
+using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Infrastructure.Persistence.Repository;
 

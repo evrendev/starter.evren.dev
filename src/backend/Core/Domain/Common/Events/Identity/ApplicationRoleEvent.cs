@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Domain.Identity;
+﻿namespace EvrenDev.Domain.Common.Events.Identity;
 
 public abstract class ApplicationRoleEvent : DomainEvent
 {

@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Domain.Identity;
+﻿namespace EvrenDev.Domain.Common.Events.Identity;
 
 public class ApplicationUserUpdatedEvent(string userId, bool rolesUpdated = false) : ApplicationUserEvent(userId)
 {

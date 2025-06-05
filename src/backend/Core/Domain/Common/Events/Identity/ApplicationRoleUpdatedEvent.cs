@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Domain.Identity;
+﻿namespace EvrenDev.Domain.Common.Events.Identity;
 
 public class ApplicationRoleUpdatedEvent(string roleId, string roleName, bool permissionsUpdated = false) : ApplicationRoleEvent(roleId, roleName)
 {

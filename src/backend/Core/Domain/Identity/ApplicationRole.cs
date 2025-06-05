@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace EvrenDev.Infrastructure.Identity;
+namespace EvrenDev.Domain.Common.Events.Identity;
 
 public class ApplicationRole : IdentityRole
 {

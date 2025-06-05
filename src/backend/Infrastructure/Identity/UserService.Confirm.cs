@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 using EvrenDev.Application.Common.Exceptions;
+using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Infrastructure.Common;
 using EvrenDev.Shared.Multitenancy;
 using Microsoft.AspNetCore.WebUtilities;

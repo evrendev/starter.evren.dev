@@ -6,6 +6,7 @@
 
   <ItemGroup>
       <PackageReference Include="NewId" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
       <PackageReference Remove="Roslynator.Analyzers" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using EvrenDev.Infrastructure.Identity;
+﻿using EvrenDev.Domain.Common.Events.Identity;
 using Finbuckle.MultiTenant.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

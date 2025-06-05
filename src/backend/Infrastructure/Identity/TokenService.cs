@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Identity.Tokens;
+using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Infrastructure.Auth.Jwt;
 using EvrenDev.Infrastructure.Common.ReCaptcha;

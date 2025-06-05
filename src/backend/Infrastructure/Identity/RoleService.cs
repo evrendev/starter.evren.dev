@@ -2,7 +2,7 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Identity.Roles;
-using EvrenDev.Domain.Identity;
+using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
 using Finbuckle.MultiTenant;

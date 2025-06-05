@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Application.Common.Events;
 using EvrenDev.Application.Identity.Users;
-using EvrenDev.Domain.Identity;
+using EvrenDev.Domain.Common.Events.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace EvrenDev.Infrastructure.Identity;

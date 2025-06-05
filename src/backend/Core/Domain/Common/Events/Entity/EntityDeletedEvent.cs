@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Domain.Common.Events;
+﻿namespace EvrenDev.Domain.Common.Events.Entity;
 
 public static class EntityDeletedEvent
 {

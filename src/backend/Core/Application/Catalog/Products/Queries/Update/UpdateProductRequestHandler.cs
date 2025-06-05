@@ -3,7 +3,7 @@ using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events;
+using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Products.Queries.Update;
 

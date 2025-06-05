@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Domain.Identity;
+﻿namespace EvrenDev.Domain.Common.Events.Identity;
 
 public class ApplicationRoleDeletedEvent(string roleId, string roleName) : ApplicationRoleEvent(roleId, roleName)
 {
