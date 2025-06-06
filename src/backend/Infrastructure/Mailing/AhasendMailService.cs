@@ -6,8 +6,8 @@ using Microsoft.Extensions.Options;
 
 namespace EvrenDev.Infrastructure.Mailing;
 
-public class SmtpMailService(IOptions<MailSettings> settings,
-    ILogger<SmtpMailService> logger,
+public class AhasendMailService(IOptions<MailSettings> settings,
+    ILogger<AhasendMailService> logger,
     IHttpClientFactory clientFactory) : IMailService
 {
     private readonly MailSettings _settings = settings.Value;
@@ -33,7 +33,7 @@ public class SmtpMailService(IOptions<MailSettings> settings,
 
             await httpClient.PostAsync(_settings.ApiUrl, content);
 
-            logger.LogInformation("Sending email to {Email} with subject {Subject}", request?.From?.Email, request?.Content?.Subject);
+            logger.LogInformation("Sending email from {Email} with subject {Subject}", request?.From?.Email, request?.Content?.Subject);
         }
         catch (Exception ex)
         {
