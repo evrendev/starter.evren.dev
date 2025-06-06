@@ -24,10 +24,23 @@ internal partial class UserService
         const string route = "account/reset-password";
         var endpointUri = new Uri(string.Concat($"{origin}/", route));
         var passwordResetUrl = QueryHelpers.AddQueryString(endpointUri.ToString(), "Token", code);
+        var recipients = new List<Contact>
+        {
+            new(user.Email, $"{user.FirstName} {user.LastName}")
+        };
+
+        var content = new Content
+        {
+            Subject = localizer["Reset Password"],
+            TextBody = localizer[$"Your Password Reset Token is '{code}'. You can reset your password using the {endpointUri} Endpoint."],
+            HtmlBody = localizer[$"Your Password Reset Token is '{code}'. You can reset your password using the <a href='{passwordResetUrl}'>Reset Password</a> Endpoint."],
+        };
+
         var mailRequest = new MailRequest(
-            new List<string> { request.Email },
-            localizer["Reset Password"],
-            localizer[$"Your Password Reset Token is '{code}'. You can reset your password using the {endpointUri} Endpoint."]);
+            content,
+            recipients
+        );
+
         jobService.Enqueue(() => mailService.SendAsync(mailRequest));
 
         return localizer["Password Reset Mail has been sent to your authorized Email."];

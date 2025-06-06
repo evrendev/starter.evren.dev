@@ -132,10 +132,28 @@ internal partial class UserService
                 UserName = user.UserName,
                 Url = emailVerificationUri
             };
+
+            var htmlBody = templateService.GenerateEmailTemplate("email-confirmation", eMailModel);
+            var textBody = localizer["Please confirm your account by clicking this link: {0}", emailVerificationUri];
+            var subject = localizer["Confirm Registration"];
+
+            var recipients = new List<Contact>
+            {
+                new(user.Email, $"{user.FirstName} {user.LastName}")
+            };
+
+            var content = new Content
+            {
+                Subject = subject,
+                TextBody = textBody,
+                HtmlBody = htmlBody,
+            };
+
             var mailRequest = new MailRequest(
-                new List<string> { user.Email },
-                localizer["Confirm Registration"],
-                templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
+                content,
+                recipients
+            );
+
             jobService.Enqueue(() => mailService.SendAsync(mailRequest));
             messages.Add(localizer[$"Please check {user.Email} to verify your account!"]);
         }

@@ -1,37 +1,31 @@
-﻿namespace EvrenDev.Application.Common.Mailing;
 
-public class MailRequest(
-    List<string> to,
-    string subject,
-    string? body = null,
-    string? from = null,
-    string? displayName = null,
-    string? replyTo = null,
-    string? replyToName = null,
-    List<string>? bcc = null,
-    List<string>? cc = null,
-    IDictionary<string, byte[]>? attachmentData = null,
-    IDictionary<string, string>? headers = null)
+using System.Text.Json.Serialization;
+
+namespace EvrenDev.Application.Common.Mailing;
+
+public class Content
 {
-    public List<string> To { get; } = to;
+    public string? Subject { get; set; }
 
-    public string Subject { get; } = subject;
+    [JsonPropertyName("text_body")]
+    public string? TextBody { get; set; }
 
-    public string? Body { get; } = body;
+    [JsonPropertyName("html_body")]
+    public string? HtmlBody { get; set; }
 
-    public string? From { get; } = from;
+    [JsonPropertyName("reply_to")]
+    public Contact? ReplyTo { get; set; }
+}
 
-    public string? DisplayName { get; } = displayName;
+public class Contact(string? email, string? name = null)
+{
+    public string? Email { get; set; } = email;
+    public string? Name { get; set; } = name;
+}
 
-    public string? ReplyTo { get; } = replyTo;
-
-    public string? ReplyToName { get; } = replyToName;
-
-    public List<string> Bcc { get; } = bcc ?? new List<string>();
-
-    public List<string> Cc { get; } = cc ?? new List<string>();
-
-    public IDictionary<string, byte[]> AttachmentData { get; } = attachmentData ?? new Dictionary<string, byte[]>();
-
-    public IDictionary<string, string> Headers { get; } = headers ?? new Dictionary<string, string>();
+public class MailRequest(Content content, List<Contact>? recipients, Contact? from = null)
+{
+    public Contact? From { get; set; } = from;
+    public List<Contact>? Recipients { get; set; } = recipients;
+    public Content? Content { get; set; } = content;
 }

@@ -1,78 +1,44 @@
-﻿using EvrenDev.Application.Common.Mailing;
-using MailKit.Net.Smtp;
-using MailKit.Security;
+﻿using System.Text;
+using System.Text.Json;
+using EvrenDev.Application.Common.Mailing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MimeKit;
 
 namespace EvrenDev.Infrastructure.Mailing;
 
-public class SmtpMailService(IOptions<MailSettings> settings, ILogger<SmtpMailService> logger) : IMailService
+public class SmtpMailService(IOptions<MailSettings> settings,
+    ILogger<SmtpMailService> logger,
+    IHttpClientFactory clientFactory) : IMailService
 {
     private readonly MailSettings _settings = settings.Value;
+    private readonly IHttpClientFactory _clientFactory = clientFactory;
 
     public async Task SendAsync(MailRequest request)
     {
         try
         {
-            var email = new MimeMessage();
+            request.From ??= _settings.From;
 
-            // From
-            email.From.Add(new MailboxAddress(_settings.DisplayName, request.From ?? _settings.From));
-
-            // To
-            foreach (var address in request.To)
-                email.To.Add(MailboxAddress.Parse(address));
-
-            // Reply To
-            if (!string.IsNullOrEmpty(request.ReplyTo))
-                email.ReplyTo.Add(new MailboxAddress(request.ReplyToName, request.ReplyTo));
-
-            // Bcc
-            if (request.Bcc != null)
+            var smtpSerializeOptions = new JsonSerializerOptions
             {
-                foreach (var address in request.Bcc.Where(bccValue => !string.IsNullOrWhiteSpace(bccValue)))
-                    email.Bcc.Add(MailboxAddress.Parse(address.Trim()));
-            }
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                WriteIndented = true
+            };
 
-            // Cc
-            if (request.Cc != null)
-            {
-                foreach (var address in request.Cc.Where(ccValue => !string.IsNullOrWhiteSpace(ccValue)))
-                    email.Cc.Add(MailboxAddress.Parse(address.Trim()));
-            }
+            var jsonContent = JsonSerializer.Serialize(request, smtpSerializeOptions);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            // Headers
-            if (request.Headers != null)
-            {
-                foreach (var header in request.Headers)
-                    email.Headers.Add(header.Key, header.Value);
-            }
+            var httpClient = _clientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.Add("x-api-key", _settings.ApiKey);
 
-            // Content
-            var builder = new BodyBuilder();
-            email.Sender = new MailboxAddress(request.DisplayName ?? _settings.DisplayName, request.From ?? _settings.From);
-            email.Subject = request.Subject;
-            builder.HtmlBody = request.Body;
+            await httpClient.PostAsync(_settings.ApiUrl, content);
 
-            // Create the file attachments for this e-mail message
-            if (request.AttachmentData != null)
-            {
-                foreach (var attachmentInfo in request.AttachmentData)
-                    builder.Attachments.Add(attachmentInfo.Key, attachmentInfo.Value);
-            }
-
-            email.Body = builder.ToMessageBody();
-
-            using var smtp = new SmtpClient();
-            await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls);
-            await smtp.AuthenticateAsync(_settings.UserName, _settings.Password);
-            await smtp.SendAsync(email);
-            await smtp.DisconnectAsync(true);
+            logger.LogInformation("Sending email to {Email} with subject {Subject}", request?.From?.Email, request?.Content?.Subject);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, ex.Message);
+            logger.LogError(ex, "Failed to send email to {Email}", request.From?.Email);
+            throw;
         }
     }
 }

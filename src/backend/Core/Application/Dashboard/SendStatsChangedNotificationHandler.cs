@@ -2,7 +2,6 @@
 using EvrenDev.Domain.Catalog;
 using EvrenDev.Domain.Common.Events.Entity;
 using EvrenDev.Domain.Common.Events.Identity;
-using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Shared.Notifications;
 using Microsoft.Extensions.Logging;
 
