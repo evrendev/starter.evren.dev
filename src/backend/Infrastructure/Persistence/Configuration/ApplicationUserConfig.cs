@@ -23,6 +23,16 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
         builder.Property(u => u.PlaceOfBirth)
             .HasMaxLength(100);
 
+        builder.Property(u => u.Gender)
+            .HasMaxLength(1)
+            .HasDefaultValue(Gender.None)
+            .IsRequired(true);
+
+        builder.Property(u => u.Language)
+            .HasMaxLength(2)
+            .HasDefaultValue(Language.English)
+            .IsRequired(true);
+
         builder
             .Property(u => u.ObjectId)
                 .HasMaxLength(256);
