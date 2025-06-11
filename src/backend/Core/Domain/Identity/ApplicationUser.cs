@@ -5,6 +5,7 @@ namespace EvrenDev.Domain.Common.Events.Identity;
 
 public class ApplicationUser : IdentityUser
 {
+    public Gender? Gender { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public DateTime? Birthday { get; set; }
@@ -14,5 +15,6 @@ public class ApplicationUser : IdentityUser
     public string? RefreshToken { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
     public string? ObjectId { get; set; }
-    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = new List<CourseEnrollment>();
+    public Language? Language { get; set; }
+    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = [];
 }

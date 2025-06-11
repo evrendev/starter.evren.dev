@@ -3,7 +3,7 @@ global using EvrenDev.Application.Common.Interfaces;
 global using EvrenDev.Application.Common.Models;
 global using EvrenDev.Application.Common.Validation;
 global using EvrenDev.Application.Identity.Users.Password;
-global using EvrenDev.Domain.Common;
+global using EvrenDev.Domain.Common.Enums;
 global using EvrenDev.Domain.Common.Contracts;
 global using EvrenDev.Shared.Events;
 global using FluentValidation;
