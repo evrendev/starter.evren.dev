@@ -1,4 +1,3 @@
-
 using System.Text.Json.Serialization;
 
 namespace EvrenDev.Application.Common.Mailing;
@@ -12,9 +11,6 @@ public class Content
 
     [JsonPropertyName("html_body")]
     public string? HtmlBody { get; set; }
-
-    [JsonPropertyName("reply_to")]
-    public Contact? ReplyTo { get; set; }
 }
 
 public class Contact(string? email, string? name = null)

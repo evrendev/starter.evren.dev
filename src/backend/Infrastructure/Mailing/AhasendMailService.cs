@@ -19,19 +19,19 @@ public class AhasendMailService(IOptions<MailSettings> settings,
         {
             request.From ??= _settings.From;
 
-            var smtpSerializeOptions = new JsonSerializerOptions
+            var jsonMailSerializeOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
                 WriteIndented = true
             };
 
-            var jsonContent = JsonSerializer.Serialize(request, smtpSerializeOptions);
+            var jsonContent = JsonSerializer.Serialize(request, jsonMailSerializeOptions);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             var httpClient = _clientFactory.CreateClient();
-            httpClient.DefaultRequestHeaders.Add("x-api-key", _settings.ApiKey);
+            httpClient.DefaultRequestHeaders.Add("X-Api-Key", _settings.ApiKey);
 
-            await httpClient.PostAsync(_settings.ApiUrl, content);
+            var response = await httpClient.PostAsync(_settings.ApiUrl, content);
 
             logger.LogInformation("Sending email from {Email} with subject {Subject}", request?.From?.Email, request?.Content?.Subject);
         }
