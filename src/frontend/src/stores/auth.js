@@ -28,10 +28,10 @@ export const useAuthStore = defineStore("auth", {
     async login(data) {
       const res = await apiService.post("/auth/login", data);
 
-      if (res?.requiresTwoFactor) {
+      if (res?.data.requiresTwoFactor) {
         this.auth = {
           user: {
-            id: res?.userId
+            id: res?.data.userId
           }
         };
 
@@ -39,12 +39,12 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.auth = {
           isAuthenticated: true,
-          user: res?.user,
-          token: res?.token,
-          refreshToken: res?.refreshToken
+          user: res?.data?.user,
+          token: res?.data?.token,
+          refreshTokenExpiryTime: res?.data?.refreshTokenExpiryTime
         };
 
-        await LocaleHelper.switchLanguage(res?.user.language);
+        await LocaleHelper.switchLanguage(res?.data?.user.language);
         router.push(this.returnUrl || "/admin");
       }
     },

@@ -3,6 +3,7 @@ import { useAppStore } from "@/stores";
 import NotificationService from "./notification";
 
 const baseURL = import.meta.env.VITE_API_URL;
+const tenant = import.meta.env.VITE_TENANT;
 
 const apiClient = axios.create({ baseURL });
 
@@ -17,6 +18,7 @@ apiClient.interceptors.request.use(
     }
 
     config.headers.Accept = "application/json";
+    config.headers["tenant"] = tenant;
     config.headers["Accept-Language"] = localStorage.getItem("lang") ?? config.defaultLocale;
 
     return config;
@@ -37,6 +39,7 @@ apiClient.interceptors.response.use(
     }
 
     config.headers.Accept = "application/json";
+    config.headers["tenant"] = tenant;
     config.headers["Accept-Language"] = localStorage.getItem("lang") ?? config.defaultLocale;
 
     return config;
