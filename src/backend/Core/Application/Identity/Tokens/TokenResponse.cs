@@ -1,3 +1,5 @@
-﻿namespace EvrenDev.Application.Identity.Tokens;
+﻿using EvrenDev.Application.Identity.Users;
 
-public record TokenResponse(string Token, DateTime RefreshTokenExpiryTime);
+namespace EvrenDev.Application.Identity.Tokens;
+
+public record TokenResponse(string Token, DateTime RefreshTokenExpiryTime, UserBasicDto? User);

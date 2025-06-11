@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Identity.Tokens;
+using EvrenDev.Application.Identity.Users;
 using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Infrastructure.Auth.Jwt;
@@ -104,7 +105,18 @@ internal class TokenService(
 
         await userManager.UpdateAsync(user);
 
-        return new TokenResult(token, user.RefreshToken, user.RefreshTokenExpiryTime);
+        var userDto = new UserBasicDto
+        {
+            Id = user.Id,
+            Gender = user.Gender?.ToString().ToLowerInvariant(),
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Language = user.Language?.ToString().ToLowerInvariant(),
+            TwoFactorEnabled = user.TwoFactorEnabled,
+        };
+
+        return new TokenResult(token, user.RefreshToken, user.RefreshTokenExpiryTime, userDto);
     }
 
     private string GenerateJwt(ApplicationUser user, string ipAddress) =>

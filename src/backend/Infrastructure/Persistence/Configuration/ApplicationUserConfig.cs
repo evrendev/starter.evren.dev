@@ -30,7 +30,7 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
 
         builder.Property(u => u.Language)
             .HasMaxLength(2)
-            .HasDefaultValue(Language.English)
+            .HasDefaultValue(Language.En)
             .IsRequired(true);
 
         builder

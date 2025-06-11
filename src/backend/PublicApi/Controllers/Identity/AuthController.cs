@@ -8,14 +8,17 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
     [AllowAnonymous]
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using credentials.", "")]
-    public async Task<ActionResult<TokenResponse>> GetTokenAsync(
+    public async Task<StandartResponse<TokenResponse>?> GetTokenAsync(
         TokenRequest request,
         CancellationToken cancellationToken)
     {
         var tokenResult = await tokenService.GetTokenAsync(request, GetIpAddress(), cancellationToken);
 
         AddRefreshTokenCookie(tokenResult.RefreshToken);
-        return new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime);
+
+        var data = new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, tokenResult.User);
+
+        return StandartResponse<TokenResponse>.Success(data);
     }
 
     [HttpPost("logout")]
@@ -44,7 +47,7 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         {
             var tokenResult = await tokenService.RefreshTokenAsync(accessToken, GetIpAddress());
             AddRefreshTokenCookie(tokenResult.RefreshToken);
-            return new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime);
+            return new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, null);
         }
         catch (UnauthorizedException)
         {
