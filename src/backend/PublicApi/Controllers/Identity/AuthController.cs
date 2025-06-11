@@ -2,8 +2,7 @@
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
-[Route("auth")]
-public sealed class AuthController(ITokenService tokenService) : BaseApiController
+public sealed class AuthController(ITokenService tokenService) : VersionNeutralApiController
 {
     [HttpPost("login")]
     [AllowAnonymous]
