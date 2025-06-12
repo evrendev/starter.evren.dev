@@ -20,9 +20,13 @@ public class AbsencesController : VersionedApiController
     [HttpGet("{id:guid}")]
     [MustHavePermission(ApiAction.View, ApiResource.Absences)]
     [OpenApiOperation("Get absence details.", "")]
-    public Task<AbsenceDto> GetAsync(Guid id)
+    public async Task<ApiResponse<AbsenceDto>> GetAsync(Guid id)
     {
-        return Mediator.Send(new GetAbsencesQuery(id));
+        var data = await Mediator.Send(new GetAbsencesQuery(id));
+        if (data == null)
+            throw new NotFoundException($"Absence with ID '{id}' not found.");
+
+        return ApiResponse<AbsenceDto>.Success(data);
     }
 
     [HttpPost]
