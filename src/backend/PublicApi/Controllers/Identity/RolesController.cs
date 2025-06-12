@@ -7,17 +7,22 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Roles)]
     [OpenApiOperation("Get a list of all roles.", "")]
-    public Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<RoleDto>?>> GetListAsync(CancellationToken cancellationToken)
     {
-        return roleService.GetListAsync(cancellationToken);
+        var data = await roleService.GetListAsync(cancellationToken);
+        return ApiResponse<List<RoleDto>?>.Success(data);
     }
 
     [HttpGet("{id}")]
     [MustHavePermission(ApiAction.View, ApiResource.Roles)]
     [OpenApiOperation("Get role details.", "")]
-    public Task<RoleDto> GetByIdAsync(string id)
+    public async Task<ApiResponse<RoleDto>> GetByIdAsync(string id)
     {
-        return roleService.GetByIdAsync(id);
+        var data = await roleService.GetByIdAsync(id);
+        if (data == null)
+            throw new NotFoundException($"Role with ID '{id}' not found.");
+
+        return ApiResponse<RoleDto>.Success(data);
     }
 
     [HttpGet("{id}/permissions")]

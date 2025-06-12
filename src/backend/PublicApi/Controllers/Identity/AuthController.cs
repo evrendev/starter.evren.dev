@@ -8,17 +8,15 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
     [AllowAnonymous]
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using credentials.", "")]
-    public async Task<StandartResponse<TokenResponse>?> GetTokenAsync(
+    public async Task<ApiResponse<TokenResponse>?> GetTokenAsync(
         TokenRequest request,
         CancellationToken cancellationToken)
     {
         var tokenResult = await tokenService.GetTokenAsync(request, GetIpAddress(), cancellationToken);
-
+        var data = new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, tokenResult.User);
         AddRefreshTokenCookie(tokenResult.RefreshToken);
 
-        var data = new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, tokenResult.User);
-
-        return StandartResponse<TokenResponse>.Success(data);
+        return ApiResponse<TokenResponse>.Success(data);
     }
 
     [HttpPost("logout")]
@@ -36,18 +34,18 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using a refresh token.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Search))]
-    public async Task<ActionResult<TokenResponse>> RefreshAsync()
+    public async Task<ApiResponse<TokenResponse>> RefreshAsync()
     {
         if (!Request.Cookies.TryGetValue("refresh_token", out var accessToken))
-        {
-            return UnprocessableEntity();
-        }
+            throw new UnauthorizedException("Refresh token is missing.");
 
         try
         {
             var tokenResult = await tokenService.RefreshTokenAsync(accessToken, GetIpAddress());
+            var data = new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, tokenResult.User);
             AddRefreshTokenCookie(tokenResult.RefreshToken);
-            return new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, null);
+
+            return ApiResponse<TokenResponse>.Success(data);
         }
         catch (UnauthorizedException)
         {
