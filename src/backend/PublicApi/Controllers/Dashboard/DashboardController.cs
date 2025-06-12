@@ -7,8 +7,10 @@ public class DashboardController : VersionedApiController
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Dashboard)]
     [OpenApiOperation("Get statistics for the dashboard.", "")]
-    public Task<StatsDto> GetAsync()
+    public async Task<ApiResponse<StatsDto>> GetAsync()
     {
-        return Mediator.Send(new GetStatsRequest());
+        var data = await Mediator.Send(new GetStatsRequest());
+
+        return ApiResponse<StatsDto>.Success(data);
     }
 }
