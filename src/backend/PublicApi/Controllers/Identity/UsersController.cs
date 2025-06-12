@@ -8,17 +8,23 @@ public class UsersController(IUserService userService) : VersionNeutralApiContro
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get list of all users.", "")]
-    public Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<UserDetailsDto>>> GetListAsync(CancellationToken cancellationToken)
     {
-        return userService.GetListAsync(cancellationToken);
+        var data = await userService.GetListAsync(cancellationToken);
+
+        return ApiResponse<List<UserDetailsDto>>.Success(data);
     }
 
     [HttpGet("{id}")]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get a user's details.", "")]
-    public Task<UserDetailsDto> GetByIdAsync(string id, CancellationToken cancellationToken)
+    public async Task<ApiResponse<UserDetailsDto>> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        return userService.GetAsync(id, cancellationToken);
+        var data = await userService.GetAsync(id, cancellationToken);
+        if (data == null)
+            throw new NotFoundException($"User with ID '{id}' not found.");
+
+        return ApiResponse<UserDetailsDto>.Success(data);
     }
 
     [HttpGet("{id}/roles")]
@@ -43,24 +49,18 @@ public class UsersController(IUserService userService) : VersionNeutralApiContro
     [OpenApiOperation("Creates a new user.", "")]
     public Task<string> CreateAsync(CreateUserRequest request)
     {
-        // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
-        // and return UnAuthorized when it isn't
-        // Also: add other protection to prevent automatic posting (captcha?)
         return userService.CreateAsync(request, GetOriginFromRequest());
     }
 
-    [HttpPost("self-register")]
-    [TenantIdHeader]
-    [AllowAnonymous]
-    [OpenApiOperation("Anonymous user creates a user.", "")]
-    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
-    public Task<string> SelfRegisterAsync(CreateUserRequest request)
-    {
-        // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
-        // and return UnAuthorized when it isn't
-        // Also: add other protection to prevent automatic posting (captcha?)
-        return userService.CreateAsync(request, GetOriginFromRequest());
-    }
+    // [HttpPost("self-register")]
+    // [TenantIdHeader]
+    // [AllowAnonymous]
+    // [OpenApiOperation("Anonymous user creates a user.", "")]
+    // [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
+    // public Task<string> SelfRegisterAsync(CreateUserRequest request)
+    // {
+    //     return userService.CreateAsync(request, GetOriginFromRequest());
+    // }
 
     [HttpPost("{id}/toggle-status")]
     [MustHavePermission(ApiAction.Update, ApiResource.Users)]
