@@ -21,9 +21,13 @@ public class BrandsController : VersionedApiController
     [HttpGet("{id:guid}")]
     [MustHavePermission(ApiAction.View, ApiResource.Brands)]
     [OpenApiOperation("Get brand details.", "")]
-    public Task<BrandDto> GetAsync(Guid id)
+    public async Task<ApiResponse<BrandDto>> GetAsync(Guid id)
     {
-        return Mediator.Send(new GetBrandRequest(id));
+        var data = await Mediator.Send(new GetBrandRequest(id));
+        if (data == null)
+            throw new NotFoundException($"Brand with ID '{id}' not found.");
+
+        return ApiResponse<BrandDto>.Success(data);
     }
 
     [HttpPost]
