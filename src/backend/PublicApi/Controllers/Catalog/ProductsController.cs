@@ -21,9 +21,14 @@ public class ProductsController : VersionedApiController
     [HttpGet("{id:guid}")]
     [MustHavePermission(ApiAction.View, ApiResource.Products)]
     [OpenApiOperation("Get product details.", "")]
-    public Task<ProductDetailsDto> GetAsync(Guid id)
+    public async Task<ApiResponse<ProductDetailsDto>> GetAsync(Guid id)
     {
-        return Mediator.Send(new GetProductRequest(id));
+        var data = await Mediator.Send(new GetProductRequest(id));
+
+        if (data == null)
+            throw new NotFoundException($"Product with ID '{id}' not found.");
+
+        return ApiResponse<ProductDetailsDto>.Success(data);
     }
 
     [HttpPost]
