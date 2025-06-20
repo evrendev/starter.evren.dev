@@ -6,5 +6,10 @@
   },
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
-  }
+  },
+  "i18n-ally.localesPaths": [
+    "src/plugins/i18n",
+    "src/utils/locales",
+    "src/plugins/i18n/locales"
+  ]
 }
