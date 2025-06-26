@@ -403,6 +403,7 @@ package-lock.json
 secrets.json
 secrets.Development.json
 .env
+.env.production
 .env.development
 .env.docker
 frontend.backup

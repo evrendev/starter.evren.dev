@@ -1,0 +1,8 @@
+{
+  "welcome": "Welcome to your Vite Vue.js App!",
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
+  "submit": "Submit",
+  "dashboard": "Dashboard"
+}

@@ -1,26 +1,56 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+// src/router/index.ts
+
+// Eski hali:
+// import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+
+// Yeni hali: RouteRecordRaw tipini 'import type' olarak import edin
+import {
+  createRouter,
+  createWebHistory,
+  type RouteRecordRaw,
+} from "vue-router";
+
+import LoginView from "@/views/auth/LoginView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    redirect: "/dashboard",
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/dashboard",
+    name: "dashboard",
+    component: DashboardView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginView,
+    meta: {
+      public: true,
+    },
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem("accessToken");
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ name: "login" });
+  } else if (to.meta.public && isAuthenticated) {
+    next({ name: "dashboard" });
+  } else {
+    next();
+  }
 });
 
 export default router;

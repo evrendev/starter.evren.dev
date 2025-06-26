@@ -1,0 +1,8 @@
+{
+  "welcome": "Vite Vue.js Uygulamanıza Hoş Geldiniz!",
+  "login": "Giriş Yap",
+  "username": "Kullanıcı Adı",
+  "password": "Şifre",
+  "submit": "Gönder",
+  "dashboard": "Kontrol Paneli"
+}
