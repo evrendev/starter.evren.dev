@@ -19,6 +19,12 @@ export default defineVitestConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  server: {
+    port: 5002,
+    watch: {
+      usePolling: true,
+    },
+  },
   test: {
     globals: true,
     environment: "jsdom",
