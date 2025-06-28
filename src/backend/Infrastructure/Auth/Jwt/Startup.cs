@@ -58,7 +58,6 @@ internal static class Startup
                         if (!string.IsNullOrEmpty(accessToken) &&
                             context.HttpContext.Request.Path.StartsWithSegments("/notifications"))
                         {
-                            // Read the token out of the query string
                             context.Token = accessToken;
                         }
 

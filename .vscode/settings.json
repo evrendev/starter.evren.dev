@@ -11,5 +11,6 @@
     "src/plugins/i18n",
     "src/utils/locales",
     "src/plugins/i18n/locales"
-  ]
+  ],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

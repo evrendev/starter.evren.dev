@@ -1,83 +1,128 @@
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import http from '@/utils/http'
-import router from '@/router'
-import { type User, type TokenResponse } from '@/models/auth'
-import { type ApiResponse } from '@/models/common'
+import type { User } from '@/models/user'
+import { Result } from '@/primitives/Result'
+import type { LoginRequest, RefreshTokenRequest } from '@/requests/auth'
+import type { AccessTokenResponse, ApiResponse } from '@/responses'
+import { useHttpClient } from '@/composables/useHttpClient'
+import { AppError } from '@/primitives/Error'
+import type { AxiosError, AxiosResponse } from 'axios'
 
-interface AuthState {
-  accessToken: string | null
-  refreshTokenValue: string | null
-  user: User | null
+const DEFAULT_LANGUAGE = import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string
+
+const nullUser: User = {
+  id: '',
+  gender: 'none',
+  language: DEFAULT_LANGUAGE,
+  firstName: '',
+  lastName: '',
+  fullName: '',
+  initial: '',
+  twoFactorEnabled: false,
+  email: '',
+  permissions: []
 }
 
-export const useAuthStore = defineStore('auth', {
-  state: (): AuthState => ({
-    accessToken: localStorage.getItem('accessToken'),
-    refreshTokenValue: localStorage.getItem('refreshToken'),
-    user: JSON.parse(localStorage.getItem('user') || 'null')
-  }),
-  getters: {
-    isAuthenticated: (state) => !!state.accessToken,
-    getUser: (state) => state.user
-  },
-  actions: {
-    async login(email: string, password: string) {
-      try {
-        const response = await http.post<ApiResponse<TokenResponse>>('/auth/login', {
-          email,
-          password
-        })
-        const { data } = response.data
-        this.accessToken = data.token
-        this.refreshTokenValue = data.refreshToken
-        this.user = data.user
+export const useAuthStore = defineStore('auth', () => {
+  const user = ref<User>()
+  const isAuthenticated = computed(() => !isLoading.value && user?.value?.id !== nullUser.id)
+  const isLoading = computed(() => user?.value === undefined)
+  const accessToken = ref<string>('')
+  const refreshToken = ref<string>('')
+  const refreshTokenExpiryTime = ref<Date | null>(null)
 
-        localStorage.setItem('accessToken', data.token)
-        localStorage.setItem('refreshToken', data.refreshToken)
-        localStorage.setItem('user', JSON.stringify(data.user))
-      } catch (error) {
-        console.error('Login error:', error)
-        throw error
-      }
-    },
-    async refreshToken() {
-      try {
-        const response = await http.get<ApiResponse<TokenResponse>>('/auth/refresh-token')
-        const { data } = response.data
-        this.accessToken = data.token
-        this.refreshTokenValue = data.refreshToken
-        this.user = data.user
+  function hasPermission(permission: string): boolean {
+    return (isAuthenticated.value && user.value?.permissions?.includes(permission)) ?? false
+  }
 
-        localStorage.setItem('accessToken', data.token)
-        localStorage.setItem('refreshToken', data.refreshToken)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        return true
-      } catch (error) {
-        console.error('Failed to refresh token:', error)
-        this.logout()
-        throw error
-      }
-    },
-    async logout() {
-      try {
-        await http.post('/auth/logout', {})
-      } catch (error) {
-        console.error('Logout API call failed, but clearing local data:', error)
-      } finally {
-        this.accessToken = null
-        this.refreshTokenValue = null
-        this.user = null
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
-        localStorage.removeItem('user')
-        router.push({ name: 'login' })
-      }
-    },
-    setLanguage(lang: string) {
-      localStorage.setItem('language', lang)
-    },
-    setTenantId(tenantId: string) {
-      localStorage.setItem('tenantId', tenantId)
+  async function login(
+    email: string,
+    password: string
+  ): Promise<Result<ApiResponse<AccessTokenResponse>>> {
+    try {
+      const { data } = await useHttpClient().post<
+        LoginRequest,
+        AxiosResponse<ApiResponse<AccessTokenResponse>>
+      >('auth/login', {
+        email: email,
+        password: password
+      })
+
+      accessToken.value = data.data.accessToken
+      refreshToken.value = data.data.refreshToken
+      refreshTokenExpiryTime.value = new Date(data.data.refreshTokenExpiryTime)
+
+      await getUserInfo()
+    } catch (error) {
+      const apiError = error as AxiosError
+      return Result.failure(AppError.failure(apiError.message))
     }
+
+    return Result.success({} as ApiResponse<AccessTokenResponse>)
+  }
+
+  async function logout(): Promise<Result<string>> {
+    try {
+      await useHttpClient().get('auth/logout')
+    } catch (error) {
+      //
+    }
+
+    user.value = nullUser
+    accessToken.value = ''
+    refreshToken.value = ''
+    refreshTokenExpiryTime.value = null
+
+    return Result.success('Logout successful')
+  }
+
+  async function getUserInfo(): Promise<Result<string>> {
+    try {
+      const { data } = await useHttpClient().get<User>('personal/profile')
+      const permissions = await useHttpClient().get<string[]>('personal/permissions')
+
+      console.log('User permissions:', permissions.data)
+
+      user.value = data
+      user.value.permissions = permissions.data
+    } catch (error: any) {
+      user.value = nullUser
+      const apiError = error as AxiosError
+      return Result.failure(AppError.failure(apiError.message))
+    }
+
+    return Result.success('Logout successful')
+  }
+
+  async function refresh(): Promise<Result<string>> {
+    try {
+      const { data } = await useHttpClient().post<
+        RefreshTokenRequest,
+        AxiosResponse<AccessTokenResponse>
+      >('auth/refresh-token', {
+        refreshToken: refreshToken.value,
+        accessToken: accessToken.value
+      })
+
+      accessToken.value = data.accessToken
+      refreshToken.value = data.refreshToken
+      return Result.success(data.accessToken)
+    } catch (error) {
+      const apiError = error as AxiosError
+      return Result.failure(AppError.failure(apiError.message))
+    }
+  }
+
+  return {
+    user,
+    isAuthenticated,
+    login,
+    logout,
+    getUserInfo,
+    hasPermission,
+    isLoading,
+    accessToken,
+    refreshToken,
+    refresh
   }
 })

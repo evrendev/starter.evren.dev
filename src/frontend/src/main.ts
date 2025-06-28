@@ -1,12 +1,13 @@
+import './assets/styles/main.scss'
+
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
 import App from './App.vue'
 import router from './router'
-import { createPinia } from 'pinia'
 
 import i18n from './plugins/i18n'
 import vuetify from './plugins/vuetify'
-
-import './assets/styles/main.scss'
 
 const app = createApp(App)
 

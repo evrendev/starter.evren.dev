@@ -4,5 +4,6 @@
   "username": "Kullanıcı Adı",
   "password": "Şifre",
   "submit": "Gönder",
-  "dashboard": "Kontrol Paneli"
+  "dashboard": "Kontrol Paneli",
+  "logout": "Çıkış Yap"
 }

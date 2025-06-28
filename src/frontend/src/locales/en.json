@@ -4,5 +4,6 @@
   "username": "Username",
   "password": "Password",
   "submit": "Submit",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "logout": "Logout"
 }

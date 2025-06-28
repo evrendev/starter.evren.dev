@@ -1,29 +1,42 @@
-import http from "@/utils/http";
-import { TokenRequest, TokenResponse, ApiResponse } from "@/models/auth";
+export interface LoginRequest {
+  email: string
+  password: string
+  response?: string | null
+  rememberMe?: boolean | null
+}
 
-export const login = (
-  request: TokenRequest,
-  tenantId: string
-): Promise<ApiResponse<TokenResponse>> => {
-  return http.post("/auth/login", request, {
-    headers: {
-      Tenant: tenantId,
-    },
-  });
-};
+export interface TokenResponse {
+  refreshToken: (() => Promise<boolean>) & string
+  token: string
+  refreshTokenExpiryTime: string
+  user: User | null
+}
+export interface RefreshTokenRequest {}
 
-export const logout = (tenantId: string): Promise<TokenResponse> => {
-  return http.post(
-    "/auth/logout",
-    {},
-    {
-      headers: {
-        Tenant: tenantId,
-      },
-    }
-  );
-};
+export interface User {
+  id: string | null
+  gender: string | null
+  language: string | null
+  firstName: string | null
+  lastName: string | null
+  initial: string
+  email: string | null
+  fullName: string | null
+  twoFactorEnabled: boolean
+}
 
-export const refreshToken = (): Promise<ApiResponse<TokenResponse>> => {
-  return http.get("/auth/refresh-token");
-};
+export interface ChangePasswordRequest {
+  password: string
+  newPassword: string
+  confirmNewPassword: string
+}
+
+export interface ForgotPasswordRequest {
+  email: string
+}
+
+export interface ResetPasswordRequest {
+  email?: string | null
+  password?: string | null
+  token?: string | null
+}
