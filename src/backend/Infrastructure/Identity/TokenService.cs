@@ -105,18 +105,7 @@ internal class TokenService(
 
         await userManager.UpdateAsync(user);
 
-        var userDto = new UserBasicDto
-        {
-            Id = user.Id,
-            Gender = user.Gender?.ToString().ToLowerInvariant(),
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Language = user.Language?.ToString().ToLowerInvariant(),
-            TwoFactorEnabled = user.TwoFactorEnabled,
-        };
-
-        return new TokenResult(token, user.RefreshToken, user.RefreshTokenExpiryTime, userDto);
+        return new TokenResult(token, user.RefreshToken, user.RefreshTokenExpiryTime);
     }
 
     private string GenerateJwt(ApplicationUser user, string ipAddress) =>

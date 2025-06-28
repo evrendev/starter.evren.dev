@@ -13,7 +13,7 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         CancellationToken cancellationToken)
     {
         var tokenResult = await tokenService.GetTokenAsync(request, GetIpAddress(), cancellationToken);
-        var data = new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, tokenResult.User);
+        var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken, tokenResult.RefreshTokenExpiryTime);
         AddRefreshTokenCookie(tokenResult.RefreshToken);
 
         return ApiResponse<TokenResponse>.Success(data);
@@ -42,7 +42,7 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         try
         {
             var tokenResult = await tokenService.RefreshTokenAsync(accessToken, GetIpAddress());
-            var data = new TokenResponse(tokenResult.Token, tokenResult.RefreshTokenExpiryTime, tokenResult.User);
+            var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken, tokenResult.RefreshTokenExpiryTime);
             AddRefreshTokenCookie(tokenResult.RefreshToken);
 
             return ApiResponse<TokenResponse>.Success(data);
