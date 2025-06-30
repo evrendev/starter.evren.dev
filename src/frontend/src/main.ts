@@ -2,6 +2,7 @@ import './assets/styles/main.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { useAuthStore } from './stores/auth'
 
 import App from './App.vue'
 import router from './router'
@@ -16,4 +17,8 @@ app.use(router)
 app.use(vuetify)
 app.use(i18n)
 
-app.mount('#app')
+const authStore = useAuthStore()
+authStore.initializeStore().then(() => {
+  app.use(router)
+  app.mount('#app')
+})

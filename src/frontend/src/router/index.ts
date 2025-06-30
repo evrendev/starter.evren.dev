@@ -8,7 +8,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { requiresAuth: false }
     },
     {
       path: '/auth',
@@ -17,7 +18,8 @@ const router = createRouter({
         {
           path: 'login',
           name: 'auth-login',
-          component: () => import('@/views/Authentication/LoginView.vue')
+          component: () => import('@/views/Authentication/LoginView.vue'),
+          meta: { requiresAuth: false }
         },
         {
           path: 'permissions',

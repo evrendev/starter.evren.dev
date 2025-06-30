@@ -25,15 +25,59 @@ const nullUser: User = {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User>()
+  const user = ref<User | undefined>(undefined)
+  const accessToken = ref<string>(localStorage.getItem('accessToken') || '')
+  const refreshToken = ref<string>(localStorage.getItem('refreshToken') || '')
+  const refreshTokenExpiryTime = ref<Date | null>(
+    localStorage.getItem('refreshTokenExpiryTime')
+      ? new Date(localStorage.getItem('refreshTokenExpiryTime')!)
+      : null
+  )
+
   const isAuthenticated = computed(() => !isLoading.value && user?.value?.id !== nullUser.id)
   const isLoading = computed(() => user?.value === undefined)
-  const accessToken = ref<string>('')
-  const refreshToken = ref<string>('')
-  const refreshTokenExpiryTime = ref<Date | null>(null)
 
+  /**
+   * Checks if the user has a specific permission.
+   * @param {string} permission
+   * @returns {boolean}
+   */
   function hasPermission(permission: string): boolean {
     return (isAuthenticated.value && user.value?.permissions?.includes(permission)) ?? false
+  }
+
+  /**
+   * Clears the user state and local storage.
+   * This function is used to reset the authentication state.
+   */
+  function clearStateAndStorage() {
+    user.value = nullUser
+    accessToken.value = ''
+    refreshToken.value = ''
+    refreshTokenExpiryTime.value = null
+
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('refreshTokenExpiryTime')
+  }
+
+  /**
+   * Sets the access token, refresh token, and refresh token expiry time.
+   * @param {AccessTokenResponse} tokenData
+   */
+  function setTokens(tokenData: AccessTokenResponse) {
+    accessToken.value = tokenData.accessToken || ''
+    refreshToken.value = tokenData.refreshToken || ''
+    refreshTokenExpiryTime.value = new Date(
+      tokenData.refreshTokenExpiryTime || Date.now() + 3600000
+    )
+
+    localStorage.setItem('accessToken', accessToken.value)
+    localStorage.setItem('refreshToken', refreshToken.value)
+    localStorage.setItem(
+      'refreshTokenExpiryTime',
+      refreshTokenExpiryTime.value?.toISOString() || ''
+    )
   }
 
   async function login(email: string, password: string): Promise<Result<AccessTokenResponse>> {
@@ -52,11 +96,14 @@ export const useAuthStore = defineStore('auth', () => {
         data.data?.refreshTokenExpiryTime ?? Date.now() + 3600000
       )
 
-      await getUserInfo()
-
-      if (!data?.data) {
-        return Result.failure(AppError.failure('Invalid response from server'))
+      if (!data.succeeded || !data.data) {
+        return Result.failure(
+          AppError.failure(data.errors?.message || 'Invalid response from server')
+        )
       }
+
+      setTokens(data.data)
+      await getUserInfo()
 
       return Result.success(data.data)
     } catch (error) {
@@ -70,12 +117,9 @@ export const useAuthStore = defineStore('auth', () => {
       await useHttpClient().post('auth/logout')
     } catch (error) {
       console.error('Logout failed:', error)
+    } finally {
+      clearStateAndStorage()
     }
-
-    user.value = nullUser
-    accessToken.value = ''
-    refreshToken.value = ''
-    refreshTokenExpiryTime.value = null
 
     return Result.success('Logout successful')
   }
@@ -105,8 +149,12 @@ export const useAuthStore = defineStore('auth', () => {
         }
       )
 
-      accessToken.value = data.data?.accessToken ?? ''
-      refreshToken.value = data.data?.refreshToken ?? ''
+      if (data.status !== 200 || !data.data) {
+        await logout()
+        return Result.failure(AppError.failure('Could not refresh token'))
+      }
+
+      setTokens(data.data)
 
       return Result.success(data.data?.accessToken ?? '')
     } catch (error) {
@@ -115,16 +163,34 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function initializeStore(): Promise<void> {
+    if (!accessToken.value || !refreshToken.value || !refreshTokenExpiryTime.value) {
+      user.value = nullUser
+      return
+    }
+
+    if (refreshTokenExpiryTime.value <= new Date()) {
+      await logout()
+      return
+    }
+
+    await getUserInfo()
+  }
+
   return {
+    // State
     user,
+    accessToken,
+    refreshToken,
+    // Getters
     isAuthenticated,
+    isLoading,
+    // Actions
     login,
     logout,
     getUserInfo,
     hasPermission,
-    isLoading,
-    accessToken,
-    refreshToken,
-    refresh
+    refresh,
+    initializeStore
   }
 })
