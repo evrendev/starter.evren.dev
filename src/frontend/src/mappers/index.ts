@@ -1,18 +1,18 @@
 import type { User } from '@/models/user'
-import type { Result } from '@/primitives/Result'
+import type { UserResponse } from '@/responses/auth'
 
 export default class Mapper {
-  public static toUser(value: Result<User>): User {
+  public static toUser(value: UserResponse): User {
     return {
-      id: value.data?.id,
-      gender: value.data?.gender,
-      language: value.data?.language,
-      firstName: value.data?.firstName,
-      lastName: value.data?.lastName,
-      fullName: value.data?.fullName,
-      initial: value.data?.initial,
-      email: value.data?.email,
-      twoFactorEnabled: value.data?.twoFactorEnabled
+      id: value.id,
+      gender: value.gender,
+      language: value.language,
+      firstName: value.firstName,
+      lastName: value.lastName,
+      fullName: value.fullName,
+      initial: value.initial,
+      email: value.email,
+      twoFactorEnabled: value.twoFactorEnabled
     }
   }
 }

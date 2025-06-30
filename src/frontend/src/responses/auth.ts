@@ -5,8 +5,15 @@ export interface AccessTokenResponse {
 }
 
 export interface UserResponse {
-  id: string
-  email: string
-  username: string
-  permissions?: string[]
+  id?: string
+  gender?: string
+  email?: string
+  language?: string
+  firstName?: string
+  lastName?: string
+  initial?: string
+  fullName?: string
+  phoneNumber?: string
+  twoFactorEnabled?: boolean
+  imageUrl?: string
 }

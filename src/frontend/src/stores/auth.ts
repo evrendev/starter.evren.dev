@@ -2,11 +2,12 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { User } from '@/models/user'
 import type { LoginRequest, RefreshTokenRequest } from '@/requests/auth'
-import type { AccessTokenResponse } from '@/responses/auth'
-import { Result } from '@/primitives/Result'
-import { useHttpClient } from '@/composables/useHttpClient'
+import type { AccessTokenResponse, UserResponse } from '@/responses/auth'
+import { Result } from '@/primitives/result'
 import { AppError } from '@/primitives/Error'
+import { useHttpClient } from '@/composables/useHttpClient'
 import type { AxiosError, AxiosResponse } from 'axios'
+import Mapper from '@/mappers'
 
 const DEFAULT_LANGUAGE = import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string
 
@@ -81,9 +82,9 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function getUserInfo(): Promise<Result<string>> {
     try {
-      const { data } = await useHttpClient().get<User>('personal/profile')
+      const { data } = await useHttpClient().get<UserResponse>('personal/profile')
       const permissions = await useHttpClient().get<string[]>('personal/permissions')
-      user.value = data
+      user.value = Mapper.toUser(data)
       user.value.permissions = permissions.data
     } catch (error: any) {
       user.value = nullUser
