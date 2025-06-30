@@ -1,9 +1,9 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { User } from '@/models/user'
-import { Result } from '@/primitives/Result'
 import type { LoginRequest, RefreshTokenRequest } from '@/requests/auth'
-import type { AccessTokenResponse, ApiResponse } from '@/responses'
+import type { AccessTokenResponse } from '@/responses/auth'
+import { Result } from '@/primitives/Result'
 import { useHttpClient } from '@/composables/useHttpClient'
 import { AppError } from '@/primitives/Error'
 import type { AxiosError, AxiosResponse } from 'axios'
@@ -35,35 +35,38 @@ export const useAuthStore = defineStore('auth', () => {
     return (isAuthenticated.value && user.value?.permissions?.includes(permission)) ?? false
   }
 
-  async function login(
-    email: string,
-    password: string
-  ): Promise<Result<ApiResponse<AccessTokenResponse>>> {
+  async function login(email: string, password: string): Promise<Result<AccessTokenResponse>> {
     try {
       const { data } = await useHttpClient().post<
         LoginRequest,
-        AxiosResponse<ApiResponse<AccessTokenResponse>>
+        AxiosResponse<Result<AccessTokenResponse>>
       >('auth/login', {
         email: email,
         password: password
       })
 
-      accessToken.value = data.data.accessToken
-      refreshToken.value = data.data.refreshToken
-      refreshTokenExpiryTime.value = new Date(data.data.refreshTokenExpiryTime)
+      accessToken.value = data.data?.accessToken ?? ''
+      refreshToken.value = data.data?.refreshToken ?? ''
+      refreshTokenExpiryTime.value = new Date(
+        data.data?.refreshTokenExpiryTime ?? Date.now() + 3600000
+      )
 
       await getUserInfo()
+
+      if (!data?.data) {
+        return Result.failure(AppError.failure('Invalid response from server'))
+      }
+
+      return Result.success(data.data)
     } catch (error) {
       const apiError = error as AxiosError
       return Result.failure(AppError.failure(apiError.message))
     }
-
-    return Result.success({} as ApiResponse<AccessTokenResponse>)
   }
 
   async function logout(): Promise<Result<string>> {
     try {
-      await useHttpClient().get('auth/logout')
+      await useHttpClient().post('auth/logout')
     } catch (error) {
       //
     }
@@ -80,9 +83,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const { data } = await useHttpClient().get<User>('personal/profile')
       const permissions = await useHttpClient().get<string[]>('personal/permissions')
-
-      console.log('User permissions:', permissions.data)
-
       user.value = data
       user.value.permissions = permissions.data
     } catch (error: any) {
@@ -104,9 +104,10 @@ export const useAuthStore = defineStore('auth', () => {
         accessToken: accessToken.value
       })
 
-      accessToken.value = data.accessToken
-      refreshToken.value = data.refreshToken
-      return Result.success(data.accessToken)
+      accessToken.value = data.accessToken ?? ''
+      refreshToken.value = data.refreshToken ?? ''
+
+      return Result.success(data.accessToken ?? '')
     } catch (error) {
       const apiError = error as AxiosError
       return Result.failure(AppError.failure(apiError.message))

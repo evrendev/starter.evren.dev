@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { Result } from '@/primitives/Result'
 import { useRouter } from 'vue-router'
-import type { ApiResponse, UserBasicDto } from '@/responses'
+import type { AccessTokenResponse } from '@/responses/auth'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -12,16 +12,11 @@ const email = ref<string>('')
 const password = ref<string>('')
 
 async function login(): Promise<void> {
-  const result: Result<ApiResponse<UserBasicDto>> = await authStore.login(
-    email.value,
-    password.value
-  )
+  const result: Result<AccessTokenResponse> = await authStore.login(email.value, password.value)
 
   if (result.succeeded) {
     router.replace({ name: 'home' })
   }
-
-  alert(result.errors)
 }
 </script>
 
