@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { User } from '@/models/user'
-import type { LoginRequest, RefreshTokenRequest } from '@/requests/auth'
+import type { LoginRequest } from '@/requests/auth'
 import type { AccessTokenResponse, UserResponse } from '@/responses/auth'
 import { Result } from '@/primitives/result'
 import { AppError } from '@/primitives/Error'
@@ -69,7 +69,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await useHttpClient().post('auth/logout')
     } catch (error) {
-      //
+      console.error('Logout failed:', error)
     }
 
     user.value = nullUser
@@ -97,18 +97,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function refresh(): Promise<Result<string>> {
     try {
-      const { data } = await useHttpClient().post<
-        RefreshTokenRequest,
-        AxiosResponse<AccessTokenResponse>
-      >('auth/refresh-token', {
-        refreshToken: refreshToken.value,
-        accessToken: accessToken.value
-      })
+      const { data } = await useHttpClient().post<AxiosResponse<AccessTokenResponse>>(
+        'auth/refresh-token',
+        {
+          refreshToken: refreshToken.value,
+          accessToken: accessToken.value
+        }
+      )
 
-      accessToken.value = data.accessToken ?? ''
-      refreshToken.value = data.refreshToken ?? ''
+      accessToken.value = data.data?.accessToken ?? ''
+      refreshToken.value = data.data?.refreshToken ?? ''
 
-      return Result.success(data.accessToken ?? '')
+      return Result.success(data.data?.accessToken ?? '')
     } catch (error) {
       const apiError = error as AxiosError
       return Result.failure(AppError.failure(apiError.message))

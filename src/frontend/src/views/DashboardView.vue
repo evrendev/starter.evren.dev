@@ -19,7 +19,9 @@ export default defineComponent({
 
 <template>
   <v-container>
-    <h1 class="text-h4">{{ $t('dashboard') }}</h1>
+    <h1 class="text-h4">
+      {{ $t('dashboard') }}
+    </h1>
     <p>{{ $t('welcome') }}</p>
     <v-btn color="error" @click="handleLogout">
       {{ $t('logout') }}

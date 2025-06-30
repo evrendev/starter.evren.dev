@@ -11,7 +11,6 @@ export interface TokenResponse {
   refreshTokenExpiryTime: string
   user: User | null
 }
-export interface RefreshTokenRequest {}
 
 export interface User {
   id: string | null

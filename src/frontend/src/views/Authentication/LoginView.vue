@@ -26,11 +26,11 @@ async function login(): Promise<void> {
       <h2>Login</h2>
       <div class="form-group mb-3">
         <label class="form-label" for="email">Email</label>
-        <input class="form-control" type="email" id="email" v-model="email" />
+        <input id="email" v-model="email" class="form-control" type="email" />
       </div>
       <div class="form-group mb-3">
         <label class="form-label" for="password">Password</label>
-        <input class="form-control" type="password" id="password" v-model="password" />
+        <input id="password" v-model="password" class="form-control" type="password" />
       </div>
       <button class="btn btn-primary" type="submit">Login</button>
     </form>
