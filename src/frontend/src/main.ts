@@ -11,14 +11,14 @@ import i18n from './plugins/i18n'
 import vuetify from './plugins/vuetify'
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
-app.use(router)
-app.use(vuetify)
-app.use(i18n)
+app.use(pinia)
 
 const authStore = useAuthStore()
 authStore.initializeStore().then(() => {
   app.use(router)
+  app.use(vuetify)
+  app.use(i18n)
   app.mount('#app')
 })
