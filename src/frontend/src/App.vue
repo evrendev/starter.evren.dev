@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const theme = useTheme()
-provide(computed(() => (theme.current.value.dark ? 'dark' : undefined)))
+provide(
+  'themeMode',
+  computed(() => (theme.current.value.dark ? 'dark' : undefined)),
+)
 </script>
 
 <template>

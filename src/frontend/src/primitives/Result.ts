@@ -1,4 +1,4 @@
-import type { AppError } from './Error'
+import type { AppError } from './error'
 
 export class Result<T> {
   public readonly data?: T

@@ -1,14 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
 import { setupLayouts } from 'virtual:meta-layouts'
 import { useAuthStore } from '@/stores/auth'
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
 })
-
-import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 router.beforeResolve(
   async (to: RouteLocationNormalized, _: any, next: NavigationGuardNext) => {
