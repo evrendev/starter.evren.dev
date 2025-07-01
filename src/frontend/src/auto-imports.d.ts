@@ -7,6 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const Notify: typeof import('./stores/notification')['Notify']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
@@ -65,6 +66,7 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useAppStore: typeof import('./stores/app')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('./stores/auth')['useAuthStore']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -74,6 +76,7 @@ declare global {
   const useLayout: typeof import('vuetify')['useLayout']
   const useLocale: typeof import('vuetify')['useLocale']
   const useModel: typeof import('vue')['useModel']
+  const useNotificationStore: typeof import('./stores/notification')['useNotificationStore']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useRtl: typeof import('vuetify')['useRtl']
@@ -90,4 +93,7 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { Notification } from './stores/notification'
+  import('./stores/notification')
 }
