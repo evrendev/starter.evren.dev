@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { Result } from '@/primitives/Result'
+import type { Result } from '@/primitives/result'
 import { useRouter } from 'vue-router'
 import type { AccessTokenResponse } from '@/responses/auth'
 
