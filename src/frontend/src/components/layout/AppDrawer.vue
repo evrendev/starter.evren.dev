@@ -14,7 +14,11 @@ const drawer = computed({
   },
 })
 const rail = computed(() => !drawerStored.value && !mobile.value)
-routes.sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98))
+routes.sort(
+  (a, b) =>
+    ((a.meta?.drawerIndex as number) ?? 99) -
+    ((b.meta?.drawerIndex as number) ?? 98),
+)
 
 drawerStored.value = lgAndUp.value && width.value !== 1280
 </script>

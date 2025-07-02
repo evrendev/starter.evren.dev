@@ -41,7 +41,7 @@ const toggleDark = useToggle<true, false | null>(isDark)
     </div>
     <v-btn
       icon
-      href="https://github.com/kingyue737/vitify-next"
+      href="https://github.com/evrendev/panel"
       size="small"
       class="ml-2"
       target="_blank"

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {} from 'vue-echarts'
 withDefaults(
   defineProps<{
     icon: string

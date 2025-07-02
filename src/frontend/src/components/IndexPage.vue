@@ -9,8 +9,10 @@ const items = computed(() => {
 
   return children
     ?.filter((c) => c.path)
-    .toSorted(
-      (a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98),
+    .sort(
+      (a, b) =>
+        ((a.meta?.drawerIndex as number) ?? 99) -
+        ((b.meta?.drawerIndex as number) ?? 98),
     )
     .map((c) => ({
       title: c.meta?.title,

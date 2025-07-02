@@ -8,7 +8,11 @@ const { level = 0, item } = defineProps<{
 const visibleChildren = computed(() =>
   item.children
     ?.filter((child) => child.meta?.icon)
-    .sort((a, b) => (a.meta?.drawerIndex ?? 99) - (b.meta?.drawerIndex ?? 98)),
+    .sort(
+      (a, b) =>
+        ((a.meta?.drawerIndex as number) ?? 99) -
+        ((b.meta?.drawerIndex as number) ?? 98),
+    ),
 )
 const visibleChildrenNum = computed(() => visibleChildren.value?.length || 0)
 const isItem = computed(() => !item.children || visibleChildrenNum.value <= 1)
