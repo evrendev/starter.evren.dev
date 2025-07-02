@@ -7,11 +7,11 @@ definePage({
     icon: 'mdi-table',
     title: 'Data Table',
     drawerIndex: 3,
+    requiresAuth: true,
   },
 })
 
 const search = ref('')
-import { ref } from 'vue'
 
 const dialogDelete = ref<InstanceType<typeof DialogConfirm> | null>(null)
 function showDialogDelete(name: string) {

@@ -23,6 +23,7 @@ export interface Permission {
   name: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Permissions {
   public static readonly DashboardView: string = 'Permissions.Dashboard.View'
   public static readonly HangfireView: string = 'Permissions.Hangfire.View'
@@ -33,13 +34,15 @@ export class Permissions {
   public static readonly UserDelete: string = 'Permissions.Users.Delete'
   public static readonly UserExport: string = 'Permissions.Users.Export'
   public static readonly UserRolesView: string = 'Permissions.UserRoles.View'
-  public static readonly UserRolesUpdate: string = 'Permissions.UserRoles.Update'
+  public static readonly UserRolesUpdate: string =
+    'Permissions.UserRoles.Update'
   public static readonly RoleView: string = 'Permissions.Roles.View'
   public static readonly RoleCreate: string = 'Permissions.Roles.Create'
   public static readonly RoleUpdate: string = 'Permissions.Roles.Update'
   public static readonly RoleDelete: string = 'Permissions.Roles.Delete'
   public static readonly RoleClaimsView: string = 'Permissions.RoleClaims.View'
-  public static readonly RoleClaimsUpdate: string = 'Permissions.RoleClaims.Update'
+  public static readonly RoleClaimsUpdate: string =
+    'Permissions.RoleClaims.Update'
   public static readonly ProductView: string = 'Permissions.Products.View'
   public static readonly ProductSearch: string = 'Permissions.Products.Search'
   public static readonly ProductCreate: string = 'Permissions.Products.Create'
@@ -58,7 +61,8 @@ export class Permissions {
   public static readonly AbsenceCreate: string = 'Permissions.Absences.Create'
   public static readonly AbsenceUpdate: string = 'Permissions.Absences.Update'
   public static readonly AbsenceDelete: string = 'Permissions.Absences.Delete'
-  public static readonly AbsenceGenerate: string = 'Permissions.Absences.Generate'
+  public static readonly AbsenceGenerate: string =
+    'Permissions.Absences.Generate'
   public static readonly AbsenceClean: string = 'Permissions.Absences.Clean'
   public static readonly TenantView: string = 'Permissions.Tenants.View'
   public static readonly TenantCreate: string = 'Permissions.Tenants.Create'
@@ -107,7 +111,7 @@ export class Permissions {
       this.TenantView,
       this.TenantCreate,
       this.TenantUpdate,
-      this.TenantUpgradeSubscription
+      this.TenantUpgradeSubscription,
     ]
   }
 }

@@ -4,6 +4,8 @@ definePage({
     icon: 'mdi-monitor-dashboard',
     title: 'Dashboard',
     drawerIndex: 1,
+    requiresAuth: true,
+    requiresPermission: 'Permissions.Dashboard.View',
   },
 })
 const stats = ref([
