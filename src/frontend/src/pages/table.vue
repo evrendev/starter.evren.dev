@@ -8,6 +8,7 @@ definePage({
     title: 'Data Table',
     drawerIndex: 3,
     requiresAuth: false,
+    layout: 'admin',
   },
 })
 

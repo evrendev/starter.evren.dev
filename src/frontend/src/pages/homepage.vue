@@ -11,6 +11,7 @@ definePage({
     icon: 'mdi-home',
     title: 'Homepage',
     drawerIndex: 0,
+    layout: 'admin',
   },
 })
 </script>

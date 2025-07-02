@@ -6,6 +6,7 @@ definePage({
     drawerIndex: 1,
     requiresAuth: true,
     requiresPermission: 'Permissions.Dashboard.View',
+    layout: 'admin',
   },
 })
 const stats = ref([
