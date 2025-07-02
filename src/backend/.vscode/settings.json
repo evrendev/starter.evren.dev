@@ -1,4 +1,5 @@
 {
+  "eslint.validate": ["c#", "csharp"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
     "source.fixAll.stylelint": "always"
