@@ -8,6 +8,10 @@ provide(
 
 <template>
   <v-app>
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <v-fade-transition hide-on-leave>
+        <component :is="Component" />
+      </v-fade-transition>
+    </router-view>
   </v-app>
 </template>
