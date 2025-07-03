@@ -12,6 +12,7 @@ definePage({
     title: 'Homepage',
     drawerIndex: 0,
     layout: 'admin',
+    requiresAuth: true,
   },
 })
 </script>

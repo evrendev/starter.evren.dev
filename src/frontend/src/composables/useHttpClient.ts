@@ -19,7 +19,7 @@ export function useHttpClient(): AxiosInstance {
       },
       (error) => {
         console.error('Failed to set token', error)
-      }
+      },
     )
 
     http.interceptors.response.use(
@@ -27,7 +27,8 @@ export function useHttpClient(): AxiosInstance {
       async (error) => {
         const prevRequest = error?.config
         if (
-          (error?.response?.status === 403 || error?.response?.status === 401) &&
+          (error?.response?.status === 403 ||
+            error?.response?.status === 401) &&
           !prevRequest._retry &&
           authStore.refreshToken.length > 0
         ) {
@@ -42,7 +43,8 @@ export function useHttpClient(): AxiosInstance {
           try {
             const result = await authStore.refresh()
             if (result.succeeded) {
-              prevRequest.headers['Authorization'] = `Bearer ${authStore.accessToken}`
+              prevRequest.headers['Authorization'] =
+                `Bearer ${authStore.accessToken}`
               retryCount = 0
               return http(prevRequest)
             } else {
@@ -54,7 +56,7 @@ export function useHttpClient(): AxiosInstance {
         }
 
         return Promise.reject(error)
-      }
+      },
     )
   })
 

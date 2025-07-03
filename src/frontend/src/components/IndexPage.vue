@@ -5,9 +5,10 @@ const items = computed(() => {
   const matched = route.matched
     .filter((v) => v.path === route.path)
     .find((v) => !v.meta.isLayout)
+
   const children = matched?.children
 
-  return children
+  children
     ?.filter((c) => c.path)
     .sort(
       (a, b) =>
@@ -20,6 +21,9 @@ const items = computed(() => {
       prependIcon: c.meta?.icon,
       subtitle: c.meta?.subtitle,
     }))
+
+  console.log(children)
+  return children || []
 })
 </script>
 
@@ -27,7 +31,7 @@ const items = computed(() => {
   <v-container>
     <v-row>
       <v-col>
-        <v-card v-for="item in items" :key="item.title" class="mb-1">
+        <v-card v-for="(item, index) in items" :key="index" class="mb-1">
           <v-list-item
             v-bind="item"
             append-icon="mdi-chevron-right"

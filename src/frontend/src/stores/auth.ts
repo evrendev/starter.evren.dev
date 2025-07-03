@@ -21,7 +21,7 @@ const nullUser: User = {
   initial: '',
   twoFactorEnabled: false,
   email: '',
-  permissions: []
+  permissions: [],
 }
 
 export const useAuthStore = defineStore('auth', () => {
@@ -31,10 +31,12 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshTokenExpiryTime = ref<Date | null>(
     localStorage.getItem('refreshTokenExpiryTime')
       ? new Date(localStorage.getItem('refreshTokenExpiryTime')!)
-      : null
+      : null,
   )
 
-  const isAuthenticated = computed(() => !isLoading.value && user?.value?.id !== nullUser.id)
+  const isAuthenticated = computed(
+    () => !isLoading.value && user?.value?.id !== nullUser.id,
+  )
   const isLoading = computed(() => user?.value === undefined)
 
   /**
@@ -43,7 +45,11 @@ export const useAuthStore = defineStore('auth', () => {
    * @returns {boolean}
    */
   function hasPermission(permission: string): boolean {
-    return (isAuthenticated.value && user.value?.permissions?.includes(permission)) ?? false
+    return (
+      (isAuthenticated.value &&
+        user.value?.permissions?.includes(permission)) ??
+      false
+    )
   }
 
   /**
@@ -69,36 +75,41 @@ export const useAuthStore = defineStore('auth', () => {
     accessToken.value = tokenData.accessToken || ''
     refreshToken.value = tokenData.refreshToken || ''
     refreshTokenExpiryTime.value = new Date(
-      tokenData.refreshTokenExpiryTime || Date.now() + 3600000
+      tokenData.refreshTokenExpiryTime || Date.now() + 3600000,
     )
 
     localStorage.setItem('accessToken', accessToken.value)
     localStorage.setItem('refreshToken', refreshToken.value)
     localStorage.setItem(
       'refreshTokenExpiryTime',
-      refreshTokenExpiryTime.value?.toISOString() || ''
+      refreshTokenExpiryTime.value?.toISOString() || '',
     )
   }
 
-  async function login(email: string, password: string): Promise<Result<AccessTokenResponse>> {
+  async function login(
+    email: string,
+    password: string,
+  ): Promise<Result<AccessTokenResponse>> {
     try {
       const { data } = await useHttpClient().post<
         LoginRequest,
         AxiosResponse<Result<AccessTokenResponse>>
       >('auth/login', {
         email: email,
-        password: password
+        password: password,
       })
 
       accessToken.value = data.data?.accessToken ?? ''
       refreshToken.value = data.data?.refreshToken ?? ''
       refreshTokenExpiryTime.value = new Date(
-        data.data?.refreshTokenExpiryTime ?? Date.now() + 3600000
+        data.data?.refreshTokenExpiryTime ?? Date.now() + 3600000,
       )
 
       if (!data.succeeded || !data.data) {
         return Result.failure(
-          AppError.failure(data.errors?.message || 'Invalid response from server')
+          AppError.failure(
+            data.errors?.message || 'Invalid response from server',
+          ),
         )
       }
 
@@ -126,8 +137,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function getUserInfo(): Promise<Result<string>> {
     try {
-      const { data } = await useHttpClient().get<UserResponse>('personal/profile')
-      const permissions = await useHttpClient().get<string[]>('personal/permissions')
+      const { data } =
+        await useHttpClient().get<UserResponse>('personal/profile')
+      const permissions = await useHttpClient().get<string[]>(
+        'personal/permissions',
+      )
       user.value = Mapper.toUser(data)
       user.value.permissions = permissions.data
     } catch (error: any) {
@@ -141,13 +155,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function refresh(): Promise<Result<string>> {
     try {
-      const { data } = await useHttpClient().post<AxiosResponse<AccessTokenResponse>>(
-        'auth/refresh-token',
-        {
-          refreshToken: refreshToken.value,
-          accessToken: accessToken.value
-        }
-      )
+      const { data } = await useHttpClient().post<
+        AxiosResponse<AccessTokenResponse>
+      >('auth/refresh-token', {
+        refreshToken: refreshToken.value,
+        accessToken: accessToken.value,
+      })
 
       if (data.status !== 200 || !data.data) {
         await logout()
@@ -164,7 +177,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function initializeStore(): Promise<void> {
-    if (!accessToken.value || !refreshToken.value || !refreshTokenExpiryTime.value) {
+    if (
+      !accessToken.value ||
+      !refreshToken.value ||
+      !refreshTokenExpiryTime.value
+    ) {
       user.value = nullUser
       return
     }
@@ -191,6 +208,6 @@ export const useAuthStore = defineStore('auth', () => {
     getUserInfo,
     hasPermission,
     refresh,
-    initializeStore
+    initializeStore,
   }
 })

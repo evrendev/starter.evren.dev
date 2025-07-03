@@ -6,7 +6,7 @@ export const ErrorType = {
   Failure: 0,
   Validation: 1,
   NotFound: 2,
-  Conflict: 3
+  Conflict: 3,
 } as const
 
 export type ErrorType = (typeof ErrorType)[keyof typeof ErrorType]

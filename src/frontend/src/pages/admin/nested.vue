@@ -6,6 +6,7 @@ definePage({
     drawerIndex: 2,
     breadcrumb: 'disabled',
     layout: 'admin',
+    requiresAuth: true,
   },
 })
 </script>

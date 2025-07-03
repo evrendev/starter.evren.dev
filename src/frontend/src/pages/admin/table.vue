@@ -7,7 +7,7 @@ definePage({
     icon: 'mdi-table',
     title: 'Data Table',
     drawerIndex: 3,
-    requiresAuth: false,
+    requiresAuth: true,
     layout: 'admin',
   },
 })
