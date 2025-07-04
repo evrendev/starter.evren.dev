@@ -41,7 +41,7 @@
     "@iconify/tools": "^4.1.2",
     "@iconify/utils": "^2.3.0",
     "@iconify/vue": "5.0.0",
-    "@nuxt/eslint-config": "^1.5.1",
+    "@nuxt/eslint-config": "^1.5.2",
     "@pinia/testing": "^1.0.2",
     "@playwright/test": "^1.53.2",
     "@testing-library/vue": "^8.1.0",
