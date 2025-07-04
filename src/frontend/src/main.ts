@@ -1,24 +1,27 @@
-import './assets/styles/main.scss'
+import { registerPlugins } from "@core/utils/plugins";
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import { useAuthStore } from './stores/auth'
+// Styles
+import "@core/scss/template/index.scss";
+import "@layouts/styles/index.scss";
+import "@styles/styles.scss";
 
-import App from './App.vue'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import { useAuthStore } from "./stores/auth";
 
-import router from './plugins/router'
-import i18n from './plugins/i18n'
-import vuetify from './plugins/vuetify'
+import App from "./App.vue";
 
-const app = createApp(App)
-const pinia = createPinia()
+// Create vue app
+const app = createApp(App);
 
-app.use(pinia)
+// Register plugins
+registerPlugins(app);
 
-const authStore = useAuthStore()
+const pinia = createPinia();
+
+app.use(pinia);
+
+const authStore = useAuthStore();
 authStore.initializeStore().then(() => {
-  app.use(router)
-  app.use(vuetify)
-  app.use(i18n)
-  app.mount('#app')
-})
+  app.mount("#app");
+});

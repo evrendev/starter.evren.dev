@@ -1,88 +1,79 @@
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vitest/config'
-import Vue from '@vitejs/plugin-vue'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import VueRouter from 'unplugin-vue-router/vite'
-import Layouts from 'vite-plugin-vue-meta-layouts'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import regexpPlugin from 'rollup-plugin-regexp'
-import * as mdicons from '@mdi/js'
-
-const mdi: Record<string, string> = {}
-Object.keys(mdicons).forEach((key) => {
-  const value = (mdicons as Record<string, string>)[key]
-  mdi[
-    key
-      .replace(/([A-Z])/g, '-$1')
-      .toLowerCase()
-      .replace(/([0-9]+)/g, '-$1')
-  ] = value
-})
+import { fileURLToPath } from "node:url";
+import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { defineConfig } from "vite";
+import vuetify from "vite-plugin-vuetify";
+import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    regexpPlugin({
-      exclude: ['node_modules/**'],
-      find: /\b(?<![/\w])(mdi-[\w-]+)\b(?!\.)/,
-      replace: (match: string) => {
-        if (mdi[match]) {
-          return mdi[match]
-        } else {
-          console.warn('[plugin-regexp] No matched svg icon for ' + match)
-          return match
-        }
+    vue(),
+    vueJsx(),
+
+    // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
+    vuetify({
+      styles: {
+        configFile: "src/assets/styles/variables/_vuetify.scss",
       },
-      sourcemap: false,
     }),
-    VueRouter({ importMode: 'sync', dts: './src/typed-router.d.ts' }),
-    Vue({
-      template: { transformAssetUrls },
-      features: { propsDestructure: true },
-    }),
-    Layouts(),
-    Vuetify({ autoImport: true }),
-    Components({ dts: './src/components.d.ts', types: [] }),
-    AutoImport({
-      imports: [
-        'vue',
-        'pinia',
-        VueRouterAutoImports,
-        {
-          vuetify: [
-            'useTheme',
-            'useRtl',
-            'useLocale',
-            'useDisplay',
-            'useLayout',
-          ],
+    Components({
+      dirs: ["src/@core/components", "src/components"],
+      dts: true,
+      resolvers: [
+        (componentName) => {
+          // Auto import `VueApexCharts`
+          if (componentName === "VueApexCharts")
+            return {
+              name: "default",
+              from: "vue3-apexcharts",
+              as: "VueApexCharts",
+            };
         },
       ],
-      dts: 'src/auto-imports.d.ts',
-      dirs: ['src/stores'],
     }),
+
+    // Docs: https://github.com/antfu/unplugin-auto-import#unplugin-auto-import
+    AutoImport({
+      imports: ["vue", "vue-router", "@vueuse/core", "@vueuse/math", "pinia"],
+      vueTemplate: true,
+
+      // ℹ️ Disabled to avoid confusion & accidental usage
+      ignore: ["useCookies", "useStorage"],
+    }),
+    svgLoader(),
   ],
-  css: {
-    devSourcemap: true,
-  },
+  define: { "process.env": {} },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@core": fileURLToPath(new URL("./src/@core", import.meta.url)),
+      "@layouts": fileURLToPath(new URL("./src/@layouts", import.meta.url)),
+      "@images": fileURLToPath(
+        new URL("./src/assets/images/", import.meta.url),
+      ),
+      "@styles": fileURLToPath(
+        new URL("./src/assets/styles/", import.meta.url),
+      ),
+      "@configured-variables": fileURLToPath(
+        new URL(
+          "./src/assets/styles/variables/_template.scss",
+          import.meta.url,
+        ),
+      ),
     },
+  },
+  build: {
+    chunkSizeWarningLimit: 5000,
   },
   server: {
     port: 5002,
-    watch: {
-      usePolling: true,
-    },
+    host: true,
   },
-  test: {
-    globals: true,
-    include: ['test/**/*.{test,spec}.ts', 'src/**/__tests__/*'],
-    environment: 'jsdom',
-    setupFiles: ['./test/setup.ts'],
-    server: { deps: { inline: ['vuetify'] } },
+  optimizeDeps: {
+    exclude: ["vuetify"],
+    entries: ["./src/**/*.vue"],
   },
-})
+});
