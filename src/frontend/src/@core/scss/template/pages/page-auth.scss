@@ -10,7 +10,7 @@
 
 .auth-v1-top-shape,
 .auth-v1-bottom-shape {
-  position: absolute;
+  position: absolute !important;
 }
 
 .auth-v1-top-shape {
@@ -34,7 +34,8 @@
 @media (min-width: 960px) {
   .skin--bordered {
     .auth-card-v2 {
-      border-inline-start: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
+      border-inline-start: 1px solid
+        rgba(var(--v-border-color), var(--v-border-opacity)) !important;
     }
   }
 }
