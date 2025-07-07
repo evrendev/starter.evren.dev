@@ -37,8 +37,20 @@ export default defineConfig({
 
     // Docs: https://github.com/antfu/unplugin-auto-import#unplugin-auto-import
     AutoImport({
-      imports: ["vue", "vue-router", "@vueuse/core", "@vueuse/math", "pinia"],
+      imports: [
+        "vue",
+        "vue-router",
+        "@vueuse/core",
+        "@vueuse/math",
+        "pinia",
+        {
+          "vue-i18n": ["useI18n", "createI18n"],
+          "@/composables/useLocale": ["useAppLocale"],
+        },
+      ],
       vueTemplate: true,
+      dirs: ["src/composables"],
+      dts: true, // Generate auto-imports.d.ts
 
       // ℹ️ Disabled to avoid confusion & accidental usage
       ignore: ["useCookies", "useStorage"],
