@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
+import VueRouter from "unplugin-vue-router/vite";
 import { defineConfig } from "vite";
 import vuetify from "vite-plugin-vuetify";
 import svgLoader from "vite-svg-loader";
@@ -11,6 +12,11 @@ import svgLoader from "vite-svg-loader";
 export default defineConfig({
   plugins: [
     vue(),
+    VueRouter({
+      importMode: "sync",
+      dts: "./src/typed-router.d.ts",
+      routesFolder: "src/pages",
+    }),
     vueJsx(),
 
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin

@@ -23,7 +23,11 @@
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "skipLibCheck": true,
-    "types": ["vite/client", "vite-plugin-vue-layouts/client"]
+    "types": [
+      "vite/client",
+      "vite-plugin-vue-layouts/client",
+      "unplugin-vue-router/client"
+    ]
   },
   "include": [
     "./typed-router.d.ts",
