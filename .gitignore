@@ -407,3 +407,8 @@ secrets.Development.json
 .env.development
 .env.docker
 frontend.backup
+
+# TypeScript auto-generated files
+auto-imports.d.ts
+components.d.ts
+typed-router.d.ts
