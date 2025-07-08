@@ -1,43 +1,44 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-import type { User } from '@/models/user'
-import type { LoginRequest } from '@/requests/auth'
-import type { AccessTokenResponse, UserResponse } from '@/responses/auth'
-import { Result } from '@/primitives/result'
-import { AppError } from '@/primitives/Error'
-import { useHttpClient } from '@/composables/useHttpClient'
-import type { AxiosError, AxiosResponse } from 'axios'
-import Mapper from '@/mappers'
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
+import type { User } from "@/models/user";
+import type { LoginRequest } from "@/requests/auth";
+import type { AccessTokenResponse, UserResponse } from "@/responses/auth";
+import { Result } from "@/primitives/result";
+import { AppError } from "@/primitives/error";
+import { useHttpClient } from "@/composables/useHttpClient";
+import type { AxiosError, AxiosResponse } from "axios";
+import Mapper from "@/mappers";
+import { da } from "vuetify/locale";
 
-const DEFAULT_LANGUAGE = import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string
+const DEFAULT_LANGUAGE = import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string;
 
 const nullUser: User = {
-  id: '',
-  gender: 'none',
+  id: "",
+  gender: "none",
   language: DEFAULT_LANGUAGE,
-  firstName: '',
-  lastName: '',
-  fullName: '',
-  initial: '',
+  firstName: "",
+  lastName: "",
+  fullName: "",
+  initial: "",
   twoFactorEnabled: false,
-  email: '',
+  email: "",
   permissions: [],
-}
+};
 
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | undefined>(undefined)
-  const accessToken = ref<string>(localStorage.getItem('accessToken') || '')
-  const refreshToken = ref<string>(localStorage.getItem('refreshToken') || '')
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref<User | undefined>(undefined);
+  const accessToken = ref<string>(localStorage.getItem("accessToken") || "");
+  const refreshToken = ref<string>(localStorage.getItem("refreshToken") || "");
   const refreshTokenExpiryTime = ref<Date | null>(
-    localStorage.getItem('refreshTokenExpiryTime')
-      ? new Date(localStorage.getItem('refreshTokenExpiryTime')!)
+    localStorage.getItem("refreshTokenExpiryTime")
+      ? new Date(localStorage.getItem("refreshTokenExpiryTime")!)
       : null,
-  )
+  );
 
   const isAuthenticated = computed(
     () => !isLoading.value && user?.value?.id !== nullUser.id,
-  )
-  const isLoading = computed(() => user?.value === undefined)
+  );
+  const isLoading = computed(() => user?.value === undefined);
 
   /**
    * Checks if the user has a specific permission.
@@ -49,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
       (isAuthenticated.value &&
         user.value?.permissions?.includes(permission)) ??
       false
-    )
+    );
   }
 
   /**
@@ -57,14 +58,14 @@ export const useAuthStore = defineStore('auth', () => {
    * This function is used to reset the authentication state.
    */
   function clearStateAndStorage() {
-    user.value = nullUser
-    accessToken.value = ''
-    refreshToken.value = ''
-    refreshTokenExpiryTime.value = null
+    user.value = nullUser;
+    accessToken.value = "";
+    refreshToken.value = "";
+    refreshTokenExpiryTime.value = null;
 
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('refreshTokenExpiryTime')
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("refreshTokenExpiryTime");
   }
 
   /**
@@ -72,107 +73,104 @@ export const useAuthStore = defineStore('auth', () => {
    * @param {AccessTokenResponse} tokenData
    */
   function setTokens(tokenData: AccessTokenResponse) {
-    accessToken.value = tokenData.accessToken || ''
-    refreshToken.value = tokenData.refreshToken || ''
+    accessToken.value = tokenData.accessToken || "";
+    refreshToken.value = tokenData.refreshToken || "";
     refreshTokenExpiryTime.value = new Date(
       tokenData.refreshTokenExpiryTime || Date.now() + 3600000,
-    )
+    );
 
-    localStorage.setItem('accessToken', accessToken.value)
-    localStorage.setItem('refreshToken', refreshToken.value)
+    localStorage.setItem("accessToken", accessToken.value);
+    localStorage.setItem("refreshToken", refreshToken.value);
     localStorage.setItem(
-      'refreshTokenExpiryTime',
-      refreshTokenExpiryTime.value?.toISOString() || '',
-    )
+      "refreshTokenExpiryTime",
+      refreshTokenExpiryTime.value?.toISOString() || "",
+    );
   }
 
   async function login(
-    email: string,
-    password: string,
+    values: LoginRequest,
   ): Promise<Result<AccessTokenResponse>> {
     try {
       const { data } = await useHttpClient().post<
         LoginRequest,
         AxiosResponse<Result<AccessTokenResponse>>
-      >('auth/login', {
-        email: email,
-        password: password,
-      })
+      >("auth/login", values);
 
-      accessToken.value = data.data?.accessToken ?? ''
-      refreshToken.value = data.data?.refreshToken ?? ''
+      accessToken.value = data.data?.accessToken ?? "";
+      refreshToken.value = data.data?.refreshToken ?? "";
       refreshTokenExpiryTime.value = new Date(
         data.data?.refreshTokenExpiryTime ?? Date.now() + 3600000,
-      )
+      );
 
       if (!data.succeeded || !data.data) {
         return Result.failure(
           AppError.failure(
-            data.errors?.message || 'Invalid response from server',
+            data.errors?.message || "Invalid response from server",
           ),
-        )
+        );
       }
 
-      setTokens(data.data)
-      await getUserInfo()
+      setTokens(data.data);
+      await getUserInfo();
 
-      return Result.success(data.data)
+      return Result.success(data.data);
     } catch (error) {
-      const apiError = error as AxiosError
-      return Result.failure(AppError.failure(apiError.message))
+      const apiError = error as AxiosError;
+      return Result.failure(AppError.failure(apiError.message));
     }
   }
 
   async function logout(): Promise<Result<string>> {
     try {
-      await useHttpClient().post('auth/logout')
+      await useHttpClient().post("auth/logout");
     } catch (error) {
-      console.error('Logout failed:', error)
+      console.error("Logout failed:", error);
     } finally {
-      clearStateAndStorage()
+      clearStateAndStorage();
     }
 
-    return Result.success('Logout successful')
+    return Result.success("Logout successful");
   }
 
   async function getUserInfo(): Promise<Result<string>> {
     try {
       const { data } =
-        await useHttpClient().get<UserResponse>('personal/profile')
+        await useHttpClient().get<UserResponse>("personal/profile");
       const permissions = await useHttpClient().get<string[]>(
-        'personal/permissions',
-      )
-      user.value = Mapper.toUser(data)
-      user.value.permissions = permissions.data
+        "personal/permissions",
+      );
+      user.value = Mapper.toUser(data);
+      user.value.permissions = permissions.data;
     } catch (error: any) {
-      user.value = nullUser
-      const apiError = error as AxiosError
-      return Result.failure(AppError.failure(apiError.message))
+      user.value = nullUser;
+      const apiError = error as AxiosError;
+      return Result.failure(AppError.failure(apiError.message));
     }
 
-    return Result.success('Logout successful')
+    return Result.success("Logout successful");
   }
 
   async function refresh(): Promise<Result<string>> {
     try {
-      const { data } = await useHttpClient().post<
-        AxiosResponse<AccessTokenResponse>
-      >('auth/refresh-token', {
-        refreshToken: refreshToken.value,
-        accessToken: accessToken.value,
-      })
+      const { data } =
+        await useHttpClient().post<AxiosResponse<AccessTokenResponse>>(
+          "auth/refresh-token",
+        );
+
+      console.log("Refresh token response:", data);
 
       if (data.status !== 200 || !data.data) {
-        await logout()
-        return Result.failure(AppError.failure('Could not refresh token'))
+        await logout();
+        return Result.failure(AppError.failure("Could not refresh token"));
       }
 
-      setTokens(data.data)
+      setTokens(data.data);
 
-      return Result.success(data.data?.accessToken ?? '')
+      return Result.success(data.data?.accessToken ?? "");
     } catch (error) {
-      const apiError = error as AxiosError
-      return Result.failure(AppError.failure(apiError.message))
+      const apiError = error as AxiosError;
+      await logout();
+      return Result.failure(AppError.failure(apiError.message));
     }
   }
 
@@ -182,16 +180,16 @@ export const useAuthStore = defineStore('auth', () => {
       !refreshToken.value ||
       !refreshTokenExpiryTime.value
     ) {
-      user.value = nullUser
-      return
+      user.value = nullUser;
+      return;
     }
 
     if (refreshTokenExpiryTime.value <= new Date()) {
-      await logout()
-      return
+      await logout();
+      return;
     }
 
-    await getUserInfo()
+    await getUserInfo();
   }
 
   return {
@@ -209,5 +207,5 @@ export const useAuthStore = defineStore('auth', () => {
     hasPermission,
     refresh,
     initializeStore,
-  }
-})
+  };
+});

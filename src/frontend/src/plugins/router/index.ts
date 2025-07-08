@@ -20,11 +20,11 @@ router.beforeResolve(async (to, _: any, next) => {
     to.meta.requiresPermission &&
     !authStore.hasPermission(to.meta.requiresPermission as string)
   ) {
-    return next("/home");
+    return next("/");
   } else if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return next("/auth/login?redirect=" + encodeURIComponent(to.fullPath));
   } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
-    return next("/home");
+    return next("/");
   } else {
     return next();
   }

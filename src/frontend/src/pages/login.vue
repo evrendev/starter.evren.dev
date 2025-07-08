@@ -1,16 +1,82 @@
 <script setup lang="ts">
-import AuthProvider from "@/views/pages/authentication/AuthProvider.vue";
+import { ref } from "vue";
+import { LoginRequest } from "@/requests/auth";
+import { object, string, boolean } from "yup";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/yup";
+import RecaptchaButton from "@/views/pages/authentication/RecaptchaButton.vue";
 import logo from "@images/logo.svg?raw";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
 import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
+import { useAppStore } from "@/stores/app";
+import { useAuthStore } from "@/stores/auth";
+import { Result } from "@/primitives/result";
+import { AccessTokenResponse } from "@/responses/auth";
+import { Notify } from "@/stores/notification";
 
-const form = ref({
+const appStore = useAppStore();
+const authStore = useAuthStore();
+const router = useRouter();
+
+const { loading } = storeToRefs(appStore);
+
+const { t } = useI18n();
+
+const initialValues: LoginRequest = {
   email: "",
   password: "",
-  remember: false,
+  response: "",
+  rememberMe: false,
+};
+
+const schema = toTypedSchema(
+  object({
+    email: string()
+      .email(t("auth.login.email.invalid"))
+      .required(t("auth.login.email.required"))
+      .label(t("auth.login.email.label")),
+    password: string()
+      .required(t("auth.login.password.required"))
+      .label(t("auth.login.password.label")),
+    rememberMe: boolean().default(false),
+  }),
+);
+
+const { defineField, handleSubmit, setFieldValue, errors } =
+  useForm<LoginRequest>({
+    validationSchema: schema,
+    initialValues: initialValues,
+  });
+
+const [email, emailAttrs] = defineField("email");
+const [password, passwordAttrs] = defineField("password");
+const [rememberMe, rememberMeAttrs] = defineField("rememberMe");
+
+const login = handleSubmit(async (values) => {
+  appStore.setLoading(true);
+  const result: Result<AccessTokenResponse> = await authStore.login(values);
+
+  if (result.succeeded) {
+    appStore.setLoading(false);
+    Notify.success(t("auth.login.success"));
+    router.replace({ name: "dashboard" });
+  } else {
+    appStore.setLoading(false);
+    Notify.error(t("auth.login.error"));
+  }
 });
 
-const isPasswordVisible = ref(false);
+const handleRecaptchaSuccess = (token: string) => {
+  setFieldValue("response", token);
+  login();
+};
+
+const handleRecaptchaError = (error: Error) => {
+  console.error("reCAPTCHA hatası:", error);
+};
+
+const isPasswordVisible = ref<boolean>(false);
+const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
 </script>
 
 <template>
@@ -20,7 +86,6 @@ const isPasswordVisible = ref(false);
         :src="authV1TopShape"
         class="text-primary auth-v1-top-shape d-none d-sm-block"
       />
-
       <VImg
         :src="authV1BottomShape"
         class="text-primary auth-v1-bottom-shape d-none d-sm-block"
@@ -46,66 +111,67 @@ const isPasswordVisible = ref(false);
         </VCardText>
 
         <VCardText>
-          <VForm @submit.prevent="$router.push('/')">
+          <VForm>
             <VRow>
-              <!-- email -->
               <VCol cols="12">
                 <VTextField
-                  v-model="form.email"
-                  autofocus
+                  v-model="email"
+                  v-bind="emailAttrs"
                   label="Email or Username"
                   type="email"
                   placeholder="johndoe@email.com"
+                  :error-messages="errors.email"
+                  autofocus
                 />
               </VCol>
 
-              <!-- password -->
               <VCol cols="12">
                 <VTextField
-                  v-model="form.password"
+                  v-model="password"
+                  v-bind="passwordAttrs"
                   label="Password"
                   placeholder="············"
-                  :type="isPasswordVisible ? 'text' : 'password'"
                   autocomplete="password"
+                  :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
+                  :error-messages="errors.password"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
 
-                <!-- remember me checkbox -->
                 <div
                   class="d-flex align-center justify-space-between flex-wrap my-6"
                 >
-                  <VCheckbox v-model="form.remember" label="Remember me" />
-
+                  <VCheckbox
+                    v-model="rememberMe"
+                    v-bind="rememberMeAttrs"
+                    label="Remember me"
+                  />
                   <a class="text-primary" href="javascript:void(0)">
                     Forgot Password?
                   </a>
                 </div>
-
-                <!-- login button -->
-                <VBtn block type="submit"> Login </VBtn>
-              </VCol>
-
-              <!-- create account -->
-              <VCol cols="12" class="text-body-1 text-center">
-                <span class="d-inline-block"> New on our platform? </span>
-                <RouterLink
-                  class="text-primary ms-1 d-inline-block text-body-1"
-                  to="/register"
+                <div
+                  class="d-flex align-center justify-space-between flex-wrap my-6"
                 >
-                  Create an account
-                </RouterLink>
-              </VCol>
+                  <recaptcha-button
+                    button-text="Login"
+                    action="submit"
+                    :block="true"
+                    :loading="loading"
+                    :site-key="siteKey"
+                    @recaptcha-success="handleRecaptchaSuccess"
+                    @recaptcha-error="handleRecaptchaError"
+                  />
+                </div>
 
-              <VCol cols="12" class="d-flex align-center">
-                <VDivider />
-                <span class="mx-4 text-high-emphasis">or</span>
-                <VDivider />
-              </VCol>
-
-              <!-- auth providers -->
-              <VCol cols="12" class="text-center">
-                <AuthProvider />
+                <VAlert
+                  v-if="errors.response"
+                  type="error"
+                  class="mt-4"
+                  density="compact"
+                >
+                  {{ errors.response }}
+                </VAlert>
               </VCol>
             </VRow>
           </VForm>

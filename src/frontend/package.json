@@ -16,12 +16,14 @@
   "dependencies": {
     "@floating-ui/dom": "^1.7.2",
     "@stylistic/stylelint-config": "^2.0.0",
+    "@vee-validate/yup": "^4.15.1",
     "@vueuse/core": "^13.5.0",
     "@vueuse/math": "^13.5.0",
     "axios": "^1.10.0",
     "pinia": "^3.0.3",
     "prismjs": "^1.30.0",
     "roboto-fontface": "^0.10.0",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.17",
     "vue-flatpickr-component": "^12.0.0",
     "vue-i18n": "^11.1.9",
@@ -29,8 +31,9 @@
     "vue-router": "^4.5.1",
     "vue3-apexcharts": "^1.8.0",
     "vue3-perfect-scrollbar": "^2.0.0",
-    "vuetify": "^3.8.12",
-    "webfontloader": "^1.6.28"
+    "vuetify": "^3.9.0",
+    "webfontloader": "^1.6.28",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@iconify-json/bx": "^1.2.2",
@@ -49,8 +52,8 @@
     "@types/jsdom": "^21.1.7",
     "@types/node": "^24.0.10",
     "@types/webfontloader": "^1.6.38",
-    "@typescript-eslint/eslint-plugin": "^8.35.1",
-    "@typescript-eslint/parser": "^8.35.1",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.36.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
     "@vue/test-utils": "^2.4.6",
