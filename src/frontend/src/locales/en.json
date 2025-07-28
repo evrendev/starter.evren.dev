@@ -23,7 +23,8 @@
       "rememberMe": "Remember Me",
       "forgotPassword": "Forgot Password 🐟",
       "submit": "Sign In",
-      "error": "An error occurred during sign in"
+      "error": "An error occurred during sign in",
+      "success": "Successfully signed in"
     },
     "twoFactorAuth": {
       "subtitle": "Enter the code from authenticator app",
