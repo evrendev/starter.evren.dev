@@ -1,4 +1,55 @@
 {
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "welcome": "Hi, Welcome Back! 👋🏻",
+      "subtitle": "Enter your email and password to sign in",
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "invalid": "Invalid email address",
+        "required": "Email is required"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": " Enter your password",
+        "required": "Password is required"
+      },
+      "recaptcha": {
+        "label": "I'm not a robot",
+        "required": "Recaptcha is required",
+        "invalid": "Recaptcha verification failed"
+      },
+      "rememberMe": "Remember Me",
+      "forgotPassword": "Forgot Password 🐟",
+      "submit": "Sign In",
+      "error": "An error occurred during sign in"
+    },
+    "twoFactorAuth": {
+      "subtitle": "Enter the code from authenticator app",
+      "label": "Code",
+      "placeholder": "Enter your code",
+      "required": "Code is required",
+      "submit": "Verify",
+      "code": {
+        "required": "Code is required",
+        "invalid": "Invalid code"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password 🐟",
+      "welcome": "Forgot Password?",
+      "subtitle": "Enter your email to reset your password",
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "invalid": "Invalid email address",
+        "required": "Email is required"
+      },
+      "back": "Back to Sign In",
+      "submit": "Reset Password"
+    }
+  },
   "welcome": "Welcome to your Vite Vue.js App!",
   "login": "Login",
   "username": "Username",

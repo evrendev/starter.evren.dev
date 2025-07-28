@@ -104,9 +104,11 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
         </VCardItem>
 
         <VCardText>
-          <h4 class="text-h4 mb-1">Welcome to Sneat! 👋🏻</h4>
+          <h4 class="text-h4 mb-1">
+            {{ t("auth.login.welcome") }}
+          </h4>
           <p class="mb-0">
-            Please sign-in to your account and start the adventure
+            {{ t("auth.login.subtitle") }}
           </p>
         </VCardText>
 
@@ -117,9 +119,9 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                 <VTextField
                   v-model="email"
                   v-bind="emailAttrs"
-                  label="Email or Username"
                   type="email"
                   placeholder="johndoe@email.com"
+                  :label="t('auth.login.email.label')"
                   :error-messages="errors.email"
                   autofocus
                 />
@@ -129,9 +131,9 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                 <VTextField
                   v-model="password"
                   v-bind="passwordAttrs"
-                  label="Password"
                   placeholder="············"
                   autocomplete="password"
+                  :label="t('auth.login.password.label')"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
                   :error-messages="errors.password"
@@ -144,18 +146,18 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   <VCheckbox
                     v-model="rememberMe"
                     v-bind="rememberMeAttrs"
-                    label="Remember me"
+                    :label="t('auth.login.rememberMe')"
                   />
                   <a class="text-primary" href="javascript:void(0)">
-                    Forgot Password?
+                    {{ t("auth.login.forgotPassword") }}
                   </a>
                 </div>
                 <div
                   class="d-flex align-center justify-space-between flex-wrap my-6"
                 >
                   <recaptcha-button
-                    button-text="Login"
                     action="submit"
+                    :button-text="t('auth.login.submit')"
                     :block="true"
                     :loading="loading"
                     :site-key="siteKey"
