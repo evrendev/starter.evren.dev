@@ -1,14 +1,13 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import type { User } from "@/models/user";
-import type { LoginRequest } from "@/requests/auth";
-import type { AccessTokenResponse, UserResponse } from "@/responses/auth";
 import { Result } from "@/primitives/result";
 import { AppError } from "@/primitives/error";
 import { useHttpClient } from "@/composables/useHttpClient";
+import type { User } from "@/models/user";
+import type { LoginRequest } from "@/requests/auth";
+import type { AccessTokenResponse, UserResponse } from "@/responses/auth";
 import type { AxiosError, AxiosResponse } from "axios";
 import Mapper from "@/mappers";
-import { da } from "vuetify/locale";
 
 const DEFAULT_LANGUAGE = import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string;
 
@@ -153,7 +152,7 @@ export const useAuthStore = defineStore("auth", () => {
   async function refresh(): Promise<Result<string>> {
     try {
       const { data } =
-        await useHttpClient().post<AxiosResponse<AccessTokenResponse>>(
+        await useHttpClient().get<AxiosResponse<AccessTokenResponse>>(
           "auth/refresh-token",
         );
 

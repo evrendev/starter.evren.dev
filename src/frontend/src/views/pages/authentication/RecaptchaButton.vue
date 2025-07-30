@@ -34,6 +34,7 @@ const props = withDefaults(
     buttonText?: string;
     buttonColor?: string;
     buttonVariant?: ButtonVariant;
+    buttonIcon?: string;
     loading?: boolean;
     siteKey: string;
     action?: string;
@@ -43,6 +44,7 @@ const props = withDefaults(
     buttonText: "Submit",
     buttonColor: "primary",
     buttonVariant: "flat" as ButtonVariant,
+    buttonIcon: "",
     loading: false,
     action: "submit",
     block: false,
@@ -125,27 +127,20 @@ const handleClick = async (): Promise<void> => {
 </script>
 
 <template>
-  <div class="recaptcha-button-container">
-    <v-btn
-      type="submit"
-      :block="props.block"
-      :color="props.buttonColor"
-      :variant="props.buttonVariant"
-      :loading="props.loading"
-      @click.prevent="handleClick"
-    >
-      {{ props.buttonText }}
-    </v-btn>
+  <v-btn
+    type="submit"
+    :block="props.block"
+    :color="props.buttonColor"
+    :variant="props.buttonVariant"
+    :loading="props.loading"
+    :prepend-icon="props.buttonIcon"
+    :disabled="props.loading || !recaptcha.loaded"
+    @click.prevent="handleClick"
+  >
+    {{ props.buttonText }}
+  </v-btn>
 
-    <!-- Display reCAPTCHA error if any -->
-    <div v-if="recaptcha.error" class="text-error mt-2">
-      {{ recaptcha.error }}
-    </div>
+  <div v-if="recaptcha.error" class="text-error mt-2">
+    {{ recaptcha.error }}
   </div>
 </template>
-
-<style lang="scss" scoped>
-.recaptcha-button-container {
-  display: inline-block;
-}
-</style>

@@ -3,7 +3,7 @@ export const routes = [
     path: "/",
     component: () => import("@/layouts/default.vue"),
     meta: {
-      requiresAuth: false,
+      requiresGuest: true,
     },
     children: [
       {
@@ -27,6 +27,9 @@ export const routes = [
         name: "dashboard",
         path: "",
         component: () => import("@/pages/dashboard.vue"),
+        meta: {
+          requiresPermission: "Permissions.Dashboard.View",
+        },
       },
       {
         name: "account-settings",
@@ -58,16 +61,29 @@ export const routes = [
         path: "form-layouts",
         component: () => import("@/pages/form-layouts.vue"),
       },
+      {
+        name: "unauthorized",
+        path: "unauthorized",
+        component: () => import("@/pages/unauthorized.vue"),
+      },
     ],
   },
   {
     path: "/auth",
     component: () => import("@/layouts/auth.vue"),
+    meta: {
+      requiresAuth: false,
+    },
     children: [
       {
         name: "login",
         path: "login",
         component: () => import("@/pages/login.vue"),
+      },
+      {
+        name: "forgot-password",
+        path: "forgot-password",
+        component: () => import("@/pages/forgot-password.vue"),
       },
       {
         name: "error",

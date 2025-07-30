@@ -1,4 +1,9 @@
 {
+  "app": {
+    "title": "Panel",
+    "description": "A modern admin panel template",
+    "version": "1.0.0"
+  },
   "auth": {
     "login": {
       "title": "Sign In",
@@ -37,7 +42,7 @@
         "invalid": "Invalid code"
       }
     },
-    "forgotPassword": {
+    "forgot-password": {
       "title": "Forgot Password 🐟",
       "welcome": "Forgot Password?",
       "subtitle": "Enter your email to reset your password",
@@ -47,15 +52,9 @@
         "invalid": "Invalid email address",
         "required": "Email is required"
       },
-      "back": "Back to Sign In",
-      "submit": "Reset Password"
+      "back-to-login": "👈 Back to Login",
+      "submit": "Reset Password",
+      "error": "An error occurred during password reset"
     }
-  },
-  "welcome": "Welcome to your Vite Vue.js App!",
-  "login": "Login",
-  "username": "Username",
-  "password": "Password",
-  "submit": "Submit",
-  "dashboard": "Dashboard",
-  "logout": "Logout"
+  }
 }

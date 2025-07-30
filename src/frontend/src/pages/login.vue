@@ -4,15 +4,15 @@ import { LoginRequest } from "@/requests/auth";
 import { object, string, boolean } from "yup";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/yup";
-import RecaptchaButton from "@/views/pages/authentication/RecaptchaButton.vue";
-import logo from "@images/logo.svg?raw";
-import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
-import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
 import { useAppStore } from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
 import { Result } from "@/primitives/result";
 import { AccessTokenResponse } from "@/responses/auth";
 import { Notify } from "@/stores/notification";
+import RecaptchaButton from "@/views/pages/authentication/RecaptchaButton.vue";
+import logo from "@images/logo.svg?raw";
+import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
+import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
 
 const appStore = useAppStore();
 const authStore = useAuthStore();
@@ -62,7 +62,7 @@ const login = handleSubmit(async (values) => {
     router.replace({ name: "dashboard" });
   } else {
     appStore.setLoading(false);
-    Notify.error(t("auth.login.error"));
+    Notify.error(t(result.errors?.message || "auth.login.error"));
   }
 });
 
@@ -99,15 +99,15 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
         <VCardItem class="justify-center">
           <RouterLink to="/" class="app-logo">
             <div class="d-flex" v-html="logo" />
-            <h1 class="app-logo-title">panel</h1>
+            <h1 class="app-logo-title" v-text="t('app.title')" />
           </RouterLink>
         </VCardItem>
 
         <VCardText>
-          <h4 class="text-h4 mb-1">
+          <h4 class="text-h4 mb-1 text-center">
             {{ t("auth.login.welcome") }}
           </h4>
-          <p class="mb-0">
+          <p class="mb-0 text-center">
             {{ t("auth.login.subtitle") }}
           </p>
         </VCardText>
@@ -120,9 +120,10 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   v-model="email"
                   v-bind="emailAttrs"
                   type="email"
-                  placeholder="johndoe@email.com"
+                  placeholder="@"
                   :label="t('auth.login.email.label')"
                   :error-messages="errors.email"
+                  :disabled="loading"
                   autofocus
                 />
               </VCol>
@@ -137,6 +138,7 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
                   :error-messages="errors.password"
+                  :disabled="loading"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
 
@@ -146,19 +148,24 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   <VCheckbox
                     v-model="rememberMe"
                     v-bind="rememberMeAttrs"
+                    :disabled="loading"
                     :label="t('auth.login.rememberMe')"
                   />
-                  <a class="text-primary" href="javascript:void(0)">
+                  <router-link
+                    class="text-primary"
+                    :to="{ name: 'forgot-password' }"
+                  >
                     {{ t("auth.login.forgotPassword") }}
-                  </a>
+                  </router-link>
                 </div>
                 <div
                   class="d-flex align-center justify-space-between flex-wrap my-6"
                 >
                   <recaptcha-button
                     action="submit"
-                    :button-text="t('auth.login.submit')"
+                    button-icon="bx bx-log-in"
                     :block="true"
+                    :button-text="t('auth.login.submit')"
                     :loading="loading"
                     :site-key="siteKey"
                     @recaptcha-success="handleRecaptchaSuccess"

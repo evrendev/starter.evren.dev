@@ -11,20 +11,16 @@ const router = createRouter({
 router.beforeResolve(async (to, _: any, next) => {
   const authStore = useAuthStore();
 
-  if (authStore.isLoading) {
-    await authStore.getUserInfo();
-    console.log("User info fetched");
-  }
-
   if (
     to.meta.requiresPermission &&
-    !authStore.hasPermission(to.meta.requiresPermission as string)
+    (!authStore.hasPermission(to.meta.requiresPermission as string) ||
+      !authStore.isAuthenticated)
   ) {
-    return next("/");
+    return next({ name: "unauthorized" });
   } else if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    return next("/auth/login?redirect=" + encodeURIComponent(to.fullPath));
+    return next({ name: "login", query: { redirect: to.fullPath } });
   } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
-    return next("/");
+    return next({ name: "home" });
   } else {
     return next();
   }
