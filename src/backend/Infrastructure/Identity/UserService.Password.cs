@@ -15,13 +15,13 @@ internal partial class UserService
         if (user is null || !await userManager.IsEmailConfirmedAsync(user))
         {
             // Don't reveal that the user does not exist or is not confirmed
-            throw new InternalServerException(localizer["An Error has occurred!"]);
+            throw new InternalServerException(localizer["identity.password.reset.notfound"]);
         }
 
         // For more information on how to enable account confirmation and password reset please
         // visit https://go.microsoft.com/fwlink/?LinkID=532713
         var code = await userManager.GeneratePasswordResetTokenAsync(user);
-        const string route = "account/reset-password";
+        const string route = "auth/reset-password";
         var endpointUri = new Uri(string.Concat($"{origin}/", route));
         var passwordResetUrl = QueryHelpers.AddQueryString(endpointUri.ToString(), "Token", code);
         var recipients = new List<Contact>
@@ -31,9 +31,9 @@ internal partial class UserService
 
         var content = new Content
         {
-            Subject = localizer["Reset Password"],
-            TextBody = localizer[$"Your Password Reset Token is '{code}'. You can reset your password using the {endpointUri} Endpoint."],
-            HtmlBody = localizer[$"Your Password Reset Token is '{code}'. You can reset your password using the <a href='{passwordResetUrl}'>Reset Password</a> Endpoint."],
+            Subject = localizer["identity.password.reset.subject"],
+            TextBody = localizer["identity.password.reset.text.body", code, passwordResetUrl],
+            HtmlBody = localizer["identity.password.reset.html.body", passwordResetUrl, localizer["identity.password.reset.button"]],
         };
 
         var mailRequest = new MailRequest(
@@ -43,7 +43,7 @@ internal partial class UserService
 
         jobService.Enqueue(() => mailService.SendAsync(mailRequest));
 
-        return localizer["Password Reset Mail has been sent to your authorized Email."];
+        return localizer["identity.password.reset.success"];
     }
 
     public async Task<string> ResetPasswordAsync(ResetPasswordRequest request)
@@ -56,7 +56,7 @@ internal partial class UserService
         var result = await userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
         return result.Succeeded
-            ? localizer["Password Reset Successful!"]
+            ? localizer["identity.password.reset.success"]
             : throw new InternalServerException(localizer["An Error has occurred!"]);
     }
 
@@ -64,13 +64,13 @@ internal partial class UserService
     {
         var user = await userManager.FindByIdAsync(userId);
 
-        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["identity.user.notfound"]);
 
         var result = await userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(localizer["Change password failed"], result.GetErrors(localizer));
+            throw new InternalServerException(localizer["identity.password.change.failed"], result.GetErrors(localizer));
         }
     }
 }
