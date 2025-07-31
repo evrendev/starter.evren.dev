@@ -115,7 +115,6 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   autofocus
                 />
               </VCol>
-
               <VCol cols="12">
                 <router-link
                   class="text-center d-block mt-4"

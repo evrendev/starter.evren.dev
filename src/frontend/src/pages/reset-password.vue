@@ -149,6 +149,13 @@ const isPasswordVisible = vueRef<boolean>(false);
                   :text="t('auth.reset-password.submit')"
                 />
               </VCol>
+              <VCol cols="12">
+                <router-link
+                  class="text-center d-block mt-4"
+                  v-text="t('auth.forgot-password.back-to-login')"
+                  :to="{ name: 'login' }"
+                />
+              </VCol>
             </VRow>
           </VForm>
         </VCardText>

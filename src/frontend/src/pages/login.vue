@@ -141,38 +141,40 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   :disabled="loading"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
+              </VCol>
 
-                <div
-                  class="d-flex align-center justify-space-between flex-wrap my-6"
+              <VCol
+                cols="12"
+                class="d-flex align-center justify-space-between flex-wrap"
+              >
+                <VCheckbox
+                  v-model="rememberMe"
+                  v-bind="rememberMeAttrs"
+                  :disabled="loading"
+                  :label="t('auth.login.rememberMe')"
+                />
+                <router-link
+                  class="text-primary"
+                  :to="{ name: 'forgot-password' }"
                 >
-                  <VCheckbox
-                    v-model="rememberMe"
-                    v-bind="rememberMeAttrs"
-                    :disabled="loading"
-                    :label="t('auth.login.rememberMe')"
-                  />
-                  <router-link
-                    class="text-primary"
-                    :to="{ name: 'forgot-password' }"
-                  >
-                    {{ t("auth.login.forgotPassword") }}
-                  </router-link>
-                </div>
-                <div
-                  class="d-flex align-center justify-space-between flex-wrap my-6"
-                >
-                  <recaptcha-button
-                    action="submit"
-                    button-icon="bx bx-log-in"
-                    :block="true"
-                    :button-text="t('auth.login.submit')"
-                    :loading="loading"
-                    :site-key="siteKey"
-                    @recaptcha-success="handleRecaptchaSuccess"
-                    @recaptcha-error="handleRecaptchaError"
-                  />
-                </div>
+                  {{ t("auth.login.forgotPassword") }}
+                </router-link>
+              </VCol>
 
+              <VCol cols="12">
+                <recaptcha-button
+                  action="submit"
+                  button-icon="bx bx-log-in"
+                  :block="true"
+                  :button-text="t('auth.login.submit')"
+                  :loading="loading"
+                  :site-key="siteKey"
+                  @recaptcha-success="handleRecaptchaSuccess"
+                  @recaptcha-error="handleRecaptchaError"
+                />
+              </VCol>
+
+              <VCol cols="12">
                 <VAlert
                   v-if="errors.response"
                   type="error"
