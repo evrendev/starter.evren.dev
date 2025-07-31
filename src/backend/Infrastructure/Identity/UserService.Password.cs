@@ -23,7 +23,12 @@ internal partial class UserService
         var code = await userManager.GeneratePasswordResetTokenAsync(user);
         const string route = "auth/reset-password";
         var endpointUri = new Uri(string.Concat($"{origin}/", route));
-        var passwordResetUrl = QueryHelpers.AddQueryString(endpointUri.ToString(), "Token", code);
+        var queryParams = new Dictionary<string, string?>
+        {
+            {"email", user.Email},
+            {"token", code}
+        };
+        var passwordResetUrl = QueryHelpers.AddQueryString(endpointUri.ToString(), queryParams);
         var recipients = new List<Contact>
         {
             new(user.Email, $"{user.FirstName} {user.LastName}")
