@@ -1,8 +1,8 @@
 {
   "CorsSettings": {
-    "Angular": "http://localhost:4200",
-    "Blazor": "https://localhost:5002;https://www.evren.dev",
-    "React": "http://localhost:3000",
-    "Vue": "http://localhost:5002"
+    "Angular": "https://evren.dev",
+    "Blazor": "https://evren.dev",
+    "React": "https://evren.dev",
+    "Vue": "https://evren.dev"
   }
 }

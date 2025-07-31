@@ -1,9 +1,10 @@
 ﻿using EvrenDev.Application.Identity.Users;
 using EvrenDev.Application.Identity.Users.Password;
+using EvrenDev.Infrastructure.Cors;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
-public class UsersController(IUserService userService) : VersionNeutralApiController
+public class UsersController(IUserService userService, IConfiguration configuration) : VersionNeutralApiController
 {
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
@@ -102,7 +103,7 @@ public class UsersController(IUserService userService) : VersionNeutralApiContro
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     public Task<string> ForgotPasswordAsync(ForgotPasswordRequest request)
     {
-        return userService.ForgotPasswordAsync(request, GetOriginFromRequest());
+        return userService.ForgotPasswordAsync(request, GetFrontendOriginFromRequest());
     }
 
     [HttpPost("reset-password")]
@@ -114,4 +115,11 @@ public class UsersController(IUserService userService) : VersionNeutralApiContro
     }
 
     private string GetOriginFromRequest() => $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+
+    private string GetFrontendOriginFromRequest()
+    {
+        var corsSettings = configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
+
+        return corsSettings?.Vue ?? "https://evren.dev";
+    }
 }
