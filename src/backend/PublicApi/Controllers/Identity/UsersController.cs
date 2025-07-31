@@ -109,6 +109,7 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [HttpPost("reset-password")]
     [OpenApiOperation("Reset a user's password.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
+    [AllowAnonymous]
     public Task<string> ResetPasswordAsync(ResetPasswordRequest request)
     {
         return userService.ResetPasswordAsync(request);
