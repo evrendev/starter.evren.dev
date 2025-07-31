@@ -8,7 +8,7 @@ export const routes = [
     children: [
       {
         name: "home",
-        path: "home",
+        path: "",
         component: () => import("@/pages/home.vue"),
         meta: {
           title: "Home",

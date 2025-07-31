@@ -1,11 +1,14 @@
 <template>
   <div>
-    {{ t("welcome") }}
+    <h1>
+      {{ t("app.title") }}
+    </h1>
+    <h4>
+      {{ t("app.description") }}
+    </h4>
   </div>
 </template>
 
 <script setup lang="ts">
 const { t } = useI18n();
 </script>
-
-<style scoped></style>
