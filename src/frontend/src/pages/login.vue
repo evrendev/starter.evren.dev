@@ -62,7 +62,7 @@ const login = handleSubmit(async (values) => {
     router.replace({ name: "dashboard" });
   } else {
     appStore.setLoading(false);
-    Notify.error(t(result.errors?.message || "auth.login.error"));
+    Notify.error(result.errors?.message || t("auth.login.error"));
   }
 });
 
