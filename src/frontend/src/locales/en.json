@@ -55,6 +55,36 @@
       "back-to-login": "👈 Back to Login",
       "submit": "Reset Password",
       "error": "An error occurred during password reset"
+    },
+    "reset-password": {
+      "title": "Reset Password",
+      "welcome": "Welcome to Password Reset",
+      "subtitle": "Enter your new password",
+      "email": {
+        "required": "Email is required",
+        "invalid": "Invalid email address"
+      },
+      "token": {
+        "required": "Token is required",
+        "invalid": "Invalid token"
+      },
+      "password": {
+        "label": "New Password",
+        "placeholder": "Enter your new password",
+        "required": "New password is required",
+        "invalid": "Password must be at least 8 characters long",
+        "min-length": "Password must be at least 8 characters long",
+        "special": "Password must contain at least one special character"
+      },
+      "confirm-password": {
+        "label": "Confirm Password",
+        "placeholder": "Confirm your new password",
+        "required": "Confirm password is required",
+        "invalid": "Passwords do not match"
+      },
+      "submit": "Reset Password",
+      "error": "An error occurred during password reset",
+      "success": "Password successfully reset"
     }
   }
 }

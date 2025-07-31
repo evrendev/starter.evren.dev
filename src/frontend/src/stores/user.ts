@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
+import { ResetPasswordRequest } from "@/requests/user";
 
 export const useUserStore = defineStore("user", {
   actions: {
@@ -11,6 +12,18 @@ export const useUserStore = defineStore("user", {
         return data;
       } catch (error) {
         console.error("Forgot password error:", error);
+        throw error;
+      }
+    },
+    async resetPassword(data: ResetPasswordRequest): Promise<string> {
+      try {
+        const { data: response } = await useHttpClient().post(
+          "/users/reset-password",
+          data,
+        );
+        return response;
+      } catch (error) {
+        console.error("Reset password error:", error);
         throw error;
       }
     },

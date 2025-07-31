@@ -12,5 +12,6 @@ export interface ForgotPasswordRequest {
 export interface ResetPasswordRequest {
   email?: string | null;
   password?: string | null;
+  confirmPassword?: string | null;
   token?: string | null;
 }

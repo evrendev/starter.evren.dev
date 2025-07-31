@@ -97,10 +97,10 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
         :class="$vuetify.display.smAndUp ? 'pa-6' : 'pa-0'"
       >
         <VCardItem class="justify-center">
-          <RouterLink to="/" class="app-logo">
+          <router-link to="/" class="app-logo">
             <div class="d-flex" v-html="logo" />
             <h1 class="app-logo-title" v-text="t('app.title')" />
-          </RouterLink>
+          </router-link>
         </VCardItem>
 
         <VCardText>

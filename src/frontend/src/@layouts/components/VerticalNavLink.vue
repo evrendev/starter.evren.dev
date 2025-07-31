@@ -1,34 +1,25 @@
 <script lang="ts" setup>
-import type { NavLink } from '@layouts/types'
+import type { NavLink } from "@layouts/types";
 
 defineProps<{
-  item: NavLink
-}>()
+  item: NavLink;
+}>();
 </script>
 
 <template>
-  <li
-    class="nav-link"
-    :class="{ disabled: item.disable }"
-  >
+  <li class="nav-link" :class="{ disabled: item.disable }">
     <Component
-      :is="item.to ? 'RouterLink' : 'a'"
+      :is="item.to ? 'router-link' : 'a'"
       :to="item.to"
       :href="item.href"
       :target="item.target"
     >
-      <VIcon
-        :icon="item.icon || 'bxs-circle'"
-        class="nav-item-icon"
-      />
+      <VIcon :icon="item.icon || 'bxs-circle'" class="nav-item-icon" />
       <!-- 👉 Title -->
       <span class="nav-item-title">
         {{ item.title }}
       </span>
-      <span
-        class="nav-item-badge"
-        :class="item.badgeClass"
-      >
+      <span class="nav-item-badge" :class="item.badgeClass">
         {{ item.badgeContent }}
       </span>
     </Component>
