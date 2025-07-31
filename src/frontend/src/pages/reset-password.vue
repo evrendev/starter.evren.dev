@@ -8,7 +8,7 @@ import { toTypedSchema } from "@vee-validate/yup";
 import { useAppStore } from "@/stores/app";
 import { useUserStore } from "@/stores/user";
 import { Notify } from "@/stores/notification";
-import logo from "@images/logo.svg?raw";
+import Logo from "@/@core/components/Logo.vue";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
 import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
 
@@ -98,10 +98,7 @@ const isPasswordVisible = vueRef<boolean>(false);
         :class="$vuetify.display.smAndUp ? 'pa-6' : 'pa-0'"
       >
         <VCardItem class="justify-center">
-          <RouterLink to="/" class="app-logo">
-            <div class="d-flex" v-html="logo" />
-            <h1 class="app-logo-title" v-text="t('app.title')" />
-          </RouterLink>
+          <Logo />
         </VCardItem>
 
         <VCardText>

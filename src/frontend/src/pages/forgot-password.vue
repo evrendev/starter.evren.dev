@@ -8,7 +8,7 @@ import { useAppStore } from "@/stores/app";
 import { useUserStore } from "@/stores/user";
 import { Notify } from "@/stores/notification";
 import RecaptchaButton from "@/views/pages/authentication/RecaptchaButton.vue";
-import logo from "@images/logo.svg?raw";
+import Logo from "@core/components/Logo.vue";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
 import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
 
@@ -85,10 +85,7 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
         :class="$vuetify.display.smAndUp ? 'pa-6' : 'pa-0'"
       >
         <VCardItem class="justify-center">
-          <router-link to="/" class="app-logo">
-            <div class="d-flex" v-html="logo" />
-            <h1 class="app-logo-title" v-text="t('app.title')" />
-          </router-link>
+          <Logo />
         </VCardItem>
 
         <VCardText>

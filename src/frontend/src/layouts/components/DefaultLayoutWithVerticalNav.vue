@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import NavItems from "@/layouts/components/NavItems.vue";
-import logo from "@images/logo.svg?raw";
+import Logo from "@/@core/components/Logo.vue";
 import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue";
 
 // Components
@@ -59,13 +59,7 @@ import UserProfile from "@/layouts/components/UserProfile.vue";
     </template>
 
     <template #vertical-nav-header="{ toggleIsOverlayNavActive }">
-      <router-link to="/" class="app-logo app-title-wrapper">
-        <!-- eslint-disable vue/no-v-html -->
-        <div class="d-flex" v-html="logo" />
-        <!-- eslint-enable -->
-
-        <h1 class="app-logo-title">sneat</h1>
-      </router-link>
+      <Logo class="app-title-wrapper" />
 
       <IconBtn
         class="d-block d-lg-none"
