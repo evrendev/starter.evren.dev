@@ -53,12 +53,12 @@
         "required": "Email is required"
       },
       "back-to-login": "👈 Back to Login",
-      "submit": "Reset Password",
+      "submit": "Send Reset Link",
       "error": "An error occurred during password reset"
     },
     "reset-password": {
       "title": "Reset Password",
-      "welcome": "Welcome to Password Reset",
+      "welcome": "Reset Your Password",
       "subtitle": "Enter your new password",
       "email": {
         "required": "Email is required",

@@ -23,7 +23,7 @@ function toggleAll() {
 </script>
 
 <template>
-  <v-tooltip location="top" text="Notification">
+  <v-tooltip location="top" text="Notification" v-if="notifications.length">
     <template #activator="{ props }">
       <v-btn
         :icon="

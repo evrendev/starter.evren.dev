@@ -116,13 +116,6 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                 />
               </VCol>
               <VCol cols="12">
-                <router-link
-                  class="text-center d-block mt-4"
-                  v-text="t('auth.forgot-password.back-to-login')"
-                  :to="{ name: 'login' }"
-                />
-              </VCol>
-              <VCol cols="12">
                 <recaptcha-button
                   action="submit"
                   button-icon="bx bx-log-in"
@@ -132,6 +125,13 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   :site-key="siteKey"
                   @recaptcha-success="handleRecaptchaSuccess"
                   @recaptcha-error="handleRecaptchaError"
+                />
+              </VCol>
+              <VCol cols="12">
+                <router-link
+                  class="text-center d-block mt-4"
+                  v-text="t('auth.forgot-password.back-to-login')"
+                  :to="{ name: 'login' }"
                 />
               </VCol>
             </VRow>
