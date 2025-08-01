@@ -7,14 +7,13 @@ import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue";
 import Footer from "@/layouts/components/Footer.vue";
 import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue";
 import UserProfile from "@/layouts/components/UserProfile.vue";
+import GoToTop from "@/layouts/components/GoToTop.vue";
 </script>
 
 <template>
   <VerticalNavLayout>
-    <!-- 👉 navbar -->
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
-        <!-- 👉 Vertical nav toggle in overlay mode -->
         <IconBtn
           class="ms-n3 d-lg-none"
           @click="toggleVerticalOverlayNavActive(true)"
@@ -49,12 +48,14 @@ import UserProfile from "@/layouts/components/UserProfile.vue";
       <NavItems />
     </template>
 
-    <!-- 👉 Pages -->
     <slot />
 
-    <!-- 👉 Footer -->
     <template #footer>
       <Footer />
+    </template>
+
+    <template #go-to-top>
+      <GoToTop />
     </template>
   </VerticalNavLayout>
 </template>
