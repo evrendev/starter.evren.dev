@@ -86,5 +86,28 @@
       "error": "An error occurred during password reset",
       "success": "Password successfully reset"
     }
+  },
+  "admin": {
+    "components": {
+      "navbar": {
+        "profile": {
+          "title": "Profile",
+          "logout": "Logout"
+        },
+        "settings": {
+          "title": "Settings",
+          "language": "Language",
+          "theme": "Theme",
+          "darkMode": "Dark Mode",
+          "lightMode": "Light Mode"
+        }
+      },
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "settings": "Settings",
+        "logout": "Logout"
+      }
+    }
   }
 }

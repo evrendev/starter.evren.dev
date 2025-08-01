@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import avatar1 from '@images/avatars/avatar-1.png'
+import { useAuthStore } from "@/stores/auth";
+const { t } = useI18n();
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+const router = useRouter();
+
+const logout = () => {
+  authStore.logout();
+  router.push("/auth/login");
+};
 </script>
 
 <template>
@@ -11,22 +21,10 @@ import avatar1 from '@images/avatars/avatar-1.png'
     color="success"
     bordered
   >
-    <VAvatar
-      class="cursor-pointer"
-      color="primary"
-      variant="tonal"
-    >
-      <VImg :src="avatar1" />
-
-      <!-- SECTION Menu -->
-      <VMenu
-        activator="parent"
-        width="230"
-        location="bottom end"
-        offset="14px"
-      >
+    <VAvatar class="cursor-pointer" color="primary" variant="tonal">
+      {{ user?.initial }}
+      <VMenu activator="parent" width="230" location="bottom end" offset="14px">
         <VList>
-          <!-- 👉 User Avatar & Name -->
           <VListItem>
             <template #prepend>
               <VListItemAction start>
@@ -37,93 +35,43 @@ import avatar1 from '@images/avatars/avatar-1.png'
                   offset-y="3"
                   color="success"
                 >
-                  <VAvatar
-                    color="primary"
-                    variant="tonal"
-                  >
-                    <VImg :src="avatar1" />
+                  <VAvatar color="primary" variant="tonal">
+                    {{ user?.initial }}
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              John Doe
+              {{ user?.fullName }}
             </VListItemTitle>
-            <VListItemSubtitle>Admin</VListItemSubtitle>
+            <VListItemSubtitle>
+              {{ user?.email }}
+            </VListItemSubtitle>
           </VListItem>
           <VDivider class="my-2" />
 
-          <!-- 👉 Profile -->
-          <VListItem link>
+          <VListItem to="/admin/profile">
             <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="bx-user"
-                size="22"
-              />
+              <VIcon class="me-2" icon="bx-user" size="22" />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
+            <VListItemTitle>
+              {{ t("admin.components.navbar.profile.title") }}
+            </VListItemTitle>
           </VListItem>
 
-          <!-- 👉 Settings -->
-          <VListItem link>
+          <VListItem @click="logout">
             <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="bx-cog"
-                size="22"
-              />
+              <VIcon class="me-2" icon="bx-log-out" size="22" />
             </template>
 
-            <VListItemTitle>Settings</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Pricing -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="bx-dollar"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Pricing</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 FAQ -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="bx-help-circle"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>FAQ</VListItemTitle>
-          </VListItem>
-
-          <!-- Divider -->
-          <VDivider class="my-2" />
-
-          <!-- 👉 Logout -->
-          <VListItem to="/login">
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="bx-log-out"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle>Logout</VListItemTitle>
+            <VListItemTitle>
+              {{ t("admin.components.navbar.profile.logout") }}
+            </VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>
-      <!-- !SECTION -->
     </VAvatar>
   </VBadge>
 </template>
