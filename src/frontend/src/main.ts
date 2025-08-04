@@ -7,6 +7,7 @@ import "@styles/styles.scss";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import { useAuthStore } from "./stores/auth";
 
 import App from "./App.vue";
 
@@ -20,4 +21,7 @@ const pinia = createPinia();
 
 app.use(pinia);
 
-app.mount("#app");
+const authStore = useAuthStore();
+authStore.initializeStore().then(() => {
+  app.mount("#app");
+});

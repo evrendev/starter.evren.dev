@@ -72,7 +72,7 @@ export const routes = [
     path: "/auth",
     component: () => import("@/layouts/auth.vue"),
     meta: {
-      requiresAuth: false,
+      requiresGuest: true,
     },
     children: [
       {

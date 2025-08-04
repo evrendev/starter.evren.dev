@@ -11,7 +11,7 @@ const FALLBACK_LANGUAGE =
 
 const i18n = createI18n({
   legacy: false,
-  locale: localStorage.getItem("language") || DEFAULT_LANGUAGE,
+  locale: localStorage.getItem("locale") || DEFAULT_LANGUAGE,
   fallbackLocale: FALLBACK_LANGUAGE,
   messages: {
     en,

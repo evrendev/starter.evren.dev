@@ -1,9 +1,112 @@
 {
-  "welcome": "Vite Vue.js Uygulamanıza Hoş Geldiniz!",
-  "login": "Giriş Yap",
-  "username": "Kullanıcı Adı",
-  "password": "Şifre",
-  "submit": "Gönder",
-  "dashboard": "Kontrol Paneli",
-  "logout": "Çıkış Yap"
+  "app": {
+    "title": "Panel",
+    "description": "Modern bir yönetici paneli şablonu",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "login": {
+      "title": "Giriş Yap",
+      "welcome": "Merhaba, Hoş Geldin! 👋🏻",
+      "subtitle": "Giriş yapmak için e-posta ve şifrenizi girin",
+      "email": {
+        "label": "E-posta",
+        "placeholder": "E-postanızı girin",
+        "invalid": "Geçersiz e-posta adresi",
+        "required": "E-posta gerekli"
+      },
+      "password": {
+        "label": "Şifre",
+        "placeholder": "Şifrenizi girin",
+        "required": "Şifre gerekli"
+      },
+      "recaptcha": {
+        "label": "Ben robot değilim",
+        "required": "Recaptcha gerekli",
+        "invalid": "Recaptcha doğrulaması başarısız"
+      },
+      "rememberMe": "Beni Hatırla",
+      "forgotPassword": "Şifremi Unuttum 🐟",
+      "submit": "Giriş Yap",
+      "error": "Giriş sırasında bir hata oluştu",
+      "success": "Başarıyla giriş yapıldı"
+    },
+    "twoFactorAuth": {
+      "subtitle": "Kimlik doğrulama uygulamasından kodu girin",
+      "label": "Kod",
+      "placeholder": "Kodunuzu girin",
+      "required": "Kod gerekli",
+      "submit": "Doğrula",
+      "code": {
+        "required": "Kod gerekli",
+        "invalid": "Geçersiz kod"
+      }
+    },
+    "forgot-password": {
+      "title": "Şifremi Unuttum 🐟",
+      "welcome": "Şifrenizi mi Unuttunuz?",
+      "subtitle": "Şifrenizi sıfırlamak için e-postanızı girin",
+      "email": {
+        "label": "E-posta",
+        "placeholder": "E-postanızı girin",
+        "invalid": "Geçersiz e-posta adresi",
+        "required": "E-posta gerekli"
+      },
+      "back-to-login": "👈 Girişe Dön",
+      "submit": "Sıfırlama Bağlantısı Gönder",
+      "error": "Şifre sıfırlama sırasında bir hata oluştu"
+    },
+    "reset-password": {
+      "title": "Şifre Sıfırla",
+      "welcome": "Şifrenizi Sıfırlayın",
+      "subtitle": "Yeni şifrenizi girin",
+      "email": {
+        "required": "E-posta gerekli",
+        "invalid": "Geçersiz e-posta adresi"
+      },
+      "token": {
+        "required": "Token gerekli",
+        "invalid": "Geçersiz token"
+      },
+      "password": {
+        "label": "Yeni Şifre",
+        "placeholder": "Yeni şifrenizi girin",
+        "required": "Yeni şifre gerekli",
+        "invalid": "Şifre en az 8 karakter olmalıdır",
+        "min-length": "Şifre en az 8 karakter olmalıdır",
+        "special": "Şifre en az bir özel karakter içermelidir"
+      },
+      "confirm-password": {
+        "label": "Şifre Onayla",
+        "placeholder": "Yeni şifrenizi onaylayın",
+        "required": "Şifre onayı gerekli",
+        "invalid": "Şifreler eşleşmiyor"
+      },
+      "submit": "Şifre Sıfırla",
+      "error": "Şifre sıfırlama sırasında bir hata oluştu",
+      "success": "Şifre başarıyla sıfırlandı"
+    }
+  },
+  "admin": {
+    "components": {
+      "navbar": {
+        "profile": {
+          "title": "Profil",
+          "logout": "Çıkış Yap"
+        },
+        "languages": {
+          "title": "Diller",
+          "en": "İngilizce",
+          "de": "Almanca",
+          "tr": "Türkçe"
+        }
+      },
+      "sidebar": {
+        "dashboard": "Kontrol Paneli",
+        "users": "Kullanıcılar",
+        "settings": "Ayarlar",
+        "logout": "Çıkış Yap"
+      }
+    }
+  }
 }

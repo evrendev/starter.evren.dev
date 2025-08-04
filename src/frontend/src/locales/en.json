@@ -94,12 +94,11 @@
           "title": "Profile",
           "logout": "Logout"
         },
-        "settings": {
-          "title": "Settings",
-          "language": "Language",
-          "theme": "Theme",
-          "darkMode": "Dark Mode",
-          "lightMode": "Light Mode"
+        "languages": {
+          "title": "Languages",
+          "en": "English",
+          "de": "Deutsch",
+          "tr": "Türkçe"
         }
       },
       "sidebar": {
