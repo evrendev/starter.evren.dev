@@ -45,7 +45,6 @@ export default defineConfig({
         "pinia",
         {
           "vue-i18n": ["useI18n", "createI18n"],
-          "@/composables/useLocale": ["useAppLocale"],
         },
       ],
       vueTemplate: true,
