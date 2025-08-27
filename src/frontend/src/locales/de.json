@@ -1,9 +1,117 @@
 {
-  "welcome": "Willkommen zu deiner Vite Vue.js App!",
-  "login": "Anmelden",
-  "username": "Benutzername",
-  "password": "Passwort",
-  "submit": "Absenden",
-  "dashboard": "Dashboard",
-  "logout": "Abmelden"
+  "app": {
+    "title": "Panel",
+    "description": "Eine moderne Admin-Panel-Vorlage",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "login": {
+      "title": "Anmelden",
+      "welcome": "Hallo, willkommen zurück! 👋🏻",
+      "subtitle": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden",
+      "email": {
+        "label": "E-Mail",
+        "placeholder": "Geben Sie Ihre E-Mail ein",
+        "invalid": "Ungültige E-Mail-Adresse",
+        "required": "E-Mail ist erforderlich"
+      },
+      "password": {
+        "label": "Passwort",
+        "placeholder": "Geben Sie Ihr Passwort ein",
+        "required": "Passwort ist erforderlich"
+      },
+      "recaptcha": {
+        "label": "Ich bin kein Roboter",
+        "required": "Recaptcha ist erforderlich",
+        "invalid": "Recaptcha-Verifizierung fehlgeschlagen"
+      },
+      "rememberMe": "Angemeldet bleiben",
+      "forgotPassword": "Passwort vergessen 🐟",
+      "submit": "Anmelden",
+      "error": "Ein Fehler ist beim Anmelden aufgetreten",
+      "success": "Erfolgreich angemeldet"
+    },
+    "twoFactorAuth": {
+      "subtitle": "Geben Sie den Code aus der Authenticator-App ein",
+      "label": "Code",
+      "placeholder": "Geben Sie Ihren Code ein",
+      "required": "Code ist erforderlich",
+      "submit": "Verifizieren",
+      "code": {
+        "required": "Code ist erforderlich",
+        "invalid": "Ungültiger Code"
+      }
+    },
+    "forgot-password": {
+      "title": "Passwort vergessen 🐟",
+      "welcome": "Passwort vergessen?",
+      "subtitle": "Geben Sie Ihre E-Mail ein, um Ihr Passwort zurückzusetzen",
+      "email": {
+        "label": "E-Mail",
+        "placeholder": "Geben Sie Ihre E-Mail ein",
+        "invalid": "Ungültige E-Mail-Adresse",
+        "required": "E-Mail ist erforderlich"
+      },
+      "back-to-login": "👈 Zurück zur Anmeldung",
+      "submit": "Reset-Link senden",
+      "error": "Ein Fehler ist beim Passwort-Reset aufgetreten"
+    },
+    "reset-password": {
+      "title": "Passwort zurücksetzen",
+      "welcome": "Setzen Sie Ihr Passwort zurück",
+      "subtitle": "Geben Sie Ihr neues Passwort ein",
+      "email": {
+        "required": "E-Mail ist erforderlich",
+        "invalid": "Ungültige E-Mail-Adresse"
+      },
+      "token": {
+        "required": "Token ist erforderlich",
+        "invalid": "Ungültiger Token"
+      },
+      "password": {
+        "label": "Neues Passwort",
+        "placeholder": "Geben Sie Ihr neues Passwort ein",
+        "required": "Neues Passwort ist erforderlich",
+        "invalid": "Passwort muss mindestens 8 Zeichen lang sein",
+        "min-length": "Passwort muss mindestens 8 Zeichen lang sein",
+        "special": "Passwort muss mindestens ein Sonderzeichen enthalten"
+      },
+      "confirm-password": {
+        "label": "Passwort bestätigen",
+        "placeholder": "Bestätigen Sie Ihr neues Passwort",
+        "required": "Passwort-Bestätigung ist erforderlich",
+        "invalid": "Passwörter stimmen nicht überein"
+      },
+      "submit": "Passwort zurücksetzen",
+      "error": "Ein Fehler ist beim Passwort-Reset aufgetreten",
+      "success": "Passwort erfolgreich zurückgesetzt"
+    }
+  },
+  "admin": {
+    "components": {
+      "navbar": {
+        "profile": {
+          "title": "Profil",
+          "logout": "Abmelden"
+        },
+        "languages": {
+          "title": "Sprachen",
+          "en": "Englisch",
+          "de": "Deutsch",
+          "tr": "Türkisch"
+        }
+      },
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "documentation": "Dokumentation",
+        "admin": "Admin",
+        "tenants": "Mandanten",
+        "roles": "Rollen",
+        "users": "Benutzer",
+        "others": "Andere",
+        "settings": "Einstellungen",
+        "logout": "Abmelden"
+      }
+    }
+  }
 }

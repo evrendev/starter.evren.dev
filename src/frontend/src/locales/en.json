@@ -103,7 +103,12 @@
       },
       "sidebar": {
         "dashboard": "Dashboard",
+        "documentation": "Documentation",
+        "admin": "Admin",
+        "tenants": "Tenants",
+        "roles": "Roles",
         "users": "Users",
+        "others": "Others",
         "settings": "Settings",
         "logout": "Logout"
       }

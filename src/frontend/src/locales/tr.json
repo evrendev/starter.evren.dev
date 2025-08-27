@@ -103,7 +103,12 @@
       },
       "sidebar": {
         "dashboard": "Kontrol Paneli",
+        "documentation": "Dokümantasyon",
+        "admin": "Yönetici",
+        "tenants": "Kiracılar",
+        "roles": "Roller",
         "users": "Kullanıcılar",
+        "others": "Diğer",
         "settings": "Ayarlar",
         "logout": "Çıkış Yap"
       }
