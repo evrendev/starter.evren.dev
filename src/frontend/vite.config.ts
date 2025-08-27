@@ -1,6 +1,5 @@
 import { fileURLToPath } from "node:url";
 import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
@@ -11,7 +10,7 @@ import svgLoader from "vite-svg-loader";
 export default defineConfig({
   plugins: [
     vue(),
-    vueJsx(),
+    // vueJsx(),
 
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
     vuetify({
@@ -45,6 +44,7 @@ export default defineConfig({
         "pinia",
         {
           "vue-i18n": ["useI18n", "createI18n"],
+          "@/composables/useLocale": ["useAppLocale"],
         },
       ],
       vueTemplate: true,
