@@ -122,13 +122,13 @@ export const useAuthStore = defineStore("auth", () => {
   async function logout(): Promise<Result<string>> {
     try {
       await useHttpClient().post("auth/logout");
+      return Result.success("Logout successful");
     } catch (error) {
       console.error("Logout failed:", error);
+      return Result.failure(AppError.failure("Logout failed"));
     } finally {
       clearStateAndStorage();
     }
-
-    return Result.success("Logout successful");
   }
 
   async function getUserInfo(): Promise<Result<string>> {
@@ -146,7 +146,7 @@ export const useAuthStore = defineStore("auth", () => {
       return Result.failure(AppError.failure(apiError.message));
     }
 
-    return Result.success("Logout successful");
+    return Result.success("User information retrieved successfully");
   }
 
   async function refresh(): Promise<Result<string>> {

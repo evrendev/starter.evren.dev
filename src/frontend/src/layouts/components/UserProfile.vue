@@ -6,9 +6,9 @@ const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 const router = useRouter();
 
-const logout = () => {
-  authStore.logout();
-  router.push("/auth/login");
+const logout = async () => {
+  await authStore.logout();
+  router.replace("/auth/login");
 };
 </script>
 

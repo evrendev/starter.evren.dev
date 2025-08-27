@@ -52,13 +52,12 @@ const [email, emailAttrs] = defineField("email");
 const [password, passwordAttrs] = defineField("password");
 const [rememberMe, rememberMeAttrs] = defineField("rememberMe");
 
-const login = handleSubmit(async (values) => {
+const login = handleSubmit(async (values: LoginRequest) => {
   appStore.setLoading(true);
   const result: Result<AccessTokenResponse> = await authStore.login(values);
 
   if (result.succeeded) {
     appStore.setLoading(false);
-    Notify.success(t("auth.login.success"));
     router.replace({ name: "dashboard" });
   } else {
     appStore.setLoading(false);
