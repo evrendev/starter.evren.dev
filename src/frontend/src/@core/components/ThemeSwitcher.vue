@@ -25,12 +25,22 @@ const changeTheme = (mode: string) => {
 };
 
 // Update icon if theme is changed from other sources
+// Save theme to localStorage and update when changed from other sources
 watch(
   () => globalTheme.name.value,
   (val) => {
     currentThemeName.value = val;
+    localStorage.setItem("theme", val);
   },
 );
+
+// Load theme from localStorage on component mount
+onMounted(() => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme && props.themes.some((t) => t.name === savedTheme)) {
+    changeTheme(savedTheme);
+  }
+});
 </script>
 
 <template>
