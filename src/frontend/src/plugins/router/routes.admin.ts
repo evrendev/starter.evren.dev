@@ -15,9 +15,9 @@ export const adminRoutes = [
         },
       },
       {
-        name: "account-settings",
-        path: "account-settings",
-        component: () => import("@/pages/admin/account-settings.vue"),
+        name: "profile",
+        path: "profile",
+        component: () => import("@/pages/admin/profile.vue"),
       },
       {
         name: "typography",
