@@ -1,28 +1,29 @@
+<script lang="ts" setup>
+const { t } = useI18n();
+</script>
+
 <template>
   <div
     class="h-100 d-flex align-center justify-md-space-between justify-center"
   >
-    <!-- 👉 Footer: left content -->
     <span class="d-flex align-center">
       &copy;
       {{ new Date().getFullYear() }}
-      Made With
-      <VIcon icon="bx-heart" color="error" size="1.25rem" class="mx-1" />
-      By
-      <a
-        href="onar.im"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-primary ms-1"
-        >Onarim GmbH</a
-      >
+      Made with
+      <VIcon icon="bx-heart" color="error" size="1rem" class="mx-1" />
+      in Delmenhorst
     </span>
-    <!-- 👉 Footer: right content -->
+
     <span class="d-md-flex gap-x-4 text-primary d-none">
-      <a href="onar.im/documentation/" target="noopener noreferrer"
-        >Documentation</a
-      >
-      <a href="onar.im/support/" target="noopener noreferrer">Support</a>
+      <router-link :to="{ name: 'home' }">
+        {{ t("admin.components.footer.home") }}
+      </router-link>
+      <a href="https://evren.dev/panel/documentation" target="_blank">
+        {{ t("admin.components.footer.documentation") }}
+      </a>
+      <a href="https://evren.dev/panel/support" target="_blank">
+        {{ t("admin.components.footer.support") }}
+      </a>
     </span>
   </div>
 </template>

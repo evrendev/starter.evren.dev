@@ -111,6 +111,11 @@
         "others": "Others",
         "settings": "Settings",
         "logout": "Logout"
+      },
+      "footer": {
+        "home": "Home",
+        "documentation": "Documentation",
+        "support": "Support"
       }
     }
   }

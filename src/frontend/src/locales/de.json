@@ -111,6 +111,11 @@
         "others": "Andere",
         "settings": "Einstellungen",
         "logout": "Abmelden"
+      },
+      "footer": {
+        "home": "Startseite",
+        "documentation": "Dokumentation",
+        "support": "Support"
       }
     }
   }

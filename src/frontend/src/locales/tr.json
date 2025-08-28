@@ -111,6 +111,11 @@
         "others": "Diğer",
         "settings": "Ayarlar",
         "logout": "Çıkış Yap"
+      },
+      "footer": {
+        "home": "Anasayfa",
+        "documentation": "Dokümantasyon",
+        "support": "Destek"
       }
     }
   }
