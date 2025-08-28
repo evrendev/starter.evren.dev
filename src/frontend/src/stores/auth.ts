@@ -140,7 +140,7 @@ export const useAuthStore = defineStore("auth", () => {
       );
       user.value = Mapper.toUser(data);
       user.value.permissions = permissions.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       user.value = nullUser;
       const apiError = error as AxiosError;
       return Result.failure(AppError.failure(apiError.message));

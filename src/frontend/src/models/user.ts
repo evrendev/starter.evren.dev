@@ -23,7 +23,7 @@ export interface Permission {
   name: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+ 
 export class Permissions {
   public static readonly DashboardView: string = 'Permissions.Dashboard.View'
   public static readonly HangfireView: string = 'Permissions.Hangfire.View'

@@ -1,5 +1,9 @@
 import type { App } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationNormalized,
+} from "vue-router";
 import { routes } from "./routes";
 import { useAuthStore } from "@/stores/auth";
 
@@ -8,7 +12,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeResolve(async (to, _: any, next) => {
+router.beforeResolve(async (to, from: RouteLocationNormalized, next) => {
   const authStore = useAuthStore();
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
