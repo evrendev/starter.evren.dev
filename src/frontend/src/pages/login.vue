@@ -57,8 +57,9 @@ const login = handleSubmit(async (values: LoginRequest) => {
   const result: Result<AccessTokenResponse> = await authStore.login(values);
 
   if (result.succeeded) {
+    Notify.success(t("auth.login.success"));
+    router.push({ name: "dashboard" });
     appStore.setLoading(false);
-    router.replace({ name: "dashboard" });
   } else {
     appStore.setLoading(false);
     Notify.error(result.errors?.message || t("auth.login.error"));

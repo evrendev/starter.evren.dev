@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/auth";
+import { Notify } from "@/stores/notification";
 const { t } = useI18n();
 
 const authStore = useAuthStore();
@@ -7,8 +8,13 @@ const { user } = storeToRefs(authStore);
 const router = useRouter();
 
 const logout = async () => {
-  await authStore.logout();
-  router.replace("/auth/login");
+  const result = await authStore.logout();
+  if (result.succeeded) {
+    router.replace("/auth/login");
+    Notify.success(result.data ?? t("admin.messages.success.loggedOut"));
+  } else {
+    Notify.error(result.data ?? t("admin.messages.errors.unknown"));
+  }
 };
 </script>
 
