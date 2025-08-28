@@ -34,8 +34,10 @@ export const useAuthStore = defineStore("auth", () => {
       : null,
   );
 
-  const isAuthenticated = computed(() => user?.value?.id !== nullUser.id);
-
+  const isAuthenticated = computed(
+    () => !isLoading.value && user?.value?.id !== nullUser.id,
+  );
+  const isLoading = computed(() => user?.value === undefined);
   const permissions = computed(() => user?.value?.permissions ?? []);
 
   /**
@@ -43,12 +45,12 @@ export const useAuthStore = defineStore("auth", () => {
    * @param {string} permission
    * @returns {boolean}
    */
-  function hasPermission(permission: string): boolean {
-    return (
-      (isAuthenticated.value &&
-        user.value?.permissions?.includes(permission)) ??
-      false
-    );
+  function hasPermission(permission: string | string[]): boolean {
+    if (Array.isArray(permission)) {
+      return permission.every((perm) => permissions.value.includes(perm));
+    }
+
+    return permissions.value.includes(permission);
   }
 
   /**
@@ -193,6 +195,7 @@ export const useAuthStore = defineStore("auth", () => {
     user,
     accessToken,
     refreshToken,
+    isLoading,
     // Getters
     isAuthenticated,
     permissions,
