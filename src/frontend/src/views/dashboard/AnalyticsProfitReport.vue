@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useDisplay, useTheme } from 'vuetify'
-import { hexToRgb } from '@core/utils/colorConverter'
+import { useDisplay, useTheme } from "vuetify";
+import { hexToRgb } from "@core/utils/colorConverter";
 
-const vuetifyTheme = useTheme()
-const display = useDisplay()
+const vuetifyTheme = useTheme();
+const display = useDisplay();
 
-const series = [{ data: [30, 58, 35, 53, 50, 68] }]
+const series = [{ data: [30, 58, 35, 53, 50, 68] }];
 
 const chartOptions = computed(() => {
-  const currentTheme = vuetifyTheme.current.value.colors
+  const currentTheme = vuetifyTheme.current.value.colors;
 
   return {
     chart: {
@@ -27,8 +27,8 @@ const chartOptions = computed(() => {
     colors: [`rgba(${hexToRgb(String(currentTheme.warning))}, 1)`],
     stroke: {
       width: 4,
-      curve: 'smooth',
-      lineCap: 'round',
+      curve: "smooth",
+      lineCap: "round",
     },
     grid: {
       show: false,
@@ -52,7 +52,7 @@ const chartOptions = computed(() => {
         options: {
           chart: {
             height: 151,
-            width: '100%',
+            width: "100%",
           },
         },
       },
@@ -61,13 +61,13 @@ const chartOptions = computed(() => {
         options: {
           chart: {
             height: 131,
-            width: '100%',
+            width: "100%",
           },
         },
       },
     ],
-  }
-})
+  };
+});
 </script>
 
 <template>
@@ -75,29 +75,17 @@ const chartOptions = computed(() => {
     <VCardText class="d-flex justify-space-between h-100">
       <div class="d-flex flex-column justify-space-between gap-y-4">
         <div>
-          <h5 class="text-h5 mb-1">
-            Profile Report
-          </h5>
-          <VChip
-            color="warning"
-            size="small"
-          >
-            Year 2022
-          </VChip>
+          <h5 class="text-h5 mb-1">Profile Report</h5>
+          <VChip color="warning" size="small"> Year 2022 </VChip>
         </div>
 
         <div>
           <div class="d-flex gap-1 align-center text-success">
-            <VIcon
-              icon="bx-up-arrow-alt"
-              size="20"
-            />
+            <VIcon icon="bx-up-arrow-alt" size="20" />
             <span class="text-base d-inline-block">68.2%</span>
           </div>
 
-          <h4 class="text-h4">
-            $84,686k
-          </h4>
+          <h4 class="text-h4">$84,686k</h4>
         </div>
       </div>
 

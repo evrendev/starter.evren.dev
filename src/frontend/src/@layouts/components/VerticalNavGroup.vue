@@ -1,37 +1,22 @@
 <script lang="ts" setup>
-import type { NavGroup } from '@layouts/types'
+import type { NavGroup } from "@layouts/types";
 
 defineProps<{
-  item: Omit<NavGroup, 'children'>
-}>()
+  item: Omit<NavGroup, "children">;
+}>();
 
-const isOpen = ref(false)
+const isOpen = ref(false);
 </script>
 
 <template>
-  <li
-    class="nav-group"
-    :class="isOpen && 'open'"
-  >
-    <div
-      class="nav-group-label"
-      @click="isOpen = !isOpen"
-    >
-      <VIcon
-        :icon="item.icon || 'bxs-circle'"
-        class="nav-item-icon"
-      />
+  <li class="nav-group" :class="isOpen && 'open'">
+    <div class="nav-group-label" @click="isOpen = !isOpen">
+      <VIcon :icon="item.icon || 'bxs-circle'" class="nav-item-icon" />
       <span class="nav-item-title">{{ item.title }}</span>
-      <span
-        class="nav-item-badge"
-        :class="item.badgeClass"
-      >
+      <span class="nav-item-badge" :class="item.badgeClass">
         {{ item.badgeContent }}
       </span>
-      <VIcon
-        icon="bx-chevron-right"
-        class="nav-group-arrow"
-      />
+      <VIcon icon="bx-chevron-right" class="nav-group-arrow" />
     </div>
     <div class="nav-group-children-wrapper">
       <ul class="nav-group-children">

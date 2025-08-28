@@ -86,7 +86,10 @@
 
   .v-pagination__list {
     @each $color-name in variables.$theme-colors-name {
-      &:has(.v-pagination__item.v-pagination__item--is-active .v-btn.text-#{$color-name}) {
+      &:has(
+        .v-pagination__item.v-pagination__item--is-active
+          .v-btn.text-#{$color-name}
+      ) {
         .v-pagination__item {
           .v-btn {
             &:hover {
@@ -142,7 +145,10 @@
               &:hover,
               &:active,
               &:focus {
-                @include templateMixins.custom-elevation(var(--v-theme-#{$color-name}), "sm");
+                @include templateMixins.custom-elevation(
+                  var(--v-theme-#{$color-name}),
+                  "sm"
+                );
 
                 color: rgb(var(--v-theme-#{$color-name})) !important;
               }

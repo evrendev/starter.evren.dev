@@ -18,7 +18,10 @@
       .nav-group {
         .nav-link {
           .router-link-exact-active {
-            color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity)) !important;
+            color: rgba(
+              var(--v-theme-on-surface),
+              var(--v-high-emphasis-opacity)
+            ) !important;
 
             &::before {
               color: transparent;

@@ -1,31 +1,31 @@
-import { watchEffect } from 'vue'
-import type { AxiosInstance } from 'axios'
-import { useAuthStore } from '@/stores/auth'
-import http from '@/utils/http'
+import { watchEffect } from "vue";
+import type { AxiosInstance } from "axios";
+import { useAuthStore } from "@/stores/auth";
+import http from "@/utils/http";
 
-let retryCount: number = 0
-const MAX_RETRIES = 3
+let retryCount: number = 0;
+const MAX_RETRIES = 3;
 
 export function useHttpClient(): AxiosInstance {
-  const authStore = useAuthStore()
+  const authStore = useAuthStore();
 
   watchEffect(() => {
     http.interceptors.request.use(
       async (config) => {
-        if (!config.headers['Authorization']) {
-          config.headers['Authorization'] = `Bearer ${authStore.accessToken}`
+        if (!config.headers["Authorization"]) {
+          config.headers["Authorization"] = `Bearer ${authStore.accessToken}`;
         }
-        return config
+        return config;
       },
       (error) => {
-        console.error('Failed to set token', error)
+        console.error("Failed to set token", error);
       },
-    )
+    );
 
     http.interceptors.response.use(
       (response) => response,
       async (error) => {
-        const prevRequest = error?.config
+        const prevRequest = error?.config;
         if (
           (error?.response?.status === 403 ||
             error?.response?.status === 401) &&
@@ -33,32 +33,32 @@ export function useHttpClient(): AxiosInstance {
           authStore.refreshToken.length > 0
         ) {
           if (retryCount >= MAX_RETRIES) {
-            window.location.href = '/auth/login'
-            return Promise.reject(error)
+            window.location.href = "/auth/login";
+            return Promise.reject(error);
           }
 
-          prevRequest._retry = true
-          retryCount += 1
+          prevRequest._retry = true;
+          retryCount += 1;
 
           try {
-            const result = await authStore.refresh()
+            const result = await authStore.refresh();
             if (result.succeeded) {
-              prevRequest.headers['Authorization'] =
-                `Bearer ${authStore.accessToken}`
-              retryCount = 0
-              return http(prevRequest)
+              prevRequest.headers["Authorization"] =
+                `Bearer ${authStore.accessToken}`;
+              retryCount = 0;
+              return http(prevRequest);
             } else {
-              return Promise.reject(error)
+              return Promise.reject(error);
             }
           } catch (error) {
-            return Promise.reject(error)
+            return Promise.reject(error);
           }
         }
 
-        return Promise.reject(error)
+        return Promise.reject(error);
       },
-    )
-  })
+    );
+  });
 
-  return http
+  return http;
 }

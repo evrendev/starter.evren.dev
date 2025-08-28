@@ -1,20 +1,16 @@
 <script lang="ts" setup>
-const firstName = ref('')
-const email = ref('')
-const mobile = ref<number>()
-const password = ref<string>()
-const checkbox = ref(false)
+const firstName = ref("");
+const email = ref("");
+const mobile = ref<number>();
+const password = ref<string>();
+const checkbox = ref(false);
 </script>
 
 <template>
   <VForm @submit.prevent="() => {}">
     <VRow>
       <VCol cols="12">
-        <VTextField
-          v-model="firstName"
-          label="First Name"
-          placeholder="John"
-        />
+        <VTextField v-model="firstName" label="First Name" placeholder="John" />
       </VCol>
 
       <VCol cols="12">
@@ -46,27 +42,13 @@ const checkbox = ref(false)
       </VCol>
 
       <VCol cols="12">
-        <VCheckbox
-          v-model="checkbox"
-          label="Remember me"
-        />
+        <VCheckbox v-model="checkbox" label="Remember me" />
       </VCol>
 
-      <VCol
-        cols="12"
-        class="d-flex gap-4"
-      >
-        <VBtn type="submit">
-          Submit
-        </VBtn>
+      <VCol cols="12" class="d-flex gap-4">
+        <VBtn type="submit"> Submit </VBtn>
 
-        <VBtn
-          type="reset"
-          color="secondary"
-          variant="tonal"
-        >
-          Reset
-        </VBtn>
+        <VBtn type="reset" color="secondary" variant="tonal"> Reset </VBtn>
       </VCol>
     </VRow>
   </VForm>

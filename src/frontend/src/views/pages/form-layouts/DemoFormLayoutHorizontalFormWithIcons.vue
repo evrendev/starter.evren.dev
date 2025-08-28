@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-const firstName = ref('')
-const email = ref('')
-const mobile = ref<number>()
-const password = ref<string>()
-const checkbox = ref(false)
+const firstName = ref("");
+const email = ref("");
+const mobile = ref<number>();
+const password = ref<string>();
+const checkbox = ref(false);
 </script>
 
 <template>
@@ -12,17 +12,11 @@ const checkbox = ref(false)
       <!-- 👉 First Name -->
       <VCol cols="12">
         <VRow no-gutters>
-          <VCol
-            cols="12"
-            md="3"
-          >
+          <VCol cols="12" md="3">
             <label for="firstNameHorizontalIcons">First Name</label>
           </VCol>
 
-          <VCol
-            cols="12"
-            md="9"
-          >
+          <VCol cols="12" md="9">
             <VTextField
               id="firstNameHorizontalIcons"
               v-model="firstName"
@@ -37,17 +31,11 @@ const checkbox = ref(false)
       <!-- 👉 Email -->
       <VCol cols="12">
         <VRow no-gutters>
-          <VCol
-            cols="12"
-            md="3"
-          >
+          <VCol cols="12" md="3">
             <label for="emailHorizontalIcons">Email</label>
           </VCol>
 
-          <VCol
-            cols="12"
-            md="9"
-          >
+          <VCol cols="12" md="9">
             <VTextField
               id="emailHorizontalIcons"
               v-model="email"
@@ -62,17 +50,11 @@ const checkbox = ref(false)
       <!-- 👉 Mobile -->
       <VCol cols="12">
         <VRow no-gutters>
-          <VCol
-            cols="12"
-            md="3"
-          >
+          <VCol cols="12" md="3">
             <label for="mobileHorizontalIcons">Mobile</label>
           </VCol>
 
-          <VCol
-            cols="12"
-            md="9"
-          >
+          <VCol cols="12" md="9">
             <VTextField
               id="mobileHorizontalIcons"
               v-model="mobile"
@@ -88,17 +70,11 @@ const checkbox = ref(false)
       <!-- 👉 Password -->
       <VCol cols="12">
         <VRow no-gutters>
-          <VCol
-            cols="12"
-            md="3"
-          >
+          <VCol cols="12" md="3">
             <label for="passwordHorizontalIcons">Password</label>
           </VCol>
 
-          <VCol
-            cols="12"
-            md="9"
-          >
+          <VCol cols="12" md="9">
             <VTextField
               id="passwordHorizontalIcons"
               v-model="password"
@@ -115,18 +91,9 @@ const checkbox = ref(false)
       <!-- 👉 Remember me -->
       <VCol cols="12">
         <VRow no-gutters>
-          <VCol
-            cols="12"
-            md="3"
-          />
-          <VCol
-            cols="12"
-            md="9"
-          >
-            <VCheckbox
-              v-model="checkbox"
-              label="Remember me"
-            />
+          <VCol cols="12" md="3" />
+          <VCol cols="12" md="9">
+            <VCheckbox v-model="checkbox" label="Remember me" />
           </VCol>
         </VRow>
       </VCol>
@@ -134,27 +101,10 @@ const checkbox = ref(false)
       <!-- 👉 submit and reset button -->
       <VCol cols="12">
         <VRow no-gutters>
-          <VCol
-            cols="12"
-            md="3"
-          />
-          <VCol
-            cols="12"
-            md="9"
-          >
-            <VBtn
-              type="submit"
-              class="me-4"
-            >
-              Submit
-            </VBtn>
-            <VBtn
-              color="secondary"
-              variant="tonal"
-              type="reset"
-            >
-              Reset
-            </VBtn>
+          <VCol cols="12" md="3" />
+          <VCol cols="12" md="9">
+            <VBtn type="submit" class="me-4"> Submit </VBtn>
+            <VBtn color="secondary" variant="tonal" type="reset"> Reset </VBtn>
           </VCol>
         </VRow>
       </VCol>

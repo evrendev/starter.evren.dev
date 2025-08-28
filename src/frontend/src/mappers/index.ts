@@ -1,5 +1,5 @@
-import type { User } from '@/models/user'
-import type { UserResponse } from '@/responses/auth'
+import type { User } from "@/models/user";
+import type { UserResponse } from "@/responses/auth";
 
 const Mapper = {
   toUser(value: UserResponse): User {
@@ -13,8 +13,8 @@ const Mapper = {
       initial: value.initial,
       email: value.email,
       twoFactorEnabled: value.twoFactorEnabled,
-    }
+    };
   },
-}
+};
 
-export default Mapper
+export default Mapper;

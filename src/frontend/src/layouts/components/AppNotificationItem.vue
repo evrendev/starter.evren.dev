@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { useTimeoutFn } from '@vueuse/core'
-import type { Notification } from '@/stores/notification'
+import { useTimeoutFn } from "@vueuse/core";
+import type { Notification } from "@/stores/notification";
 
 const props = withDefaults(
   defineProps<{
-    timeout?: number
-    notification: Notification
+    timeout?: number;
+    notification: Notification;
   }>(),
   { timeout: 5000 },
-)
-const emit = defineEmits(['close'])
-const isShow = defineModel<boolean>({ default: false })
-const timeout = toRef(props, 'timeout')
+);
+const emit = defineEmits(["close"]);
+const isShow = defineModel<boolean>({ default: false });
+const timeout = toRef(props, "timeout");
 const { start, stop } = useTimeoutFn(() => (isShow.value = false), timeout, {
   immediate: false,
-})
-watch(timeout, (v) => (v !== -1 ? start() : stop()), { immediate: true })
-const showAll = computed(() => timeout.value === -1)
+});
+watch(timeout, (v) => (v !== -1 ? start() : stop()), { immediate: true });
+const showAll = computed(() => timeout.value === -1);
 </script>
 
 <template>

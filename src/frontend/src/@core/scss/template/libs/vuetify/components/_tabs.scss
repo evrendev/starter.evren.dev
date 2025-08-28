@@ -8,12 +8,14 @@
 
     &:not(.v-tabs-pill) {
       block-size: 100%;
-      border-inline-end: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+      border-inline-end: 1px solid
+        rgba(var(--v-border-color), var(--v-border-opacity));
     }
   }
 
   &.v-tabs--horizontal:not(.v-tabs-pill) {
-    border-block-end: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-block-end: 1px solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
 
     .v-tab__slider {
       block-size: 3px;
@@ -72,7 +74,10 @@
 
   @each $color-name in variables.$theme-colors-name {
     .v-tab-item--selected.v-tab--selected.text-#{$color-name} {
-      @include templateMixins.custom-elevation(var(--v-theme-#{$color-name}), "sm");
+      @include templateMixins.custom-elevation(
+        var(--v-theme-#{$color-name}),
+        "sm"
+      );
 
       background-color: rgba(var(--v-theme-#{$color-name}));
       color: rgb(var(--v-theme-on-primary)) !important;
@@ -88,7 +93,10 @@
 
   .v-tab.v-btn:not(.v-tab--selected) {
     &:hover {
-      background-color: rgba(var(--v-theme-primary), var(--v-activated-opacity));
+      background-color: rgba(
+        var(--v-theme-primary),
+        var(--v-activated-opacity)
+      );
     }
   }
 }

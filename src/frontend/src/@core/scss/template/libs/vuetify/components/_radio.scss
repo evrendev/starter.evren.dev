@@ -19,7 +19,9 @@
         .v-selection-control__input {
           /* ℹ️ Using filter: drop-shadow() instead of box-shadow because box-shadow creates white background for SVG; */
           .v-icon {
-            filter: drop-shadow(0 2px 4px rgba(var(--v-theme-#{$color-name}), 0.4));
+            filter: drop-shadow(
+              0 2px 4px rgba(var(--v-theme-#{$color-name}), 0.4)
+            );
           }
         }
       }

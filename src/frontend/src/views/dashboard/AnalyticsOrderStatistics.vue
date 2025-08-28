@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useTheme } from 'vuetify'
-import { hexToRgb } from '@core/utils/colorConverter'
+import { useTheme } from "vuetify";
+import { hexToRgb } from "@core/utils/colorConverter";
 
-const vuetifyTheme = useTheme()
+const vuetifyTheme = useTheme();
 
-const series = [45, 80, 20, 40]
+const series = [45, 80, 20, 40];
 
 const chartOptions = computed(() => {
-  const currentTheme = vuetifyTheme.current.value.colors
-  const variableTheme = vuetifyTheme.current.value.variables
+  const currentTheme = vuetifyTheme.current.value.colors;
+  const variableTheme = vuetifyTheme.current.value.variables;
 
-  const secondaryTextColor = `rgba(${hexToRgb(String(currentTheme['on-surface']))},${variableTheme['medium-emphasis-opacity']})`
-  const primaryTextColor = `rgba(${hexToRgb(String(currentTheme['on-surface']))},${variableTheme['high-emphasis-opacity']})`
+  const secondaryTextColor = `rgba(${hexToRgb(String(currentTheme["on-surface"]))},${variableTheme["medium-emphasis-opacity"]})`;
+  const primaryTextColor = `rgba(${hexToRgb(String(currentTheme["on-surface"]))},${variableTheme["high-emphasis-opacity"]})`;
 
   return {
     chart: {
@@ -25,7 +25,7 @@ const chartOptions = computed(() => {
     legend: { show: false },
     tooltip: { enabled: false },
     dataLabels: { enabled: false },
-    labels: ['Fashion', 'Electronic', 'Sports', 'Decor'],
+    labels: ["Fashion", "Electronic", "Sports", "Decor"],
     colors: [
       currentTheme.success,
       currentTheme.primary,
@@ -40,92 +40,90 @@ const chartOptions = computed(() => {
     },
     states: {
       hover: {
-        filter: { type: 'none' },
+        filter: { type: "none" },
       },
       active: {
-        filter: { type: 'none' },
+        filter: { type: "none" },
       },
     },
     plotOptions: {
       pie: {
         expandOnClick: false,
         donut: {
-          size: '75%',
+          size: "75%",
           labels: {
             show: true,
             name: {
               offsetY: 17,
-              fontSize: '13px',
+              fontSize: "13px",
               color: secondaryTextColor,
-              fontFamily: 'Public Sans',
+              fontFamily: "Public Sans",
             },
             value: {
               offsetY: -17,
-              fontSize: '18px',
+              fontSize: "18px",
               color: primaryTextColor,
-              fontFamily: 'Public Sans',
+              fontFamily: "Public Sans",
               fontWeight: 500,
             },
             total: {
               show: true,
-              label: 'Weekly',
-              fontSize: '13px',
-              lineHeight: '18px',
-              formatter: () => '38%',
+              label: "Weekly",
+              fontSize: "13px",
+              lineHeight: "18px",
+              formatter: () => "38%",
               color: secondaryTextColor,
-              fontFamily: 'Public Sans',
+              fontFamily: "Public Sans",
             },
           },
         },
       },
     },
-  }
-})
+  };
+});
 
 const orders = [
   {
-    amount: '82.5k',
-    title: 'Electronic',
-    avatarColor: 'primary',
-    subtitle: 'Mobile, Earbuds, TV',
-    avatarIcon: 'bx-mobile-alt',
+    amount: "82.5k",
+    title: "Electronic",
+    avatarColor: "primary",
+    subtitle: "Mobile, Earbuds, TV",
+    avatarIcon: "bx-mobile-alt",
   },
   {
-    amount: '23.8k',
-    title: 'Fashion',
-    avatarColor: 'success',
-    subtitle: 'Tshirt, Jeans, Shoes',
-    avatarIcon: 'bx-closet',
+    amount: "23.8k",
+    title: "Fashion",
+    avatarColor: "success",
+    subtitle: "Tshirt, Jeans, Shoes",
+    avatarIcon: "bx-closet",
   },
   {
     amount: 849,
-    title: 'Decor',
-    avatarColor: 'info',
-    subtitle: 'Fine Art, Dining',
-    avatarIcon: 'bx-home',
+    title: "Decor",
+    avatarColor: "info",
+    subtitle: "Fine Art, Dining",
+    avatarIcon: "bx-home",
   },
   {
     amount: 99,
-    title: 'Sports',
-    avatarColor: 'secondary',
-    subtitle: 'Football, Cricket Kit',
-    avatarIcon: 'bx-football',
+    title: "Sports",
+    avatarColor: "secondary",
+    subtitle: "Football, Cricket Kit",
+    avatarIcon: "bx-football",
   },
-]
+];
 
 const moreList = [
-  { title: 'Share', value: 'Share' },
-  { title: 'Refresh', value: 'Refresh' },
-  { title: 'Update', value: 'Update' },
-]
+  { title: "Share", value: "Share" },
+  { title: "Refresh", value: "Refresh" },
+  { title: "Update", value: "Update" },
+];
 </script>
 
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>
-        Order Statistics
-      </VCardTitle>
+      <VCardTitle> Order Statistics </VCardTitle>
       <VCardSubtitle>42.82k Total Sales</VCardSubtitle>
 
       <template #append>
@@ -136,12 +134,8 @@ const moreList = [
     <VCardText>
       <div class="d-flex align-center justify-space-between mb-6">
         <div class="">
-          <h3 class="text-h3 mb-1">
-            8,258
-          </h3>
-          <div class="text-caption text-medium-emphasis">
-            Total Orders
-          </div>
+          <h3 class="text-h3 mb-1">8,258</h3>
+          <div class="text-caption text-medium-emphasis">Total Orders</div>
         </div>
 
         <div>
@@ -156,10 +150,7 @@ const moreList = [
       </div>
 
       <VList class="card-list">
-        <VListItem
-          v-for="order in orders"
-          :key="order.title"
-        >
+        <VListItem v-for="order in orders" :key="order.title">
           <template #prepend>
             <VAvatar
               size="40"

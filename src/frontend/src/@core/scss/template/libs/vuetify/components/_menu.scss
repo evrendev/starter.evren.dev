@@ -25,7 +25,9 @@
         }
       }
 
-      .v-list-item--density-default:not(.v-list-item--nav).v-list-item--one-line {
+      .v-list-item--density-default:not(
+          .v-list-item--nav
+        ).v-list-item--one-line {
         padding-block: 0.5rem;
       }
     }

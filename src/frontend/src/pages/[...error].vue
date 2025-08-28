@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import misc404 from '@images/pages/404.png'
+import misc404 from "@images/pages/404.png";
 </script>
 
 <template>
@@ -10,12 +10,7 @@ import misc404 from '@images/pages/404.png'
       description="We couldn't find the page you are looking for."
     />
 
-    <VBtn
-      to="/"
-      class="mb-6"
-    >
-      Back to Home
-    </VBtn>
+    <VBtn to="/" class="mb-6"> Back to Home </VBtn>
 
     <!-- 👉 Image -->
     <div class="misc-avatar w-100 text-center">

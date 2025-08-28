@@ -30,14 +30,10 @@
   $start-at: string.index(#{$var}, " ");
 
   @if $start-at {
-    @return string.slice(
-      #{$var},
-      0,
-      $start-at
-    );
+    @return string.slice(#{$var}, 0, $start-at);
   }
   /* stylelint-disable-next-line @stylistic/indentation */
- @else {
+  @else {
     @return $var;
   }
 }

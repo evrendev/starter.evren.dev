@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useTheme } from 'vuetify'
-import { hexToRgb } from '@core/utils/colorConverter'
+import { useTheme } from "vuetify";
+import { hexToRgb } from "@core/utils/colorConverter";
 
-const vuetifyTheme = useTheme()
+const vuetifyTheme = useTheme();
 
-const series = [{ data: [23, 81, 70, 31, 99, 46, 73] }]
+const series = [{ data: [23, 81, 70, 31, 99, 46, 73] }];
 
 const chartOptions = computed(() => {
-  const currentTheme = vuetifyTheme.current.value.colors
-  const variableTheme = vuetifyTheme.current.value.variables
-  const disabledText = `rgba(${hexToRgb(String(currentTheme['on-surface']))},${variableTheme['disabled-opacity']})`
+  const currentTheme = vuetifyTheme.current.value.colors;
+  const variableTheme = vuetifyTheme.current.value.variables;
+  const disabledText = `rgba(${hexToRgb(String(currentTheme["on-surface"]))},${variableTheme["disabled-opacity"]})`;
 
   return {
     chart: {
@@ -22,9 +22,9 @@ const chartOptions = computed(() => {
       bar: {
         borderRadius: 2,
         distributed: true,
-        columnWidth: '65%',
-        endingShape: 'rounded',
-        startingShape: 'rounded',
+        columnWidth: "65%",
+        endingShape: "rounded",
+        startingShape: "rounded",
       },
     },
     legend: { show: false },
@@ -41,23 +41,23 @@ const chartOptions = computed(() => {
     ],
     states: {
       hover: {
-        filter: { type: 'none' },
+        filter: { type: "none" },
       },
       active: {
-        filter: { type: 'none' },
+        filter: { type: "none" },
       },
     },
     xaxis: {
-      categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+      categories: ["M", "T", "W", "T", "F", "S", "S"],
       axisTicks: { show: false },
       axisBorder: { show: false },
-      tickPlacement: 'on',
+      tickPlacement: "on",
       offsetY: -10,
       labels: {
         style: {
-          fontSize: '11px',
+          fontSize: "11px",
           colors: disabledText,
-          fontFamily: 'Public Sans',
+          fontFamily: "Public Sans",
         },
       },
     },
@@ -71,19 +71,15 @@ const chartOptions = computed(() => {
         bottom: -3,
       },
     },
-  }
-})
+  };
+});
 </script>
 
 <template>
   <VCard>
     <VCardText class="pb-0">
-      <div class="text-base">
-        Revenue
-      </div>
-      <h4 class="text-h4 font-weight-medium">
-        425k
-      </h4>
+      <div class="text-base">Revenue</div>
+      <h4 class="text-h4 font-weight-medium">425k</h4>
     </VCardText>
 
     <VueApexCharts

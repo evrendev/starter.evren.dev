@@ -45,7 +45,6 @@
       box-shadow: 0 0 0 0.1875rem rgb(var(--v-theme-on-surface-variant));
 
       @each $color-name in variables.$theme-colors-name {
-
         &.bg-#{$color-name} {
           box-shadow: 0 0 0 0.1875rem rgba(var(--v-theme-#{$color-name}), 0.12);
         }
@@ -62,7 +61,8 @@
       }
 
       .v-timeline-divider__after {
-        border: 1.5px dashed rgba(var(--v-border-color), var(--v-border-opacity));
+        border: 1.5px dashed
+          rgba(var(--v-border-color), var(--v-border-opacity));
         background: none;
       }
 
@@ -73,7 +73,12 @@
   }
 
   // we have to override the default bg-color of the timeline dot in the card
-  .v-card:not(.v-card--variant-text, .v-card--variant-plain, .v-card--variant-outlined) & {
+  .v-card:not(
+      .v-card--variant-text,
+      .v-card--variant-plain,
+      .v-card--variant-outlined
+    )
+    & {
     &.v-timeline-icon-only {
       .v-timeline-divider__dot {
         .v-timeline-divider__inner-dot {

@@ -14,7 +14,9 @@
       margin-inline-start: -0.8rem;
     }
 
-    transition: transform 0.25s ease, box-shadow 0.15s ease;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.15s ease;
 
     &:hover {
       z-index: 2;
@@ -90,7 +92,10 @@
   .v-dialog-close-btn {
     position: absolute;
     z-index: 1;
-    color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity)) !important;
+    color: rgba(
+      var(--v-theme-on-surface),
+      var(--v-disabled-opacity)
+    ) !important;
     inset-block-start: 0.5rem;
     inset-inline-end: 0.5rem;
 
@@ -142,7 +147,8 @@
 
   .v-expansion-panel-title {
     background-color: rgb(var(--v-theme-expansion-panel-text-custom-bg));
-    border-block-end: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-block-end: 1px solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
     margin-block-end: -1px;
   }
 
@@ -186,6 +192,8 @@
 }
 
 // 👉 Switch
-.v-switch .v-selection-control:not(.v-selection-control--dirty) .v-switch__thumb {
+.v-switch
+  .v-selection-control:not(.v-selection-control--dirty)
+  .v-switch__thumb {
   color: #fff !important;
 }

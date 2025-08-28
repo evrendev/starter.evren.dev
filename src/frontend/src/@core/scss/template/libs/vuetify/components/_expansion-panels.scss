@@ -51,7 +51,8 @@ body .v-layout .v-application__wrap .v-expansion-panels {
 
     .v-expansion-panel-title {
       background-color: rgb(var(--v-theme-grey-light));
-      border-block-end: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+      border-block-end: 1px solid
+        rgba(var(--v-border-color), var(--v-border-opacity));
       margin-block-end: -1px;
     }
 

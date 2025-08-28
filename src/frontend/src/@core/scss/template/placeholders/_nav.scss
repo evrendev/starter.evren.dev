@@ -24,7 +24,10 @@
 %nav-link-nested-active {
   background-color: transparent !important;
   box-shadow: none;
-  color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity)) !important;
+  color: rgba(
+    var(--v-theme-on-surface),
+    var(--v-high-emphasis-opacity)
+  ) !important;
 
   // style for nested dot icon
   .nav-item-icon {

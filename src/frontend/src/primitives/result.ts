@@ -1,33 +1,33 @@
-import type { AppError } from './error'
+import type { AppError } from "./error";
 
 export class Result<T> {
-  public readonly data?: T
-  public readonly succeeded: boolean
-  public readonly errors?: AppError
+  public readonly data?: T;
+  public readonly succeeded: boolean;
+  public readonly errors?: AppError;
 
   private constructor(data?: T, errors?: AppError) {
     if (errors) {
-      this.errors = errors
-      this.succeeded = false
+      this.errors = errors;
+      this.succeeded = false;
     } else {
-      this.data = data
-      this.succeeded = true
+      this.data = data;
+      this.succeeded = true;
     }
   }
 
   public static success<T>(data: T): Result<T> {
-    return new Result<T>(data)
+    return new Result<T>(data);
   }
 
   public static failure<T>(errors: AppError): Result<T> {
-    return new Result<T>(undefined, errors)
+    return new Result<T>(undefined, errors);
   }
 
   public static create<T>(data: T): Result<T> {
-    return new Result<T>(data)
+    return new Result<T>(data);
   }
 
   public get isFailure(): boolean {
-    return !this.succeeded
+    return !this.succeeded;
   }
 }

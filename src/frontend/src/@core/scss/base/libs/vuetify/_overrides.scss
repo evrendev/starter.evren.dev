@@ -203,7 +203,10 @@ body,
 // 👉 Overlay
 .v-overlay__scrim,
 .v-navigation-drawer__scrim {
-  background: rgba(var(--v-overlay-scrim-background), var(--v-overlay-scrim-opacity)) !important;
+  background: rgba(
+    var(--v-overlay-scrim-background),
+    var(--v-overlay-scrim-opacity)
+  ) !important;
   opacity: 1 !important;
 }
 
@@ -250,7 +253,10 @@ body,
     & input::placeholder,
     input#{&}::placeholder,
     textarea#{&}::placeholder {
-      color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity)) !important;
+      color: rgba(
+        var(--v-theme-on-surface),
+        var(--v-disabled-opacity)
+      ) !important;
       opacity: 1 !important;
     }
   }

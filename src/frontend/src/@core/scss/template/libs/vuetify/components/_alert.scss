@@ -42,7 +42,6 @@ $alert-prepend-icon-font-size: 1.125rem !important;
 
 @each $color-name in variables.$theme-colors-name {
   .v-alert {
-
     &:not(.v-alert--prominent).text-#{$color-name},
     &:not(.v-alert--prominent).bg-#{$color-name} {
       .v-alert__prepend {
