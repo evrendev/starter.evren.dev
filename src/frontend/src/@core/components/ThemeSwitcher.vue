@@ -6,7 +6,11 @@ const props = defineProps<{
   themes: ThemeSwitcherTheme[];
 }>();
 
-const { name: themeName, global: globalTheme } = useTheme();
+const {
+  name: themeName,
+  global: globalTheme,
+  change: changeVuetifyTheme,
+} = useTheme();
 const {
   state: currentThemeName,
   next: getNextThemeName,
@@ -16,8 +20,8 @@ const {
   { initialValue: themeName },
 );
 
-const changeTheme = () => {
-  globalTheme.name.value = getNextThemeName();
+const changeTheme = (mode: string) => {
+  changeVuetifyTheme(mode);
 };
 
 // Update icon if theme is changed from other sources
@@ -30,7 +34,7 @@ watch(
 </script>
 
 <template>
-  <IconBtn @click="changeTheme">
+  <IconBtn @click="changeTheme(getNextThemeName())">
     <VIcon :icon="props.themes[currentThemeIndex].icon" />
     <VTooltip activator="parent" open-delay="1000" scroll-strategy="close">
       <span class="text-capitalize">{{ currentThemeName }}</span>
