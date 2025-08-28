@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { hasPermission } from "@/utils/permission";
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 const { t } = useI18n();
 import VerticalNavSectionTitle from "@/@layouts/components/VerticalNavSectionTitle.vue";
 import VerticalNavGroup from "@layouts/components/VerticalNavGroup.vue";
@@ -13,7 +14,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
       icon: 'bx-home',
       to: '/admin',
     }"
-    v-show="hasPermission('Permissions.Dashboard.View')"
+    v-show="authStore.hasPermission('Permissions.Dashboard.View')"
   />
 
   <vertical-nav-section-title
@@ -28,7 +29,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
       icon: 'bx-user',
     }"
     v-show="
-      hasPermission([
+      authStore.hasPermission([
         'Permissions.Tenants.View',
         'Permissions.Roles.View',
         'Permissions.Users.View',
@@ -40,7 +41,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
         title: t('admin.components.sidebar.tenants'),
         to: '/admin/admin/tenants',
       }"
-      v-show="hasPermission('Permissions.Tenants.View')"
+      v-show="authStore.hasPermission('Permissions.Tenants.View')"
     />
 
     <vertical-nav-link
@@ -48,7 +49,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
         title: t('admin.components.sidebar.roles'),
         to: '/admin/admin/roles',
       }"
-      v-show="hasPermission('Permissions.Roles.View')"
+      v-show="authStore.hasPermission('Permissions.Roles.View')"
     />
 
     <vertical-nav-link
@@ -56,7 +57,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
         title: t('admin.components.sidebar.users'),
         to: '/admin/admin/users',
       }"
-      v-show="hasPermission('Permissions.Users.View')"
+      v-show="authStore.hasPermission('Permissions.Users.View')"
     />
   </vertical-nav-group>
 
