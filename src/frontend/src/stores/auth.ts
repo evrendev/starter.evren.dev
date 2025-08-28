@@ -34,10 +34,7 @@ export const useAuthStore = defineStore("auth", () => {
       : null,
   );
 
-  const isAuthenticated = computed(
-    () => !isLoading.value && user?.value?.id !== nullUser.id,
-  );
-  const isLoading = computed(() => user?.value === undefined);
+  const isAuthenticated = computed(() => user?.value?.id !== nullUser.id);
 
   /**
    * Checks if the user has a specific permission.
@@ -198,7 +195,6 @@ export const useAuthStore = defineStore("auth", () => {
     refreshToken,
     // Getters
     isAuthenticated,
-    isLoading,
     // Actions
     login,
     logout,
