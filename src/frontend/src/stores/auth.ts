@@ -36,6 +36,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   const isAuthenticated = computed(() => user?.value?.id !== nullUser.id);
 
+  const permissions = computed(() => user?.value?.permissions ?? []);
+
   /**
    * Checks if the user has a specific permission.
    * @param {string} permission
@@ -153,8 +155,6 @@ export const useAuthStore = defineStore("auth", () => {
           "auth/refresh-token",
         );
 
-      console.log("Refresh token response:", data);
-
       if (data.status !== 200 || !data.data) {
         await logout();
         return Result.failure(AppError.failure("Could not refresh token"));
@@ -195,6 +195,7 @@ export const useAuthStore = defineStore("auth", () => {
     refreshToken,
     // Getters
     isAuthenticated,
+    permissions,
     // Actions
     login,
     logout,
