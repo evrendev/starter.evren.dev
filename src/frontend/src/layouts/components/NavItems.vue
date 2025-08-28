@@ -12,7 +12,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
     :item="{
       title: t('admin.components.sidebar.dashboard'),
       icon: 'bx-home',
-      to: '/admin',
+      to: { name: 'dashboard' },
     }"
     v-show="authStore.hasPermission('Permissions.Dashboard.View')"
   />
@@ -39,7 +39,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
     <vertical-nav-link
       :item="{
         title: t('admin.components.sidebar.tenants'),
-        to: '/admin/admin/tenants',
+        to: { name: 'tenants' },
       }"
       v-show="authStore.hasPermission('Permissions.Tenants.View')"
     />
@@ -47,7 +47,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
     <vertical-nav-link
       :item="{
         title: t('admin.components.sidebar.roles'),
-        to: '/admin/admin/roles',
+        to: { name: 'roles' },
       }"
       v-show="authStore.hasPermission('Permissions.Roles.View')"
     />
@@ -55,7 +55,7 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
     <vertical-nav-link
       :item="{
         title: t('admin.components.sidebar.users'),
-        to: '/admin/admin/users',
+        to: { name: 'users' },
       }"
       v-show="authStore.hasPermission('Permissions.Users.View')"
     />

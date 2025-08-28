@@ -15,6 +15,30 @@ export const adminRoutes = [
         },
       },
       {
+        name: "tenants",
+        path: "tenants",
+        component: () => import("@/pages/admin/tenants.vue"),
+        meta: {
+          requiresPermission: "Permissions.Tenants.View",
+        },
+      },
+      {
+        name: "roles",
+        path: "roles",
+        component: () => import("@/pages/admin/roles.vue"),
+        meta: {
+          requiresPermission: "Permissions.Roles.View",
+        },
+      },
+      {
+        name: "users",
+        path: "users",
+        component: () => import("@/pages/admin/users.vue"),
+        meta: {
+          requiresPermission: "Permissions.Users.View",
+        },
+      },
+      {
         name: "profile",
         path: "profile",
         component: () => import("@/pages/admin/profile.vue"),
