@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import NavItems from "@/layouts/components/NavItems.vue";
-import Logo from "@/components/admin/Logo.vue";
+import Logo from "@/components/shared/Logo.vue";
 import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue";
 
 // Components
