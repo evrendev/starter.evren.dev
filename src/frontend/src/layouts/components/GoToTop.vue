@@ -1,39 +1,28 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { useWindowScroll } from "@vueuse/core";
 
-const showButton = ref(false);
-const scrollThreshold = 300;
-
-const checkScroll = () => {
-  showButton.value = window.scrollY > scrollThreshold;
-};
-
-const scrollToTop = () => {
+function onClick() {
   window.scrollTo({
     top: 0,
     behavior: "smooth",
   });
-};
+}
 
-onMounted(() => {
-  window.addEventListener("scroll", checkScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", checkScroll);
-});
+const { y } = useWindowScroll();
 </script>
 
 <template>
-  <v-fade-transition>
-    <v-btn
-      v-show="showButton"
-      icon="$chevronUp"
-      color="primary"
-      class="go-to-top-btn"
-      @click="scrollToTop"
-    />
-  </v-fade-transition>
+  <div class="pointer-events-initial">
+    <v-fab-transition>
+      <v-btn
+        v-show="y > 200"
+        color="primary"
+        elevation="8"
+        icon="bx-chevron-up"
+        @click="onClick"
+      />
+    </v-fab-transition>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -42,5 +31,11 @@ onUnmounted(() => {
   bottom: 20px;
   right: 20px;
   z-index: 1001;
+}
+.pointer-events-initial {
+  position: fixed;
+  z-index: 99999;
+  inset-block-end: 3rem;
+  inset-inline-end: 2.2rem;
 }
 </style>

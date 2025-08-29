@@ -8,7 +8,6 @@ import Footer from "@/layouts/components/Footer.vue";
 import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue";
 import NavbarLanguageSwitcher from "./NavbarLanguageSwitcher.vue";
 import UserProfile from "@/layouts/components/UserProfile.vue";
-import GoToTop from "@/layouts/components/GoToTop.vue";
 </script>
 
 <template>
@@ -51,10 +50,6 @@ import GoToTop from "@/layouts/components/GoToTop.vue";
 
     <template #footer>
       <Footer />
-    </template>
-
-    <template #go-to-top>
-      <GoToTop />
     </template>
   </VerticalNavLayout>
 </template>
