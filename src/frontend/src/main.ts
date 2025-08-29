@@ -1,4 +1,4 @@
-import { registerPlugins } from "@core/utils/plugins";
+import { registerPlugins } from "@/utils/plugins";
 
 // Styles
 import "@/assets/styles/admin/template/index.scss";
