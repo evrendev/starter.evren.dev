@@ -9,7 +9,7 @@ import { useAuthStore } from "@/stores/auth";
 import { Result } from "@/primitives/result";
 import { AccessTokenResponse } from "@/responses/auth";
 import { Notify } from "@/stores/notification";
-import Logo from "components/admin/Logo.vue";
+import Logo from "@/components/admin/Logo.vue";
 import RecaptchaButton from "@/views/pages/authentication/RecaptchaButton.vue";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
 import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
