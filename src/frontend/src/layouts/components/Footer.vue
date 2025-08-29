@@ -3,7 +3,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div
+  <footer
     class="h-100 d-flex align-center justify-md-space-between justify-center"
   >
     <span class="d-flex align-center">
@@ -25,5 +25,5 @@ const { t } = useI18n();
         {{ t("admin.components.footer.support") }}
       </a>
     </span>
-  </div>
+  </footer>
 </template>
