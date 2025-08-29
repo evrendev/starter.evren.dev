@@ -4,9 +4,9 @@ import Logo from "@/components/admin/Logo.vue";
 import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue";
 
 // Components
+import NavbarLanguageSwitcher from "@/components/shared/NavbarLanguageSwitcher.vue";
 import Footer from "@/layouts/components/Footer.vue";
-import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue";
-import NavbarLanguageSwitcher from "./NavbarLanguageSwitcher.vue";
+import NavbarThemeSwitcher from "@/components/shared/NavbarThemeSwitcher.vue";
 import UserProfile from "@/layouts/components/UserProfile.vue";
 </script>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppNotification from "@/layouts/components/AppNotification.vue";
-import Loader from "@/layouts/components/Loader.vue";
-import GoToTop from "@/layouts/components/GoToTop.vue";
+import AppNotification from "@/components/shared/AppNotification.vue";
+import Loader from "@/components/shared/Loader.vue";
+import GoToTop from "@/components/shared/GoToTop.vue";
 </script>
 
 <template>
