@@ -8,7 +8,7 @@ import { themes } from "./theme";
 
 // Styles
 
-import "@core/scss/template/libs/vuetify/index.scss";
+import "@/assets/styles/admin/template/libs/vuetify/index.scss";
 import "vuetify/styles";
 
 export default function (app: App) {

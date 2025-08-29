@@ -24,5 +24,5 @@ import misc404 from "@images/pages/404.png";
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/misc.scss";
+@use "@/assets/styles/admin/template/pages/misc.scss";
 </style>

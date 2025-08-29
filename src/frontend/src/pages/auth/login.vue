@@ -190,5 +190,5 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/page-auth";
+@use "@/assets/styles/admin/template/pages/page-auth";
 </style>

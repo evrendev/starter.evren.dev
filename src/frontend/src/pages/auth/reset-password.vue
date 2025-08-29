@@ -162,5 +162,5 @@ const isPasswordVisible = vueRef<boolean>(false);
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/pages/page-auth";
+@use "@/assets/styles/admin/template/pages/page-auth";
 </style>

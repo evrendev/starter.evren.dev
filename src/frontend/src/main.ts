@@ -1,7 +1,7 @@
 import { registerPlugins } from "@core/utils/plugins";
 
 // Styles
-import "@core/scss/template/index.scss";
+import "@/assets/styles/admin/template/index.scss";
 import "@layouts/styles/index.scss";
 import "@/assets/styles/admin/styles.scss";
 

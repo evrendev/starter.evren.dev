@@ -348,5 +348,5 @@ const moreList = [
 </template>
 
 <style lang="scss">
-@use "@core/scss/template/libs/apex-chart.scss";
+@use "@/assets/styles/admin/template/libs/apex-chart.scss";
 </style>
