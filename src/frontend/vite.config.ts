@@ -15,7 +15,7 @@ export default defineConfig({
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
     vuetify({
       styles: {
-        configFile: "src/assets/styles/variables/_vuetify.scss",
+        configFile: "src/assets/styles/admin/variables/_vuetify.scss",
       },
     }),
     Components({
@@ -70,7 +70,7 @@ export default defineConfig({
       ),
       "@configured-variables": fileURLToPath(
         new URL(
-          "./src/assets/styles/variables/_template.scss",
+          "./src/assets/styles/admin/variables/_template.scss",
           import.meta.url,
         ),
       ),

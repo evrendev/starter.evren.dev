@@ -3,7 +3,7 @@ import { registerPlugins } from "@core/utils/plugins";
 // Styles
 import "@core/scss/template/index.scss";
 import "@layouts/styles/index.scss";
-import "@styles/styles.scss";
+import "@/assets/styles/admin/styles.scss";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";

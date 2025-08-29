@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "@styles/variables/vuetify.scss";
+@use "@styles/admin/variables/vuetify.scss";
 
 @mixin elevation($z, $important: false) {
   box-shadow:
