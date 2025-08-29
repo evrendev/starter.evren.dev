@@ -116,6 +116,10 @@
         "home": "Startseite",
         "documentation": "Dokumentation",
         "support": "Support"
+      },
+      "breadcrumbs": {
+        "home": "Startseite",
+        "dashboard": "Kontrollpanel"
       }
     }
   }

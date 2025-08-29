@@ -116,6 +116,10 @@
         "home": "Anasayfa",
         "documentation": "Dokümantasyon",
         "support": "Destek"
+      },
+      "breadcrumbs": {
+        "home": "Anasayfa",
+        "dashboard": "Kontrol Paneli"
       }
     }
   }

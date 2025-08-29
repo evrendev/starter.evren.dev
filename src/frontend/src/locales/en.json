@@ -88,6 +88,8 @@
     }
   },
   "admin": {
+    "title": "Admin",
+    "description": "Admin dashboard",
     "components": {
       "navbar": {
         "profile": {
@@ -116,6 +118,10 @@
         "home": "Home",
         "documentation": "Documentation",
         "support": "Support"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "dashboard": "Dashboard"
       }
     }
   }
