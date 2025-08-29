@@ -1,15 +1,11 @@
 <script lang="ts" setup>
-import avatar1 from "@images/avatars/avatar-1.png";
-import avatar4 from "@images/avatars/avatar-4.png";
-import avatar8 from "@images/avatars/avatar-8.png";
-
 const solidCardData = [
   {
     cardBg: "#16B1FF",
     title: "Twitter Card",
     icon: "bxl-twitter",
     text: '"Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."',
-    avatarImg: avatar4,
+    avatarImg: null,
     avatarName: "Mary Vaughn",
     likes: "1.2k",
     share: "80",
@@ -19,7 +15,7 @@ const solidCardData = [
     title: "Facebook Card",
     icon: "bxl-facebook",
     text: "You've read about the importance of being courageous, rebellious and imaginative. These are all vital ingredients.",
-    avatarImg: avatar1,
+    avatarImg: null,
     avatarName: "Eugene Clarke",
     likes: "3.2k",
     share: "49",
@@ -29,7 +25,7 @@ const solidCardData = [
     title: "LinkedIn Card",
     icon: "bxl-linkedin",
     text: "With the Internet spreading like wildfire and reaching every part of our daily life, more and more traffic is directed.",
-    avatarImg: avatar8,
+    avatarImg: null,
     avatarName: "Anne Burke1",
     likes: "1.2k",
     share: "80",
@@ -64,7 +60,7 @@ const solidCardData = [
 
         <VCardText class="d-flex justify-space-between align-center flex-wrap">
           <div class="text-no-wrap">
-            <VAvatar size="34" :image="data.avatarImg" />
+            <VAvatar size="34" />
             <span class="text-white ms-2">{{ data.avatarName }}</span>
           </div>
 
