@@ -2,7 +2,7 @@
 import type { Component } from "vue";
 import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { useDisplay } from "vuetify";
-import Logo from "@/@core/components/Logo.vue";
+import Logo from "@/components/admin/Logo.vue";
 
 interface Props {
   tag?: string | Component;
