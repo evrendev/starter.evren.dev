@@ -157,7 +157,7 @@ export const useAuthStore = defineStore("auth", () => {
           "auth/refresh-token",
         );
 
-      if (data.status !== 200 || !data.data) {
+      if (data.status === 401) {
         await logout();
         return Result.failure(AppError.failure("Could not refresh token"));
       }
