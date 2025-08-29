@@ -1,6 +1,6 @@
 <template>
   <div class="layout-wrapper layout-blank" data-allow-mismatch>
-    <RouterView />
+    <router-view />
   </div>
 </template>
 

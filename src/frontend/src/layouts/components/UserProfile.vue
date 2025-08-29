@@ -19,7 +19,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <VBadge
+  <v-badge
     dot
     location="bottom right"
     offset-x="3"
@@ -27,57 +27,62 @@ const logout = async () => {
     color="success"
     bordered
   >
-    <VAvatar class="cursor-pointer" color="primary" variant="tonal">
+    <v-avatar class="cursor-pointer" color="primary" variant="tonal">
       {{ user?.initial }}
-      <VMenu activator="parent" width="230" location="bottom end" offset="14px">
-        <VList>
-          <VListItem>
+      <v-menu
+        activator="parent"
+        width="230"
+        location="bottom end"
+        offset="14px"
+      >
+        <v-list>
+          <v-list-item>
             <template #prepend>
-              <VListItemAction start>
-                <VBadge
+              <v-list-item-action start>
+                <v-badge
                   dot
                   location="bottom right"
                   offset-x="3"
                   offset-y="3"
                   color="success"
                 >
-                  <VAvatar color="primary" variant="tonal">
+                  <v-avatar color="primary" variant="tonal">
                     {{ user?.initial }}
-                  </VAvatar>
-                </VBadge>
-              </VListItemAction>
+                  </v-avatar>
+                </v-badge>
+              </v-list-item-action>
             </template>
 
-            <VListItemTitle class="font-weight-semibold">
+            <v-list-item-title class="font-weight-semibold">
               {{ user?.fullName }}
-            </VListItemTitle>
-            <VListItemSubtitle>
+            </v-list-item-title>
+            <v-list-item-subtitle>
               {{ user?.email }}
-            </VListItemSubtitle>
-          </VListItem>
-          <VDivider class="my-2" />
+            </v-list-item-subtitle>
+          </v-list-item>
+          <v-divider class="my-2" />
 
-          <VListItem to="/admin/profile">
+          <v-list-item to="/admin/profile">
             <template #prepend>
-              <VIcon class="me-2" icon="bx-user" size="22" />
+              <v-icon class="me-2" icon="bx-user" size="22" />
             </template>
 
-            <VListItemTitle>
+            <v-list-item-title>
               {{ t("admin.components.navbar.profile.title") }}
-            </VListItemTitle>
-          </VListItem>
+            </v-list-item-title>
+          </v-list-item>
 
-          <VListItem @click="logout">
+          <v-list-item @click="logout">
             <template #prepend>
-              <VIcon class="me-2" icon="bx-log-out" size="22" />
+              <v-icon class="me-2" icon="bx-log-out" size="22" />
             </template>
 
-            <VListItemTitle>
+            <v-list-item-title>
               {{ t("admin.components.navbar.profile.logout") }}
-            </VListItemTitle>
-          </VListItem>
-        </VList>
-      </VMenu>
-    </VAvatar>
-  </VBadge>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-avatar>
+  </v-badge>
 </template>
