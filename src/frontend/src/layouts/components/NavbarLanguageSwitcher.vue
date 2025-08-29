@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FlagTr from "@/components/icons/FlagTr.vue";
-import FlagEn from "@/components/icons/FlagEn.vue";
-import FlagDe from "@/components/icons/FlagDe.vue";
+import FlagTr from "@/assets/icons/FlagTr.vue";
+import FlagEn from "@/assets/icons/FlagEn.vue";
+import FlagDe from "@/assets/icons/FlagDe.vue";
 
 const { t, locale } = useI18n();
 
