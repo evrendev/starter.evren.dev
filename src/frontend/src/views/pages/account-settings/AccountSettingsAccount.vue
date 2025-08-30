@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import avatar1 from "@images/avatars/avatar-1.png";
-
 const accountData = {
-  avatarImg: avatar1,
   firstName: "john",
   lastName: "Doe",
   email: "johnDoe@example.com",
@@ -24,25 +21,6 @@ const isAccountDeactivated = ref(false);
 
 const resetForm = () => {
   accountDataLocal.value = structuredClone(accountData);
-};
-
-// changeAvatar function
-const changeAvatar = (file: Event) => {
-  const fileReader = new FileReader();
-  const { files } = file.target as HTMLInputElement;
-
-  if (files && files.length) {
-    fileReader.readAsDataURL(files[0]);
-    fileReader.onload = () => {
-      if (typeof fileReader.result === "string")
-        accountDataLocal.value.avatarImg = fileReader.result;
-    };
-  }
-};
-
-// reset avatar image
-const resetAvatar = () => {
-  accountDataLocal.value.avatarImg = accountData.avatarImg;
 };
 
 const timezones = [
@@ -109,12 +87,7 @@ const currencies = [
       <VCard title="Account Details">
         <VCardText class="d-flex">
           <!-- 👉 Avatar -->
-          <VAvatar
-            rounded="lg"
-            size="100"
-            class="me-6"
-            :image="accountDataLocal.avatarImg"
-          />
+          <VAvatar rounded="lg" size="100" class="me-6" />
 
           <!-- 👉 Upload Photo -->
           <form class="d-flex flex-column justify-center gap-5">
@@ -130,15 +103,9 @@ const currencies = [
                 name="file"
                 accept=".jpeg,.png,.jpg,GIF"
                 hidden
-                @input="changeAvatar"
               />
 
-              <VBtn
-                type="reset"
-                color="error"
-                variant="tonal"
-                @click="resetAvatar"
-              >
+              <VBtn type="reset" color="error" variant="tonal">
                 <span class="d-none d-sm-block">Reset</span>
                 <VIcon icon="bx-refresh" class="d-sm-none" />
               </VBtn>
