@@ -14,10 +14,9 @@
     "esModuleInterop": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@layouts/*": ["./src/@layouts/*"],
-      "@layouts": ["./src/@layouts"],
-      "@core/*": ["./src/@core/*"],
-      "@core": ["./src/@core"],
+      "@views/*": ["./src/views/*"],
+      "@components/*": ["./src/components/*"],
+      "@icons/*": ["./src/assets/icons/*"],
       "@images/*": ["./src/assets/images/*"],
       "@styles/*": ["./src/assets/styles/*"]
     },

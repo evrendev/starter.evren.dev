@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import NavItems from "@/layouts/components/NavItems.vue";
-import Logo from "@/components/shared/Logo.vue";
-import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue";
+import VerticalNavLayout from "./components/admin/VerticalNavLayout.vue";
 
-// Components
+import NavItems from "./components/admin/NavItems.vue";
+import FooterLinks from "./components/admin/Footer.vue";
+import UserProfile from "./components/admin/UserProfile.vue";
+
+import Logo from "@/components/shared/Logo.vue";
 import NavbarLanguageSwitcher from "@/components/shared/NavbarLanguageSwitcher.vue";
-import FooterLinks from "@/layouts/components/Footer.vue";
 import NavbarThemeSwitcher from "@/components/shared/NavbarThemeSwitcher.vue";
-import UserProfile from "@/layouts/components/UserProfile.vue";
 </script>
 
 <template>

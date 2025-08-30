@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from "@/stores/app";
 import { Notify } from "@/stores/notification";
 const { t } = useI18n();
 
 const authStore = useAuthStore();
+const appStore = useAppStore();
 const { user } = storeToRefs(authStore);
 const router = useRouter();
 
 const logout = async () => {
+  appStore.setLoading(true);
   const result = await authStore.logout();
   if (result.succeeded) {
     router.replace("/auth/login");
     Notify.success(result.data ?? t("admin.messages.success.loggedOut"));
+    appStore.setLoading(false);
   } else {
     Notify.error(result.data ?? t("admin.messages.errors.unknown"));
+    appStore.setLoading(false);
   }
 };
 </script>

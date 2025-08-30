@@ -2,9 +2,9 @@
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
 const { t } = useI18n();
-import VerticalNavSectionTitle from "@/@layouts/components/VerticalNavSectionTitle.vue";
-import VerticalNavGroup from "@layouts/components/VerticalNavGroup.vue";
-import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
+import VerticalNavSectionTitle from "./VerticalNavSectionTitle.vue";
+import VerticalNavGroup from "./VerticalNavGroup.vue";
+import VerticalNavLink from "./VerticalNavLink.vue";
 </script>
 
 <template>
