@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import DemoSimpleTableBasics from "@/views/pages/tables/DemoSimpleTableBasics.vue";
-import DemoSimpleTableDensity from "@/views/pages/tables/DemoSimpleTableDensity.vue";
-import DemoSimpleTableFixedHeader from "@/views/pages/tables/DemoSimpleTableFixedHeader.vue";
-import DemoSimpleTableHeight from "@/views/pages/tables/DemoSimpleTableHeight.vue";
-import DemoSimpleTableTheme from "@/views/pages/tables/DemoSimpleTableTheme.vue";
+import DemoSimpleTableBasics from "@/views/admin/tables/DemoSimpleTableBasics.vue";
+import DemoSimpleTableDensity from "@/views/admin/tables/DemoSimpleTableDensity.vue";
+import DemoSimpleTableFixedHeader from "@/views/admin/tables/DemoSimpleTableFixedHeader.vue";
+import DemoSimpleTableHeight from "@/views/admin/tables/DemoSimpleTableHeight.vue";
+import DemoSimpleTableTheme from "@/views/admin/tables/DemoSimpleTableTheme.vue";
 </script>
 
 <template>

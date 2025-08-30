@@ -7,7 +7,7 @@ import { toTypedSchema } from "@vee-validate/yup";
 import { useAppStore } from "@/stores/app";
 import { useUserStore } from "@/stores/user";
 import { Notify } from "@/stores/notification";
-import RecaptchaButton from "@/views/pages/authentication/RecaptchaButton.vue";
+import RecaptchaButton from "@/views/admin/authentication/RecaptchaButton.vue";
 import Logo from "@/components/shared/Logo.vue";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
 import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
