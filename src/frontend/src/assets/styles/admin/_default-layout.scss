@@ -1,8 +1,14 @@
 // These are styles which are both common in layout w/ vertical nav & horizontal nav
+@use "global";
+@use "vue3-perfect-scrollbar/style.css";
+@use "classes";
+
 @use "@/assets/styles/admin/rtl";
 @use "@/assets/styles/admin/placeholders";
 @use "@/assets/styles/admin/mixins";
 @use "@configured-variables" as variables;
+
+@use "@/assets/styles/admin/template";
 
 html,
 body {
