@@ -20,10 +20,14 @@ function toggleAll() {
     m.show = showAll.value;
   });
 }
+
+const showNotifications: ComputedRef<boolean> = computed(() =>
+  notifications.value.some((n) => n.show),
+);
 </script>
 
 <template>
-  <v-tooltip location="top" text="Notification" v-if="notifications.length">
+  <v-tooltip location="top" text="Notification" v-if="showNotifications">
     <template #activator="{ props }">
       <v-btn
         :icon="
