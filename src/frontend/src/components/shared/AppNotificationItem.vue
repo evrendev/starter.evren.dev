@@ -41,5 +41,6 @@ const showAll = computed(() => timeout.value === -1);
   line-height: 1.25rem;
   font-size: 14px;
   font-weight: 300;
+  z-index: 9999;
 }
 </style>
