@@ -1,5 +1,5 @@
 @use "@/assets/styles/admin/base/mixins";
-@use "@layouts/styles/mixins" as layoutsMixins;
+@use "@/assets/styles/admin/mixins" as layoutsMixins;
 
 // 👉 Expansion panels
 body .v-layout .v-application__wrap .v-expansion-panels {

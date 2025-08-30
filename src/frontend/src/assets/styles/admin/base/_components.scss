@@ -1,6 +1,6 @@
 @use "mixins";
-@use "@layouts/styles/placeholders";
-@use "@layouts/styles/mixins" as layoutMixins;
+@use "@/assets/styles/admin/placeholders";
+@use "@/assets/styles/admin/mixins" as layoutMixins;
 @use "@configured-variables" as variables;
 @use "@styles/admin/variables/_vuetify.scss" as vuetify;
 

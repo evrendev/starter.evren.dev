@@ -1,5 +1,5 @@
 @use "@styles/admin/variables/_vuetify.scss" as vuetify;
-@use "@layouts/styles/mixins" as layoutsMixins;
+@use "@/assets/styles/admin/mixins" as layoutsMixins;
 @use "@/assets/styles/admin/base/mixins";
 
 body .apexcharts-canvas {

@@ -11,18 +11,18 @@
     - You can also use variable for consistency (e.g. mx 1 rem should be applied to both vertical nav items and vertical nav header)
 */
 
-@forward "@layouts/styles/variables" with (
+@forward "@/assets/styles/admin/variables" with (
   // Adjust z-index so vertical nav & overlay stays on top of v-layout in v-main. E.g. Email app
   $layout-vertical-nav-z-index: 1003,
   $layout-overlay-z-index: 1002
 );
-@use "@layouts/styles/variables" as *;
+@use "@/assets/styles/admin/variables" as *;
 
 // 👉 Default layout
 
 $navbar-high-emphasis-text: true !default;
 
-// @forward "@layouts/styles/variables" with (
+// @forward "@/assets/styles/admin/variables" with (
 //   $layout-vertical-nav-width: 350px !default,
 // );
 

@@ -1,6 +1,6 @@
 @use "@/assets/styles/admin/base/placeholders" as *;
 @use "@/assets/styles/admin/template/placeholders" as *;
-@use "@layouts/styles/mixins" as layoutsMixins;
+@use "@/assets/styles/admin/mixins" as layoutsMixins;
 @use "@configured-variables" as variables;
 @use "@/assets/styles/admin/base/mixins" as mixins;
 @use "vuetify/lib/styles/tools/states" as vuetifyStates;

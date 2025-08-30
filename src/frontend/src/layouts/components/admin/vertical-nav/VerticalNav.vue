@@ -97,7 +97,7 @@ const handleNavScroll = (evt: Event) => {
 
 <style lang="scss">
 @use "@configured-variables" as variables;
-@use "@layouts/styles/mixins";
+@use "@/assets/styles/admin/mixins";
 
 // 👉 Vertical Nav
 .layout-vertical-nav {

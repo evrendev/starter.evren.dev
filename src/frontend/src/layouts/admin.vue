@@ -56,5 +56,5 @@ import FooterLinks from "./components/admin/footer/Footer.vue";
 </template>
 
 <style lang="scss">
-@use "@layouts/styles/default-layout";
+@use "@/assets/styles/admin/default-layout";
 </style>

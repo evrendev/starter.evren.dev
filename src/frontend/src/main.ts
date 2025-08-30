@@ -2,7 +2,7 @@ import { registerPlugins } from "@/utils/plugins";
 
 // Styles
 import "@/assets/styles/admin/template/index.scss";
-import "@layouts/styles/index.scss";
+import "@/assets/styles/admin/index.scss";
 import "@/assets/styles/admin/styles.scss";
 
 import { createApp } from "vue";

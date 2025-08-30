@@ -84,8 +84,8 @@ export default defineComponent({
 
 <style lang="scss">
 @use "@configured-variables" as variables;
-@use "@layouts/styles/placeholders";
-@use "@layouts/styles/mixins";
+@use "@/assets/styles/admin/placeholders";
+@use "@/assets/styles/admin/mixins";
 
 .layout-wrapper.layout-nav-type-vertical {
   // TODO(v2): Check why we need height in vertical nav & min-height in horizontal nav

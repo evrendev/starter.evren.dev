@@ -1,7 +1,7 @@
 // These are styles which are both common in layout w/ vertical nav & horizontal nav
-@use "@layouts/styles/rtl";
-@use "@layouts/styles/placeholders";
-@use "@layouts/styles/mixins";
+@use "@/assets/styles/admin/rtl";
+@use "@/assets/styles/admin/placeholders";
+@use "@/assets/styles/admin/mixins";
 @use "@configured-variables" as variables;
 
 html,
