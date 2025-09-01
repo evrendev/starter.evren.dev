@@ -5,7 +5,7 @@ import FlagDe from "@/assets/icons/FlagDe.vue";
 
 const { t, locale } = useI18n();
 
-import { getAvailableLanguages } from "@/utils/locale";
+import { getAvailableLanguages, Language } from "@/utils/locale";
 
 const languages = getAvailableLanguages();
 
@@ -43,7 +43,9 @@ const changeLanguageHandler = (lang: string) => {
         <v-divider class="my-2" />
 
         <v-list-item
-          v-for="lang in languages"
+          v-for="lang in languages.filter(
+            (language: { code: string }) => language.code !== locale,
+          )"
           :key="lang.code"
           @click="changeLanguageHandler(lang.code)"
         >
