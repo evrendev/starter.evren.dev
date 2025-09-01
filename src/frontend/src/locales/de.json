@@ -119,7 +119,11 @@
       },
       "breadcrumbs": {
         "home": "Startseite",
-        "dashboard": "Kontrollpanel"
+        "dashboard": "Kontrollpanel",
+        "admin": {
+          "title": "Admin",
+          "tenants": "Mandanten"
+        }
       }
     }
   }

@@ -121,7 +121,11 @@
       },
       "breadcrumbs": {
         "home": "Home",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "admin": {
+          "title": "Admin",
+          "tenants": "Tenants"
+        }
       }
     }
   }

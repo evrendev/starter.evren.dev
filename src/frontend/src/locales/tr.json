@@ -119,7 +119,11 @@
       },
       "breadcrumbs": {
         "home": "Anasayfa",
-        "dashboard": "Kontrol Paneli"
+        "dashboard": "Kontrol Paneli",
+        "admin": {
+          "title": "Yönetici",
+          "tenants": "Kiracılar"
+        }
       }
     }
   }
