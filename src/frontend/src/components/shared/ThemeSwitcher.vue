@@ -24,8 +24,6 @@ const changeTheme = (mode: string) => {
   changeVuetifyTheme(mode);
 };
 
-// Update icon if theme is changed from other sources
-// Save theme to localStorage and update when changed from other sources
 watch(
   () => globalTheme.name.value,
   (val) => {
@@ -34,7 +32,6 @@ watch(
   },
 );
 
-// Load theme from localStorage on component mount
 onMounted(() => {
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme && props.themes.some((t) => t.name === savedTheme)) {
@@ -44,10 +41,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <IconBtn @click="changeTheme(getNextThemeName())">
-    <VIcon :icon="props.themes[currentThemeIndex].icon" />
-    <VTooltip activator="parent" open-delay="1000" scroll-strategy="close">
+  <icon-btn @click="changeTheme(getNextThemeName())">
+    <v-icon :icon="props.themes[currentThemeIndex].icon" />
+    <v-tooltip activator="parent" open-delay="1000" scroll-strategy="close">
       <span class="text-capitalize">{{ currentThemeName }}</span>
-    </VTooltip>
-  </IconBtn>
+    </v-tooltip>
+  </icon-btn>
 </template>
