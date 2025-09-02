@@ -125,6 +125,24 @@
           "tenants": "Mandanten"
         }
       }
+    },
+    "tenants": {
+      "fields": {
+        "id": "Id",
+        "isActive": "Aktiv",
+        "name": "Name",
+        "issuer": "Aussteller",
+        "validUpto": "Gültig bis"
+      }
     }
+  },
+  "shared": {
+    "actions": "Aktionen",
+    "search": "Suche",
+    "filters": "Filter",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "submit": "Absenden"
   }
 }

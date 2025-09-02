@@ -127,6 +127,24 @@
           "tenants": "Tenants"
         }
       }
+    },
+    "tenants": {
+      "fields": {
+        "id": "Id",
+        "isActive": "Active",
+        "name": "Name",
+        "issuer": "Issuer",
+        "validUpto": "Valid Date"
+      }
     }
+  },
+  "shared": {
+    "actions": "Actions",
+    "search": "Search",
+    "filters": "Filters",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "submit": "Submit"
   }
 }

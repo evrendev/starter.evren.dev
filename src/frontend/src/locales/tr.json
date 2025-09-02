@@ -125,6 +125,24 @@
           "tenants": "Kiracılar"
         }
       }
+    },
+    "tenants": {
+      "fields": {
+        "id": "ID",
+        "isActive": "Aktif",
+        "name": "Ad",
+        "issuer": "Düzenleyici",
+        "validUpto": "Geçerlilik Tarihi"
+      }
     }
+  },
+  "shared": {
+    "actions": "Eylemler",
+    "search": "Arama",
+    "filters": "Filtreler",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "view": "Görüntüle",
+    "submit": "Gönder"
   }
 }
