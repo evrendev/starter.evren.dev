@@ -1,3 +1,42 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.v-data-table {
+  thead {
+    th {
+      white-space: nowrap;
+      text-transform: inherit;
+      text-align: center;
+    }
+  }
+  &.striped {
+    &.v-theme--light {
+      tbody {
+        tr {
+          &:nth-of-type(even) {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+
+          td {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    &.v-theme--dark {
+      tbody {
+        tr {
+          &:nth-of-type(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+          }
+
+          td {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+}
