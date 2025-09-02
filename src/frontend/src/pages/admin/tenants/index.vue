@@ -12,7 +12,7 @@ onMounted(async () => {
   await tenantStore.getItems(filters);
 });
 
-const headers = shallowRef([
+const headers = computed(() => [
   {
     title: t("admin.tenants.fields.id"),
     key: "id",
@@ -44,7 +44,7 @@ const headers = shallowRef([
   },
 ]);
 
-const breadcrumbs = shallowRef([
+const breadcrumbs = computed(() => [
   {
     title: t("admin.components.breadcrumbs.home"),
     to: { path: "/" },
