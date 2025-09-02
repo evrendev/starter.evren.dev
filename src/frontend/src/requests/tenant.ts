@@ -15,6 +15,6 @@ export interface Filters {
   showActiveItems: boolean | null;
   showDeletedItems: boolean | null;
   sortBy: [];
-  currentPage: number | null;
-  itemsPerPage: number | null;
+  currentPage: number;
+  itemsPerPage: number;
 }
