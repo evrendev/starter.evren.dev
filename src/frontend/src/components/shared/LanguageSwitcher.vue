@@ -5,7 +5,7 @@ import FlagDe from "@/assets/icons/FlagDe.vue";
 
 const { t, locale } = useI18n();
 
-import { getAvailableLanguages, Language } from "@/utils/locale";
+import { getAvailableLanguages } from "@/utils/locale";
 
 const languages = getAvailableLanguages();
 
