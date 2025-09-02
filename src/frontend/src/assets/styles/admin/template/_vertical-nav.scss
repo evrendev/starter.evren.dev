@@ -90,7 +90,8 @@ $divider-gap: 0.75rem;
           color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity));
         }
 
-        .router-link-exact-active {
+        .router-link-exact-active,
+        .router-link-active {
           @extend %nav-link-nested-active;
 
           &:hover::before {
