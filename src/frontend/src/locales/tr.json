@@ -173,7 +173,7 @@
       },
       "notifications": {
         "updated": "Kiracı başarıyla güncellendi",
-        "update_failed": "Kiracı güncellenirken hata oluştu"
+        "updateFailed": "Kiracı güncellenirken hata oluştu"
       }
     }
   },

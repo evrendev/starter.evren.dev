@@ -57,7 +57,7 @@ const handleSubmit = async (values: Tenant) => {
     Notify.success(t("admin.tenants.notifications.updated"));
     router.push({ name: "tenants-list" });
   } else {
-    Notify.error(t("admin.tenants.notifications.update_failed"));
+    Notify.error(t("admin.tenants.notifications.updateFailed"));
   }
 };
 </script>

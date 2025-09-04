@@ -175,7 +175,7 @@
       },
       "notifications": {
         "updated": "Tenant updated successfully",
-        "update_failed": "Failed to update tenant"
+        "updateFailed": "Failed to update tenant"
       }
     }
   },

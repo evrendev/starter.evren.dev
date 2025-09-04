@@ -173,7 +173,7 @@
       },
       "notifications": {
         "updated": "Mandant erfolgreich aktualisiert",
-        "update_failed": "Fehler beim Aktualisieren des Mandanten"
+        "updateFailed": "Fehler beim Aktualisieren des Mandanten"
       }
     }
   },
