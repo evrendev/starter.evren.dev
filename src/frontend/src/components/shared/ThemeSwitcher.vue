@@ -11,6 +11,7 @@ const {
   global: globalTheme,
   change: changeVuetifyTheme,
 } = useTheme();
+
 const {
   state: currentThemeName,
   next: getNextThemeName,
