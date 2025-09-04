@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Tenant } from "@/requests/tenant";
 import { Notify } from "@/stores/notification";
-import breadcrumb from "@/components/admin/breadcrumb.vue";
 import TenantForm from "@/views/admin/tenants/Form.vue";
 
 import { useTenantStore } from "@/stores/tenant";

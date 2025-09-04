@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import StatusIcon from "@/components/admin/StatusIcon.vue";
+import { Tenant } from "@/requests/tenant";
 import { useDateFormat } from "@vueuse/core";
 const { t, locale } = useI18n();
 
@@ -10,6 +11,35 @@ defineProps<{
   loading: boolean;
   headers: Array<any>;
 }>();
+
+const emit = defineEmits<{
+  (e: "delete", id: string | null): void;
+}>();
+
+const tenantId: Ref<string | null> = ref(null);
+const showDeleteConfirmDialog = ref(false);
+const dialogTitle: Ref<string | null> = ref(null);
+const dialogMessage: Ref<string | null> = ref(null);
+
+const showDeleteConfirmModal = (tenant: Tenant) => {
+  tenantId.value = tenant.id;
+  dialogTitle.value = t("admin.tenants.notifications.deleteConfirm", {
+    name: tenant.name,
+  });
+  dialogMessage.value = t("admin.tenants.notifications.deleteMessage", {
+    name: tenant.name,
+  });
+  showDeleteConfirmDialog.value = true;
+};
+
+const confirmDelete = () => {
+  emit("delete", tenantId.value);
+};
+
+const abortDelete = () => {
+  tenantId.value = null;
+  showDeleteConfirmDialog.value = false;
+};
 </script>
 
 <template>
@@ -83,7 +113,7 @@ defineProps<{
                 </template>
               </v-list-item>
 
-              <v-list-item>
+              <v-list-item @click="showDeleteConfirmModal(item)">
                 <v-list-item-title v-text="t('shared.delete')" />
                 <template v-slot:prepend>
                   <v-icon icon="bx-trash" />
@@ -95,4 +125,14 @@ defineProps<{
       </v-data-table-server>
     </v-card-text>
   </v-card>
+
+  <confirm-dialog
+    v-model="showDeleteConfirmDialog"
+    :confirm-button-text="t('shared.confirm')"
+    :cancel-button-text="t('shared.cancel')"
+    :title="dialogTitle"
+    :message="dialogMessage"
+    @confirm="confirmDelete"
+    @cancel="abortDelete"
+  />
 </template>

@@ -177,7 +177,11 @@
         "updated": "Tenant updated successfully",
         "updateFailed": "Failed to update tenant",
         "created": "Tenant created successfully",
-        "createFailed": "Failed to create tenant"
+        "createFailed": "Failed to create tenant",
+        "deleteConfirm": "Delete {name}",
+        "deleteMessage": "Are you sure you want to delete {name}?",
+        "deleted": "Tenant deleted successfully",
+        "deleteFailed": "Failed to delete tenant"
       }
     }
   },
@@ -193,6 +197,8 @@
     "submit": "Submit",
     "back": "Back",
     "enableEdit": "Enable Edit",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
     "options": {
       "isActive": {
         "true": "Active",

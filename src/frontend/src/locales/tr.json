@@ -88,6 +88,8 @@
     }
   },
   "admin": {
+    "title": "Yönetici",
+    "description": "Yönetici paneli",
     "components": {
       "navbar": {
         "profile": {
@@ -175,7 +177,11 @@
         "updated": "Kiracı başarıyla güncellendi",
         "updateFailed": "Kiracı güncellenirken hata oluştu",
         "created": "Kiracı başarıyla oluşturuldu",
-        "createFailed": "Kiracı oluşturulurken hata oluştu"
+        "createFailed": "Kiracı oluşturulurken hata oluştu",
+        "deleteConfirm": "{name} Sil",
+        "deleteMessage": "{name} kiracısını silmek istediğinizden emin misiniz?",
+        "deleted": "Kiracı başarıyla silindi",
+        "deleteFailed": "Kiracı silinirken hata oluştu"
       }
     }
   },
@@ -191,6 +197,8 @@
     "submit": "Gönder",
     "back": "Geri",
     "enableEdit": "Düzenlemeyi Etkinleştir",
+    "confirm": "Onayla",
+    "cancel": "İptal",
     "options": {
       "isActive": {
         "true": "Aktif",

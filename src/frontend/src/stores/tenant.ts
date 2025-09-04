@@ -1,7 +1,9 @@
 import { Tenant, Filters } from "@/requests/tenant";
+import { DefaultApiResponse } from "@/responses/api";
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
 import { useAppStore } from "./app";
+import { AxiosResponse } from "axios";
 const appStore = useAppStore();
 
 const DEFAULT_FILTER: Filters = {
@@ -104,6 +106,32 @@ export const useTenantStore = defineStore("tenant", {
       } catch (error) {
         console.error("Error creating tenant:", error);
         return null;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+    async delete(id: string): Promise<DefaultApiResponse<boolean>> {
+      this.loading = true;
+      appStore.setLoading(true);
+
+      try {
+        const response: AxiosResponse<DefaultApiResponse<boolean>> =
+          await useHttpClient().delete(`/tenants/${id}`);
+
+        if (response.data.succeeded) {
+          const index = this.items.findIndex((item) => item.id === id);
+          if (index !== -1) this.items.splice(index, 1);
+        }
+
+        return response.data;
+      } catch (error) {
+        const response: DefaultApiResponse<boolean> = {
+          succeeded: false,
+          errors: [error as string],
+        };
+
+        return response;
       } finally {
         this.loading = false;
         appStore.setLoading(false);

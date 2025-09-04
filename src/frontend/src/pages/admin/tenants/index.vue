@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import breadcrumb from "@/components/admin/breadcrumb.vue";
 import DataTable from "@/views/admin/tenants/DataTable.vue";
 
+import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
+import { DefaultApiResponse } from "@/responses/api";
+import { AxiosResponse } from "axios";
 const tenantStore = useTenantStore();
 const filters = tenantStore.filters;
 const { itemsPerPage, items, total, loading } = storeToRefs(tenantStore);
@@ -66,6 +68,18 @@ const breadcrumbs = computed(() => [
     disabled: true,
   },
 ]);
+
+const handleDelete = async (id: string | null) => {
+  if (id) {
+    const response = await tenantStore.delete(id);
+
+    if (response) {
+      Notify.success(t("admin.tenants.notifications.deleted"));
+    } else {
+      Notify.error(t("admin.tenants.notifications.deleteFailed"));
+    }
+  }
+};
 </script>
 
 <template>
@@ -76,5 +90,6 @@ const breadcrumbs = computed(() => [
     :total="total"
     :loading="loading"
     :headers="headers"
+    @delete="handleDelete"
   />
 </template>

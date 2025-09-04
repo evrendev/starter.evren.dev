@@ -88,6 +88,8 @@
     }
   },
   "admin": {
+    "title": "Admin",
+    "description": "Admin-Bereich",
     "components": {
       "navbar": {
         "profile": {
@@ -175,7 +177,11 @@
         "updated": "Mandant erfolgreich aktualisiert",
         "updateFailed": "Fehler beim Aktualisieren des Mandanten",
         "created": "Mandant erfolgreich erstellt",
-        "createFailed": "Fehler beim Erstellen des Mandanten"
+        "createFailed": "Fehler beim Erstellen des Mandanten",
+        "deleteConfirm": "{name} löschen",
+        "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
+        "deleted": "Mandant erfolgreich gelöscht",
+        "deleteFailed": "Fehler beim Löschen des Mandanten"
       }
     }
   },
@@ -191,6 +197,8 @@
     "submit": "Absenden",
     "back": "Zurück",
     "enableEdit": "Bearbeiten aktivieren",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
     "options": {
       "isActive": {
         "true": "Aktiv",
