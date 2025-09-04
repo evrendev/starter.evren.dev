@@ -172,6 +172,10 @@
         "connectionString": {
           "title": "Connection String"
         }
+      },
+      "notifications": {
+        "updated": "Tenant updated successfully",
+        "update_failed": "Failed to update tenant"
       }
     }
   },

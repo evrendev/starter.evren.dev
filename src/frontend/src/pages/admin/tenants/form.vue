@@ -5,12 +5,14 @@ import breadcrumb from "@/components/admin/breadcrumb.vue";
 import TenantForm from "@/views/admin/tenants/Form.vue";
 
 import { useTenantStore } from "@/stores/tenant";
+import { DefaultApiResponse } from "@/responses/api";
 const { t } = useI18n();
 
 const tenantStore = useTenantStore();
 const { loading } = storeToRefs(tenantStore);
 
 const route = useRoute();
+const router = useRouter();
 const viewOnly = ref(route.name === "tenants-view");
 
 const pageTitle: ComputedRef<string> = computed(() =>
@@ -49,9 +51,14 @@ const breadcrumbs = computed(() => [
 ]);
 
 const handleSubmit = async (values: Tenant) => {
-  const response = await tenantStore.update(values);
+  const response: DefaultApiResponse<string> = await tenantStore.update(values);
 
-  console.log(response);
+  if (response.succeeded) {
+    Notify.success(t("admin.tenants.notifications.updated"));
+    router.push({ name: "tenants-list" });
+  } else {
+    Notify.error(t("admin.tenants.notifications.update_failed"));
+  }
 };
 </script>
 <template>
