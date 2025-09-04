@@ -9,18 +9,18 @@ public class TenantInfo : ITenantInfo
     {
     }
 
-    public TenantInfo(string id, string name, string? connectionString, string adminEmail, string? issuer = null)
+    public TenantInfo(string id, string name, string? connectionString, string adminEmail, string? issuer = null, bool isActive = true, DateTime? validUpto = null)
     {
         Id = id;
         Identifier = id;
         Name = name;
         ConnectionString = connectionString ?? string.Empty;
         AdminEmail = adminEmail;
-        IsActive = true;
+        IsActive = isActive;
         Issuer = issuer;
 
         // Add Default 1 Month Validity for all new tenants. Something like a DEMO period for tenants.
-        ValidUpto = DateTime.UtcNow.AddMonths(1);
+        ValidUpto = validUpto ?? DateTime.UtcNow.AddMonths(1);
     }
 
     /// <summary>

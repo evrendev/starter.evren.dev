@@ -9,6 +9,8 @@ public class UpdateTenantCommand : IRequest<string>
     public string Name { get; set; } = default!;
     public string? ConnectionString { get; set; }
     public string AdminEmail { get; set; } = default!;
+    public bool IsActive { get; set; }
+    public DateTime? ValidUpto { get; set; }
     public string? Issuer { get; set; }
 }
 
@@ -36,6 +38,10 @@ public class UpdateTenantCommandValidator : CustomValidator<UpdateTenantCommand>
         RuleFor(t => t.AdminEmail).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress();
+
+        RuleFor(t => t.ValidUpto)
+            .Must(date => date is null || date > DateTime.UtcNow)
+                .WithMessage(localizer["validupto.greaterthan.now"]);
     }
 }
 

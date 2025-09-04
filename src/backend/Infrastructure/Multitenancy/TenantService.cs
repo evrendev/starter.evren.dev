@@ -117,7 +117,7 @@ internal class TenantService(
         if (command.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim())
             command.ConnectionString = string.Empty;
 
-        var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail, command.Issuer);
+        var tenant = new TenantInfo(id: command.Id, name: command.Name, connectionString: command.ConnectionString, adminEmail: command.AdminEmail, issuer: command.Issuer, isActive: command.IsActive, validUpto: command.ValidUpto);
         await tenantStore.TryUpdateAsync(tenant);
 
         try
