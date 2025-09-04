@@ -132,4 +132,9 @@ internal class TenantService(
 
         return tenant.Id;
     }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        return await tenantStore.TryRemoveAsync(id);
+    }
 }

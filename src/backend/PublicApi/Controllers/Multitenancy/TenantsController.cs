@@ -6,6 +6,7 @@ using EvrenDev.Application.Multitenancy.Queries.Get;
 using EvrenDev.Application.Multitenancy.Queries.GetAll;
 using EvrenDev.Application.Multitenancy.Commands.Upgrade;
 using EvrenDev.Application.Multitenancy.Commands.Update;
+using EvrenDev.Application.Multitenancy.Commands.Delete;
 
 namespace EvrenDev.PublicApi.Controllers.Multitenancy;
 
@@ -45,6 +46,16 @@ public class TenantsController : VersionNeutralApiController
             return ApiResponse<string?>.Failure("Invalid tenant ID.");
 
         return ApiResponse<string?>.Success(await Mediator.Send(command));
+    }
+
+    //Note: Add tenants delete permission to user permission
+    [HttpDelete("{id}")]
+    [MustHavePermission(ApiAction.Update, ApiResource.Tenants)]
+    [OpenApiOperation("Delete a tenant.", "")]
+    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
+    public async Task<ApiResponse<bool>> DeleteAsync(string id)
+    {
+        return ApiResponse<bool>.Success(await Mediator.Send(new DeleteTenantCommand(id)));
     }
 
     [HttpPost("{id}/activate")]

@@ -14,5 +14,6 @@ public interface ITenantService
     Task<string> UpdateAsync(UpdateTenantCommand command, CancellationToken cancellationToken);
     Task<string> ActivateAsync(string id);
     Task<string> DeactivateAsync(string id);
+    Task<bool> DeleteAsync(string id);
     Task<string> UpdateSubscription(string id, DateTime extendedExpiryDate);
 }
