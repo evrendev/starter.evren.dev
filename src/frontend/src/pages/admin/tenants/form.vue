@@ -43,7 +43,6 @@ const breadcrumbs = computed(() => [
 ]);
 
 const handleSubmit = async (values: Tenant) => {
-  console.log(route.name);
   const response: DefaultApiResponse<string> =
     route.name === "tenants-create"
       ? await tenantStore.create(values)

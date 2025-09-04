@@ -68,7 +68,6 @@ const emit = defineEmits<{
 }>();
 
 const submit = handleSubmit((values: Tenant) => {
-  console.log(values);
   emit("submit", values);
 });
 </script>
