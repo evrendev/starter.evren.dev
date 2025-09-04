@@ -2,12 +2,17 @@
   cursor: pointer;
 }
 
-.v-data-table {
+.v-table {
+  margin: 0;
+  padding: 0;
   thead {
     th {
       white-space: nowrap;
       text-transform: inherit;
+      text-decoration: underline;
       text-align: center;
+      background-color: rgb(var(--v-theme-background));
+      border-radius: 0.25rem;
     }
   }
   &.striped {
@@ -39,4 +44,8 @@
       }
     }
   }
+}
+
+.v-toolbar-title {
+  margin-inline-start: 0 !important;
 }

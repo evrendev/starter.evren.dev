@@ -127,12 +127,49 @@
       }
     },
     "tenants": {
+      "list": {
+        "title": "Kiracı Listesi"
+      },
+      "create": {
+        "title": "Yeni Kiracı"
+      },
+      "view": {
+        "title": "Kiracı Detayları"
+      },
+      "edit": {
+        "title": "Kiracı Düzenle"
+      },
       "fields": {
-        "id": "ID",
-        "isActive": "Aktif",
-        "name": "Ad",
-        "issuer": "Düzenleyici",
-        "validUpto": "Geçerlilik Tarihi"
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "isActive": {
+          "title": "Aktif",
+          "required": "Aktif alanı gerekli",
+          "invalid": "Geçersiz değer"
+        },
+        "name": {
+          "title": "Ad",
+          "required": "Ad alanı gerekli"
+        },
+        "adminEmail": {
+          "title": "Admin E-posta",
+          "invalid": "Geçersiz E-posta",
+          "required": "Admin E-posta alanı gerekli"
+        },
+        "issuer": {
+          "title": "Düzenleyici",
+          "required": "Düzenleyici alanı gerekli"
+        },
+        "validUpto": {
+          "title": "Geçerlilik Tarihi",
+          "required": "Geçerlilik Tarihi alanı gerekli",
+          "typeError": "Geçersiz tarih formatı"
+        },
+        "connectionString": {
+          "title": "Bağlantı Dizesi"
+        }
       }
     }
   },
@@ -140,9 +177,19 @@
     "actions": "Eylemler",
     "search": "Arama",
     "filters": "Filtreler",
+    "save": "Kaydet",
     "delete": "Sil",
     "edit": "Düzenle",
     "view": "Görüntüle",
-    "submit": "Gönder"
+    "new": "Yeni",
+    "submit": "Gönder",
+    "back": "Geri",
+    "enableEdit": "Düzenlemeyi Etkinleştir",
+    "options": {
+      "isActive": {
+        "true": "Aktif",
+        "false": "Pasif"
+      }
+    }
   }
 }

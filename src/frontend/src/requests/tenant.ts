@@ -4,7 +4,7 @@ export interface Tenant {
   connectionString: string;
   adminEmail: string;
   isActive: boolean;
-  validUpTo: Date;
+  validUpto: string;
   issuer: string;
 }
 

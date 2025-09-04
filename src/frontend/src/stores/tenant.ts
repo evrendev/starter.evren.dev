@@ -1,6 +1,8 @@
 import { Tenant, Filters } from "@/requests/tenant";
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
+import { useAppStore } from "./app";
+const appStore = useAppStore();
 
 const DEFAULT_FILTER: Filters = {
   search: null,
@@ -17,7 +19,7 @@ export const useTenantStore = defineStore("tenant", {
   state: () => ({
     loading: false,
     items: [] as Tenant[],
-    tenant: {} as Tenant,
+    tenant: {} as Tenant | null,
     filters: {} as Filters,
   }),
   getters: {
@@ -52,16 +54,41 @@ export const useTenantStore = defineStore("tenant", {
     },
     async getTenant(id: string) {
       this.loading = true;
+      appStore.setLoading(true);
 
       try {
         const { data } = await useHttpClient().get(`/tenants/${id}`);
 
         this.tenant = data;
+
+        return data;
       } catch (error) {
         console.error("Error fetching tenant:", error);
         return null;
       } finally {
         this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+    async update(tenant: Tenant) {
+      this.loading = true;
+      appStore.setLoading(true);
+
+      try {
+        const { data } = await useHttpClient().put(
+          `/tenants/${tenant.id}`,
+          tenant,
+        );
+
+        this.tenant = data;
+
+        return data;
+      } catch (error) {
+        console.error("Error updating tenant:", error);
+        return null;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
       }
     },
   },

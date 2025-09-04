@@ -127,12 +127,49 @@
       }
     },
     "tenants": {
+      "list": {
+        "title": "Mandantenliste"
+      },
+      "create": {
+        "title": "Neuer Mandant"
+      },
+      "view": {
+        "title": "Mandantendetails"
+      },
+      "edit": {
+        "title": "Mandanten bearbeiten"
+      },
       "fields": {
-        "id": "Id",
-        "isActive": "Aktiv",
-        "name": "Name",
-        "issuer": "Aussteller",
-        "validUpto": "Gültig bis"
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "isActive": {
+          "title": "Aktiv",
+          "required": "Aktiv ist erforderlich",
+          "invalid": "Ungültiger Wert"
+        },
+        "name": {
+          "title": "Name",
+          "required": "Name ist erforderlich"
+        },
+        "adminEmail": {
+          "title": "Admin -Mail",
+          "invalid": "Ungültige E-Mail",
+          "required": "Admin -Mail ist erforderlich"
+        },
+        "issuer": {
+          "title": "Herausgeber",
+          "required": "Herausgeber ist erforderlich"
+        },
+        "validUpto": {
+          "title": "Gültig bis",
+          "required": "Gültig bis ist erforderlich",
+          "typeError": "Ungültiges Datumsformat"
+        },
+        "connectionString": {
+          "title": "Verbindungszeichenfolge"
+        }
       }
     }
   },
@@ -140,9 +177,19 @@
     "actions": "Aktionen",
     "search": "Suche",
     "filters": "Filter",
+    "save": "Speichern",
     "delete": "Löschen",
     "edit": "Bearbeiten",
     "view": "Ansehen",
-    "submit": "Absenden"
+    "new": "Neu",
+    "submit": "Absenden",
+    "back": "Zurück",
+    "enableEdit": "Bearbeiten aktivieren",
+    "options": {
+      "isActive": {
+        "true": "Aktiv",
+        "false": "Inaktiv"
+      }
+    }
   }
 }

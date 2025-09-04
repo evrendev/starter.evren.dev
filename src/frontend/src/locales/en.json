@@ -129,12 +129,49 @@
       }
     },
     "tenants": {
+      "list": {
+        "title": "Tenant List"
+      },
+      "create": {
+        "title": "Create Tenant"
+      },
+      "view": {
+        "title": "View Tenant"
+      },
+      "edit": {
+        "title": "Edit Tenant"
+      },
       "fields": {
-        "id": "Id",
-        "isActive": "Active",
-        "name": "Name",
-        "issuer": "Issuer",
-        "validUpto": "Valid Date"
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "isActive": {
+          "title": "Active",
+          "required": "Active is required",
+          "invalid": "Invalid value"
+        },
+        "name": {
+          "title": "Name",
+          "required": "Name is required"
+        },
+        "adminEmail": {
+          "title": "Admin Email",
+          "invalid": "Invalid Email",
+          "required": "Admin Email is required"
+        },
+        "issuer": {
+          "title": "Issuer",
+          "required": "Issuer is required"
+        },
+        "validUpto": {
+          "title": "Valid Date",
+          "required": "Valid Date is required",
+          "typeError": "Invalid date format"
+        },
+        "connectionString": {
+          "title": "Connection String"
+        }
       }
     }
   },
@@ -142,9 +179,19 @@
     "actions": "Actions",
     "search": "Search",
     "filters": "Filters",
+    "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
     "view": "View",
-    "submit": "Submit"
+    "new": "New",
+    "submit": "Submit",
+    "back": "Back",
+    "enableEdit": "Enable Edit",
+    "options": {
+      "isActive": {
+        "true": "Active",
+        "false": "Inactive"
+      }
+    }
   }
 }

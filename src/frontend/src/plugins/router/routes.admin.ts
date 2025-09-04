@@ -1,5 +1,4 @@
 import { Permissions } from "@/models/user";
-import { red } from "vuetify/util/colors";
 
 export const adminRoutes = [
   {
@@ -28,22 +27,34 @@ export const adminRoutes = [
             component: () => import("@/pages/admin/tenants/index.vue"),
             meta: {
               requiresPermission: Permissions.TenantView,
+              title: "admin.tenants.list.title",
+            },
+          },
+          {
+            name: "tenants-create",
+            path: "create",
+            component: () => import("@/pages/admin/tenants/form.vue"),
+            meta: {
+              requiresPermission: Permissions.TenantCreate,
+              title: "admin.tenants.create.title",
             },
           },
           {
             name: "tenants-view",
             path: ":id/view",
-            component: () => import("@/pages/admin/tenants/edit.vue"),
+            component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantView,
+              title: "admin.tenants.view.title",
             },
           },
           {
             name: "tenants-edit",
             path: ":id/edit",
-            component: () => import("@/pages/admin/tenants/edit.vue"),
+            component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantUpdate,
+              title: "admin.tenants.edit.title",
             },
           },
         ],
