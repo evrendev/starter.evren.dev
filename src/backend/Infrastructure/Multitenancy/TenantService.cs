@@ -2,12 +2,13 @@
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Application.Multitenancy.Entities;
 using EvrenDev.Application.Multitenancy.Interfaces;
-using EvrenDev.Application.Multitenancy.Queries.Create;
+using EvrenDev.Application.Multitenancy.Commands.Create;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Infrastructure.Persistence.Initialization;
 using Finbuckle.MultiTenant;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using EvrenDev.Application.Multitenancy.Commands.Update;
 
 namespace EvrenDev.Infrastructure.Multitenancy;
 
@@ -43,22 +44,21 @@ internal class TenantService(
         return tenantDto;
     }
 
-    public async Task<string> CreateAsync(CreateTenantRequest request, CancellationToken cancellationToken)
+    public async Task<string> CreateAsync(CreateTenantCommand command, CancellationToken cancellationToken)
     {
-        if (request.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim())
-            request.ConnectionString = string.Empty;
+        if (command.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim())
+            command.ConnectionString = string.Empty;
 
-        var tenant = new TenantInfo(request.Id, request.Name, request.ConnectionString, request.AdminEmail, request.Issuer);
+        var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail, command.Issuer);
         await tenantStore.TryAddAsync(tenant);
 
-        // TODO: run this in a hangfire job? will then have to send mail when it's ready or not
         try
         {
             await dbInitializer.InitializeApplicationDbForTenantAsync(tenant, cancellationToken);
         }
         catch
         {
-            await tenantStore.TryRemoveAsync(request.Id);
+            await tenantStore.TryRemoveAsync(command.Id);
             throw;
         }
 
@@ -111,4 +111,25 @@ internal class TenantService(
     private async Task<TenantInfo> GetTenantInfoAsync(string id) =>
         await tenantStore.TryGetAsync(id)
             ?? throw new NotFoundException(string.Format(localizer["entity.notfound"], typeof(TenantInfo).Name, id));
+
+    public async Task<string> UpdateAsync(UpdateTenantCommand command, CancellationToken cancellationToken)
+    {
+        if (command.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim())
+            command.ConnectionString = string.Empty;
+
+        var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail, command.Issuer);
+        await tenantStore.TryUpdateAsync(tenant);
+
+        try
+        {
+            await dbInitializer.InitializeApplicationDbForTenantAsync(tenant, cancellationToken);
+        }
+        catch
+        {
+            await tenantStore.TryRemoveAsync(command.Id);
+            throw;
+        }
+
+        return tenant.Id;
+    }
 }

@@ -1,10 +1,11 @@
 ﻿using EvrenDev.Application.Multitenancy.Entities;
-using EvrenDev.Application.Multitenancy.Queries.Active;
-using EvrenDev.Application.Multitenancy.Queries.Create;
-using EvrenDev.Application.Multitenancy.Queries.Deactivate;
+using EvrenDev.Application.Multitenancy.Commands.Active;
+using EvrenDev.Application.Multitenancy.Commands.Create;
+using EvrenDev.Application.Multitenancy.Commands.Deactivate;
 using EvrenDev.Application.Multitenancy.Queries.Get;
 using EvrenDev.Application.Multitenancy.Queries.GetAll;
-using EvrenDev.Application.Multitenancy.Queries.Upgrade;
+using EvrenDev.Application.Multitenancy.Commands.Upgrade;
+using EvrenDev.Application.Multitenancy.Commands.Update;
 
 namespace EvrenDev.PublicApi.Controllers.Multitenancy;
 
@@ -29,9 +30,26 @@ public class TenantsController : VersionNeutralApiController
     [HttpPost]
     [MustHavePermission(ApiAction.Create, ApiResource.Tenants)]
     [OpenApiOperation("Create a new tenant.", "")]
-    public Task<string> CreateAsync(CreateTenantRequest request)
+    public Task<string> CreateAsync(CreateTenantCommand command)
     {
-        return Mediator.Send(request);
+        return Mediator.Send(command);
+    }
+
+    [HttpPut("{id}")]
+    [MustHavePermission(ApiAction.Update, ApiResource.Tenants)]
+    [OpenApiOperation("Update a tenant.", "")]
+    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
+    public async Task<ApiResponse<string?>> UpdateAsync(string id, UpdateTenantCommand command)
+    {
+        if (!string.Equals(id, command.Id, StringComparison.OrdinalIgnoreCase))
+            return ApiResponse<string?>.Failure("Invalid tenant ID.");
+
+        var data = await Mediator.Send(command);
+
+        if (string.IsNullOrEmpty(data))
+            throw new NotFoundException($"Tenant with ID '{id}' not found.");
+
+        return ApiResponse<string?>.Success(data);
     }
 
     [HttpPost("{id}/activate")]
@@ -40,7 +58,7 @@ public class TenantsController : VersionNeutralApiController
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     public Task<string> ActivateAsync(string id)
     {
-        return Mediator.Send(new ActivateTenantRequest(id));
+        return Mediator.Send(new ActivateTenantCommand(id));
     }
 
     [HttpPost("{id}/deactivate")]
@@ -49,17 +67,17 @@ public class TenantsController : VersionNeutralApiController
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     public Task<string> DeactivateAsync(string id)
     {
-        return Mediator.Send(new DeactivateTenantRequest(id));
+        return Mediator.Send(new DeactivateTenantCommand(id));
     }
 
     [HttpPost("{id}/upgrade")]
     [MustHavePermission(ApiAction.UpgradeSubscription, ApiResource.Tenants)]
     [OpenApiOperation("Upgrade a tenant's subscription.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
-    public async Task<ActionResult<string>> UpgradeSubscriptionAsync(string id, UpgradeSubscriptionRequest request)
+    public async Task<ActionResult<string>> UpgradeSubscriptionAsync(string id, UpgradeSubscriptionCommand command)
     {
-        return id != request.TenantId
+        return id != command.TenantId
             ? BadRequest()
-            : Ok(await Mediator.Send(request));
+            : Ok(await Mediator.Send(command));
     }
 }

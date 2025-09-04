@@ -1,9 +1,9 @@
 ﻿using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Application.Multitenancy.Interfaces;
 
-namespace EvrenDev.Application.Multitenancy.Queries.Create;
+namespace EvrenDev.Application.Multitenancy.Commands.Create;
 
-public class CreateTenantRequest : IRequest<string>
+public class CreateTenantCommand : IRequest<string>
 {
     public string Id { get; set; } = default!;
     public string Name { get; set; } = default!;
@@ -12,11 +12,11 @@ public class CreateTenantRequest : IRequest<string>
     public string? Issuer { get; set; }
 }
 
-public class CreateTenantRequestValidator : CustomValidator<CreateTenantRequest>
+public class CreateTenantCommandValidator : CustomValidator<CreateTenantCommand>
 {
-    public CreateTenantRequestValidator(
+    public CreateTenantCommandValidator(
         ITenantService tenantService,
-        IStringLocalizer<CreateTenantRequestValidator> localizer,
+        IStringLocalizer<CreateTenantCommandValidator> localizer,
         IConnectionStringValidator connectionStringValidator)
     {
         RuleFor(t => t.Id).Cascade(CascadeMode.Stop)
@@ -39,8 +39,8 @@ public class CreateTenantRequestValidator : CustomValidator<CreateTenantRequest>
     }
 }
 
-public class CreateTenantRequestHandler(ITenantService tenantService) : IRequestHandler<CreateTenantRequest, string>
+public class CreateTenantCommandHandler(ITenantService tenantService) : IRequestHandler<CreateTenantCommand, string>
 {
-    public Task<string> Handle(CreateTenantRequest request, CancellationToken cancellationToken) =>
-        tenantService.CreateAsync(request, cancellationToken);
+    public Task<string> Handle(CreateTenantCommand command, CancellationToken cancellationToken) =>
+        tenantService.CreateAsync(command, cancellationToken);
 }
