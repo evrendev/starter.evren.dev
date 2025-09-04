@@ -173,7 +173,9 @@
       },
       "notifications": {
         "updated": "Mandant erfolgreich aktualisiert",
-        "updateFailed": "Fehler beim Aktualisieren des Mandanten"
+        "updateFailed": "Fehler beim Aktualisieren des Mandanten",
+        "created": "Mandant erfolgreich erstellt",
+        "createFailed": "Fehler beim Erstellen des Mandanten"
       }
     }
   },

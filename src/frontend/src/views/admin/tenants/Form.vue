@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { RouteRecordNameGeneric } from "vue-router";
 import { Tenant } from "@/requests/tenant";
 import { toTypedSchema } from "@vee-validate/yup";
 import { object, boolean, date, string } from "yup";
@@ -10,7 +11,7 @@ const props = defineProps<{
   tenant: Tenant | null;
   pageTitle: string;
   loading: boolean;
-  viewOnly: boolean;
+  routeName: RouteRecordNameGeneric;
 }>();
 
 const schema = toTypedSchema(
@@ -38,6 +39,8 @@ const isActiveOptions = computed(() => [
   { value: false, text: t("shared.options.isActive.false") },
 ]);
 
+const readOnly: Ref<boolean> = ref(props.routeName === "tenants-view");
+
 watch(
   () => props.tenant,
   (tenantName) => {
@@ -61,11 +64,11 @@ const [connectionString, connectionStringAttrs] =
   defineField("connectionString");
 
 const emit = defineEmits<{
-  (e: "enableEdit"): void;
   (e: "submit", values: Tenant): void;
 }>();
 
 const submit = handleSubmit((values: Tenant) => {
+  console.log(values);
   emit("submit", values);
 });
 </script>
@@ -83,7 +86,7 @@ const submit = handleSubmit((values: Tenant) => {
       />
     </v-card-title>
     <v-card-text>
-      <v-form :disabled="viewOnly">
+      <v-form :disabled="readOnly">
         <v-row>
           <v-col cols="12" md="3">
             <label for="id" v-text="t('admin.tenants.fields.id.title')" />
@@ -210,7 +213,7 @@ const submit = handleSubmit((values: Tenant) => {
               color="success"
               size="small"
               prepend-icon="bx-save"
-              v-if="!viewOnly"
+              v-if="!readOnly"
               @click="submit"
             >
               {{ t("shared.save") }}
@@ -219,8 +222,8 @@ const submit = handleSubmit((values: Tenant) => {
               color="warning"
               size="small"
               prepend-icon="bx-lock-open-alt"
-              v-if="viewOnly"
-              @click="emit('enableEdit')"
+              v-if="readOnly"
+              @click="readOnly = false"
             >
               {{ t("shared.enableEdit") }}
             </v-btn>

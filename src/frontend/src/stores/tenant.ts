@@ -91,5 +91,23 @@ export const useTenantStore = defineStore("tenant", {
         appStore.setLoading(false);
       }
     },
+    async create(tenant: Tenant) {
+      this.loading = true;
+      appStore.setLoading(true);
+
+      try {
+        const { data } = await useHttpClient().post("/tenants", tenant);
+
+        this.tenant = data;
+
+        return data;
+      } catch (error) {
+        console.error("Error creating tenant:", error);
+        return null;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
   },
 });

@@ -175,7 +175,9 @@
       },
       "notifications": {
         "updated": "Tenant updated successfully",
-        "updateFailed": "Failed to update tenant"
+        "updateFailed": "Failed to update tenant",
+        "created": "Tenant created successfully",
+        "createFailed": "Failed to create tenant"
       }
     }
   },

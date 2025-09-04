@@ -30,9 +30,9 @@ public class TenantsController : VersionNeutralApiController
     [HttpPost]
     [MustHavePermission(ApiAction.Create, ApiResource.Tenants)]
     [OpenApiOperation("Create a new tenant.", "")]
-    public Task<string> CreateAsync(CreateTenantCommand command)
+    public async Task<ApiResponse<string?>> CreateAsync(CreateTenantCommand command)
     {
-        return Mediator.Send(command);
+        return ApiResponse<string?>.Success(await Mediator.Send(command));
     }
 
     [HttpPut("{id}")]
@@ -44,12 +44,7 @@ public class TenantsController : VersionNeutralApiController
         if (!string.Equals(id, command.Id, StringComparison.OrdinalIgnoreCase))
             return ApiResponse<string?>.Failure("Invalid tenant ID.");
 
-        var data = await Mediator.Send(command);
-
-        if (string.IsNullOrEmpty(data))
-            throw new NotFoundException($"Tenant with ID '{id}' not found.");
-
-        return ApiResponse<string?>.Success(data);
+        return ApiResponse<string?>.Success(await Mediator.Send(command));
     }
 
     [HttpPost("{id}/activate")]

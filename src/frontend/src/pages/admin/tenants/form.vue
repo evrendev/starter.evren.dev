@@ -13,7 +13,6 @@ const { loading } = storeToRefs(tenantStore);
 
 const route = useRoute();
 const router = useRouter();
-const viewOnly = ref(route.name === "tenants-view");
 
 const pageTitle: ComputedRef<string> = computed(() =>
   t(route.meta.title as string),
@@ -27,13 +26,6 @@ onMounted(async () => {
     tenant.value = await tenantStore.getTenant(id as string);
   }
 });
-
-watch(
-  () => route.name,
-  (routeName) => {
-    viewOnly.value = routeName === "tenants-view";
-  },
-);
 
 const breadcrumbs = computed(() => [
   {
@@ -51,13 +43,25 @@ const breadcrumbs = computed(() => [
 ]);
 
 const handleSubmit = async (values: Tenant) => {
-  const response: DefaultApiResponse<string> = await tenantStore.update(values);
+  console.log(route.name);
+  const response: DefaultApiResponse<string> =
+    route.name === "tenants-create"
+      ? await tenantStore.create(values)
+      : await tenantStore.update(values);
 
   if (response.succeeded) {
-    Notify.success(t("admin.tenants.notifications.updated"));
+    Notify.success(
+      t(
+        `admin.tenants.notifications.${route.name === "tenants-create" ? "created" : "updated"}`,
+      ),
+    );
     router.push({ name: "tenants-list" });
   } else {
-    Notify.error(t("admin.tenants.notifications.updateFailed"));
+    Notify.error(
+      t(
+        `admin.tenants.notifications.${route.name === "tenants-create" ? "createFailed" : "updateFailed"}`,
+      ),
+    );
   }
 };
 </script>
@@ -67,9 +71,8 @@ const handleSubmit = async (values: Tenant) => {
   <tenant-form
     :tenant="tenant"
     :loading="loading"
-    :view-only="viewOnly"
+    :route-name="route.name"
     :page-title="pageTitle"
-    @enable-edit="viewOnly = false"
     @submit="handleSubmit"
   />
 </template>
