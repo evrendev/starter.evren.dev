@@ -34,9 +34,14 @@ internal class TenantService(
     public async Task<bool> ExistsWithNameAsync(string name) =>
         (await tenantStore.GetAllAsync()).Any(t => t.Name == name);
 
-    public async Task<TenantDto> GetByIdAsync(string id) =>
-        (await GetTenantInfoAsync(id))
-            .Adapt<TenantDto>();
+    public async Task<TenantDto> GetByIdAsync(string id)
+    {
+        var tenant = await GetTenantInfoAsync(id);
+        var tenantDto = tenant.Adapt<TenantDto>();
+        tenantDto.ConnectionString = csSecurer.MakeSecure(tenantDto.ConnectionString);
+        tenantDto.ValidUpto = tenant.ValidUpto.ToString("yyyy-MM-dd");
+        return tenantDto;
+    }
 
     public async Task<string> CreateAsync(CreateTenantRequest request, CancellationToken cancellationToken)
     {
