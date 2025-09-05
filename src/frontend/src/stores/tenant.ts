@@ -41,7 +41,6 @@ export const useTenantStore = defineStore("tenant", {
     },
     setFilters(basicFilters: BasicFilters) {
       this.filters = { ...this.filters, ...basicFilters };
-      console.log(this.filters);
     },
     async getItems() {
       this.loading = true;
