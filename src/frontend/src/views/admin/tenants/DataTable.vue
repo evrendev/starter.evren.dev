@@ -154,7 +154,7 @@ const deactivate = (id: string) => {
   </v-card>
 
   <confirm-dialog
-    v-model="showDeleteConfirmDialog"
+    v-model:show-dialog="showDeleteConfirmDialog"
     :confirm-button-text="t('shared.confirm')"
     :cancel-button-text="t('shared.cancel')"
     :title="dialogTitle"

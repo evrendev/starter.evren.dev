@@ -2,7 +2,7 @@
 const { t } = useI18n();
 const props = withDefaults(
   defineProps<{
-    modelValue: boolean;
+    showDialog: boolean;
     title: string | null;
     message: string | null;
     confirmButtonText?: string;
@@ -11,7 +11,7 @@ const props = withDefaults(
     cancelButtonColor?: string;
   }>(),
   {
-    modelValue: false,
+    showDialog: false,
     title: null,
     message: null,
     confirmButtonColor: "primary",
@@ -19,33 +19,28 @@ const props = withDefaults(
   },
 );
 
-const emit = defineEmits(["update:modelValue", "confirm", "cancel"]);
+const emit = defineEmits(["update:showDialog", "confirm", "cancel"]);
 
-const dialog = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
+const show = computed({
+  get: () => props.showDialog,
+  set: (value) => emit("update:showDialog", value),
 });
 
 const onConfirm = () => {
   emit("confirm");
-  emit("update:modelValue", false);
+  emit("update:showDialog", false);
 };
 
 const onCancel = () => {
   emit("cancel");
-  emit("update:modelValue", false);
+  emit("update:showDialog", false);
 };
 </script>
 
 <template>
-  <v-dialog
-    v-model="dialog"
-    max-width="500px"
-    persistent
-    class="dialog-colored-title"
-  >
+  <v-dialog v-model="show" max-width="500px" persistent>
     <v-card>
-      <v-card-title class="text-h5">
+      <v-card-title class="text-h5 bg-primary">
         {{ title }}
       </v-card-title>
 
