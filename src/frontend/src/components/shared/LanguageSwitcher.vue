@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import FlagTr from "@/assets/icons/FlagTr.vue";
-import FlagEn from "@/assets/icons/FlagEn.vue";
-import FlagDe from "@/assets/icons/FlagDe.vue";
+import { EnglishFlag, DeutschFlag, TurkishFlag } from "@/assets/icons";
 
 const { t, locale } = useI18n();
 
@@ -18,9 +16,9 @@ const changeLanguageHandler = (lang: string) => {
 <template>
   <icon-btn>
     <VIcon>
-      <flag-de v-if="locale === 'de'" />
-      <flag-tr v-if="locale === 'tr'" />
-      <flag-en v-if="locale === 'en'" />
+      <deutsch-flag v-if="locale === 'de'" />
+      <turkish-flag v-if="locale === 'tr'" />
+      <english-flag v-if="locale === 'en'" />
     </VIcon>
     <VTooltip activator="parent" open-delay="1000" scroll-strategy="close">
       <span class="text-capitalize">
@@ -50,9 +48,9 @@ const changeLanguageHandler = (lang: string) => {
           @click="changeLanguageHandler(lang.code)"
         >
           <template #prepend>
-            <flag-de width="24" v-if="lang.code === 'de'" />
-            <flag-tr width="24" v-if="lang.code === 'tr'" />
-            <flag-en width="24" v-if="lang.code === 'en'" />
+            <deutsch-flag width="24" v-if="lang.code === 'de'" />
+            <turkish-flag width="24" v-if="lang.code === 'tr'" />
+            <english-flag width="24" v-if="lang.code === 'en'" />
           </template>
 
           <v-list-item-title>
