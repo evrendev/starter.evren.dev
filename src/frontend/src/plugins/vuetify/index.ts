@@ -5,9 +5,10 @@ import { VBtn } from "vuetify/components/VBtn";
 import defaults from "./defaults";
 import { icons } from "./icons";
 import { themes } from "./theme";
+import { locale } from "./locale";
+import { date } from "./date";
 
 // Styles
-
 import "@/assets/styles/admin/template/libs/vuetify/index.scss";
 import "vuetify/styles";
 
@@ -18,6 +19,8 @@ export default function (app: App) {
     },
     defaults,
     icons,
+    locale,
+    date,
     theme: {
       defaultTheme: "light",
       themes,
