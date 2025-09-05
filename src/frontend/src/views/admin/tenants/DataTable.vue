@@ -6,6 +6,7 @@ const { t, locale } = useI18n();
 
 defineProps<{
   itemsPerPage: number;
+  itemValue: string;
   items: Array<any>;
   total: number;
   loading: boolean;
@@ -17,6 +18,7 @@ const emit = defineEmits<{
   (e: "activate", id: string): void;
   (e: "deactivate", id: string): void;
   (e: "upgrade", tenant: UpgradeTenant): void;
+  (e: "update:options", options: any): void;
 }>();
 
 const tenantId: Ref<string> = ref("");
@@ -90,8 +92,10 @@ const upgrade = () => {
         :items-per-page="itemsPerPage"
         :items="items"
         :items-length="total"
+        :item-value="itemValue"
         :headers="headers"
         :loading="loading"
+        @update:options="emit('update:options', $event)"
         class="striped border"
       >
         <template #[`item.id`]="{ item }">

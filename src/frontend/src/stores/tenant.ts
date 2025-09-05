@@ -1,4 +1,9 @@
-import { Tenant, Filters, UpgradeTenant } from "@/requests/tenant";
+import {
+  Tenant,
+  Filters,
+  UpgradeTenant,
+  BasicFilters,
+} from "@/requests/tenant";
 import { DefaultApiResponse } from "@/responses/api";
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
@@ -11,39 +16,39 @@ const DEFAULT_FILTER: Filters = {
   startDate: null,
   endDate: null,
   showActiveItems: null,
-  showDeletedItems: null,
   sortBy: [],
-  currentPage: 1,
-  itemsPerPage: 10,
+  groupBy: [],
+  page: 1,
+  itemsPerPage: 25,
 };
 
 export const useTenantStore = defineStore("tenant", {
   state: () => ({
-    loading: false,
+    loading: false as boolean,
     items: [] as Tenant[],
-    tenant: {} as Tenant | null,
-    filters: {} as Filters,
+    tenant: null as Tenant | null,
+    filters: DEFAULT_FILTER,
   }),
   getters: {
     itemsPerPage: (state) =>
       state.filters.itemsPerPage ?? DEFAULT_FILTER.itemsPerPage,
-    currentPage: (state) =>
-      state.filters.currentPage ?? DEFAULT_FILTER.currentPage,
+    page: (state) => state.filters.page ?? DEFAULT_FILTER.page,
     total: (state) => state.items.length,
   },
   actions: {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(newFilters: Filters) {
-      this.filters = { ...this.filters, ...newFilters };
+    setFilters(basicFilters: BasicFilters) {
+      this.filters = { ...this.filters, ...basicFilters };
+      console.log(this.filters);
     },
-    async getItems(filters: Filters) {
+    async getItems() {
       this.loading = true;
 
       try {
         const { data } = await useHttpClient().get("/tenants", {
-          params: filters,
+          params: this.filters,
         });
 
         this.items = data;

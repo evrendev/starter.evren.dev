@@ -7,16 +7,19 @@ export interface Tenant {
   validUpto: string;
   issuer: string;
 }
-export interface Filters {
+export interface Filters extends BasicFilters {
+  sortBy: [];
+  groupBy: [];
+  page: number;
+  itemsPerPage: number;
+}
+export interface BasicFilters {
   search: string | null;
   startDate: Date | null;
   endDate: Date | null;
   showActiveItems: boolean | null;
-  showDeletedItems: boolean | null;
-  sortBy: [];
-  currentPage: number;
-  itemsPerPage: number;
 }
+
 export interface UpgradeTenant {
   tenantId: string;
   extendedExpiryDate: string;

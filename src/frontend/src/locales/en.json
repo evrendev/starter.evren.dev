@@ -198,7 +198,6 @@
   "shared": {
     "actions": "Actions",
     "search": "Search",
-    "filters": "Filters",
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
@@ -212,11 +211,22 @@
     "activate": "Activate",
     "deactivate": "Deactivate",
     "upgrade": "Upgrade",
+    "reset": "Reset",
+    "filter": "Filter",
     "options": {
+      "choice": "Choose an option",
       "isActive": {
+        "all": "All",
         "true": "Active",
         "false": "Inactive"
       }
+    },
+    "filters": {
+      "title": "Filters",
+      "search": "Search...",
+      "isActive": "Active",
+      "startDate": "Start Date",
+      "endDate": "End Date"
     }
   }
 }

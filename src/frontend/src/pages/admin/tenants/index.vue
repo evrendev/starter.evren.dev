@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { DataTable } from "@/views/admin/tenants";
+import { DataTable, TenantFilter } from "@/views/admin/tenants";
 
 import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
-import { UpgradeTenant } from "@/requests/tenant";
+import { BasicFilters, Filters, UpgradeTenant } from "@/requests/tenant";
 
 const tenantStore = useTenantStore();
-const filters = tenantStore.filters;
-const { itemsPerPage, items, total, loading } = storeToRefs(tenantStore);
+const { itemsPerPage, items, total, loading, filters } =
+  storeToRefs(tenantStore);
 
 const { t } = useI18n();
 const route = useRoute();
-
-onMounted(async () => {
-  await tenantStore.getItems(filters);
-});
 
 const headers = computed(() => [
   {
@@ -110,10 +106,31 @@ const handleUpgrade = async (tenant: UpgradeTenant) => {
     Notify.error(t("admin.tenants.notifications.upgradeFailed"));
   }
 };
+
+const handleUpdateFilters = async (filters: BasicFilters) => {
+  tenantStore.setFilters(filters);
+  await tenantStore.getItems();
+};
+
+const handleResetFilters = async () => {
+  tenantStore.resetFilters();
+  await tenantStore.getItems();
+};
+
+const getItems = async (filter: Filters) => {
+  tenantStore.setFilters(filter);
+  await tenantStore.getItems();
+};
 </script>
 
 <template>
   <breadcrumb :items="breadcrumbs" />
+  <tenant-filter
+    :page-title="t('shared.filters.title')"
+    :disabled="loading"
+    @submit="handleUpdateFilters"
+    @reset="handleResetFilters"
+  />
   <data-table
     :items-per-page="itemsPerPage"
     :items="items"
@@ -124,5 +141,7 @@ const handleUpgrade = async (tenant: UpgradeTenant) => {
     @activate="handleActivate"
     @deactivate="handleDeactivate"
     @upgrade="handleUpgrade"
+    @update:options="getItems"
+    item-value="id"
   />
 </template>

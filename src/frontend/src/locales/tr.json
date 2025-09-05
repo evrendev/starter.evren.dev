@@ -198,7 +198,6 @@
   "shared": {
     "actions": "Eylemler",
     "search": "Arama",
-    "filters": "Filtreler",
     "save": "Kaydet",
     "delete": "Sil",
     "edit": "Düzenle",
@@ -212,11 +211,22 @@
     "activate": "Aktif Et",
     "deactivate": "Pasif Et",
     "upgrade": "Yükselt",
+    "reset": "Sıfırla",
+    "filter": "Filtrele",
     "options": {
+      "choice": "Bir seçenek seçin",
       "isActive": {
+        "all": "Hepsi",
         "true": "Aktif",
         "false": "Pasif"
       }
+    },
+    "filters": {
+      "title": "Filtreler",
+      "search": "Arama...",
+      "isActive": "Aktif",
+      "startDate": "Başlangıç Tarihi",
+      "endDate": "Bitiş Tarihi"
     }
   }
 }
