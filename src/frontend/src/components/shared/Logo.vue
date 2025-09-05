@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logo from "@images/logo.svg?raw";
+import logo from "@images/svg/logo.svg?raw";
 
 const { t } = useI18n();
 </script>
