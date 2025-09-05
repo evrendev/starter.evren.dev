@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Tenant } from "@/requests/tenant";
 import { Notify } from "@/stores/notification";
-import TenantForm from "@/views/admin/tenants/Form.vue";
+import { TenantForm } from "@/views/admin/tenants";
 
 import { useTenantStore } from "@/stores/tenant";
 import { DefaultApiResponse } from "@/responses/api";

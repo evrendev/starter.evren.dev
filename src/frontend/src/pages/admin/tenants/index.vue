@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DataTable from "@/views/admin/tenants/DataTable.vue";
+import { DataTable } from "@/views/admin/tenants";
 
 import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
