@@ -17,8 +17,38 @@ export function useHttpClient(): AxiosInstance {
         }
         return config;
       },
-      (error) => {
-        console.error("Failed to set token", error);
+      async (error) => {
+        const prevRequest = error?.config;
+        if (
+          (error?.response?.status === 403 ||
+            error?.response?.status === 401) &&
+          !prevRequest._retry &&
+          authStore.refreshToken.length > 0
+        ) {
+          if (retryCount >= MAX_RETRIES) {
+            window.location.href = "/auth/login";
+            return Promise.reject(error);
+          }
+
+          prevRequest._retry = true;
+          retryCount += 1;
+
+          try {
+            const result = await authStore.refresh();
+            if (result.succeeded) {
+              prevRequest.headers["Authorization"] =
+                `Bearer ${authStore.accessToken}`;
+              retryCount = 0;
+              return http(prevRequest);
+            } else {
+              return Promise.reject(error);
+            }
+          } catch (error) {
+            return Promise.reject(error);
+          }
+        }
+
+        return Promise.reject(error);
       },
     );
 
