@@ -232,3 +232,13 @@ const submit = handleSubmit((values: Tenant) => {
     </v-card-text>
   </v-card>
 </template>
+
+<style scoped type="scss">
+:deep(label) {
+  font-weight: 600;
+
+  &::after {
+    content: ":";
+  }
+}
+</style>
