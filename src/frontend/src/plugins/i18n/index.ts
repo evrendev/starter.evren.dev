@@ -1,8 +1,6 @@
 import type { App } from "vue";
 import { createI18n } from "vue-i18n";
-import en from "@/locales/en.json";
-import de from "@/locales/de.json";
-import tr from "@/locales/tr.json";
+import { de, en, tr } from "@/locales";
 
 const DEFAULT_LANGUAGE =
   (import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string) || "en";
