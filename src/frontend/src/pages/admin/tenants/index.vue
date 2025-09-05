@@ -3,8 +3,6 @@ import DataTable from "@/views/admin/tenants/DataTable.vue";
 
 import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
-import { DefaultApiResponse } from "@/responses/api";
-import { AxiosResponse } from "axios";
 const tenantStore = useTenantStore();
 const filters = tenantStore.filters;
 const { itemsPerPage, items, total, loading } = storeToRefs(tenantStore);
