@@ -88,7 +88,11 @@ const submit = handleSubmit((values: Tenant) => {
       <v-form :disabled="readOnly">
         <v-row>
           <v-col cols="12" md="3">
-            <label for="id" v-text="t('admin.tenants.fields.id.title')" />
+            <label
+              for="id"
+              class="form-label"
+              v-text="t('admin.tenants.fields.id.title')"
+            />
           </v-col>
           <v-col cols="12" md="9">
             <v-text-field
@@ -102,7 +106,11 @@ const submit = handleSubmit((values: Tenant) => {
         </v-row>
         <v-row>
           <v-col cols="12" md="3">
-            <label for="id" v-text="t('admin.tenants.fields.name.title')" />
+            <label
+              for="name"
+              class="form-label"
+              v-text="t('admin.tenants.fields.name.title')"
+            />
           </v-col>
           <v-col cols="12" md="9">
             <v-text-field
@@ -117,6 +125,7 @@ const submit = handleSubmit((values: Tenant) => {
         <v-row>
           <v-col cols="12" md="3">
             <label
+              class="form-label"
               for="adminEmail"
               v-text="t('admin.tenants.fields.adminEmail.title')"
             />
@@ -134,6 +143,7 @@ const submit = handleSubmit((values: Tenant) => {
         <v-row>
           <v-col cols="12" md="3">
             <label
+              class="form-label"
               for="connectionString"
               v-text="t('admin.tenants.fields.connectionString.title')"
             />
@@ -152,6 +162,7 @@ const submit = handleSubmit((values: Tenant) => {
         <v-row>
           <v-col cols="12" md="3">
             <label
+              class="form-label"
               for="issuer"
               v-text="t('admin.tenants.fields.issuer.title')"
             />
@@ -190,6 +201,7 @@ const submit = handleSubmit((values: Tenant) => {
         <v-row>
           <v-col cols="12" md="3">
             <label
+              class="form-label"
               for="validUpto"
               v-text="t('admin.tenants.fields.validUpto.title')"
             />
@@ -235,10 +247,12 @@ const submit = handleSubmit((values: Tenant) => {
 
 <style scoped type="scss">
 :deep(label) {
-  font-weight: 600;
+  &.form-label {
+    font-weight: 600;
 
-  &::after {
-    content: ":";
+    &::after {
+      content: ":";
+    }
   }
 }
 </style>
