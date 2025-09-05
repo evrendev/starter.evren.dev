@@ -3,6 +3,8 @@ import { DataTable } from "@/views/admin/tenants";
 
 import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
+import { UpgradeTenant } from "@/requests/tenant";
+
 const tenantStore = useTenantStore();
 const filters = tenantStore.filters;
 const { itemsPerPage, items, total, loading } = storeToRefs(tenantStore);
@@ -71,7 +73,7 @@ const handleDelete = async (id: string | null) => {
   if (id) {
     const response = await tenantStore.delete(id);
 
-    if (response) {
+    if (response.succeeded) {
       Notify.success(t("admin.tenants.notifications.deleted"));
     } else {
       Notify.error(t("admin.tenants.notifications.deleteFailed"));
@@ -82,7 +84,7 @@ const handleDelete = async (id: string | null) => {
 const handleActivate = async (id: string) => {
   const response = await tenantStore.activate(id);
 
-  if (response) {
+  if (response.succeeded) {
     Notify.success(t("admin.tenants.notifications.activated"));
   } else {
     Notify.error(t("admin.tenants.notifications.activateFailed"));
@@ -92,10 +94,20 @@ const handleActivate = async (id: string) => {
 const handleDeactivate = async (id: string) => {
   const response = await tenantStore.deactivate(id);
 
-  if (response) {
+  if (response.succeeded) {
     Notify.success(t("admin.tenants.notifications.deactivated"));
   } else {
     Notify.error(t("admin.tenants.notifications.deactivateFailed"));
+  }
+};
+
+const handleUpgrade = async (tenant: UpgradeTenant) => {
+  const response = await tenantStore.upgrade(tenant);
+
+  if (response.succeeded) {
+    Notify.success(t("admin.tenants.notifications.upgraded"));
+  } else {
+    Notify.error(t("admin.tenants.notifications.upgradeFailed"));
   }
 };
 </script>
@@ -111,5 +123,6 @@ const handleDeactivate = async (id: string) => {
     @delete="handleDelete"
     @activate="handleActivate"
     @deactivate="handleDeactivate"
+    @upgrade="handleUpgrade"
   />
 </template>

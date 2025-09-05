@@ -7,7 +7,6 @@ export interface Tenant {
   validUpto: string;
   issuer: string;
 }
-
 export interface Filters {
   search: string | null;
   startDate: Date | null;
@@ -17,4 +16,8 @@ export interface Filters {
   sortBy: [];
   currentPage: number;
   itemsPerPage: number;
+}
+export interface UpgradeTenant {
+  tenantId: string;
+  extendedExpiryDate: string;
 }

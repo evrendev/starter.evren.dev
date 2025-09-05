@@ -185,7 +185,13 @@
         "activated": "Kiracı başarıyla aktifleştirildi",
         "deactivated": "Kiracı başarıyla devre dışı bırakıldı",
         "activateFailed": "Kiracı aktifleştirilirken hata oluştu",
-        "deactivateFailed": "Kiracı devre dışı bırakılırken hata oluştu"
+        "deactivateFailed": "Kiracı devre dışı bırakılırken hata oluştu",
+        "upgraded": "Kiracı başarıyla yükseltildi",
+        "upgradeFailed": "Kiracı yükseltilirken hata oluştu"
+      },
+      "upgrade": {
+        "title": "Kiracıyı Yükselt",
+        "message": "{name} kiracısını yükseltmek istediğinizden emin misiniz?"
       }
     }
   },
@@ -205,6 +211,7 @@
     "cancel": "İptal",
     "activate": "Aktif Et",
     "deactivate": "Pasif Et",
+    "upgrade": "Yükselt",
     "options": {
       "isActive": {
         "true": "Aktif",

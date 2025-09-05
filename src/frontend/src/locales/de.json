@@ -185,7 +185,13 @@
         "activated": "Mandant erfolgreich aktiviert",
         "deactivated": "Mandant erfolgreich deaktiviert",
         "activateFailed": "Fehler beim Aktivieren des Mandanten",
-        "deactivateFailed": "Fehler beim Deaktivieren des Mandanten"
+        "deactivateFailed": "Fehler beim Deaktivieren des Mandanten",
+        "upgraded": "Mandant erfolgreich aktualisiert",
+        "upgradeFailed": "Fehler beim Aktualisieren des Mandanten"
+      },
+      "upgrade": {
+        "title": "Mandanten-Upgrade",
+        "message": "Sind Sie sicher, dass Sie {name} upgraden möchten?"
       }
     }
   },
@@ -205,6 +211,7 @@
     "cancel": "Abbrechen",
     "activate": "Aktivieren",
     "deactivate": "Deaktivieren",
+    "upgrade": "Upgrade",
     "options": {
       "isActive": {
         "true": "Aktiv",

@@ -185,7 +185,13 @@
         "activated": "Tenant activated successfully",
         "deactivated": "Tenant deactivated successfully",
         "activateFailed": "Failed to activate tenant",
-        "deactivateFailed": "Failed to deactivate tenant"
+        "deactivateFailed": "Failed to deactivate tenant",
+        "upgraded": "Tenant upgraded successfully",
+        "upgradeFailed": "Failed to upgrade tenant"
+      },
+      "upgrade": {
+        "title": "Upgrade Tenant",
+        "message": "Are you sure you want to upgrade {name}?"
       }
     }
   },
@@ -205,6 +211,7 @@
     "cancel": "Cancel",
     "activate": "Activate",
     "deactivate": "Deactivate",
+    "upgrade": "Upgrade",
     "options": {
       "isActive": {
         "true": "Active",

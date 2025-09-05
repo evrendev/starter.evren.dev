@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import StatusIcon from "@/components/admin/StatusIcon.vue";
-import { Tenant } from "@/requests/tenant";
+import { Tenant, UpgradeTenant } from "@/requests/tenant";
 import { useDateFormat } from "@vueuse/core";
 const { t, locale } = useI18n();
 
@@ -16,12 +16,15 @@ const emit = defineEmits<{
   (e: "delete", id: string | null): void;
   (e: "activate", id: string): void;
   (e: "deactivate", id: string): void;
+  (e: "upgrade", tenant: UpgradeTenant): void;
 }>();
 
-const tenantId: Ref<string | null> = ref(null);
-const showDeleteConfirmDialog = ref(false);
+const tenantId: Ref<string> = ref("");
+const toggleDeleteConfirmDialog = ref(false);
+const toggleUpgradeModalWindow = ref(false);
 const dialogTitle: Ref<string | null> = ref(null);
 const dialogMessage: Ref<string | null> = ref(null);
+const extendedExpiryDate: Ref<string> = ref("");
 
 const showDeleteConfirmModal = (tenant: Tenant) => {
   tenantId.value = tenant.id;
@@ -31,7 +34,15 @@ const showDeleteConfirmModal = (tenant: Tenant) => {
   dialogMessage.value = t("admin.tenants.notifications.deleteMessage", {
     name: tenant.name,
   });
-  showDeleteConfirmDialog.value = true;
+  toggleDeleteConfirmDialog.value = true;
+};
+
+const showUpgradeModal = (tenant: Tenant) => {
+  tenantId.value = tenant.id;
+  extendedExpiryDate.value = tenant.validUpto
+    ? new Date(tenant.validUpto).toISOString().split("T")[0]
+    : "";
+  toggleUpgradeModalWindow.value = true;
 };
 
 const confirmDelete = () => {
@@ -39,8 +50,8 @@ const confirmDelete = () => {
 };
 
 const abortDelete = () => {
-  tenantId.value = null;
-  showDeleteConfirmDialog.value = false;
+  tenantId.value = "";
+  toggleDeleteConfirmDialog.value = false;
 };
 
 const activate = (id: string) => {
@@ -49,6 +60,16 @@ const activate = (id: string) => {
 
 const deactivate = (id: string) => {
   emit("deactivate", id);
+};
+
+const upgrade = () => {
+  const tenant: UpgradeTenant = {
+    tenantId: tenantId.value,
+    extendedExpiryDate: extendedExpiryDate.value,
+  };
+
+  emit("upgrade", tenant);
+  toggleUpgradeModalWindow.value = false;
 };
 </script>
 
@@ -146,6 +167,13 @@ const deactivate = (id: string) => {
                   />
                 </template>
               </v-list-item>
+
+              <v-list-item @click="showUpgradeModal(item)">
+                <v-list-item-title v-text="t('shared.upgrade')" />
+                <template v-slot:prepend>
+                  <v-icon icon="bx-trending-up" />
+                </template>
+              </v-list-item>
             </v-list>
           </v-menu>
         </template>
@@ -154,7 +182,7 @@ const deactivate = (id: string) => {
   </v-card>
 
   <confirm-dialog
-    v-model:show-dialog="showDeleteConfirmDialog"
+    v-model:show-dialog="toggleDeleteConfirmDialog"
     :confirm-button-text="t('shared.confirm')"
     :cancel-button-text="t('shared.cancel')"
     :title="dialogTitle"
@@ -162,4 +190,32 @@ const deactivate = (id: string) => {
     @confirm="confirmDelete"
     @cancel="abortDelete"
   />
+
+  <modal-window
+    :show-modal="toggleUpgradeModalWindow"
+    :title="t('admin.tenants.upgrade.title')"
+    @update:toggle-modal="() => {}"
+  >
+    <template #content>
+      <v-container>
+        <v-row justify="space-around">
+          <v-locale-provider :locale="locale">
+            <v-date-picker
+              color="primary"
+              v-model="extendedExpiryDate"
+            ></v-date-picker>
+          </v-locale-provider>
+        </v-row>
+      </v-container>
+    </template>
+
+    <template #action-buttons>
+      <v-btn
+        @click="toggleUpgradeModalWindow = false"
+        v-text="t('shared.cancel')"
+        color="secondary"
+      />
+      <v-btn @click="upgrade" v-text="t('shared.confirm')" color="primary" />
+    </template>
+  </modal-window>
 </template>
