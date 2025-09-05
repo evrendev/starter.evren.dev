@@ -6,8 +6,7 @@ import { useTenantStore } from "@/stores/tenant";
 import { BasicFilters, Filters, UpgradeTenant } from "@/requests/tenant";
 
 const tenantStore = useTenantStore();
-const { itemsPerPage, items, total, loading, filters } =
-  storeToRefs(tenantStore);
+const { itemsPerPage, items, total, loading } = storeToRefs(tenantStore);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -117,8 +116,8 @@ const handleResetFilters = async () => {
   await tenantStore.getItems();
 };
 
-const getItems = async (filter: Filters) => {
-  tenantStore.setFilters(filter);
+const getItems = async (options: Filters) => {
+  tenantStore.setFilters(options);
   await tenantStore.getItems();
 };
 </script>
