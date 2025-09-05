@@ -181,7 +181,11 @@
         "deleteConfirm": "{name} Sil",
         "deleteMessage": "{name} kiracısını silmek istediğinizden emin misiniz?",
         "deleted": "Kiracı başarıyla silindi",
-        "deleteFailed": "Kiracı silinirken hata oluştu"
+        "deleteFailed": "Kiracı silinirken hata oluştu",
+        "activated": "Kiracı başarıyla aktifleştirildi",
+        "deactivated": "Kiracı başarıyla devre dışı bırakıldı",
+        "activateFailed": "Kiracı aktifleştirilirken hata oluştu",
+        "deactivateFailed": "Kiracı devre dışı bırakılırken hata oluştu"
       }
     }
   },
@@ -199,6 +203,8 @@
     "enableEdit": "Düzenlemeyi Etkinleştir",
     "confirm": "Onayla",
     "cancel": "İptal",
+    "activate": "Aktif Et",
+    "deactivate": "Pasif Et",
     "options": {
       "isActive": {
         "true": "Aktif",

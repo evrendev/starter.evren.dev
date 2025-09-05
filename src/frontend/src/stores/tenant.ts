@@ -137,5 +137,57 @@ export const useTenantStore = defineStore("tenant", {
         appStore.setLoading(false);
       }
     },
+    async activate(id: string): Promise<DefaultApiResponse<boolean>> {
+      this.loading = true;
+      appStore.setLoading(true);
+
+      try {
+        const response: AxiosResponse<DefaultApiResponse<boolean>> =
+          await useHttpClient().post(`/tenants/${id}/activate`);
+
+        if (response.data.succeeded) {
+          const index = this.items.findIndex((item) => item.id === id);
+          if (index !== -1) this.items[index].isActive = true;
+        }
+
+        return response.data;
+      } catch (error) {
+        const response: DefaultApiResponse<boolean> = {
+          succeeded: false,
+          errors: [error as string],
+        };
+
+        return response;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+    async deactivate(id: string): Promise<DefaultApiResponse<boolean>> {
+      this.loading = true;
+      appStore.setLoading(true);
+
+      try {
+        const response: AxiosResponse<DefaultApiResponse<boolean>> =
+          await useHttpClient().post(`/tenants/${id}/deactivate`);
+
+        if (response.data.succeeded) {
+          const index = this.items.findIndex((item) => item.id === id);
+          if (index !== -1) this.items[index].isActive = false;
+        }
+
+        return response.data;
+      } catch (error) {
+        const response: DefaultApiResponse<boolean> = {
+          succeeded: false,
+          errors: [error as string],
+        };
+
+        return response;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
   },
 });

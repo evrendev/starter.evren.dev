@@ -62,18 +62,18 @@ public class TenantsController : VersionNeutralApiController
     [MustHavePermission(ApiAction.Update, ApiResource.Tenants)]
     [OpenApiOperation("Activate a tenant.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
-    public Task<string> ActivateAsync(string id)
+    public async Task<ApiResponse<string>> ActivateAsync(string id)
     {
-        return Mediator.Send(new ActivateTenantCommand(id));
+        return ApiResponse<string>.Success(await Mediator.Send(new ActivateTenantCommand(id)));
     }
 
     [HttpPost("{id}/deactivate")]
     [MustHavePermission(ApiAction.Update, ApiResource.Tenants)]
     [OpenApiOperation("Deactivate a tenant.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
-    public Task<string> DeactivateAsync(string id)
+    public async Task<ApiResponse<string>> DeactivateAsync(string id)
     {
-        return Mediator.Send(new DeactivateTenantCommand(id));
+        return ApiResponse<string>.Success(await Mediator.Send(new DeactivateTenantCommand(id)));
     }
 
     [HttpPost("{id}/upgrade")]

@@ -181,7 +181,11 @@
         "deleteConfirm": "Delete {name}",
         "deleteMessage": "Are you sure you want to delete {name}?",
         "deleted": "Tenant deleted successfully",
-        "deleteFailed": "Failed to delete tenant"
+        "deleteFailed": "Failed to delete tenant",
+        "activated": "Tenant activated successfully",
+        "deactivated": "Tenant deactivated successfully",
+        "activateFailed": "Failed to activate tenant",
+        "deactivateFailed": "Failed to deactivate tenant"
       }
     }
   },
@@ -199,6 +203,8 @@
     "enableEdit": "Enable Edit",
     "confirm": "Confirm",
     "cancel": "Cancel",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
     "options": {
       "isActive": {
         "true": "Active",

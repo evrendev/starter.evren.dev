@@ -78,6 +78,26 @@ const handleDelete = async (id: string | null) => {
     }
   }
 };
+
+const handleActivate = async (id: string) => {
+  const response = await tenantStore.activate(id);
+
+  if (response) {
+    Notify.success(t("admin.tenants.notifications.activated"));
+  } else {
+    Notify.error(t("admin.tenants.notifications.activateFailed"));
+  }
+};
+
+const handleDeactivate = async (id: string) => {
+  const response = await tenantStore.deactivate(id);
+
+  if (response) {
+    Notify.success(t("admin.tenants.notifications.deactivated"));
+  } else {
+    Notify.error(t("admin.tenants.notifications.deactivateFailed"));
+  }
+};
 </script>
 
 <template>
@@ -89,5 +109,7 @@ const handleDelete = async (id: string | null) => {
     :loading="loading"
     :headers="headers"
     @delete="handleDelete"
+    @activate="handleActivate"
+    @deactivate="handleDeactivate"
   />
 </template>

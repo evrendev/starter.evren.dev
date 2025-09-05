@@ -181,7 +181,11 @@
         "deleteConfirm": "{name} löschen",
         "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
         "deleted": "Mandant erfolgreich gelöscht",
-        "deleteFailed": "Fehler beim Löschen des Mandanten"
+        "deleteFailed": "Fehler beim Löschen des Mandanten",
+        "activated": "Mandant erfolgreich aktiviert",
+        "deactivated": "Mandant erfolgreich deaktiviert",
+        "activateFailed": "Fehler beim Aktivieren des Mandanten",
+        "deactivateFailed": "Fehler beim Deaktivieren des Mandanten"
       }
     }
   },
@@ -199,6 +203,8 @@
     "enableEdit": "Bearbeiten aktivieren",
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
+    "activate": "Aktivieren",
+    "deactivate": "Deaktivieren",
     "options": {
       "isActive": {
         "true": "Aktiv",

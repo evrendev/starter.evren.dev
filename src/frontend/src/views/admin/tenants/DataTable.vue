@@ -14,6 +14,8 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: "delete", id: string | null): void;
+  (e: "activate", id: string): void;
+  (e: "deactivate", id: string): void;
 }>();
 
 const tenantId: Ref<string | null> = ref(null);
@@ -39,6 +41,14 @@ const confirmDelete = () => {
 const abortDelete = () => {
   tenantId.value = null;
   showDeleteConfirmDialog.value = false;
+};
+
+const activate = (id: string) => {
+  emit("activate", id);
+};
+
+const deactivate = (id: string) => {
+  emit("deactivate", id);
 };
 </script>
 
@@ -117,6 +127,23 @@ const abortDelete = () => {
                 <v-list-item-title v-text="t('shared.delete')" />
                 <template v-slot:prepend>
                   <v-icon icon="bx-trash" />
+                </template>
+              </v-list-item>
+
+              <v-list-item
+                @click="item.isActive ? deactivate(item.id) : activate(item.id)"
+              >
+                <v-list-item-title
+                  v-text="
+                    item.isActive
+                      ? t('shared.deactivate')
+                      : t('shared.activate')
+                  "
+                />
+                <template v-slot:prepend>
+                  <v-icon
+                    :icon="item.isActive ? 'bx-toggle-left' : 'bx-toggle-right'"
+                  />
                 </template>
               </v-list-item>
             </v-list>
