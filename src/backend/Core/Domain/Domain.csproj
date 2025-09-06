@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+      <PackageReference Include="Finbuckle.MultiTenant.AspNetCore" />
       <PackageReference Include="NewId" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
       <PackageReference Remove="Roslynator.Analyzers" />

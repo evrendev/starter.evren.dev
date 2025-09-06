@@ -48,7 +48,7 @@ internal partial class UserService(
         var count = await userManager.Users
             .CountAsync(cancellationToken);
 
-        return new PaginationResponse<UserDetailsDto>(users, count, filter.PageNumber, filter.PageSize);
+        return new PaginationResponse<UserDetailsDto>(users, count, filter.Page, filter.ItemsPerPage);
     }
 
     public async Task<bool> ExistsWithNameAsync(string name)

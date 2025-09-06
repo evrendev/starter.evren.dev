@@ -7,17 +7,26 @@ using EvrenDev.Application.Multitenancy.Queries.GetAll;
 using EvrenDev.Application.Multitenancy.Commands.Upgrade;
 using EvrenDev.Application.Multitenancy.Commands.Update;
 using EvrenDev.Application.Multitenancy.Commands.Delete;
+using EvrenDev.Application.Multitenancy.Queries.Paginate;
 
 namespace EvrenDev.PublicApi.Controllers.Multitenancy;
 
 public class TenantsController : VersionNeutralApiController
 {
-    [HttpGet]
+    [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Tenants)]
     [OpenApiOperation("Get a list of all tenants.", "")]
     public Task<List<TenantDto>> GetListAsync()
     {
         return Mediator.Send(new GetAllTenantsRequest());
+    }
+
+    [HttpGet]
+    [MustHavePermission(ApiAction.View, ApiResource.Tenants)]
+    [OpenApiOperation("Get paginated list of tenants.", "")]
+    public async Task<PaginationResponse<TenantDto>> GetPaginatedListAsync([FromQuery] PaginateTenantsFilter request)
+    {
+        return await Mediator.Send(request);
     }
 
     [HttpGet("{id}")]

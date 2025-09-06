@@ -1,3 +1,4 @@
+using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Multitenancy;
 using EvrenDev.Infrastructure.Persistence.Context;
 using EvrenDev.Shared.Multitenancy;

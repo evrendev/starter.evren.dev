@@ -9,11 +9,13 @@ using Finbuckle.MultiTenant;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using EvrenDev.Application.Multitenancy.Commands.Update;
-
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
+using EvrenDev.Application.Common.Models;
 namespace EvrenDev.Infrastructure.Multitenancy;
 
 internal class TenantService(
     IMultiTenantStore<TenantInfo> tenantStore,
+    TenantDbContext tenantDbContext,
     IConnectionStringSecurer csSecurer,
     IDatabaseInitializer dbInitializer,
     IStringLocalizer<TenantService> localizer,
@@ -21,6 +23,7 @@ internal class TenantService(
     : ITenantService
 {
     private readonly DatabaseSettings _dbSettings = dbSettings.Value;
+    private readonly TenantDbContext _dbContext = tenantDbContext;
 
     public async Task<List<TenantDto>> GetAllAsync()
     {
@@ -136,5 +139,52 @@ internal class TenantService(
     public async Task<bool> DeleteAsync(string id)
     {
         return await tenantStore.TryRemoveAsync(id);
+    }
+
+    public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginationFilter filter, CancellationToken cancellationToken)
+    {
+
+        IQueryable<TenantInfo> query = _dbContext.TenantInfo.AsQueryable();
+
+        if (!string.IsNullOrEmpty(filter.Search))
+        {
+            string searchLower = filter.Search.ToLower();
+            query = query.Where(t =>
+                t.Id.ToLower().Contains(searchLower) ||
+                t.Name.ToLower().Contains(searchLower)
+            );
+        }
+
+        if (filter.SortBy is { Length: > 0 })
+        {
+            bool isDescending = filter.SortDesc?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+
+            string sortField = filter.SortBy[0];
+
+            switch (sortField.ToLower())
+            {
+                case "id":
+                    query = isDescending ? query.OrderByDescending(t => t.Id) : query.OrderBy(t => t.Id);
+                    break;
+                case "name":
+                    query = isDescending ? query.OrderByDescending(t => t.Name) : query.OrderBy(t => t.Name);
+                    break;
+                default:
+                    query = query.OrderBy(t => t.Id);
+                    break;
+            }
+        }
+
+        int totalItems = await query.CountAsync(cancellationToken);
+
+        var pagedData = await query
+            .Skip((filter.Page - 1) * filter.ItemsPerPage)
+            .Take(filter.ItemsPerPage)
+            .ToListAsync(cancellationToken);
+
+        var pagedDataDto = pagedData.Adapt<List<TenantDto>>();
+        pagedDataDto.ForEach(t => t.ConnectionString = csSecurer.MakeSecure(t.ConnectionString));
+
+        return new PaginationResponse<TenantDto>(pagedDataDto, totalItems, filter.Page, filter.ItemsPerPage);
     }
 }

@@ -1,4 +1,4 @@
-﻿using EvrenDev.Infrastructure.Multitenancy;
+﻿using EvrenDev.Domain.Multitenancy;
 
 namespace EvrenDev.Infrastructure.Persistence.Initialization;
 

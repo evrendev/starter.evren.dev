@@ -5,7 +5,7 @@ using Finbuckle.MultiTenant;
 using Hangfire;
 using Hangfire.Server;
 using Microsoft.Extensions.DependencyInjection;
-using TenantInfo = EvrenDev.Infrastructure.Multitenancy.TenantInfo;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.BackgroundJobs;
 

@@ -1,4 +1,5 @@
-﻿using EvrenDev.Infrastructure.Persistence.Configuration;
+﻿using EvrenDev.Domain.Multitenancy;
+using EvrenDev.Infrastructure.Persistence.Configuration;
 using Finbuckle.MultiTenant.Stores;
 
 namespace EvrenDev.Infrastructure.Multitenancy;

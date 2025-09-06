@@ -4,7 +4,7 @@ using Finbuckle.MultiTenant;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using TenantInfo = EvrenDev.Infrastructure.Multitenancy.TenantInfo;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Persistence.Initialization;
 

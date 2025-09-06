@@ -1,4 +1,5 @@
 ﻿using EvrenDev.Application.Multitenancy.Interfaces;
+using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;

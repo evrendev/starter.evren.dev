@@ -1,7 +1,7 @@
 ﻿using EvrenDev.Shared.Multitenancy;
 using Finbuckle.MultiTenant;
 
-namespace EvrenDev.Infrastructure.Multitenancy;
+namespace EvrenDev.Domain.Multitenancy;
 
 public class TenantInfo : ITenantInfo
 {

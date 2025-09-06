@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Domain.Common.Events.Identity;
+using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Identity;
-using EvrenDev.Infrastructure.Multitenancy;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
 using Microsoft.AspNetCore.Identity;
