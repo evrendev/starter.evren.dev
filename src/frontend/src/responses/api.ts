@@ -4,11 +4,11 @@ export interface DefaultApiResponse<T> {
   errors?: string[];
 }
 export interface PaginationResponse<T> {
-  currentPage: number;
-  data: T[];
+  page: number;
+  items: T[];
+  itemsPerPage: number;
+  total: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
-  pageSize: number;
-  totalCount: number;
   totalPages: number;
 }

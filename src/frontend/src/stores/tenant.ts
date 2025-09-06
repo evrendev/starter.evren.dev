@@ -25,10 +25,10 @@ const DEFAULT_FILTER: Filters = {
 export const useTenantStore = defineStore("tenant", {
   state: () => ({
     loading: false as boolean,
-    currentPage: DEFAULT_FILTER.page as number,
+    page: DEFAULT_FILTER.page as number,
     totalPages: 0 as number,
-    totalCount: 0 as number,
-    pageSize: DEFAULT_FILTER.itemsPerPage as number,
+    total: 0 as number,
+    itemsPerPage: DEFAULT_FILTER.itemsPerPage as number,
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
     items: [] as Tenant[],
@@ -51,11 +51,11 @@ export const useTenantStore = defineStore("tenant", {
             params: this.filters,
           });
 
-        this.items = data.data;
-        this.currentPage = data.currentPage;
+        this.items = data.items;
+        this.page = data.page;
+        this.total = data.total;
+        this.itemsPerPage = data.itemsPerPage;
         this.totalPages = data.totalPages;
-        this.totalCount = data.totalCount;
-        this.pageSize = data.pageSize;
         this.hasNextPage = data.hasNextPage;
         this.hasPreviousPage = data.hasPreviousPage;
       } catch (error) {

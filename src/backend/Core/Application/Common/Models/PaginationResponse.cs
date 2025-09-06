@@ -1,18 +1,18 @@
 ﻿namespace EvrenDev.Application.Common.Models;
 
-public class PaginationResponse<T>(List<T> data, int count, int page, int pageSize)
+public class PaginationResponse<T>(List<T> items, int total, int page, int itemsPerPage)
 {
-    public List<T> Data { get; set; } = data;
+    public List<T> Items { get; set; } = items;
 
-    public int CurrentPage { get; set; } = page;
+    public int Page { get; set; } = page;
 
-    public int TotalPages { get; set; } = (int)Math.Ceiling(count / (double)pageSize);
+    public int TotalPages { get; set; } = (int)Math.Ceiling(total / (double)itemsPerPage);
 
-    public int TotalCount { get; set; } = count;
+    public int Total { get; set; } = total;
 
-    public int PageSize { get; set; } = pageSize;
+    public int ItemsPerPage { get; set; } = itemsPerPage;
 
-    public bool HasPreviousPage => CurrentPage > 1;
+    public bool HasPreviousPage => Page > 1;
 
-    public bool HasNextPage => CurrentPage < TotalPages;
+    public bool HasNextPage => Page < TotalPages;
 }
