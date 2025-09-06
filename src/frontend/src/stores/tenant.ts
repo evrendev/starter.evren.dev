@@ -4,7 +4,7 @@ import {
   UpgradeTenant,
   BasicFilters,
 } from "@/requests/tenant";
-import { DefaultApiResponse } from "@/responses/api";
+import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
 import { useAppStore } from "./app";
@@ -25,16 +25,16 @@ const DEFAULT_FILTER: Filters = {
 export const useTenantStore = defineStore("tenant", {
   state: () => ({
     loading: false as boolean,
+    currentPage: DEFAULT_FILTER.page as number,
+    totalPages: 0 as number,
+    totalCount: 0 as number,
+    pageSize: DEFAULT_FILTER.itemsPerPage as number,
+    hasNextPage: false as boolean,
+    hasPreviousPage: false as boolean,
     items: [] as Tenant[],
     tenant: null as Tenant | null,
     filters: DEFAULT_FILTER,
   }),
-  getters: {
-    itemsPerPage: (state) =>
-      state.filters.itemsPerPage ?? DEFAULT_FILTER.itemsPerPage,
-    page: (state) => state.filters.page ?? DEFAULT_FILTER.page,
-    total: (state) => state.items.length,
-  },
   actions: {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
@@ -46,11 +46,18 @@ export const useTenantStore = defineStore("tenant", {
       this.loading = true;
 
       try {
-        const { data } = await useHttpClient().get("/tenants", {
-          params: this.filters,
-        });
+        const { data }: AxiosResponse<PaginationResponse<Tenant>> =
+          await useHttpClient().get("/tenants", {
+            params: this.filters,
+          });
 
-        this.items = data;
+        this.items = data.data;
+        this.currentPage = data.currentPage;
+        this.totalPages = data.totalPages;
+        this.totalCount = data.totalCount;
+        this.pageSize = data.pageSize;
+        this.hasNextPage = data.hasNextPage;
+        this.hasPreviousPage = data.hasPreviousPage;
       } catch (error) {
         console.error("Error fetching items:", error);
         return [];

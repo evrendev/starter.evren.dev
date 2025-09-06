@@ -6,7 +6,7 @@ import { useTenantStore } from "@/stores/tenant";
 import { BasicFilters, Filters, UpgradeTenant } from "@/requests/tenant";
 
 const tenantStore = useTenantStore();
-const { itemsPerPage, items, total, loading } = storeToRefs(tenantStore);
+const { loading, totalCount, pageSize, items } = storeToRefs(tenantStore);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -131,9 +131,9 @@ const getItems = async (options: Filters) => {
     @reset="handleResetFilters"
   />
   <data-table
-    :items-per-page="itemsPerPage"
+    :items-per-page="pageSize"
     :items="items"
-    :total="total"
+    :total="totalCount"
     :loading="loading"
     :headers="headers"
     @delete="handleDelete"
