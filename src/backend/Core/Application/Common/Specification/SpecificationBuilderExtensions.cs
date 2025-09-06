@@ -30,7 +30,7 @@ public static class SpecificationBuilderExtensions
 
         return query
             .Take(filter.ItemsPerPage)
-            .OrderBy(filter.SortBy, filter.SortDesc);
+            .OrderBy(filter.SortBy);
     }
 
     public static ISpecificationBuilder<T> SearchByKeyword<T>(
@@ -46,7 +46,6 @@ public static class SpecificationBuilderExtensions
         {
             if (search.Fields?.Any() is true)
             {
-                // search seleted fields (can contain deeper nested fields)
                 foreach (var field in search.Fields)
                 {
                     var paramExpr = Expression.Parameter(typeof(T));
@@ -62,7 +61,6 @@ public static class SpecificationBuilderExtensions
             }
             else
             {
-                // search all fields (only first level)
                 foreach (var property in typeof(T).GetProperties()
                     .Where(prop => (Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType) is { } propertyType
                         && !propertyType.IsEnum
@@ -86,8 +84,6 @@ public static class SpecificationBuilderExtensions
             throw new ArgumentException("propertyExpr must be a property expression.", nameof(propertyExpr));
         }
 
-        // Generate lambda [ x => x.Property ] for string properties
-        // or [ x => ((object)x.Property) is null ? null : x.Property.ToString() ] for other properties
         var selectorExpr =
             property.PropertyType == typeof(string)
                 ? propertyExpr
@@ -106,23 +102,25 @@ public static class SpecificationBuilderExtensions
 
     public static ISpecificationBuilder<T> OrderBy<T>(
         this ISpecificationBuilder<T> specificationBuilder,
-        string[]? sortByFields,
-        string? sortDirection)
+        List<SortBy>? sortBy)
     {
-        if (sortByFields is null || !sortByFields.Any())
+        if (sortBy is null || sortBy.Count == 0)
         {
             return specificationBuilder;
         }
 
-        bool isDescending = sortDirection?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
-
         bool isFirstField = true;
 
-        foreach (var field in sortByFields)
+        foreach (var sortItem in sortBy)
         {
+            if (string.IsNullOrWhiteSpace(sortItem.Key))
+                continue;
+
+            bool isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+
             var paramExpr = Expression.Parameter(typeof(T));
             Expression propertyExpr = paramExpr;
-            foreach (var member in field.Split('.'))
+            foreach (var member in sortItem.Key.Split('.'))
             {
                 propertyExpr = Expression.PropertyOrField(propertyExpr, member);
             }

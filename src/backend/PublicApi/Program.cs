@@ -3,6 +3,7 @@ using EvrenDev.PublicApi.Configurations;
 using EvrenDev.PublicApi.Controllers;
 using EvrenDev.Infrastructure;
 using EvrenDev.Infrastructure.Common;
+using EvrenDev.Infrastructure.Common.Filters;
 using EvrenDev.PublicApi;
 using Serilog;
 
@@ -17,7 +18,10 @@ try
     builder.AddConfigurations();
     builder.AddSerilog();
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<SortByBindingFilter>();
+    });
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();
 

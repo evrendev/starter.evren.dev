@@ -12,6 +12,7 @@ using EvrenDev.Application.Multitenancy.Commands.Update;
 using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Multitenancy.Queries.Paginate;
+
 namespace EvrenDev.Infrastructure.Multitenancy;
 
 internal class TenantService(
@@ -172,11 +173,13 @@ internal class TenantService(
             query = query.Where(t => t.ValidUpto <= filter.EndDate.Value);
         }
 
-        if (filter.SortBy is { Length: > 0 })
+        if (filter.SortBy is { Count: > 0 })
         {
-            bool isDescending = filter.SortDesc?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+            // Get the first sort descriptor
+            var sortItem = filter.SortBy[0];
 
-            string sortField = filter.SortBy[0];
+            bool isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+            string sortField = sortItem.Key ?? string.Empty;
 
             switch (sortField.ToLower())
             {
@@ -187,9 +190,14 @@ internal class TenantService(
                     query = isDescending ? query.OrderByDescending(t => t.ValidUpto) : query.OrderBy(t => t.ValidUpto);
                     break;
                 default:
+                    // Default sort order if the key is unrecognized
                     query = query.OrderBy(t => t.Id);
                     break;
             }
+        }
+        else
+        {
+            query = query.OrderBy(t => t.Id);
         }
 
         int totalItems = await query.CountAsync(cancellationToken);

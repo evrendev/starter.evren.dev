@@ -1,4 +1,6 @@
-﻿namespace EvrenDev.Application.Common.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace EvrenDev.Application.Common.Models;
 
 public class PaginationFilter : BaseFilter
 {
@@ -6,7 +8,11 @@ public class PaginationFilter : BaseFilter
 
     public int ItemsPerPage { get; set; } = int.MaxValue;
 
-    public string[]? SortBy { get; set; }
+    public List<SortBy>? SortBy { get; set; }
+}
 
-    public string? SortDesc { get; set; }
+public class SortBy
+{
+    public string? Key { get; set; }
+    public string? Order { get; set; }
 }
