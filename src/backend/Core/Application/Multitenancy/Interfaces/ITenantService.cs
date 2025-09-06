@@ -1,13 +1,14 @@
 ﻿using EvrenDev.Application.Multitenancy.Entities;
 using EvrenDev.Application.Multitenancy.Commands.Create;
 using EvrenDev.Application.Multitenancy.Commands.Update;
+using EvrenDev.Application.Multitenancy.Queries.Paginate;
 
 namespace EvrenDev.Application.Multitenancy.Interfaces;
 
 public interface ITenantService
 {
     Task<List<TenantDto>> GetAllAsync();
-    Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginationFilter filter, CancellationToken cancellationToken);
+    Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginateTenantsFilter filter, CancellationToken cancellationToken);
     Task<bool> ExistsWithIdAsync(string id);
     Task<bool> ExistsWithNameAsync(string name);
     Task<TenantDto> GetByIdAsync(string id);

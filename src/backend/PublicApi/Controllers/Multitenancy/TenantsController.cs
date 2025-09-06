@@ -24,9 +24,9 @@ public class TenantsController : VersionNeutralApiController
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Tenants)]
     [OpenApiOperation("Get paginated list of tenants.", "")]
-    public async Task<PaginationResponse<TenantDto>> GetPaginatedListAsync([FromQuery] PaginateTenantsFilter request)
+    public async Task<PaginationResponse<TenantDto>> GetPaginatedListAsync([FromQuery] PaginateTenantsFilter filter)
     {
-        return await Mediator.Send(request);
+        return await Mediator.Send(filter);
     }
 
     [HttpGet("{id}")]

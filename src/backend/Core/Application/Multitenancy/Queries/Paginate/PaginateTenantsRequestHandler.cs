@@ -5,6 +5,9 @@ namespace EvrenDev.Application.Multitenancy.Queries.Paginate;
 
 public class PaginateTenantsFilter : PaginationFilter, IRequest<PaginationResponse<TenantDto>>
 {
+    public bool? ShowActiveItems { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
 }
 
 public class PaginateTenantsRequestHandler(ITenantService tenantService) : IRequestHandler<PaginateTenantsFilter, PaginationResponse<TenantDto>>

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using EvrenDev.Application.Multitenancy.Commands.Update;
 using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 using EvrenDev.Application.Common.Models;
+using EvrenDev.Application.Multitenancy.Queries.Paginate;
 namespace EvrenDev.Infrastructure.Multitenancy;
 
 internal class TenantService(
@@ -141,7 +142,7 @@ internal class TenantService(
         return await tenantStore.TryRemoveAsync(id);
     }
 
-    public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginationFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginateTenantsFilter filter, CancellationToken cancellationToken)
     {
 
         IQueryable<TenantInfo> query = _dbContext.TenantInfo.AsQueryable();
@@ -149,10 +150,26 @@ internal class TenantService(
         if (!string.IsNullOrEmpty(filter.Search))
         {
             string searchLower = filter.Search.ToLower();
-            query = query.Where(t =>
-                t.Id.ToLower().Contains(searchLower) ||
-                t.Name.ToLower().Contains(searchLower)
+            query = query.Where(tenantInfo =>
+                tenantInfo.Id.ToLower().Contains(searchLower) ||
+                tenantInfo.Name.ToLower().Contains(searchLower) ||
+                tenantInfo.AdminEmail.ToLower().Contains(searchLower)
             );
+        }
+
+        if (filter.ShowActiveItems.HasValue)
+        {
+            query = query.Where(t => t.IsActive == filter.ShowActiveItems.Value);
+        }
+
+        if (filter.StartDate.HasValue)
+        {
+            query = query.Where(t => t.ValidUpto >= filter.StartDate.Value);
+        }
+
+        if (filter.EndDate.HasValue)
+        {
+            query = query.Where(t => t.ValidUpto <= filter.EndDate.Value);
         }
 
         if (filter.SortBy is { Length: > 0 })
@@ -166,8 +183,8 @@ internal class TenantService(
                 case "id":
                     query = isDescending ? query.OrderByDescending(t => t.Id) : query.OrderBy(t => t.Id);
                     break;
-                case "name":
-                    query = isDescending ? query.OrderByDescending(t => t.Name) : query.OrderBy(t => t.Name);
+                case "validupto":
+                    query = isDescending ? query.OrderByDescending(t => t.ValidUpto) : query.OrderBy(t => t.ValidUpto);
                     break;
                 default:
                     query = query.OrderBy(t => t.Id);
