@@ -8,29 +8,29 @@ public static class SpecificationBuilderExtensions
 {
     public static ISpecificationBuilder<T> SearchBy<T>(this ISpecificationBuilder<T> query, BaseFilter filter) =>
         query
-            .SearchByKeyword(filter.Keyword)
+            .SearchByKeyword(filter.Search)
             .AdvancedSearch(filter.AdvancedSearch);
 
     public static ISpecificationBuilder<T> PaginateBy<T>(this ISpecificationBuilder<T> query, PaginationFilter filter)
     {
-        if (filter.PageNumber <= 0)
+        if (filter.Page <= 0)
         {
-            filter.PageNumber = 1;
+            filter.Page = 1;
         }
 
-        if (filter.PageSize <= 0)
+        if (filter.ItemsPerPage <= 0)
         {
-            filter.PageSize = 10;
+            filter.ItemsPerPage = 10;
         }
 
-        if (filter.PageNumber > 1)
+        if (filter.Page > 1)
         {
-            query = query.Skip((filter.PageNumber - 1) * filter.PageSize);
+            query = query.Skip((filter.Page - 1) * filter.ItemsPerPage);
         }
 
         return query
-            .Take(filter.PageSize)
-            .OrderBy(filter.OrderBy);
+            .Take(filter.ItemsPerPage)
+            .OrderBy(filter.SortBy, filter.SortDesc);
     }
 
     public static ISpecificationBuilder<T> SearchByKeyword<T>(
@@ -106,44 +106,46 @@ public static class SpecificationBuilderExtensions
 
     public static ISpecificationBuilder<T> OrderBy<T>(
         this ISpecificationBuilder<T> specificationBuilder,
-        string[]? orderByFields)
+        string[]? sortByFields,
+        string? sortDirection)
     {
-        if (orderByFields is not null)
+        if (sortByFields is null || !sortByFields.Any())
         {
-            foreach (var field in ParseOrderBy(orderByFields))
+            return specificationBuilder;
+        }
+
+        bool isDescending = sortDirection?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+
+        bool isFirstField = true;
+
+        foreach (var field in sortByFields)
+        {
+            var paramExpr = Expression.Parameter(typeof(T));
+            Expression propertyExpr = paramExpr;
+            foreach (var member in field.Split('.'))
             {
-                var paramExpr = Expression.Parameter(typeof(T));
-
-                Expression propertyExpr = paramExpr;
-                foreach (var member in field.Key.Split('.'))
-                {
-                    propertyExpr = Expression.PropertyOrField(propertyExpr, member);
-                }
-
-                var keySelector = Expression.Lambda<Func<T, object?>>(
-                    Expression.Convert(propertyExpr, typeof(object)),
-                    paramExpr);
-
-                ((List<OrderExpressionInfo<T>>)specificationBuilder.Specification.OrderExpressions)
-                    .Add(new OrderExpressionInfo<T>(keySelector, field.Value));
+                propertyExpr = Expression.PropertyOrField(propertyExpr, member);
             }
+
+            var keySelector = Expression.Lambda<Func<T, object?>>(
+                Expression.Convert(propertyExpr, typeof(object)),
+                paramExpr);
+
+            OrderTypeEnum orderType;
+            if (isFirstField)
+            {
+                orderType = isDescending ? OrderTypeEnum.OrderByDescending : OrderTypeEnum.OrderBy;
+                isFirstField = false;
+            }
+            else
+            {
+                orderType = isDescending ? OrderTypeEnum.ThenByDescending : OrderTypeEnum.ThenBy;
+            }
+
+            ((List<OrderExpressionInfo<T>>)specificationBuilder.Specification.OrderExpressions)
+                .Add(new OrderExpressionInfo<T>(keySelector, orderType));
         }
 
         return specificationBuilder;
     }
-
-    private static Dictionary<string, OrderTypeEnum> ParseOrderBy(string[] orderByFields) =>
-        new(orderByFields.Select((orderByfield, index) =>
-        {
-            var fieldParts = orderByfield.Split(' ');
-            var field = fieldParts[0];
-            var descending = fieldParts.Length > 1 && fieldParts[1].StartsWith("Desc", StringComparison.OrdinalIgnoreCase);
-            var orderBy = index == 0
-                ? descending ? OrderTypeEnum.OrderByDescending
-                                : OrderTypeEnum.OrderBy
-                : descending ? OrderTypeEnum.ThenByDescending
-                                : OrderTypeEnum.ThenBy;
-
-            return new KeyValuePair<string, OrderTypeEnum>(field, orderBy);
-        }));
 }

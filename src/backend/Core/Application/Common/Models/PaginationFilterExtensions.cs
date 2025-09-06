@@ -3,5 +3,5 @@
 public static class PaginationFilterExtensions
 {
     public static bool HasOrderBy(this PaginationFilter filter) =>
-        filter.OrderBy?.Any() is true;
+        filter.SortBy?.Any() is true;
 }

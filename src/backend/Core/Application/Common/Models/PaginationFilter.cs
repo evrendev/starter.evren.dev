@@ -2,9 +2,11 @@
 
 public class PaginationFilter : BaseFilter
 {
-    public int PageNumber { get; set; }
+    public int Page { get; set; }
 
-    public int PageSize { get; set; } = int.MaxValue;
+    public int ItemsPerPage { get; set; } = int.MaxValue;
 
-    public string[]? OrderBy { get; set; }
+    public string[]? SortBy { get; set; }
+
+    public string? SortDesc { get; set; }
 }

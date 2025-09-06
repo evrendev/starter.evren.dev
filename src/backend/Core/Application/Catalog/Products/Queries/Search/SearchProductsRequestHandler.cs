@@ -18,6 +18,6 @@ public class SearchProductsRequestHandler(IReadRepository<Product> repository)
     public async Task<PaginationResponse<ProductDto>> Handle(SearchProductsRequest request, CancellationToken cancellationToken)
     {
         var spec = new ProductsBySearchRequestWithBrandsSpec(request);
-        return await repository.PaginatedListAsync(spec, request.PageNumber, request.PageSize, cancellationToken: cancellationToken);
+        return await repository.PaginatedListAsync(spec, request.Page, request.ItemsPerPage, cancellationToken: cancellationToken);
     }
 }

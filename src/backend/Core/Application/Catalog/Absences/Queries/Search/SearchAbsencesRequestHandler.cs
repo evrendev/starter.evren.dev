@@ -14,6 +14,6 @@ public class SearchAbsencesRequestHandler(IReadRepository<Absence> repository) :
     public async Task<PaginationResponse<AbsenceDto>> Handle(SearchAbsencesRequest request, CancellationToken cancellationToken)
     {
         var spec = new AbsencesBySearchRequestSpec(request);
-        return await repository.PaginatedListAsync(spec, request.PageNumber, request.PageSize, cancellationToken);
+        return await repository.PaginatedListAsync(spec, request.Page, request.ItemsPerPage, cancellationToken);
     }
 }
