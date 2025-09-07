@@ -19,7 +19,6 @@ export const adminRoutes = [
       {
         name: "tenants",
         path: "tenants",
-        component: () => import("@/layouts/default.vue"),
         children: [
           {
             name: "tenants-list",
