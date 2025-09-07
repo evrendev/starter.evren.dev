@@ -1,3 +1,3 @@
 <template>
-  <h1>Roles</h1>
+  <h1>Empty Page</h1>
 </template>

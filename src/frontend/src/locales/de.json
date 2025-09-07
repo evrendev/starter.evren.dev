@@ -124,7 +124,8 @@
         "dashboard": "Kontrollpanel",
         "admin": {
           "title": "Admin",
-          "tenants": "Mandanten"
+          "tenants": "Mandanten",
+          "roles": "Rollen"
         }
       }
     },
@@ -192,6 +193,58 @@
       "upgrade": {
         "title": "Mandanten-Upgrade",
         "message": "Sind Sie sicher, dass Sie {name} upgraden möchten?"
+      }
+    },
+    "roles": {
+      "list": {
+        "title": "Rollenliste"
+      },
+      "create": {
+        "title": "Rolle erstellen"
+      },
+      "view": {
+        "title": "Rolle anzeigen"
+      },
+      "edit": {
+        "title": "Rolle bearbeiten"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "name": {
+          "title": "Name",
+          "required": "Name ist erforderlich"
+        },
+        "description": {
+          "title": "Beschreibung",
+          "required": "Beschreibung ist erforderlich"
+        },
+        "permissions": {
+          "title": "Berechtigungen",
+          "required": "Berechtigungen sind erforderlich"
+        }
+      },
+      "notifications": {
+        "updated": "Rolle erfolgreich aktualisiert",
+        "updateFailed": "Fehler beim Aktualisieren der Rolle",
+        "created": "Rolle erfolgreich erstellt",
+        "createFailed": "Fehler beim Erstellen der Rolle",
+        "deleteConfirm": "Löschen {name}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
+        "deleted": "Rolle erfolgreich gelöscht",
+        "deleteFailed": "Fehler beim Löschen der Rolle",
+        "activated": "Rolle erfolgreich aktiviert",
+        "deactivated": "Rolle erfolgreich deaktiviert",
+        "activateFailed": "Fehler beim Aktivieren der Rolle",
+        "deactivateFailed": "Fehler beim Deaktivieren der Rolle",
+        "upgraded": "Rolle erfolgreich aktualisiert",
+        "upgradeFailed": "Fehler beim Aktualisieren der Rolle"
+      },
+      "upgrade": {
+        "title": "Rolle aktualisieren",
+        "message": "Sind Sie sicher, dass Sie {name} aktualisieren möchten?"
       }
     }
   },

@@ -21,7 +21,7 @@ export const adminRoutes = [
         path: "tenants",
         children: [
           {
-            name: "tesnant-list",
+            name: "tenant-list",
             path: "",
             component: async () =>
               await import("@/pages/admin/tenants/index.vue"),
@@ -65,10 +65,45 @@ export const adminRoutes = [
       {
         name: "roles",
         path: "roles",
-        component: () => import("@/pages/admin/roles.vue"),
-        meta: {
-          requiresPermission: Permissions.RoleView,
-        },
+        children: [
+          {
+            name: "role-list",
+            path: "",
+            component: async () =>
+              await import("@/pages/admin/roles/index.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleView,
+              title: "admin.roles.list.title",
+            },
+          },
+          {
+            name: "role-create",
+            path: "create",
+            component: async () => await import("@/pages/admin/roles/form.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleCreate,
+              title: "admin.roles.create.title",
+            },
+          },
+          {
+            name: "role-view",
+            path: ":id/view",
+            component: async () => await import("@/pages/admin/roles/form.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleView,
+              title: "admin.roles.view.title",
+            },
+          },
+          {
+            name: "role-edit",
+            path: ":id/edit",
+            component: async () => await import("@/pages/admin/roles/form.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleUpdate,
+              title: "admin.roles.edit.title",
+            },
+          },
+        ],
       },
       {
         name: "users",

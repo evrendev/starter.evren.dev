@@ -48,7 +48,7 @@ import { Permissions } from "@/models/user";
     <vertical-nav-link
       :item="{
         title: t('admin.components.sidebar.roles'),
-        to: { name: 'roles' },
+        to: { name: 'role-list' },
       }"
       v-show="authStore.hasPermission(Permissions.RoleView)"
     />

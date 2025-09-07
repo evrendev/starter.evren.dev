@@ -124,7 +124,8 @@
         "dashboard": "Kontrol Paneli",
         "admin": {
           "title": "Yönetici",
-          "tenants": "Kiracılar"
+          "tenants": "Kiracılar",
+          "roles": "Roller"
         }
       }
     },
@@ -192,6 +193,58 @@
       "upgrade": {
         "title": "Kiracıyı Yükselt",
         "message": "{name} kiracısını yükseltmek istediğinizden emin misiniz?"
+      }
+    },
+    "roles": {
+      "list": {
+        "title": "Rol Listesi"
+      },
+      "create": {
+        "title": "Yeni Rol Oluştur"
+      },
+      "view": {
+        "title": "Rolü Görüntüle"
+      },
+      "edit": {
+        "title": "Rolü Düzenle"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "name": {
+          "title": "Ad",
+          "required": "Ad alanı gerekli"
+        },
+        "description": {
+          "title": "Açıklama",
+          "required": "Açıklama alanı gerekli"
+        },
+        "permissions": {
+          "title": "İzinler",
+          "required": "İzinler alanı gerekli"
+        }
+      },
+      "notifications": {
+        "updated": "Rol başarıyla güncellendi",
+        "updateFailed": "Rol güncellenirken hata oluştu",
+        "created": "Rol başarıyla oluşturuldu",
+        "createFailed": "Rol oluşturulurken hata oluştu",
+        "deleteConfirm": "Sil {name}",
+        "deleteMessage": "{name} rolünü silmek istediğinizden emin misiniz?",
+        "deleted": "Rol başarıyla silindi",
+        "deleteFailed": "Rol silinirken hata oluştu",
+        "activated": "Rol başarıyla aktifleştirildi",
+        "deactivated": "Rol başarıyla devre dışı bırakıldı",
+        "activateFailed": "Rol aktifleştirilirken hata oluştu",
+        "deactivateFailed": "Rol devre dışı bırakılırken hata oluştu",
+        "upgraded": "Rol başarıyla yükseltildi",
+        "upgradeFailed": "Rol yükseltilirken hata oluştu"
+      },
+      "upgrade": {
+        "title": "Rolü Yükselt",
+        "message": "{name} rolünü yükseltmek istediğinizden emin misiniz?"
       }
     }
   },

@@ -124,7 +124,8 @@
         "dashboard": "Dashboard",
         "admin": {
           "title": "Admin",
-          "tenants": "Tenants"
+          "tenants": "Tenants",
+          "roles": "Roles"
         }
       }
     },
@@ -191,6 +192,58 @@
       },
       "upgrade": {
         "title": "Upgrade Tenant",
+        "message": "Are you sure you want to upgrade {name}?"
+      }
+    },
+    "roles": {
+      "list": {
+        "title": "Role List"
+      },
+      "create": {
+        "title": "Create Role"
+      },
+      "view": {
+        "title": "View Role"
+      },
+      "edit": {
+        "title": "Edit Role"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "name": {
+          "title": "Name",
+          "required": "Name is required"
+        },
+        "description": {
+          "title": "Description",
+          "required": "Description is required"
+        },
+        "permissions": {
+          "title": "Permissions",
+          "required": "Permissions are required"
+        }
+      },
+      "notifications": {
+        "updated": "Role updated successfully",
+        "updateFailed": "Failed to update role",
+        "created": "Role created successfully",
+        "createFailed": "Failed to create role",
+        "deleteConfirm": "Delete {name}",
+        "deleteMessage": "Are you sure you want to delete {name}?",
+        "deleted": "Role deleted successfully",
+        "deleteFailed": "Failed to delete role",
+        "activated": "Role activated successfully",
+        "deactivated": "Role deactivated successfully",
+        "activateFailed": "Failed to activate role",
+        "deactivateFailed": "Failed to deactivate role",
+        "upgraded": "Role upgraded successfully",
+        "upgradeFailed": "Failed to upgrade role"
+      },
+      "upgrade": {
+        "title": "Upgrade Role",
         "message": "Are you sure you want to upgrade {name}?"
       }
     }
