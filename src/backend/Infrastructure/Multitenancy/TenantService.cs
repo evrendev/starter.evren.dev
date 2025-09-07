@@ -145,7 +145,6 @@ internal class TenantService(
 
     public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginateTenantsFilter filter, CancellationToken cancellationToken)
     {
-
         IQueryable<TenantInfo> query = _dbContext.TenantInfo.AsQueryable();
 
         if (!string.IsNullOrEmpty(filter.Search))
