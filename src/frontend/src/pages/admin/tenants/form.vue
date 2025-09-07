@@ -53,7 +53,7 @@ const handleSubmit = async (values: Tenant) => {
         `admin.tenants.notifications.${route.name === "tenant-create" ? "created" : "updated"}`,
       ),
     );
-    router.push({ name: "tesnant-list" });
+    router.push({ name: "tenant-list" });
   } else {
     Notify.error(
       t(

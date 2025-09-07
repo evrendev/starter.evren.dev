@@ -80,7 +80,7 @@ const submit = handleSubmit((values: Tenant) => {
         :button="{
           icon: 'bx-chevron-left',
           text: t('shared.back'),
-          to: { name: 'tesnant-list' },
+          to: { name: 'tenant-list' },
         }"
       />
     </v-card-title>

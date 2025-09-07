@@ -40,7 +40,7 @@ import { Permissions } from "@/models/user";
     <vertical-nav-link
       :item="{
         title: t('admin.components.sidebar.tenants'),
-        to: { name: 'tesnant-list' },
+        to: { name: 'tenant-list' },
       }"
       v-show="authStore.hasPermission(Permissions.TenantView)"
     />
