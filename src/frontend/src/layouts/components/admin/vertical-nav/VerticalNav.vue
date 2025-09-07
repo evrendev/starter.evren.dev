@@ -2,6 +2,7 @@
 import type { Component } from "vue";
 import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { useDisplay } from "vuetify";
+import VersionInfo from "./VersionInfo.vue";
 import Logo from "@/components/shared/Logo.vue";
 
 interface Props {
@@ -18,10 +19,6 @@ const { mdAndDown } = useDisplay();
 
 const refNav = ref();
 
-/*
-  ℹ️ Close overlay side when route is changed
-  Close overlay vertical nav when link is clicked
-*/
 const route = useRoute();
 
 watch(
@@ -54,7 +51,6 @@ const handleNavScroll = (evt: Event) => {
       },
     ]"
   >
-    <!-- 👉 Header -->
     <div class="nav-header">
       <slot name="nav-header">
         <Logo class="app-title-wrapper" />
@@ -76,7 +72,9 @@ const handleNavScroll = (evt: Event) => {
         <slot />
       </PerfectScrollbar>
     </slot>
-    <slot name="after-nav-items" />
+    <slot name="after-nav-items">
+      <version-info />
+    </slot>
   </Component>
 </template>
 
@@ -99,7 +97,6 @@ const handleNavScroll = (evt: Event) => {
 @use "@configured-variables" as variables;
 @use "@/assets/styles/admin/mixins";
 
-// 👉 Vertical Nav
 .layout-vertical-nav {
   position: fixed;
   z-index: variables.$layout-vertical-nav-z-index;
@@ -138,12 +135,6 @@ const handleNavScroll = (evt: Event) => {
 
   .nav-items {
     block-size: 100%;
-
-    // ℹ️ We no loner needs this overflow styles as perfect scrollbar applies it
-    // overflow-x: hidden;
-
-    // // ℹ️ We used `overflow-y` instead of `overflow` to mitigate overflow x. Revert back if any issue found.
-    // overflow-y: auto;
   }
 
   .nav-item-title {
@@ -153,7 +144,6 @@ const handleNavScroll = (evt: Event) => {
     white-space: nowrap;
   }
 
-  // 👉 Collapsed
   .layout-vertical-nav-collapsed & {
     &:not(.hovered) {
       inline-size: variables.$layout-vertical-nav-collapsed-width;
@@ -161,7 +151,6 @@ const handleNavScroll = (evt: Event) => {
   }
 }
 
-// Small screen vertical nav transition
 @media (max-width: 1279px) {
   .layout-vertical-nav {
     &:not(.visible) {
