@@ -3,7 +3,7 @@ import { Permissions } from "@/models/user";
 export const adminRoutes = [
   {
     path: "/admin",
-    component: () => import("@/layouts/admin.vue"),
+    component: async () => await import("@/layouts/admin.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -11,7 +11,7 @@ export const adminRoutes = [
       {
         name: "dashboard",
         path: "",
-        component: () => import("@/pages/admin/dashboard.vue"),
+        component: async () => await import("@/pages/admin/dashboard.vue"),
         meta: {
           requiresPermission: Permissions.DashboardView,
         },
@@ -73,7 +73,7 @@ export const adminRoutes = [
       {
         name: "users",
         path: "users",
-        component: () => import("@/pages/admin/users.vue"),
+        component: async () => await import("@/pages/admin/users.vue"),
         meta: {
           requiresPermission: Permissions.UserView,
         },
@@ -81,37 +81,37 @@ export const adminRoutes = [
       {
         name: "profile",
         path: "profile",
-        component: () => import("@/pages/admin/profile.vue"),
+        component: async () => await import("@/pages/admin/profile.vue"),
       },
       {
         name: "typography",
         path: "typography",
-        component: () => import("@/pages/admin/typography.vue"),
+        component: async () => await import("@/pages/admin/typography.vue"),
       },
       {
         name: "icons",
         path: "icons",
-        component: () => import("@/pages/admin/icons.vue"),
+        component: async () => await import("@/pages/admin/icons.vue"),
       },
       {
         name: "cards",
         path: "cards",
-        component: () => import("@/pages/admin/cards.vue"),
+        component: async () => await import("@/pages/admin/cards.vue"),
       },
       {
         name: "tables",
         path: "tables",
-        component: () => import("@/pages/admin/tables.vue"),
+        component: async () => await import("@/pages/admin/tables.vue"),
       },
       {
         name: "form-layouts",
         path: "form-layouts",
-        component: () => import("@/pages/admin/form-layouts.vue"),
+        component: async () => await import("@/pages/admin/form-layouts.vue"),
       },
       {
         name: "unauthorized",
         path: "unauthorized",
-        component: () => import("@/pages/admin/unauthorized.vue"),
+        component: async () => await import("@/pages/admin/unauthorized.vue"),
       },
     ],
   },
