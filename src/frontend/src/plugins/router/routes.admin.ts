@@ -21,36 +21,40 @@ export const adminRoutes = [
         path: "tenants",
         children: [
           {
-            name: "tenants-list",
+            name: "tesnant-list",
             path: "",
-            component: () => import("@/pages/admin/tenants/index.vue"),
+            component: async () =>
+              await import("@/pages/admin/tenants/index.vue"),
             meta: {
               requiresPermission: Permissions.TenantView,
               title: "admin.tenants.list.title",
             },
           },
           {
-            name: "tenants-create",
+            name: "tenant-create",
             path: "create",
-            component: () => import("@/pages/admin/tenants/form.vue"),
+            component: async () =>
+              await import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantCreate,
               title: "admin.tenants.create.title",
             },
           },
           {
-            name: "tenants-view",
+            name: "tenant-view",
             path: ":id/view",
-            component: () => import("@/pages/admin/tenants/form.vue"),
+            component: async () =>
+              await import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantView,
               title: "admin.tenants.view.title",
             },
           },
           {
-            name: "tenants-edit",
+            name: "tenant-edit",
             path: ":id/edit",
-            component: () => import("@/pages/admin/tenants/form.vue"),
+            component: async () =>
+              await import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantUpdate,
               title: "admin.tenants.edit.title",

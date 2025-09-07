@@ -83,7 +83,7 @@ const upgrade = () => {
         :button="{
           icon: 'bx-plus',
           text: t('shared.new'),
-          to: { name: 'tenants-create' },
+          to: { name: 'tenant-create' },
         }"
       />
     </v-card-title>
@@ -100,7 +100,7 @@ const upgrade = () => {
       >
         <template #[`item.id`]="{ item }">
           <router-link
-            :to="{ name: 'tenants-view', params: { id: item.id } }"
+            :to="{ name: 'tenant-view', params: { id: item.id } }"
             :text="item.id"
           />
         </template>
@@ -131,7 +131,7 @@ const upgrade = () => {
             </template>
             <v-list :lines="false" density="compact" nav>
               <v-list-item
-                :to="{ name: 'tenants-view', params: { id: item.id } }"
+                :to="{ name: 'tenant-view', params: { id: item.id } }"
               >
                 <v-list-item-title v-text="t('shared.view')" />
                 <template v-slot:prepend>
@@ -140,7 +140,7 @@ const upgrade = () => {
               </v-list-item>
 
               <v-list-item
-                :to="{ name: 'tenants-edit', params: { id: item.id } }"
+                :to="{ name: 'tenant-edit', params: { id: item.id } }"
               >
                 <v-list-item-title v-text="t('shared.edit')" />
                 <template v-slot:prepend>

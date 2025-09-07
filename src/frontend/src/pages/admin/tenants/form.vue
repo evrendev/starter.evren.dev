@@ -43,21 +43,21 @@ const breadcrumbs = computed(() => [
 
 const handleSubmit = async (values: Tenant) => {
   const response: DefaultApiResponse<string> =
-    route.name === "tenants-create"
+    route.name === "tenant-create"
       ? await tenantStore.create(values)
       : await tenantStore.update(values);
 
   if (response.succeeded) {
     Notify.success(
       t(
-        `admin.tenants.notifications.${route.name === "tenants-create" ? "created" : "updated"}`,
+        `admin.tenants.notifications.${route.name === "tenant-create" ? "created" : "updated"}`,
       ),
     );
-    router.push({ name: "tenants-list" });
+    router.push({ name: "tesnant-list" });
   } else {
     Notify.error(
       t(
-        `admin.tenants.notifications.${route.name === "tenants-create" ? "createFailed" : "updateFailed"}`,
+        `admin.tenants.notifications.${route.name === "tenant-create" ? "createFailed" : "updateFailed"}`,
       ),
     );
   }

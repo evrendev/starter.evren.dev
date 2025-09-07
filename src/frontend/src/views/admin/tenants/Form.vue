@@ -39,7 +39,7 @@ const isActiveOptions = computed(() => [
   { value: false, text: t("shared.options.isActive.false") },
 ]);
 
-const readOnly: Ref<boolean> = ref(props.routeName === "tenants-view");
+const readOnly: Ref<boolean> = ref(props.routeName === "tenant-view");
 
 watch(
   () => props.tenant,
@@ -80,7 +80,7 @@ const submit = handleSubmit((values: Tenant) => {
         :button="{
           icon: 'bx-chevron-left',
           text: t('shared.back'),
-          to: { name: 'tenants-list' },
+          to: { name: 'tesnant-list' },
         }"
       />
     </v-card-title>
