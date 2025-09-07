@@ -1,16 +1,29 @@
-﻿using EvrenDev.Application.Identity.Roles;
+﻿using EvrenDev.Application.Identity.Roles.Commands.Create;
+using EvrenDev.Application.Identity.Roles.Commands.Update;
+using EvrenDev.Application.Identity.Roles.Entities;
+using EvrenDev.Application.Identity.Roles.Interfaces;
+using EvrenDev.Application.Identity.Roles.Queries.Paginate;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
 public class RolesController(IRoleService roleService) : VersionNeutralApiController
 {
-    [HttpGet]
+
+    [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Roles)]
     [OpenApiOperation("Get a list of all roles.", "")]
     public async Task<ApiResponse<List<RoleDto>?>> GetListAsync(CancellationToken cancellationToken)
     {
         var data = await roleService.GetListAsync(cancellationToken);
         return ApiResponse<List<RoleDto>?>.Success(data);
+    }
+
+    [HttpGet]
+    [MustHavePermission(ApiAction.View, ApiResource.Roles)]
+    [OpenApiOperation("Get paginated list of all roles.", "")]
+    public async Task<PaginationResponse<RoleDto>> GetPaginatedListAsync([FromQuery] PaginateRolesFilter filter)
+    {
+        return await roleService.PaginatedListAsync(filter);
     }
 
     [HttpGet("{id}")]

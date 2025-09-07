@@ -1,6 +1,13 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using EvrenDev.Application.Identity.Roles.Interfaces;
 
-namespace EvrenDev.Application.Identity.Roles;
+namespace EvrenDev.Application.Identity.Roles.Commands.Create;
+
+public class CreateOrUpdateRoleRequest
+{
+    public string? Id { get; set; }
+    public string Name { get; set; } = default!;
+    public string? Description { get; set; }
+}
 
 public class CreateOrUpdateRoleRequestValidator : CustomValidator<CreateOrUpdateRoleRequest>
 {

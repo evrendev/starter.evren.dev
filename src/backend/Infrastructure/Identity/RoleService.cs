@@ -1,7 +1,12 @@
 ﻿using EvrenDev.Application.Common.Events;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Application.Identity.Roles;
+using EvrenDev.Application.Common.Models;
+using EvrenDev.Application.Identity.Roles.Commands.Create;
+using EvrenDev.Application.Identity.Roles.Commands.Update;
+using EvrenDev.Application.Identity.Roles.Entities;
+using EvrenDev.Application.Identity.Roles.Interfaces;
+using EvrenDev.Application.Identity.Roles.Queries.Paginate;
 using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
@@ -164,5 +169,57 @@ internal class RoleService(
         await events.PublishAsync(new ApplicationRoleDeletedEvent(role.Id, role.Name));
 
         return string.Format(localizer["Role {0} Deleted."], role.Name);
+    }
+
+    public async Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter)
+    {
+        IQueryable<ApplicationRole> query = roleManager.Roles;
+
+        if (!string.IsNullOrEmpty(filter.Search))
+        {
+            string searchLower = filter.Search.ToLower();
+            query = query.Where(role =>
+                role.Id.ToLower().Contains(searchLower) ||
+                role.Name != null && role.Name.ToLower().Contains(searchLower) ||
+                role.Description != null && role.Description.ToLower().Contains(searchLower)
+            );
+        }
+
+        if (filter.SortBy is { Count: > 0 })
+        {
+            var sortItem = filter.SortBy[0];
+
+            bool isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+            string sortField = sortItem.Key ?? string.Empty;
+
+            switch (sortField.ToLower())
+            {
+                case "id":
+                    query = isDescending ? query.OrderByDescending(t => t.Id) : query.OrderBy(t => t.Id);
+                    break;
+                case "name":
+                    query = isDescending ? query.OrderByDescending(t => t.Name) : query.OrderBy(t => t.Name);
+                    break;
+                default:
+                    // Default sort order if the key is unrecognized
+                    query = query.OrderBy(t => t.Id);
+                    break;
+            }
+        }
+        else
+        {
+            query = query.OrderBy(t => t.Id);
+        }
+
+        int totalItems = await query.CountAsync();
+
+        var pagedData = await query
+            .Skip((filter.Page - 1) * filter.ItemsPerPage)
+            .Take(filter.ItemsPerPage)
+            .ToListAsync();
+
+        var pagedDataDto = pagedData.Adapt<List<RoleDto>>();
+
+        return new PaginationResponse<RoleDto>(pagedDataDto, totalItems, filter.Page, filter.ItemsPerPage);
     }
 }

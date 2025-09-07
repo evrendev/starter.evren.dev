@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Application.Common.Specification;
-using EvrenDev.Application.Identity.Roles;
+using EvrenDev.Application.Identity.Roles.Interfaces;
 using EvrenDev.Application.Identity.Users;
 using EvrenDev.Domain.Catalog;
 

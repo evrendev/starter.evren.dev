@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Application.Identity.Roles;
+﻿namespace EvrenDev.Application.Identity.Roles.Entities;
 
 public class RoleDto
 {

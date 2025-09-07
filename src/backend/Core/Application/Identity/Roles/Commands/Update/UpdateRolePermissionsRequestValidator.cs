@@ -1,4 +1,10 @@
-﻿namespace EvrenDev.Application.Identity.Roles;
+﻿namespace EvrenDev.Application.Identity.Roles.Commands.Update;
+
+public class UpdateRolePermissionsRequest
+{
+    public string RoleId { get; set; } = default!;
+    public List<string> Permissions { get; set; } = default!;
+}
 
 public class UpdateRolePermissionsRequestValidator : CustomValidator<UpdateRolePermissionsRequest>
 {

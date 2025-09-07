@@ -1,8 +1,15 @@
-﻿namespace EvrenDev.Application.Identity.Roles;
+﻿using EvrenDev.Application.Identity.Roles.Commands.Create;
+using EvrenDev.Application.Identity.Roles.Commands.Update;
+using EvrenDev.Application.Identity.Roles.Entities;
+using EvrenDev.Application.Identity.Roles.Queries.Paginate;
+
+namespace EvrenDev.Application.Identity.Roles.Interfaces;
 
 public interface IRoleService : ITransientService
 {
     Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken);
+
+    Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter);
 
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 
