@@ -15,4 +15,11 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 COPY --from=build /out /out
 COPY . .
 
+# Copy migration script
+COPY scripts/migrate.sh /migrate.sh
+RUN chmod +x /migrate.sh
+
 ENV ASPNETCORE_ENVIRONMENT=Docker
+
+# Set the entrypoint to run migrations
+ENTRYPOINT ["/migrate.sh"]

@@ -40,15 +40,16 @@ services:
       dockerfile: src/backend/Dockerfile.migrator
     environment:
       ASPNETCORE_ENVIRONMENT: "Docker"
-      Logging__LogLevel__Default: "Debug"
-      Logging__LogLevel__Microsoft: "Debug"
-      Logging__LogLevel__Microsoft.Hosting.Lifetime: "Debug"
-    profiles:
-      - migrate
+      Logging__LogLevel__Default: "Information"
+      Logging__LogLevel__Microsoft: "Information"
+      Logging__LogLevel__Microsoft.Hosting.Lifetime: "Information"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - evrendev-network
+    profiles:
+      - migrate
 
   backend:
     container_name: evrendev-backend
@@ -58,6 +59,7 @@ services:
     build:
       context: .
       dockerfile: src/backend/Dockerfile
+      target: runtime
     ports:
       - "5001:5001"
     environment:
@@ -82,6 +84,7 @@ services:
     image: evrendev-frontend
     build:
       context: ./src/frontend
+      target: production
     ports:
       - "5002:80"
     environment:

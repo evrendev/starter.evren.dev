@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile
+      target: development  # Development stage
+    volumes:
+      - ./src/backend:/app/src/backend  # Mount source code (preserves compiled artifacts)
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"  # Enable file watching
+      ASPNETCORE_URLS: "http://+:5001"
+    command: dotnet watch run --project /app/src/backend/PublicApi/PublicApi.csproj --urls http://+:5001
+    
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+      target: development  # Development stage
+    volumes:
+      - ./src/frontend/src:/app/src  # Mount only source code, not node_modules
+      - ./src/frontend/public:/app/public  # Mount public assets
+      - ./src/frontend/index.html:/app/index.html  # Mount main HTML
+      - ./src/frontend/vite.config.ts:/app/vite.config.ts  # Mount vite config
+      - ./src/frontend/package.json:/app/package.json  # Mount package.json
+    environment:
+      VITE_API_URL: "http://localhost:5001"
+    command: npm run dev -- --host 0.0.0.0
+    
+  # Override migrator to run only when explicitly called
+  backend-migrator:
+    profiles:
+      - migrate
+      - never  # Don't run by default in development

@@ -1,0 +1,14 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile
+      target: runtime  # Production runtime stage
+    restart: unless-stopped
+    
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+      target: production  # Production stage
+    restart: unless-stopped
