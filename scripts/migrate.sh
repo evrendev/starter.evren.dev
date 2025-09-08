@@ -12,19 +12,25 @@ done
 
 echo "✅ Database is ready!"
 
-# Set connection string
-CONNECTION_STRING="Host=db;Port=5432;Database=evrendev-sass;Username=postgres;Password=P@s5w0rd.123;"
+# Set environment for Docker configuration
+export ASPNETCORE_ENVIRONMENT=docker
+
+# Debug: Check environment variable
+echo "🔍 Environment variable check:"
+echo "ASPNETCORE_ENVIRONMENT = $ASPNETCORE_ENVIRONMENT"
 
 # Navigate to migrator directory
 cd /src/src/backend/Migrators/Migrators.PostgreSQL
 
-# Apply migrations for ApplicationDbContext (main application context)
+# Apply migrations for ApplicationDbContext using startup project configuration
 echo "🔄 Applying migrations for ApplicationDbContext..."
-dotnet ef database update --context ApplicationDbContext --connection "$CONNECTION_STRING"
+echo "📂 Using startup project: /src/src/backend/PublicApi"
+echo "🔧 Expected config file: /src/src/backend/PublicApi/Configurations/database.docker.json"
+dotnet ef database update -s /src/src/backend/PublicApi -c ApplicationDbContext --verbose
 
-# Apply migrations for TenantDbContext (ignore pending model changes)
+# Apply migrations for TenantDbContext using startup project configuration
 echo "🔄 Applying migrations for TenantDbContext..."
-dotnet ef database update --context TenantDbContext --connection "$CONNECTION_STRING" || echo "⚠️  TenantDbContext migration skipped (may have pending changes)"
+dotnet ef database update -s /src/src/backend/PublicApi -c TenantDbContext --verbose || echo "⚠️  TenantDbContext migration skipped (may have pending changes)"
 
 echo "✅ Migration completed successfully!"
 
