@@ -57,7 +57,7 @@ const handleSubmit = async (values: Role) => {
         `admin.roles.notifications.${route.name === "role-create" ? "created" : "updated"}`,
       ),
     );
-    router.push({ name: "tenant-list" });
+    router.push({ name: "role-list" });
   } else {
     Notify.error(
       t(
