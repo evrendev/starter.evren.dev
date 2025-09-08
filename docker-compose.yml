@@ -85,8 +85,6 @@ services:
     build:
       context: ./src/frontend
       target: production
-    ports:
-      - "5002:80"
     environment:
       VITE_API_URL: "https://api.evren.dev"
 

@@ -17,6 +17,8 @@ services:
       context: ./src/frontend
       dockerfile: Dockerfile
       target: development  # Development stage
+    ports:
+      - "5002:5002"  # Map to Vite dev server port from config
     volumes:
       - ./src/frontend/src:/app/src  # Mount only source code, not node_modules
       - ./src/frontend/public:/app/public  # Mount public assets
