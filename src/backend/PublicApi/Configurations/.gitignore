@@ -1,4 +1,4 @@
-﻿database.json
-hangfire.json
-mail.json
-secrets.json
+﻿database*
+hangfire*
+mail*
+secrets*

@@ -1,6 +1,0 @@
-{
-  "DatabaseSettings": {
-    "ConnectionString": "Host=localhost;Database=backend-template;Username=postgres;Password=root;Include Error Detail=true",
-    "DBProvider": "postgresql"
-  }
-}
