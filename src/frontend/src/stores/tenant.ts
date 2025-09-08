@@ -65,14 +65,15 @@ export const useTenantStore = defineStore("tenant", {
         this.loading = false;
       }
     },
-    async getTenant(id: string) {
+    async getById(id: string) {
       this.loading = true;
       appStore.setLoading(true);
 
       try {
-        const { data } = await useHttpClient().get(`/tenants/${id}`);
+        const { data }: AxiosResponse<DefaultApiResponse<Tenant>> =
+          await useHttpClient().get(`/tenants/${id}`);
 
-        this.tenant = data;
+        this.tenant = data.data ?? null;
 
         return data;
       } catch (error) {

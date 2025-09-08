@@ -22,7 +22,7 @@ const tenant = ref<Tenant | null>(null);
 onMounted(async () => {
   const { id } = route.params;
   if (id) {
-    tenant.value = await tenantStore.getTenant(id as string);
+    tenant.value = await tenantStore.getById(id as string);
   }
 });
 
