@@ -9,7 +9,7 @@ public class UserDetailsDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? FullName => $"{FirstName} {LastName}".Trim();
-    public string Initial => !string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName) ? $"{FirstName?[0]}{LastName?[0]}" : string.Empty;
+    public string Initial => !string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName) ? $"{FirstName?[0].ToString().ToUpper()}{LastName?[0].ToString().ToUpper()}" : string.Empty;
     public string? Email { get; set; }
     public bool IsActive { get; set; } = true;
     public bool EmailConfirmed { get; set; }
