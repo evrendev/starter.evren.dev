@@ -2,7 +2,7 @@
 import { RouteRecordNameGeneric } from "vue-router";
 import { Role } from "@/requests/role";
 import { toTypedSchema } from "@vee-validate/yup";
-import { object, boolean, date, string } from "yup";
+import { object, string } from "yup";
 import { useForm } from "vee-validate";
 
 const { t } = useI18n();
@@ -16,7 +16,6 @@ const props = defineProps<{
 
 const schema = toTypedSchema(
   object({
-    id: string().required(t("admin.roles.fields.id.required")),
     name: string().required(t("admin.roles.fields.name.required")),
     description: string().required(
       t("admin.roles.fields.description.required"),
@@ -43,7 +42,7 @@ watch(
   },
 );
 
-const [id, idAttrs] = defineField("id");
+const [id] = defineField("id");
 const [name, nameAttrs] = defineField("name");
 const [description, descriptionAttrs] = defineField("description");
 
@@ -70,7 +69,7 @@ const submit = handleSubmit((values: Role) => {
     </v-card-title>
     <v-card-text>
       <v-form :disabled="readOnly">
-        <v-row>
+        <v-row v-show="routeName !== 'role-create'">
           <v-col cols="12" md="3">
             <label
               for="id"
@@ -81,10 +80,9 @@ const submit = handleSubmit((values: Role) => {
           <v-col cols="12" md="9">
             <v-text-field
               v-model="id"
-              v-bind="idAttrs"
               variant="outlined"
+              :disabled="true"
               :label="t('admin.roles.fields.id.title')"
-              :error-messages="errors.id"
             />
           </v-col>
         </v-row>

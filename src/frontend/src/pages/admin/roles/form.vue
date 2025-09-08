@@ -22,7 +22,11 @@ const role = ref<Role | null>(null);
 onMounted(async () => {
   const { id } = route.params;
   if (id) {
-    role.value = await roleStore.getRole(id as string);
+    const response: DefaultApiResponse<Role | null> = await roleStore.getById(
+      id as string,
+    );
+
+    role.value = response?.data ?? null;
   }
 });
 

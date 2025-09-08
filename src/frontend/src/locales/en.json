@@ -234,17 +234,7 @@
         "deleteConfirm": "Delete {name}",
         "deleteMessage": "Are you sure you want to delete {name}?",
         "deleted": "Role deleted successfully",
-        "deleteFailed": "Failed to delete role",
-        "activated": "Role activated successfully",
-        "deactivated": "Role deactivated successfully",
-        "activateFailed": "Failed to activate role",
-        "deactivateFailed": "Failed to deactivate role",
-        "upgraded": "Role upgraded successfully",
-        "upgradeFailed": "Failed to upgrade role"
-      },
-      "upgrade": {
-        "title": "Upgrade Role",
-        "message": "Are you sure you want to upgrade {name}?"
+        "deleteFailed": "Failed to delete role"
       }
     }
   },

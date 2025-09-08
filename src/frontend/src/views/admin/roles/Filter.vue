@@ -10,14 +10,7 @@ defineProps<{
 
 const filters = ref<BasicFilters>({
   search: null,
-  showActiveItems: null,
 });
-
-const items = ref([
-  { value: null, text: t("shared.options.isActive.all") },
-  { value: true, text: t("shared.options.isActive.true") },
-  { value: false, text: t("shared.options.isActive.false") },
-]);
 
 const emit = defineEmits<{
   (e: "submit", values: BasicFilters): void;
@@ -31,7 +24,6 @@ const submit = () => {
 const reset = () => {
   filters.value = {
     search: null,
-    showActiveItems: null,
   };
 
   emit("reset");
@@ -46,25 +38,14 @@ const reset = () => {
     <v-card-text>
       <v-form :disabled="disabled">
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="10">
             <v-text-field
               v-model="filters.search"
               variant="outlined"
               :label="t('shared.filters.search')"
             />
           </v-col>
-          <v-col cols="12" md="3">
-            <v-select
-              v-model="filters.showActiveItems"
-              :items="items"
-              hide-details
-              item-text="value"
-              item-title="text"
-              variant="outlined"
-              :label="t('shared.filters.isActive')"
-            />
-          </v-col>
-          <v-col cols="12" md="3" class="d-flex justify-end align-center gap-2">
+          <v-col cols="12" md="2" class="d-flex justify-end align-center gap-2">
             <v-btn
               color="error"
               size="small"

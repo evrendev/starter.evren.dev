@@ -234,17 +234,7 @@
         "deleteConfirm": "Löschen {name}",
         "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
         "deleted": "Rolle erfolgreich gelöscht",
-        "deleteFailed": "Fehler beim Löschen der Rolle",
-        "activated": "Rolle erfolgreich aktiviert",
-        "deactivated": "Rolle erfolgreich deaktiviert",
-        "activateFailed": "Fehler beim Aktivieren der Rolle",
-        "deactivateFailed": "Fehler beim Deaktivieren der Rolle",
-        "upgraded": "Rolle erfolgreich aktualisiert",
-        "upgradeFailed": "Fehler beim Aktualisieren der Rolle"
-      },
-      "upgrade": {
-        "title": "Rolle aktualisieren",
-        "message": "Sind Sie sicher, dass Sie {name} aktualisieren möchten?"
+        "deleteFailed": "Fehler beim Löschen der Rolle"
       }
     }
   },

@@ -2,7 +2,6 @@ export interface Role {
   id: string;
   name: string;
   description: string;
-  isActive: boolean;
   permissions: string[];
 }
 export interface Filters extends BasicFilters {
@@ -13,5 +12,4 @@ export interface Filters extends BasicFilters {
 }
 export interface BasicFilters {
   search: string | null;
-  showActiveItems: boolean | null;
 }

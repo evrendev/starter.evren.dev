@@ -15,17 +15,13 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: "delete", id: string | null): void;
-  (e: "activate", id: string): void;
-  (e: "deactivate", id: string): void;
   (e: "update:options", options: any): void;
 }>();
 
 const roleId: Ref<string> = ref("");
 const toggleDeleteConfirmDialog = ref(false);
-const toggleUpgradeModalWindow = ref(false);
 const dialogTitle: Ref<string | null> = ref(null);
 const dialogMessage: Ref<string | null> = ref(null);
-const extendedExpiryDate: Ref<string> = ref("");
 
 const showDeleteConfirmModal = (role: Role) => {
   roleId.value = role.id;
@@ -45,14 +41,6 @@ const confirmDelete = () => {
 const abortDelete = () => {
   roleId.value = "";
   toggleDeleteConfirmDialog.value = false;
-};
-
-const activate = (id: string) => {
-  emit("activate", id);
-};
-
-const deactivate = (id: string) => {
-  emit("deactivate", id);
 };
 </script>
 
@@ -129,23 +117,6 @@ const deactivate = (id: string) => {
                 <v-list-item-title v-text="t('shared.delete')" />
                 <template v-slot:prepend>
                   <v-icon icon="bx-trash" />
-                </template>
-              </v-list-item>
-
-              <v-list-item
-                @click="item.isActive ? deactivate(item.id) : activate(item.id)"
-              >
-                <v-list-item-title
-                  v-text="
-                    item.isActive
-                      ? t('shared.deactivate')
-                      : t('shared.activate')
-                  "
-                />
-                <template v-slot:prepend>
-                  <v-icon
-                    :icon="item.isActive ? 'bx-toggle-left' : 'bx-toggle-right'"
-                  />
                 </template>
               </v-list-item>
             </v-list>

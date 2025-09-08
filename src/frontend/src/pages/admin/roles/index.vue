@@ -60,26 +60,6 @@ const handleDelete = async (id: string | null) => {
   }
 };
 
-const handleActivate = async (id: string) => {
-  const response = await roleStore.activate(id);
-
-  if (response.succeeded) {
-    Notify.success(t("admin.roles.notifications.activated"));
-  } else {
-    Notify.error(t("admin.roles.notifications.activateFailed"));
-  }
-};
-
-const handleDeactivate = async (id: string) => {
-  const response = await roleStore.deactivate(id);
-
-  if (response.succeeded) {
-    Notify.success(t("admin.roles.notifications.deactivated"));
-  } else {
-    Notify.error(t("admin.roles.notifications.deactivateFailed"));
-  }
-};
-
 const handleUpdateFilters = async (filters: BasicFilters) => {
   roleStore.setFilters(filters);
   await roleStore.getItems();
@@ -111,8 +91,6 @@ const getItems = async (options: Filters) => {
     :loading="loading"
     :headers="headers"
     @delete="handleDelete"
-    @activate="handleActivate"
-    @deactivate="handleDeactivate"
     @update:options="getItems"
     item-value="id"
   />

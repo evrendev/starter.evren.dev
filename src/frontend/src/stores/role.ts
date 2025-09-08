@@ -8,7 +8,6 @@ const appStore = useAppStore();
 
 const DEFAULT_FILTER: Filters = {
   search: null,
-  showActiveItems: null,
   sortBy: [],
   groupBy: [],
   page: 1,
@@ -58,19 +57,25 @@ export const useRoleStore = defineStore("role", {
         this.loading = false;
       }
     },
-    async getRole(id: string) {
+    async getById(id: string): Promise<DefaultApiResponse<Role | null>> {
       this.loading = true;
       appStore.setLoading(true);
 
       try {
-        const { data } = await useHttpClient().get(`/roles/${id}`);
+        const { data }: AxiosResponse<DefaultApiResponse<Role | null>> =
+          await useHttpClient().get(`/roles/${id}`);
 
-        this.role = data;
+        this.role = data.data ?? null;
 
         return data;
       } catch (error) {
         console.error("Error fetching role:", error);
-        return null;
+        const response: DefaultApiResponse<Role | null> = {
+          succeeded: false,
+          errors: [error as string],
+        };
+
+        return response;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
@@ -123,58 +128,6 @@ export const useRoleStore = defineStore("role", {
         if (response.data.succeeded) {
           const index = this.items.findIndex((item: Role) => item.id === id);
           if (index !== -1) this.items.splice(index, 1);
-        }
-
-        return response.data;
-      } catch (error) {
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
-      }
-    },
-    async activate(id: string): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
-      appStore.setLoading(true);
-
-      try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().post(`/roles/${id}/activate`);
-
-        if (response.data.succeeded) {
-          const index = this.items.findIndex((item: Role) => item.id === id);
-          if (index !== -1) this.items[index].isActive = true;
-        }
-
-        return response.data;
-      } catch (error) {
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
-      }
-    },
-    async deactivate(id: string): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
-      appStore.setLoading(true);
-
-      try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().post(`/roles/${id}/deactivate`);
-
-        if (response.data.succeeded) {
-          const index = this.items.findIndex((item: Role) => item.id === id);
-          if (index !== -1) this.items[index].isActive = false;
         }
 
         return response.data;

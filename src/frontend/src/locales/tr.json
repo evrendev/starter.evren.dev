@@ -234,17 +234,7 @@
         "deleteConfirm": "Sil {name}",
         "deleteMessage": "{name} rolünü silmek istediğinizden emin misiniz?",
         "deleted": "Rol başarıyla silindi",
-        "deleteFailed": "Rol silinirken hata oluştu",
-        "activated": "Rol başarıyla aktifleştirildi",
-        "deactivated": "Rol başarıyla devre dışı bırakıldı",
-        "activateFailed": "Rol aktifleştirilirken hata oluştu",
-        "deactivateFailed": "Rol devre dışı bırakılırken hata oluştu",
-        "upgraded": "Rol başarıyla yükseltildi",
-        "upgradeFailed": "Rol yükseltilirken hata oluştu"
-      },
-      "upgrade": {
-        "title": "Rolü Yükselt",
-        "message": "{name} rolünü yükseltmek istediğinizden emin misiniz?"
+        "deleteFailed": "Rol silinirken hata oluştu"
       }
     }
   },
