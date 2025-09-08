@@ -1,12 +1,14 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore EvrenDev.sln
+RUN dotnet restore BackendBoilerplate.sln
 RUN dotnet publish src/backend/PublicApi/PublicApi.csproj -c Release -o /out
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS migrator
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS migrator
 WORKDIR /src
 
+# Install PostgreSQL client and dotnet-ef tool
+RUN apt-get update && apt-get install -y postgresql-client
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
 
@@ -14,9 +16,3 @@ COPY --from=build /out /out
 COPY . .
 
 ENV ASPNETCORE_ENVIRONMENT=Docker
-
-ENTRYPOINT ["sh", "-c", "\
-dotnet ef database update -c CatalogDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose && \
-dotnet ef database update -c IdentityDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose && \
-dotnet ef database update -c AuditLogDbContext -p src/backend/Infrastructure/Infrastructure.csproj -s src/backend/PublicApi/PublicApi.csproj --verbose \
-"]

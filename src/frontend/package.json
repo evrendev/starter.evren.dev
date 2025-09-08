@@ -9,7 +9,7 @@
     "preview": "vite preview --config vite.config.preview.ts",
     "typecheck": "vue-tsc --noEmit",
     "build:icons": "tsx src/plugins/iconify/build-icons.ts",
-    "postinstall": "npm run build:icons",
+    "postinstall": "",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },

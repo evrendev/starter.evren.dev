@@ -1,16 +1,23 @@
 services:
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgres:15-alpine
     container_name: evrendev-db
     environment:
-      SA_PASSWORD: "M@ster.01"
-      ACCEPT_EULA: "Y"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "P@s5w0rd.123"
+      POSTGRES_DB: "evrendev-sass"
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - sql_data:/var/opt/mssql
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - evrendev-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d evrendev-sass"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
 
   redis:
     container_name: evrendev-redis
@@ -19,6 +26,11 @@ services:
       - "6379:6379"
     networks:
       - evrendev-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
   backend-migrator:
     container_name: evrendev-migrator
@@ -27,10 +39,10 @@ services:
       context: .
       dockerfile: src/backend/Dockerfile.migrator
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - Logging__LogLevel__Default=Debug
-      - Logging__LogLevel__Microsoft=Debug
-      - Logging__LogLevel__Microsoft.Hosting.Lifetime=Debug
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      Logging__LogLevel__Default: "Debug"
+      Logging__LogLevel__Microsoft: "Debug"
+      Logging__LogLevel__Microsoft.Hosting.Lifetime: "Debug"
     profiles:
       - migrate
     depends_on:
@@ -41,32 +53,39 @@ services:
   backend:
     container_name: evrendev-backend
     image: evrendev-backend
+    volumes:
+      - files_data:/app/Files
     build:
       context: .
       dockerfile: src/backend/Dockerfile
-    # ports:
-    #   - "6001:6001"
+    ports:
+      - "5001:5001"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - Logging__LogLevel__Default=Debug
-      - Logging__LogLevel__Microsoft=Debug
-      - Logging__LogLevel__Microsoft.Hosting.Lifetime=Debug
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      DatabaseSettings__ConnectionString: "Host=db;Port=5432;Database=evrendev-sass;Username=postgres;Password=P@s5w0rd.123;"
+      DatabaseSettings__DbProvider: "PostgreSQL"
+      HangfireSettings__Storage__ConnectionString: "Host=db;Port=5432;Database=evrendev-sass;Username=postgres;Password=P@s5w0rd.123;"
+      CacheSettings__RedisURL: "redis:6379"
+      SignalRSettings__Backplane__StringConnection: "redis:6379"
+
     restart: unless-stopped
-    depends_on:
-      - db
-      - redis
     networks:
       - evrendev-network
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   frontend:
     container_name: evrendev-frontend
     image: evrendev-frontend
     build:
       context: ./src/frontend
-    # ports:
-    #   - "6002:6002"
+    ports:
+      - "5002:80"
     environment:
-      - VITE_API_URL=https://api.evren.dev
+      VITE_API_URL: "https://api.evren.dev"
 
     depends_on:
       - backend
@@ -74,7 +93,8 @@ services:
       - evrendev-network
 
 volumes:
-  sql_data:
+  postgres_data:
+  files_data: {}
 
 networks:
   evrendev-network:

@@ -1,0 +1,6 @@
+{
+  "DatabaseSettings": {
+    "ConnectionString": "Host=db;Port=5432;Database=evrendev-sass;Username=postgres;Password=P@s5w0rd.123;",
+    "DbProvider": "PostgreSQL"
+  }
+}
