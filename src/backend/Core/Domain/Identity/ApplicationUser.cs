@@ -1,7 +1,7 @@
 ﻿using EvrenDev.Domain.Catalog;
 using Microsoft.AspNetCore.Identity;
 
-namespace EvrenDev.Domain.Common.Events.Identity;
+namespace EvrenDev.Domain.Identity;
 
 public class ApplicationUser : IdentityUser
 {

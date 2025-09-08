@@ -4,6 +4,7 @@ using EvrenDev.Application.Common.Mailing;
 using EvrenDev.Application.Identity.Users;
 using EvrenDev.Domain.Common;
 using EvrenDev.Domain.Common.Events.Identity;
+using EvrenDev.Domain.Identity;
 using EvrenDev.Shared.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Web;

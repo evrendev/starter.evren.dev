@@ -9,6 +9,7 @@ using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Common.Specification;
 using EvrenDev.Application.Identity.Users;
 using EvrenDev.Domain.Common.Events.Identity;
+using EvrenDev.Domain.Identity;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Shared.Authorization;
 using Finbuckle.MultiTenant;

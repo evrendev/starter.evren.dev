@@ -1,4 +1,4 @@
-﻿using EvrenDev.Domain.Common.Events.Identity;
+﻿using EvrenDev.Domain.Identity;
 using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Identity;
 using EvrenDev.Shared.Authorization;

@@ -1,4 +1,4 @@
-﻿using EvrenDev.Domain.Common.Events.Identity;
+﻿using EvrenDev.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

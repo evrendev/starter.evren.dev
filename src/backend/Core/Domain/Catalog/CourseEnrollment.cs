@@ -1,4 +1,4 @@
-using EvrenDev.Domain.Common.Events.Identity;
+using EvrenDev.Domain.Identity;
 
 namespace EvrenDev.Domain.Catalog;
 

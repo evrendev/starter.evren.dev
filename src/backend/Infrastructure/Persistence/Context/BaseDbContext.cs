@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using EvrenDev.Application.Common.Events;
 using EvrenDev.Application.Common.Interfaces;
-using EvrenDev.Domain.Common.Events.Identity;
+using EvrenDev.Domain.Identity;
 using EvrenDev.Infrastructure.Auditing;
 using EvrenDev.Infrastructure.Identity;
 using Finbuckle.MultiTenant;
