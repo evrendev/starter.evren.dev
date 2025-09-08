@@ -62,16 +62,24 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     [HttpPost]
     [MustHavePermission(ApiAction.Create, ApiResource.Roles)]
     [OpenApiOperation("Create or update a role.", "")]
-    public Task<string> RegisterRoleAsync(CreateOrUpdateRoleRequest request)
+    public async Task<ApiResponse<string?>> RegisterRoleAsync(CreateOrUpdateRoleRequest request)
     {
-        return roleService.CreateOrUpdateAsync(request);
+        return ApiResponse<string?>.Success(await roleService.CreateOrUpdateAsync(request));
+    }
+
+    [HttpPut("{id}")]
+    [MustHavePermission(ApiAction.Update, ApiResource.Roles)]
+    [OpenApiOperation("Create or update a role.", "")]
+    public async Task<ApiResponse<string?>> UpdateRoleAsync(CreateOrUpdateRoleRequest request)
+    {
+        return ApiResponse<string?>.Success(await roleService.CreateOrUpdateAsync(request));
     }
 
     [HttpDelete("{id}")]
     [MustHavePermission(ApiAction.Delete, ApiResource.Roles)]
     [OpenApiOperation("Delete a role.", "")]
-    public Task<string> DeleteAsync(string id)
+    public async Task<ApiResponse<string?>> DeleteAsync(string id)
     {
-        return roleService.DeleteAsync(id);
+        return ApiResponse<string?>.Success(await roleService.DeleteAsync(id));
     }
 }
