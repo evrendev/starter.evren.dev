@@ -2,6 +2,7 @@
 using EvrenDev.Infrastructure.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace EvrenDev.Infrastructure.Persistence.ConnectionString;
 
@@ -25,6 +26,7 @@ public class ConnectionStringSecurer(IOptions<DatabaseSettings> dbSettings) : IC
         return dbProvider?.ToLower() switch
         {
             DbProviderKeys.SqlServer => MakeSecureSqlServerConnectionString(connectionString),
+            DbProviderKeys.PostgreSQL => MakeSecurePostgreSqlConnectionString(connectionString),
             _ => connectionString
         };
     }
@@ -41,6 +43,23 @@ public class ConnectionStringSecurer(IOptions<DatabaseSettings> dbSettings) : IC
         if (!string.IsNullOrEmpty(builder.UserID))
         {
             builder.UserID = HiddenValueDefault;
+        }
+
+        return builder.ToString();
+    }
+
+    private static string MakeSecurePostgreSqlConnectionString(string connectionString)
+    {
+        var builder = new NpgsqlConnectionStringBuilder(connectionString);
+
+        if (!string.IsNullOrEmpty(builder.Password))
+        {
+            builder.Password = HiddenValueDefault;
+        }
+
+        if (!string.IsNullOrEmpty(builder.Username))
+        {
+            builder.Username = HiddenValueDefault;
         }
 
         return builder.ToString();

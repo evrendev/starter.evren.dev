@@ -3,6 +3,7 @@ using EvrenDev.Infrastructure.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace EvrenDev.Infrastructure.Persistence.ConnectionString;
 
@@ -24,6 +25,9 @@ internal class ConnectionStringValidator(IOptions<DatabaseSettings> dbSettings, 
             {
                 case DbProviderKeys.SqlServer:
                     var sqlservercs = new SqlConnectionStringBuilder(connectionString);
+                    break;
+                case DbProviderKeys.PostgreSQL:
+                    var postgresqlcs = new NpgsqlConnectionStringBuilder(connectionString);
                     break;
             }
 

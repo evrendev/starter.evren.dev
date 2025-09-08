@@ -4,6 +4,7 @@ using Hangfire;
 using Hangfire.Console;
 using Hangfire.Console.Extensions;
 using Hangfire.SqlServer;
+using Hangfire.PostgreSql;
 using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -53,6 +54,8 @@ internal static class Startup
                 hangfireConfig.UseSqlServerStorage(
                     connectionString,
                     config.GetSection("HangfireSettings:Storage:Options").Get<SqlServerStorageOptions>()),
+            DbProviderKeys.PostgreSQL =>
+                hangfireConfig.UsePostgreSqlStorage(c => c.UseNpgsqlConnection(connectionString)),
             _ => throw new ConfigurationErrorsException($"Hangfire Storage Provider {dbProvider} is not supported.")
         };
 

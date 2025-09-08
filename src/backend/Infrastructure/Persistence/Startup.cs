@@ -57,6 +57,11 @@ internal static class Startup
                 return builder.UseSqlServer(connectionString, e =>
                      e.MigrationsAssembly("Migrators.MSSQL"));
 
+            case DbProviderKeys.PostgreSQL:
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                return builder.UseNpgsql(connectionString, e =>
+                     e.MigrationsAssembly("Migrators.PostgreSQL"));
+
             default:
                 throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
         }
