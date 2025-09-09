@@ -9,7 +9,7 @@ public class PersonalController(IUserService userService) : VersionNeutralApiCon
 {
     [HttpGet("profile")]
     [OpenApiOperation("Get profile details of currently logged in user.", "")]
-    public async Task<ActionResult<UserDetailsDto>> GetProfileAsync(CancellationToken cancellationToken)
+    public async Task<ActionResult<UserDto>> GetProfileAsync(CancellationToken cancellationToken)
     {
         return User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId)
             ? Unauthorized()

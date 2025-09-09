@@ -38,18 +38,18 @@ internal partial class UserService(
 {
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
 
-    public async Task<PaginationResponse<UserDetailsDto>> SearchAsync(UserListFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<UserDto>> SearchAsync(UserListFilter filter, CancellationToken cancellationToken)
     {
         var spec = new EntitiesByPaginationFilterSpec<ApplicationUser>(filter);
 
         var users = await userManager.Users
             .WithSpecification(spec)
-            .ProjectToType<UserDetailsDto>()
+            .ProjectToType<UserDto>()
             .ToListAsync(cancellationToken);
         var count = await userManager.Users
             .CountAsync(cancellationToken);
 
-        return new PaginationResponse<UserDetailsDto>(users, count, filter.Page, filter.ItemsPerPage);
+        return new PaginationResponse<UserDto>(users, count, filter.Page, filter.ItemsPerPage);
     }
 
     public async Task<bool> ExistsWithNameAsync(string name)
@@ -78,16 +78,16 @@ internal partial class UserService(
         }
     }
 
-    public async Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken) =>
+    public async Task<List<UserDto>> GetListAsync(CancellationToken cancellationToken) =>
         (await userManager.Users
                 .AsNoTracking()
                 .ToListAsync(cancellationToken))
-            .Adapt<List<UserDetailsDto>>();
+            .Adapt<List<UserDto>>();
 
     public Task<int> GetCountAsync(CancellationToken cancellationToken) =>
         userManager.Users.AsNoTracking().CountAsync(cancellationToken);
 
-    public async Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken)
+    public async Task<UserDto> GetAsync(string userId, CancellationToken cancellationToken)
     {
         var user = await userManager.Users
             .AsNoTracking()
@@ -96,7 +96,7 @@ internal partial class UserService(
 
         _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
 
-        return user.Adapt<UserDetailsDto>();
+        return user.Adapt<UserDto>();
     }
 
     public async Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken)

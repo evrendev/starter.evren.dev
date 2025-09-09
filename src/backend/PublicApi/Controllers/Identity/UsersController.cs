@@ -9,23 +9,23 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get list of all users.", "")]
-    public async Task<ApiResponse<List<UserDetailsDto>>> GetListAsync(CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<UserDto>>> GetListAsync(CancellationToken cancellationToken)
     {
         var data = await userService.GetListAsync(cancellationToken);
 
-        return ApiResponse<List<UserDetailsDto>>.Success(data);
+        return ApiResponse<List<UserDto>>.Success(data);
     }
 
     [HttpGet("{id}")]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get a user's details.", "")]
-    public async Task<ApiResponse<UserDetailsDto>> GetByIdAsync(string id, CancellationToken cancellationToken)
+    public async Task<ApiResponse<UserDto>> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var data = await userService.GetAsync(id, cancellationToken);
         if (data == null)
             throw new NotFoundException($"User with ID '{id}' not found.");
 
-        return ApiResponse<UserDetailsDto>.Success(data);
+        return ApiResponse<UserDto>.Success(data);
     }
 
     [HttpGet("{id}/roles")]
