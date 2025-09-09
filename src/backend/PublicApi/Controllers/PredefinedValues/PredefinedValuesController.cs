@@ -7,7 +7,7 @@ public class PredefinedValuesController : VersionNeutralApiController
     [HttpGet]
     [AllowAnonymous]
     [OpenApiOperation("Get predefined values.", "")]
-    public IActionResult GetAsync()
+    public IActionResult Get()
     {
         var genders = GenderExtensions.ToList();
         var languages = LanguageExtensions.ToList();
