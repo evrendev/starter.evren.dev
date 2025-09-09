@@ -11,7 +11,12 @@ public class GetVersionInfoRequestHandler : IRequestHandler<GetVersionInfoReques
 {
     public Task<VersionInfoDto> Handle(GetVersionInfoRequest request, CancellationToken cancellationToken)
     {
+        var buildTime = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location);
         var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
-        return Task.FromResult(new VersionInfoDto { Version = version });
+        return Task.FromResult(new VersionInfoDto
+        {
+            Version = version,
+            BuildTime = buildTime.ToString()
+        });
     }
 }
