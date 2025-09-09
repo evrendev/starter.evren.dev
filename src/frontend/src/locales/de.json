@@ -236,6 +236,94 @@
         "deleted": "Rolle erfolgreich gelöscht",
         "deleteFailed": "Fehler beim Löschen der Rolle"
       }
+    },
+    "personel": {
+      "profile": {
+        "title": "Profil",
+        "view": "Profil anzeigen",
+        "edit": "Profil bearbeiten",
+        "fields": {
+          "firstName": {
+            "title": "Vorname",
+            "required": "Vorname ist erforderlich"
+          },
+          "lastName": {
+            "title": "Nachname",
+            "required": "Nachname ist erforderlich"
+          },
+          "email": {
+            "title": "-Mail",
+            "invalid": "Ungültige E-Mail",
+            "required": "-Mail ist erforderlich"
+          },
+          "gender": {
+            "title": "Geschlecht",
+            "required": "Geschlecht ist erforderlich",
+            "invalid": "Ungültiges Geschlecht"
+          },
+          "language": {
+            "title": "Sprache",
+            "required": "Sprache ist erforderlich",
+            "invalid": "Ungültige Sprache"
+          },
+          "birthday": {
+            "title": "Geburtstag",
+            "typeError": "Ungültiges Datumsformat"
+          },
+          "placeOfBirth": {
+            "title": "Geburtsort"
+          },
+          "phoneNumber": {
+            "title": "Telefonnummer",
+            "invalid": "Ungültige Telefonnummer"
+          }
+        },
+        "notifications": {
+          "profileUpdated": "Profil erfolgreich aktualisiert",
+          "profileUpdateFailed": "Fehler beim Aktualisieren des Profils"
+        }
+      },
+      "security": {
+        "title": "Sicherheit",
+        "changePassword": "Passwort ändern",
+        "enableTwoFactorAuth": "Zwei-Faktor-Authentifizierung aktivieren",
+        "disableTwoFactorAuth": "Zwei-Faktor-Authentifizierung deaktivieren",
+        "fields": {
+          "currentPassword": {
+            "title": "Aktuelles Passwort",
+            "required": "Aktuelles Passwort ist erforderlich"
+          },
+          "newPassword": {
+            "title": "Neues Passwort",
+            "required": "Neues Passwort ist erforderlich",
+            "invalid": "Das Passwort muss mindestens 8 Zeichen lang sein",
+            "min-length": "Das Passwort muss mindestens 8 Zeichen lang sein",
+            "special": "Das Passwort muss mindestens ein Sonderzeichen enthalten"
+          },
+          "confirmNewPassword": {
+            "title": "Neues Passwort bestätigen",
+            "required": "Neues Passwort bestätigen ist erforderlich",
+            "invalid": "Die Passwörter stimmen nicht überein"
+          },
+          "twoFactorCode": {
+            "title": "Zwei-Faktor-Code",
+            "required": "Zwei-Faktor-Code ist erforderlich",
+            "invalid": "Ungültiger Zwei-Faktor-Code"
+          }
+        },
+        "notifications": {
+          "passwordChanged": "Passwort erfolgreich geändert",
+          "passwordChangeFailed": "Fehler beim Ändern des Passworts",
+          "twoFactorEnabled": "Zwei-Faktor-Authentifizierung erfolgreich aktiviert",
+          "twoFactorEnableFailed": "Fehler beim Aktivieren der Zwei-Faktor-Authentifizierung",
+          "twoFactorDisabled": "Zwei-Faktor-Authentifizierung erfolgreich deaktiviert",
+          "twoFactorDisableFailed": "Fehler beim Deaktivieren der Zwei-Faktor-Authentifizierung"
+        }
+      },
+      "logs": {
+        "title": "Aktivitätsprotokolle",
+        "noLogs": "Keine Aktivitätsprotokolle gefunden"
+      }
     }
   },
   "shared": {

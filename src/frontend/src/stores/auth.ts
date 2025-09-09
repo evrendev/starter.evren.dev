@@ -5,9 +5,8 @@ import { AppError } from "@/primitives/error";
 import { useHttpClient } from "@/composables/useHttpClient";
 import type { User } from "@/models/user";
 import type { LoginRequest } from "@/requests/auth";
-import type { AccessTokenResponse, UserResponse } from "@/responses/auth";
+import type { AccessTokenResponse } from "@/responses/auth";
 import type { AxiosError, AxiosResponse } from "axios";
-import Mapper from "@/mappers";
 
 const DEFAULT_LANGUAGE = import.meta.env.VITE_APP_DEFAULT_LANGUAGE as string;
 
@@ -25,7 +24,7 @@ const nullUser: User = {
 };
 
 export const useAuthStore = defineStore("auth", () => {
-  const user = ref<User | undefined>(undefined);
+  const user = ref<User>(nullUser);
   const accessToken = ref<string>(localStorage.getItem("accessToken") || "");
   const refreshToken = ref<string>(localStorage.getItem("refreshToken") || "");
   const refreshTokenExpiryTime = ref<Date | null>(
@@ -134,12 +133,11 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function getUserInfo(): Promise<Result<string>> {
     try {
-      const { data } =
-        await useHttpClient().get<UserResponse>("personal/profile");
+      const { data } = await useHttpClient().get<User>("personal/profile");
       const permissions = await useHttpClient().get<string[]>(
         "personal/permissions",
       );
-      user.value = Mapper.toUser(data);
+      user.value = data;
       user.value.permissions = permissions.data;
     } catch (error: unknown) {
       user.value = nullUser;

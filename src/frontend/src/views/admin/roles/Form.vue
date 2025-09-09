@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { RouteRecordNameGeneric } from "vue-router";
-import { Role } from "@/requests/role";
 import { toTypedSchema } from "@vee-validate/yup";
 import { object, string } from "yup";
 import { useForm } from "vee-validate";
+import { Role } from "@/models/role";
 
 const { t } = useI18n();
 

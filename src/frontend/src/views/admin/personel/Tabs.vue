@@ -1,11 +1,24 @@
 <script setup lang="ts">
+const { t } = useI18n();
 const router = useRoute();
 const activeTab = ref(router.name);
 
 const tabs = [
-  { title: "Account", icon: "bx-user", tab: "personel-profile" },
-  { title: "Security", icon: "bx-lock-open", tab: "personel-security" },
-  { title: "Notifications", icon: "bx-bell", tab: "personel-logs" },
+  {
+    title: t("admin.personel.profile.title"),
+    icon: "bx-user",
+    tab: "personel-profile",
+  },
+  {
+    title: t("admin.personel.security.title"),
+    icon: "bx-lock-open",
+    tab: "personel-security",
+  },
+  {
+    title: t("admin.personel.logs.title"),
+    icon: "bx-bell",
+    tab: "personel-logs",
+  },
 ];
 </script>
 

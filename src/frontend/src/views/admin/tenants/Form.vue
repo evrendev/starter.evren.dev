@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { RouteRecordNameGeneric } from "vue-router";
-import { Tenant } from "@/requests/tenant";
 import { toTypedSchema } from "@vee-validate/yup";
 import { object, boolean, date, string } from "yup";
 import { useForm } from "vee-validate";
+import { Tenant } from "@/models/tenant";
 
 const { t } = useI18n();
 

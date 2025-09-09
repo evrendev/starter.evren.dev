@@ -1,14 +1,10 @@
-import {
-  Tenant,
-  Filters,
-  UpgradeTenant,
-  BasicFilters,
-} from "@/requests/tenant";
+import { Filters, UpgradeTenant, BasicFilters } from "@/requests/tenant";
 import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
 import { useAppStore } from "./app";
 import { AxiosError, AxiosResponse } from "axios";
+import { Tenant } from "@/models/tenant";
 const appStore = useAppStore();
 
 const DEFAULT_FILTER: Filters = {

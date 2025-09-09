@@ -1,4 +1,4 @@
-export interface User {
+export interface BasicUser {
   id?: string;
   gender?: string;
   email?: string;
@@ -6,23 +6,19 @@ export interface User {
   firstName?: string;
   lastName?: string;
   initial?: string;
-  fullName?: string;
   phoneNumber?: string;
-  twoFactorEnabled?: boolean;
-  imageUrl?: string;
+  birthday?: Date | null;
+  placeOfBirth?: string;
+}
+export interface User extends BasicUser {
+  fullName?: string;
+  twoFactorEnabled: true | false;
   permissions?: string[];
 }
-
-export interface Role {
-  id: string;
-  name: string;
-}
-
 export interface Permission {
   id: string;
   name: string;
 }
-
 export class Permissions {
   public static readonly DashboardView: string = "Permissions.Dashboard.View";
   public static readonly HangfireView: string = "Permissions.Hangfire.View";

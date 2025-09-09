@@ -236,6 +236,94 @@
         "deleted": "Rol başarıyla silindi",
         "deleteFailed": "Rol silinirken hata oluştu"
       }
+    },
+    "personel": {
+      "profile": {
+        "title": "Profil",
+        "view": "Profili Görüntüle",
+        "edit": "Profili Düzenle",
+        "fields": {
+          "firstName": {
+            "title": "Ad",
+            "required": "Ad alanı gerekli"
+          },
+          "lastName": {
+            "title": "Soyad",
+            "required": "Soyad alanı gerekli"
+          },
+          "email": {
+            "title": "Email",
+            "invalid": "Geçersiz Email",
+            "required": "Email alanı gerekli"
+          },
+          "gender": {
+            "title": "Cinsiyet",
+            "required": "Cinsiyet alanı gerekli",
+            "invalid": "Geçersiz Cinsiyet"
+          },
+          "language": {
+            "title": "Dil",
+            "required": "Dil alanı gerekli",
+            "invalid": "Geçersiz Dil"
+          },
+          "birthday": {
+            "title": "Doğum Tarihi",
+            "typeError": "Geçersiz tarih formatı"
+          },
+          "placeOfBirth": {
+            "title": "Doğum Yeri"
+          },
+          "phoneNumber": {
+            "title": "Telefon Numarası",
+            "invalid": "Geçersiz Telefon Numarası"
+          }
+        },
+        "notifications": {
+          "profileUpdated": "Profil başarıyla güncellendi",
+          "profileUpdateFailed": "Profil güncellenirken hata oluştu"
+        }
+      },
+      "security": {
+        "title": "Güvenlik",
+        "changePassword": "Şifre Değiştir",
+        "enableTwoFactorAuth": "İki Aşamalı Kimlik Doğrulamayı Etkinleştir",
+        "disableTwoFactorAuth": "İki Aşamalı Kimlik Doğrulamayı Devre Dışı Bırak",
+        "fields": {
+          "currentPassword": {
+            "title": "Mevcut Şifre",
+            "required": "Mevcut Şifre alanı gerekli"
+          },
+          "newPassword": {
+            "title": "Yeni Şifre",
+            "required": "Yeni Şifre alanı gerekli",
+            "invalid": "Şifre en az 8 karakter uzunluğunda olmalıdır",
+            "min-length": "Şifre en az 8 karakter uzunluğunda olmalıdır",
+            "special": "Şifre en az bir özel karakter içermelidir"
+          },
+          "confirmNewPassword": {
+            "title": "Yeni Şifreyi Onayla",
+            "required": "Yeni Şifreyi Onayla alanı gerekli",
+            "invalid": "Şifreler eşleşmiyor"
+          },
+          "twoFactorCode": {
+            "title": "İki Aşamalı Kod",
+            "required": "İki Aşamalı Kod alanı gerekli",
+            "invalid": "Geçersiz İki Aşamalı Kod"
+          }
+        },
+        "notifications": {
+          "passwordChanged": "Şifre başarıyla değiştirildi",
+          "passwordChangeFailed": "Şifre değiştirilirken hata oluştu",
+          "twoFactorEnabled": "İki Aşamalı Kimlik Doğrulama başarıyla etkinleştirildi",
+          "twoFactorEnableFailed": "İki Aşamalı Kimlik Doğrulama etkinleştirilemedi",
+          "twoFactorDisabled": "İki Aşamalı Kimlik Doğrulama başarıyla devre dışı bırakıldı",
+          "twoFactorDisableFailed": "İki Aşamalı Kimlik Doğrulama devre dışı bırakılamadı"
+        }
+      },
+      "logs": {
+        "title": "Etkinlik Günlükleri",
+        "noLogs": "Hiç etkinlik günlüğü bulunamadı"
+      }
     }
   },
   "shared": {

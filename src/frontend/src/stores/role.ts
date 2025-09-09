@@ -1,9 +1,10 @@
-import { Role, Filters, BasicFilters } from "@/requests/role";
+import { Filters, BasicFilters } from "@/requests/role";
 import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
 import { useAppStore } from "./app";
 import { AxiosResponse } from "axios";
+import { Role } from "@/models/role";
 const appStore = useAppStore();
 
 const DEFAULT_FILTER: Filters = {

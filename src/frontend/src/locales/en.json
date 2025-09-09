@@ -236,6 +236,94 @@
         "deleted": "Role deleted successfully",
         "deleteFailed": "Failed to delete role"
       }
+    },
+    "personel": {
+      "profile": {
+        "title": "Profile",
+        "view": "View Profile",
+        "edit": "Edit Profile",
+        "fields": {
+          "firstName": {
+            "title": "First Name",
+            "required": "First Name is required"
+          },
+          "lastName": {
+            "title": "Last Name",
+            "required": "Last Name is required"
+          },
+          "email": {
+            "title": "Email",
+            "invalid": "Invalid Email",
+            "required": "Email is required"
+          },
+          "gender": {
+            "title": "Gender",
+            "required": "Gender is required",
+            "invalid": "Invalid Gender"
+          },
+          "language": {
+            "title": "Language",
+            "required": "Language is required",
+            "invalid": "Invalid Language"
+          },
+          "birthday": {
+            "title": "Birthday",
+            "typeError": "Invalid date format"
+          },
+          "placeOfBirth": {
+            "title": "Place of Birth"
+          },
+          "phoneNumber": {
+            "title": "Phone Number",
+            "invalid": "Invalid Phone Number"
+          }
+        },
+        "notifications": {
+          "profileUpdated": "Profile updated successfully",
+          "profileUpdateFailed": "Failed to update profile"
+        }
+      },
+      "security": {
+        "title": "Security",
+        "changePassword": "Change Password",
+        "enableTwoFactorAuth": "Enable Two-Factor Authentication",
+        "disableTwoFactorAuth": "Disable Two-Factor Authentication",
+        "fields": {
+          "currentPassword": {
+            "title": "Current Password",
+            "required": "Current Password is required"
+          },
+          "newPassword": {
+            "title": "New Password",
+            "required": "New Password is required",
+            "invalid": "Password must be at least 8 characters long",
+            "min-length": "Password must be at least 8 characters long",
+            "special": "Password must contain at least one special character"
+          },
+          "confirmNewPassword": {
+            "title": "Confirm New Password",
+            "required": "Confirm New Password is required",
+            "invalid": "Passwords do not match"
+          },
+          "twoFactorCode": {
+            "title": "Two-Factor Code",
+            "required": "Two-Factor Code is required",
+            "invalid": "Invalid Two-Factor Code"
+          }
+        },
+        "notifications": {
+          "passwordChanged": "Password changed successfully",
+          "passwordChangeFailed": "Failed to change password",
+          "twoFactorEnabled": "Two-Factor Authentication enabled successfully",
+          "twoFactorEnableFailed": "Failed to enable Two-Factor Authentication",
+          "twoFactorDisabled": "Two-Factor Authentication disabled successfully",
+          "twoFactorDisableFailed": "Failed to disable Two-Factor Authentication"
+        }
+      },
+      "logs": {
+        "title": "Activity Logs",
+        "noLogs": "No activity logs found"
+      }
     }
   },
   "shared": {
@@ -262,6 +350,22 @@
         "all": "All",
         "true": "Active",
         "false": "Inactive"
+      },
+      "genders": {
+        "none": "None",
+        "mr": "Mr.",
+        "mrs": "Mrs.",
+        "miss": "Miss",
+        "other": "Other"
+      },
+      "languages": {
+        "none": "None",
+        "en": "English",
+        "de": "Deutsch",
+        "tr": "Türkçe",
+        "fr": "Français",
+        "es": "Español",
+        "it": "Italiano"
       }
     },
     "filters": {

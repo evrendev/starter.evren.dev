@@ -1,18 +1,18 @@
-import type { User } from "@/models/user";
-import type { UserResponse } from "@/responses/auth";
+import type { User, BasicUser } from "@/models/user";
 
 const Mapper = {
-  toUser(value: UserResponse): User {
+  toUser(value: User): BasicUser {
     return {
       id: value.id,
       gender: value.gender,
+      email: value.email,
       language: value.language,
       firstName: value.firstName,
       lastName: value.lastName,
-      fullName: value.fullName,
       initial: value.initial,
-      email: value.email,
-      twoFactorEnabled: value.twoFactorEnabled,
+      phoneNumber: value.phoneNumber,
+      birthday: value.birthday,
+      placeOfBirth: value.placeOfBirth,
     };
   },
 };

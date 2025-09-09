@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import StatusIcon from "@/components/admin/StatusIcon.vue";
-import { Role } from "@/requests/role";
+import { Role } from "@/models/role";
 import { useDateFormat } from "@vueuse/core";
 const { t, locale } = useI18n();
 
