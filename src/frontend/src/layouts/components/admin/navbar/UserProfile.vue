@@ -67,7 +67,7 @@ const logout = async () => {
           </v-list-item>
           <v-divider class="my-2" />
 
-          <v-list-item to="/admin/profile">
+          <v-list-item :to="{ name: 'personel-profile' }">
             <template #prepend>
               <v-icon class="me-2" icon="bx-user" size="22" />
             </template>

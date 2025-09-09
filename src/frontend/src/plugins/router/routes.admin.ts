@@ -1,4 +1,5 @@
 import { Permissions } from "@/models/user";
+import { red } from "vuetify/util/colors";
 
 export const adminRoutes = [
   {
@@ -106,17 +107,46 @@ export const adminRoutes = [
         ],
       },
       {
+        name: "personel",
+        path: "personel",
+        redirect: { name: "personel-profile" },
+        children: [
+          {
+            name: "personel-profile",
+            path: "profile",
+            component: async () =>
+              await import("@/pages/admin/personel/profile.vue"),
+            meta: {
+              title: "admin.personel.profile.title",
+            },
+          },
+          {
+            name: "profile-security",
+            path: "security",
+            component: async () =>
+              await import("@/pages/admin/personel/security.vue"),
+            meta: {
+              title: "admin.personel.security.title",
+            },
+          },
+          {
+            name: "profile-logs",
+            path: "logs",
+            component: async () =>
+              await import("@/pages/admin/personel/logs.vue"),
+            meta: {
+              title: "admin.personel.logs.title",
+            },
+          },
+        ],
+      },
+      {
         name: "users",
         path: "users",
         component: async () => await import("@/pages/admin/users.vue"),
         meta: {
           requiresPermission: Permissions.UserView,
         },
-      },
-      {
-        name: "profile",
-        path: "profile",
-        component: async () => await import("@/pages/admin/profile.vue"),
       },
       {
         name: "typography",
