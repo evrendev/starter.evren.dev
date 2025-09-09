@@ -1,7 +1,4 @@
-﻿using EvrenDev.Application.Common.FileStorage;
-using Microsoft.Extensions.Localization;
-
-namespace EvrenDev.Application.Identity.Users;
+﻿namespace EvrenDev.Application.Identity.Users;
 
 public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
 {
@@ -24,9 +21,6 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
                 .WithMessage(localizer["Invalid Email Address."])
             .MustAsync(async (user, email, _) => !await userService.ExistsWithEmailAsync(email, user.Id))
                 .WithMessage((_, email) => string.Format(localizer["Email {0} is already registered."], email));
-
-        RuleFor(p => p.Image)
-            .SetNonNullableValidator(new FileUploadRequestValidator());
 
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
             .MustAsync(async (user, phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!, user.Id))

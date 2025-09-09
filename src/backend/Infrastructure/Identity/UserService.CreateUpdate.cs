@@ -173,10 +173,22 @@ internal partial class UserService
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.PhoneNumber = request.PhoneNumber;
+        user.Birthday = request.Birthday;
+        user.PlaceOfBirth = request.PlaceOfBirth;
+        user.Language = request.Language;
+        user.Gender = request.Gender;
+
         var phoneNumber = await userManager.GetPhoneNumberAsync(user);
         if (request.PhoneNumber != phoneNumber)
         {
             await userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
+        }
+
+        var email = await userManager.GetEmailAsync(user);
+
+        if (request.Email != email)
+        {
+            await userManager.SetEmailAsync(user, request.Email);
         }
 
         var result = await userManager.UpdateAsync(user);

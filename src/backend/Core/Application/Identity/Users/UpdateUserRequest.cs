@@ -1,14 +1,14 @@
-﻿using EvrenDev.Application.Common.FileStorage;
-
-namespace EvrenDev.Application.Identity.Users;
+﻿namespace EvrenDev.Application.Identity.Users;
 
 public class UpdateUserRequest
 {
+    public Gender? Gender { get; set; }
+    public Language? Language { get; set; }
     public string Id { get; set; } = default!;
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? PhoneNumber { get; set; }
     public string? Email { get; set; }
-    public FileUploadRequest? Image { get; set; }
-    public bool DeleteCurrentImage { get; set; } = false;
+    public DateTime? Birthday { get; set; }
+    public string? PlaceOfBirth { get; set; }
 }
