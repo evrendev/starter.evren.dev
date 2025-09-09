@@ -89,14 +89,14 @@ internal class ApplicationDbSeeder(
             var adminUserName = $"{currentTenant.Id.Trim()}.{ApiRoles.Admin}".ToLowerInvariant();
             adminUser = new ApplicationUser
             {
-                FirstName = currentTenant.Id.Trim().ToLowerInvariant(),
-                LastName = ApiRoles.Admin,
+                Gender = Gender.None,
+                Language = Language.En,
+                FirstName = "Admin",
+                LastName = "User",
                 Email = currentTenant.AdminEmail,
-                UserName = adminUserName,
+                UserName = currentTenant.AdminEmail,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                NormalizedEmail = currentTenant.AdminEmail?.ToUpperInvariant(),
-                NormalizedUserName = adminUserName.ToUpperInvariant(),
                 IsActive = true
             };
 

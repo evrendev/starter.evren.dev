@@ -2,7 +2,6 @@
 using EvrenDev.Application.Common.Caching;
 using EvrenDev.Application.Common.Events;
 using EvrenDev.Application.Common.Exceptions;
-using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Mailing;
 using EvrenDev.Application.Common.Models;
@@ -28,7 +27,6 @@ internal partial class UserService(
     IJobService jobService,
     IMailService mailService,
     IEmailTemplateService templateService,
-    IFileStorageService fileStorage,
     IEventPublisher events,
     ICacheService cache,
     ICacheKeyService cacheKeys,

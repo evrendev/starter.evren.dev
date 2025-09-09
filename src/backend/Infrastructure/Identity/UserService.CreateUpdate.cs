@@ -170,17 +170,6 @@ internal partial class UserService
 
         _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
 
-        var currentImage = user.ImageUrl ?? string.Empty;
-        if (request.Image != null || request.DeleteCurrentImage)
-        {
-            user.ImageUrl = await fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
-            if (request.DeleteCurrentImage && !string.IsNullOrEmpty(currentImage))
-            {
-                var root = Directory.GetCurrentDirectory();
-                fileStorage.Remove(Path.Combine(root, currentImage));
-            }
-        }
-
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.PhoneNumber = request.PhoneNumber;

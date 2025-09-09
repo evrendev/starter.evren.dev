@@ -120,7 +120,6 @@ internal class TokenService(
             new(ClaimTypes.Surname, user.LastName ?? string.Empty),
             new(ApiClaims.IpAddress, ipAddress),
             new(ApiClaims.Tenant, currentTenant!.Id),
-            new(ApiClaims.ImageUrl, user.ImageUrl ?? string.Empty),
             new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
         };
 
