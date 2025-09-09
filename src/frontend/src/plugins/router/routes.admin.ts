@@ -121,7 +121,7 @@ export const adminRoutes = [
             },
           },
           {
-            name: "profile-security",
+            name: "personel-security",
             path: "security",
             component: async () =>
               await import("@/pages/admin/personel/security.vue"),
@@ -130,7 +130,7 @@ export const adminRoutes = [
             },
           },
           {
-            name: "profile-logs",
+            name: "personel-logs",
             path: "logs",
             component: async () =>
               await import("@/pages/admin/personel/logs.vue"),
