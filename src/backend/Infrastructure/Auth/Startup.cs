@@ -15,7 +15,8 @@ internal static class Startup
     {
         services.AddCurrentUser()
             .AddPermissions()
-            .AddIdentity();
+            .AddIdentity()
+            .AddTotpService();
 
         services.Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)));
 

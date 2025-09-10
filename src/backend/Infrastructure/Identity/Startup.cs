@@ -1,4 +1,5 @@
-﻿using EvrenDev.Domain.Identity;
+﻿using EvrenDev.Application.Identity.Interfaces;
+using EvrenDev.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,4 +21,7 @@ internal static class Startup
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
             .Services;
+
+    internal static IServiceCollection AddTotpService(this IServiceCollection services) =>
+        services.AddScoped<ITotpService, TotpService>();
 }

@@ -12,6 +12,7 @@ using EvrenDev.Domain.Identity;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Shared.Authorization;
 using Finbuckle.MultiTenant;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -31,6 +32,7 @@ internal partial class UserService(
     ICacheService cache,
     ICacheKeyService cacheKeys,
     ITenantInfo currentTenant,
+    IHttpContextAccessor httpContextAccessor,
     IOptions<SecuritySettings> securitySettings)
     : IUserService
 {
@@ -114,5 +116,15 @@ internal partial class UserService(
         await userManager.UpdateAsync(user);
 
         await events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
+    }
+
+    public string? GetCurrentUserId()
+    {
+        return httpContextAccessor.HttpContext?.User?.FindFirst("id")?.Value;
+    }
+
+    public string? GetCurrentUserEmail()
+    {
+        return httpContextAccessor.HttpContext?.User?.FindFirst("email")?.Value;
     }
 }
