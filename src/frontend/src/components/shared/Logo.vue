@@ -2,8 +2,6 @@
 import logo from "@images/svg/logo.svg?raw";
 import { useTheme } from "vuetify";
 const { name: themeName } = useTheme();
-
-console.log(themeName);
 </script>
 
 <template>
