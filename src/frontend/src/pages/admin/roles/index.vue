@@ -12,25 +12,27 @@ const { t } = useI18n();
 const route = useRoute();
 
 const headers = computed(() => [
-  {
-    title: t("admin.roles.fields.name.title"),
-    key: "name",
-    align: "center",
-    sortable: false,
-    width: "150px",
-  },
-  {
-    title: t("admin.roles.fields.description.title"),
-    key: "description",
-    sortable: false,
-  },
-  {
-    title: t("shared.actions"),
-    key: "actions",
-    align: "center",
-    sortable: false,
-    width: "100px",
-  },
+  ...([
+    {
+      title: t("admin.roles.fields.name.title"),
+      key: "name",
+      align: "center",
+      sortable: false,
+      width: "150px",
+    },
+    {
+      title: t("admin.roles.fields.description.title"),
+      key: "description",
+      sortable: false,
+    },
+    {
+      title: t("shared.actions"),
+      key: "actions",
+      align: "center",
+      sortable: false,
+      width: "100px",
+    },
+  ] as const),
 ]);
 
 const breadcrumbs = computed(() => [

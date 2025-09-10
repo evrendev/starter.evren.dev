@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import StatusIcon from "@/components/admin/StatusIcon.vue";
 import { Role } from "@/models/role";
-import { useDateFormat } from "@vueuse/core";
-const { t, locale } = useI18n();
+import { Props } from "@/requests/app";
+const { t } = useI18n();
 
-defineProps<{
-  itemsPerPage: number;
-  itemValue: string;
-  items: Array<any>;
-  total: number;
-  loading: boolean;
-  headers: Array<any>;
-}>();
+withDefaults(defineProps<Props<Role>>(), {
+  itemsPerPage: 25,
+  items: () => [],
+  total: 0,
+  loading: false,
+  headers: () => [],
+});
 
 const emit = defineEmits<{
   (e: "delete", id: string | null): void;
@@ -72,18 +70,6 @@ const abortDelete = () => {
             :to="{ name: 'role-view', params: { id: item.id } }"
             :text="item.id"
           />
-        </template>
-
-        <template #[`item.isActive`]="{ item }">
-          <status-icon :isActive="item.isActive" />
-        </template>
-
-        <template #[`item.validUpto`]="{ item }">
-          {{
-            useDateFormat(item.validUpto, "DD MMM YYYY", {
-              locales: locale,
-            })
-          }}
         </template>
 
         <template #[`item.actions`]="{ item }">
