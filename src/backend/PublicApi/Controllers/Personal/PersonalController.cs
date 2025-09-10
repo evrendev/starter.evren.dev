@@ -18,15 +18,18 @@ public class PersonalController(IUserService userService) : VersionNeutralApiCon
 
     [HttpPut("profile")]
     [OpenApiOperation("Update profile details of currently logged in user.", "")]
-    public async Task<ActionResult> UpdateProfileAsync(UpdateUserRequest request)
+    public async Task<ApiResponse<UserDto>> UpdateProfileAsync(UpdateUserRequest request)
     {
         if (User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId))
         {
-            return Unauthorized();
+            return ApiResponse<UserDto>.Failure("Unauthorized");
         }
 
         await userService.UpdateAsync(request, userId);
-        return Ok();
+
+        var user = await userService.GetAsync(userId, CancellationToken.None);
+
+        return ApiResponse<UserDto>.Success(user);
     }
 
     [HttpPut("change-password")]
