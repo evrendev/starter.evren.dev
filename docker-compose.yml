@@ -1,6 +1,11 @@
 services:
   db:
     image: postgres:15-alpine
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
     container_name: evrendev-db
     environment:
       POSTGRES_USER: "postgres"
