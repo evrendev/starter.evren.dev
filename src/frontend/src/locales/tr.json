@@ -85,7 +85,9 @@
       "submit": "Şifre Sıfırla",
       "error": "Şifre sıfırlama sırasında bir hata oluştu",
       "success": "Şifre başarıyla sıfırlandı"
-    }
+    },
+    "loggedOut": "Çıkış yaptınız",
+    "sessionExpired": "Oturumunuz sona erdi, lütfen tekrar giriş yapın"
   },
   "admin": {
     "title": "Yönetici",
@@ -237,7 +239,7 @@
         "deleteFailed": "Rol silinirken hata oluştu"
       }
     },
-    "personel": {
+    "personal": {
       "profile": {
         "title": "Profil",
         "view": "Profili Görüntüle",
@@ -279,8 +281,8 @@
           }
         },
         "notifications": {
-          "profileUpdated": "Profil başarıyla güncellendi",
-          "profileUpdateFailed": "Profil güncellenirken hata oluştu"
+          "updated": "Profil başarıyla güncellendi",
+          "updateFailed": "Profil güncellenirken hata oluştu"
         }
       },
       "security": {
@@ -350,6 +352,21 @@
         "all": "Hepsi",
         "true": "Aktif",
         "false": "Pasif"
+      },
+      "genders": {
+        "none": "Yok",
+        "mr": "Bay",
+        "mrs": "Bayan",
+        "other": "Diğer"
+      },
+      "languages": {
+        "none": "Yok",
+        "en": "İngilizce",
+        "de": "Almanca",
+        "tr": "Türkçe",
+        "fr": "Fransızca",
+        "es": "İspanyolca",
+        "it": "İtalyanca"
       }
     },
     "filters": {

@@ -18,7 +18,7 @@ const logout = async () => {
   const result = await authStore.logout();
   if (result.succeeded) {
     router.replace("/auth/login");
-    Notify.success(result.data ?? t("admin.messages.success.loggedOut"));
+    Notify.success(result.data ?? t("auth.loggedOut"));
     appStore.setLoading(false);
   } else {
     Notify.error(result.data ?? t("admin.messages.errors.unknown"));

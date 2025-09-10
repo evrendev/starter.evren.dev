@@ -85,7 +85,9 @@
       "submit": "Reset Password",
       "error": "An error occurred during password reset",
       "success": "Password successfully reset"
-    }
+    },
+    "loggedOut": "You have been logged out",
+    "sessionExpired": "Your session has expired, please log in again"
   },
   "admin": {
     "title": "Admin",
@@ -237,7 +239,7 @@
         "deleteFailed": "Failed to delete role"
       }
     },
-    "personel": {
+    "personal": {
       "profile": {
         "title": "Profile",
         "view": "View Profile",
@@ -279,8 +281,8 @@
           }
         },
         "notifications": {
-          "profileUpdated": "Profile updated successfully",
-          "profileUpdateFailed": "Failed to update profile"
+          "updated": "Profile updated successfully",
+          "updateFailed": "Failed to update profile"
         }
       },
       "security": {
@@ -355,7 +357,6 @@
         "none": "None",
         "mr": "Mr.",
         "mrs": "Mrs.",
-        "miss": "Miss",
         "other": "Other"
       },
       "languages": {

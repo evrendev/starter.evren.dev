@@ -237,7 +237,7 @@
         "deleteFailed": "Fehler beim Löschen der Rolle"
       }
     },
-    "personel": {
+    "personal": {
       "profile": {
         "title": "Profil",
         "view": "Profil anzeigen",
@@ -279,8 +279,8 @@
           }
         },
         "notifications": {
-          "profileUpdated": "Profil erfolgreich aktualisiert",
-          "profileUpdateFailed": "Fehler beim Aktualisieren des Profils"
+          "updated": "Profil erfolgreich aktualisiert",
+          "updateFailed": "Fehler beim Aktualisieren des Profils"
         }
       },
       "security": {
@@ -350,6 +350,21 @@
         "all": "Alle",
         "true": "Aktiv",
         "false": "Inaktiv"
+      },
+      "genders": {
+        "none": "Keine",
+        "mr": "Herr",
+        "mrs": "Frau",
+        "other": "Andere"
+      },
+      "languages": {
+        "none": "Keine",
+        "en": "Englisch",
+        "de": "Deutsch",
+        "tr": "Türkisch",
+        "fr": "Französisch",
+        "es": "Spanisch",
+        "it": "Italienisch"
       }
     },
     "filters": {

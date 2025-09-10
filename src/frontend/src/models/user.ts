@@ -8,7 +8,7 @@ export interface BasicUser {
   fullName?: string;
   initial?: string;
   phoneNumber?: string;
-  birthday?: Date | null;
+  birthday?: string;
   placeOfBirth?: string;
 }
 export interface User extends BasicUser {
