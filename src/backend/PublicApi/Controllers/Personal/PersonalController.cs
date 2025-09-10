@@ -35,15 +35,15 @@ public class PersonalController(IUserService userService) : VersionNeutralApiCon
     [HttpPut("change-password")]
     [OpenApiOperation("Change password of currently logged in user.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
-    public async Task<ActionResult> ChangePasswordAsync(ChangePasswordRequest model)
+    public async Task<ApiResponse<bool>> ChangePasswordAsync(ChangePasswordRequest model)
     {
         if (User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId))
         {
-            return Unauthorized();
+            return ApiResponse<bool>.Failure("Unauthorized");
         }
 
         await userService.ChangePasswordAsync(model, userId);
-        return Ok();
+        return ApiResponse<bool>.Success(true);
     }
 
     [HttpGet("permissions")]
