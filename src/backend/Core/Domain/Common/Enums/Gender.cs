@@ -5,8 +5,7 @@ public enum Gender
     None = 0,
     Mr = 1,
     Mrs = 2,
-    Miss = 3,
-    Other = 4
+    Other = 9
 }
 
 public static class GenderExtensions
@@ -18,7 +17,6 @@ public static class GenderExtensions
             Gender.None => "none",
             Gender.Mr => "mr",
             Gender.Mrs => "mrs",
-            Gender.Miss => "miss",
             Gender.Other => "other",
             _ => throw new ArgumentOutOfRangeException(nameof(gender))
         };
@@ -31,8 +29,7 @@ public static class GenderExtensions
             0 => Gender.None,
             1 => Gender.Mr,
             2 => Gender.Mrs,
-            3 => Gender.Miss,
-            4 => Gender.Other,
+            3 => Gender.Other,
             _ => Gender.None
         };
     }
