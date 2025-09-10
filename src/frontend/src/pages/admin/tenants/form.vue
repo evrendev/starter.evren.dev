@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Tenant } from "@/requests/tenant";
+import { Tenant } from "@/models/tenant";
 import { Notify } from "@/stores/notification";
 import { TenantForm } from "@/views/admin/tenants";
 
@@ -22,7 +22,10 @@ const tenant = ref<Tenant | null>(null);
 onMounted(async () => {
   const { id } = route.params;
   if (id) {
-    tenant.value = await tenantStore.getById(id as string);
+    const response = await tenantStore.getById(id as string);
+    if (response?.succeeded && response.data) {
+      tenant.value = response.data;
+    }
   }
 });
 

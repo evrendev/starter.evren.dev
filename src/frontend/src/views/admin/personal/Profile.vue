@@ -2,7 +2,7 @@
 import { BasicUser } from "@/models/user";
 
 import { toTypedSchema } from "@vee-validate/yup";
-import { date, number, object, string } from "yup";
+import { object, string } from "yup";
 import { useForm } from "vee-validate";
 
 import { useAppStore } from "@/stores/app";
@@ -22,28 +22,16 @@ const props = defineProps<{
 
 const schema = toTypedSchema(
   object({
-    language: number()
-      .required(t("admin.personel.profile.fields.language.required"))
-      .oneOf(
-        languages.value.map((language) => language.value),
-        t("admin.personel.profile.fields.language.invalid"),
-      ),
-    gender: number()
-      .required(t("admin.personel.profile.fields.gender.required"))
-      .oneOf(
-        genders.value.map((gender) => Number(gender.value)),
-        t("admin.personel.profile.fields.gender.invalid"),
-      ),
-    birthday: date().nullable(),
+    birthday: string().nullable(),
     firstName: string().required(
-      t("admin.personel.profile.fields.firstName.required"),
+      t("admin.personal.profile.fields.firstName.required"),
     ),
     lastName: string().required(
-      t("admin.personel.profile.fields.lastName.required"),
+      t("admin.personal.profile.fields.lastName.required"),
     ),
     email: string()
       .email()
-      .required(t("admin.personel.profile.fields.email.required")),
+      .required(t("admin.personal.profile.fields.email.required")),
   }),
 );
 
@@ -87,13 +75,15 @@ const [phoneNumber, phoneNumberAttrs] = defineField("phoneNumber");
 const [birthday, birthdayAttrs] = defineField("birthday");
 const [placeOfBirth, placeOfBirthAttrs] = defineField("placeOfBirth");
 
-const disabled: Ref<boolean> = ref(true);
+const disabled = ref(true);
+
 const emit = defineEmits<{
   (e: "submit", values: BasicUser): void;
 }>();
 
 const submit = handleSubmit((values) => {
   emit("submit", values);
+  disabled.value = true;
 });
 
 const reset = () => {
@@ -127,7 +117,7 @@ const reset = () => {
                   variant="outlined"
                   :disabled="disabled"
                   :items="gendersOptions"
-                  :label="t('admin.personel.profile.fields.gender.title')"
+                  :label="t('admin.personal.profile.fields.gender.title')"
                   :error-messages="errors.gender"
                 />
               </v-col>
@@ -141,7 +131,7 @@ const reset = () => {
                   variant="outlined"
                   :disabled="disabled"
                   :items="languagesOptions"
-                  :label="t('admin.personel.profile.fields.language.title')"
+                  :label="t('admin.personal.profile.fields.language.title')"
                   :error-messages="errors.language"
                 />
               </v-col>
@@ -152,7 +142,7 @@ const reset = () => {
                   v-bind="firstNameAttrs"
                   :disabled="disabled"
                   :placeholder="user?.firstName"
-                  :label="t('admin.personel.profile.fields.firstName.title')"
+                  :label="t('admin.personal.profile.fields.firstName.title')"
                   :error-messages="errors.firstName"
                 />
               </v-col>
@@ -163,7 +153,7 @@ const reset = () => {
                   v-model="lastName"
                   :disabled="disabled"
                   :placeholder="user?.lastName"
-                  :label="t('admin.personel.profile.fields.lastName.title')"
+                  :label="t('admin.personal.profile.fields.lastName.title')"
                   :error-messages="errors.lastName"
                 />
               </v-col>
@@ -174,7 +164,7 @@ const reset = () => {
                   v-bind="emailAttrs"
                   v-model="email"
                   :disabled="disabled"
-                  :label="t('admin.personel.profile.fields.email.title')"
+                  :label="t('admin.personal.profile.fields.email.title')"
                   :placeholder="user?.email"
                   :error-messages="errors.email"
                 />
@@ -186,7 +176,7 @@ const reset = () => {
                   v-bind="phoneNumberAttrs"
                   v-model="phoneNumber"
                   :disabled="disabled"
-                  :label="t('admin.personel.profile.fields.phoneNumber.title')"
+                  :label="t('admin.personal.profile.fields.phoneNumber.title')"
                   :placeholder="user?.phoneNumber"
                   :error-messages="errors.phoneNumber"
                 />
@@ -198,7 +188,7 @@ const reset = () => {
                   v-bind="birthdayAttrs"
                   v-model="birthday"
                   :disabled="disabled"
-                  :label="t('admin.personel.profile.fields.birthday.title')"
+                  :label="t('admin.personal.profile.fields.birthday.title')"
                   :error-messages="errors.birthday"
                 />
               </v-col>
@@ -209,7 +199,7 @@ const reset = () => {
                   v-bind="placeOfBirthAttrs"
                   v-model="placeOfBirth"
                   :disabled="disabled"
-                  :label="t('admin.personel.profile.fields.placeOfBirth.title')"
+                  :label="t('admin.personal.profile.fields.placeOfBirth.title')"
                   :error-messages="errors.placeOfBirth"
                   :placeholder="user?.placeOfBirth"
                 />

@@ -107,35 +107,35 @@ export const adminRoutes = [
         ],
       },
       {
-        name: "personel",
-        path: "personel",
-        redirect: { name: "personel-profile" },
+        name: "personal",
+        path: "personal",
+        redirect: { name: "personal-profile" },
         children: [
           {
-            name: "personel-profile",
+            name: "personal-profile",
             path: "profile",
             component: async () =>
-              await import("@/pages/admin/personel/profile.vue"),
+              await import("@/pages/admin/personal/profile.vue"),
             meta: {
-              title: "admin.personel.profile.title",
+              title: "admin.personal.profile.title",
             },
           },
           {
-            name: "personel-security",
+            name: "personal-security",
             path: "security",
             component: async () =>
-              await import("@/pages/admin/personel/security.vue"),
+              await import("@/pages/admin/personal/security.vue"),
             meta: {
-              title: "admin.personel.security.title",
+              title: "admin.personal.security.title",
             },
           },
           {
-            name: "personel-logs",
+            name: "personal-logs",
             path: "logs",
             component: async () =>
-              await import("@/pages/admin/personel/logs.vue"),
+              await import("@/pages/admin/personal/logs.vue"),
             meta: {
-              title: "admin.personel.logs.title",
+              title: "admin.personal.logs.title",
             },
           },
         ],

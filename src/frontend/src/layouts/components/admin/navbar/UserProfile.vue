@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { useProfileStore } from "@/stores/profile";
+import { usePersonalStore } from "@/stores/personal";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { Notify } from "@/stores/notification";
 const { t } = useI18n();
 
 const authStore = useAuthStore();
-const profileStore = useProfileStore();
+const personalStore = usePersonalStore();
 const appStore = useAppStore();
-const { user } = storeToRefs(profileStore);
+const { user } = storeToRefs(personalStore);
 const router = useRouter();
+
+if (!user.value) personalStore.getUser();
 
 const logout = async () => {
   appStore.setLoading(true);
@@ -69,7 +71,7 @@ const logout = async () => {
           </v-list-item>
           <v-divider class="my-2" />
 
-          <v-list-item :to="{ name: 'personel-profile' }">
+          <v-list-item :to="{ name: 'personal-profile' }">
             <template #prepend>
               <v-icon class="me-2" icon="bx-user" size="22" />
             </template>

@@ -5,19 +5,19 @@ const activeTab = ref(router.name);
 
 const tabs = [
   {
-    title: t("admin.personel.profile.title"),
+    title: t("admin.personal.profile.title"),
     icon: "bx-user",
-    tab: "personel-profile",
+    tab: "personal-profile",
   },
   {
-    title: t("admin.personel.security.title"),
+    title: t("admin.personal.security.title"),
     icon: "bx-lock-open",
-    tab: "personel-security",
+    tab: "personal-security",
   },
   {
-    title: t("admin.personel.logs.title"),
+    title: t("admin.personal.logs.title"),
     icon: "bx-bell",
-    tab: "personel-logs",
+    tab: "personal-logs",
   },
 ];
 </script>

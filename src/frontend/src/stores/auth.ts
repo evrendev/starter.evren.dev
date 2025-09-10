@@ -6,7 +6,7 @@ import { Result } from "@/primitives/result";
 import { AxiosError, AxiosResponse } from "axios";
 import { AppError } from "@/primitives/error";
 import { useHttpClient } from "@/composables/useHttpClient";
-import { useProfileStore } from "./profile";
+import { usePersonalStore } from "./personal";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -68,9 +68,9 @@ export const useAuthStore = defineStore("auth", {
 
         this.setTokens(data.data);
 
-        const profileStore = useProfileStore();
-        await profileStore.getUser();
-        await profileStore.getPermissions();
+        const personalStore = usePersonalStore();
+        await personalStore.getUser();
+        await personalStore.getPermissions();
 
         return Result.success(data.data);
       } catch (error) {
@@ -79,7 +79,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async logout(): Promise<Result<void>> {
-      const profileStore = useProfileStore();
+      const personalStore = usePersonalStore();
       try {
         await useHttpClient().post("auth/logout");
       } catch (error) {
@@ -90,7 +90,7 @@ export const useAuthStore = defineStore("auth", {
       } finally {
         this.clearTokens();
         // GÜNCELLEME: Profile store'u da temizliyoruz
-        profileStore.clearProfile();
+        personalStore.clearProfile();
       }
 
       return Result.success<void>(undefined);

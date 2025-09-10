@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Security, Tabs } from "@/views/admin/personel";
+import { Logs, Tabs } from "@/views/admin/personal";
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import { Security, Tabs } from "@/views/admin/personel";
 
     <v-window class="mt-5 disable-tab-transition">
       <v-window-item>
-        <security />
+        <logs />
       </v-window-item>
     </v-window>
   </div>

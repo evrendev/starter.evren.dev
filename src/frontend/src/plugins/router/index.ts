@@ -2,7 +2,7 @@ import type { App } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "./routes";
 import { useAuthStore } from "@/stores/auth";
-import { useProfileStore } from "@/stores/profile";
+import { usePersonalStore } from "@/stores/personal";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,7 +11,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  const profileStore = useProfileStore();
+  const personalStore = usePersonalStore();
 
   const requiresAuth = to.meta.requiresAuth;
   const requiredPermissions = to.meta.permissions as string[] | undefined;
@@ -30,13 +30,13 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (isAuthenticated) {
-    if (profileStore.permissions.length === 0) {
-      await profileStore.getPermissions();
+    if (personalStore.permissions.length === 0) {
+      await personalStore.getPermissions();
     }
 
     if (
       requiredPermissions &&
-      !profileStore.hasPermission(requiredPermissions)
+      !personalStore.hasPermission(requiredPermissions)
     ) {
       return next({ name: "unauthorized" });
     }

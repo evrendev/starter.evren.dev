@@ -2,8 +2,8 @@
 import { Permissions } from "@/models/user";
 const { t } = useI18n();
 
-import { useProfileStore } from "@/stores/profile";
-const profileStore = useProfileStore();
+import { usePersonalStore } from "@/stores/personal";
+const personalStore = usePersonalStore();
 
 import VerticalNavSectionTitle from "./VerticalNavSectionTitle.vue";
 import VerticalNavGroup from "./VerticalNavGroup.vue";
@@ -17,7 +17,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
       icon: 'bx-home',
       to: { name: 'dashboard' },
     }"
-    v-show="profileStore.hasPermission(Permissions.DashboardView)"
+    v-show="personalStore.hasPermission(Permissions.DashboardView)"
   />
 
   <vertical-nav-section-title
@@ -32,7 +32,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
       icon: 'bx-user',
     }"
     v-show="
-      profileStore.hasPermission([
+      personalStore.hasPermission([
         Permissions.TenantView,
         Permissions.RoleView,
         Permissions.UserView,
@@ -44,7 +44,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
         title: t('admin.components.sidebar.tenants'),
         to: { name: 'tenant-list' },
       }"
-      v-show="profileStore.hasPermission(Permissions.TenantView)"
+      v-show="personalStore.hasPermission(Permissions.TenantView)"
     />
 
     <vertical-nav-link
@@ -52,7 +52,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
         title: t('admin.components.sidebar.roles'),
         to: { name: 'role-list' },
       }"
-      v-show="profileStore.hasPermission(Permissions.RoleView)"
+      v-show="personalStore.hasPermission(Permissions.RoleView)"
     />
 
     <vertical-nav-link
@@ -60,7 +60,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
         title: t('admin.components.sidebar.users'),
         to: { name: 'users' },
       }"
-      v-show="profileStore.hasPermission(Permissions.UserView)"
+      v-show="personalStore.hasPermission(Permissions.UserView)"
     />
   </vertical-nav-group>
 
