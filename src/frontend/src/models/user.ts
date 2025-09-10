@@ -5,13 +5,13 @@ export interface BasicUser {
   language?: string;
   firstName?: string;
   lastName?: string;
+  fullName?: string;
   initial?: string;
   phoneNumber?: string;
   birthday?: Date | null;
   placeOfBirth?: string;
 }
 export interface User extends BasicUser {
-  fullName?: string;
   twoFactorEnabled: true | false;
   permissions?: string[];
 }

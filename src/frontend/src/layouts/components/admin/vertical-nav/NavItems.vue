@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { useAuthStore } from "@/stores/auth";
-const authStore = useAuthStore();
+import { Permissions } from "@/models/user";
 const { t } = useI18n();
+
+import { useProfileStore } from "@/stores/profile";
+const profileStore = useProfileStore();
+
 import VerticalNavSectionTitle from "./VerticalNavSectionTitle.vue";
 import VerticalNavGroup from "./VerticalNavGroup.vue";
 import VerticalNavLink from "./VerticalNavLink.vue";
-import { Permissions } from "@/models/user";
 </script>
 
 <template>
@@ -15,7 +17,7 @@ import { Permissions } from "@/models/user";
       icon: 'bx-home',
       to: { name: 'dashboard' },
     }"
-    v-show="authStore.hasPermission(Permissions.DashboardView)"
+    v-show="profileStore.hasPermission(Permissions.DashboardView)"
   />
 
   <vertical-nav-section-title
@@ -30,7 +32,7 @@ import { Permissions } from "@/models/user";
       icon: 'bx-user',
     }"
     v-show="
-      authStore.hasPermission([
+      profileStore.hasPermission([
         Permissions.TenantView,
         Permissions.RoleView,
         Permissions.UserView,
@@ -42,7 +44,7 @@ import { Permissions } from "@/models/user";
         title: t('admin.components.sidebar.tenants'),
         to: { name: 'tenant-list' },
       }"
-      v-show="authStore.hasPermission(Permissions.TenantView)"
+      v-show="profileStore.hasPermission(Permissions.TenantView)"
     />
 
     <vertical-nav-link
@@ -50,7 +52,7 @@ import { Permissions } from "@/models/user";
         title: t('admin.components.sidebar.roles'),
         to: { name: 'role-list' },
       }"
-      v-show="authStore.hasPermission(Permissions.RoleView)"
+      v-show="profileStore.hasPermission(Permissions.RoleView)"
     />
 
     <vertical-nav-link
@@ -58,7 +60,7 @@ import { Permissions } from "@/models/user";
         title: t('admin.components.sidebar.users'),
         to: { name: 'users' },
       }"
-      v-show="authStore.hasPermission(Permissions.UserView)"
+      v-show="profileStore.hasPermission(Permissions.UserView)"
     />
   </vertical-nav-group>
 

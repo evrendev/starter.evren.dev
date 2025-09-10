@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import { useProfileStore } from "@/stores/profile";
 import { useAuthStore } from "@/stores/auth";
 import { useAppStore } from "@/stores/app";
 import { Notify } from "@/stores/notification";
 const { t } = useI18n();
 
 const authStore = useAuthStore();
+const profileStore = useProfileStore();
 const appStore = useAppStore();
-const { user } = storeToRefs(authStore);
+const { user } = storeToRefs(profileStore);
 const router = useRouter();
 
 const logout = async () => {

@@ -6,7 +6,7 @@ const useProfile = useProfileStore();
 const { user, loading } = storeToRefs(useProfile);
 
 onMounted(async () => {
-  await useProfile.get();
+  await useProfile.getUser();
 });
 
 const submit = async (values: any) => {
