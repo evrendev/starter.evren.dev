@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import logo from "@images/svg/logo.svg?raw";
+import { useTheme } from "vuetify";
+const { name: themeName } = useTheme();
 
-const { t } = useI18n();
+console.log(themeName);
 </script>
 
 <template>
-  <router-link to="/" class="app-logo">
-    <div class="d-flex" v-html="logo" />
-    <h1 class="app-logo-title" v-text="t('app.title')" />
+  <router-link :to="{ name: 'home' }" class="w-sm-100">
+    <div
+      :class="{
+        'text-primary': themeName === 'light',
+        'text-white': themeName === 'dark',
+      }"
+      class="d-sm-flex align-sm-center justify-sm-center w-sm-100"
+      v-html="logo"
+    />
   </router-link>
 </template>
