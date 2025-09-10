@@ -324,7 +324,21 @@
       },
       "logs": {
         "title": "Activity Logs",
-        "noLogs": "No activity logs found"
+        "noLogs": "No activity logs found",
+        "fields": {
+          "type": {
+            "title": "Type"
+          },
+          "tableName": {
+            "title": "Table Name"
+          },
+          "dateTime": {
+            "title": "Date & Time"
+          },
+          "action": {
+            "title": "Action"
+          }
+        }
       }
     }
   },

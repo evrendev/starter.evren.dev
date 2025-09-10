@@ -1,23 +1,35 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { Log } from "@/models/user";
+import { Props } from "@/requests/app";
+const { t } = useI18n();
+
+withDefaults(defineProps<Props<Log>>(), {
+  itemsPerPage: 25,
+  items: () => [],
+  total: 0,
+  loading: false,
+  headers: () => [],
+});
+
+const emit = defineEmits<{
+  (e: "update:options", options: any): void;
+}>();
+</script>
 
 <template>
-  <v-card title="Recent Devices">
+  <v-card elevation="6" class="mt-4" :title="t('admin.personal.logs.title')">
     <v-card-text>
-      We need permission from your browser to show notifications.
-      <a href="javascript:void(0)">Request Permission</a>
+      <v-data-table-server
+        :items-per-page="itemsPerPage"
+        :items="items"
+        :items-length="total"
+        :item-value="itemValue"
+        :headers="headers"
+        :loading="loading"
+        @update:options="emit('update:options', $event)"
+        class="striped border"
+      />
     </v-card-text>
-
-    <v-table class="text-no-wrap">
-      <thead>
-        <tr>
-          <th scope="col">Type</th>
-          <th scope="col">EMAIL</th>
-          <th scope="col">BROWSER</th>
-          <th scope="col">App</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </v-table>
   </v-card>
 </template>
 

@@ -1,15 +1,35 @@
-import { BasicUser, User } from "@/models/user";
-import { defineStore } from "pinia";
+import { AxiosResponse } from "axios";
+import { BasicUser, Log, User } from "@/models/user";
+import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
 import { useHttpClient } from "@/composables/useHttpClient";
+import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 import Mapper from "@/mappers";
-import { DefaultApiResponse } from "@/responses/api";
+import { LogFilters } from "@/requests/user";
+
+const DEFAULT_FILTER: LogFilters = {
+  search: null,
+  sortBy: [],
+  groupBy: [],
+  page: 1,
+  itemsPerPage: 25,
+  startDate: null,
+  endDate: null,
+};
 
 export const usePersonalStore = defineStore("personal", {
   state: () => ({
     loading: false as boolean,
+    page: DEFAULT_FILTER.page as number,
+    totalPages: 0 as number,
+    total: 0 as number,
+    itemsPerPage: DEFAULT_FILTER.itemsPerPage as number,
+    hasNextPage: false as boolean,
+    hasPreviousPage: false as boolean,
+    items: [] as Log[],
     user: null as BasicUser | null,
     permissions: [] as string[],
+    filters: { ...DEFAULT_FILTER },
   }),
   actions: {
     async getUser() {
@@ -27,7 +47,6 @@ export const usePersonalStore = defineStore("personal", {
         appStore.setLoading(false);
       }
     },
-
     async getPermissions() {
       this.loading = true;
       try {
@@ -42,7 +61,6 @@ export const usePersonalStore = defineStore("personal", {
         this.loading = false;
       }
     },
-
     hasPermission(permission: string | string[]): boolean {
       if (!this.permissions || this.permissions.length === 0) {
         return false;
@@ -52,7 +70,6 @@ export const usePersonalStore = defineStore("personal", {
       }
       return this.permissions.includes(permission);
     },
-
     async update(user: BasicUser) {
       this.loading = true;
       const appStore = useAppStore();
@@ -74,10 +91,38 @@ export const usePersonalStore = defineStore("personal", {
         appStore.setLoading(false);
       }
     },
-
     clearProfile() {
       this.user = {} as BasicUser;
       this.permissions = [];
+    },
+    resetFilters() {
+      this.filters = { ...DEFAULT_FILTER };
+    },
+    setFilters(filters: LogFilters) {
+      this.filters = { ...this.filters, ...filters };
+    },
+    async getLogs() {
+      this.loading = true;
+
+      try {
+        const { data }: AxiosResponse<PaginationResponse<Log>> =
+          await useHttpClient().get("/personal/logs", {
+            params: this.filters,
+          });
+
+        this.items = data.items;
+        this.page = data.page;
+        this.total = data.total;
+        this.itemsPerPage = data.itemsPerPage;
+        this.totalPages = data.totalPages;
+        this.hasNextPage = data.hasNextPage;
+        this.hasPreviousPage = data.hasPreviousPage;
+      } catch (error) {
+        console.error("Error fetching items:", error);
+        return [];
+      } finally {
+        this.loading = false;
+      }
     },
   },
 });

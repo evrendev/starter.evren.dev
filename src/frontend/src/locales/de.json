@@ -322,7 +322,21 @@
       },
       "logs": {
         "title": "Aktivitätsprotokolle",
-        "noLogs": "Keine Aktivitätsprotokolle gefunden"
+        "noLogs": "Keine Aktivitätsprotokolle gefunden",
+        "fields": {
+          "type": {
+            "title": "Typ"
+          },
+          "tableName": {
+            "title": "Tabellenname"
+          },
+          "dateTime": {
+            "title": "Datum & Uhrzeit"
+          },
+          "action": {
+            "title": "Aktion"
+          }
+        }
       }
     }
   },

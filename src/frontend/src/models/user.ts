@@ -110,3 +110,14 @@ export class Permissions {
     ];
   }
 }
+export interface Log {
+  id: string;
+  userId: string;
+  type: string;
+  tableName: string;
+  dateTime: Date;
+  oldValues: string;
+  newValues: string;
+  affectedColumns: string;
+  primaryKey: string;
+}

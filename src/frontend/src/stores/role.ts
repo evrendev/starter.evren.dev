@@ -26,14 +26,14 @@ export const useRoleStore = defineStore("role", {
     hasPreviousPage: false as boolean,
     items: [] as Role[],
     role: null as Role | null,
-    filters: DEFAULT_FILTER,
+    filters: { ...DEFAULT_FILTER },
   }),
   actions: {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(basicFilters: BasicFilters) {
-      this.filters = { ...this.filters, ...basicFilters };
+    setFilters(filters: BasicFilters) {
+      this.filters = { ...this.filters, ...filters };
     },
     async getItems() {
       this.loading = true;

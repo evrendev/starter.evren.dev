@@ -324,7 +324,21 @@
       },
       "logs": {
         "title": "Etkinlik Günlükleri",
-        "noLogs": "Hiç etkinlik günlüğü bulunamadı"
+        "noLogs": "Hiç etkinlik günlüğü bulunamadı",
+        "fields": {
+          "type": {
+            "title": "Tür"
+          },
+          "tableName": {
+            "title": "Tablo Adı"
+          },
+          "dateTime": {
+            "title": "Tarih ve Saat"
+          },
+          "action": {
+            "title": "Eylem"
+          }
+        }
       }
     }
   },

@@ -29,14 +29,14 @@ export const useTenantStore = defineStore("tenant", {
     hasPreviousPage: false as boolean,
     items: [] as Tenant[],
     tenant: null as Tenant | null,
-    filters: DEFAULT_FILTER,
+    filters: { ...DEFAULT_FILTER },
   }),
   actions: {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(basicFilters: BasicFilters) {
-      this.filters = { ...this.filters, ...basicFilters };
+    setFilters(filters: BasicFilters) {
+      this.filters = { ...this.filters, ...filters };
     },
     async getItems() {
       this.loading = true;
