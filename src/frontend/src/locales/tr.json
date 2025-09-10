@@ -290,22 +290,23 @@
         "changePassword": "Şifre Değiştir",
         "enableTwoFactorAuth": "İki Aşamalı Kimlik Doğrulamayı Etkinleştir",
         "disableTwoFactorAuth": "İki Aşamalı Kimlik Doğrulamayı Devre Dışı Bırak",
+        "passwordRequirements": "Şifre aşağıdaki gereksinimleri karşılamalıdır:",
         "fields": {
-          "currentPassword": {
+          "password": {
             "title": "Mevcut Şifre",
             "required": "Mevcut Şifre alanı gerekli"
           },
           "newPassword": {
             "title": "Yeni Şifre",
             "required": "Yeni Şifre alanı gerekli",
-            "invalid": "Şifre en az 8 karakter uzunluğunda olmalıdır",
-            "min-length": "Şifre en az 8 karakter uzunluğunda olmalıdır",
-            "special": "Şifre en az bir özel karakter içermelidir"
+            "min": "Şifre en az {min} karakter uzunluğunda olmalıdır",
+            "special": "Şifre en az bir özel karakter içermelidir",
+            "lowerUppercase": "Şifre hem büyük hem de küçük harf içermelidir"
           },
           "confirmNewPassword": {
             "title": "Yeni Şifreyi Onayla",
             "required": "Yeni Şifreyi Onayla alanı gerekli",
-            "invalid": "Şifreler eşleşmiyor"
+            "match": "Şifreler eşleşmiyor"
           },
           "twoFactorCode": {
             "title": "İki Aşamalı Kod",

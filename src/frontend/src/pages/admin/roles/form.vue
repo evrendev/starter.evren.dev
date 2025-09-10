@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Role } from "@/requests/role";
 import { Notify } from "@/stores/notification";
 import { RoleForm } from "@/views/admin/roles";
 
 import { useRoleStore } from "@/stores/role";
 import { DefaultApiResponse } from "@/responses/api";
+import { Role } from "@/models/role";
 const { t } = useI18n();
 
 const roleStore = useRoleStore();

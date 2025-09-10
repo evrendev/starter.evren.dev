@@ -288,22 +288,23 @@
         "changePassword": "Passwort ändern",
         "enableTwoFactorAuth": "Zwei-Faktor-Authentifizierung aktivieren",
         "disableTwoFactorAuth": "Zwei-Faktor-Authentifizierung deaktivieren",
+        "passwordRequirements": "Das Passwort muss die folgenden Anforderungen erfüllen:",
         "fields": {
-          "currentPassword": {
+          "password": {
             "title": "Aktuelles Passwort",
             "required": "Aktuelles Passwort ist erforderlich"
           },
           "newPassword": {
             "title": "Neues Passwort",
             "required": "Neues Passwort ist erforderlich",
-            "invalid": "Das Passwort muss mindestens 8 Zeichen lang sein",
-            "min-length": "Das Passwort muss mindestens 8 Zeichen lang sein",
-            "special": "Das Passwort muss mindestens ein Sonderzeichen enthalten"
+            "min": "Das Passwort muss mindestens {min} Zeichen lang sein",
+            "special": "Das Passwort muss mindestens ein Sonderzeichen enthalten",
+            "lowerUppercase": "Das Passwort muss sowohl Groß- als auch Kleinbuchstaben enthalten"
           },
           "confirmNewPassword": {
             "title": "Neues Passwort bestätigen",
             "required": "Neues Passwort bestätigen ist erforderlich",
-            "invalid": "Die Passwörter stimmen nicht überein"
+            "match": "Die Passwörter stimmen nicht überein"
           },
           "twoFactorCode": {
             "title": "Zwei-Faktor-Code",

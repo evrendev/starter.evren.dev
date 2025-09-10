@@ -5,7 +5,7 @@ import { useHttpClient } from "@/composables/useHttpClient";
 import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 import Mapper from "@/mappers";
-import { LogFilters } from "@/requests/user";
+import { ChangePasswordRequest, LogFilters } from "@/requests/user";
 
 const DEFAULT_FILTER: LogFilters = {
   search: null,
@@ -32,6 +32,16 @@ export const usePersonalStore = defineStore("personal", {
     filters: { ...DEFAULT_FILTER },
   }),
   actions: {
+    clearProfile() {
+      this.user = {} as BasicUser;
+      this.permissions = [];
+    },
+    resetFilters() {
+      this.filters = { ...DEFAULT_FILTER };
+    },
+    setFilters(filters: LogFilters) {
+      this.filters = { ...this.filters, ...filters };
+    },
     async getUser() {
       this.loading = true;
       const appStore = useAppStore();
@@ -91,15 +101,25 @@ export const usePersonalStore = defineStore("personal", {
         appStore.setLoading(false);
       }
     },
-    clearProfile() {
-      this.user = {} as BasicUser;
-      this.permissions = [];
-    },
-    resetFilters() {
-      this.filters = { ...DEFAULT_FILTER };
-    },
-    setFilters(filters: LogFilters) {
-      this.filters = { ...this.filters, ...filters };
+    async changePassword(values: ChangePasswordRequest) {
+      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const { data } = await useHttpClient().put<DefaultApiResponse<string>>(
+          "personal/change-password",
+          values,
+        );
+
+        return data;
+      } catch (error: unknown) {
+        console.error("Failed to change password:", error);
+        throw error;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
     },
     async getLogs() {
       this.loading = true;

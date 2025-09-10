@@ -10,9 +10,9 @@ export interface BasicUser {
   phoneNumber?: string;
   birthday?: string;
   placeOfBirth?: string;
+  twoFactorEnabled: true | false;
 }
 export interface User extends BasicUser {
-  twoFactorEnabled: true | false;
   permissions?: string[];
 }
 export interface Permission {

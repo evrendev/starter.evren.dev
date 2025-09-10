@@ -25,3 +25,9 @@ export interface LogFilters {
   endDate: string | null;
   search: string | null;
 }
+
+export interface ChangePasswordRequest {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}

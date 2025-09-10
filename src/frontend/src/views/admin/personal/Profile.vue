@@ -234,7 +234,7 @@ const reset = () => {
                   prepend-icon="bx-reset"
                   @click="reset"
                 >
-                  Reset
+                  {{ t("shared.reset") }}
                 </v-btn>
               </v-col>
             </v-row>

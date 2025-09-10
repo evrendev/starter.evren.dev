@@ -19,6 +19,7 @@ const Mapper = {
       phoneNumber: value.phoneNumber,
       birthday: useDateFormat(value.birthday, "YYYY-MM-DD").value,
       placeOfBirth: value.placeOfBirth,
+      twoFactorEnabled: value.twoFactorEnabled,
     };
   },
 };

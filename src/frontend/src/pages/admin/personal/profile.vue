@@ -9,10 +9,6 @@ const { t } = useI18n();
 const useProfile = usePersonalStore();
 const { user, loading } = storeToRefs(useProfile);
 
-onMounted(async () => {
-  await useProfile.getUser();
-});
-
 const submit = async (values: BasicUser) => {
   const response = await useProfile.update(values);
 

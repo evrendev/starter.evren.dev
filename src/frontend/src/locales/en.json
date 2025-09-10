@@ -290,22 +290,23 @@
         "changePassword": "Change Password",
         "enableTwoFactorAuth": "Enable Two-Factor Authentication",
         "disableTwoFactorAuth": "Disable Two-Factor Authentication",
+        "passwordRequirements": "Password must meet the following requirements:",
         "fields": {
-          "currentPassword": {
+          "password": {
             "title": "Current Password",
             "required": "Current Password is required"
           },
           "newPassword": {
             "title": "New Password",
             "required": "New Password is required",
-            "invalid": "Password must be at least 8 characters long",
-            "min-length": "Password must be at least 8 characters long",
-            "special": "Password must contain at least one special character"
+            "min": "Password must be at least {min} characters long",
+            "special": "Password must contain at least one special character",
+            "lowerUppercase": "Password must contain both uppercase and lowercase letters"
           },
           "confirmNewPassword": {
             "title": "Confirm New Password",
             "required": "Confirm New Password is required",
-            "invalid": "Passwords do not match"
+            "match": "Passwords do not match"
           },
           "twoFactorCode": {
             "title": "Two-Factor Code",
