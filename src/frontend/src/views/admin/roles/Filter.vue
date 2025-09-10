@@ -31,10 +31,7 @@ const reset = () => {
 </script>
 
 <template>
-  <v-card elevation="6" class="mt-4">
-    <v-card-title>
-      <h5 v-text="pageTitle" />
-    </v-card-title>
+  <v-card elevation="6" class="mt-4" :title="pageTitle">
     <v-card-text>
       <v-form :disabled="disabled">
         <v-row>
