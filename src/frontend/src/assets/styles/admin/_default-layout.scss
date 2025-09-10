@@ -18,7 +18,6 @@ body {
 .layout-page-content {
   flex-grow: 1;
 
-  // TODO: Use grid gutter variable here
   padding-block: 1.5rem;
 
   @include mixins.boxed-content(true);
@@ -38,4 +37,8 @@ body {
   .layout-footer-hidden & {
     display: none;
   }
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
 }
