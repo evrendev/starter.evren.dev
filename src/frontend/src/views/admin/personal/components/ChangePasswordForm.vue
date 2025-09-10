@@ -142,7 +142,8 @@ const passwordRequirements = [
 
         <v-card-text class="d-flex flex-wrap gap-4">
           <v-btn
-            color="success"
+            color="primary"
+            variant="tonal"
             size="small"
             prepend-icon="bx-save"
             @click="submit"

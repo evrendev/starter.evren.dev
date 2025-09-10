@@ -208,7 +208,8 @@ const reset = () => {
               <v-col cols="12" class="d-flex flex-wrap gap-4">
                 <v-btn
                   v-if="!disabled"
-                  color="success"
+                  color="primary"
+                  variant="tonal"
                   size="small"
                   prepend-icon="bx-save"
                   @click="submit"

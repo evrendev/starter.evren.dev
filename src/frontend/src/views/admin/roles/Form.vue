@@ -125,7 +125,8 @@ const submit = handleSubmit((values: Role) => {
         <v-row>
           <v-col cols="12">
             <v-btn
-              color="success"
+              color="primary"
+              variant="tonal"
               size="small"
               prepend-icon="bx-save"
               v-if="!readOnly"
