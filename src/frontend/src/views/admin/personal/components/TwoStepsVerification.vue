@@ -1,20 +1,46 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { t } = useI18n();
+const props = defineProps<{
+  twoFactorEnabled: boolean;
+  loading: boolean;
+}>();
+const emit = defineEmits<{
+  (e: "toggle-two-steps-verification"): void;
+}>();
+
+function toggleTwoStepsVerification() {
+  emit("toggle-two-steps-verification");
+}
+</script>
 <template>
   <v-col cols="12">
-    <v-card title="Two-steps verification">
+    <v-card :title="t('admin.personal.security.twoStepVerification.title')">
       <v-card-text>
-        <p class="font-weight-semibold">
-          Two factor authentication is not enabled yet.
-        </p>
-        <p>
-          Two-factor authentication adds an additional layer of security to your
-          account by requiring more than just a password to log in.
-          <a href="javascript:void(0)" class="text-decoration-none"
-            >Learn more.</a
-          >
-        </p>
+        <p
+          class="font-weight-semibold"
+          v-text="
+            t(
+              `admin.personal.security.twoStepVerification.${twoFactorEnabled ? 'enabled' : 'notEnabled'}`,
+            )
+          "
+        />
+        <p
+          v-text="t('admin.personal.security.twoStepVerification.description')"
+        />
 
-        <VBtn> Enable 2FA </VBtn>
+        <v-btn
+          :color="twoFactorEnabled ? 'danger' : 'primary'"
+          variant="elevated"
+          :prepend-icon="twoFactorEnabled ? 'bx-lock-open-alt' : 'bx-lock-alt'"
+          @click="toggleTwoStepsVerification"
+          :loading="loading"
+        >
+          {{
+            twoFactorEnabled
+              ? t("admin.personal.security.twoStepVerification.disable")
+              : t("admin.personal.security.twoStepVerification.enable")
+          }}
+        </v-btn>
       </v-card-text>
     </v-card>
   </v-col>

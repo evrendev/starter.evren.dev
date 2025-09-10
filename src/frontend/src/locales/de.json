@@ -319,6 +319,24 @@
           "twoFactorEnableFailed": "Fehler beim Aktivieren der Zwei-Faktor-Authentifizierung",
           "twoFactorDisabled": "Zwei-Faktor-Authentifizierung erfolgreich deaktiviert",
           "twoFactorDisableFailed": "Fehler beim Deaktivieren der Zwei-Faktor-Authentifizierung"
+        },
+        "twoStepVerification": {
+          "title": "Zwei-Schritt-Verifizierung",
+          "description": "Die Zwei-Schritt-Verifizierung fügt Ihrem Konto eine zusätzliche Sicherheitsebene hinzu, indem sie eine zweite Authentifizierungsform neben Ihrem Passwort erfordert.",
+          "subtitle": "Scannen Sie den QR-Code mit Ihrer Authentifizierungs-App und geben Sie den Code unten ein, um die Zwei-Schritt-Verifizierung zu aktivieren.",
+          "notEnabled": "Die Zwei-Schritt-Verifizierung ist nicht aktiviert",
+          "enabled": "Die Zwei-Schritt-Verifizierung ist aktiviert",
+          "code": {
+            "label": "Code",
+            "placeholder": "Geben Sie Ihren Code ein",
+            "required": "Code ist erforderlich",
+            "invalid": "Ungültiger Code"
+          },
+          "enable": "2FA aktivieren",
+          "disable": "2FA deaktivieren",
+          "setupKey": "Einrichtungs-Schlüssel",
+          "qrCodeAlt": "QR-Code",
+          "manualSetup": "Manueller Einrichtungs-Schlüssel: {key}"
         }
       },
       "logs": {

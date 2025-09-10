@@ -321,6 +321,24 @@
           "twoFactorEnableFailed": "Failed to enable Two-Factor Authentication",
           "twoFactorDisabled": "Two-Factor Authentication disabled successfully",
           "twoFactorDisableFailed": "Failed to disable Two-Factor Authentication"
+        },
+        "twoStepVerification": {
+          "title": "Two-Step Verification",
+          "description": "Two-step verification adds an extra layer of security to your account by requiring a second form of authentication in addition to your password.",
+          "subtitle": "Scan the QR code with your authenticator app and enter the code below to enable two-step verification.",
+          "notEnabled": "Two-Step Verification is not enabled",
+          "enabled": "Two-Step Verification is enabled",
+          "code": {
+            "label": "Code",
+            "placeholder": "Enter your code",
+            "required": "Code is required",
+            "invalid": "Invalid code"
+          },
+          "enable": "Enable 2FA",
+          "disable": "Disable 2FA",
+          "setupKey": "Setup Key",
+          "qrCodeAlt": "QR Code",
+          "manualSetup": "Manual Setup Key: {key}"
         }
       },
       "logs": {

@@ -16,6 +16,9 @@ const emit = defineEmits<{
   <v-row>
     <change-password-form :loading="loading" @submit="emit('submit', $event)" />
 
-    <two-steps-verification />
+    <two-steps-verification
+      :two-factor-enabled="twoFactorEnabled"
+      :loading="loading"
+    />
   </v-row>
 </template>

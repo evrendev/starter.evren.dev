@@ -53,11 +53,11 @@ const submit = handleSubmit((values: ChangePasswordRequest) => {
   resetForm();
 });
 
-const passwordRequirements = [
+const passwordRequirements = computed(() => [
   t("admin.personal.security.fields.newPassword.min", { min: 8 }),
   t("admin.personal.security.fields.newPassword.lowerUppercase"),
   t("admin.personal.security.fields.newPassword.special"),
-];
+]);
 </script>
 
 <template>
