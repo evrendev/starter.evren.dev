@@ -12,41 +12,43 @@ const { t } = useI18n();
 const route = useRoute();
 
 const headers = computed(() => [
-  {
-    title: t("admin.tenants.fields.id.title"),
-    key: "id",
-    sortable: true,
-  },
-  {
-    title: t("admin.tenants.fields.isActive.title"),
-    key: "isActive",
-    align: "center",
-    sortable: false,
-  },
-  {
-    title: t("admin.tenants.fields.name.title"),
-    key: "name",
-    align: "center",
-    sortable: false,
-  },
-  {
-    title: t("admin.tenants.fields.adminEmail.title"),
-    key: "adminEmail",
-    align: "center",
-    sortable: false,
-  },
-  {
-    title: t("admin.tenants.fields.validUpto.title"),
-    key: "validUpto",
-    align: "center",
-    sortable: true,
-  },
-  {
-    title: t("shared.actions"),
-    key: "actions",
-    align: "center",
-    sortable: false,
-  },
+  ...([
+    {
+      title: t("admin.tenants.fields.id.title"),
+      key: "id",
+      sortable: true,
+    },
+    {
+      title: t("admin.tenants.fields.isActive.title"),
+      key: "isActive",
+      align: "center",
+      sortable: false,
+    },
+    {
+      title: t("admin.tenants.fields.name.title"),
+      key: "name",
+      align: "center",
+      sortable: false,
+    },
+    {
+      title: t("admin.tenants.fields.adminEmail.title"),
+      key: "adminEmail",
+      align: "center",
+      sortable: false,
+    },
+    {
+      title: t("admin.tenants.fields.validUpto.title"),
+      key: "validUpto",
+      align: "center",
+      sortable: true,
+    },
+    {
+      title: t("shared.actions"),
+      key: "actions",
+      align: "center",
+      sortable: false,
+    },
+  ] as const),
 ]);
 
 const breadcrumbs = computed(() => [

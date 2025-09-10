@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import StatusIcon from "@/components/admin/StatusIcon.vue";
 import { Tenant } from "@/models/tenant";
+import { Props } from "@/requests/app";
 import { UpgradeTenant } from "@/requests/tenant";
 import { useDateFormat } from "@vueuse/core";
 const { t, locale } = useI18n();
 
-defineProps<{
-  itemsPerPage: number;
-  itemValue: string;
-  items: Array<any>;
-  total: number;
-  loading: boolean;
-  headers: Array<any>;
-}>();
+withDefaults(defineProps<Props<Tenant>>(), {
+  itemsPerPage: 25,
+  items: () => [],
+  total: 0,
+  loading: false,
+  headers: () => [],
+});
 
 const emit = defineEmits<{
   (e: "delete", id: string | null): void;
