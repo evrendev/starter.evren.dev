@@ -16,7 +16,7 @@ public static class LanguageExtensions
             Language.En => "en",
             Language.Tr => "tr",
             Language.De => "de",
-            _ => throw new ArgumentOutOfRangeException(nameof(language))
+            _ => "en",
         };
     }
 
@@ -27,7 +27,7 @@ public static class LanguageExtensions
             1 => Language.En,
             2 => Language.Tr,
             3 => Language.De,
-            _ => throw new NotImplementedException(),
+            _ => Language.En,
         };
     }
 
