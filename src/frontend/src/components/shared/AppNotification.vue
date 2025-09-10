@@ -109,6 +109,8 @@ const showNotifications: ComputedRef<boolean> = computed(() =>
   max-height: 100vh;
   overflow: visible;
   visibility: hidden;
+  z-index: 9999;
+
   &.notification-card--open {
     visibility: visible;
     overflow: hidden;
