@@ -22,15 +22,13 @@ echo "ASPNETCORE_ENVIRONMENT = $ASPNETCORE_ENVIRONMENT"
 # Navigate to migrator directory
 cd /src/src/backend/Migrators/Migrators.PostgreSQL
 
-# Apply migrations for ApplicationDbContext using startup project configuration
-echo "🔄 Applying migrations for ApplicationDbContext..."
-echo "📂 Using startup project: /src/src/backend/PublicApi"
-echo "🔧 Expected config file: /src/src/backend/PublicApi/Configurations/database.docker.json"
-dotnet ef database update -s /src/src/backend/PublicApi -c ApplicationDbContext --verbose
-
-# Apply migrations for TenantDbContext using startup project configuration
+# Apply migrations for TenantDbContext FIRST (as per requirement)
 echo "🔄 Applying migrations for TenantDbContext..."
-dotnet ef database update -s /src/src/backend/PublicApi -c TenantDbContext --verbose || echo "⚠️  TenantDbContext migration skipped (may have pending changes)"
+dotnet ef database update -c TenantDbContext --verbose
+
+# Apply migrations for ApplicationDbContext SECOND
+echo "🔄 Applying migrations for ApplicationDbContext..."
+dotnet ef database update -c ApplicationDbContext --verbose
 
 echo "✅ Migration completed successfully!"
 
