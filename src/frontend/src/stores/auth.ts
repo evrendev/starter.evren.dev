@@ -7,6 +7,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { AppError } from "@/primitives/error";
 import { useHttpClient } from "@/composables/useHttpClient";
 import { usePersonalStore } from "./personal";
+import { ErrorResponse } from "@/responses/api";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -74,8 +75,13 @@ export const useAuthStore = defineStore("auth", {
 
         return Result.success(data.data);
       } catch (error) {
-        const apiError = error as AxiosError;
-        return Result.failure(AppError.failure(apiError.message));
+        const apiError = error as AxiosError<ErrorResponse>;
+        console.error("Login error:", apiError);
+        return Result.failure(
+          AppError.failure(
+            apiError.response?.data?.messages.join(", ") || apiError.message,
+          ),
+        );
       }
     },
     async logout(): Promise<Result<void>> {
@@ -83,13 +89,15 @@ export const useAuthStore = defineStore("auth", {
       try {
         await useHttpClient().post("auth/logout");
       } catch (error) {
-        console.error(
-          "Server logout failed, clearing client state anyway:",
-          error,
+        const apiError = error as AxiosError<ErrorResponse>;
+        console.error("Logout error:", apiError);
+        return Result.failure(
+          AppError.failure(
+            apiError.response?.data?.messages.join(", ") || apiError.message,
+          ),
         );
       } finally {
         this.clearTokens();
-        // GÜNCELLEME: Profile store'u da temizliyoruz
         personalStore.clearProfile();
       }
 
@@ -112,11 +120,14 @@ export const useAuthStore = defineStore("auth", {
 
         return Result.success(data.data?.accessToken ?? "");
       } catch (error) {
-        const apiError = error as AxiosError;
-
         await this.logout();
-
-        return Result.failure(AppError.failure(apiError.message));
+        const apiError = error as AxiosError<ErrorResponse>;
+        console.error("Refresh token error:", apiError);
+        return Result.failure(
+          AppError.failure(
+            apiError.response?.data?.messages.join(", ") || apiError.message,
+          ),
+        );
       }
     },
     async initializeStore(): Promise<void> {

@@ -23,6 +23,7 @@ export function useHttpClient(): AxiosInstance {
           (error?.response?.status === 403 ||
             error?.response?.status === 401) &&
           !prevRequest._retry &&
+          authStore.refreshToken &&
           authStore.refreshToken.length > 0
         ) {
           if (retryCount >= MAX_RETRIES) {
@@ -60,6 +61,7 @@ export function useHttpClient(): AxiosInstance {
           (error?.response?.status === 403 ||
             error?.response?.status === 401) &&
           !prevRequest._retry &&
+          authStore.refreshToken &&
           authStore.refreshToken.length > 0
         ) {
           if (retryCount >= MAX_RETRIES) {

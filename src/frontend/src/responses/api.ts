@@ -12,3 +12,12 @@ export interface PaginationResponse<T> {
   hasPreviousPage: boolean;
   totalPages: number;
 }
+
+export interface ErrorResponse {
+  messages: string[];
+  source: string;
+  exception: string;
+  errorId: string;
+  supportMessage: string;
+  statusCode: number;
+}
