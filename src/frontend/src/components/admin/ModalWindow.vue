@@ -13,7 +13,7 @@ const show = computed({
 </script>
 
 <template>
-  <v-dialog v-model="show" max-width="500px" persistent>
+  <v-dialog v-model="show" width="500px" persistent>
     <v-card>
       <v-card-title class="text-h5 bg-primary">
         {{ title }}

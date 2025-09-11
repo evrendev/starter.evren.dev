@@ -6,6 +6,12 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 import Mapper from "@/mappers";
 import { ChangePasswordRequest, LogFilters } from "@/requests/user";
+import {
+  DisableTwoFactorAuthenticationRequest,
+  EnableTwoFactorAuthenticationRequest,
+  SetupTwoFactorAuthenticationRequest,
+} from "@/requests/personal";
+import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
 
 const DEFAULT_FILTER: LogFilters = {
   search: null,
@@ -142,6 +148,83 @@ export const usePersonalStore = defineStore("personal", {
         return [];
       } finally {
         this.loading = false;
+      }
+    },
+    async setupTwoFactorAuthentication() {
+      if (!this.user) throw new Error("User not loaded");
+
+      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      const request: SetupTwoFactorAuthenticationRequest = {
+        id: this.user.id as string,
+      };
+
+      try {
+        const { data } = await useHttpClient().get<
+          DefaultApiResponse<SetupTwoFactorAuthenticationResponse>
+        >("2fa/setup", {
+          params: request,
+        });
+
+        return data;
+      } catch (error: unknown) {
+        console.error("Failed to setup two-factor authentication:", error);
+        throw error;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+    async enableTwoFactorAuthentication(
+      request: EnableTwoFactorAuthenticationRequest,
+    ) {
+      if (!this.user) throw new Error("User not loaded");
+
+      request.id = this.user.id as string;
+      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const { data } = await useHttpClient().post<
+          DefaultApiResponse<string[]>
+        >("2fa/enable", request);
+
+        this.user.twoFactorEnabled = true;
+        return data;
+      } catch (error: unknown) {
+        console.error("Failed to enable two-factor authentication:", error);
+        throw error;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+    async disableTwoFactorAuthentication() {
+      if (!this.user) throw new Error("User not loaded");
+
+      const request: SetupTwoFactorAuthenticationRequest = {
+        id: this.user.id as string,
+      };
+      this.loading = true;
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const { data } = await useHttpClient().post<
+          DefaultApiResponse<boolean>
+        >("2fa/disable", request);
+
+        this.user.twoFactorEnabled = false;
+        return data;
+      } catch (error: unknown) {
+        console.error("Failed to disable two-factor authentication:", error);
+        throw error;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
       }
     },
   },

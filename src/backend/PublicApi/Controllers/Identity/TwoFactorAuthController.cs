@@ -3,28 +3,34 @@ using EvrenDev.Application.Identity.TwoFactorAuthentication;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
+[Route("api/2fa")]
 public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralApiController
 {
     [HttpGet("setup")]
     [OpenApiOperation("Get setup information for two-factor authentication.", "")]
-    public async Task<ActionResult<TwoFactorAuthenticationDto>> GetTwoFactorAuthenticationSetup(TwoFactorSetupRequest request)
+    public async Task<ApiResponse<TwoFactorAuthenticationDto>> GetTwoFactorAuthenticationSetup([FromQuery] string? id)
     {
-        var response = await totpService.GenerateSetupAsync(request);
-        return Ok(response);
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return ApiResponse<TwoFactorAuthenticationDto>.Failure("Id is required.");
+        }
+
+        var response = await totpService.GenerateSetupAsync(new TwoFactorSetupRequest { Id = id });
+        return ApiResponse<TwoFactorAuthenticationDto>.Success(response);
     }
 
     [HttpPost("enable")]
     [OpenApiOperation("Enable two-factor authentication.", "")]
-    public async Task<IActionResult> EnableTwoFactorAuthentication([FromBody] EnableTwoFactorAuthenticationRequest request)
+    public async Task<ApiResponse<IEnumerable<string>?>> EnableTwoFactorAuthentication([FromBody] EnableTwoFactorAuthenticationRequest request)
     {
         var response = await totpService.EnableTwoFactorAuthenticationAsync(request);
-        return Ok(response);
+        return ApiResponse<IEnumerable<string>?>.Success(response);
     }
 
     [HttpPost("disable")]
-    public async Task<IActionResult> DisableTwoFactorAuthentication(DisableTwoFactorAuthenticationRequest request)
+    public async Task<ApiResponse<bool>> DisableTwoFactorAuthentication([FromBody] DisableTwoFactorAuthenticationRequest request)
     {
         var response = await totpService.DisableTwoFactorAuthenticationAsync(request);
-        return Ok(response);
+        return ApiResponse<bool>.Success(response);
     }
 }

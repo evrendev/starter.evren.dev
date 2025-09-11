@@ -322,7 +322,7 @@
           "twoFactorDisabled": "İki Aşamalı Kimlik Doğrulama başarıyla devre dışı bırakıldı",
           "twoFactorDisableFailed": "İki Aşamalı Kimlik Doğrulama devre dışı bırakılamadı"
         },
-        "twoFactorEnabled": {
+        "2FA": {
           "title": "İki Aşamalı Doğrulama",
           "description": "İki aşamalı doğrulama, hesabınıza giriş yapmak için şifrenizin yanı sıra ikinci bir kimlik doğrulama biçimi gerektirerek hesabınıza ekstra bir güvenlik katmanı ekler.",
           "subtitle": "İki aşamalı doğrulamayı etkinleştirmek için QR kodunu kimlik doğrulama uygulamanızla tarayın ve aşağıdaki kodu girin.",
@@ -336,9 +336,13 @@
           },
           "enable": "2FA'yı Etkinleştir",
           "disable": "2FA'yı Devre Dışı Bırak",
-          "setupKey": "Kurulum Anahtarı",
           "qrCodeAlt": "QR Kodu",
-          "manualSetup": "Manuel Kurulum Anahtarı: {key}"
+          "manualSetup": "Manuel Kurulum Anahtarı: {key}",
+          "complete": "Kurulumu Tamamla",
+          "setupTitle": "İki Aşamalı Kimlik Doğrulamayı Kur",
+          "setupDescription": "Kurulumu tamamlamak için kimlik doğrulama uygulamanız tarafından oluşturulan kodu girin.",
+          "disableConfirmTitle": "İki Aşamalı Kimlik Doğrulamayı Devre Dışı Bırak",
+          "disableConfirmMessage": "İki Aşamalı Kimlik Doğrulamayı devre dışı bırakmak istediğinizden emin misiniz?"
         }
       },
       "logs": {

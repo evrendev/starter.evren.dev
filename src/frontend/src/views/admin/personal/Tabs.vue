@@ -26,11 +26,12 @@ const tabs = [
   <v-tabs v-model="activeTab" show-arrows class="v-tabs-pill">
     <v-tab
       v-for="item in tabs"
+      size="small"
       :key="item.icon"
       :value="item.tab"
       :to="{ name: item.tab }"
     >
-      <v-icon size="20" start :icon="item.icon" />
+      <v-icon start :icon="item.icon" />
       {{ item.title }}
     </v-tab>
   </v-tabs>
