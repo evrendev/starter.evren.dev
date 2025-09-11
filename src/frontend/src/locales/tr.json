@@ -322,7 +322,7 @@
           "twoFactorDisabled": "İki Aşamalı Kimlik Doğrulama başarıyla devre dışı bırakıldı",
           "twoFactorDisableFailed": "İki Aşamalı Kimlik Doğrulama devre dışı bırakılamadı"
         },
-        "twoStepVerification": {
+        "twoFactorEnabled": {
           "title": "İki Aşamalı Doğrulama",
           "description": "İki aşamalı doğrulama, hesabınıza giriş yapmak için şifrenizin yanı sıra ikinci bir kimlik doğrulama biçimi gerektirerek hesabınıza ekstra bir güvenlik katmanı ekler.",
           "subtitle": "İki aşamalı doğrulamayı etkinleştirmek için QR kodunu kimlik doğrulama uygulamanızla tarayın ve aşağıdaki kodu girin.",

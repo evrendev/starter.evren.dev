@@ -322,7 +322,7 @@
           "twoFactorDisabled": "Two-Factor Authentication disabled successfully",
           "twoFactorDisableFailed": "Failed to disable Two-Factor Authentication"
         },
-        "twoStepVerification": {
+        "twoFactorEnabled": {
           "title": "Two-Step Verification",
           "description": "Two-step verification adds an extra layer of security to your account by requiring a second form of authentication in addition to your password.",
           "subtitle": "Scan the QR code with your authenticator app and enter the code below to enable two-step verification.",

@@ -14,19 +14,17 @@ function toggleTwoStepsVerification() {
 </script>
 <template>
   <v-col cols="12">
-    <v-card :title="t('admin.personal.security.twoStepVerification.title')">
+    <v-card :title="t('admin.personal.security.twoFactorEnabled.title')">
       <v-card-text>
         <p
           class="font-weight-semibold"
           v-text="
             t(
-              `admin.personal.security.twoStepVerification.${twoFactorEnabled ? 'enabled' : 'notEnabled'}`,
+              `admin.personal.security.twoFactorEnabled.${twoFactorEnabled ? 'enabled' : 'notEnabled'}`,
             )
           "
         />
-        <p
-          v-text="t('admin.personal.security.twoStepVerification.description')"
-        />
+        <p v-text="t('admin.personal.security.twoFactorEnabled.description')" />
 
         <v-btn
           :color="twoFactorEnabled ? 'danger' : 'primary'"
@@ -37,8 +35,8 @@ function toggleTwoStepsVerification() {
         >
           {{
             twoFactorEnabled
-              ? t("admin.personal.security.twoStepVerification.disable")
-              : t("admin.personal.security.twoStepVerification.enable")
+              ? t("admin.personal.security.twoFactorEnabled.disable")
+              : t("admin.personal.security.twoFactorEnabled.enable")
           }}
         </v-btn>
       </v-card-text>
