@@ -103,6 +103,8 @@ export const useAuthStore = defineStore("auth", {
           );
         }
 
+        this.setTokens(data.data);
+
         const personalStore = usePersonalStore();
         await personalStore.getUser();
         await personalStore.getPermissions();
