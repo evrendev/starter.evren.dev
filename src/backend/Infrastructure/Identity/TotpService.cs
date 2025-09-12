@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Encodings.Web;
 using EvrenDev.Application.Identity.Interfaces;
 using EvrenDev.Application.Identity.TwoFactorAuthentication;
@@ -21,14 +22,24 @@ public class TotpService : ITotpService
         _userManager = userManager;
         _urlEncoder = urlEncoder;
     }
-
-    public string GenerateSecretKey()
+    private static string FormatKey(string unformattedKey)
     {
-        var key = KeyGeneration.GenerateRandomKey(20);
-        return Base32Encoding.ToString(key);
+        var result = new StringBuilder();
+        int currentPosition = 0;
+        while (currentPosition + 4 < unformattedKey.Length)
+        {
+            result.Append(unformattedKey.AsSpan(currentPosition, 4)).Append(" ");
+            currentPosition += 4;
+        }
+        if (currentPosition < unformattedKey.Length)
+        {
+            result.Append(unformattedKey.AsSpan(currentPosition));
+        }
+
+        return result.ToString().ToLowerInvariant();
     }
 
-    public string GenerateQrCodeUri(string email, string secretKey)
+    private string GenerateQrCodeUri(string email, string secretKey)
     {
         return string.Format(
             AuthenticatorUriFormat,
@@ -37,7 +48,7 @@ public class TotpService : ITotpService
             secretKey);
     }
 
-    public bool VerifyTotpCode(string secretKey, string code)
+    private static bool VerifyTotpCode(string secretKey, string code)
     {
         if (string.IsNullOrWhiteSpace(code))
             return false;
@@ -50,26 +61,24 @@ public class TotpService : ITotpService
         return totp.VerifyTotp(code, out _, new VerificationWindow(1, 1));
     }
 
-    public string GenerateTotpCode(string secretKey)
-    {
-        var keyBytes = Base32Encoding.ToBytes(secretKey);
-        var totp = new Totp(keyBytes);
-        return totp.ComputeTotp();
-    }
-
     public async Task<TwoFactorAuthenticationDto> GenerateSetupAsync(TwoFactorSetupRequest request)
     {
         var user = await _userManager.FindByIdAsync(request.Id) ?? throw new Exception("User not found.");
 
-        var secretKey = GenerateSecretKey();
+        await _userManager.ResetAuthenticatorKeyAsync(user);
 
-        await _userManager.SetAuthenticationTokenAsync(user, "Default", "AuthenticatorKey", secretKey);
+        var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
+
+        if (secretKey is null)
+        {
+            throw new Exception("Could not generate authenticator key.");
+        }
 
         var qrCodeUri = GenerateQrCodeUri(user.Email, secretKey);
 
         return new TwoFactorAuthenticationDto
         {
-            SharedKey = secretKey,
+            SharedKey = FormatKey(secretKey),
             QrCodeUri = qrCodeUri
         };
     }
@@ -78,7 +87,7 @@ public class TotpService : ITotpService
     {
         var user = await _userManager.FindByIdAsync(request.Id) ?? throw new Exception("User not found.");
 
-        var unverifiedSecretKey = await _userManager.GetAuthenticationTokenAsync(user, "Default", "AuthenticatorKey");
+        var unverifiedSecretKey = await _userManager.GetAuthenticatorKeyAsync(user);
 
         if (unverifiedSecretKey is null)
         {
@@ -92,7 +101,11 @@ public class TotpService : ITotpService
             throw new Exception("Invalid two-factor authentication code.");
         }
 
-        await _userManager.SetTwoFactorEnabledAsync(user, true);
+        var setResult = await _userManager.SetTwoFactorEnabledAsync(user, true);
+        if (!setResult.Succeeded)
+        {
+            throw new Exception("Failed to enable two-factor authentication.");
+        }
 
         var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
 
@@ -110,5 +123,20 @@ public class TotpService : ITotpService
         }
 
         return true;
+    }
+
+    public async Task<bool> VerifyTwoFactorAuthenticationAsync(VerifyTwoFactorAuthenticationRequest request)
+    {
+        var user = await _userManager.FindByEmailAsync(request.Email);
+
+        if (user is null || !user.TwoFactorEnabled)
+            throw new Exception("Invalid user or two-factor authentication is not enabled.");
+
+        var secretKey = await _userManager.GetAuthenticationTokenAsync(user, "EvrenDev", "AuthenticatorKey");
+
+        if (secretKey is null)
+            throw new Exception("No authenticator key found for the user.");
+
+        return VerifyTotpCode(secretKey, request.Code);
     }
 }

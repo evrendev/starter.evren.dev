@@ -7,6 +7,7 @@ namespace EvrenDev.PublicApi.Controllers.Identity;
 public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralApiController
 {
     [HttpGet("setup")]
+    [Authorize]
     [OpenApiOperation("Get setup information for two-factor authentication.", "")]
     public async Task<ApiResponse<TwoFactorAuthenticationDto>> GetTwoFactorAuthenticationSetup([FromQuery] string? id)
     {
@@ -20,6 +21,7 @@ public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralA
     }
 
     [HttpPost("enable")]
+    [Authorize]
     [OpenApiOperation("Enable two-factor authentication.", "")]
     public async Task<ApiResponse<IEnumerable<string>?>> EnableTwoFactorAuthentication([FromBody] EnableTwoFactorAuthenticationRequest request)
     {
@@ -28,9 +30,20 @@ public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralA
     }
 
     [HttpPost("disable")]
+    [Authorize]
+    [OpenApiOperation("Disable two-factor authentication.", "")]
     public async Task<ApiResponse<bool>> DisableTwoFactorAuthentication([FromBody] DisableTwoFactorAuthenticationRequest request)
     {
         var response = await totpService.DisableTwoFactorAuthenticationAsync(request);
+        return ApiResponse<bool>.Success(response);
+    }
+
+    [HttpPost("verify")]
+    [AllowAnonymous]
+    [OpenApiOperation("Verify two-factor authentication code.", "")]
+    public async Task<ApiResponse<bool>> VerifyTwoFactorAuthentication([FromBody] VerifyTwoFactorAuthenticationRequest request)
+    {
+        var response = await totpService.VerifyTwoFactorAuthenticationAsync(request);
         return ApiResponse<bool>.Success(response);
     }
 }

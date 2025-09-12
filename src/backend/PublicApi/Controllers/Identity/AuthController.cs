@@ -13,8 +13,19 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         CancellationToken cancellationToken)
     {
         var tokenResult = await tokenService.GetTokenAsync(request, GetIpAddress(), cancellationToken);
-        var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken, tokenResult.RefreshTokenExpiryTime);
         AddRefreshTokenCookie(tokenResult.RefreshToken);
+
+        if (tokenResult.TwoFactorAuthRequired)
+        {
+            return ApiResponse<TokenResponse>.Success(new TokenResponse(
+                string.Empty,
+                string.Empty,
+                DateTime.MinValue,
+                true
+            ));
+        }
+
+        var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken, tokenResult.RefreshTokenExpiryTime, false);
 
         return ApiResponse<TokenResponse>.Success(data);
     }

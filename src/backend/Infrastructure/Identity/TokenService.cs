@@ -104,7 +104,7 @@ internal class TokenService(
 
         await userManager.UpdateAsync(user);
 
-        return new TokenResult(token, user.RefreshToken, user.RefreshTokenExpiryTime);
+        return new TokenResult(token, user.RefreshToken, user.RefreshTokenExpiryTime, user.TwoFactorEnabled);
     }
 
     private string GenerateJwt(ApplicationUser user, string ipAddress) =>

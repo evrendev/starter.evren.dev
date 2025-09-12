@@ -12,6 +12,12 @@ public class EnableTwoFactorAuthenticationRequest
     public string Code { get; set; } = string.Empty;
 }
 
+public class VerifyTwoFactorAuthenticationRequest
+{
+    public string? Email { get; set; }
+    public string Code { get; set; } = string.Empty;
+}
+
 public class DisableTwoFactorAuthenticationRequest
 {
     public string Id { get; set; } = string.Empty;
