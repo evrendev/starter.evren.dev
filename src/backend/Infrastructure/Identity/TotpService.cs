@@ -132,7 +132,7 @@ public class TotpService : ITotpService
         if (user is null || !user.TwoFactorEnabled)
             throw new Exception("Invalid user or two-factor authentication is not enabled.");
 
-        var secretKey = await _userManager.GetAuthenticationTokenAsync(user, "EvrenDev", "AuthenticatorKey");
+        var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
 
         if (secretKey is null)
             throw new Exception("No authenticator key found for the user.");
