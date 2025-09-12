@@ -1,7 +1,7 @@
 // stores/auth.ts
 import { defineStore } from "pinia";
 import type { AccessTokenResponse } from "@/responses/auth";
-import { LoginRequest } from "@/requests/auth";
+import { LoginRequest, TwoFactorAuthRequest } from "@/requests/auth";
 import { Result } from "@/primitives/result";
 import { AxiosError, AxiosResponse } from "axios";
 import { AppError } from "@/primitives/error";
@@ -34,7 +34,6 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("refreshTokenExpiryTime");
     },
-
     setTokens(tokenData: AccessTokenResponse) {
       this.accessToken = tokenData.accessToken ?? "";
       this.refreshToken = tokenData.refreshToken ?? "";
@@ -49,7 +48,6 @@ export const useAuthStore = defineStore("auth", {
         this.refreshTokenExpiryTime.toISOString(),
       );
     },
-
     async login(values: LoginRequest): Promise<Result<AccessTokenResponse>> {
       try {
         const { data } = await useHttpClient().post<
@@ -68,6 +66,42 @@ export const useAuthStore = defineStore("auth", {
         }
 
         this.setTokens(data.data);
+
+        if (!data.data.twoFactorAuthRequired) {
+          const personalStore = usePersonalStore();
+          await personalStore.getUser();
+          await personalStore.getPermissions();
+        }
+
+        return Result.success(data.data);
+      } catch (error) {
+        const apiError = error as AxiosError<ErrorResponse>;
+        console.error("Login error:", apiError);
+        return Result.failure(
+          AppError.failure(
+            apiError.response?.data?.messages.join(", ") || apiError.message,
+          ),
+        );
+      }
+    },
+    async verifyTwoFactorAuth(
+      values: TwoFactorAuthRequest,
+    ): Promise<Result<AccessTokenResponse>> {
+      try {
+        const { data } = await useHttpClient().post<
+          TwoFactorAuthRequest,
+          AxiosResponse<Result<AccessTokenResponse>>
+        >("2fa/verify", values);
+
+        if (!data.succeeded || !data.data) {
+          return Result.failure(
+            AppError.failure(
+              Array.isArray(data.errors)
+                ? data.errors[0]
+                : data.errors || "Invalid response from server",
+            ),
+          );
+        }
 
         const personalStore = usePersonalStore();
         await personalStore.getUser();

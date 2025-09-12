@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { LoginRequest } from "@/requests/auth";
+import { LoginRequest, TwoFactorAuthRequest } from "@/requests/auth";
 import { object, string, boolean } from "yup";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/yup";
@@ -22,14 +22,11 @@ const { loading } = storeToRefs(appStore);
 
 const { t } = useI18n();
 
-const initialValues: LoginRequest = {
-  email: "",
-  password: "",
-  response: "",
-  rememberMe: false,
-};
+const isPasswordVisible = ref<boolean>(false);
+const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
+const showTwoFactorAuthModal = ref<boolean>(false);
 
-const schema = toTypedSchema(
+const loginValidationSchema = toTypedSchema(
   object({
     email: string()
       .email(t("auth.login.email.invalid"))
@@ -44,8 +41,7 @@ const schema = toTypedSchema(
 
 const { defineField, handleSubmit, setFieldValue, errors } =
   useForm<LoginRequest>({
-    validationSchema: schema,
-    initialValues: initialValues,
+    validationSchema: loginValidationSchema,
   });
 
 const [email, emailAttrs] = defineField("email");
@@ -54,17 +50,72 @@ const [rememberMe, rememberMeAttrs] = defineField("rememberMe");
 
 const login = handleSubmit(async (values: LoginRequest) => {
   appStore.setLoading(true);
-  const result: Result<AccessTokenResponse> = await authStore.login(values);
 
-  if (result.succeeded) {
-    Notify.success(t("auth.login.success"));
-    router.push({ name: "dashboard" });
+  try {
+    const result: Result<AccessTokenResponse> = await authStore.login(values);
+
+    if (result.succeeded && result.data?.twoFactorAuthRequired) {
+      showTwoFactorAuthModal.value = true;
+    } else if (result.succeeded) {
+      Notify.success(t("auth.login.success"));
+      router.push({ name: "dashboard" });
+    } else {
+      appStore.setLoading(false);
+      Notify.error(result.errors?.message || t("auth.login.error"));
+    }
+  } catch (error) {
+    Notify.error((error as Error).message || t("auth.login.failed"));
+  } finally {
     appStore.setLoading(false);
-  } else {
-    appStore.setLoading(false);
-    Notify.error(result.errors?.message || t("auth.login.error"));
   }
 });
+
+const twoFactorAuthenticationValidationSchema = toTypedSchema(
+  object().shape({
+    code: string()
+      .required(t("auth.twoFactorAuth.required"))
+      .label(t("auth.twoFactorAuth.label"))
+      .matches(/^[0-9]{6}$/, t("auth.twoFactorAuth.code.invalid")),
+  }),
+);
+
+const {
+  defineField: define2FAField,
+  handleSubmit: handle2FASubmit,
+  errors: twoFAErrors,
+} = useForm<TwoFactorAuthRequest>({
+  validationSchema: twoFactorAuthenticationValidationSchema,
+});
+
+const [code, codeAttrs] = define2FAField("code");
+
+const checkTwoFactorAuth = handle2FASubmit(
+  async (values: TwoFactorAuthRequest) => {
+    appStore.setLoading(true);
+    values.email = email.value;
+
+    try {
+      const result: Result<AccessTokenResponse> =
+        await authStore.verifyTwoFactorAuth(values);
+
+      if (result.succeeded) {
+        Notify.success(t("auth.login.success"));
+        showTwoFactorAuthModal.value = false;
+        router.push({ name: "dashboard" });
+      } else {
+        Notify.error(
+          result.errors?.message || t("auth.twoFactorAuth.verificationFailed"),
+        );
+      }
+    } catch (error) {
+      Notify.error(
+        (error as Error).message || t("auth.twoFactorAuth.verificationError"),
+      );
+    } finally {
+      appStore.setLoading(false);
+    }
+  },
+);
 
 const handleRecaptchaSuccess = (token: string) => {
   setFieldValue("response", token);
@@ -72,11 +123,8 @@ const handleRecaptchaSuccess = (token: string) => {
 };
 
 const handleRecaptchaError = (error: Error) => {
-  console.error("reCAPTCHA hatası:", error);
+  Notify.error(error.message || t("auth.login.recaptchaError"));
 };
-
-const isPasswordVisible = ref<boolean>(false);
-const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
 </script>
 
 <template>
@@ -186,6 +234,46 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
         </VCardText>
       </VCard>
     </div>
+
+    <modal-window
+      :show-modal="showTwoFactorAuthModal"
+      :title="t('auth.twoFactorAuth.title')"
+    >
+      <template #content>
+        <v-row>
+          <v-col col="12" class="d-flex align-center justify-center">
+            <v-otp-input
+              v-model="code"
+              v-bind="codeAttrs"
+              :error-messages="twoFAErrors.code"
+              :disabled="loading"
+              autofocus
+            />
+          </v-col>
+        </v-row>
+      </template>
+
+      <template #action-buttons>
+        <v-btn
+          color="primary"
+          variant="elevated"
+          size="small"
+          :loading="loading"
+          @click="checkTwoFactorAuth"
+        >
+          {{ t("shared.submit") }}
+        </v-btn>
+
+        <v-btn
+          text
+          :disabled="loading"
+          @click="showTwoFactorAuthModal = false"
+          size="small"
+        >
+          {{ t("shared.cancel") }}
+        </v-btn>
+      </template>
+    </modal-window>
   </div>
 </template>
 

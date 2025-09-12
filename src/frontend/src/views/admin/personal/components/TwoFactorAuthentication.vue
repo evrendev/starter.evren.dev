@@ -2,17 +2,18 @@
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
 import QRCode from "qrcode";
+import { EnableTwoFactorAuthenticationRequest } from "@/requests/personal";
 import {
-  DisableTwoFactorAuthenticationRequest,
-  EnableTwoFactorAuthenticationRequest,
-} from "@/requests/personal";
-import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
+  RecoverCodesResponse,
+  SetupTwoFactorAuthenticationResponse,
+} from "@/responses/personal";
 
 const { t } = useI18n();
 
 const props = defineProps<{
   twoFactorEnabled: boolean;
   setupData: SetupTwoFactorAuthenticationResponse;
+  recoverData: RecoverCodesResponse;
   loading: boolean;
 }>();
 
@@ -116,6 +117,40 @@ watch(
   </v-col>
 
   <modal-window
+    :show-modal="recoverData.showRecoverCodes"
+    :title="t('admin.personal.security.2FA.setupTitle')"
+  >
+    <template #content>
+      <v-card class="pa-2">
+        <v-row no-gutters>
+          <v-col class="text-center">
+            <h4
+              class="font-weight-semibold"
+              v-text="t('admin.personal.security.2FA.recoverCodes')"
+            />
+            <p v-text="t('admin.personal.security.2FA.recoverDescription')" />
+          </v-col>
+        </v-row>
+        <v-card-text class="text-center">
+          <code style="white-space: pre-wrap; word-break: break-all"
+            >{{ recoverData.data?.join("\n") }}
+          </code>
+        </v-card-text>
+      </v-card>
+    </template>
+
+    <template #action-buttons>
+      <v-btn
+        color="primary"
+        variant="elevated"
+        size="small"
+        @click="recoverData.showRecoverCodes = false"
+      >
+        {{ t("shared.close") }}
+      </v-btn>
+    </template>
+  </modal-window>
+  <modal-window
     :show-modal="setupData.showSetup"
     :title="t('admin.personal.security.2FA.setupTitle')"
   >
@@ -143,11 +178,15 @@ watch(
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12">
-          <v-text-field
+        <v-col cols="12" class="text-center">
+          <label
+            class="font-weight-semibold"
+            v-text="t('admin.personal.security.2FA.enterCode')"
+          />
+          <v-otp-input
+            autofocus
             v-model="code"
             v-bind:="codeAttrs"
-            :label="t('admin.personal.security.fields.twoFactorCode.title')"
             :error-messages="errors.code"
           />
         </v-col>

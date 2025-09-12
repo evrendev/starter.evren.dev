@@ -4,3 +4,7 @@ export interface LoginRequest {
   response?: string | null;
   rememberMe?: boolean | null;
 }
+export interface TwoFactorAuthRequest {
+  code: string;
+  email: string;
+}

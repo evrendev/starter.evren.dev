@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { ChangePasswordRequest } from "@/requests/user";
 import { ChangePasswordForm, TwoFactorAuthentication } from "./components";
+import { EnableTwoFactorAuthenticationRequest } from "@/requests/personal";
 import {
-  DisableTwoFactorAuthenticationRequest,
-  EnableTwoFactorAuthenticationRequest,
-} from "@/requests/personal";
-import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
+  RecoverCodesResponse,
+  SetupTwoFactorAuthenticationResponse,
+} from "@/responses/personal";
 
 defineProps<{
   twoFactorEnabled: boolean;
   setupData: SetupTwoFactorAuthenticationResponse;
+  recoverData: RecoverCodesResponse;
   loading: boolean;
 }>();
 
@@ -34,6 +35,7 @@ const emit = defineEmits<{
     <two-factor-authentication
       :two-factor-enabled="twoFactorEnabled"
       :setup-data="setupData"
+      :recover-data="recoverData"
       :loading="loading"
       @enable-two-factor-authentication="
         emit('enable-two-factor-authentication', $event)

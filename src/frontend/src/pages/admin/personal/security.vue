@@ -5,15 +5,18 @@ import { Security, Tabs } from "@/views/admin/personal";
 import { usePersonalStore } from "@/stores/personal";
 import { ChangePasswordRequest } from "@/requests/user";
 import { DefaultApiResponse } from "@/responses/api";
+import { EnableTwoFactorAuthenticationRequest } from "@/requests/personal";
 import {
-  DisableTwoFactorAuthenticationRequest,
-  EnableTwoFactorAuthenticationRequest,
-} from "@/requests/personal";
-import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
+  RecoverCodesResponse,
+  SetupTwoFactorAuthenticationResponse,
+} from "@/responses/personal";
 const useProfile = usePersonalStore();
 const { user, loading } = storeToRefs(useProfile);
 
 const { t } = useI18n();
+
+const showRecoverCodes = ref(false);
+const recoverCodes = ref<string[]>([]);
 
 const handleChangePassword = async (values: ChangePasswordRequest) => {
   const response: DefaultApiResponse<string> =
@@ -37,6 +40,8 @@ const handleEnableTwoFactorAuthentication = async (
   if (response.succeeded) {
     Notify.success(t("admin.personal.security.notifications.twoFactorEnabled"));
     setupData.value!.showSetup = false;
+    recoverData.value.showRecoverCodes = true;
+    recoverData.value.data = response.data || [];
   } else {
     Notify.error(
       t("admin.personal.security.notifications.twoFactorEnableFailed"),
@@ -63,6 +68,11 @@ const setupData = ref<SetupTwoFactorAuthenticationResponse>({
   showSetup: false,
   sharedKey: "",
   qrCodeUri: "",
+});
+
+const recoverData = ref<RecoverCodesResponse>({
+  data: [],
+  showRecoverCodes: false,
 });
 
 const handleSetupTwoFactorAuthentication = async () => {
@@ -95,6 +105,7 @@ const handleSetupTwoFactorAuthentication = async () => {
           :loading="loading"
           :two-factor-enabled="user?.twoFactorEnabled ?? false"
           :setup-data="setupData!"
+          :recover-data="recoverData!"
           @change-password="handleChangePassword"
           @enable-two-factor-authentication="
             handleEnableTwoFactorAuthentication

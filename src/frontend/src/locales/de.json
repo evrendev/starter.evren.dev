@@ -32,6 +32,7 @@
       "success": "Erfolgreich angemeldet"
     },
     "twoFactorAuth": {
+      "title": "Zwei-Schritt-Verifizierung",
       "subtitle": "Geben Sie den Code aus der Authenticator-App ein",
       "label": "Code",
       "placeholder": "Geben Sie Ihren Code ein",
@@ -328,6 +329,7 @@
           "subtitle": "Scannen Sie den QR-Code mit Ihrer Authentifizierungs-App und geben Sie den Code unten ein, um die Zwei-Schritt-Verifizierung zu aktivieren.",
           "notEnabled": "Die Zwei-Schritt-Verifizierung ist nicht aktiviert",
           "enabled": "Die Zwei-Schritt-Verifizierung ist aktiviert",
+          "enterCode": "Geben Sie den Code aus Ihrer Authentifizierungs-App ein",
           "code": {
             "label": "Code",
             "placeholder": "Geben Sie Ihren Code ein",
@@ -342,7 +344,9 @@
           "setupTitle": "Zwei-Faktor-Authentifizierung einrichten",
           "setupDescription": "Um die Einrichtung abzuschließen, geben Sie den Code ein, der von Ihrer Authentifizierungs-App generiert wurde.",
           "disableConfirmTitle": "Zwei-Faktor-Authentifizierung deaktivieren",
-          "disableConfirmMessage": "Sind Sie sicher, dass Sie die Zwei-Faktor-Authentifizierung deaktivieren möchten?"
+          "disableConfirmMessage": "Sind Sie sicher, dass Sie die Zwei-Faktor-Authentifizierung deaktivieren möchten?",
+          "recoverCodes": "Wiederherstellungscodes",
+          "recoverDescription": "Bewahren Sie diese Wiederherstellungscodes an einem sicheren Ort auf. Sie können sie verwenden, um auf Ihr Konto zuzugreifen, wenn Sie den Zugriff auf Ihre Authentifizierungs-App verlieren."
         }
       },
       "logs": {
@@ -383,6 +387,7 @@
     "upgrade": "Upgrade",
     "reset": "Zurücksetzen",
     "filter": "Filtern",
+    "close": "Schließen",
     "options": {
       "choice": "Wählen Sie eine Option",
       "isActive": {

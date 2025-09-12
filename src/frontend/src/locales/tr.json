@@ -32,6 +32,7 @@
       "success": "Başarıyla giriş yapıldı"
     },
     "twoFactorAuth": {
+      "title": "İki Aşamalı Doğrulama",
       "subtitle": "Kimlik doğrulama uygulamasından kodu girin",
       "label": "Kod",
       "placeholder": "Kodunuzu girin",
@@ -328,6 +329,7 @@
           "subtitle": "İki aşamalı doğrulamayı etkinleştirmek için QR kodunu kimlik doğrulama uygulamanızla tarayın ve aşağıdaki kodu girin.",
           "notEnabled": "İki Aşamalı Doğrulama etkinleştirilmemiştir",
           "enabled": "İki Aşamalı Doğrulama etkinleştirilmiştir",
+          "enterCode": "Kimlik doğrulama uygulamanızdan kodu girin",
           "code": {
             "label": "Kod",
             "placeholder": "Kodunuzu girin",
@@ -342,7 +344,9 @@
           "setupTitle": "İki Aşamalı Kimlik Doğrulamayı Kur",
           "setupDescription": "Kurulumu tamamlamak için kimlik doğrulama uygulamanız tarafından oluşturulan kodu girin.",
           "disableConfirmTitle": "İki Aşamalı Kimlik Doğrulamayı Devre Dışı Bırak",
-          "disableConfirmMessage": "İki Aşamalı Kimlik Doğrulamayı devre dışı bırakmak istediğinizden emin misiniz?"
+          "disableConfirmMessage": "İki Aşamalı Kimlik Doğrulamayı devre dışı bırakmak istediğinizden emin misiniz?",
+          "recoverCodes": "Kurtarma Kodları",
+          "recoverDescription": "Bu kurtarma kodlarını güvenli bir yerde saklayın. Kimlik doğrulama uygulamanıza erişimi kaybederseniz, hesabınıza erişmek için bunları kullanabilirsiniz."
         }
       },
       "logs": {
@@ -383,6 +387,7 @@
     "upgrade": "Yükselt",
     "reset": "Sıfırla",
     "filter": "Filtrele",
+    "close": "Kapat",
     "options": {
       "choice": "Bir seçenek seçin",
       "isActive": {
