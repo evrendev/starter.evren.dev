@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Encodings.Web;
 using EvrenDev.Application.Identity.Interfaces;
+using EvrenDev.Application.Identity.Tokens;
 using EvrenDev.Application.Identity.TwoFactorAuthentication;
 using EvrenDev.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -14,13 +15,16 @@ public class TotpService : ITotpService
     private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly UrlEncoder _urlEncoder;
+    private readonly ITokenService _tokenService;
 
     public TotpService(
         UserManager<ApplicationUser> userManager,
-        UrlEncoder urlEncoder)
+        UrlEncoder urlEncoder,
+        ITokenService tokenService)
     {
         _userManager = userManager;
         _urlEncoder = urlEncoder;
+        _tokenService = tokenService;
     }
     private static string FormatKey(string unformattedKey)
     {
@@ -125,7 +129,7 @@ public class TotpService : ITotpService
         return true;
     }
 
-    public async Task<bool> VerifyTwoFactorAuthenticationAsync(VerifyTwoFactorAuthenticationRequest request)
+    public async Task<TokenResponse> VerifyTwoFactorAuthenticationAsync(VerifyTwoFactorAuthenticationRequest request, string ipAddress)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -137,6 +141,19 @@ public class TotpService : ITotpService
         if (secretKey is null)
             throw new Exception("No authenticator key found for the user.");
 
-        return VerifyTotpCode(secretKey, request.Code);
+        var isCodeValid = VerifyTotpCode(secretKey, request.Code);
+
+        if (!isCodeValid)
+            throw new Exception("Invalid verification code.");
+
+        var tokenResult = await _tokenService.GetTokenAfterTwoFactorAsync(
+            user.Email,
+            ipAddress);
+
+        return new TokenResponse(
+            tokenResult.AccessToken,
+            tokenResult.RefreshToken,
+            tokenResult.RefreshTokenExpiryTime,
+            true);
     }
 }

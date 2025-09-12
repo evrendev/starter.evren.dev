@@ -1,4 +1,5 @@
 ﻿using EvrenDev.Application.Identity.Interfaces;
+using EvrenDev.Application.Identity.Tokens;
 using EvrenDev.Application.Identity.TwoFactorAuthentication;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
@@ -41,9 +42,26 @@ public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralA
     [HttpPost("verify")]
     [AllowAnonymous]
     [OpenApiOperation("Verify two-factor authentication code.", "")]
-    public async Task<ApiResponse<bool>> VerifyTwoFactorAuthentication([FromBody] VerifyTwoFactorAuthenticationRequest request)
+    public async Task<ApiResponse<TokenResponse>> VerifyTwoFactorAuthentication([FromBody] VerifyTwoFactorAuthenticationRequest request)
     {
-        var response = await totpService.VerifyTwoFactorAuthenticationAsync(request);
-        return ApiResponse<bool>.Success(response);
+        var response = await totpService.VerifyTwoFactorAuthenticationAsync(request, GetIpAddress());
+
+        // Add refresh token cookie to response
+        Response.Cookies.Append("refresh_token", response.RefreshToken, new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Strict, Secure = true });
+
+        return ApiResponse<TokenResponse>.Success(response);
+    }
+
+    private string GetIpAddress()
+    {
+        const string Na = "N/A";
+
+        var headers = Request.Headers;
+        if (headers.TryGetValue("X-Forwarded-For", out var forwardedForHeader))
+        {
+            return forwardedForHeader.ToString();
+        }
+
+        return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? Na;
     }
 }

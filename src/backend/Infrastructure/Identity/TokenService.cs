@@ -95,6 +95,40 @@ internal class TokenService(
         return await GenerateTokensAndUpdateUser(user, ipAddress);
     }
 
+    public async Task<TokenResult> GetTokenAfterTwoFactorAsync(string email, string ipAddress)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            throw new UnauthorizedException(localizer["auth.failed"]);
+        }
+
+        if (!user.IsActive)
+        {
+            throw new UnauthorizedException(localizer["identity.usernotactive"]);
+        }
+
+        if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
+        {
+            throw new UnauthorizedException(localizer["identity.emailnotconfirmed"]);
+        }
+
+        if (currentTenant?.Id != MultitenancyConstants.Root.Id)
+        {
+            if (!currentTenant!.IsActive)
+            {
+                throw new UnauthorizedException(localizer["tenant.inactive"]);
+            }
+
+            if (DateTime.UtcNow > currentTenant.ValidUpto)
+            {
+                throw new UnauthorizedException(localizer["tenant.expired"]);
+            }
+        }
+
+        return await GenerateTokensAndUpdateUser(user, ipAddress);
+    }
+
     private async Task<TokenResult> GenerateTokensAndUpdateUser(ApplicationUser user, string ipAddress)
     {
         var token = GenerateJwt(user, ipAddress);
