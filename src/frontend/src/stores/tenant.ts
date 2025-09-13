@@ -219,10 +219,10 @@ export const useTenantStore = defineStore("tenant", {
 
         return response.data;
       } catch (error: unknown) {
-        const axiosError = error as AxiosError<any, any>;
+        const axiosError = error as AxiosError<DefaultApiResponse<boolean>>;
         const response: DefaultApiResponse<boolean> = {
           succeeded: false,
-          errors: [axiosError.response?.data?.message || axiosError.message],
+          errors: axiosError.response?.data?.errors || [axiosError.message],
         };
 
         return response;

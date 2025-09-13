@@ -1,5 +1,4 @@
 import { Permissions } from "@/models/user";
-import { red } from "vuetify/util/colors";
 
 export const adminRoutes = [
   {

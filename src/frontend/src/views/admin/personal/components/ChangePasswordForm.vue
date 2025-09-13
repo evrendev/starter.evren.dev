@@ -69,7 +69,7 @@ const passwordRequirements = computed(() => [
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="password"
-                v-bind:="passwordAttrs"
+                v-bind="passwordAttrs"
                 :type="isCurrentPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="
                   isCurrentPasswordVisible ? 'bx-hide' : 'bx-show'
@@ -88,7 +88,7 @@ const passwordRequirements = computed(() => [
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="newPassword"
-                v-bind:="newPasswordAttrs"
+                v-bind="newPasswordAttrs"
                 :type="isNewPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="
                   isNewPasswordVisible ? 'bx-hide' : 'bx-show'
@@ -106,7 +106,7 @@ const passwordRequirements = computed(() => [
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="confirmNewPassword"
-                v-bind:="confirmNewPasswordAttrs"
+                v-bind="confirmNewPasswordAttrs"
                 :type="isConfirmPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="
                   isConfirmPasswordVisible ? 'bx-hide' : 'bx-show'

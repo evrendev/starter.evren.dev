@@ -15,9 +15,6 @@ const { user, loading } = storeToRefs(useProfile);
 
 const { t } = useI18n();
 
-const showRecoverCodes = ref(false);
-const recoverCodes = ref<string[]>([]);
-
 const handleChangePassword = async (values: ChangePasswordRequest) => {
   const response: DefaultApiResponse<string> =
     await useProfile.changePassword(values);

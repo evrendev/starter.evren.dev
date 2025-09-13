@@ -186,7 +186,7 @@ watch(
           <v-otp-input
             autofocus
             v-model="code"
-            v-bind:="codeAttrs"
+            v-bind="codeAttrs"
             :error-messages="errors.code"
           />
         </v-col>
