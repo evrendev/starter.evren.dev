@@ -5,13 +5,13 @@ import { useHttpClient } from "@/composables/useHttpClient";
 import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 import Mapper from "@/mappers";
-import { ChangePasswordRequest, LogFilters } from "@/requests/user";
+import { ChangePasswordRequest } from "@/requests/user";
+import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
 import {
-  DisableTwoFactorAuthenticationRequest,
   EnableTwoFactorAuthenticationRequest,
+  LogFilters,
   SetupTwoFactorAuthenticationRequest,
 } from "@/requests/personal";
-import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
 
 const DEFAULT_FILTER: LogFilters = {
   search: null,
