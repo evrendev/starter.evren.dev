@@ -1,11 +1,13 @@
-import { Filters, UpgradeTenant, BasicFilters } from "@/requests/tenant";
-import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
 import { defineStore } from "pinia";
-import { useHttpClient } from "@/composables/useHttpClient";
 import { useAppStore } from "./app";
-import { AxiosError, AxiosResponse } from "axios";
+
 import { Tenant } from "@/models/tenant";
-const appStore = useAppStore();
+import { Filters, UpgradeTenant, BasicFilters } from "@/types/requests/tenant";
+import { PaginationResponse } from "@/types/responses/api";
+
+import http, { handleRequest } from "@/utils/http";
+import { AppError } from "@/primitives/error";
+import { Result } from "@/primitives/result";
 
 const DEFAULT_FILTER: Filters = {
   search: null,
@@ -21,12 +23,16 @@ const DEFAULT_FILTER: Filters = {
 export const useTenantStore = defineStore("tenant", {
   state: () => ({
     loading: false as boolean,
+
+    error: null as AppError | null,
+
     page: DEFAULT_FILTER.page as number,
     totalPages: 0 as number,
     total: 0 as number,
     itemsPerPage: DEFAULT_FILTER.itemsPerPage as number,
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
+
     items: [] as Tenant[],
     tenant: null as Tenant | null,
     filters: { ...DEFAULT_FILTER },
@@ -38,194 +44,235 @@ export const useTenantStore = defineStore("tenant", {
     setFilters(filters: BasicFilters) {
       this.filters = { ...this.filters, ...filters };
     },
+
     async getItems() {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
       this.loading = true;
+      this.error = null;
 
       try {
-        const { data }: AxiosResponse<PaginationResponse<Tenant>> =
-          await useHttpClient().get("/tenants", {
+        const result = await handleRequest<PaginationResponse<Tenant>>(
+          http.get("/tenants", {
             params: this.filters,
-          });
-
-        this.items = data.items;
-        this.page = data.page;
-        this.total = data.total;
-        this.itemsPerPage = data.itemsPerPage;
-        this.totalPages = data.totalPages;
-        this.hasNextPage = data.hasNextPage;
-        this.hasPreviousPage = data.hasPreviousPage;
-      } catch (error) {
-        console.error("Error fetching items:", error);
-        return [];
-      } finally {
-        this.loading = false;
-      }
-    },
-    async getById(id: string) {
-      this.loading = true;
-      appStore.setLoading(true);
-
-      try {
-        const { data }: AxiosResponse<DefaultApiResponse<Tenant>> =
-          await useHttpClient().get(`/tenants/${id}`);
-
-        this.tenant = data.data ?? null;
-
-        return data;
-      } catch (error) {
-        console.error("Error fetching tenant:", error);
-        return null;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
-      }
-    },
-    async update(tenant: Tenant) {
-      this.loading = true;
-      appStore.setLoading(true);
-
-      try {
-        const { data } = await useHttpClient().put(
-          `/tenants/${tenant.id}`,
-          tenant,
+          }),
         );
 
-        this.tenant = data;
+        if (result.succeeded && result.data) {
+          this.items = result.data.items;
+          this.page = result.data.page;
+          this.total = result.data.total;
+          this.itemsPerPage = result.data.itemsPerPage;
+          this.totalPages = result.data.totalPages;
+          this.hasNextPage = result.data.hasNextPage;
+          this.hasPreviousPage = result.data.hasPreviousPage;
+        } else {
+          this.error = result.errors!;
+          this.items = [];
+        }
 
-        return data;
+        this.loading = false;
       } catch (error) {
-        console.error("Error updating tenant:", error);
-        return null;
+        this.error = error as AppError;
+        this.items = [];
+        return error as Result<PaginationResponse<Tenant>>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async create(tenant: Tenant) {
-      this.loading = true;
+
+    async getById(id: string): Promise<Result<Tenant>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const { data } = await useHttpClient().post("/tenants", tenant);
+        const result = await handleRequest<Tenant>(http.get(`/tenants/${id}`));
 
-        this.tenant = data;
+        if (result.succeeded && result.data) {
+          this.tenant = result.data;
+        } else {
+          this.error = result.errors!;
+        }
 
-        return data;
+        return result;
       } catch (error) {
-        console.error("Error creating tenant:", error);
-        return null;
+        this.error = error as AppError;
+        this.tenant = null;
+        return error as Result<Tenant>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async delete(id: string): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
+
+    async update(tenant: Tenant): Promise<Result<Tenant>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().delete(`/tenants/${id}`);
+        const result = await handleRequest<Tenant>(
+          http.put(`/tenants/${tenant.id}`, tenant),
+        );
 
-        if (response.data.succeeded) {
+        if (result.succeeded && result.data) {
+          this.tenant = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<Tenant>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+
+    async create(tenant: Tenant): Promise<Result<Tenant>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<Tenant>(
+          http.post("/tenants", tenant),
+        );
+
+        if (result.succeeded && result.data) {
+          this.tenant = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<Tenant>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+
+    async delete(id: string): Promise<Result<boolean>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<boolean>(
+          http.delete(`/tenants/${id}`),
+        );
+
+        if (result.succeeded) {
           const index = this.items.findIndex((item) => item.id === id);
           if (index !== -1) this.items.splice(index, 1);
+        } else {
+          this.error = result.errors!;
         }
 
-        return response.data;
+        this.loading = false;
+        appStore.setLoading(false);
+        return result;
       } catch (error) {
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
+        this.error = error as AppError;
+        return error as Result<boolean>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async activate(id: string): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
+
+    async activate(id: string): Promise<Result<boolean>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().post(`/tenants/${id}/activate`);
+        const result = await handleRequest<boolean>(
+          http.post(`/tenants/${id}/activate`),
+        );
 
-        if (response.data.succeeded) {
+        if (result.succeeded) {
           const index = this.items.findIndex((item) => item.id === id);
           if (index !== -1) this.items[index].isActive = true;
+        } else {
+          this.error = result.errors!;
         }
 
-        return response.data;
+        return result;
       } catch (error) {
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
+        this.error = error as AppError;
+        return error as Result<boolean>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async deactivate(id: string): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
+
+    async deactivate(id: string): Promise<Result<boolean>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().post(`/tenants/${id}/deactivate`);
+        const result = await handleRequest<boolean>(
+          http.post(`/tenants/${id}/deactivate`),
+        );
 
-        if (response.data.succeeded) {
+        if (result.succeeded) {
           const index = this.items.findIndex((item) => item.id === id);
           if (index !== -1) this.items[index].isActive = false;
+        } else {
+          this.error = result.errors!;
         }
 
-        return response.data;
+        return result;
       } catch (error) {
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
+        this.error = error as AppError;
+        return error as Result<boolean>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async upgrade(tenant: UpgradeTenant): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
+
+    async upgrade(tenant: UpgradeTenant): Promise<Result<boolean>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().post(
-            `/tenants/${tenant.tenantId}/upgrade`,
-            tenant,
-          );
+        const result = await handleRequest<boolean>(
+          http.post(`/tenants/${tenant.tenantId}/upgrade`, tenant),
+        );
 
-        if (response.data.succeeded) {
+        if (result.succeeded) {
           const index = this.items.findIndex(
             (item) => item.id === tenant.tenantId,
           );
-
           if (index !== -1)
             this.items[index].validUpto = tenant.extendedExpiryDate;
+        } else {
+          this.error = result.errors!;
         }
 
-        return response.data;
-      } catch (error: unknown) {
-        const axiosError = error as AxiosError<DefaultApiResponse<boolean>>;
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: axiosError.response?.data?.errors || [axiosError.message],
-        };
-
-        return response;
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<boolean>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BasicFilters } from "@/requests/role";
+import { BasicFilters } from "@/types/requests/role";
 
 const { t } = useI18n();
 

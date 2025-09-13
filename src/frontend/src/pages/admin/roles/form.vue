@@ -3,8 +3,8 @@ import { Notify } from "@/stores/notification";
 import { RoleForm } from "@/views/admin/roles";
 
 import { useRoleStore } from "@/stores/role";
-import { DefaultApiResponse } from "@/responses/api";
 import { Role } from "@/models/role";
+import { Result } from "@/primitives/result";
 const { t } = useI18n();
 
 const roleStore = useRoleStore();
@@ -22,9 +22,7 @@ const role = ref<Role | null>(null);
 onMounted(async () => {
   const { id } = route.params;
   if (id) {
-    const response: DefaultApiResponse<Role | null> = await roleStore.getById(
-      id as string,
-    );
+    const response: Result<Role | null> = await roleStore.getById(id as string);
 
     role.value = response?.data ?? null;
   }
@@ -46,7 +44,7 @@ const breadcrumbs = computed(() => [
 ]);
 
 const handleSubmit = async (values: Role) => {
-  const response: DefaultApiResponse<string> =
+  const response: Result<Role> =
     route.name === "role-create"
       ? await roleStore.create(values)
       : await roleStore.update(values);

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import StatusIcon from "@/components/admin/StatusIcon.vue";
 import { Tenant } from "@/models/tenant";
-import { Props } from "@/requests/app";
-import { UpgradeTenant } from "@/requests/tenant";
+import { Props } from "@/types/requests/app";
+import { UpgradeTenant } from "@/types/requests/tenant";
 import { useDateFormat } from "@vueuse/core";
 const { t, locale } = useI18n();
 

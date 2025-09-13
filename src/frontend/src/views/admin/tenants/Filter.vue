@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BasicFilters } from "@/requests/tenant";
+import { BasicFilters } from "@/types/requests/tenant";
 
 const { t } = useI18n();
 

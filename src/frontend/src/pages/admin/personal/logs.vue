@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { LogFilters } from "@/requests/personal";
+import { LogFilters } from "@/types/requests/personal";
 import { Logs, Tabs } from "@/views/admin/personal";
 import { usePersonalStore } from "@/stores/personal";
 

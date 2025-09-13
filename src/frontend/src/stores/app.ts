@@ -1,5 +1,5 @@
 import { PredefinedValues } from "@/models/app";
-import { useHttpClient } from "@/composables/useHttpClient";
+import http, { handleRequest } from "@/utils/http";
 import { defineStore } from "pinia";
 
 export const useAppStore = defineStore("app", {
@@ -17,8 +17,11 @@ export const useAppStore = defineStore("app", {
     },
     async getPredefinedValues() {
       this.loading = true;
-      const { data } = await useHttpClient().get("/predefinedvalues");
-      this.predefinedValues = data;
+      const result = await handleRequest<PredefinedValues>(
+        http.get("predefinedvalues"),
+      );
+
+      this.predefinedValues = result?.data || { genders: [], languages: [] };
       this.loading = false;
     },
   },

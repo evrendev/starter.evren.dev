@@ -1,23 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { LoginRequest, TwoFactorAuthRequest } from "@/requests/auth";
+import { LoginRequest, TwoFactorAuthRequest } from "@/types/requests/auth";
 import { object, string, boolean } from "yup";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/yup";
 import { useAppStore } from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
 import { Result } from "@/primitives/result";
-import { AccessTokenResponse } from "@/responses/auth";
+import { AccessTokenResponse } from "@/types/responses/auth";
 import { Notify } from "@/stores/notification";
 import Logo from "@/components/shared/Logo.vue";
 import RecaptchaButton from "@/views/admin/authentication/RecaptchaButton.vue";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
 import authV1TopShape from "@images/svg/auth-v1-top-shape.svg?url";
 
-const appStore = useAppStore();
-const authStore = useAuthStore();
 const router = useRouter();
-
+const authStore = useAuthStore();
+const appStore = useAppStore();
 const { loading } = storeToRefs(appStore);
 
 const { t } = useI18n();
@@ -49,8 +48,6 @@ const [password, passwordAttrs] = defineField("password");
 const [rememberMe, rememberMeAttrs] = defineField("rememberMe");
 
 const login = handleSubmit(async (values: LoginRequest) => {
-  appStore.setLoading(true);
-
   try {
     const result: Result<AccessTokenResponse> = await authStore.login(values);
 
@@ -60,13 +57,10 @@ const login = handleSubmit(async (values: LoginRequest) => {
       Notify.success(t("auth.login.success"));
       router.push({ name: "dashboard" });
     } else {
-      appStore.setLoading(false);
       Notify.error(result.errors?.message || t("auth.login.error"));
     }
   } catch (error) {
     Notify.error((error as Error).message || t("auth.login.failed"));
-  } finally {
-    appStore.setLoading(false);
   }
 });
 
@@ -91,7 +85,6 @@ const [code, codeAttrs] = define2FAField("code");
 
 const checkTwoFactorAuth = handle2FASubmit(
   async (values: TwoFactorAuthRequest) => {
-    appStore.setLoading(true);
     values.email = email.value;
 
     try {

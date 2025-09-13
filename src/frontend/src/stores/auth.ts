@@ -1,13 +1,10 @@
-// stores/auth.ts
 import { defineStore } from "pinia";
-import type { AccessTokenResponse } from "@/responses/auth";
-import { LoginRequest, TwoFactorAuthRequest } from "@/requests/auth";
+import type { AccessTokenResponse } from "@/types/responses/auth";
+import type { LoginRequest, TwoFactorAuthRequest } from "@/types/requests/auth";
 import { Result } from "@/primitives/result";
-import { AxiosError, AxiosResponse } from "axios";
-import { AppError } from "@/primitives/error";
-import { useHttpClient } from "@/composables/useHttpClient";
 import { usePersonalStore } from "./personal";
-import { ErrorResponse } from "@/responses/api";
+import http, { handleRequest } from "@/utils/http";
+import { useAppStore } from "./app";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -34,6 +31,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("refreshTokenExpiryTime");
     },
+
     setTokens(tokenData: AccessTokenResponse) {
       this.accessToken = tokenData.accessToken ?? "";
       this.refreshToken = tokenData.refreshToken ?? "";
@@ -48,124 +46,103 @@ export const useAuthStore = defineStore("auth", {
         this.refreshTokenExpiryTime.toISOString(),
       );
     },
-    async login(values: LoginRequest): Promise<Result<AccessTokenResponse>> {
-      try {
-        const { data } = await useHttpClient().post<
-          LoginRequest,
-          AxiosResponse<Result<AccessTokenResponse>>
-        >("auth/login", values);
 
-        if (!data.succeeded || !data.data) {
-          return Result.failure(
-            AppError.failure(
-              Array.isArray(data.errors)
-                ? data.errors[0]
-                : data.errors || "Invalid response from server",
-            ),
-          );
+    async login(values: LoginRequest): Promise<Result<AccessTokenResponse>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const result = await handleRequest<AccessTokenResponse>(
+          http.post("auth/login", values),
+        );
+
+        if (result.succeeded && result.data) {
+          this.setTokens(result.data);
+
+          if (!result.data.twoFactorAuthRequired) {
+            const personalStore = usePersonalStore();
+            await personalStore.getUser();
+            await personalStore.getPermissions();
+          }
+        } else {
+          this.clearTokens();
         }
 
-        this.setTokens(data.data);
+        return result;
+      } catch (error) {
+        this.clearTokens();
+        throw error;
+      } finally {
+        appStore.setLoading(false);
+      }
+    },
 
-        if (!data.data.twoFactorAuthRequired) {
+    async verifyTwoFactorAuth(
+      values: TwoFactorAuthRequest,
+    ): Promise<Result<AccessTokenResponse>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const result = await handleRequest<AccessTokenResponse>(
+          http.post("2fa/verify", values),
+        );
+
+        if (result.succeeded && result.data) {
+          this.setTokens(result.data);
           const personalStore = usePersonalStore();
           await personalStore.getUser();
           await personalStore.getPermissions();
         }
-
-        return Result.success(data.data);
+        return result;
       } catch (error) {
-        const apiError = error as AxiosError<ErrorResponse>;
-        console.error("Login error:", apiError);
-        return Result.failure(
-          AppError.failure(
-            apiError.response?.data?.messages.join(", ") || apiError.message,
-          ),
-        );
-      }
-    },
-    async verifyTwoFactorAuth(
-      values: TwoFactorAuthRequest,
-    ): Promise<Result<AccessTokenResponse>> {
-      try {
-        const { data } = await useHttpClient().post<
-          TwoFactorAuthRequest,
-          AxiosResponse<Result<AccessTokenResponse>>
-        >("2fa/verify", values);
-
-        if (!data.succeeded || !data.data) {
-          return Result.failure(
-            AppError.failure(
-              Array.isArray(data.errors)
-                ? data.errors[0]
-                : data.errors || "Invalid response from server",
-            ),
-          );
-        }
-
-        this.setTokens(data.data);
-
-        const personalStore = usePersonalStore();
-        await personalStore.getUser();
-        await personalStore.getPermissions();
-
-        return Result.success(data.data);
-      } catch (error) {
-        const apiError = error as AxiosError<ErrorResponse>;
-        console.error("Login error:", apiError);
-        return Result.failure(
-          AppError.failure(
-            apiError.response?.data?.messages.join(", ") || apiError.message,
-          ),
-        );
-      }
-    },
-    async logout(): Promise<Result<void>> {
-      const personalStore = usePersonalStore();
-      try {
-        await useHttpClient().post("auth/logout");
-      } catch (error) {
-        const apiError = error as AxiosError<ErrorResponse>;
-        console.error("Logout error:", apiError);
-        return Result.failure(
-          AppError.failure(
-            apiError.response?.data?.messages.join(", ") || apiError.message,
-          ),
-        );
+        throw error;
       } finally {
+        appStore.setLoading(false);
+      }
+    },
+
+    async logout(): Promise<Result<void>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
+      try {
+        const result = await handleRequest<void>(http.post("auth/logout"));
+        return result;
+      } catch (error) {
+        this.clearTokens();
+        throw error;
+      } finally {
+        const personalStore = usePersonalStore();
         this.clearTokens();
         personalStore.clearProfile();
+        appStore.setLoading(false);
       }
-
-      return Result.success<void>(undefined);
     },
-    async refresh(): Promise<Result<string>> {
+
+    async refresh(): Promise<Result<AccessTokenResponse>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+
       try {
-        const { data } =
-          await useHttpClient().get<AxiosResponse<AccessTokenResponse>>(
-            "auth/refresh-token",
-          );
-
-        if (data.status === 401) {
-          await this.logout();
-
-          return Result.failure(AppError.failure("Could not refresh token"));
-        }
-
-        this.setTokens(data.data);
-
-        return Result.success(data.data?.accessToken ?? "");
-      } catch (error) {
-        await this.logout();
-        const apiError = error as AxiosError<ErrorResponse>;
-        console.error("Refresh token error:", apiError);
-        return Result.failure(
-          AppError.failure(
-            apiError.response?.data?.messages.join(", ") || apiError.message,
-          ),
+        const result = await handleRequest<AccessTokenResponse>(
+          http.get("auth/refresh-token"),
         );
+
+        if (result.succeeded && result.data) {
+          this.setTokens(result.data);
+        } else {
+          this.logout();
+        }
+        return result;
+      } catch (error) {
+        this.logout();
+        throw error;
+      } finally {
+        appStore.setLoading(false);
       }
     },
+
     async initializeStore(): Promise<void> {
       if (
         this.refreshTokenExpiryTime != null &&

@@ -3,21 +3,20 @@ import { Notify } from "@/stores/notification";
 import { Security, Tabs } from "@/views/admin/personal";
 
 import { usePersonalStore } from "@/stores/personal";
-import { ChangePasswordRequest } from "@/requests/user";
-import { DefaultApiResponse } from "@/responses/api";
-import { EnableTwoFactorAuthenticationRequest } from "@/requests/personal";
+import { ChangePasswordRequest } from "@/types/requests/user";
+import { EnableTwoFactorAuthenticationRequest } from "@/types/requests/personal";
 import {
   RecoverCodesResponse,
   SetupTwoFactorAuthenticationResponse,
-} from "@/responses/personal";
+} from "@/types/responses/personal";
+import { Result } from "@/primitives/result";
 const useProfile = usePersonalStore();
 const { user, loading } = storeToRefs(useProfile);
 
 const { t } = useI18n();
 
 const handleChangePassword = async (values: ChangePasswordRequest) => {
-  const response: DefaultApiResponse<string> =
-    await useProfile.changePassword(values);
+  const response: Result<string> = await useProfile.changePassword(values);
 
   if (response.succeeded) {
     Notify.success(t("admin.personal.security.notifications.passwordChanged"));
@@ -31,7 +30,7 @@ const handleChangePassword = async (values: ChangePasswordRequest) => {
 const handleEnableTwoFactorAuthentication = async (
   request: EnableTwoFactorAuthenticationRequest,
 ) => {
-  const response: DefaultApiResponse<string[]> =
+  const response: Result<string[]> =
     await useProfile.enableTwoFactorAuthentication(request);
 
   if (response.succeeded) {
@@ -47,7 +46,7 @@ const handleEnableTwoFactorAuthentication = async (
 };
 
 const handleDisableTwoFactorAuthentication = async () => {
-  const response: DefaultApiResponse<boolean> =
+  const response: Result<boolean> =
     await useProfile.disableTwoFactorAuthentication();
 
   if (response.succeeded) {
@@ -73,7 +72,7 @@ const recoverData = ref<RecoverCodesResponse>({
 });
 
 const handleSetupTwoFactorAuthentication = async () => {
-  const response: DefaultApiResponse<SetupTwoFactorAuthenticationResponse> =
+  const response: Result<SetupTwoFactorAuthenticationResponse> =
     await useProfile.setupTwoFactorAuthentication();
 
   if (response.succeeded && response.data) {

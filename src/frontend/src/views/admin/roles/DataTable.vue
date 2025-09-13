@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Role } from "@/models/role";
-import { Props } from "@/requests/app";
+import { Props } from "@/types/requests/app";
 const { t } = useI18n();
 
 withDefaults(defineProps<Props<Role>>(), {

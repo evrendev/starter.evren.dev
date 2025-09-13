@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { BasicUser } from "@/models/user";
+import { Result } from "@/primitives/result";
 import { Notify } from "@/stores/notification";
 import { usePersonalStore } from "@/stores/personal";
 import { Profile, Tabs } from "@/views/admin/personal";
@@ -10,7 +11,7 @@ const useProfile = usePersonalStore();
 const { user, loading } = storeToRefs(useProfile);
 
 const submit = async (values: BasicUser) => {
-  const response = await useProfile.update(values);
+  const response: Result<BasicUser> = await useProfile.update(values);
 
   if (response.succeeded) {
     Notify.success(t("admin.personal.profile.notifications.updated"));

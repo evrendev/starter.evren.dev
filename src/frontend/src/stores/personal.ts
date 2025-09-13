@@ -1,17 +1,22 @@
-import { AxiosResponse } from "axios";
-import { BasicUser, Log, User } from "@/models/user";
-import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
-import { useHttpClient } from "@/composables/useHttpClient";
 import { defineStore } from "pinia";
 import { useAppStore } from "./app";
-import Mapper from "@/mappers";
-import { ChangePasswordRequest } from "@/requests/user";
-import { SetupTwoFactorAuthenticationResponse } from "@/responses/personal";
-import {
+
+// Local Types
+import type { BasicUser, Log, User } from "@/models/user";
+import type { ChangePasswordRequest } from "@/types/requests/user";
+import type { SetupTwoFactorAuthenticationResponse } from "@/types/responses/personal";
+import type {
   EnableTwoFactorAuthenticationRequest,
   LogFilters,
   SetupTwoFactorAuthenticationRequest,
-} from "@/requests/personal";
+} from "@/types/requests/personal";
+import type { PaginationResponse } from "@/types/responses/api";
+
+// Refactored Architecture Imports
+import http, { handleRequest } from "@/utils/http";
+import type { AppError } from "@/primitives/error";
+import { Result } from "@/primitives/result";
+import Mapper from "@/mappers";
 
 const DEFAULT_FILTER: LogFilters = {
   search: null,
@@ -26,13 +31,17 @@ const DEFAULT_FILTER: LogFilters = {
 export const usePersonalStore = defineStore("personal", {
   state: () => ({
     loading: false as boolean,
-    page: DEFAULT_FILTER.page as number,
-    totalPages: 0 as number,
-    total: 0 as number,
-    itemsPerPage: DEFAULT_FILTER.itemsPerPage as number,
-    hasNextPage: false as boolean,
-    hasPreviousPage: false as boolean,
+    // Add error state for reactive error handling
+    error: null as AppError | null,
+    // Pagination state
+    page: 1,
+    totalPages: 0,
+    total: 0,
+    itemsPerPage: 25,
+    hasNextPage: false,
+    hasPreviousPage: false,
     items: [] as Log[],
+    // Data state
     user: null as BasicUser | null,
     permissions: [] as string[],
     filters: { ...DEFAULT_FILTER },
@@ -40,192 +49,207 @@ export const usePersonalStore = defineStore("personal", {
   actions: {
     clearProfile() {
       this.user = {} as BasicUser;
+
       this.permissions = [];
     },
+
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
+
     setFilters(filters: LogFilters) {
       this.filters = { ...this.filters, ...filters };
     },
+
     async getUser() {
       this.loading = true;
+      this.error = null; // İşleme başlarken hatayı temizle
       const appStore = useAppStore();
       appStore.setLoading(true);
 
-      try {
-        const { data } = await useHttpClient().get<User>("personal/profile");
-        this.user = Mapper.toUser(data);
-      } catch (error: unknown) {
-        console.error("Failed to fetch profile:", error);
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
+      // try/catch yerine handleRequest kullanıyoruz
+      const result = await handleRequest<User>(http.get("personal/profile"));
+
+      if (result.succeeded && result.data) {
+        this.user = Mapper.toUser(result.data);
+      } else {
+        this.error = result.errors!;
       }
+
+      this.loading = false;
+      appStore.setLoading(false);
     },
+
     async getPermissions() {
       this.loading = true;
-      try {
-        const { data } = await useHttpClient().get<string[]>(
-          "personal/permissions",
-        );
-        this.permissions = data || [];
-      } catch (error: unknown) {
-        console.error("Failed to fetch permissions:", error);
-        this.permissions = [];
-      } finally {
-        this.loading = false;
+      this.error = null;
+
+      const result = await handleRequest<string[]>(
+        http.get("personal/permissions"),
+      );
+
+      if (result.succeeded && result.data) {
+        this.permissions = result.data;
+      } else {
+        this.error = result.errors!;
+        this.permissions = []; // Hata durumunda izinleri temizle
       }
+
+      this.loading = false;
     },
+
     hasPermission(permission: string | string[]): boolean {
       if (!this.permissions || this.permissions.length === 0) {
         return false;
       }
+
       if (Array.isArray(permission)) {
         return permission.every((perm) => this.permissions.includes(perm));
       }
+
       return this.permissions.includes(permission);
     },
-    async update(user: BasicUser) {
+
+    async update(user: BasicUser): Promise<Result<User>> {
       this.loading = true;
+      this.error = null;
       const appStore = useAppStore();
       appStore.setLoading(true);
 
-      try {
-        const { data } = await useHttpClient().put<DefaultApiResponse<User>>(
-          "personal/profile",
-          user,
-        );
+      const result = await handleRequest<User>(
+        http.put("personal/profile", user),
+      );
 
-        this.user = Mapper.toUser(data.data);
-        return data;
-      } catch (error: unknown) {
-        console.error("Failed to update profile:", error);
-        throw error;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
+      if (result.succeeded && result.data) {
+        this.user = Mapper.toUser(result.data);
+      } else {
+        this.error = result.errors!;
       }
+
+      this.loading = false;
+      appStore.setLoading(false);
+      return result; // Component'in sonucu bilmesi için result'ı döndür
     },
-    async changePassword(values: ChangePasswordRequest) {
+
+    async changePassword(
+      values: ChangePasswordRequest,
+    ): Promise<Result<string>> {
       this.loading = true;
+      this.error = null;
       const appStore = useAppStore();
       appStore.setLoading(true);
 
-      try {
-        const { data } = await useHttpClient().put<DefaultApiResponse<string>>(
-          "personal/change-password",
-          values,
-        );
+      const result = await handleRequest<string>(
+        http.put("personal/change-password", values),
+      );
 
-        return data;
-      } catch (error: unknown) {
-        console.error("Failed to change password:", error);
-        throw error;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
+      if (result.isFailure) {
+        this.error = result.errors!;
       }
+
+      this.loading = false;
+      appStore.setLoading(false);
+      return result;
     },
+
     async getLogs() {
       this.loading = true;
+      this.error = null;
 
-      try {
-        const { data }: AxiosResponse<PaginationResponse<Log>> =
-          await useHttpClient().get("/personal/logs", {
-            params: this.filters,
-          });
+      const result = await handleRequest<PaginationResponse<Log>>(
+        http.get("/personal/logs", { params: this.filters }),
+      );
 
-        this.items = data.items;
-        this.page = data.page;
-        this.total = data.total;
-        this.itemsPerPage = data.itemsPerPage;
-        this.totalPages = data.totalPages;
-        this.hasNextPage = data.hasNextPage;
-        this.hasPreviousPage = data.hasPreviousPage;
-      } catch (error) {
-        console.error("Error fetching items:", error);
-        return [];
-      } finally {
-        this.loading = false;
+      if (result.succeeded && result.data) {
+        this.items = result.data.items;
+        this.page = result.data.page;
+        this.total = result.data.total;
+        this.itemsPerPage = result.data.itemsPerPage;
+        this.totalPages = result.data.totalPages;
+        this.hasNextPage = result.data.hasNextPage;
+        this.hasPreviousPage = result.data.hasPreviousPage;
+      } else {
+        this.error = result.errors!;
+        this.items = [];
       }
+
+      this.loading = false;
     },
-    async setupTwoFactorAuthentication() {
+
+    async setupTwoFactorAuthentication(): Promise<
+      Result<SetupTwoFactorAuthenticationResponse>
+    > {
       if (!this.user) throw new Error("User not loaded");
 
       this.loading = true;
+      this.error = null;
       const appStore = useAppStore();
       appStore.setLoading(true);
 
       const request: SetupTwoFactorAuthenticationRequest = {
         id: this.user.id as string,
       };
+      const result = await handleRequest<SetupTwoFactorAuthenticationResponse>(
+        http.get("2fa/setup", { params: request }),
+      );
 
-      try {
-        const { data } = await useHttpClient().get<
-          DefaultApiResponse<SetupTwoFactorAuthenticationResponse>
-        >("2fa/setup", {
-          params: request,
-        });
+      if (result.isFailure) this.error = result.errors!;
 
-        return data;
-      } catch (error: unknown) {
-        console.error("Failed to setup two-factor authentication:", error);
-        throw error;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
-      }
+      this.loading = false;
+      appStore.setLoading(false);
+      return result;
     },
+
     async enableTwoFactorAuthentication(
       request: EnableTwoFactorAuthenticationRequest,
-    ) {
+    ): Promise<Result<string[]>> {
       if (!this.user) throw new Error("User not loaded");
 
       request.id = this.user.id as string;
       this.loading = true;
+      this.error = null;
       const appStore = useAppStore();
       appStore.setLoading(true);
 
-      try {
-        const { data } = await useHttpClient().post<
-          DefaultApiResponse<string[]>
-        >("2fa/enable", request);
+      const result = await handleRequest<string[]>(
+        http.post("2fa/enable", request),
+      );
 
+      if (result.succeeded) {
         this.user.twoFactorEnabled = true;
-        return data;
-      } catch (error: unknown) {
-        console.error("Failed to enable two-factor authentication:", error);
-        throw error;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
+      } else {
+        this.error = result.errors!;
       }
+
+      this.loading = false;
+      appStore.setLoading(false);
+      return result;
     },
-    async disableTwoFactorAuthentication() {
+
+    async disableTwoFactorAuthentication(): Promise<Result<boolean>> {
       if (!this.user) throw new Error("User not loaded");
 
       const request: SetupTwoFactorAuthenticationRequest = {
         id: this.user.id as string,
       };
       this.loading = true;
+      this.error = null;
       const appStore = useAppStore();
       appStore.setLoading(true);
 
-      try {
-        const { data } = await useHttpClient().post<
-          DefaultApiResponse<boolean>
-        >("2fa/disable", request);
+      const result = await handleRequest<boolean>(
+        http.post("2fa/disable", request),
+      );
 
+      if (result.succeeded) {
         this.user.twoFactorEnabled = false;
-        return data;
-      } catch (error: unknown) {
-        console.error("Failed to disable two-factor authentication:", error);
-        throw error;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
+      } else {
+        this.error = result.errors!;
       }
+
+      this.loading = false;
+      appStore.setLoading(false);
+      return result;
     },
   },
 });

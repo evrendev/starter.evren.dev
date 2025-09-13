@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { ForgotPasswordRequest } from "@/requests/user";
+import { ForgotPasswordRequest } from "@/types/requests/user";
 import { object, string } from "yup";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/yup";

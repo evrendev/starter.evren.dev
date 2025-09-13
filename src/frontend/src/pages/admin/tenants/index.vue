@@ -3,7 +3,7 @@ import { DataTable, TenantFilter } from "@/views/admin/tenants";
 
 import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
-import { BasicFilters, Filters, UpgradeTenant } from "@/requests/tenant";
+import { BasicFilters, Filters, UpgradeTenant } from "@/types/requests/tenant";
 
 const tenantStore = useTenantStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(tenantStore);

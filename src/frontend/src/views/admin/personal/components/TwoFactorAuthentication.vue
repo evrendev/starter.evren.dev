@@ -2,11 +2,11 @@
 import { useForm } from "vee-validate";
 import { object, string } from "yup";
 import QRCode from "qrcode";
-import { EnableTwoFactorAuthenticationRequest } from "@/requests/personal";
+import { EnableTwoFactorAuthenticationRequest } from "@/types/requests/personal";
 import {
   RecoverCodesResponse,
   SetupTwoFactorAuthenticationResponse,
-} from "@/responses/personal";
+} from "@/types/responses/personal";
 
 const { t } = useI18n();
 

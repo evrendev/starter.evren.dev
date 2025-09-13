@@ -3,7 +3,7 @@ import { DataTable, RoleFilter } from "@/views/admin/roles";
 
 import { Notify } from "@/stores/notification";
 import { useRoleStore } from "@/stores/role";
-import { BasicFilters, Filters } from "@/requests/role";
+import { BasicFilters, Filters } from "@/types/requests/role";
 
 const roleStore = useRoleStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(roleStore);

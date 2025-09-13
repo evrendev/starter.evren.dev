@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref as vueRef, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { ResetPasswordRequest } from "@/requests/user";
+import { ResetPasswordRequest } from "@/types/requests/user";
 import { object, string, ref } from "yup";
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/yup";

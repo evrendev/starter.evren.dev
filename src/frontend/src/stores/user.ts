@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { useHttpClient } from "@/composables/useHttpClient";
-import { ResetPasswordRequest } from "@/requests/user";
+import { ResetPasswordRequest } from "@/types/requests/user";
 
 export const useUserStore = defineStore("user", {
   actions: {

@@ -4,7 +4,7 @@ import { Notify } from "@/stores/notification";
 import { TenantForm } from "@/views/admin/tenants";
 
 import { useTenantStore } from "@/stores/tenant";
-import { DefaultApiResponse } from "@/responses/api";
+import { Result } from "@/primitives/result";
 const { t } = useI18n();
 
 const tenantStore = useTenantStore();
@@ -45,7 +45,7 @@ const breadcrumbs = computed(() => [
 ]);
 
 const handleSubmit = async (values: Tenant) => {
-  const response: DefaultApiResponse<string> =
+  const response: Result<Tenant> =
     route.name === "tenant-create"
       ? await tenantStore.create(values)
       : await tenantStore.update(values);

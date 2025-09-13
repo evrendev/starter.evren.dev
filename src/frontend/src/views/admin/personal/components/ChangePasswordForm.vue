@@ -2,7 +2,7 @@
 import { toTypedSchema } from "@vee-validate/yup";
 import { ref as yupRef, object, string } from "yup";
 import { useForm } from "vee-validate";
-import { ChangePasswordRequest } from "@/requests/user";
+import { ChangePasswordRequest } from "@/types/requests/user";
 const { t } = useI18n();
 
 const props = defineProps<{

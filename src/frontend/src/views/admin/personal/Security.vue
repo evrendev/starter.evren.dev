@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ChangePasswordRequest } from "@/requests/user";
+import { ChangePasswordRequest } from "@/types/requests/user";
 import { ChangePasswordForm, TwoFactorAuthentication } from "./components";
-import { EnableTwoFactorAuthenticationRequest } from "@/requests/personal";
+import { EnableTwoFactorAuthenticationRequest } from "@/types/requests/personal";
 import {
   RecoverCodesResponse,
   SetupTwoFactorAuthenticationResponse,
-} from "@/responses/personal";
+} from "@/types/responses/personal";
 
 defineProps<{
   twoFactorEnabled: boolean;

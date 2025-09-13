@@ -1,11 +1,15 @@
-import { Filters, BasicFilters } from "@/requests/role";
-import { DefaultApiResponse, PaginationResponse } from "@/responses/api";
 import { defineStore } from "pinia";
-import { useHttpClient } from "@/composables/useHttpClient";
 import { useAppStore } from "./app";
-import { AxiosResponse } from "axios";
+
+// Local Types
 import { Role } from "@/models/role";
-const appStore = useAppStore();
+import { Filters, BasicFilters } from "@/types/requests/role";
+import { PaginationResponse } from "@/types/responses/api";
+
+// Refactored Architecture Imports
+import http, { handleRequest } from "@/utils/http";
+import { AppError } from "@/primitives/error";
+import { Result } from "@/primitives/result";
 
 const DEFAULT_FILTER: Filters = {
   search: null,
@@ -18,12 +22,16 @@ const DEFAULT_FILTER: Filters = {
 export const useRoleStore = defineStore("role", {
   state: () => ({
     loading: false as boolean,
+    // Add error state for reactive error handling
+    error: null as AppError | null,
+    // Pagination state
     page: DEFAULT_FILTER.page as number,
     totalPages: 0 as number,
     total: 0 as number,
     itemsPerPage: DEFAULT_FILTER.itemsPerPage as number,
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
+    // Data state
     items: [] as Role[],
     role: null as Role | null,
     filters: { ...DEFAULT_FILTER },
@@ -35,110 +43,134 @@ export const useRoleStore = defineStore("role", {
     setFilters(filters: BasicFilters) {
       this.filters = { ...this.filters, ...filters };
     },
+
     async getItems() {
       this.loading = true;
+      this.error = null;
 
       try {
-        const { data }: AxiosResponse<PaginationResponse<Role>> =
-          await useHttpClient().get("/roles", {
+        const result = await handleRequest<PaginationResponse<Role>>(
+          http.get("/roles", {
             params: this.filters,
-          });
+          }),
+        );
 
-        this.items = data.items;
-        this.page = data.page;
-        this.total = data.total;
-        this.itemsPerPage = data.itemsPerPage;
-        this.totalPages = data.totalPages;
-        this.hasNextPage = data.hasNextPage;
-        this.hasPreviousPage = data.hasPreviousPage;
+        if (result.succeeded && result.data) {
+          this.items = result.data.items;
+          this.page = result.data.page;
+          this.total = result.data.total;
+          this.itemsPerPage = result.data.itemsPerPage;
+          this.totalPages = result.data.totalPages;
+          this.hasNextPage = result.data.hasNextPage;
+          this.hasPreviousPage = result.data.hasPreviousPage;
+        } else {
+          this.error = result.errors!;
+          this.items = [];
+        }
       } catch (error) {
-        console.error("Error fetching items:", error);
-        return [];
+        this.error = error as AppError;
+        this.items = [];
       } finally {
         this.loading = false;
       }
     },
-    async getById(id: string): Promise<DefaultApiResponse<Role | null>> {
-      this.loading = true;
+
+    async getById(id: string): Promise<Result<Role>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const { data }: AxiosResponse<DefaultApiResponse<Role | null>> =
-          await useHttpClient().get(`/roles/${id}`);
+        const result = await handleRequest<Role>(http.get(`/roles/${id}`));
 
-        this.role = data.data ?? null;
-
-        return data;
+        if (result.succeeded && result.data) {
+          this.role = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+        return result;
       } catch (error) {
-        console.error("Error fetching role:", error);
-        const response: DefaultApiResponse<Role | null> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
-      }
-    },
-    async update(role: Role) {
-      this.loading = true;
-      appStore.setLoading(true);
-
-      try {
-        const { data } = await useHttpClient().put(`/roles/${role.id}`, role);
-
-        this.role = data;
-
-        return data;
-      } catch (error) {
-        console.error("Error updating role:", error);
-        return null;
+        this.error = error as AppError;
+        this.role = null;
+        return error as Result<Role>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async create(role: Role) {
-      this.loading = true;
+
+    async update(role: Role): Promise<Result<Role>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const { data } = await useHttpClient().post("/roles", role);
+        const result = await handleRequest<Role>(
+          http.put(`/roles/${role.id}`, role),
+        );
 
-        this.role = data;
-
-        return data;
+        if (result.succeeded && result.data) {
+          this.role = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+        return result;
       } catch (error) {
-        console.error("Error creating role:", error);
-        return null;
+        this.error = error as AppError;
+        return error as Result<Role>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
-    async delete(id: string): Promise<DefaultApiResponse<boolean>> {
-      this.loading = true;
+
+    async create(role: Role): Promise<Result<Role>> {
+      const appStore = useAppStore();
       appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
 
       try {
-        const response: AxiosResponse<DefaultApiResponse<boolean>> =
-          await useHttpClient().delete(`/roles/${id}`);
+        const result = await handleRequest<Role>(http.post("/roles", role));
 
-        if (response.data.succeeded) {
+        if (result.succeeded && result.data) {
+          this.role = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<Role>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+
+    async delete(id: string): Promise<Result<boolean>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<boolean>(
+          http.delete(`/roles/${id}`),
+        );
+
+        if (result.succeeded) {
           const index = this.items.findIndex((item: Role) => item.id === id);
           if (index !== -1) this.items.splice(index, 1);
+        } else {
+          this.error = result.errors!;
         }
-
-        return response.data;
+        return result;
       } catch (error) {
-        const response: DefaultApiResponse<boolean> = {
-          succeeded: false,
-          errors: [error as string],
-        };
-
-        return response;
+        this.error = error as AppError;
+        return error as Result<boolean>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);

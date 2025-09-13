@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Log } from "@/models/user";
-import { Props } from "@/requests/app";
+import { Props } from "@/types/requests/app";
 const { t } = useI18n();
 
 withDefaults(defineProps<Props<Log>>(), {
