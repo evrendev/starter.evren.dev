@@ -70,38 +70,38 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <div class="position-relative my-sm-16">
-      <VImg
+      <v-img
         :src="authV1TopShape"
         class="text-primary auth-v1-top-shape d-none d-sm-block"
       />
-      <VImg
+      <v-img
         :src="authV1BottomShape"
         class="text-primary auth-v1-bottom-shape d-none d-sm-block"
       />
 
-      <VCard
+      <v-card
         class="auth-card"
         max-width="460"
         :class="$vuetify.display.smAndUp ? 'pa-6' : 'pa-0'"
       >
-        <VCardItem class="justify-center">
-          <Logo />
-        </VCardItem>
+        <v-card-item class="justify-center">
+          <logo />
+        </v-card-item>
 
-        <VCardText>
+        <v-card-text>
           <h4 class="text-h4 mb-1 text-center">
             {{ t("auth.forgot-password.welcome") }}
           </h4>
           <p class="mb-0 text-center">
             {{ t("auth.forgot-password.subtitle") }}
           </p>
-        </VCardText>
+        </v-card-text>
 
-        <VCardText>
-          <VForm>
-            <VRow>
-              <VCol cols="12">
-                <VTextField
+        <v-card-text>
+          <v-form>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
                   v-model="email"
                   v-bind="emailAttrs"
                   type="email"
@@ -111,8 +111,8 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   :disabled="loading"
                   autofocus
                 />
-              </VCol>
-              <VCol cols="12">
+              </v-col>
+              <v-col cols="12">
                 <recaptcha-button
                   action="submit"
                   button-icon="bx bx-log-in"
@@ -123,18 +123,18 @@ const siteKey = ref<string>(import.meta.env.VITE_RECAPTCHA_SITE_KEY_V3 || "");
                   @recaptcha-success="handleRecaptchaSuccess"
                   @recaptcha-error="handleRecaptchaError"
                 />
-              </VCol>
-              <VCol cols="12">
+              </v-col>
+              <v-col cols="12">
                 <router-link
                   class="text-center d-block mt-4"
                   v-text="t('auth.forgot-password.back-to-login')"
                   :to="{ name: 'login' }"
                 />
-              </VCol>
-            </VRow>
-          </VForm>
-        </VCardText>
-      </VCard>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </div>
   </div>
 </template>

@@ -130,38 +130,38 @@ const handleRecaptchaError = (error: Error) => {
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <div class="position-relative my-sm-16">
-      <VImg
+      <v-img
         :src="authV1TopShape"
         class="text-primary auth-v1-top-shape d-none d-sm-block"
       />
-      <VImg
+      <v-img
         :src="authV1BottomShape"
         class="text-primary auth-v1-bottom-shape d-none d-sm-block"
       />
 
-      <VCard
+      <v-card
         class="auth-card"
         max-width="460"
         :class="$vuetify.display.smAndUp ? 'pa-6' : 'pa-0'"
       >
-        <VCardItem class="justify-center">
-          <Logo />
-        </VCardItem>
+        <v-card-item class="justify-center">
+          <logo />
+        </v-card-item>
 
-        <VCardText>
+        <v-card-text>
           <h4 class="text-h4 mb-1 text-center">
             {{ t("auth.login.welcome") }}
           </h4>
           <p class="mb-0 text-center">
             {{ t("auth.login.subtitle") }}
           </p>
-        </VCardText>
+        </v-card-text>
 
-        <VCardText>
-          <VForm>
-            <VRow>
-              <VCol cols="12">
-                <VTextField
+        <v-card-text>
+          <v-form>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
                   v-model="email"
                   v-bind="emailAttrs"
                   type="email"
@@ -171,10 +171,10 @@ const handleRecaptchaError = (error: Error) => {
                   :disabled="loading"
                   autofocus
                 />
-              </VCol>
+              </v-col>
 
-              <VCol cols="12">
-                <VTextField
+              <v-col cols="12">
+                <v-text-field
                   v-model="password"
                   v-bind="passwordAttrs"
                   placeholder="············"
@@ -186,13 +186,13 @@ const handleRecaptchaError = (error: Error) => {
                   :disabled="loading"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 />
-              </VCol>
+              </v-col>
 
-              <VCol
+              <v-col
                 cols="12"
                 class="d-flex align-center justify-space-between flex-wrap"
               >
-                <VCheckbox
+                <v-checkbox
                   v-model="rememberMe"
                   v-bind="rememberMeAttrs"
                   :disabled="loading"
@@ -204,9 +204,9 @@ const handleRecaptchaError = (error: Error) => {
                 >
                   {{ t("auth.login.forgotPassword") }}
                 </router-link>
-              </VCol>
+              </v-col>
 
-              <VCol cols="12">
+              <v-col cols="12">
                 <recaptcha-button
                   action="submit"
                   button-icon="bx bx-log-in"
@@ -217,22 +217,22 @@ const handleRecaptchaError = (error: Error) => {
                   @recaptcha-success="handleRecaptchaSuccess"
                   @recaptcha-error="handleRecaptchaError"
                 />
-              </VCol>
+              </v-col>
 
-              <VCol cols="12">
-                <VAlert
+              <v-col cols="12">
+                <v-alert
                   v-if="errors.response"
                   type="error"
                   class="mt-4"
                   density="compact"
                 >
                   {{ errors.response }}
-                </VAlert>
-              </VCol>
-            </VRow>
-          </VForm>
-        </VCardText>
-      </VCard>
+                </v-alert>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </div>
 
     <modal-window

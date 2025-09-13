@@ -148,31 +148,6 @@ export const adminRoutes = [
         },
       },
       {
-        name: "typography",
-        path: "typography",
-        component: async () => await import("@/pages/admin/typography.vue"),
-      },
-      {
-        name: "icons",
-        path: "icons",
-        component: async () => await import("@/pages/admin/icons.vue"),
-      },
-      {
-        name: "cards",
-        path: "cards",
-        component: async () => await import("@/pages/admin/cards.vue"),
-      },
-      {
-        name: "tables",
-        path: "tables",
-        component: async () => await import("@/pages/admin/tables.vue"),
-      },
-      {
-        name: "form-layouts",
-        path: "form-layouts",
-        component: async () => await import("@/pages/admin/form-layouts.vue"),
-      },
-      {
         name: "unauthorized",
         path: "unauthorized",
         component: async () => await import("@/pages/admin/unauthorized.vue"),

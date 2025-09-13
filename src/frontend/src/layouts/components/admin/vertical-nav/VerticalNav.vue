@@ -38,7 +38,7 @@ const handleNavScroll = (evt: Event) => {
 </script>
 
 <template>
-  <Component
+  <component
     :is="props.tag"
     ref="refNav"
     data-allow-mismatch
@@ -53,29 +53,31 @@ const handleNavScroll = (evt: Event) => {
   >
     <div class="nav-header">
       <slot name="nav-header">
-        <Logo class="app-title-wrapper" />
+        <logo class="app-title-wrapper" />
       </slot>
     </div>
+
     <slot name="before-nav-items">
       <div class="vertical-nav-items-shadow" />
     </slot>
+
     <slot
       name="nav-items"
       :update-is-vertical-nav-scrolled="updateIsVerticalNavScrolled"
     >
-      <PerfectScrollbar
+      <perfect-scrollbar
         tag="ul"
         class="nav-items"
         :options="{ wheelPropagation: false }"
         @ps-scroll-y="handleNavScroll"
       >
         <slot />
-      </PerfectScrollbar>
+      </perfect-scrollbar>
     </slot>
     <slot name="after-nav-items">
       <version-info />
     </slot>
-  </Component>
+  </component>
 </template>
 
 <style lang="scss" scoped>

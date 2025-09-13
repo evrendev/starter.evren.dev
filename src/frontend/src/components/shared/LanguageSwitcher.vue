@@ -15,16 +15,16 @@ const changeLanguageHandler = (lang: string) => {
 
 <template>
   <icon-btn>
-    <VIcon>
+    <v-icon>
       <deutsch-flag v-if="locale === 'de'" />
       <turkish-flag v-if="locale === 'tr'" />
       <english-flag v-if="locale === 'en'" />
-    </VIcon>
-    <VTooltip activator="parent" open-delay="1000" scroll-strategy="close">
+    </v-icon>
+    <v-tooltip activator="parent" open-delay="1000" scroll-strategy="close">
       <span class="text-capitalize">
         {{ t(`admin.components.navbar.languages.${locale}`) }}
       </span>
-    </VTooltip>
+    </v-tooltip>
 
     <v-menu activator="parent" location="bottom end" offset="14px">
       <v-list>

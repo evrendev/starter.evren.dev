@@ -50,7 +50,7 @@ import {
       <nav-items />
     </template>
 
-    <RouterView />
+    <router-view />
 
     <template #footer>
       <footer-links />

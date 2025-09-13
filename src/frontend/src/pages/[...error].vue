@@ -10,10 +10,10 @@ import misc404 from "@images/pages/404.png";
       description="We couldn't find the page you are looking for."
     />
 
-    <VBtn to="/" class="mb-6"> Back to Home </VBtn>
+    <v-btn :to="{ name: 'home' }" class="mb-6"> Back to Home </v-btn>
 
     <div class="misc-avatar w-100">
-      <VImg
+      <v-img
         :src="misc404"
         alt="Page Not Found"
         :max-width="500"

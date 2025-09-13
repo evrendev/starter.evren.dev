@@ -11,7 +11,10 @@ const isOpen = ref(false);
 <template>
   <li class="nav-group" :class="isOpen && 'open'">
     <div class="nav-group-label" @click="isOpen = !isOpen">
-      <VIcon :icon="item.icon || 'bxs-circle'" class="nav-item-icon" />
+      <v-icon
+        :icon="(item.icon as string) || 'bxs-circle'"
+        class="nav-item-icon"
+      />
       <span class="nav-item-title">{{ item.title }}</span>
       <span class="nav-item-badge" :class="item.badgeClass">
         {{ item.badgeContent }}
