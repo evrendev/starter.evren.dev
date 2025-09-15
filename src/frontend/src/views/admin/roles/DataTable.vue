@@ -65,10 +65,10 @@ const abortDelete = () => {
         @update:options="emit('update:options', $event)"
         class="striped border"
       >
-        <template #[`item.id`]="{ item }">
+        <template #[`item.name`]="{ item }">
           <router-link
             :to="{ name: 'role-view', params: { id: item.id } }"
-            :text="item.id"
+            :text="item.name"
           />
         </template>
 
