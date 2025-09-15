@@ -6,7 +6,7 @@ export const useUserStore = defineStore("user", {
   actions: {
     async forgotPassword(email: string): Promise<string> {
       try {
-        const { data } = await useHttpClient().post("/users/forgot-password", {
+        const { data } = await http.post("/users/forgot-password", {
           email,
         });
         return data;
@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user", {
     },
     async resetPassword(data: ResetPasswordRequest): Promise<string> {
       try {
-        const { data: response } = await useHttpClient().post(
+        const { data: response } = await http.post(
           "/users/reset-password",
           data,
         );
