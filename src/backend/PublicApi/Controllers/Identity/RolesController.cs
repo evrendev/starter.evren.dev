@@ -8,7 +8,6 @@ namespace EvrenDev.PublicApi.Controllers.Identity;
 
 public class RolesController(IRoleService roleService) : VersionNeutralApiController
 {
-
     [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Roles)]
     [OpenApiOperation("Get a list of all roles.", "")]
