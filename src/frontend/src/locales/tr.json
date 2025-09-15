@@ -388,7 +388,7 @@
           "required": "Id alanı gerekli"
         },
         "initial": {
-          "title": "Avatar"
+          "title": "Kısaltma"
         },
         "isActive": {
           "title": "Aktif"
