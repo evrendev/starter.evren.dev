@@ -180,6 +180,7 @@ const submit = handleSubmit((values: Tenant) => {
         <v-row>
           <v-col cols="12" md="3">
             <label
+              class="form-label"
               for="isActive"
               v-text="t('admin.tenants.fields.isActive.title')"
             />
