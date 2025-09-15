@@ -1,10 +1,16 @@
 ﻿using System.Security.Claims;
+using EvrenDev.Application.Identity.Users.Commands.Create;
+using EvrenDev.Application.Identity.Users.Commands.ToggleStatus;
+using EvrenDev.Application.Identity.Users.Commands.Update;
+using EvrenDev.Application.Identity.Users.Entities;
+using EvrenDev.Application.Identity.Users.Queries.Paginate;
+using EvrenDev.Application.Identity.Users.Queries.UserRoles;
 
-namespace EvrenDev.Application.Identity.Users;
+namespace EvrenDev.Application.Identity.Users.Interfaces;
 
 public interface IUserService : ITransientService
 {
-    Task<PaginationResponse<UserDto>> SearchAsync(UserListFilter filter, CancellationToken cancellationToken);
+    Task<PaginationResponse<UserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken);
     Task<bool> ExistsWithNameAsync(string name);
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);

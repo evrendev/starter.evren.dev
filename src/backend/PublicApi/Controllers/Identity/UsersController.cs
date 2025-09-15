@@ -1,12 +1,17 @@
-﻿using EvrenDev.Application.Identity.Users;
+﻿using EvrenDev.Application.Identity.Users.Commands.Create;
+using EvrenDev.Application.Identity.Users.Commands.ToggleStatus;
+using EvrenDev.Application.Identity.Users.Entities;
+using EvrenDev.Application.Identity.Users.Interfaces;
 using EvrenDev.Application.Identity.Users.Password;
+using EvrenDev.Application.Identity.Users.Queries.Paginate;
+using EvrenDev.Application.Identity.Users.Queries.UserRoles;
 using EvrenDev.Infrastructure.Cors;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
 public class UsersController(IUserService userService, IConfiguration configuration) : VersionNeutralApiController
 {
-    [HttpGet]
+    [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get list of all users.", "")]
     public async Task<ApiResponse<List<UserDto>>> GetListAsync(CancellationToken cancellationToken)
@@ -14,6 +19,14 @@ public class UsersController(IUserService userService, IConfiguration configurat
         var data = await userService.GetListAsync(cancellationToken);
 
         return ApiResponse<List<UserDto>>.Success(data);
+    }
+
+    [HttpGet]
+    [MustHavePermission(ApiAction.View, ApiResource.Users)]
+    [OpenApiOperation("Get paginated list of all users.", "")]
+    public async Task<PaginationResponse<UserDto>> GetPaginatedListAsync([FromQuery] PaginateUsersFilter filter, CancellationToken cancellationToken)
+    {
+        return await userService.PaginatedListAsync(filter, cancellationToken);
     }
 
     [HttpGet("{id}")]

@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Mailing;
-using EvrenDev.Application.Identity.Users;
+using EvrenDev.Application.Identity.Users.Commands.Create;
+using EvrenDev.Application.Identity.Users.Commands.Update;
 using EvrenDev.Domain.Common;
 using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Domain.Identity;

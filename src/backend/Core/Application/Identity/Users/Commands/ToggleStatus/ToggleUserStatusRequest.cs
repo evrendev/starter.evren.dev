@@ -1,4 +1,4 @@
-﻿namespace EvrenDev.Application.Identity.Users;
+﻿namespace EvrenDev.Application.Identity.Users.Commands.ToggleStatus;
 
 public class ToggleUserStatusRequest
 {

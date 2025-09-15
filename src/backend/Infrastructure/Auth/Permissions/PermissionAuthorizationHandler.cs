@@ -1,4 +1,4 @@
-﻿using EvrenDev.Application.Identity.Users;
+﻿using EvrenDev.Application.Identity.Users.Interfaces;
 using EvrenDev.Shared.Authorization;
 using Microsoft.AspNetCore.Authorization;
 

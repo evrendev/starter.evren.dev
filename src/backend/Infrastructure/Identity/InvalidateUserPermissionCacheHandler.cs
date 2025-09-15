@@ -1,5 +1,5 @@
 ﻿using EvrenDev.Application.Common.Events;
-using EvrenDev.Application.Identity.Users;
+using EvrenDev.Application.Identity.Users.Interfaces;
 using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Domain.Identity;
 using Microsoft.AspNetCore.Identity;

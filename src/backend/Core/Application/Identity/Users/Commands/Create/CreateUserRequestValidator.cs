@@ -1,6 +1,17 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using EvrenDev.Application.Identity.Users.Interfaces;
 
-namespace EvrenDev.Application.Identity.Users;
+namespace EvrenDev.Application.Identity.Users.Commands.Create;
+
+public class CreateUserRequest
+{
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string UserName { get; set; } = default!;
+    public string Password { get; set; } = default!;
+    public string ConfirmPassword { get; set; } = default!;
+    public string? PhoneNumber { get; set; }
+}
 
 public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
 {

@@ -6,7 +6,10 @@ using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Mailing;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Common.Specification;
-using EvrenDev.Application.Identity.Users;
+using EvrenDev.Application.Identity.Users.Commands.ToggleStatus;
+using EvrenDev.Application.Identity.Users.Entities;
+using EvrenDev.Application.Identity.Users.Interfaces;
+using EvrenDev.Application.Identity.Users.Queries.Paginate;
 using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Domain.Identity;
 using EvrenDev.Infrastructure.Auth;
@@ -38,7 +41,7 @@ internal partial class UserService(
 {
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
 
-    public async Task<PaginationResponse<UserDto>> SearchAsync(UserListFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<UserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken)
     {
         var spec = new EntitiesByPaginationFilterSpec<ApplicationUser>(filter);
 

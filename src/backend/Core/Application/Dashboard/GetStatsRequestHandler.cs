@@ -1,7 +1,7 @@
 ﻿using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Application.Common.Specification;
 using EvrenDev.Application.Identity.Roles.Interfaces;
-using EvrenDev.Application.Identity.Users;
+using EvrenDev.Application.Identity.Users.Interfaces;
 using EvrenDev.Domain.Catalog;
 
 namespace EvrenDev.Application.Dashboard;

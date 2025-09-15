@@ -1,6 +1,8 @@
 ﻿using EvrenDev.Application.Auditing.Entities;
 using EvrenDev.Application.Auditing.Queries.Get;
-using EvrenDev.Application.Identity.Users;
+using EvrenDev.Application.Identity.Users.Commands.Update;
+using EvrenDev.Application.Identity.Users.Entities;
+using EvrenDev.Application.Identity.Users.Interfaces;
 using EvrenDev.Application.Identity.Users.Password;
 
 namespace EvrenDev.PublicApi.Controllers.Personal;

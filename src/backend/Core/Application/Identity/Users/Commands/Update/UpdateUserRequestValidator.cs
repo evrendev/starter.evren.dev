@@ -1,4 +1,19 @@
-﻿namespace EvrenDev.Application.Identity.Users;
+﻿using EvrenDev.Application.Identity.Users.Interfaces;
+
+namespace EvrenDev.Application.Identity.Users.Commands.Update;
+
+public class UpdateUserRequest
+{
+    public Gender? Gender { get; set; }
+    public Language? Language { get; set; }
+    public string Id { get; set; } = default!;
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? PhoneNumber { get; set; }
+    public string? Email { get; set; }
+    public DateTime? Birthday { get; set; }
+    public string? PlaceOfBirth { get; set; }
+}
 
 public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
 {
