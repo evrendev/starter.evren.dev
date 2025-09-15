@@ -1,18 +1,21 @@
 export interface BasicUser {
   id?: string;
-  gender?: string;
   email?: string;
+  fullName?: string;
+  initial?: string;
+  isActive: boolean;
+  twoFactorEnabled: boolean;
+}
+export interface User extends BasicUser {
+  gender?: string;
   language?: string;
   firstName?: string;
   lastName?: string;
-  fullName?: string;
-  initial?: string;
   phoneNumber?: string;
   birthday?: string;
   placeOfBirth?: string;
-  twoFactorEnabled: true | false;
 }
-export interface User extends BasicUser {
+export interface UserWithPermission extends User {
   permissions?: string[];
 }
 export interface Permission {

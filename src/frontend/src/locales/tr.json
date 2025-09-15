@@ -128,7 +128,8 @@
         "admin": {
           "title": "Yönetici",
           "tenants": "Kiracılar",
-          "roles": "Roller"
+          "roles": "Roller",
+          "users": "Kullanıcılar"
         }
       }
     },
@@ -366,6 +367,64 @@
             "title": "Eylem"
           }
         }
+      }
+    },
+    "users": {
+      "list": {
+        "title": "Kullanıcı Listesi"
+      },
+      "create": {
+        "title": "Kullanıcı Oluştur"
+      },
+      "view": {
+        "title": "Kullanıcı Görüntüle"
+      },
+      "edit": {
+        "title": "Kullanıcı Düzenle"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "initial": {
+          "title": "Avatar"
+        },
+        "isActive": {
+          "title": "Aktif"
+        },
+        "twoFactorEnabled": {
+          "title": "2FA Etkin"
+        },
+        "firstName": {
+          "title": "Ad",
+          "required": "Ad alanı gerekli"
+        },
+        "lastName": {
+          "title": "Soyad",
+          "required": "Soyad alanı gerekli"
+        },
+        "fullName": {
+          "title": "Tam Ad"
+        },
+        "email": {
+          "title": "Eposta",
+          "required": "Eposta alanı gerekli"
+        },
+        "permissions": {
+          "title": "İzinler",
+          "required": "İzinler alanı gerekli"
+        }
+      },
+      "notifications": {
+        "updated": "Kullanıcı başarıyla güncellendi",
+        "updateFailed": "Kullanıcı güncellenirken hata oluştu",
+        "created": "Kullanıcı başarıyla oluşturuldu",
+        "createFailed": "Kullanıcı oluşturulurken hata oluştu",
+        "deleteConfirm": "Sil {name}",
+        "deleteMessage": "Bu {name} silmek istediğinize emin misiniz?",
+        "deleted": "Kullanıcı başarıyla silindi",
+        "deleteFailed": "Kullanıcı silinirken hata oluştu"
       }
     }
   },

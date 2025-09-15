@@ -128,7 +128,8 @@
         "admin": {
           "title": "Admin",
           "tenants": "Tenants",
-          "roles": "Roles"
+          "roles": "Roles",
+          "users": "Users"
         }
       }
     },
@@ -366,6 +367,64 @@
             "title": "Action"
           }
         }
+      }
+    },
+    "users": {
+      "list": {
+        "title": "User List"
+      },
+      "create": {
+        "title": "Create User"
+      },
+      "view": {
+        "title": "View User"
+      },
+      "edit": {
+        "title": "Edit User"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "initial": {
+          "title": "Initial"
+        },
+        "isActive": {
+          "title": "Is Active"
+        },
+        "twoFactorEnabled": {
+          "title": "2FA Enabled"
+        },
+        "firstName": {
+          "title": "First Name",
+          "required": "First Name is required"
+        },
+        "lastName": {
+          "title": "Last Name",
+          "required": "Last Name is required"
+        },
+        "fullName": {
+          "title": "Full Name"
+        },
+        "email": {
+          "title": "Email",
+          "required": "Email is required"
+        },
+        "permissions": {
+          "title": "Permissions",
+          "required": "Permissions are required"
+        }
+      },
+      "notifications": {
+        "updated": "User updated successfully",
+        "updateFailed": "Failed to update user",
+        "created": "User created successfully",
+        "createFailed": "Failed to create user",
+        "deleteConfirm": "Delete {name}",
+        "deleteMessage": "Are you sure you want to delete {name}?",
+        "deleted": "User deleted successfully",
+        "deleteFailed": "Failed to delete user"
       }
     }
   },

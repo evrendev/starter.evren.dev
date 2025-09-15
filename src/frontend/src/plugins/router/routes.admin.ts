@@ -139,13 +139,49 @@ export const adminRoutes = [
           },
         ],
       },
+
       {
         name: "users",
         path: "users",
-        component: async () => await import("@/pages/admin/users.vue"),
-        meta: {
-          requiresPermission: Permissions.UserView,
-        },
+        children: [
+          {
+            name: "user-list",
+            path: "",
+            component: async () =>
+              await import("@/pages/admin/users/index.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleView,
+              title: "admin.users.list.title",
+            },
+          },
+          {
+            name: "user-create",
+            path: "create",
+            component: async () => await import("@/pages/admin/users/form.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleCreate,
+              title: "admin.users.create.title",
+            },
+          },
+          {
+            name: "user-view",
+            path: ":id/view",
+            component: async () => await import("@/pages/admin/users/form.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleView,
+              title: "admin.users.view.title",
+            },
+          },
+          {
+            name: "user-edit",
+            path: ":id/edit",
+            component: async () => await import("@/pages/admin/users/form.vue"),
+            meta: {
+              requiresPermission: Permissions.RoleUpdate,
+              title: "admin.users.edit.title",
+            },
+          },
+        ],
       },
       {
         name: "unauthorized",

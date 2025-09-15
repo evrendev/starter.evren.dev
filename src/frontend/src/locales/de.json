@@ -128,7 +128,8 @@
         "admin": {
           "title": "Admin",
           "tenants": "Mandanten",
-          "roles": "Rollen"
+          "roles": "Rollen",
+          "users": "Benutzer"
         }
       }
     },
@@ -366,6 +367,64 @@
             "title": "Aktion"
           }
         }
+      }
+    },
+    "users": {
+      "list": {
+        "title": "Benutzerliste"
+      },
+      "create": {
+        "title": "Benutzer erstellen"
+      },
+      "view": {
+        "title": "Benutzer anzeigen"
+      },
+      "edit": {
+        "title": "Benutzer bearbeiten"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "initial": {
+          "title": "Initialen"
+        },
+        "isActive": {
+          "title": "Aktiv"
+        },
+        "twoFactorEnabled": {
+          "title": "2FA aktiviert"
+        },
+        "firstName": {
+          "title": "Vorname",
+          "required": "Vorname ist erforderlich"
+        },
+        "lastName": {
+          "title": "Nachname",
+          "required": "Nachname ist erforderlich"
+        },
+        "fullName": {
+          "title": "Vollständiger Name"
+        },
+        "email": {
+          "title": "Email",
+          "required": "Email ist erforderlich"
+        },
+        "permissions": {
+          "title": "Berechtigungen",
+          "required": "Berechtigungen sind erforderlich"
+        }
+      },
+      "notifications": {
+        "updated": "Benutzer erfolgreich aktualisiert",
+        "updateFailed": "Benutzeraktualisierung fehlgeschlagen",
+        "created": "Benutzer erfolgreich erstellt",
+        "createFailed": "Benutzererstellung fehlgeschlagen",
+        "deleteConfirm": "Benutzer löschen {name}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
+        "deleted": "Benutzer erfolgreich gelöscht",
+        "deleteFailed": "Benutzerlöschung fehlgeschlagen"
       }
     }
   },
