@@ -20,9 +20,9 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Roles)]
     [OpenApiOperation("Get paginated list of all roles.", "")]
-    public async Task<PaginationResponse<RoleDto>> GetPaginatedListAsync([FromQuery] PaginateRolesFilter filter)
+    public async Task<PaginationResponse<RoleDto>> GetPaginatedListAsync([FromQuery] PaginateRolesFilter filter, CancellationToken cancellationToken)
     {
-        return await roleService.PaginatedListAsync(filter);
+        return await roleService.PaginatedListAsync(filter, cancellationToken);
     }
 
     [HttpGet("{id}")]

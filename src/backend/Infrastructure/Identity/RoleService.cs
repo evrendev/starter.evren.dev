@@ -172,7 +172,7 @@ internal class RoleService(
         return string.Format(localizer["Role {0} Deleted."], role.Name);
     }
 
-    public async Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter)
+    public async Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter, CancellationToken cancellationToken)
     {
         IQueryable<ApplicationRole> query = roleManager.Roles;
 
@@ -217,7 +217,7 @@ internal class RoleService(
         var pagedData = await query
             .Skip((filter.Page - 1) * filter.ItemsPerPage)
             .Take(filter.ItemsPerPage)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var pagedDataDto = pagedData.Adapt<List<RoleDto>>();
 
