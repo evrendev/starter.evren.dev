@@ -2,7 +2,8 @@
 
 namespace EvrenDev.Application.Identity.Users.Queries.Paginate;
 
-public class PaginateUsersFilter : PaginationFilter, IRequest<PaginationResponse<UserDto>>
+public class PaginateUsersFilter : PaginationFilter, IRequest<PaginationResponse<BasicUserDto>>
 {
-    public bool? ShowActiveItems { get; set; }
+    public bool? IsActive { get; set; }
+    public bool? TwoFactorEnabled { get; set; }
 }

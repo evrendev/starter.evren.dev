@@ -10,7 +10,7 @@ namespace EvrenDev.Application.Identity.Users.Interfaces;
 
 public interface IUserService : ITransientService
 {
-    Task<PaginationResponse<UserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken);
+    Task<PaginationResponse<BasicUserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken);
     Task<bool> ExistsWithNameAsync(string name);
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);

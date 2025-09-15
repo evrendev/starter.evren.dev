@@ -24,7 +24,7 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get paginated list of all users.", "")]
-    public async Task<PaginationResponse<UserDto>> GetPaginatedListAsync([FromQuery] PaginateUsersFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<BasicUserDto>> GetPaginatedListAsync([FromQuery] PaginateUsersFilter filter, CancellationToken cancellationToken)
     {
         return await userService.PaginatedListAsync(filter, cancellationToken);
     }

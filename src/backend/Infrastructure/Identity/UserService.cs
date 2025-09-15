@@ -41,18 +41,18 @@ internal partial class UserService(
 {
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
 
-    public async Task<PaginationResponse<UserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<BasicUserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken)
     {
         var spec = new EntitiesByPaginationFilterSpec<ApplicationUser>(filter);
 
         var users = await userManager.Users
             .WithSpecification(spec)
-            .ProjectToType<UserDto>()
+            .ProjectToType<BasicUserDto>()
             .ToListAsync(cancellationToken);
         var count = await userManager.Users
             .CountAsync(cancellationToken);
 
-        return new PaginationResponse<UserDto>(users, count, filter.Page, filter.ItemsPerPage);
+        return new PaginationResponse<BasicUserDto>(users, count, filter.Page, filter.ItemsPerPage);
     }
 
     public async Task<bool> ExistsWithNameAsync(string name)
