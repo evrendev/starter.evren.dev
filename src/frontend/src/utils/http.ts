@@ -6,9 +6,8 @@ import axios, {
 import { Result } from "@/primitives/result";
 import { AppError } from "@/primitives/error";
 import type { ApiErrorResponse } from "@/types/responses/api";
-import { useAuthStore } from "@/stores/auth"; // Auth store'u import ediyoruz
+import { useAuthStore } from "@/stores/auth";
 
-// --- Temel Axios Konfigürasyonu ---
 const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL as string;
 const http: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -17,15 +16,10 @@ const http: AxiosInstance = axios.create({
   },
 });
 
-// --- Birleştirilmiş Request Interceptor ---
-// Tenant, Dil ve Auth Token'ı tek bir yerden ekliyoruz.
 http.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Auth Store'u interceptor içinde çağırıyoruz.
-    // Bu, modül döngüsü sorunlarını engeller.
     const authStore = useAuthStore();
 
-    // Tenant ve Dil Bilgisi
     const DEFAULT_TENANT_ID = import.meta.env
       .VITE_APP_DEFAULT_TENANT_ID as string;
     const DEFAULT_LANGUAGE = import.meta.env
@@ -38,7 +32,6 @@ http.interceptors.request.use(
     if (currentTenantId) config.headers["Tenant"] = currentTenantId;
     if (currentLanguage) config.headers["Accept-Language"] = currentLanguage;
 
-    // Authorization Token'ı ekleme
     if (authStore.accessToken && !config.headers["Authorization"]) {
       config.headers["Authorization"] = `Bearer ${authStore.accessToken}`;
     }
@@ -48,7 +41,6 @@ http.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// --- Birleştirilmiş ve Geliştirilmiş Response Interceptor ---
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value: unknown) => void;
@@ -63,12 +55,12 @@ const processQueue = (error: any, token: string | null = null) => {
       prom.resolve(token);
     }
   });
+
   failedQueue = [];
 };
 
 http.interceptors.response.use(
   (response) => {
-    // Return the original response object for axios compatibility
     return response;
   },
   async (error: AxiosError) => {
@@ -77,14 +69,12 @@ http.interceptors.response.use(
     };
     const authStore = useAuthStore();
 
-    // 401 (Unauthorized) hatası geldiğinde ve token yenileme koşulları sağlandığında
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
       authStore.refreshToken
     ) {
       if (isRefreshing) {
-        // Eğer zaten bir token yenileme işlemi varsa, bu isteği sıraya al
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
@@ -101,29 +91,30 @@ http.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const result = await authStore.refresh(); // Auth store'daki refresh fonksiyonu
+        const result = await authStore.refresh();
         if (result.succeeded) {
           processQueue(null, authStore.accessToken);
           originalRequest.headers!["Authorization"] =
             `Bearer ${authStore.accessToken}`;
-          return http(originalRequest); // Orijinal isteği yeni token ile tekrarla
+          return http(originalRequest);
         } else {
           processQueue(result.errors, null);
-          authStore.logout(); // Refresh başarısız olursa logout yap
+          await authStore.logout();
           return Promise.reject(Result.failure(result.errors!));
         }
       } catch (refreshError) {
         processQueue(refreshError, null);
-        authStore.logout();
+        await authStore.logout();
         return Promise.reject(
-          Result.failure(AppError.failure("Oturumunuz yenilenemedi.")),
+          Result.failure(
+            AppError.failure("Your session could not be renewed."),
+          ),
         );
       } finally {
         isRefreshing = false;
       }
     }
 
-    // Diğer tüm hatalar için standart hata formatını döndür
     const errorData = error.response?.data as ApiErrorResponse;
     if (errorData && errorData.messages) {
       const errorMessage = errorData.messages.join(", ");
@@ -141,26 +132,22 @@ http.interceptors.response.use(
 
     return Promise.reject(
       Result.failure(
-        AppError.failure(error.message || "Bilinmeyen bir hata oluştu."),
+        AppError.failure(error.message || "An unknown error occurred."),
       ),
     );
   },
 );
 
-// --- Yardımcı Fonksiyon (DEĞİŞİKLİK YOK) ---
-// Store'larda try/catch'ten kurtulmak için.
 export async function handleRequest<T>(
   request: Promise<any>,
 ): Promise<Result<T>> {
   try {
-    // Get the axios response and transform it to Result
     const response = await request;
     if (response.data && typeof response.data.succeeded === "boolean") {
       return Result.success(response.data.data);
     }
     return Result.success(response.data);
   } catch (error) {
-    // Interceptor'dan gelen Result.failure nesnesini yakalıyoruz.
     return error as Result<T>;
   }
 }

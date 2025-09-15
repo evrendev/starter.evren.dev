@@ -132,11 +132,11 @@ export const useAuthStore = defineStore("auth", {
         if (result.succeeded && result.data) {
           this.setTokens(result.data);
         } else {
-          this.logout();
+          await this.logout();
         }
         return result;
       } catch (error) {
-        this.logout();
+        await this.logout();
         throw error;
       } finally {
         appStore.setLoading(false);
