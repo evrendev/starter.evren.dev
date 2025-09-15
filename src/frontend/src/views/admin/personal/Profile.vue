@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BasicUser } from "@/models/user";
+import { User } from "@/models/user";
 
 import { toTypedSchema } from "@vee-validate/yup";
 import { object, string } from "yup";
@@ -16,7 +16,7 @@ onMounted(async () => {
 const { t } = useI18n();
 
 const props = defineProps<{
-  user: BasicUser | null;
+  user: User | null;
   loading: boolean;
 }>();
 
@@ -35,7 +35,7 @@ const schema = toTypedSchema(
   }),
 );
 
-const { defineField, handleSubmit, resetForm, errors } = useForm<BasicUser>({
+const { defineField, handleSubmit, resetForm, errors } = useForm<User>({
   validationSchema: schema,
 });
 
@@ -66,19 +66,19 @@ watch(
   },
 );
 
-const [language, languageAttrs] = defineField("language");
-const [gender, genderAttrs] = defineField("gender");
+const [language] = defineField("language");
+const [gender] = defineField("gender");
 const [firstName, firstNameAttrs] = defineField("firstName");
 const [lastName, lastNameAttrs] = defineField("lastName");
 const [email, emailAttrs] = defineField("email");
-const [phoneNumber, phoneNumberAttrs] = defineField("phoneNumber");
+const [phoneNumber] = defineField("phoneNumber");
 const [birthday, birthdayAttrs] = defineField("birthday");
-const [placeOfBirth, placeOfBirthAttrs] = defineField("placeOfBirth");
+const [placeOfBirth] = defineField("placeOfBirth");
 
 const disabled = ref(true);
 
 const emit = defineEmits<{
-  (e: "submit", values: BasicUser): void;
+  (e: "submit", values: User): void;
 }>();
 
 const submit = handleSubmit((values) => {
@@ -110,7 +110,6 @@ const reset = () => {
               <v-col md="6" cols="12">
                 <v-select
                   v-model="gender"
-                  v-bind="genderAttrs"
                   hide-details
                   item-text="value"
                   item-title="text"
@@ -118,13 +117,11 @@ const reset = () => {
                   :disabled="disabled"
                   :items="gendersOptions"
                   :label="t('admin.personal.profile.fields.gender.title')"
-                  :error-messages="errors.gender"
                 />
               </v-col>
               <v-col md="6" cols="12">
                 <v-select
                   v-model="language"
-                  v-bind="languageAttrs"
                   hide-details
                   item-text="value"
                   item-title="text"
@@ -132,7 +129,6 @@ const reset = () => {
                   :disabled="disabled"
                   :items="languagesOptions"
                   :label="t('admin.personal.profile.fields.language.title')"
-                  :error-messages="errors.language"
                 />
               </v-col>
 
@@ -173,12 +169,10 @@ const reset = () => {
               <v-col cols="12" md="6">
                 <v-text-field
                   type="text"
-                  v-bind="phoneNumberAttrs"
                   v-model="phoneNumber"
                   :disabled="disabled"
                   :label="t('admin.personal.profile.fields.phoneNumber.title')"
                   :placeholder="user?.phoneNumber"
-                  :error-messages="errors.phoneNumber"
                 />
               </v-col>
 
@@ -189,6 +183,7 @@ const reset = () => {
                   v-model="birthday"
                   :disabled="disabled"
                   :label="t('admin.personal.profile.fields.birthday.title')"
+                  :placeholder="user?.birthday"
                   :error-messages="errors.birthday"
                 />
               </v-col>
@@ -196,11 +191,9 @@ const reset = () => {
               <v-col cols="12" md="6">
                 <v-text-field
                   type="text"
-                  v-bind="placeOfBirthAttrs"
                   v-model="placeOfBirth"
                   :disabled="disabled"
                   :label="t('admin.personal.profile.fields.placeOfBirth.title')"
-                  :error-messages="errors.placeOfBirth"
                   :placeholder="user?.placeOfBirth"
                 />
               </v-col>
