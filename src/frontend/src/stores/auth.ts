@@ -5,6 +5,7 @@ import { Result } from "@/primitives/result";
 import { usePersonalStore } from "./personal";
 import http, { handleRequest } from "@/utils/http";
 import { useAppStore } from "./app";
+import { router } from "@/plugins/router";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -117,6 +118,7 @@ export const useAuthStore = defineStore("auth", {
         this.clearTokens();
         personalStore.clearProfile();
         appStore.setLoading(false);
+        router.replace({ name: "login" });
       }
     },
 

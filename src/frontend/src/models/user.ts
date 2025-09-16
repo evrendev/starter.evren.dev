@@ -67,6 +67,21 @@ export class Permissions {
   public static readonly TenantUpdate: string = "Permissions.Tenants.Update";
   public static readonly TenantUpgradeSubscription: string =
     "Permissions.Tenants.UpgradeSubscription";
+  public static readonly CategoryView: string = "Permissions.Categories.View";
+  public static readonly CategoryCreate: string =
+    "Permissions.Categories.Create";
+  public static readonly CategoryUpdate: string =
+    "Permissions.Categories.Update";
+  public static readonly CategoryDelete: string =
+    "Permissions.Categories.Delete";
+  public static readonly CourseView: string = "Permissions.Courses.View";
+  public static readonly CourseCreate: string = "Permissions.Courses.Create";
+  public static readonly CourseUpdate: string = "Permissions.Courses.Update";
+  public static readonly CourseDelete: string = "Permissions.Courses.Delete";
+  public static readonly ChapterView: string = "Permissions.Chapters.View";
+  public static readonly ChapterCreate: string = "Permissions.Chapters.Create";
+  public static readonly ChapterUpdate: string = "Permissions.Chapters.Update";
+  public static readonly ChapterDelete: string = "Permissions.Chapters.Delete";
 
   public static all(): string[] {
     return [

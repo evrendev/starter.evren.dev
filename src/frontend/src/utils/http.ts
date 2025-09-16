@@ -51,7 +51,7 @@ http.interceptors.response.use(
 
     const prevRequest = error?.config;
     if (
-      (error?.response?.status === 403 || error?.response?.status === 401) &&
+      error?.response?.status === 401 &&
       !prevRequest._retry &&
       authStore.refreshToken &&
       authStore.refreshToken.length > 0

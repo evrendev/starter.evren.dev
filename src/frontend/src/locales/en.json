@@ -115,7 +115,9 @@
         "users": "Users",
         "others": "Others",
         "settings": "Settings",
-        "logout": "Logout"
+        "logout": "Logout",
+        "course-management": "Course Management",
+        "categories": "Categories"
       },
       "footer": {
         "home": "Home",
@@ -129,7 +131,8 @@
           "title": "Admin",
           "tenants": "Tenants",
           "roles": "Roles",
-          "users": "Users"
+          "users": "Users",
+          "categories": "Categories"
         }
       }
     },
@@ -443,6 +446,44 @@
         "deleteMessage": "Are you sure you want to delete {name}?",
         "deleted": "User deleted successfully",
         "deleteFailed": "Failed to delete user"
+      }
+    },
+    "categories": {
+      "list": {
+        "title": "Category List"
+      },
+      "create": {
+        "title": "Create Category"
+      },
+      "view": {
+        "title": "View Category"
+      },
+      "edit": {
+        "title": "Edit Category"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "name": {
+          "title": "Name",
+          "required": "Name is required"
+        },
+        "description": {
+          "title": "Description",
+          "required": "Description is required"
+        }
+      },
+      "notifications": {
+        "updated": "Category updated successfully",
+        "updateFailed": "Failed to update cateogory",
+        "created": "Category created successfully",
+        "createFailed": "Failed to create category",
+        "deleteConfirm": "Delete {name}",
+        "deleteMessage": "Are you sure you want to delete {name}?",
+        "deleted": "Category deleted successfully",
+        "deleteFailed": "Failed to delete category"
       }
     }
   },

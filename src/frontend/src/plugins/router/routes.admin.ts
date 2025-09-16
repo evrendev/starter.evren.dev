@@ -174,6 +174,48 @@ export const adminRoutes = [
         ],
       },
       {
+        name: "categories",
+        path: "categories",
+        children: [
+          {
+            name: "category-list",
+            path: "",
+            component: () => import("@/pages/admin/categories/index.vue"),
+            meta: {
+              requiresPermission: [Permissions.CategoryView],
+              title: "admin.categories.list.title",
+            },
+          },
+          {
+            name: "category-create",
+            path: "create",
+            component: () => import("@/pages/admin/categories/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CategoryCreate],
+              title: "admin.categories.create.title",
+            },
+          },
+          {
+            name: "category-view",
+            path: ":id/view",
+            component: () => import("@/pages/admin/categories/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CategoryView],
+              title: "admin.categories.view.title",
+            },
+          },
+          {
+            name: "category-edit",
+            path: ":id/edit",
+            component: () => import("@/pages/admin/categories/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CategoryUpdate],
+              title: "admin.categories.edit.title",
+            },
+          },
+        ],
+      },
+      {
         name: "unauthorized",
         path: "unauthorized",
         component: () => import("@/pages/admin/unauthorized.vue"),

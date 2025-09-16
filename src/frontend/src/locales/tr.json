@@ -115,7 +115,9 @@
         "users": "Kullanıcılar",
         "others": "Diğer",
         "settings": "Ayarlar",
-        "logout": "Çıkış Yap"
+        "logout": "Çıkış Yap",
+        "course-management": "Kurs Yönetimi",
+        "categories": "Kategoriler"
       },
       "footer": {
         "home": "Anasayfa",
@@ -129,7 +131,8 @@
           "title": "Yönetici",
           "tenants": "Kiracılar",
           "roles": "Roller",
-          "users": "Kullanıcılar"
+          "users": "Kullanıcılar",
+          "categories": "Kategoriler"
         }
       }
     },
@@ -443,6 +446,44 @@
         "deleteMessage": "Bu {name} silmek istediğinize emin misiniz?",
         "deleted": "Kullanıcı başarıyla silindi",
         "deleteFailed": "Kullanıcı silinirken hata oluştu"
+      }
+    },
+    "categories": {
+      "list": {
+        "title": "Kategori Listesi"
+      },
+      "create": {
+        "title": "Kategori Oluştur"
+      },
+      "view": {
+        "title": "Kategori Görüntüle"
+      },
+      "edit": {
+        "title": "Kategori Düzenle"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "name": {
+          "title": "Ad",
+          "required": "Ad alanı gerekli"
+        },
+        "description": {
+          "title": "Açıklama",
+          "required": "Açıklama alanı gerekli"
+        }
+      },
+      "notifications": {
+        "updated": "Kategori başarıyla güncellendi",
+        "updateFailed": "Kategori güncellenirken hata oluştu",
+        "created": "Kategori başarıyla oluşturuldu",
+        "createFailed": "Kategori oluşturulurken hata oluştu",
+        "deleteConfirm": "Sil {name}",
+        "deleteMessage": "Bu {name} silmek istediğinize emin misiniz?",
+        "deleted": "Kategori başarıyla silindi",
+        "deleteFailed": "Kategori silinirken hata oluştu"
       }
     }
   },

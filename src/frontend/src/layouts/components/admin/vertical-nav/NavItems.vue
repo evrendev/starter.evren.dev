@@ -22,6 +22,37 @@ import VerticalNavLink from "./VerticalNavLink.vue";
 
   <vertical-nav-section-title
     :item="{
+      heading: t('admin.components.sidebar.course-management'),
+    }"
+  />
+
+  <vertical-nav-link
+    :item="{
+      title: t('admin.components.sidebar.categories'),
+      icon: 'bx-category',
+      to: { name: 'category-list' },
+    }"
+  />
+
+  <!-- <vertical-nav-link
+    :item="{
+      title: t('admin.components.sidebar.courses'),
+      icon: 'bx-book',
+      to: { name: 'course-list' },
+    }"
+    v-show="personalStore.hasPermission(Permissions.CourseView)"
+  />
+
+  <vertical-nav-link
+    :item="{
+      title: t('admin.components.sidebar.chapters'),
+      to: { name: 'chapter-list' },
+    }"
+    v-show="personalStore.hasPermission(Permissions.ChapterView)"
+  /> -->
+
+  <vertical-nav-section-title
+    :item="{
       heading: t('admin.components.sidebar.others'),
     }"
   />

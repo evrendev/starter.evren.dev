@@ -115,7 +115,9 @@
         "users": "Benutzer",
         "others": "Andere",
         "settings": "Einstellungen",
-        "logout": "Abmelden"
+        "logout": "Abmelden",
+        "course-management": "Kursverwaltung",
+        "categories": "Kategorien"
       },
       "footer": {
         "home": "Startseite",
@@ -129,7 +131,8 @@
           "title": "Admin",
           "tenants": "Mandanten",
           "roles": "Rollen",
-          "users": "Benutzer"
+          "users": "Benutzer",
+          "categories": "Kategorien"
         }
       }
     },
@@ -443,6 +446,44 @@
         "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
         "deleted": "Benutzer erfolgreich gelöscht",
         "deleteFailed": "Benutzerlöschung fehlgeschlagen"
+      }
+    },
+    "categories": {
+      "list": {
+        "title": "Kategorienliste"
+      },
+      "create": {
+        "title": "Kategorie erstellen"
+      },
+      "view": {
+        "title": "Kategorie anzeigen"
+      },
+      "edit": {
+        "title": "Kategorie bearbeiten"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "name": {
+          "title": "Name",
+          "required": "Name ist erforderlich"
+        },
+        "description": {
+          "title": "Beschreibung",
+          "required": "Beschreibung ist erforderlich"
+        }
+      },
+      "notifications": {
+        "updated": "Kategorie erfolgreich aktualisiert",
+        "updateFailed": "Aktualisierung der Kategorie fehlgeschlagen",
+        "created": "Kategorie erfolgreich erstellt",
+        "createFailed": "Erstellung der Kategorie fehlgeschlagen",
+        "deleteConfirm": "Kategorie löschen {name}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
+        "deleted": "Kategorie erfolgreich gelöscht",
+        "deleteFailed": "Löschen der Kategorie fehlgeschlagen"
       }
     }
   },
