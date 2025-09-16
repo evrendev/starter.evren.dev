@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
+using System.Text;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Mailing;
 using EvrenDev.Application.Identity.Users.Commands.Create;
 using EvrenDev.Application.Identity.Users.Commands.Update;
-using EvrenDev.Domain.Common;
 using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Domain.Identity;
 using EvrenDev.Shared.Authorization;
@@ -107,14 +107,20 @@ internal partial class UserService
         var user = new ApplicationUser
         {
             Email = request.Email,
+            UserName = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            UserName = request.UserName,
             PhoneNumber = request.PhoneNumber,
-            IsActive = true
+            Birthday = request.Birthday,
+            PlaceOfBirth = request.PlaceOfBirth,
+            Language = request.Language,
+            Gender = request.Gender,
+            IsActive = false
         };
 
-        var result = await userManager.CreateAsync(user, request.Password);
+        var temporaryPassword = GenerateRandomPassword();
+
+        var result = await userManager.CreateAsync(user, temporaryPassword);
         if (!result.Succeeded)
         {
             throw new InternalServerException(localizer["Validation Errors Occurred."], result.GetErrors(localizer));
@@ -130,9 +136,11 @@ internal partial class UserService
             var emailVerificationUri = await GetEmailVerificationUriAsync(user, origin);
             var eMailModel = new RegisterUserEmailModel
             {
+                FullName = $"{user.FirstName} {user.LastName}",
+                Password = temporaryPassword,
                 Email = user.Email,
-                UserName = user.UserName,
-                Url = emailVerificationUri
+                Url = emailVerificationUri,
+
             };
 
             var htmlBody = templateService.GenerateEmailTemplate("email-confirmation", eMailModel);
@@ -165,7 +173,7 @@ internal partial class UserService
         return string.Join(Environment.NewLine, messages);
     }
 
-    public async Task UpdateAsync(UpdateUserRequest request, string userId)
+    public async Task<string> UpdateAsync(UpdateUserRequest request, string userId)
     {
         var user = await userManager.FindByIdAsync(userId);
 
@@ -202,5 +210,19 @@ internal partial class UserService
         {
             throw new InternalServerException(localizer["Update profile failed"], result.GetErrors(localizer));
         }
+
+        return user.Id;
+    }
+
+    private static string GenerateRandomPassword()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        var random = new Random();
+        var result = new StringBuilder();
+        for (int i = 0; i < 12; i++)
+        {
+            result.Append(chars[random.Next(chars.Length)]);
+        }
+        return result.ToString();
     }
 }

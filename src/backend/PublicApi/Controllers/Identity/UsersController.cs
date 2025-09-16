@@ -1,5 +1,6 @@
 ﻿using EvrenDev.Application.Identity.Users.Commands.Create;
 using EvrenDev.Application.Identity.Users.Commands.ToggleStatus;
+using EvrenDev.Application.Identity.Users.Commands.Update;
 using EvrenDev.Application.Identity.Users.Entities;
 using EvrenDev.Application.Identity.Users.Interfaces;
 using EvrenDev.Application.Identity.Users.Password;
@@ -61,20 +62,37 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [HttpPost]
     [MustHavePermission(ApiAction.Create, ApiResource.Users)]
     [OpenApiOperation("Creates a new user.", "")]
-    public Task<string> CreateAsync(CreateUserRequest request)
+    public async Task<ApiResponse<string?>> CreateAsync(CreateUserRequest request)
+    {
+        var response = await userService.CreateAsync(request, GetOriginFromRequest());
+
+        return ApiResponse<string?>.Success(response);
+    }
+
+    [HttpPut("{id}")]
+    [MustHavePermission(ApiAction.Update, ApiResource.Roles)]
+    [OpenApiOperation("Create or update a role.", "")]
+    public async Task<ApiResponse<string?>> UpdateAsync(string id, UpdateUserRequest request)
+    {
+        if (id != request.Id)
+        {
+            return ApiResponse<string?>.Failure("Mismatched user ID");
+        }
+
+        var response = await userService.UpdateAsync(request, id);
+
+        return ApiResponse<string?>.Success(response);
+    }
+
+    [HttpPost("self-register")]
+    [TenantIdHeader]
+    [AllowAnonymous]
+    [OpenApiOperation("Anonymous user creates a user.", "")]
+    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
+    public Task<string> SelfRegisterAsync(CreateUserRequest request)
     {
         return userService.CreateAsync(request, GetOriginFromRequest());
     }
-
-    // [HttpPost("self-register")]
-    // [TenantIdHeader]
-    // [AllowAnonymous]
-    // [OpenApiOperation("Anonymous user creates a user.", "")]
-    // [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
-    // public Task<string> SelfRegisterAsync(CreateUserRequest request)
-    // {
-    //     return userService.CreateAsync(request, GetOriginFromRequest());
-    // }
 
     [HttpPost("{id}/toggle-status")]
     [MustHavePermission(ApiAction.Update, ApiResource.Users)]
