@@ -58,7 +58,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
     <vertical-nav-link
       :item="{
         title: t('admin.components.sidebar.users'),
-        to: { name: 'users' },
+        to: { name: 'user-list' },
       }"
       v-show="personalStore.hasPermission(Permissions.UserView)"
     />
