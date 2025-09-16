@@ -13,7 +13,7 @@ export const adminRoutes = [
         path: "",
         component: () => import("@/pages/admin/dashboard.vue"),
         meta: {
-          requiresPermission: Permissions.DashboardView,
+          requiresPermission: [Permissions.DashboardView],
         },
       },
       {
@@ -25,7 +25,7 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/tenants/index.vue"),
             meta: {
-              requiresPermission: Permissions.TenantView,
+              requiresPermission: [Permissions.TenantView],
               title: "admin.tenants.list.title",
             },
           },
@@ -34,7 +34,7 @@ export const adminRoutes = [
             path: "create",
             component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
-              requiresPermission: Permissions.TenantCreate,
+              requiresPermission: [Permissions.TenantCreate],
               title: "admin.tenants.create.title",
             },
           },
@@ -43,7 +43,7 @@ export const adminRoutes = [
             path: ":id/view",
             component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
-              requiresPermission: Permissions.TenantView,
+              requiresPermission: [Permissions.TenantView],
               title: "admin.tenants.view.title",
             },
           },
@@ -52,7 +52,7 @@ export const adminRoutes = [
             path: ":id/edit",
             component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
-              requiresPermission: Permissions.TenantUpdate,
+              requiresPermission: [Permissions.TenantUpdate],
               title: "admin.tenants.edit.title",
             },
           },
@@ -67,7 +67,7 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/roles/index.vue"),
             meta: {
-              requiresPermission: Permissions.RoleView,
+              requiresPermission: [Permissions.RoleView],
               title: "admin.roles.list.title",
             },
           },
@@ -76,7 +76,7 @@ export const adminRoutes = [
             path: "create",
             component: () => import("@/pages/admin/roles/form.vue"),
             meta: {
-              requiresPermission: Permissions.RoleCreate,
+              requiresPermission: [Permissions.RoleCreate],
               title: "admin.roles.create.title",
             },
           },
@@ -85,7 +85,7 @@ export const adminRoutes = [
             path: ":id/view",
             component: () => import("@/pages/admin/roles/form.vue"),
             meta: {
-              requiresPermission: Permissions.RoleView,
+              requiresPermission: [Permissions.RoleView],
               title: "admin.roles.view.title",
             },
           },
@@ -94,7 +94,7 @@ export const adminRoutes = [
             path: ":id/edit",
             component: () => import("@/pages/admin/roles/form.vue"),
             meta: {
-              requiresPermission: Permissions.RoleUpdate,
+              requiresPermission: [Permissions.RoleUpdate],
               title: "admin.roles.edit.title",
             },
           },
@@ -140,7 +140,7 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/users/index.vue"),
             meta: {
-              requiresPermission: Permissions.UserView,
+              requiresPermission: [Permissions.UserView],
               title: "admin.users.list.title",
             },
           },
@@ -149,7 +149,7 @@ export const adminRoutes = [
             path: "create",
             component: () => import("@/pages/admin/users/form.vue"),
             meta: {
-              requiresPermission: Permissions.UserCreate,
+              requiresPermission: [Permissions.UserCreate],
               title: "admin.users.create.title",
             },
           },
@@ -158,7 +158,7 @@ export const adminRoutes = [
             path: ":id/view",
             component: () => import("@/pages/admin/users/form.vue"),
             meta: {
-              requiresPermission: Permissions.UserView,
+              requiresPermission: [Permissions.UserView],
               title: "admin.users.view.title",
             },
           },
@@ -167,7 +167,7 @@ export const adminRoutes = [
             path: ":id/edit",
             component: () => import("@/pages/admin/users/form.vue"),
             meta: {
-              requiresPermission: Permissions.UserUpdate,
+              requiresPermission: [Permissions.UserUpdate],
               title: "admin.users.edit.title",
             },
           },
