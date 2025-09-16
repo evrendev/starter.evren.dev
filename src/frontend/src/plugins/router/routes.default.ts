@@ -3,7 +3,7 @@ export const defaultRoutes = [
     path: "/",
     component: () => import("@/layouts/default.vue"),
     meta: {
-      requiresGuest: true,
+      requireAuth: false,
     },
     children: [
       {

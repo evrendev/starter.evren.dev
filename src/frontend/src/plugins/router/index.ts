@@ -14,7 +14,9 @@ router.beforeEach(async (to, from, next) => {
   const personalStore = usePersonalStore();
 
   const requiresAuth = to.meta.requiresAuth;
-  const requiredPermissions = to.meta.permissions as string[] | undefined;
+  const requiredPermissions = to.meta.requiresPermission as
+    | string[]
+    | undefined;
   const isAuthenticated = authStore.isAuthenticated;
 
   if (isAuthenticated && to.name === "login") {

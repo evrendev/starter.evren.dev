@@ -3,7 +3,7 @@ import { Permissions } from "@/models/user";
 export const adminRoutes = [
   {
     path: "/admin",
-    component: async () => await import("@/layouts/admin.vue"),
+    component: () => import("@/layouts/admin.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -11,7 +11,7 @@ export const adminRoutes = [
       {
         name: "dashboard",
         path: "",
-        component: async () => await import("@/pages/admin/dashboard.vue"),
+        component: () => import("@/pages/admin/dashboard.vue"),
         meta: {
           requiresPermission: Permissions.DashboardView,
         },
@@ -23,8 +23,7 @@ export const adminRoutes = [
           {
             name: "tenant-list",
             path: "",
-            component: async () =>
-              await import("@/pages/admin/tenants/index.vue"),
+            component: () => import("@/pages/admin/tenants/index.vue"),
             meta: {
               requiresPermission: Permissions.TenantView,
               title: "admin.tenants.list.title",
@@ -33,8 +32,7 @@ export const adminRoutes = [
           {
             name: "tenant-create",
             path: "create",
-            component: async () =>
-              await import("@/pages/admin/tenants/form.vue"),
+            component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantCreate,
               title: "admin.tenants.create.title",
@@ -43,8 +41,7 @@ export const adminRoutes = [
           {
             name: "tenant-view",
             path: ":id/view",
-            component: async () =>
-              await import("@/pages/admin/tenants/form.vue"),
+            component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantView,
               title: "admin.tenants.view.title",
@@ -53,8 +50,7 @@ export const adminRoutes = [
           {
             name: "tenant-edit",
             path: ":id/edit",
-            component: async () =>
-              await import("@/pages/admin/tenants/form.vue"),
+            component: () => import("@/pages/admin/tenants/form.vue"),
             meta: {
               requiresPermission: Permissions.TenantUpdate,
               title: "admin.tenants.edit.title",
@@ -69,8 +65,7 @@ export const adminRoutes = [
           {
             name: "role-list",
             path: "",
-            component: async () =>
-              await import("@/pages/admin/roles/index.vue"),
+            component: () => import("@/pages/admin/roles/index.vue"),
             meta: {
               requiresPermission: Permissions.RoleView,
               title: "admin.roles.list.title",
@@ -79,7 +74,7 @@ export const adminRoutes = [
           {
             name: "role-create",
             path: "create",
-            component: async () => await import("@/pages/admin/roles/form.vue"),
+            component: () => import("@/pages/admin/roles/form.vue"),
             meta: {
               requiresPermission: Permissions.RoleCreate,
               title: "admin.roles.create.title",
@@ -88,7 +83,7 @@ export const adminRoutes = [
           {
             name: "role-view",
             path: ":id/view",
-            component: async () => await import("@/pages/admin/roles/form.vue"),
+            component: () => import("@/pages/admin/roles/form.vue"),
             meta: {
               requiresPermission: Permissions.RoleView,
               title: "admin.roles.view.title",
@@ -97,7 +92,7 @@ export const adminRoutes = [
           {
             name: "role-edit",
             path: ":id/edit",
-            component: async () => await import("@/pages/admin/roles/form.vue"),
+            component: () => import("@/pages/admin/roles/form.vue"),
             meta: {
               requiresPermission: Permissions.RoleUpdate,
               title: "admin.roles.edit.title",
@@ -113,8 +108,7 @@ export const adminRoutes = [
           {
             name: "personal-profile",
             path: "profile",
-            component: async () =>
-              await import("@/pages/admin/personal/profile.vue"),
+            component: () => import("@/pages/admin/personal/profile.vue"),
             meta: {
               title: "admin.personal.profile.title",
             },
@@ -122,8 +116,7 @@ export const adminRoutes = [
           {
             name: "personal-security",
             path: "security",
-            component: async () =>
-              await import("@/pages/admin/personal/security.vue"),
+            component: () => import("@/pages/admin/personal/security.vue"),
             meta: {
               title: "admin.personal.security.title",
             },
@@ -131,15 +124,13 @@ export const adminRoutes = [
           {
             name: "personal-logs",
             path: "logs",
-            component: async () =>
-              await import("@/pages/admin/personal/logs.vue"),
+            component: () => import("@/pages/admin/personal/logs.vue"),
             meta: {
               title: "admin.personal.logs.title",
             },
           },
         ],
       },
-
       {
         name: "users",
         path: "users",
@@ -147,37 +138,36 @@ export const adminRoutes = [
           {
             name: "user-list",
             path: "",
-            component: async () =>
-              await import("@/pages/admin/users/index.vue"),
+            component: () => import("@/pages/admin/users/index.vue"),
             meta: {
-              requiresPermission: Permissions.RoleView,
+              requiresPermission: Permissions.UserView,
               title: "admin.users.list.title",
             },
           },
           {
             name: "user-create",
             path: "create",
-            component: async () => await import("@/pages/admin/users/form.vue"),
+            component: () => import("@/pages/admin/users/form.vue"),
             meta: {
-              requiresPermission: Permissions.RoleCreate,
+              requiresPermission: Permissions.UserCreate,
               title: "admin.users.create.title",
             },
           },
           {
             name: "user-view",
             path: ":id/view",
-            component: async () => await import("@/pages/admin/users/form.vue"),
+            component: () => import("@/pages/admin/users/form.vue"),
             meta: {
-              requiresPermission: Permissions.RoleView,
+              requiresPermission: Permissions.UserView,
               title: "admin.users.view.title",
             },
           },
           {
             name: "user-edit",
             path: ":id/edit",
-            component: async () => await import("@/pages/admin/users/form.vue"),
+            component: () => import("@/pages/admin/users/form.vue"),
             meta: {
-              requiresPermission: Permissions.RoleUpdate,
+              requiresPermission: Permissions.UserUpdate,
               title: "admin.users.edit.title",
             },
           },
@@ -186,7 +176,7 @@ export const adminRoutes = [
       {
         name: "unauthorized",
         path: "unauthorized",
-        component: async () => await import("@/pages/admin/unauthorized.vue"),
+        component: () => import("@/pages/admin/unauthorized.vue"),
       },
     ],
   },
