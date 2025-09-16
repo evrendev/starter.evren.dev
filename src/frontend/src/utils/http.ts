@@ -9,6 +9,9 @@ import type { ApiErrorResponse } from "@/types/responses/api";
 import { useAuthStore } from "@/stores/auth";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL as string;
+let retryCount: number = 0;
+const MAX_RETRIES = 3;
+
 const http: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -41,77 +44,38 @@ http.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-let isRefreshing = false;
-let failedQueue: {
-  resolve: (value: unknown) => void;
-  reject: (reason?: any) => void;
-}[] = [];
-
-const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
-
 http.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & {
-      _retry?: boolean;
-    };
+  (response) => response,
+  async (error: any) => {
     const authStore = useAuthStore();
 
+    const prevRequest = error?.config;
     if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      authStore.refreshToken
+      (error?.response?.status === 403 || error?.response?.status === 401) &&
+      !prevRequest._retry &&
+      authStore.refreshToken &&
+      authStore.refreshToken.length > 0
     ) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers!["Authorization"] = "Bearer " + token;
-            return http(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+      if (retryCount >= MAX_RETRIES) {
+        await authStore.logout();
+        return Promise.reject(error);
       }
 
-      originalRequest._retry = true;
-      isRefreshing = true;
+      prevRequest._retry = true;
+      retryCount += 1;
 
       try {
         const result = await authStore.refresh();
         if (result.succeeded) {
-          processQueue(null, authStore.accessToken);
-          originalRequest.headers!["Authorization"] =
+          prevRequest.headers["Authorization"] =
             `Bearer ${authStore.accessToken}`;
-          return http(originalRequest);
+          retryCount = 0;
+          return http(prevRequest);
         } else {
-          processQueue(result.errors, null);
-          await authStore.logout();
-          return Promise.reject(Result.failure(result.errors!));
+          return Promise.reject(error);
         }
-      } catch (refreshError) {
-        processQueue(refreshError, null);
-        await authStore.logout();
-        return Promise.reject(
-          Result.failure(
-            AppError.failure("Your session could not be renewed."),
-          ),
-        );
-      } finally {
-        isRefreshing = false;
+      } catch (error) {
+        return Promise.reject(error);
       }
     }
 
