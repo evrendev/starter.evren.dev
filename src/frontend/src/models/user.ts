@@ -7,8 +7,8 @@ export interface BasicUser {
   twoFactorEnabled: boolean;
 }
 export interface User extends BasicUser {
-  gender?: string;
-  language?: string;
+  gender?: number;
+  language?: number;
   firstName?: string;
   lastName?: string;
   phoneNumber?: string;

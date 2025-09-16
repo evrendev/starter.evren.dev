@@ -409,11 +409,29 @@
         },
         "email": {
           "title": "Eposta",
+          "invalid": "Geçersiz Eposta",
           "required": "Eposta alanı gerekli"
         },
-        "permissions": {
-          "title": "İzinler",
-          "required": "İzinler alanı gerekli"
+        "gender": {
+          "title": "Cinsiyet",
+          "required": "Cinsiyet alanı gerekli",
+          "invalid": "Geçersiz Cinsiyet"
+        },
+        "language": {
+          "title": "Dil",
+          "required": "Dil alanı gerekli",
+          "invalid": "Geçersiz Dil"
+        },
+        "birthday": {
+          "title": "Doğum Günü",
+          "typeError": "Geçersiz tarih formatı"
+        },
+        "placeOfBirth": {
+          "title": "Doğum Yeri"
+        },
+        "phoneNumber": {
+          "title": "Telefon Numarası",
+          "invalid": "Geçersiz Telefon Numarası"
         }
       },
       "notifications": {

@@ -409,11 +409,29 @@
         },
         "email": {
           "title": "Email",
+          "invalid": "Ungültige Email",
           "required": "Email ist erforderlich"
         },
-        "permissions": {
-          "title": "Berechtigungen",
-          "required": "Berechtigungen sind erforderlich"
+        "gender": {
+          "title": "Geschlecht",
+          "required": "Geschlecht ist erforderlich",
+          "invalid": "Ungültiges Geschlecht"
+        },
+        "language": {
+          "title": "Sprache",
+          "required": "Sprache ist erforderlich",
+          "invalid": "Ungültige Sprache"
+        },
+        "birthday": {
+          "title": "Geburtstag",
+          "typeError": "Ungültiges Datumsformat"
+        },
+        "placeOfBirth": {
+          "title": "Geburtsort"
+        },
+        "phoneNumber": {
+          "title": "Telefonnummer",
+          "invalid": "Ungültige Telefonnummer"
         }
       },
       "notifications": {
