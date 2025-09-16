@@ -29,7 +29,7 @@
 ### Key Goals
 
 - 🎯 **Rapid Development**: Quickly start projects with a ready-to-use infrastructure.
-- 🔒 **Security**: JWT Authentication, Policy-based authorization.
+- 🔒 **Security**: JWT Authentication, Role-based authorization.
 - 📈 **Scalability**: Multi-tenant architecture and a microservice-ready foundation.
 - 🎨 **Modern UI/UX**: Responsive design with Vue 3 + Vuetify.
 - 🔧 **DevOps Ready**: Support for Docker and CI/CD pipelines.
@@ -39,7 +39,7 @@
 ### Backend (.NET 9)
 
 - **🏗️ Clean Architecture**: Based on Domain-Driven Design principles.
-- **🔐 Authentication & Authorization**: JWT Bearer Token, Policy-based access.
+- **🔐 Authentication & Authorization**: JWT Bearer Token, Role-based access.
 - **🏢 Multi-Tenancy**: Tenant management with Finbuckle.MultiTenant.
 - **📊 Background Jobs**: Background processing with Hangfire.
 - **💾 Database Support**: Support for PostgreSQL & SQL Server.
