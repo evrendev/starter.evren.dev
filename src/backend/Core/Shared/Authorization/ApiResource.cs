@@ -12,4 +12,8 @@ public static class ApiResource
     public const string Products = nameof(Products);
     public const string Brands = nameof(Brands);
     public const string Absences = nameof(Absences);
+    public const string Categories = nameof(Categories);
+    public const string Courses = nameof(Courses);
+    public const string Chapters = nameof(Chapters);
+    public const string Lessons = nameof(Lessons);
 }
