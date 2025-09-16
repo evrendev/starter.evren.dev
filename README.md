@@ -24,12 +24,12 @@
 
 ## 🚀 About the Project
 
-**EvrenDev** is an enterprise-grade **Full Stack Boilerplate** designed to accelerate the development process of modern web applications. Utilizing a .NET 9 backend and Vue 3 frontend, this platform enables developers to build SaaS applications quickly and securely.
+**Full Stack Boilerplate** designed to accelerate the development process of modern web applications. Utilizing a .NET 9 backend and Vue 3 frontend, this platform enables developers to build SaaS applications quickly and securely.
 
 ### Key Goals
 
 - 🎯 **Rapid Development**: Quickly start projects with a ready-to-use infrastructure.
-- 🔒 **Security**: JWT Authentication, Role-based authorization.
+- 🔒 **Security**: JWT Authentication, Policy-based authorization.
 - 📈 **Scalability**: Multi-tenant architecture and a microservice-ready foundation.
 - 🎨 **Modern UI/UX**: Responsive design with Vue 3 + Vuetify.
 - 🔧 **DevOps Ready**: Support for Docker and CI/CD pipelines.
@@ -39,7 +39,7 @@
 ### Backend (.NET 9)
 
 - **🏗️ Clean Architecture**: Based on Domain-Driven Design principles.
-- **🔐 Authentication & Authorization**: JWT Bearer Token, Role-based access.
+- **🔐 Authentication & Authorization**: JWT Bearer Token, Policy-based access.
 - **🏢 Multi-Tenancy**: Tenant management with Finbuckle.MultiTenant.
 - **📊 Background Jobs**: Background processing with Hangfire.
 - **💾 Database Support**: Support for PostgreSQL & SQL Server.
