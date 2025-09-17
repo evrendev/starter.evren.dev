@@ -23,25 +23,26 @@ using Microsoft.Extensions.Options;
 namespace EvrenDev.Infrastructure.Identity;
 
 internal partial class UserService(
-    SignInManager<ApplicationUser> signInManager,
-    UserManager<ApplicationUser> userManager,
-    RoleManager<ApplicationRole> roleManager,
-    ApplicationDbContext db,
-    IStringLocalizer<UserService> localizer,
-    IJobService jobService,
-    IMailService mailService,
-    IEmailTemplateService templateService,
-    IEventPublisher events,
-    ICacheService cache,
-    ICacheKeyService cacheKeys,
-    ITenantInfo currentTenant,
-    IHttpContextAccessor httpContextAccessor,
-    IOptions<SecuritySettings> securitySettings)
+        SignInManager<ApplicationUser> signInManager,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager,
+        ApplicationDbContext db,
+        IStringLocalizer<UserService> localizer,
+        IJobService jobService,
+        IMailService mailService,
+        IEmailTemplateService templateService,
+        IEventPublisher events,
+        ICacheService cache,
+        ICacheKeyService cacheKeys,
+        ITenantInfo currentTenant,
+        IHttpContextAccessor httpContextAccessor,
+        IOptions<SecuritySettings> securitySettings)
     : IUserService
 {
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
 
-    public async Task<PaginationResponse<BasicUserDto>> PaginatedListAsync(PaginateUsersFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<BasicUserDto>> PaginatedListAsync(PaginateUsersFilter filter,
+        CancellationToken cancellationToken)
     {
         var spec = new EntitiesByPaginationFilterSpec<ApplicationUser>(filter);
 
@@ -70,25 +71,22 @@ internal partial class UserService(
     public async Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null)
     {
         EnsureValidTenant();
-        return await userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber) is ApplicationUser user && user.Id != exceptId;
+        return await userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber) is ApplicationUser user &&
+               user.Id != exceptId;
     }
 
-    private void EnsureValidTenant()
+    public async Task<List<UserDto>> GetListAsync(CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(currentTenant?.Id))
-        {
-            throw new UnauthorizedException(localizer["multitenancy.tenant.invalid"]);
-        }
-    }
-
-    public async Task<List<UserDto>> GetListAsync(CancellationToken cancellationToken) =>
-        (await userManager.Users
+        return (await userManager.Users
                 .AsNoTracking()
                 .ToListAsync(cancellationToken))
             .Adapt<List<UserDto>>();
+    }
 
-    public Task<int> GetCountAsync(CancellationToken cancellationToken) =>
-        userManager.Users.AsNoTracking().CountAsync(cancellationToken);
+    public Task<int> GetCountAsync(CancellationToken cancellationToken)
+    {
+        return userManager.Users.AsNoTracking().CountAsync(cancellationToken);
+    }
 
     public async Task<UserDto> GetAsync(string userId, CancellationToken cancellationToken)
     {
@@ -109,10 +107,7 @@ internal partial class UserService(
         _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         var isAdmin = await userManager.IsInRoleAsync(user, ApiRoles.Admin);
-        if (isAdmin)
-        {
-            throw new ConflictException(localizer["identity.users.admin.notoggle"]);
-        }
+        if (isAdmin) throw new ConflictException(localizer["identity.users.admin.notoggle"]);
 
         user.IsActive = request.ActivateUser;
 
@@ -129,5 +124,11 @@ internal partial class UserService(
     public string? GetCurrentUserEmail()
     {
         return httpContextAccessor.HttpContext?.User?.FindFirst("email")?.Value;
+    }
+
+    private void EnsureValidTenant()
+    {
+        if (string.IsNullOrWhiteSpace(currentTenant?.Id))
+            throw new UnauthorizedException(localizer["multitenancy.tenant.invalid"]);
     }
 }

@@ -22,21 +22,21 @@ public static class ApiPermissions
         new("Delete Roles", ApiAction.Delete, ApiResource.Roles),
         new("View RoleClaims", ApiAction.View, ApiResource.RoleClaims),
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims),
-        new("View Products", ApiAction.View, ApiResource.Products, IsBasic: true),
-        new("Search Products", ApiAction.Search, ApiResource.Products, IsBasic: true),
+        new("View Products", ApiAction.View, ApiResource.Products, true),
+        new("Search Products", ApiAction.Search, ApiResource.Products, true),
         new("Create Products", ApiAction.Create, ApiResource.Products),
         new("Update Products", ApiAction.Update, ApiResource.Products),
         new("Delete Products", ApiAction.Delete, ApiResource.Products),
         new("Export Products", ApiAction.Export, ApiResource.Products),
-        new("View Brands", ApiAction.View, ApiResource.Brands, IsBasic: true),
-        new("Search Brands", ApiAction.Search, ApiResource.Brands, IsBasic: true),
+        new("View Brands", ApiAction.View, ApiResource.Brands, true),
+        new("Search Brands", ApiAction.Search, ApiResource.Brands, true),
         new("Create Brands", ApiAction.Create, ApiResource.Brands),
         new("Update Brands", ApiAction.Update, ApiResource.Brands),
         new("Delete Brands", ApiAction.Delete, ApiResource.Brands),
         new("Generate Brands", ApiAction.Generate, ApiResource.Brands),
         new("Clean Brands", ApiAction.Clean, ApiResource.Brands),
-        new("View Absences", ApiAction.View, ApiResource.Absences, IsBasic: true),
-        new("Search Absences", ApiAction.Search, ApiResource.Absences, IsBasic: true),
+        new("View Absences", ApiAction.View, ApiResource.Absences, true),
+        new("Search Absences", ApiAction.Search, ApiResource.Absences, true),
         new("Create Absences", ApiAction.Create, ApiResource.Absences),
         new("Update Absences", ApiAction.Update, ApiResource.Absences),
         new("Delete Absences", ApiAction.Delete, ApiResource.Absences),
@@ -49,7 +49,13 @@ public static class ApiPermissions
     };
 
     public static IReadOnlyList<ApiPermission> All { get; } = new ReadOnlyCollection<ApiPermission>(AllClaims);
-    public static IReadOnlyList<ApiPermission> Root { get; } = new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => p.IsRoot).ToArray());
-    public static IReadOnlyList<ApiPermission> Admin { get; } = new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => !p.IsRoot).ToArray());
-    public static IReadOnlyList<ApiPermission> Basic { get; } = new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => p.IsBasic).ToArray());
+
+    public static IReadOnlyList<ApiPermission> Root { get; } =
+        new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => p.IsRoot).ToArray());
+
+    public static IReadOnlyList<ApiPermission> Admin { get; } =
+        new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => !p.IsRoot).ToArray());
+
+    public static IReadOnlyList<ApiPermission> Basic { get; } =
+        new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => p.IsBasic).ToArray());
 }

@@ -10,16 +10,15 @@ public class DeleteCategoryRequest(Guid id) : IRequest<Guid>
 }
 
 public class DeleteCategoryRequestHandler(
-    IRepositoryWithEvents<Category> categoryRepo,
-    // IReadRepository<Course> courseRepo,
-    IStringLocalizer<DeleteCategoryRequestHandler> localizer)
+        IRepositoryWithEvents<Category> categoryRepo,
+        // IReadRepository<Course> courseRepo,
+        IStringLocalizer<DeleteCategoryRequestHandler> localizer)
     : IRequestHandler<DeleteCategoryRequest, Guid>
 {
     // Add Domain Events automatically by using IRepositoryWithEvents
 
     public async Task<Guid> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
     {
-
         // NOTE: If you want to prevent deleting a category if it has related courses, uncomment the following lines
 
         // if (await courseRepo.AnyAsync(new CoursesByCategorySpec(request.Id), cancellationToken))

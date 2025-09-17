@@ -14,22 +14,20 @@ public class NewtonSoftService : ISerializerService
 
     public string Serialize<T>(T obj)
     {
-        return JsonConvert.SerializeObject(obj, new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore,
-            Converters = new List<JsonConverter>
+        return JsonConvert.SerializeObject(obj,
+            new JsonSerializerSettings
             {
-                new StringEnumConverter
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore,
+                Converters = new List<JsonConverter>
                 {
-                    NamingStrategy = new CamelCaseNamingStrategy()
+                    new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() }
                 }
-            }
-        });
+            });
     }
 
     public string Serialize<T>(T obj, Type type)
     {
-        return JsonConvert.SerializeObject(obj, type, new());
+        return JsonConvert.SerializeObject(obj, type, new JsonSerializerSettings());
     }
 }

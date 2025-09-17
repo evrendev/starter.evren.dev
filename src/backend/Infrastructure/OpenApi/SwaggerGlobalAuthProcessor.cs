@@ -8,9 +8,9 @@ using NSwag.Generation.Processors.Contexts;
 namespace EvrenDev.Infrastructure.OpenApi;
 
 /// <summary>
-/// The default NSwag AspNetCoreOperationProcessor doesn't take .RequireAuthorization() calls into account
-/// Unless the AllowAnonymous attribute is defined, this processor will always add the security scheme
-/// when it's not already there, so effectively adding "Global Auth".
+///     The default NSwag AspNetCoreOperationProcessor doesn't take .RequireAuthorization() calls into account
+///     Unless the AllowAnonymous attribute is defined, this processor will always add the security scheme
+///     when it's not already there, so effectively adding "Global Auth".
 /// </summary>
 public class SwaggerGlobalAuthProcessor(string name) : IOperationProcessor
 {
@@ -21,24 +21,15 @@ public class SwaggerGlobalAuthProcessor(string name) : IOperationProcessor
 
     public bool Process(OperationProcessorContext context)
     {
-        var list = ((AspNetCoreOperationProcessorContext)context).ApiDescription?.ActionDescriptor?.TryGetPropertyValue<IList<object>>("EndpointMetadata");
+        var list = ((AspNetCoreOperationProcessorContext)context).ApiDescription?.ActionDescriptor
+            ?.TryGetPropertyValue<IList<object>>("EndpointMetadata");
         if (list is not null)
         {
-            if (list.OfType<AllowAnonymousAttribute>().Any())
-            {
-                return true;
-            }
+            if (list.OfType<AllowAnonymousAttribute>().Any()) return true;
 
             if (context.OperationDescription.Operation.Security?.Any() != true)
-            {
-                (context.OperationDescription.Operation.Security ??= new List<OpenApiSecurityRequirement>()).Add(new OpenApiSecurityRequirement
-                {
-                    {
-                        name,
-                        Array.Empty<string>()
-                    }
-                });
-            }
+                (context.OperationDescription.Operation.Security ??= new List<OpenApiSecurityRequirement>()).Add(
+                    new OpenApiSecurityRequirement { { name, Array.Empty<string>() } });
         }
 
         return true;

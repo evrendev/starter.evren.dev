@@ -2,13 +2,6 @@ namespace EvrenDev.Domain.Catalog;
 
 public class Lesson : AuditableEntity
 {
-    public string Title { get; private set; } = default!;
-    public string? Description { get; private set; }
-    public string? Content { get; private set; }
-    public string? Notes { get; private set; }
-    public Guid ChapterId { get; private set; }
-    public virtual Chapter Chapter { get; private set; } = default!;
-
     public Lesson(string title, string? description, string? content, string? notes, Guid chapterId)
     {
         Title = title;
@@ -17,6 +10,13 @@ public class Lesson : AuditableEntity
         Notes = notes;
         ChapterId = chapterId;
     }
+
+    public string Title { get; private set; } = default!;
+    public string? Description { get; private set; }
+    public string? Content { get; private set; }
+    public string? Notes { get; private set; }
+    public Guid ChapterId { get; }
+    public virtual Chapter Chapter { get; } = default!;
 
     public Lesson Update(string? title, string? description, string? content, string? notes)
     {

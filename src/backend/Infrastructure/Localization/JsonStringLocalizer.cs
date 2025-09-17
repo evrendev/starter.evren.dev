@@ -8,11 +8,10 @@ namespace EvrenDev.Infrastructure.Localization;
 
 public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
 {
+    private readonly JsonSerializer _serializer = new();
     private static string Localization => "Localization";
 
     private static string DefaultCulture => "tr-TR";
-
-    private readonly JsonSerializer _serializer = new();
 
     public LocalizedString this[string name]
     {
@@ -47,10 +46,7 @@ public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
             var key = (string)reader.Value;
             reader.Read();
             var value = _serializer.Deserialize<string>(reader);
-            if (value is not null)
-            {
-                yield return new LocalizedString(key, value, false);
-            }
+            if (value is not null) yield return new LocalizedString(key, value, false);
         }
     }
 
@@ -74,24 +70,28 @@ public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
         var relativeFilePath = $"{Localization}/{culture}.json";
         var fullFilePath = Path.GetFullPath(relativeFilePath);
         if (File.Exists(fullFilePath))
-        {
             return cache.GetOrSet(
                 $"locale_{culture}_{key}",
                 () => PullDeserialize<string>(key, Path.GetFullPath(relativeFilePath)));
-        }
 
         WriteEmptyKeys(new CultureInfo("en-US"), fullFilePath);
         return default;
     }
 
-    private string? GetSpecificCulture(string key) =>
-        ValidateCulture(key, Thread.CurrentThread.CurrentCulture.Name);
+    private string? GetSpecificCulture(string key)
+    {
+        return ValidateCulture(key, Thread.CurrentThread.CurrentCulture.Name);
+    }
 
-    private string? GetNaturalCulture(string key) =>
-        ValidateCulture(key, Thread.CurrentThread.CurrentCulture.Name.Split("-")[0]);
+    private string? GetNaturalCulture(string key)
+    {
+        return ValidateCulture(key, Thread.CurrentThread.CurrentCulture.Name.Split("-")[0]);
+    }
 
-    private string? GetDefaultCulture(string key) =>
-        ValidateCulture(key, DefaultCulture);
+    private string? GetDefaultCulture(string key)
+    {
+        return ValidateCulture(key, DefaultCulture);
+    }
 
     private static void WriteEmptyKeys(CultureInfo sourceCulture, string fullFilePath)
     {
@@ -126,13 +126,11 @@ public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
         using var sReader = new StreamReader(str);
         using var reader = new JsonTextReader(sReader);
         while (reader.Read())
-        {
             if (reader.TokenType == JsonToken.PropertyName && (string?)reader.Value == propertyName)
             {
                 reader.Read();
                 return _serializer.Deserialize<T>(reader);
             }
-        }
 
         return default;
     }

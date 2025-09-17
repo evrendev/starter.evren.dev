@@ -12,7 +12,7 @@ public class CourseConfig : IEntityTypeConfiguration<Course>
 
         builder.Property(b => b.Title)
             .HasMaxLength(256)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(b => b.Image)
             .HasMaxLength(500)

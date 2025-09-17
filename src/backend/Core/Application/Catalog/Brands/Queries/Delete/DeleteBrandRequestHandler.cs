@@ -11,9 +11,9 @@ public class DeleteBrandRequest(Guid id) : IRequest<Guid>
 }
 
 public class DeleteBrandRequestHandler(
-    IRepositoryWithEvents<Brand> brandRepo,
-    IReadRepository<Product> productRepo,
-    IStringLocalizer<DeleteBrandRequestHandler> localizer)
+        IRepositoryWithEvents<Brand> brandRepo,
+        IReadRepository<Product> productRepo,
+        IStringLocalizer<DeleteBrandRequestHandler> localizer)
     : IRequestHandler<DeleteBrandRequest, Guid>
 {
     // Add Domain Events automatically by using IRepositoryWithEvents
@@ -21,9 +21,7 @@ public class DeleteBrandRequestHandler(
     public async Task<Guid> Handle(DeleteBrandRequest request, CancellationToken cancellationToken)
     {
         if (await productRepo.AnyAsync(new ProductsByBrandSpec(request.Id), cancellationToken))
-        {
             throw new ConflictException(localizer["catalog.brands.delete.cannotbedeleted"]);
-        }
 
         var brand = await brandRepo.GetByIdAsync(request.Id, cancellationToken);
 

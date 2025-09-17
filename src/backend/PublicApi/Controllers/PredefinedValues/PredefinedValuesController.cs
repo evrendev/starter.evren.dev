@@ -11,13 +11,8 @@ public class PredefinedValuesController : VersionNeutralApiController
     {
         var genders = GenderExtensions.ToList();
         var languages = LanguageExtensions.ToList();
-        var response = new
-        {
-            Genders = genders,
-            Languages = languages
-        };
+        var response = new { Genders = genders, Languages = languages };
 
         return ApiResponse<object>.Success(response);
     }
 }
-

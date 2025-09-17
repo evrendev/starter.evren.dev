@@ -23,9 +23,7 @@ public class PersonalController(IUserService userService) : VersionNeutralApiCon
     public async Task<ApiResponse<UserDto>> UpdateProfileAsync(UpdateUserRequest request)
     {
         if (User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId))
-        {
             return ApiResponse<UserDto>.Failure("Unauthorized");
-        }
 
         await userService.UpdateAsync(request, userId);
 
@@ -40,9 +38,7 @@ public class PersonalController(IUserService userService) : VersionNeutralApiCon
     public async Task<ApiResponse<bool>> ChangePasswordAsync(ChangePasswordRequest model)
     {
         if (User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId))
-        {
             return ApiResponse<bool>.Failure("Unauthorized");
-        }
 
         await userService.ChangePasswordAsync(model, userId);
         return ApiResponse<bool>.Success(true);

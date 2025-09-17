@@ -7,7 +7,8 @@ namespace EvrenDev.Infrastructure.Notifications;
 // Sends all events that are also an INotificationMessage to all clients
 // Note: for this to work, the Event/NotificationMessage class needs to be in the
 // shared project (i.e. have the same FullName - so with namespace - on both sides)
-public class SendEventNotificationToClientsHandler<TNotification>(INotificationSender notifications) : INotificationHandler<TNotification>
+public class SendEventNotificationToClientsHandler<TNotification>
+    (INotificationSender notifications) : INotificationHandler<TNotification>
     where TNotification : INotification
 {
     public Task Handle(TNotification notification, CancellationToken cancellationToken)

@@ -3,8 +3,8 @@ using EvrenDev.Infrastructure.Common;
 using Hangfire;
 using Hangfire.Console;
 using Hangfire.Console.Extensions;
-using Hangfire.SqlServer;
 using Hangfire.PostgreSql;
+using Hangfire.SqlServer;
 using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -47,8 +47,9 @@ internal static class Startup
         this IGlobalConfiguration hangfireConfig,
         string dbProvider,
         string connectionString,
-        IConfiguration config) =>
-        dbProvider.ToUpperInvariant() switch
+        IConfiguration config)
+    {
+        return dbProvider.ToUpperInvariant() switch
         {
             DbProviderKeys.SqlServer =>
                 hangfireConfig.UseSqlServerStorage(
@@ -58,6 +59,7 @@ internal static class Startup
                 hangfireConfig.UsePostgreSqlStorage(c => c.UseNpgsqlConnection(connectionString)),
             _ => throw new ConfigurationErrorsException($"Hangfire Storage Provider {dbProvider} is not supported.")
         };
+    }
 
     internal static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration config)
     {

@@ -5,7 +5,8 @@ using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Application.Catalog.Products.EventHandlers;
 
-public class ProductDeletedEventHandler(ILogger<ProductDeletedEventHandler> logger) : EventNotificationHandler<EntityDeletedEvent<Product>>
+public class ProductDeletedEventHandler
+    (ILogger<ProductDeletedEventHandler> logger) : EventNotificationHandler<EntityDeletedEvent<Product>>
 {
     public override Task Handle(EntityDeletedEvent<Product> @event, CancellationToken cancellationToken)
     {

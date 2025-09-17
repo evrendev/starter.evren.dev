@@ -5,7 +5,8 @@ using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Application.Catalog.Products.EventHandlers;
 
-public class ProductUpdatedEventHandler(ILogger<ProductUpdatedEventHandler> logger) : EventNotificationHandler<EntityUpdatedEvent<Product>>
+public class ProductUpdatedEventHandler
+    (ILogger<ProductUpdatedEventHandler> logger) : EventNotificationHandler<EntityUpdatedEvent<Product>>
 {
     public override Task Handle(EntityUpdatedEvent<Product> @event, CancellationToken cancellationToken)
     {

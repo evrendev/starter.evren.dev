@@ -10,7 +10,8 @@ public class GetAllCategoriesRequest() : IRequest<List<CategoryDto>>
 {
 }
 
-public class GetAllCategoriesRequestHandler(IRepository<Category> repository, IStringLocalizer<GetAllCategoriesRequestHandler> localizer)
+public class GetAllCategoriesRequestHandler(IRepository<Category> repository,
+        IStringLocalizer<GetAllCategoriesRequestHandler> localizer)
     : IRequestHandler<GetAllCategoriesRequest, List<CategoryDto>>
 {
     public async Task<List<CategoryDto>> Handle(GetAllCategoriesRequest request, CancellationToken cancellationToken)

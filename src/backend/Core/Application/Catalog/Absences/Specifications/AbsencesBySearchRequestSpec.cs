@@ -8,6 +8,8 @@ namespace EvrenDev.Application.Catalog.Absences.Specifications;
 public class AbsencesBySearchRequestSpec : EntitiesByPaginationFilterSpec<Absence, AbsenceDto>
 {
     public AbsencesBySearchRequestSpec(SearchAbsencesRequest request)
-        : base(request) =>
+        : base(request)
+    {
         Query.OrderBy(c => c.StartDate, !request.HasOrderBy());
+    }
 }

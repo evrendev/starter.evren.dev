@@ -32,9 +32,11 @@ public class RequestLoggingMiddleware : IMiddleware
         }
 
         LogContext.PushProperty("RequestBody", requestBody);
-        Log.ForContext("RequestHeaders", httpContext.Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString()), destructureObjects: true)
-           .ForContext("RequestBody", requestBody)
-           .Information("HTTP {RequestMethod} Request sent to {RequestPath}", httpContext.Request.Method, httpContext.Request.Path);
+        Log.ForContext("RequestHeaders", httpContext.Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString()),
+                true)
+            .ForContext("RequestBody", requestBody)
+            .Information("HTTP {RequestMethod} Request sent to {RequestPath}", httpContext.Request.Method,
+                httpContext.Request.Path);
         await next(httpContext);
     }
 }

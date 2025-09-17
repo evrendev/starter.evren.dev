@@ -12,6 +12,6 @@ public class BrandConfig : IEntityTypeConfiguration<Brand>
 
         builder
             .Property(b => b.Name)
-                .HasMaxLength(256);
+            .HasMaxLength(256);
     }
 }

@@ -13,9 +13,9 @@ public class TotpService : ITotpService
 {
     private const string Issuer = "EvrenDev";
     private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly UrlEncoder _urlEncoder;
     private readonly ITokenService _tokenService;
+    private readonly UrlEncoder _urlEncoder;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public TotpService(
         UserManager<ApplicationUser> userManager,
@@ -26,44 +26,6 @@ public class TotpService : ITotpService
         _urlEncoder = urlEncoder;
         _tokenService = tokenService;
     }
-    private static string FormatKey(string unformattedKey)
-    {
-        var result = new StringBuilder();
-        int currentPosition = 0;
-        while (currentPosition + 4 < unformattedKey.Length)
-        {
-            result.Append(unformattedKey.AsSpan(currentPosition, 4)).Append(" ");
-            currentPosition += 4;
-        }
-        if (currentPosition < unformattedKey.Length)
-        {
-            result.Append(unformattedKey.AsSpan(currentPosition));
-        }
-
-        return result.ToString().ToLowerInvariant();
-    }
-
-    private string GenerateQrCodeUri(string email, string secretKey)
-    {
-        return string.Format(
-            AuthenticatorUriFormat,
-            _urlEncoder.Encode(Issuer),
-            _urlEncoder.Encode(email),
-            secretKey);
-    }
-
-    private static bool VerifyTotpCode(string secretKey, string code)
-    {
-        if (string.IsNullOrWhiteSpace(code))
-            return false;
-
-        code = code.Replace(" ", string.Empty).Replace("-", string.Empty);
-
-        var keyBytes = Base32Encoding.ToBytes(secretKey);
-        var totp = new Totp(keyBytes);
-
-        return totp.VerifyTotp(code, out _, new VerificationWindow(1, 1));
-    }
 
     public async Task<TwoFactorAuthenticationDto> GenerateSetupAsync(TwoFactorSetupRequest request)
     {
@@ -73,43 +35,28 @@ public class TotpService : ITotpService
 
         var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
 
-        if (secretKey is null)
-        {
-            throw new Exception("Could not generate authenticator key.");
-        }
+        if (secretKey is null) throw new Exception("Could not generate authenticator key.");
 
         var qrCodeUri = GenerateQrCodeUri(user.Email, secretKey);
 
-        return new TwoFactorAuthenticationDto
-        {
-            SharedKey = FormatKey(secretKey),
-            QrCodeUri = qrCodeUri
-        };
+        return new TwoFactorAuthenticationDto { SharedKey = FormatKey(secretKey), QrCodeUri = qrCodeUri };
     }
 
-    public async Task<IEnumerable<string>?> EnableTwoFactorAuthenticationAsync(EnableTwoFactorAuthenticationRequest request)
+    public async Task<IEnumerable<string>?> EnableTwoFactorAuthenticationAsync(
+        EnableTwoFactorAuthenticationRequest request)
     {
         var user = await _userManager.FindByIdAsync(request.Id) ?? throw new Exception("User not found.");
 
         var unverifiedSecretKey = await _userManager.GetAuthenticatorKeyAsync(user);
 
-        if (unverifiedSecretKey is null)
-        {
-            throw new Exception("No unverified secret key found for the user.");
-        }
+        if (unverifiedSecretKey is null) throw new Exception("No unverified secret key found for the user.");
 
-        bool isCodeValid = VerifyTotpCode(unverifiedSecretKey, request.Code);
+        var isCodeValid = VerifyTotpCode(unverifiedSecretKey, request.Code);
 
-        if (!isCodeValid)
-        {
-            throw new Exception("Invalid two-factor authentication code.");
-        }
+        if (!isCodeValid) throw new Exception("Invalid two-factor authentication code.");
 
         var setResult = await _userManager.SetTwoFactorEnabledAsync(user, true);
-        if (!setResult.Succeeded)
-        {
-            throw new Exception("Failed to enable two-factor authentication.");
-        }
+        if (!setResult.Succeeded) throw new Exception("Failed to enable two-factor authentication.");
 
         var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
 
@@ -121,15 +68,13 @@ public class TotpService : ITotpService
         var user = await _userManager.FindByIdAsync(request.Id) ?? throw new Exception("User not found.");
 
         var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
-        if (!disable2faResult.Succeeded)
-        {
-            return false;
-        }
+        if (!disable2faResult.Succeeded) return false;
 
         return true;
     }
 
-    public async Task<TokenResponse> VerifyTwoFactorAuthenticationAsync(VerifyTwoFactorAuthenticationRequest request, string ipAddress)
+    public async Task<TokenResponse> VerifyTwoFactorAuthenticationAsync(VerifyTwoFactorAuthenticationRequest request,
+        string ipAddress)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -155,5 +100,42 @@ public class TotpService : ITotpService
             tokenResult.RefreshToken,
             tokenResult.RefreshTokenExpiryTime,
             true);
+    }
+
+    private static string FormatKey(string unformattedKey)
+    {
+        var result = new StringBuilder();
+        var currentPosition = 0;
+        while (currentPosition + 4 < unformattedKey.Length)
+        {
+            result.Append(unformattedKey.AsSpan(currentPosition, 4)).Append(" ");
+            currentPosition += 4;
+        }
+
+        if (currentPosition < unformattedKey.Length) result.Append(unformattedKey.AsSpan(currentPosition));
+
+        return result.ToString().ToLowerInvariant();
+    }
+
+    private string GenerateQrCodeUri(string email, string secretKey)
+    {
+        return string.Format(
+            AuthenticatorUriFormat,
+            _urlEncoder.Encode(Issuer),
+            _urlEncoder.Encode(email),
+            secretKey);
+    }
+
+    private static bool VerifyTotpCode(string secretKey, string code)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+            return false;
+
+        code = code.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+        var keyBytes = Base32Encoding.ToBytes(secretKey);
+        var totp = new Totp(keyBytes);
+
+        return totp.VerifyTotp(code, out _, new VerificationWindow(1, 1));
     }
 }

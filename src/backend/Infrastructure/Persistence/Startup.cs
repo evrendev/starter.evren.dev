@@ -19,48 +19,40 @@ internal static class Startup
         var databaseSettings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         var rootConnectionString = databaseSettings!.ConnectionString;
         if (string.IsNullOrEmpty(rootConnectionString))
-        {
             throw new InvalidOperationException("DB ConnectionString is not configured.");
-        }
 
         var dbProvider = databaseSettings.DbProvider;
-        if (string.IsNullOrEmpty(dbProvider))
-        {
-            throw new InvalidOperationException("DB Provider is not configured.");
-        }
+        if (string.IsNullOrEmpty(dbProvider)) throw new InvalidOperationException("DB Provider is not configured.");
 
         Logger.Information($"Current DB Provider : {dbProvider}");
 
         return services
             .Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)))
-
             .AddDbContext<ApplicationDbContext>(m => m.UseDatabase(dbProvider, rootConnectionString))
-
             .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
             .AddTransient<ApplicationDbInitializer>()
             .AddTransient<ApplicationDbSeeder>()
             .AddServices(typeof(ICustomSeeder), ServiceLifetime.Transient)
             .AddTransient<CustomSeederRunner>()
-
             .AddTransient<IConnectionStringSecurer, ConnectionStringSecurer>()
             .AddTransient<IConnectionStringValidator, ConnectionStringValidator>()
-
             .AddRepositories();
     }
 
-    internal static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string dbProvider, string connectionString)
+    internal static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string dbProvider,
+        string connectionString)
     {
         switch (dbProvider.ToUpperInvariant())
         {
             case DbProviderKeys.SqlServer:
                 AppContext.SetSwitch("SqlServer.EnableLegacyTimestampBehavior", true);
                 return builder.UseSqlServer(connectionString, e =>
-                     e.MigrationsAssembly("Migrators.MSSQL"));
+                    e.MigrationsAssembly("Migrators.MSSQL"));
 
             case DbProviderKeys.PostgreSQL:
                 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 return builder.UseNpgsql(connectionString, e =>
-                     e.MigrationsAssembly("Migrators.PostgreSQL"));
+                    e.MigrationsAssembly("Migrators.PostgreSQL"));
 
             default:
                 throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
@@ -73,9 +65,9 @@ internal static class Startup
         services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
 
         foreach (var aggregateRootType in
-            typeof(IAggregateRoot).Assembly.GetExportedTypes()
-                .Where(t => typeof(IAggregateRoot).IsAssignableFrom(t) && t.IsClass)
-                .ToList())
+                 typeof(IAggregateRoot).Assembly.GetExportedTypes()
+                     .Where(t => typeof(IAggregateRoot).IsAssignableFrom(t) && t.IsClass)
+                     .ToList())
         {
             // Add ReadRepositories.
             services.AddScoped(typeof(IReadRepository<>).MakeGenericType(aggregateRootType), sp =>
@@ -86,7 +78,8 @@ internal static class Startup
                 Activator.CreateInstance(
                     typeof(EventAddingRepositoryDecorator<>).MakeGenericType(aggregateRootType),
                     sp.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)))
-                ?? throw new InvalidOperationException($"Couldn't create EventAddingRepositoryDecorator for aggregateRootType {aggregateRootType.Name}"));
+                ?? throw new InvalidOperationException(
+                    $"Couldn't create EventAddingRepositoryDecorator for aggregateRootType {aggregateRootType.Name}"));
         }
 
         return services;

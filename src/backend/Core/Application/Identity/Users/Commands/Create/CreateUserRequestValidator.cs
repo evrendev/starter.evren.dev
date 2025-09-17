@@ -21,14 +21,14 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
         RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()
-                .WithMessage(localizer["identity.users.email.invalid"])
+            .WithMessage(localizer["identity.users.email.invalid"])
             .MustAsync(async (email, _) => !await userService.ExistsWithEmailAsync(email))
-                .WithMessage((_, email) => string.Format(localizer["identity.users.email.registered"], email));
+            .WithMessage((_, email) => string.Format(localizer["identity.users.email.registered"], email));
 
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
             .MustAsync(async (phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!))
-                .WithMessage((_, phone) => string.Format(localizer["identity.users.phone.registered"], phone))
-                .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
+            .WithMessage((_, phone) => string.Format(localizer["identity.users.phone.registered"], phone))
+            .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
 
         RuleFor(p => p.FirstName)
             .NotEmpty()

@@ -1,64 +1,63 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Migrators.MSSQL.Migrations.Application
+namespace Migrators.MSSQL.Migrations.Application;
+
+/// <inheritdoc />
+public partial class V1_03 : Migration
 {
     /// <inheritdoc />
-    public partial class V1_03 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AlterColumn<int>(
-                name: "Language",
-                schema: "Identity",
-                table: "Users",
-                type: "int",
-                maxLength: 2,
-                nullable: false,
-                defaultValue: 1,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
+        migrationBuilder.AlterColumn<int>(
+            "Language",
+            schema: "Identity",
+            table: "Users",
+            type: "int",
+            maxLength: 2,
+            nullable: false,
+            defaultValue: 1,
+            oldClrType: typeof(int),
+            oldType: "int",
+            oldNullable: true);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "Gender",
-                schema: "Identity",
-                table: "Users",
-                type: "int",
-                maxLength: 1,
-                nullable: false,
-                defaultValue: 0,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
-        }
+        migrationBuilder.AlterColumn<int>(
+            "Gender",
+            schema: "Identity",
+            table: "Users",
+            type: "int",
+            maxLength: 1,
+            nullable: false,
+            defaultValue: 0,
+            oldClrType: typeof(int),
+            oldType: "int",
+            oldNullable: true);
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AlterColumn<int>(
-                name: "Language",
-                schema: "Identity",
-                table: "Users",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldMaxLength: 2,
-                oldDefaultValue: 1);
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.AlterColumn<int>(
+            "Language",
+            schema: "Identity",
+            table: "Users",
+            type: "int",
+            nullable: true,
+            oldClrType: typeof(int),
+            oldType: "int",
+            oldMaxLength: 2,
+            oldDefaultValue: 1);
 
-            migrationBuilder.AlterColumn<int>(
-                name: "Gender",
-                schema: "Identity",
-                table: "Users",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldMaxLength: 1,
-                oldDefaultValue: 0);
-        }
+        migrationBuilder.AlterColumn<int>(
+            "Gender",
+            schema: "Identity",
+            table: "Users",
+            type: "int",
+            nullable: true,
+            oldClrType: typeof(int),
+            oldType: "int",
+            oldMaxLength: 1,
+            oldDefaultValue: 0);
     }
 }

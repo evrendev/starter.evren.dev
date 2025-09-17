@@ -14,8 +14,10 @@ public class GetBrandRequest(Guid id) : IRequest<BrandDto>
 public class GetBrandRequestHandler(IRepository<Brand> repository, IStringLocalizer<GetBrandRequestHandler> localizer)
     : IRequestHandler<GetBrandRequest, BrandDto>
 {
-    public async Task<BrandDto> Handle(GetBrandRequest request, CancellationToken cancellationToken) =>
-        await repository.FirstOrDefaultAsync(
-            new BrandByIdSpec(request.Id), cancellationToken)
-        ?? throw new NotFoundException(string.Format(localizer["catalog.brands.get.notfound"], request.Id));
+    public async Task<BrandDto> Handle(GetBrandRequest request, CancellationToken cancellationToken)
+    {
+        return await repository.FirstOrDefaultAsync(
+                   new BrandByIdSpec(request.Id), cancellationToken)
+               ?? throw new NotFoundException(string.Format(localizer["catalog.brands.get.notfound"], request.Id));
+    }
 }

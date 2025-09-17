@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace EvrenDev.Application.Common.Exceptions;
+﻿namespace EvrenDev.Application.Common.Exceptions;
 
 public class InternalServerException(string message, List<string>? errors = default)
-    : CustomException(message, errors, HttpStatusCode.InternalServerError);
+    : CustomException(message, errors);

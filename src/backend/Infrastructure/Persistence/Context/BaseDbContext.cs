@@ -11,17 +11,18 @@ using Microsoft.Extensions.Options;
 namespace EvrenDev.Infrastructure.Persistence.Context;
 
 public abstract class BaseDbContext(
-    ITenantInfo currentTenant,
-    DbContextOptions options,
-    ICurrentUser currentUser,
-    ISerializerService serializer,
-    IOptions<DatabaseSettings> dbSettings,
-    IEventPublisher events)
-    : MultiTenantIdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, IdentityUserRole<string>,
+        ITenantInfo currentTenant,
+        DbContextOptions options,
+        ICurrentUser currentUser,
+        ISerializerService serializer,
+        IOptions<DatabaseSettings> dbSettings,
+        IEventPublisher events)
+    : MultiTenantIdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>,
+        IdentityUserRole<string>,
         IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>(currentTenant, options)
 {
-    protected readonly ICurrentUser CurrentUser = currentUser;
     private readonly DatabaseSettings _dbSettings = dbSettings.Value;
+    protected readonly ICurrentUser CurrentUser = currentUser;
 
     // Used by Dapper
     public IDbConnection Connection => Database.GetDbConnection();
@@ -52,12 +53,10 @@ public abstract class BaseDbContext(
         // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
         if (!string.IsNullOrWhiteSpace(TenantInfo?.ConnectionString))
-        {
             optionsBuilder.UseDatabase(_dbSettings.DbProvider!, TenantInfo.ConnectionString);
-        }
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         var auditEntries = HandleAuditingBeforeSaveChanges(CurrentUser.GetUserId());
 
@@ -73,7 +72,6 @@ public abstract class BaseDbContext(
     private List<AuditTrail> HandleAuditingBeforeSaveChanges(Guid userId)
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
-        {
             switch (entry.State)
             {
                 case EntityState.Added:
@@ -96,19 +94,17 @@ public abstract class BaseDbContext(
 
                     break;
             }
-        }
 
         ChangeTracker.DetectChanges();
 
         var trailEntries = new List<AuditTrail>();
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>()
-            .Where(e => e.State is EntityState.Added or EntityState.Deleted or EntityState.Modified)
-            .ToList())
+                     .Where(e => e.State is EntityState.Added or EntityState.Deleted or EntityState.Modified)
+                     .ToList())
         {
             var trailEntry = new AuditTrail(entry, serializer)
             {
-                TableName = entry.Entity.GetType().Name,
-                UserId = userId
+                TableName = entry.Entity.GetType().Name, UserId = userId
             };
             trailEntries.Add(trailEntry);
             foreach (var property in entry.Properties)
@@ -139,7 +135,8 @@ public abstract class BaseDbContext(
                         break;
 
                     case EntityState.Modified:
-                        if (property.IsModified && entry.Entity is ISoftDelete && property.OriginalValue is null && property.CurrentValue != null)
+                        if (property.IsModified && entry.Entity is ISoftDelete && property.OriginalValue is null &&
+                            property.CurrentValue != null)
                         {
                             trailEntry.ChangedColumns.Add(propertyName);
                             trailEntry.TrailType = TrailType.Delete;
@@ -160,33 +157,23 @@ public abstract class BaseDbContext(
         }
 
         foreach (var auditEntry in trailEntries.Where(e => !e.HasTemporaryProperties))
-        {
             AuditTrails.Add(auditEntry.ToAuditTrail());
-        }
 
         return trailEntries.Where(e => e.HasTemporaryProperties).ToList();
     }
 
-    private Task HandleAuditingAfterSaveChangesAsync(List<AuditTrail> trailEntries, CancellationToken cancellationToken = new())
+    private Task HandleAuditingAfterSaveChangesAsync(List<AuditTrail> trailEntries,
+        CancellationToken cancellationToken = new())
     {
-        if (trailEntries is null || trailEntries.Count == 0)
-        {
-            return Task.CompletedTask;
-        }
+        if (trailEntries is null || trailEntries.Count == 0) return Task.CompletedTask;
 
         foreach (var entry in trailEntries)
         {
             foreach (var prop in entry.TemporaryProperties)
-            {
                 if (prop.Metadata.IsPrimaryKey())
-                {
                     entry.KeyValues[prop.Metadata.Name] = prop.CurrentValue;
-                }
                 else
-                {
                     entry.NewValues[prop.Metadata.Name] = prop.CurrentValue;
-                }
-            }
 
             AuditTrails.Add(entry.ToAuditTrail());
         }
@@ -205,10 +192,7 @@ public abstract class BaseDbContext(
         {
             var domainEvents = entity.DomainEvents.ToArray();
             entity.DomainEvents.Clear();
-            foreach (var domainEvent in domainEvents)
-            {
-                await events.PublishAsync(domainEvent);
-            }
+            foreach (var domainEvent in domainEvents) await events.PublishAsync(domainEvent);
         }
     }
 }

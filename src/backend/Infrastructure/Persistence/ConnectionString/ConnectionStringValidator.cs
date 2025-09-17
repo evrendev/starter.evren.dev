@@ -7,17 +7,15 @@ using Npgsql;
 
 namespace EvrenDev.Infrastructure.Persistence.ConnectionString;
 
-internal class ConnectionStringValidator(IOptions<DatabaseSettings> dbSettings, ILogger<ConnectionStringValidator> logger)
+internal class ConnectionStringValidator(IOptions<DatabaseSettings> dbSettings,
+        ILogger<ConnectionStringValidator> logger)
     : IConnectionStringValidator
 {
     private readonly DatabaseSettings _dbSettings = dbSettings.Value;
 
     public bool TryValidate(string connectionString, string? dbProvider = null)
     {
-        if (string.IsNullOrWhiteSpace(dbProvider))
-        {
-            dbProvider = _dbSettings.DbProvider;
-        }
+        if (string.IsNullOrWhiteSpace(dbProvider)) dbProvider = _dbSettings.DbProvider;
 
         try
         {

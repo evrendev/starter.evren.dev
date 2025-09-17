@@ -15,9 +15,11 @@ public class SearchProductsRequest : PaginationFilter, IRequest<PaginationRespon
 public class SearchProductsRequestHandler(IReadRepository<Product> repository)
     : IRequestHandler<SearchProductsRequest, PaginationResponse<ProductDto>>
 {
-    public async Task<PaginationResponse<ProductDto>> Handle(SearchProductsRequest request, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<ProductDto>> Handle(SearchProductsRequest request,
+        CancellationToken cancellationToken)
     {
         var spec = new ProductsBySearchRequestWithBrandsSpec(request);
-        return await repository.PaginatedListAsync(spec, request.Page, request.ItemsPerPage, cancellationToken: cancellationToken);
+        return await repository.PaginatedListAsync(spec, request.Page, request.ItemsPerPage,
+            cancellationToken: cancellationToken);
     }
 }

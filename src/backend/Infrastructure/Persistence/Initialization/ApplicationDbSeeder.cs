@@ -46,9 +46,7 @@ internal class ApplicationDbSeeder(
                         await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Admin, role);
 
                         if (currentTenant.Id == MultitenancyConstants.Root.Id)
-                        {
                             await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Root, role);
-                        }
 
                         break;
                     }
@@ -56,14 +54,15 @@ internal class ApplicationDbSeeder(
         }
     }
 
-    private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext, IReadOnlyList<ApiPermission> permissions, ApplicationRole role)
+    private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext,
+        IReadOnlyList<ApiPermission> permissions, ApplicationRole role)
     {
         var currentClaims = await roleManager.GetClaimsAsync(role);
         foreach (var permission in permissions)
-        {
             if (!currentClaims.Any(c => c.Type == ApiClaims.Permission && c.Value == permission.Name))
             {
-                logger.LogInformation("Seeding {role} Permission '{permission}' for '{tenantId}' Tenant.", role.Name, permission.Name, currentTenant.Id);
+                logger.LogInformation("Seeding {role} Permission '{permission}' for '{tenantId}' Tenant.", role.Name,
+                    permission.Name, currentTenant.Id);
                 dbContext.RoleClaims.Add(new ApplicationRoleClaim
                 {
                     RoleId = role.Id,
@@ -73,15 +72,11 @@ internal class ApplicationDbSeeder(
                 });
                 await dbContext.SaveChangesAsync();
             }
-        }
     }
 
     private async Task SeedAdminUserAsync()
     {
-        if (string.IsNullOrWhiteSpace(currentTenant.Id) || string.IsNullOrWhiteSpace(currentTenant.AdminEmail))
-        {
-            return;
-        }
+        if (string.IsNullOrWhiteSpace(currentTenant.Id) || string.IsNullOrWhiteSpace(currentTenant.AdminEmail)) return;
 
         if (await userManager.Users.FirstOrDefaultAsync(u => u.Email == currentTenant.AdminEmail)
             is not ApplicationUser adminUser)

@@ -10,21 +10,6 @@ namespace EvrenDev.Infrastructure.Identity;
 
 internal partial class UserService
 {
-    private async Task<string> GetEmailVerificationUriAsync(ApplicationUser user, string origin)
-    {
-        EnsureValidTenant();
-
-        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        const string route = "api/users/confirm-email/";
-        var endpointUri = new Uri(string.Concat($"{origin}/", route));
-        var verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), QueryStringKeys.UserId, user.Id);
-        verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Code, code);
-        verificationUri =
-            QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, currentTenant.Id!);
-        return verificationUri;
-    }
-
     public async Task<string> ConfirmEmailAsync(
         string userId,
         string code,
@@ -80,5 +65,20 @@ internal partial class UserService
                 CultureInfo.CurrentCulture,
                 localizer["identity.users.confirm.error"],
                 user.PhoneNumber));
+    }
+
+    private async Task<string> GetEmailVerificationUriAsync(ApplicationUser user, string origin)
+    {
+        EnsureValidTenant();
+
+        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        const string route = "api/users/confirm-email/";
+        var endpointUri = new Uri(string.Concat($"{origin}/", route));
+        var verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), QueryStringKeys.UserId, user.Id);
+        verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Code, code);
+        verificationUri =
+            QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, currentTenant.Id!);
+        return verificationUri;
     }
 }

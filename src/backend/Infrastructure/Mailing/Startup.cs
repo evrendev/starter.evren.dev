@@ -6,6 +6,8 @@ namespace EvrenDev.Infrastructure.Mailing;
 internal static class Startup
 {
     internal static IServiceCollection AddMailing(this IServiceCollection services,
-        IConfiguration config) =>
-        services.Configure<MailSettings>(config.GetSection(nameof(MailSettings)));
+        IConfiguration config)
+    {
+        return services.Configure<MailSettings>(config.GetSection(nameof(MailSettings)));
+    }
 }

@@ -12,7 +12,7 @@ public class ChapterConfig : IEntityTypeConfiguration<Chapter>
 
         builder.Property(b => b.Title)
             .HasMaxLength(256)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.HasMany(b => b.Lessons)
             .WithOne(b => b.Chapter)

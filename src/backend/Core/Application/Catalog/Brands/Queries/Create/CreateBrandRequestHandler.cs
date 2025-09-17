@@ -12,15 +12,19 @@ public class CreateBrandRequest : IRequest<Guid>
 
 public class CreateBrandRequestValidator : CustomValidator<CreateBrandRequest>
 {
-    public CreateBrandRequestValidator(IReadRepository<Brand> repository, IStringLocalizer<CreateBrandRequestValidator> localizer) =>
+    public CreateBrandRequestValidator(IReadRepository<Brand> repository,
+        IStringLocalizer<CreateBrandRequestValidator> localizer)
+    {
         RuleFor(p => p.Name)
             .NotEmpty()
             .MaximumLength(75)
             .MustAsync(async (name, ct) => await repository.FirstOrDefaultAsync(new BrandByNameSpec(name), ct) is null)
             .WithMessage((_, name) => string.Format(localizer["catalog.brands.create.alreadyexists"], name));
+    }
 }
 
-public class CreateBrandRequestHandler(IRepositoryWithEvents<Brand> repository) : IRequestHandler<CreateBrandRequest, Guid>
+public class CreateBrandRequestHandler
+    (IRepositoryWithEvents<Brand> repository) : IRequestHandler<CreateBrandRequest, Guid>
 {
     public async Task<Guid> Handle(CreateBrandRequest request, CancellationToken cancellationToken)
     {

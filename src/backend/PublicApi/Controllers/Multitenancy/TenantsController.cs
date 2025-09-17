@@ -1,10 +1,10 @@
-﻿using EvrenDev.Application.Multitenancy.Entities;
-using EvrenDev.Application.Multitenancy.Commands.Active;
+﻿using EvrenDev.Application.Multitenancy.Commands.Active;
 using EvrenDev.Application.Multitenancy.Commands.Create;
 using EvrenDev.Application.Multitenancy.Commands.Deactivate;
-using EvrenDev.Application.Multitenancy.Commands.Upgrade;
-using EvrenDev.Application.Multitenancy.Commands.Update;
 using EvrenDev.Application.Multitenancy.Commands.Delete;
+using EvrenDev.Application.Multitenancy.Commands.Update;
+using EvrenDev.Application.Multitenancy.Commands.Upgrade;
+using EvrenDev.Application.Multitenancy.Entities;
 using EvrenDev.Application.Multitenancy.Queries.Get;
 using EvrenDev.Application.Multitenancy.Queries.GetAll;
 using EvrenDev.Application.Multitenancy.Queries.Paginate;

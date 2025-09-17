@@ -6,9 +6,11 @@ namespace EvrenDev.Infrastructure.Persistence.Configuration;
 
 public class ApplicationRoleConfig : IEntityTypeConfiguration<ApplicationRole>
 {
-    public void Configure(EntityTypeBuilder<ApplicationRole> builder) =>
+    public void Configure(EntityTypeBuilder<ApplicationRole> builder)
+    {
         builder
             .ToTable("Roles", SchemaNames.Identity)
             .IsMultiTenant()
             .AdjustUniqueIndexes();
+    }
 }

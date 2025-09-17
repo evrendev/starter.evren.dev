@@ -9,9 +9,9 @@ using Serilog.Context;
 namespace EvrenDev.Infrastructure.Middleware;
 
 internal class ExceptionMiddleware(
-    ICurrentUser currentUser,
-    IStringLocalizer<ExceptionMiddleware> localizer,
-    ISerializerService jsonSerializer)
+        ICurrentUser currentUser,
+        IStringLocalizer<ExceptionMiddleware> localizer,
+        ISerializerService jsonSerializer)
     : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -44,21 +44,14 @@ internal class ExceptionMiddleware(
             var response = context.Response;
             response.ContentType = "application/json";
             if (exception is not CustomException && exception.InnerException != null)
-            {
                 while (exception.InnerException != null)
-                {
                     exception = exception.InnerException;
-                }
-            }
 
             switch (exception)
             {
                 case CustomException e:
                     response.StatusCode = errorResult.StatusCode = (int)e.StatusCode;
-                    if (e.ErrorMessages is not null)
-                    {
-                        errorResult.Messages = e.ErrorMessages;
-                    }
+                    if (e.ErrorMessages is not null) errorResult.Messages = e.ErrorMessages;
 
                     break;
 
@@ -71,7 +64,8 @@ internal class ExceptionMiddleware(
                     break;
             }
 
-            Log.Error($"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
+            Log.Error(
+                $"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
             await response.WriteAsync(jsonSerializer.Serialize(errorResult));
         }
     }

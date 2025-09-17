@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace EvrenDev.Application.Common.Models;
+﻿namespace EvrenDev.Application.Common.Models;
 
 public class PaginationFilter : BaseFilter
 {

@@ -70,8 +70,10 @@
   "identity.roles.delete.success": "{0} Rolü Silindi.",
   "identity.roles.similar.exists": "Benzer bir Rol zaten mevcut.",
   "identity.users.password.reset.subject": "Şifrenizi Sıfırlayın",
-  "identity.users.password.reset.text.body": "Merhaba,\n\n Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın.\n\n {0} \n\n Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.",
-  "identity.users.password.reset.html.body": "<p>Merhaba,</p><p>Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın:</p><p><a href='{0}'>{1}</a></p><p>Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.</p>",
+  "identity.users.password.reset.text.body":
+    "Merhaba,\n\n Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın.\n\n {0} \n\n Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.",
+  "identity.users.password.reset.html.body":
+    "<p>Merhaba,</p><p>Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın:</p><p><a href='{0}'>{1}</a></p><p>Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.</p>",
   "identity.users.password.reset.button": "Şifremi Sıfırla",
   "identity.users.password.reset.success": "Şifre Sıfırlama E-postası yetkili e-posta adresinize gönderilmiştir.",
   "identity.users.password.reset.notfound": "Kullanıcı bulunamadı veya e-posta adresi doğrulanmamış.",

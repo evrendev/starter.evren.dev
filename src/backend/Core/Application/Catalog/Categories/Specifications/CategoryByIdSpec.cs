@@ -5,6 +5,8 @@ namespace EvrenDev.Application.Catalog.Categories.Specifications;
 
 public class CategoryByIdSpec : Specification<Category, CategoryDto>, ISingleResultSpecification<Category>
 {
-    public CategoryByIdSpec(Guid id) =>
+    public CategoryByIdSpec(Guid id)
+    {
         Query.Where(p => p.Id == id);
+    }
 }

@@ -17,13 +17,15 @@ public class CreateProductRequest : IRequest<Guid>
 
 public class CreateProductRequestValidator : CustomValidator<CreateProductRequest>
 {
-    public CreateProductRequestValidator(IReadRepository<Product> productRepo, IReadRepository<Brand> brandRepo, IStringLocalizer<CreateProductRequestValidator> localizer)
+    public CreateProductRequestValidator(IReadRepository<Product> productRepo, IReadRepository<Brand> brandRepo,
+        IStringLocalizer<CreateProductRequestValidator> localizer)
     {
         RuleFor(p => p.Name)
             .NotEmpty()
             .MaximumLength(75)
-            .MustAsync(async (name, ct) => await productRepo.FirstOrDefaultAsync(new ProductByNameSpec(name), ct) is null)
-                .WithMessage((_, name) => string.Format(localizer["catalog.products.create.alreadyexists"], name));
+            .MustAsync(async (name, ct) =>
+                await productRepo.FirstOrDefaultAsync(new ProductByNameSpec(name), ct) is null)
+            .WithMessage((_, name) => string.Format(localizer["catalog.products.create.alreadyexists"], name));
 
         RuleFor(p => p.Rate)
             .GreaterThanOrEqualTo(1);
@@ -34,11 +36,12 @@ public class CreateProductRequestValidator : CustomValidator<CreateProductReques
         RuleFor(p => p.BrandId)
             .NotEmpty()
             .MustAsync(async (id, ct) => await brandRepo.GetByIdAsync(id, ct) is not null)
-                .WithMessage((_, id) => string.Format(localizer["catalog.brands.notfound"], id));
+            .WithMessage((_, id) => string.Format(localizer["catalog.brands.notfound"], id));
     }
 }
 
-public class CreateProductRequestHandler(IRepository<Product> repository, IFileStorageService file) : IRequestHandler<CreateProductRequest, Guid>
+public class CreateProductRequestHandler
+    (IRepository<Product> repository, IFileStorageService file) : IRequestHandler<CreateProductRequest, Guid>
 {
     public async Task<Guid> Handle(CreateProductRequest request, CancellationToken cancellationToken)
     {

@@ -8,7 +8,11 @@ public class UserDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? FullName => $"{FirstName} {LastName}".Trim();
-    public string Initial => !string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName) ? $"{FirstName?[0].ToString().ToUpper()}{LastName?[0].ToString().ToUpper()}" : string.Empty;
+
+    public string Initial => !string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName)
+        ? $"{FirstName?[0].ToString().ToUpper()}{LastName?[0].ToString().ToUpper()}"
+        : string.Empty;
+
     public DateTime? Birthday { get; set; }
     public string? PlaceOfBirth { get; set; }
     public string? Email { get; set; }

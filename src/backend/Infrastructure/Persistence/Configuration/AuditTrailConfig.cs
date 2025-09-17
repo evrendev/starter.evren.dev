@@ -6,8 +6,10 @@ namespace EvrenDev.Infrastructure.Persistence.Configuration;
 
 public class AuditTrailConfig : IEntityTypeConfiguration<Trail>
 {
-    public void Configure(EntityTypeBuilder<Trail> builder) =>
+    public void Configure(EntityTypeBuilder<Trail> builder)
+    {
         builder
             .ToTable("AuditTrails", SchemaNames.Auditing)
             .IsMultiTenant();
+    }
 }

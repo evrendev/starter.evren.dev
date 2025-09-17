@@ -8,6 +8,8 @@ namespace EvrenDev.Application.Catalog.Categories.Specifications;
 public class CategoriesBySearchRequestSpec : EntitiesByPaginationFilterSpec<Category, CategoryDto>
 {
     public CategoriesBySearchRequestSpec(PaginateCategoriesFilter request)
-        : base(request) =>
+        : base(request)
+    {
         Query.OrderBy(c => c.Name, !request.HasOrderBy());
+    }
 }

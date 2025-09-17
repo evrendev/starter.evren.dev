@@ -9,9 +9,11 @@ public class SearchBrandsRequest : PaginationFilter, IRequest<PaginationResponse
 {
 }
 
-public class SearchBrandsRequestHandler(IReadRepository<Brand> repository) : IRequestHandler<SearchBrandsRequest, PaginationResponse<BrandDto>>
+public class SearchBrandsRequestHandler
+    (IReadRepository<Brand> repository) : IRequestHandler<SearchBrandsRequest, PaginationResponse<BrandDto>>
 {
-    public async Task<PaginationResponse<BrandDto>> Handle(SearchBrandsRequest request, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<BrandDto>> Handle(SearchBrandsRequest request,
+        CancellationToken cancellationToken)
     {
         var spec = new BrandsBySearchRequestSpec(request);
         return await repository.PaginatedListAsync(spec, request.Page, request.ItemsPerPage, cancellationToken);

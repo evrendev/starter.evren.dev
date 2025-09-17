@@ -1,31 +1,29 @@
 ﻿using EvrenDev.Application.Common.Exceptions;
+using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Common.Persistence;
+using EvrenDev.Application.Multitenancy.Commands.Create;
+using EvrenDev.Application.Multitenancy.Commands.Update;
 using EvrenDev.Application.Multitenancy.Entities;
 using EvrenDev.Application.Multitenancy.Interfaces;
-using EvrenDev.Application.Multitenancy.Commands.Create;
+using EvrenDev.Application.Multitenancy.Queries.Paginate;
+using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Infrastructure.Persistence.Initialization;
-using Finbuckle.MultiTenant;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using EvrenDev.Application.Multitenancy.Commands.Update;
-using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
-using EvrenDev.Application.Common.Models;
-using EvrenDev.Application.Multitenancy.Queries.Paginate;
 
 namespace EvrenDev.Infrastructure.Multitenancy;
 
-internal class TenantService(
-    IMultiTenantStore<TenantInfo> tenantStore,
-    TenantDbContext tenantDbContext,
-    IConnectionStringSecurer csSecurer,
-    IDatabaseInitializer dbInitializer,
-    IStringLocalizer<TenantService> localizer,
-    IOptions<DatabaseSettings> dbSettings)
+internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo> tenantStore,
+        TenantDbContext tenantDbContext,
+        IConnectionStringSecurer csSecurer,
+        IDatabaseInitializer dbInitializer,
+        IStringLocalizer<TenantService> localizer,
+        IOptions<DatabaseSettings> dbSettings)
     : ITenantService
 {
-    private readonly DatabaseSettings _dbSettings = dbSettings.Value;
     private readonly TenantDbContext _dbContext = tenantDbContext;
+    private readonly DatabaseSettings _dbSettings = dbSettings.Value;
 
     public async Task<List<TenantDto>> GetAllAsync()
     {
@@ -34,11 +32,15 @@ internal class TenantService(
         return tenants;
     }
 
-    public async Task<bool> ExistsWithIdAsync(string id) =>
-        await tenantStore.TryGetAsync(id) is not null;
+    public async Task<bool> ExistsWithIdAsync(string id)
+    {
+        return await tenantStore.TryGetAsync(id) is not null;
+    }
 
-    public async Task<bool> ExistsWithNameAsync(string name) =>
-        (await tenantStore.GetAllAsync()).Any(t => t.Name == name);
+    public async Task<bool> ExistsWithNameAsync(string name)
+    {
+        return (await tenantStore.GetAllAsync()).Any(t => t.Name == name);
+    }
 
     public async Task<TenantDto> GetByIdAsync(string id)
     {
@@ -54,7 +56,8 @@ internal class TenantService(
         if (command.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim())
             command.ConnectionString = string.Empty;
 
-        var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail, command.Issuer);
+        var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail,
+            command.Issuer);
         await tenantStore.TryAddAsync(tenant);
 
         try
@@ -74,10 +77,7 @@ internal class TenantService(
     {
         var tenant = await GetTenantInfoAsync(id);
 
-        if (tenant.IsActive)
-        {
-            throw new ConflictException("Tenant is already Activated.");
-        }
+        if (tenant.IsActive) throw new ConflictException("Tenant is already Activated.");
 
         tenant.Activate();
 
@@ -90,10 +90,7 @@ internal class TenantService(
     {
         var tenant = await GetTenantInfoAsync(id);
 
-        if (!tenant.IsActive)
-        {
-            throw new ConflictException("Tenant is already Deactivated.");
-        }
+        if (!tenant.IsActive) throw new ConflictException("Tenant is already Deactivated.");
 
         tenant.Deactivate();
 
@@ -113,16 +110,13 @@ internal class TenantService(
         return $"Tenant {id}'s Subscription Upgraded. Now Valid till {tenant.ValidUpto}.";
     }
 
-    private async Task<TenantInfo> GetTenantInfoAsync(string id) =>
-        await tenantStore.TryGetAsync(id)
-            ?? throw new NotFoundException(string.Format(localizer["multitenancy.tenant.entity.notfound"], typeof(TenantInfo).Name, id));
-
     public async Task<string> UpdateAsync(UpdateTenantCommand command, CancellationToken cancellationToken)
     {
         if (command.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim())
             command.ConnectionString = string.Empty;
 
-        var tenant = new TenantInfo(id: command.Id, name: command.Name, connectionString: command.ConnectionString, adminEmail: command.AdminEmail, issuer: command.Issuer, isActive: command.IsActive, validUpto: command.ValidUpto);
+        var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail,
+            command.Issuer, command.IsActive, command.ValidUpto);
         await tenantStore.TryUpdateAsync(tenant);
 
         try
@@ -143,13 +137,14 @@ internal class TenantService(
         return await tenantStore.TryRemoveAsync(id);
     }
 
-    public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginateTenantsFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginateTenantsFilter filter,
+        CancellationToken cancellationToken)
     {
-        IQueryable<TenantInfo> query = _dbContext.TenantInfo.AsQueryable();
+        var query = _dbContext.TenantInfo.AsQueryable();
 
         if (!string.IsNullOrEmpty(filter.Search))
         {
-            string searchLower = filter.Search.ToLower();
+            var searchLower = filter.Search.ToLower();
             query = query.Where(tenantInfo =>
                 tenantInfo.Id.ToLower().Contains(searchLower) ||
                 tenantInfo.Name.ToLower().Contains(searchLower) ||
@@ -157,28 +152,19 @@ internal class TenantService(
             );
         }
 
-        if (filter.ShowActiveItems.HasValue)
-        {
-            query = query.Where(t => t.IsActive == filter.ShowActiveItems.Value);
-        }
+        if (filter.ShowActiveItems.HasValue) query = query.Where(t => t.IsActive == filter.ShowActiveItems.Value);
 
-        if (filter.StartDate.HasValue)
-        {
-            query = query.Where(t => t.ValidUpto >= filter.StartDate.Value);
-        }
+        if (filter.StartDate.HasValue) query = query.Where(t => t.ValidUpto >= filter.StartDate.Value);
 
-        if (filter.EndDate.HasValue)
-        {
-            query = query.Where(t => t.ValidUpto <= filter.EndDate.Value);
-        }
+        if (filter.EndDate.HasValue) query = query.Where(t => t.ValidUpto <= filter.EndDate.Value);
 
         if (filter.SortBy is { Count: > 0 })
         {
             // Get the first sort descriptor
             var sortItem = filter.SortBy[0];
 
-            bool isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
-            string sortField = sortItem.Key ?? string.Empty;
+            var isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+            var sortField = sortItem.Key ?? string.Empty;
 
             switch (sortField.ToLower())
             {
@@ -199,7 +185,7 @@ internal class TenantService(
             query = query.OrderBy(t => t.Id);
         }
 
-        int totalItems = await query.CountAsync(cancellationToken);
+        var totalItems = await query.CountAsync(cancellationToken);
 
         var pagedData = await query
             .Skip((filter.Page - 1) * filter.ItemsPerPage)
@@ -210,5 +196,12 @@ internal class TenantService(
         pagedDataDto.ForEach(t => t.ConnectionString = csSecurer.MakeSecure(t.ConnectionString));
 
         return new PaginationResponse<TenantDto>(pagedDataDto, totalItems, filter.Page, filter.ItemsPerPage);
+    }
+
+    private async Task<TenantInfo> GetTenantInfoAsync(string id)
+    {
+        return await tenantStore.TryGetAsync(id)
+               ?? throw new NotFoundException(string.Format(localizer["multitenancy.tenant.entity.notfound"],
+                   typeof(TenantInfo).Name, id));
     }
 }

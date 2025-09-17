@@ -20,7 +20,8 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Roles)]
     [OpenApiOperation("Get paginated list of all roles.", "")]
-    public async Task<PaginationResponse<RoleDto>> GetPaginatedListAsync([FromQuery] PaginateRolesFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<RoleDto>> GetPaginatedListAsync([FromQuery] PaginateRolesFilter filter,
+        CancellationToken cancellationToken)
     {
         return await roleService.PaginatedListAsync(filter, cancellationToken);
     }
@@ -48,12 +49,10 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     [HttpPut("{id}/permissions")]
     [MustHavePermission(ApiAction.Update, ApiResource.RoleClaims)]
     [OpenApiOperation("Update a role's permissions.", "")]
-    public async Task<ActionResult<string>> UpdatePermissionsAsync(string id, UpdateRolePermissionsRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<string>> UpdatePermissionsAsync(string id, UpdateRolePermissionsRequest request,
+        CancellationToken cancellationToken)
     {
-        if (id != request.RoleId)
-        {
-            return BadRequest();
-        }
+        if (id != request.RoleId) return BadRequest();
 
         return Ok(await roleService.UpdatePermissionsAsync(request, cancellationToken));
     }

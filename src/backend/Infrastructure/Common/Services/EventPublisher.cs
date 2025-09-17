@@ -13,7 +13,9 @@ public class EventPublisher(IPublisher mediator, ILogger<EventPublisher> logger)
         return mediator.Publish(CreateEventNotification(@event!));
     }
 
-    private static INotification CreateEventNotification(IEvent @event) =>
-        (INotification)Activator.CreateInstance(
+    private static INotification CreateEventNotification(IEvent @event)
+    {
+        return (INotification)Activator.CreateInstance(
             typeof(EventNotification<>).MakeGenericType(@event.GetType()), @event)!;
+    }
 }

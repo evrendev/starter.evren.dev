@@ -17,7 +17,8 @@ public class UpdateAbsenceCommand : IRequest<Guid>
 
 public class UpdateAbsenceCommandValidator : CustomValidator<UpdateAbsenceCommand>
 {
-    public UpdateAbsenceCommandValidator(IRepository<Absence> repository, IStringLocalizer<UpdateAbsenceCommandValidator> localizer)
+    public UpdateAbsenceCommandValidator(IRepository<Absence> repository,
+        IStringLocalizer<UpdateAbsenceCommandValidator> localizer)
     {
         RuleFor(v => v.Id)
             .NotEmpty().WithMessage(localizer["api.absence.update.id.required"]);
@@ -45,7 +46,8 @@ public class UpdateAbsenceCommandValidator : CustomValidator<UpdateAbsenceComman
     }
 }
 
-public class UpdateAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository, IStringLocalizer<UpdateAbsenceCommandHandler> localizer) : IRequestHandler<UpdateAbsenceCommand, Guid>
+public class UpdateAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository,
+    IStringLocalizer<UpdateAbsenceCommandHandler> localizer) : IRequestHandler<UpdateAbsenceCommand, Guid>
 {
     public async Task<Guid> Handle(UpdateAbsenceCommand command, CancellationToken cancellationToken)
     {

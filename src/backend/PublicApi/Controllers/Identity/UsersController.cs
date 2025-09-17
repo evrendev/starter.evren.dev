@@ -25,7 +25,8 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [OpenApiOperation("Get paginated list of all users.", "")]
-    public async Task<PaginationResponse<BasicUserDto>> GetPaginatedListAsync([FromQuery] PaginateUsersFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<BasicUserDto>> GetPaginatedListAsync([FromQuery] PaginateUsersFilter filter,
+        CancellationToken cancellationToken)
     {
         return await userService.PaginatedListAsync(filter, cancellationToken);
     }
@@ -74,10 +75,7 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [OpenApiOperation("Create or update a role.", "")]
     public async Task<ApiResponse<string?>> UpdateAsync(string id, UpdateUserRequest request)
     {
-        if (id != request.Id)
-        {
-            return ApiResponse<string?>.Failure("Mismatched user ID");
-        }
+        if (id != request.Id) return ApiResponse<string?>.Failure("Mismatched user ID");
 
         var response = await userService.UpdateAsync(request, id);
 
@@ -98,12 +96,10 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [MustHavePermission(ApiAction.Update, ApiResource.Users)]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     [OpenApiOperation("Toggle a user's active status.", "")]
-    public async Task<ActionResult> ToggleStatusAsync(string id, ToggleUserStatusRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult> ToggleStatusAsync(string id, ToggleUserStatusRequest request,
+        CancellationToken cancellationToken)
     {
-        if (id != request.UserId)
-        {
-            return BadRequest();
-        }
+        if (id != request.UserId) return BadRequest();
 
         await userService.ToggleStatusAsync(request, cancellationToken);
         return Ok();
@@ -113,7 +109,8 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [AllowAnonymous]
     [OpenApiOperation("Confirm email address for a user.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Search))]
-    public Task<string> ConfirmEmailAsync([FromQuery] string tenant, [FromQuery] string userId, [FromQuery] string code, CancellationToken cancellationToken)
+    public Task<string> ConfirmEmailAsync([FromQuery] string tenant, [FromQuery] string userId, [FromQuery] string code,
+        CancellationToken cancellationToken)
     {
         return userService.ConfirmEmailAsync(userId, code, tenant, cancellationToken);
     }
@@ -146,7 +143,10 @@ public class UsersController(IUserService userService, IConfiguration configurat
         return userService.ResetPasswordAsync(request);
     }
 
-    private string GetOriginFromRequest() => $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+    private string GetOriginFromRequest()
+    {
+        return $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
+    }
 
     private string GetFrontendOriginFromRequest()
     {

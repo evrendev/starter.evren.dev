@@ -36,13 +36,9 @@ public static class GenderExtensions
 
     public static List<GenderInfo> ToList()
     {
-        return [.. Enum.GetValues<Gender>()
-            .Select(g => new GenderInfo
-            {
-                Name = GetValue(g),
-                Value = g
-            })
-            .Cast<GenderInfo>()];
+        return [
+        .. Enum.GetValues<Gender>()
+            .Select(g => new GenderInfo { Name = GetValue(g), Value = g })];
     }
 
     public class GenderInfo

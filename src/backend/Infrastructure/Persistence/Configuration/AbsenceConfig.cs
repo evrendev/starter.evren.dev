@@ -16,14 +16,14 @@ public class AbsenceConfig : IEntityTypeConfiguration<Absence>
 
         builder.Property(t => t.Location)
             .HasMaxLength(50)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(t => t.Employee)
             .HasMaxLength(100)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(t => t.CalendarId)
             .HasMaxLength(100)
-            .IsRequired(true);
+            .IsRequired();
     }
 }

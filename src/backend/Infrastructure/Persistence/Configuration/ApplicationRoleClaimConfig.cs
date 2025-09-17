@@ -6,8 +6,10 @@ namespace EvrenDev.Infrastructure.Persistence.Configuration;
 
 public class ApplicationRoleClaimConfig : IEntityTypeConfiguration<ApplicationRoleClaim>
 {
-    public void Configure(EntityTypeBuilder<ApplicationRoleClaim> builder) =>
+    public void Configure(EntityTypeBuilder<ApplicationRoleClaim> builder)
+    {
         builder
             .ToTable("RoleClaims", SchemaNames.Identity)
             .IsMultiTenant();
+    }
 }

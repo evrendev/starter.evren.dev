@@ -7,11 +7,11 @@ using EvrenDev.Domain.Catalog;
 namespace EvrenDev.Application.Dashboard;
 
 public class GetStatsRequestHandler(
-    IUserService userService,
-    IRoleService roleService,
-    IReadRepository<Brand> brandRepo,
-    IReadRepository<Product> productRepo,
-    IStringLocalizer<GetStatsRequestHandler> localizer)
+        IUserService userService,
+        IRoleService roleService,
+        IReadRepository<Brand> brandRepo,
+        IReadRepository<Product> productRepo,
+        IStringLocalizer<GetStatsRequestHandler> localizer)
     : IRequestHandler<GetStatsRequest, StatsDto>
 {
     public async Task<StatsDto> Handle(GetStatsRequest request, CancellationToken cancellationToken)
@@ -31,7 +31,9 @@ public class GetStatsRequestHandler(
         {
             var month = i;
             var filterStartDate = new DateTime(selectedYear, month, 01);
-            var filterEndDate = new DateTime(selectedYear, month, DateTime.DaysInMonth(selectedYear, month), 23, 59, 59); // Monthly Based
+            var filterEndDate =
+                new DateTime(selectedYear, month, DateTime.DaysInMonth(selectedYear, month), 23, 59,
+                    59); // Monthly Based
 
             var brandSpec = new AuditableEntitiesByCreatedOnBetweenSpec<Brand>(filterStartDate, filterEndDate);
             var productSpec = new AuditableEntitiesByCreatedOnBetweenSpec<Product>(filterStartDate, filterEndDate);
@@ -40,8 +42,14 @@ public class GetStatsRequestHandler(
             productsFigure[i - 1] = await productRepo.CountAsync(productSpec, cancellationToken);
         }
 
-        stats.DataEnterBarChart.Add(new ChartSeries { Name = localizer["dashboard.stats.products"], Data = productsFigure });
-        stats.DataEnterBarChart.Add(new ChartSeries { Name = localizer["dashboard.stats.brands"], Data = brandsFigure });
+        stats.DataEnterBarChart.Add(new ChartSeries
+        {
+            Name = localizer["dashboard.stats.products"], Data = productsFigure
+        });
+        stats.DataEnterBarChart.Add(new ChartSeries
+        {
+            Name = localizer["dashboard.stats.brands"], Data = brandsFigure
+        });
 
         return stats;
     }

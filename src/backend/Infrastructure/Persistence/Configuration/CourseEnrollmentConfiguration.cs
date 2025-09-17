@@ -7,7 +7,6 @@ public class CourseEnrollmentConfig : IEntityTypeConfiguration<CourseEnrollment>
 {
     public void Configure(EntityTypeBuilder<CourseEnrollment> builder)
     {
-
         builder.HasKey(e => new { e.UserId, e.CourseId });
 
         builder.HasOne(e => e.User)

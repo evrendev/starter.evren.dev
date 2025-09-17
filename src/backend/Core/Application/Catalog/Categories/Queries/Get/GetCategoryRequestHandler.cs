@@ -11,11 +11,14 @@ public class GetCategoryRequest(Guid id) : IRequest<CategoryDto>
     public Guid Id { get; set; } = id;
 }
 
-public class GetCategoryRequestHandler(IRepository<Category> repository, IStringLocalizer<GetCategoryRequestHandler> localizer)
+public class GetCategoryRequestHandler(IRepository<Category> repository,
+        IStringLocalizer<GetCategoryRequestHandler> localizer)
     : IRequestHandler<GetCategoryRequest, CategoryDto>
 {
-    public async Task<CategoryDto> Handle(GetCategoryRequest request, CancellationToken cancellationToken) =>
-        await repository.FirstOrDefaultAsync(
-            new CategoryByIdSpec(request.Id), cancellationToken)
-        ?? throw new NotFoundException(string.Format(localizer["catalog.categories.get.notfound"], request.Id));
+    public async Task<CategoryDto> Handle(GetCategoryRequest request, CancellationToken cancellationToken)
+    {
+        return await repository.FirstOrDefaultAsync(
+                   new CategoryByIdSpec(request.Id), cancellationToken)
+               ?? throw new NotFoundException(string.Format(localizer["catalog.categories.get.notfound"], request.Id));
+    }
 }

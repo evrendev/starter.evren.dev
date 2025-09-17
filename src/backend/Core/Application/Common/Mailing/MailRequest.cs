@@ -6,11 +6,9 @@ public class Content
 {
     public string? Subject { get; set; }
 
-    [JsonPropertyName("text_body")]
-    public string? TextBody { get; set; }
+    [JsonPropertyName("text_body")] public string? TextBody { get; set; }
 
-    [JsonPropertyName("html_body")]
-    public string? HtmlBody { get; set; }
+    [JsonPropertyName("html_body")] public string? HtmlBody { get; set; }
 }
 
 public class Contact(string? email, string? name = null)

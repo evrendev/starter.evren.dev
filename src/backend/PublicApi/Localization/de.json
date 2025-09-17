@@ -32,7 +32,8 @@
   "identity.users.notactive": "Benutzer nicht aktiv. Bitte kontaktieren Sie den Administrator.",
   "identity.users.emailnotconfirmed": "E-Mail nicht bestätigt.",
   "identity.users.admin.notoggle": "Der Status des Administratorprofils kann nicht umgeschaltet werden.",
-  "identity.users.roles.admin.cannotremove": "Die Administratorrolle kann nicht vom Root-Mandanten-Administrator entfernt werden.",
+  "identity.users.roles.admin.cannotremove":
+    "Die Administratorrolle kann nicht vom Root-Mandanten-Administrator entfernt werden.",
   "identity.users.roles.admin.minimum": "Der Mandant sollte mindestens 2 Administratoren haben.",
   "identity.users.roles.updated": "Benutzerrollen erfolgreich aktualisiert.",
   "identity.users.create.usernametaken": "Benutzername {0} ist bereits vergeben.",
@@ -70,17 +71,21 @@
   "identity.roles.delete.success": "Rolle {0} gelöscht.",
   "identity.roles.similar.exists": "Ähnliche Rolle existiert bereits.",
   "identity.users.password.reset.subject": "Setzen Sie Ihr Passwort zurück",
-  "identity.users.password.reset.text.body": "Hallo,\n\n für Ihr Konto wurde eine Anfrage zum Zurücksetzen des Passworts empfangen. Klicken Sie auf den folgenden Link, um ein neues Passwort festzulegen.\n\n {0} \n\n Wenn Sie keine Passwortzurücksetzung angefordert haben, können Sie diese E-Mail einfach ignorieren.",
-  "identity.users.password.reset.html.body": "<p>Hallo,</p><p>für Ihr Konto wurde eine Anfrage zum Zurücksetzen des Passworts empfangen. Klicken Sie auf den folgenden Link, um ein neues Passwort festzulegen:</p><p><a href='{0}'>{1}</a></p><p>Wenn Sie keine Passwortzurücksetzung angefordert haben, können Sie diese E-Mail einfach ignorieren.</p>",
+  "identity.users.password.reset.text.body":
+    "Hallo,\n\n für Ihr Konto wurde eine Anfrage zum Zurücksetzen des Passworts empfangen. Klicken Sie auf den folgenden Link, um ein neues Passwort festzulegen.\n\n {0} \n\n Wenn Sie keine Passwortzurücksetzung angefordert haben, können Sie diese E-Mail einfach ignorieren.",
+  "identity.users.password.reset.html.body":
+    "<p>Hallo,</p><p>für Ihr Konto wurde eine Anfrage zum Zurücksetzen des Passworts empfangen. Klicken Sie auf den folgenden Link, um ein neues Passwort festzulegen:</p><p><a href='{0}'>{1}</a></p><p>Wenn Sie keine Passwortzurücksetzung angefordert haben, können Sie diese E-Mail einfach ignorieren.</p>",
   "identity.users.password.reset.button": "Mein Passwort zurücksetzen",
-  "identity.users.password.reset.success": "Die E-Mail zum Zurücksetzen des Passworts wurde an Ihre autorisierte E-Mail-Adresse gesendet.",
+  "identity.users.password.reset.success":
+    "Die E-Mail zum Zurücksetzen des Passworts wurde an Ihre autorisierte E-Mail-Adresse gesendet.",
   "identity.users.password.reset.notfound": "Benutzer nicht gefunden oder E-Mail nicht bestätigt.",
   "identity.users.password.change.failed": "Passwortänderung fehlgeschlagen.",
   "identity.error.generic": "Ein Fehler ist aufgetreten!",
   "infrastructure.caching.added": "Cache hinzugefügt: {0}",
   "infrastructure.caching.refreshed": "Cache aktualisiert: {0}",
   "multitenancy.tenant.invalid": "Ungültiger Mandant.",
-  "multitenancy.tenant.expired": "Die Gültigkeit des Mandanten ist abgelaufen. Bitte kontaktieren Sie den Anwendungsadministrator.",
+  "multitenancy.tenant.expired":
+    "Die Gültigkeit des Mandanten ist abgelaufen. Bitte kontaktieren Sie den Anwendungsadministrator.",
   "multitenancy.tenant.inactive": "Der Mandant ist nicht aktiv. Bitte kontaktieren Sie den Anwendungsadministrator.",
   "multitenancy.tenant.alreadyexists": "Der Mandant {0} existiert bereits.",
   "multitenancy.tenant.entitiy.notfound": "Mandant mit ID {0} nicht gefunden."

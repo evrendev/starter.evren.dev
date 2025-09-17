@@ -10,9 +10,11 @@ public class PaginateTenantsFilter : PaginationFilter, IRequest<PaginationRespon
     public DateTime? EndDate { get; set; }
 }
 
-public class PaginateTenantsRequestHandler(ITenantService tenantService) : IRequestHandler<PaginateTenantsFilter, PaginationResponse<TenantDto>>
+public class PaginateTenantsRequestHandler
+    (ITenantService tenantService) : IRequestHandler<PaginateTenantsFilter, PaginationResponse<TenantDto>>
 {
-    public async Task<PaginationResponse<TenantDto>> Handle(PaginateTenantsFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<TenantDto>> Handle(PaginateTenantsFilter filter,
+        CancellationToken cancellationToken)
     {
         return await tenantService.PaginatedListAsync(filter, cancellationToken);
     }

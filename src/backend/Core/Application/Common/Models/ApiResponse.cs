@@ -2,16 +2,16 @@ namespace EvrenDev.Application.Common.Models;
 
 public class ApiResponse<T>
 {
-    public bool Succeeded { get; private set; }
-    public T Data { get; private set; }
-    public string[] Errors { get; private set; }
-
     private ApiResponse(bool succeeded, T data = default!, string[] errors = null!)
     {
         Succeeded = succeeded;
         Data = data;
         Errors = errors ?? Array.Empty<string>();
     }
+
+    public bool Succeeded { get; }
+    public T Data { get; }
+    public string[] Errors { get; }
 
     public static ApiResponse<T> Success(T data)
     {

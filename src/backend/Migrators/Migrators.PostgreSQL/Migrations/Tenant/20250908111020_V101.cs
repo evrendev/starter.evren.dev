@@ -1,52 +1,50 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
+namespace Migrators.PostgreSQL.Migrations.Tenant;
 
-namespace Migrators.PostgreSQL.Migrations.Tenant
+/// <inheritdoc />
+public partial class V101 : Migration
 {
     /// <inheritdoc />
-    public partial class V101 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.EnsureSchema(
-                name: "MultiTenancy");
+        migrationBuilder.EnsureSchema(
+            "MultiTenancy");
 
-            migrationBuilder.CreateTable(
-                name: "Tenants",
-                schema: "MultiTenancy",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    Identifier = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ConnectionString = table.Column<string>(type: "text", nullable: false),
-                    AdminEmail = table.Column<string>(type: "text", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ValidUpto = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Issuer = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tenants", x => x.Id);
-                });
+        migrationBuilder.CreateTable(
+            "Tenants",
+            schema: "MultiTenancy",
+            columns: table => new
+            {
+                Id = table.Column<string>("character varying(64)", maxLength: 64, nullable: false),
+                Identifier = table.Column<string>("text", nullable: false),
+                Name = table.Column<string>("text", nullable: false),
+                ConnectionString = table.Column<string>("text", nullable: false),
+                AdminEmail = table.Column<string>("text", nullable: false),
+                IsActive = table.Column<bool>("boolean", nullable: false),
+                ValidUpto = table.Column<DateTime>("timestamp without time zone", nullable: false),
+                Issuer = table.Column<string>("text", nullable: true)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Tenants", x => x.Id);
+            });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Tenants_Identifier",
-                schema: "MultiTenancy",
-                table: "Tenants",
-                column: "Identifier",
-                unique: true);
-        }
+        migrationBuilder.CreateIndex(
+            "IX_Tenants_Identifier",
+            schema: "MultiTenancy",
+            table: "Tenants",
+            column: "Identifier",
+            unique: true);
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Tenants",
-                schema: "MultiTenancy");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropTable(
+            "Tenants",
+            "MultiTenancy");
     }
 }

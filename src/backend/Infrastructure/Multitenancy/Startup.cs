@@ -26,27 +26,29 @@ internal static class Startup
         return services
             .AddDbContext<TenantDbContext>(m => m.UseDatabase(dbProvider, rootConnectionString))
             .AddMultiTenant<TenantInfo>()
-                .WithClaimStrategy(ApiClaims.Tenant)
-                .WithHeaderStrategy(MultitenancyConstants.TenantIdName)
-                .WithQueryStringStrategy(MultitenancyConstants.TenantIdName)
-                .WithEFCoreStore<TenantDbContext, TenantInfo>()
-                .Services
+            .WithClaimStrategy(ApiClaims.Tenant)
+            .WithHeaderStrategy(MultitenancyConstants.TenantIdName)
+            .WithQueryStringStrategy(MultitenancyConstants.TenantIdName)
+            .WithEFCoreStore<TenantDbContext, TenantInfo>()
+            .Services
             .AddScoped<ITenantService, TenantService>();
     }
 
-    internal static IApplicationBuilder UseMultiTenancy(this IApplicationBuilder app) =>
-        app.UseMultiTenant();
+    internal static IApplicationBuilder UseMultiTenancy(this IApplicationBuilder app)
+    {
+        return app.UseMultiTenant();
+    }
 
-    private static FinbuckleMultiTenantBuilder<TenantInfo> WithQueryStringStrategy(this FinbuckleMultiTenantBuilder<TenantInfo> builder, string queryStringKey) =>
-        builder.WithDelegateStrategy(context =>
+    private static FinbuckleMultiTenantBuilder<TenantInfo> WithQueryStringStrategy(
+        this FinbuckleMultiTenantBuilder<TenantInfo> builder, string queryStringKey)
+    {
+        return builder.WithDelegateStrategy(context =>
         {
-            if (context is not HttpContext httpContext)
-            {
-                return Task.FromResult((string?)null);
-            }
+            if (context is not HttpContext httpContext) return Task.FromResult((string?)null);
 
             httpContext.Request.Query.TryGetValue(queryStringKey, out var tenantIdParam);
 
             return Task.FromResult((string?)tenantIdParam.ToString());
         });
+    }
 }

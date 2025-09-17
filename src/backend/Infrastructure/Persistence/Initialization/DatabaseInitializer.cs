@@ -9,10 +9,10 @@ using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 namespace EvrenDev.Infrastructure.Persistence.Initialization;
 
 internal class DatabaseInitializer(
-    TenantDbContext tenantDbContext,
-    IOptions<DatabaseSettings> dbSettings,
-    IServiceProvider serviceProvider,
-    ILogger<DatabaseInitializer> logger)
+        TenantDbContext tenantDbContext,
+        IOptions<DatabaseSettings> dbSettings,
+        IServiceProvider serviceProvider,
+        ILogger<DatabaseInitializer> logger)
     : IDatabaseInitializer
 {
     private readonly DatabaseSettings _dbSettings = dbSettings.Value;
@@ -22,9 +22,7 @@ internal class DatabaseInitializer(
         await InitializeTenantDbAsync(cancellationToken);
 
         foreach (var tenant in await tenantDbContext.TenantInfo.ToListAsync(cancellationToken))
-        {
             await InitializeApplicationDbForTenantAsync(tenant, cancellationToken);
-        }
     }
 
     public async Task InitializeApplicationDbForTenantAsync(TenantInfo tenant, CancellationToken cancellationToken)
@@ -34,10 +32,7 @@ internal class DatabaseInitializer(
 
         // Then set current tenant so the right connectionstring is used
         serviceProvider.GetRequiredService<IMultiTenantContextAccessor>().MultiTenantContext =
-            new MultiTenantContext<TenantInfo>
-            {
-                TenantInfo = tenant
-            };
+            new MultiTenantContext<TenantInfo> { TenantInfo = tenant };
 
         // Then run the initialization in the new scope
         await scope.ServiceProvider.GetRequiredService<ApplicationDbInitializer>()
@@ -58,7 +53,8 @@ internal class DatabaseInitializer(
 
     private async Task SeedRootTenantAsync(CancellationToken cancellationToken)
     {
-        if (await tenantDbContext.TenantInfo.FindAsync(new object?[] { MultitenancyConstants.Root.Id }, cancellationToken: cancellationToken) is null)
+        if (await tenantDbContext.TenantInfo.FindAsync(new object?[] { MultitenancyConstants.Root.Id },
+                cancellationToken: cancellationToken) is null)
         {
             var rootTenant = new TenantInfo(
                 MultitenancyConstants.Root.Id,

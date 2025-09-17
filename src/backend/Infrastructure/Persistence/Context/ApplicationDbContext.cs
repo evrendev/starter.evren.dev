@@ -8,12 +8,12 @@ using Microsoft.Extensions.Options;
 namespace EvrenDev.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext(
-    ITenantInfo currentTenant,
-    DbContextOptions options,
-    ICurrentUser currentUser,
-    ISerializerService serializer,
-    IOptions<DatabaseSettings> dbSettings,
-    IEventPublisher events)
+        ITenantInfo currentTenant,
+        DbContextOptions options,
+        ICurrentUser currentUser,
+        ISerializerService serializer,
+        IOptions<DatabaseSettings> dbSettings,
+        IEventPublisher events)
     : BaseDbContext(currentTenant, options, currentUser, serializer, dbSettings, events)
 {
     public DbSet<Product> Products => Set<Product>();

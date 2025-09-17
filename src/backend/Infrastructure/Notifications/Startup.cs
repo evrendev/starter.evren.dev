@@ -26,7 +26,8 @@ internal static class Startup
             {
                 case "redis":
                     if (backplaneSettings.StringConnection is null)
-                        throw new InvalidOperationException("Redis backplane provider: No connectionString configured.");
+                        throw new InvalidOperationException(
+                            "Redis backplane provider: No connectionString configured.");
                     services.AddSignalR().AddStackExchangeRedis(backplaneSettings.StringConnection, options =>
                     {
                         options.Configuration.AbortOnConnectFail = false;

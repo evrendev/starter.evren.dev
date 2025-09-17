@@ -10,8 +10,8 @@ public class AhasendMailService(IOptions<MailSettings> settings,
     ILogger<AhasendMailService> logger,
     IHttpClientFactory clientFactory) : IMailService
 {
-    private readonly MailSettings _settings = settings.Value;
     private readonly IHttpClientFactory _clientFactory = clientFactory;
+    private readonly MailSettings _settings = settings.Value;
 
     public async Task SendAsync(MailRequest request)
     {
@@ -21,8 +21,7 @@ public class AhasendMailService(IOptions<MailSettings> settings,
 
             var jsonMailSerializeOptions = new JsonSerializerOptions
             {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                WriteIndented = true
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower, WriteIndented = true
             };
 
             var jsonContent = JsonSerializer.Serialize(request, jsonMailSerializeOptions);
@@ -33,7 +32,8 @@ public class AhasendMailService(IOptions<MailSettings> settings,
 
             var response = await httpClient.PostAsync(_settings.ApiUrl, content);
 
-            logger.LogInformation("Sending email from {Email} with subject {Subject}", request?.From?.Email, request?.Content?.Subject);
+            logger.LogInformation("Sending email from {Email} with subject {Subject}", request?.From?.Email,
+                request?.Content?.Subject);
         }
         catch (Exception ex)
         {

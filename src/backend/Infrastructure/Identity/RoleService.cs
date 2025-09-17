@@ -18,31 +18,39 @@ using Microsoft.Extensions.Localization;
 namespace EvrenDev.Infrastructure.Identity;
 
 internal class RoleService(
-    RoleManager<ApplicationRole> roleManager,
-    UserManager<ApplicationUser> userManager,
-    ApplicationDbContext db,
-    IStringLocalizer<RoleService> localizer,
-    ICurrentUser currentUser,
-    ITenantInfo currentTenant,
-    IEventPublisher events)
+        RoleManager<ApplicationRole> roleManager,
+        UserManager<ApplicationUser> userManager,
+        ApplicationDbContext db,
+        IStringLocalizer<RoleService> localizer,
+        ICurrentUser currentUser,
+        ITenantInfo currentTenant,
+        IEventPublisher events)
     : IRoleService
 {
-    public async Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken) =>
-        (await roleManager.Roles.ToListAsync(cancellationToken))
+    public async Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken)
+    {
+        return (await roleManager.Roles.ToListAsync(cancellationToken))
             .Adapt<List<RoleDto>>();
+    }
 
-    public async Task<int> GetCountAsync(CancellationToken cancellationToken) =>
-        await roleManager.Roles.CountAsync(cancellationToken);
+    public async Task<int> GetCountAsync(CancellationToken cancellationToken)
+    {
+        return await roleManager.Roles.CountAsync(cancellationToken);
+    }
 
-    public async Task<bool> ExistsAsync(string roleName, string? excludeId) =>
-        await roleManager.FindByNameAsync(roleName)
-            is ApplicationRole existingRole
-            && existingRole.Id != excludeId;
+    public async Task<bool> ExistsAsync(string roleName, string? excludeId)
+    {
+        return await roleManager.FindByNameAsync(roleName)
+                   is ApplicationRole existingRole
+               && existingRole.Id != excludeId;
+    }
 
-    public async Task<RoleDto> GetByIdAsync(string id) =>
-        await db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
+    public async Task<RoleDto> GetByIdAsync(string id)
+    {
+        return await db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
             ? role.Adapt<RoleDto>()
             : throw new NotFoundException(localizer["identity.roles.notfound"]);
+    }
 
     public async Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken)
     {
@@ -65,9 +73,8 @@ internal class RoleService(
             var result = await roleManager.CreateAsync(role);
 
             if (!result.Succeeded)
-            {
-                throw new InternalServerException(localizer["identity.roles.create.failed"], result.GetErrors(localizer));
-            }
+                throw new InternalServerException(localizer["identity.roles.create.failed"],
+                    result.GetErrors(localizer));
 
             await events.PublishAsync(new ApplicationRoleCreatedEvent(role.Id, role.Name));
 
@@ -81,9 +88,7 @@ internal class RoleService(
             _ = role ?? throw new NotFoundException(localizer["identity.roles.notfound"]);
 
             if (ApiRoles.IsDefault(role.Name))
-            {
                 throw new ConflictException(string.Format(localizer["identity.roles.modify.notallowed"], role.Name));
-            }
 
             role.Name = request.Name;
             role.NormalizedName = request.Name.ToUpperInvariant();
@@ -91,9 +96,8 @@ internal class RoleService(
             var result = await roleManager.UpdateAsync(role);
 
             if (!result.Succeeded)
-            {
-                throw new InternalServerException(localizer["identity.roles.update.failed"], result.GetErrors(localizer));
-            }
+                throw new InternalServerException(localizer["identity.roles.update.failed"],
+                    result.GetErrors(localizer));
 
             await events.PublishAsync(new ApplicationRoleUpdatedEvent(role.Id, role.Name));
 
@@ -101,20 +105,17 @@ internal class RoleService(
         }
     }
 
-    public async Task<string> UpdatePermissionsAsync(UpdateRolePermissionsRequest request, CancellationToken cancellationToken)
+    public async Task<string> UpdatePermissionsAsync(UpdateRolePermissionsRequest request,
+        CancellationToken cancellationToken)
     {
         var role = await roleManager.FindByIdAsync(request.RoleId);
         _ = role ?? throw new NotFoundException(localizer["identity.roles.notfound"]);
         if (role.Name == ApiRoles.Admin)
-        {
             throw new ConflictException(localizer["identity.roles.permissions.modify.notallowed"]);
-        }
 
         if (currentTenant.Id != MultitenancyConstants.Root.Id)
-        {
             // Remove Root Permissions if the Role is not created for Root Tenant.
             request.Permissions.RemoveAll(u => u.StartsWith("Permissions.Root."));
-        }
 
         var currentClaims = await roleManager.GetClaimsAsync(role);
 
@@ -123,14 +124,12 @@ internal class RoleService(
         {
             var removeResult = await roleManager.RemoveClaimAsync(role, claim);
             if (!removeResult.Succeeded)
-            {
-                throw new InternalServerException(localizer["identity.roles.update.permissions.failed"], removeResult.GetErrors(localizer));
-            }
+                throw new InternalServerException(localizer["identity.roles.update.permissions.failed"],
+                    removeResult.GetErrors(localizer));
         }
 
         // Add all permissions that were not previously selected
         foreach (var permission in request.Permissions.Where(c => !currentClaims.Any(p => p.Value == c)))
-        {
             if (!string.IsNullOrEmpty(permission))
             {
                 db.RoleClaims.Add(new ApplicationRoleClaim
@@ -142,7 +141,6 @@ internal class RoleService(
                 });
                 await db.SaveChangesAsync(cancellationToken);
             }
-        }
 
         await events.PublishAsync(new ApplicationRoleUpdatedEvent(role.Id, role.Name, true));
 
@@ -156,14 +154,10 @@ internal class RoleService(
         _ = role ?? throw new NotFoundException(localizer["identity.roles.notfound"]);
 
         if (ApiRoles.IsDefault(role.Name))
-        {
             throw new ConflictException(string.Format(localizer["identity.roles.delete.notallowed"], role.Name));
-        }
 
         if ((await userManager.GetUsersInRoleAsync(role.Name)).Count > 0)
-        {
             throw new ConflictException(string.Format(localizer["identity.roles.delete.inuse"], role.Name));
-        }
 
         await roleManager.DeleteAsync(role);
 
@@ -172,17 +166,18 @@ internal class RoleService(
         return string.Format(localizer["identity.roles.delete.success"], role.Name);
     }
 
-    public async Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter,
+        CancellationToken cancellationToken)
     {
         IQueryable<ApplicationRole> query = roleManager.Roles;
 
         if (!string.IsNullOrEmpty(filter.Search))
         {
-            string searchLower = filter.Search.ToLower();
+            var searchLower = filter.Search.ToLower();
             query = query.Where(role =>
                 role.Id.ToLower().Contains(searchLower) ||
-                role.Name != null && role.Name.ToLower().Contains(searchLower) ||
-                role.Description != null && role.Description.ToLower().Contains(searchLower)
+                (role.Name != null && role.Name.ToLower().Contains(searchLower)) ||
+                (role.Description != null && role.Description.ToLower().Contains(searchLower))
             );
         }
 
@@ -190,8 +185,8 @@ internal class RoleService(
         {
             var sortItem = filter.SortBy[0];
 
-            bool isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
-            string sortField = sortItem.Key ?? string.Empty;
+            var isDescending = sortItem.Order?.Equals("desc", StringComparison.OrdinalIgnoreCase) ?? false;
+            var sortField = sortItem.Key ?? string.Empty;
 
             switch (sortField.ToLower())
             {
@@ -212,7 +207,7 @@ internal class RoleService(
             query = query.OrderBy(t => t.Id);
         }
 
-        int totalItems = await query.CountAsync();
+        var totalItems = await query.CountAsync();
 
         var pagedData = await query
             .Skip((filter.Page - 1) * filter.ItemsPerPage)

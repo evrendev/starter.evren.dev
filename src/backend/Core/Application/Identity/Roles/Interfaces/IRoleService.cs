@@ -9,7 +9,8 @@ public interface IRoleService : ITransientService
 {
     Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken);
 
-    Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter, CancellationToken cancellationToken);
+    Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter,
+        CancellationToken cancellationToken);
 
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 

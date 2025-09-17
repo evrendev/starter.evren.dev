@@ -14,7 +14,9 @@ public class UpdateCategoryRequest : IRequest<Guid>
 
 public class UpdateCategoryRequestValidator : CustomValidator<UpdateCategoryRequest>
 {
-    public UpdateCategoryRequestValidator(IRepository<Category> repository, IStringLocalizer<UpdateCategoryRequestValidator> localizer) =>
+    public UpdateCategoryRequestValidator(IRepository<Category> repository,
+        IStringLocalizer<UpdateCategoryRequestValidator> localizer)
+    {
         RuleFor(p => p.Name)
             .NotEmpty()
             .MaximumLength(75)
@@ -22,9 +24,11 @@ public class UpdateCategoryRequestValidator : CustomValidator<UpdateCategoryRequ
                 await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct)
                     is not Category existingCategory || existingCategory.Id == category.Id)
             .WithMessage((_, name) => string.Format(localizer["catalog.categories.update.alreadyexists"], name));
+    }
 }
 
-public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> repository, IStringLocalizer<UpdateCategoryRequestHandler> localizer)
+public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> repository,
+        IStringLocalizer<UpdateCategoryRequestHandler> localizer)
     : IRequestHandler<UpdateCategoryRequest, Guid>
 {
     // Add Domain Events automatically by using IRepositoryWithEvents
@@ -33,7 +37,8 @@ public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> reposi
     {
         var category = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = category ?? throw new NotFoundException(string.Format(localizer["catalog.categories.update.notfound"], request.Id));
+        _ = category ??
+            throw new NotFoundException(string.Format(localizer["catalog.categories.update.notfound"], request.Id));
 
         category.Update(request.Name, request.Description);
 

@@ -1,7 +1,8 @@
 ﻿namespace EvrenDev.Infrastructure.OpenApi;
 
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class SwaggerHeaderAttribute(string headerName, string? description = null, string? defaultValue = null, bool isRequired = false)
+[AttributeUsage(AttributeTargets.Method)]
+public class SwaggerHeaderAttribute(string headerName, string? description = null, string? defaultValue = null,
+        bool isRequired = false)
     : Attribute
 {
     public string HeaderName { get; } = headerName;

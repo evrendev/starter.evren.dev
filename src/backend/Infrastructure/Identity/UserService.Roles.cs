@@ -18,7 +18,6 @@ internal partial class UserService
 
         var roles = await roleManager.Roles.AsNoTracking().ToListAsync(cancellationToken);
         foreach (var role in roles)
-        {
             userRoles.Add(new UserRoleDto
             {
                 RoleId = role.Id,
@@ -26,12 +25,12 @@ internal partial class UserService
                 Description = role.Description,
                 Enabled = await userManager.IsInRoleAsync(user, role.Name)
             });
-        }
 
         return userRoles;
     }
 
-    public async Task<string> AssignRolesAsync(string userId, UserRolesRequest request, CancellationToken cancellationToken)
+    public async Task<string> AssignRolesAsync(string userId, UserRolesRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request, nameof(request));
 
@@ -51,9 +50,7 @@ internal partial class UserService
             if (user.Email == MultitenancyConstants.Root.EmailAddress)
             {
                 if (currentTenant.Id == MultitenancyConstants.Root.Id)
-                {
                     throw new ConflictException(localizer["identity.users.roles.admin.cannotremove"]);
-                }
             }
             else if (adminCount <= 2)
             {
@@ -62,23 +59,19 @@ internal partial class UserService
         }
 
         foreach (var userRole in request.UserRoles)
-        {
             // Check if Role Exists
             if (await roleManager.FindByNameAsync(userRole.RoleName) is not null)
             {
                 if (userRole.Enabled)
                 {
                     if (!await userManager.IsInRoleAsync(user, userRole.RoleName))
-                    {
                         await userManager.AddToRoleAsync(user, userRole.RoleName);
-                    }
                 }
                 else
                 {
                     await userManager.RemoveFromRoleAsync(user, userRole.RoleName);
                 }
             }
-        }
 
         await events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id, true));
 

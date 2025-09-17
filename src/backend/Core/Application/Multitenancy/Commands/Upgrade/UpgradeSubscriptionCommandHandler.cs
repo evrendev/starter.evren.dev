@@ -10,13 +10,18 @@ public class UpgradeSubscriptionCommand : IRequest<string>
 
 public class UpgradeSubscriptionCommandValidator : CustomValidator<UpgradeSubscriptionCommand>
 {
-    public UpgradeSubscriptionCommandValidator() =>
+    public UpgradeSubscriptionCommandValidator()
+    {
         RuleFor(t => t.TenantId)
             .NotEmpty();
+    }
 }
 
-public class UpgradeSubscriptionCommandHandler(ITenantService tenantService) : IRequestHandler<UpgradeSubscriptionCommand, string>
+public class UpgradeSubscriptionCommandHandler
+    (ITenantService tenantService) : IRequestHandler<UpgradeSubscriptionCommand, string>
 {
-    public Task<string> Handle(UpgradeSubscriptionCommand command, CancellationToken cancellationToken) =>
-        tenantService.UpdateSubscription(command.TenantId, command.ExtendedExpiryDate);
+    public Task<string> Handle(UpgradeSubscriptionCommand command, CancellationToken cancellationToken)
+    {
+        return tenantService.UpdateSubscription(command.TenantId, command.ExtendedExpiryDate);
+    }
 }

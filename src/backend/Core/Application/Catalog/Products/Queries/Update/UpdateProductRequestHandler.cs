@@ -20,15 +20,16 @@ public class UpdateProductRequest : IRequest<Guid>
 
 public class UpdateProductRequestValidator : CustomValidator<UpdateProductRequest>
 {
-    public UpdateProductRequestValidator(IReadRepository<Product> productRepo, IReadRepository<Brand> brandRepo, IStringLocalizer<UpdateProductRequestValidator> localizer)
+    public UpdateProductRequestValidator(IReadRepository<Product> productRepo, IReadRepository<Brand> brandRepo,
+        IStringLocalizer<UpdateProductRequestValidator> localizer)
     {
         RuleFor(p => p.Name)
             .NotEmpty()
             .MaximumLength(75)
             .MustAsync(async (product, name, ct) =>
-                    await productRepo.FirstOrDefaultAsync(new ProductByNameSpec(name), ct)
-                        is not Product existingProduct || existingProduct.Id == product.Id)
-                .WithMessage((_, name) => string.Format(localizer["catalog.products.update.alreadyexists"], name));
+                await productRepo.FirstOrDefaultAsync(new ProductByNameSpec(name), ct)
+                    is not Product existingProduct || existingProduct.Id == product.Id)
+            .WithMessage((_, name) => string.Format(localizer["catalog.products.update.alreadyexists"], name));
 
         RuleFor(p => p.Rate)
             .GreaterThanOrEqualTo(1);
@@ -39,21 +40,22 @@ public class UpdateProductRequestValidator : CustomValidator<UpdateProductReques
         RuleFor(p => p.BrandId)
             .NotEmpty()
             .MustAsync(async (id, ct) => await brandRepo.GetByIdAsync(id, ct) is not null)
-                .WithMessage((_, id) => string.Format(localizer["catalog.brands.notfound"], id));
+            .WithMessage((_, id) => string.Format(localizer["catalog.brands.notfound"], id));
     }
 }
 
 public class UpdateProductRequestHandler(
-    IRepository<Product> repository,
-    IStringLocalizer<UpdateProductRequestHandler> localizer,
-    IFileStorageService file)
+        IRepository<Product> repository,
+        IStringLocalizer<UpdateProductRequestHandler> localizer,
+        IFileStorageService file)
     : IRequestHandler<UpdateProductRequest, Guid>
 {
     public async Task<Guid> Handle(UpdateProductRequest request, CancellationToken cancellationToken)
     {
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = product ?? throw new NotFoundException(string.Format(localizer["catalog.products.update.notfound"], request.Id));
+        _ = product ??
+            throw new NotFoundException(string.Format(localizer["catalog.products.update.notfound"], request.Id));
 
         // Remove old image if flag is set
         if (request.DeleteCurrentImage)
@@ -72,7 +74,8 @@ public class UpdateProductRequestHandler(
             ? await file.UploadAsync<Product>(request.Image, FileType.Image, cancellationToken)
             : null;
 
-        var updatedProduct = product.Update(request.Name, request.Description, request.Rate, request.BrandId, productImagePath);
+        var updatedProduct = product.Update(request.Name, request.Description, request.Rate, request.BrandId,
+            productImagePath);
 
         // Add Domain Events to be raised after the commit
         product.DomainEvents.Add(EntityUpdatedEvent.WithEntity(product));

@@ -4,7 +4,7 @@ public enum Language
 {
     En = 1,
     Tr = 2,
-    De = 3,
+    De = 3
 }
 
 public static class LanguageExtensions
@@ -16,7 +16,7 @@ public static class LanguageExtensions
             Language.En => "en",
             Language.Tr => "tr",
             Language.De => "de",
-            _ => "en",
+            _ => "en"
         };
     }
 
@@ -27,19 +27,15 @@ public static class LanguageExtensions
             1 => Language.En,
             2 => Language.Tr,
             3 => Language.De,
-            _ => Language.En,
+            _ => Language.En
         };
     }
 
     public static List<LanguageInfo> ToList()
     {
-        return [.. Enum.GetValues<Language>()
-            .Select(l => new LanguageInfo
-            {
-                Name = GetValue(l),
-                Value = l
-            })
-            .Cast<LanguageInfo>()];
+        return [
+        .. Enum.GetValues<Language>()
+            .Select(l => new LanguageInfo { Name = GetValue(l), Value = l })];
     }
 
     public class LanguageInfo

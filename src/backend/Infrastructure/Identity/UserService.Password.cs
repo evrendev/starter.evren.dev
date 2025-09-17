@@ -13,32 +13,24 @@ internal partial class UserService
 
         var user = await userManager.FindByEmailAsync(request.Email.Normalize());
         if (user is null || !await userManager.IsEmailConfirmedAsync(user))
-        {
             // Don't reveal that the user does not exist or is not confirmed
             throw new InternalServerException(localizer["identity.users.password.reset.notfound"]);
-        }
 
         // For more information on how to enable account confirmation and password reset please
         // visit https://go.microsoft.com/fwlink/?LinkID=532713
         var code = await userManager.GeneratePasswordResetTokenAsync(user);
         const string route = "auth/reset-password";
         var endpointUri = new Uri(string.Concat($"{origin}/", route));
-        var queryParams = new Dictionary<string, string?>
-        {
-            {"email", user.Email},
-            {"token", code}
-        };
+        var queryParams = new Dictionary<string, string?> { { "email", user.Email }, { "token", code } };
         var passwordResetUrl = QueryHelpers.AddQueryString(endpointUri.ToString(), queryParams);
-        var recipients = new List<Contact>
-        {
-            new(user.Email, $"{user.FirstName} {user.LastName}")
-        };
+        var recipients = new List<Contact> { new(user.Email, $"{user.FirstName} {user.LastName}") };
 
         var content = new Content
         {
             Subject = localizer["identity.users.password.reset.subject"],
             TextBody = localizer["identity.users.password.reset.text.body", code, passwordResetUrl],
-            HtmlBody = localizer["identity.users.password.reset.html.body", passwordResetUrl, localizer["identity.users.password.reset.button"]],
+            HtmlBody = localizer["identity.users.password.reset.html.body", passwordResetUrl,
+                localizer["identity.users.password.reset.button"]]
         };
 
         var mailRequest = new MailRequest(
@@ -74,8 +66,7 @@ internal partial class UserService
         var result = await userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
 
         if (!result.Succeeded)
-        {
-            throw new InternalServerException(localizer["identity.users.password.change.failed"], result.GetErrors(localizer));
-        }
+            throw new InternalServerException(localizer["identity.users.password.change.failed"],
+                result.GetErrors(localizer));
     }
 }

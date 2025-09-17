@@ -70,8 +70,10 @@
   "identity.roles.delete.success": "Role {0} Deleted.",
   "identity.roles.similar.exists": "Similar Role already exists.",
   "identity.users.password.reset.subject": "Reset Your Password",
-  "identity.users.password.reset.text.body": "Hello,\n\n A password reset request has been received for your account. Click the link below to set a new password.\n\n {0} \n\n If you did not request a password reset, you can safely ignore this email.",
-  "identity.users.password.reset.html.body": "<p>Hello,</p><p>A password reset request has been received for your account. Click the link below to set a new password:</p><p><a href='{0}'>{1}</a></p><p>If you did not request a password reset, you can safely ignore this email.</p>",
+  "identity.users.password.reset.text.body":
+    "Hello,\n\n A password reset request has been received for your account. Click the link below to set a new password.\n\n {0} \n\n If you did not request a password reset, you can safely ignore this email.",
+  "identity.users.password.reset.html.body":
+    "<p>Hello,</p><p>A password reset request has been received for your account. Click the link below to set a new password:</p><p><a href='{0}'>{1}</a></p><p>If you did not request a password reset, you can safely ignore this email.</p>",
   "identity.users.password.reset.button": "Reset My Password",
   "identity.users.password.reset.success": "Password Reset Mail has been sent to your authorized Email.",
   "identity.users.password.reset.notfound": "User Not Found or Email not confirmed.",

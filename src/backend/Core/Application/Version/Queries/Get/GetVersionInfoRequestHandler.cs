@@ -13,10 +13,6 @@ public class GetVersionInfoRequestHandler : IRequestHandler<GetVersionInfoReques
     {
         var buildTime = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location);
         var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
-        return Task.FromResult(new VersionInfoDto
-        {
-            Version = version,
-            BuildTime = buildTime.ToString()
-        });
+        return Task.FromResult(new VersionInfoDto { Version = version, BuildTime = buildTime.ToString() });
     }
 }

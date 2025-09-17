@@ -16,16 +16,15 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         AddRefreshTokenCookie(tokenResult.RefreshToken);
 
         if (tokenResult.TwoFactorAuthRequired)
-        {
             return ApiResponse<TokenResponse>.Success(new TokenResponse(
                 string.Empty,
                 string.Empty,
                 DateTime.MinValue,
                 true
             ));
-        }
 
-        var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken, tokenResult.RefreshTokenExpiryTime, false);
+        var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken,
+            tokenResult.RefreshTokenExpiryTime);
 
         return ApiResponse<TokenResponse>.Success(data);
     }
@@ -53,7 +52,8 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         try
         {
             var tokenResult = await tokenService.RefreshTokenAsync(accessToken, GetIpAddress());
-            var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken, tokenResult.RefreshTokenExpiryTime);
+            var data = new TokenResponse(tokenResult.AccessToken, tokenResult.RefreshToken,
+                tokenResult.RefreshTokenExpiryTime);
             AddRefreshTokenCookie(tokenResult.RefreshToken);
 
             return ApiResponse<TokenResponse>.Success(data);
@@ -81,10 +81,7 @@ public sealed class AuthController(ITokenService tokenService) : VersionNeutralA
         const string Na = "N/A";
 
         var headers = Request.Headers;
-        if (headers.TryGetValue("X-Forwarded-For", out var forwardedForHeader))
-        {
-            return forwardedForHeader.ToString();
-        }
+        if (headers.TryGetValue("X-Forwarded-For", out var forwardedForHeader)) return forwardedForHeader.ToString();
 
         return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? Na;
     }

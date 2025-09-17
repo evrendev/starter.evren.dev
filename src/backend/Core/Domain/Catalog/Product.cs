@@ -2,13 +2,6 @@
 
 public class Product : AuditableEntity, IAggregateRoot
 {
-    public string Name { get; private set; } = default!;
-    public string? Description { get; private set; }
-    public decimal Rate { get; private set; }
-    public string? ImagePath { get; private set; }
-    public Guid BrandId { get; private set; }
-    public virtual Brand Brand { get; private set; } = default!;
-
     public Product(string name, string? description, decimal rate, Guid brandId, string? imagePath)
     {
         Name = name;
@@ -17,6 +10,13 @@ public class Product : AuditableEntity, IAggregateRoot
         ImagePath = imagePath;
         BrandId = brandId;
     }
+
+    public string Name { get; private set; } = default!;
+    public string? Description { get; private set; }
+    public decimal Rate { get; private set; }
+    public string? ImagePath { get; private set; }
+    public Guid BrandId { get; private set; }
+    public virtual Brand Brand { get; } = default!;
 
     public Product Update(string? name, string? description, decimal? rate, Guid? brandId, string? imagePath)
     {

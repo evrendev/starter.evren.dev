@@ -31,6 +31,7 @@ public class TwoFactorLoginRequest
 
     public bool RememberMachine { get; set; }
 }
+
 public class TwoFactorSetupRequest
 {
     public string Id { get; set; } = string.Empty;

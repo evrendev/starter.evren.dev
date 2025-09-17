@@ -1,10 +1,10 @@
 using EvrenDev.Application;
-using EvrenDev.PublicApi.Configurations;
-using EvrenDev.PublicApi.Controllers;
 using EvrenDev.Infrastructure;
 using EvrenDev.Infrastructure.Common;
 using EvrenDev.Infrastructure.Common.Filters;
 using EvrenDev.PublicApi;
+using EvrenDev.PublicApi.Configurations;
+using EvrenDev.PublicApi.Controllers;
 using Serilog;
 
 [assembly: ApiConventionType(typeof(ApiConventions))]

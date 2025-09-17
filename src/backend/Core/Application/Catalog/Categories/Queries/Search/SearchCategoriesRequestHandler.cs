@@ -9,9 +9,11 @@ public class PaginateCategoriesFilter : PaginationFilter, IRequest<PaginationRes
 {
 }
 
-public class PaginateCategoriesFilterHandler(IReadRepository<Category> repository) : IRequestHandler<PaginateCategoriesFilter, PaginationResponse<CategoryDto>>
+public class PaginateCategoriesFilterHandler
+    (IReadRepository<Category> repository) : IRequestHandler<PaginateCategoriesFilter, PaginationResponse<CategoryDto>>
 {
-    public async Task<PaginationResponse<CategoryDto>> Handle(PaginateCategoriesFilter request, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<CategoryDto>> Handle(PaginateCategoriesFilter request,
+        CancellationToken cancellationToken)
     {
         var spec = new CategoriesBySearchRequestSpec(request);
         return await repository.PaginatedListAsync(spec, request.Page, request.ItemsPerPage, cancellationToken);

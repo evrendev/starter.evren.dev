@@ -9,8 +9,6 @@ internal class CustomSeederRunner(IServiceProvider serviceProvider)
     public async Task RunSeedersAsync(CancellationToken cancellationToken)
     {
         foreach (var seeder in _seeders)
-        {
             await seeder.InitializeAsync(cancellationToken);
-        }
     }
 }

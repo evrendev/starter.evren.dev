@@ -11,10 +11,13 @@ public class GetAbsencesQuery(Guid id) : IRequest<AbsenceDto>
     public Guid Id { get; set; } = id;
 }
 
-public class GetAbsencesQueryHandler(IRepository<Absence> repository, IStringLocalizer<GetAbsencesQueryHandler> localizer) : IRequestHandler<GetAbsencesQuery, AbsenceDto>
+public class GetAbsencesQueryHandler(IRepository<Absence> repository,
+    IStringLocalizer<GetAbsencesQueryHandler> localizer) : IRequestHandler<GetAbsencesQuery, AbsenceDto>
 {
-    public async Task<AbsenceDto> Handle(GetAbsencesQuery request, CancellationToken cancellationToken) =>
-        await repository.FirstOrDefaultAsync(
-            new AbsenceByIdSpec(request.Id), cancellationToken)
-        ?? throw new NotFoundException(string.Format(localizer["absence.notfound"], request.Id));
+    public async Task<AbsenceDto> Handle(GetAbsencesQuery request, CancellationToken cancellationToken)
+    {
+        return await repository.FirstOrDefaultAsync(
+                   new AbsenceByIdSpec(request.Id), cancellationToken)
+               ?? throw new NotFoundException(string.Format(localizer["absence.notfound"], request.Id));
+    }
 }

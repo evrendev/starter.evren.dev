@@ -12,15 +12,20 @@ public class CreateCategoryRequest : IRequest<Guid>
 
 public class CreateCategoryRequestValidator : CustomValidator<CreateCategoryRequest>
 {
-    public CreateCategoryRequestValidator(IReadRepository<Category> repository, IStringLocalizer<CreateCategoryRequestValidator> localizer) =>
+    public CreateCategoryRequestValidator(IReadRepository<Category> repository,
+        IStringLocalizer<CreateCategoryRequestValidator> localizer)
+    {
         RuleFor(p => p.Name)
             .NotEmpty()
             .MaximumLength(75)
-            .MustAsync(async (name, ct) => await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct) is null)
+            .MustAsync(async (name, ct) =>
+                await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct) is null)
             .WithMessage((_, name) => string.Format(localizer["catalog.categories.create.alreadyexists"], name));
+    }
 }
 
-public class CreateCategoryRequestHandler(IRepositoryWithEvents<Category> repository) : IRequestHandler<CreateCategoryRequest, Guid>
+public class CreateCategoryRequestHandler
+    (IRepositoryWithEvents<Category> repository) : IRequestHandler<CreateCategoryRequest, Guid>
 {
     public async Task<Guid> Handle(CreateCategoryRequest request, CancellationToken cancellationToken)
     {

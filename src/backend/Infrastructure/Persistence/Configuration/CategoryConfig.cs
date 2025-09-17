@@ -11,7 +11,7 @@ public class CategoryConfig : IEntityTypeConfiguration<Category>
         builder.IsMultiTenant();
 
         builder.Property(b => b.Name)
-                .HasMaxLength(256);
+            .HasMaxLength(256);
 
         builder.HasMany(b => b.Courses)
             .WithOne(b => b.Category)

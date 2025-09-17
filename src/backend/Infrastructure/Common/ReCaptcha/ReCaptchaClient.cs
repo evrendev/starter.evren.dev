@@ -24,7 +24,8 @@ public class ReCaptchaClient
         try
         {
             var secretKey = _configuration.GetSection("Google:ReCaptcha:V3:SecretKey").Get<string>();
-            var postTask = await _captchaClient.PostAsync($"?secret={secretKey}&response={captcha}", new StringContent(""));
+            var postTask =
+                await _captchaClient.PostAsync($"?secret={secretKey}&response={captcha}", new StringContent(""));
             var result = await postTask.Content.ReadAsStringAsync();
             var resultObject = JObject.Parse(result);
             dynamic success = resultObject["success"] ?? false;

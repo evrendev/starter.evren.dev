@@ -16,8 +16,9 @@ public class AuditTrail(EntityEntry entry, ISerializerService serializer)
     public List<string> ChangedColumns { get; } = new();
     public bool HasTemporaryProperties => TemporaryProperties.Count > 0;
 
-    public Trail ToAuditTrail() =>
-        new()
+    public Trail ToAuditTrail()
+    {
+        return new()
         {
             UserId = UserId,
             Type = TrailType.ToString(),
@@ -28,4 +29,5 @@ public class AuditTrail(EntityEntry entry, ISerializerService serializer)
             NewValues = NewValues.Count == 0 ? null : serializer.Serialize(NewValues),
             AffectedColumns = ChangedColumns.Count == 0 ? null : serializer.Serialize(ChangedColumns)
         };
+    }
 }

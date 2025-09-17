@@ -14,11 +14,11 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
 
         builder.Property(u => u.FirstName)
             .HasMaxLength(100)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(u => u.LastName)
             .HasMaxLength(100)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(u => u.PlaceOfBirth)
             .HasMaxLength(100);
@@ -26,15 +26,15 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
         builder.Property(u => u.Gender)
             .HasMaxLength(1)
             .HasDefaultValue(Gender.None)
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(u => u.Language)
             .HasMaxLength(2)
             .HasDefaultValue(Language.En)
-            .IsRequired(true);
+            .IsRequired();
 
         builder
             .Property(u => u.ObjectId)
-                .HasMaxLength(256);
+            .HasMaxLength(256);
     }
 }

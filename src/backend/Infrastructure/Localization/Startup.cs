@@ -17,10 +17,7 @@ internal static class Startup
         services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
 
         var middlewareSettings = config.GetSection(nameof(MiddlewareSettings)).Get<MiddlewareSettings>();
-        if (middlewareSettings!.EnableLocalization)
-        {
-            services.AddSingleton<LocalizationMiddleware>();
-        }
+        if (middlewareSettings!.EnableLocalization) services.AddSingleton<LocalizationMiddleware>();
 
         return services;
     }
@@ -33,10 +30,7 @@ internal static class Startup
         });
 
         var middlewareSettings = config.GetSection(nameof(MiddlewareSettings)).Get<MiddlewareSettings>();
-        if (middlewareSettings!.EnableLocalization)
-        {
-            app.UseMiddleware<LocalizationMiddleware>();
-        }
+        if (middlewareSettings!.EnableLocalization) app.UseMiddleware<LocalizationMiddleware>();
 
         return app;
     }

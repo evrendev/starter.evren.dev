@@ -40,11 +40,13 @@ public class CreateAbsenceCommandValidator : CustomValidator<CreateAbsenceComman
     }
 }
 
-public class CreateAbsenceCommandHandler(IRepositoryWithEvents<Absence> repository) : IRequestHandler<CreateAbsenceCommand, Guid>
+public class CreateAbsenceCommandHandler
+    (IRepositoryWithEvents<Absence> repository) : IRequestHandler<CreateAbsenceCommand, Guid>
 {
     public async Task<Guid> Handle(CreateAbsenceCommand command, CancellationToken cancellationToken)
     {
-        var absence = new Absence(command.StartDate, command.EndDate, command.Location, command.Employee, command.CalendarId, command.Description);
+        var absence = new Absence(command.StartDate, command.EndDate, command.Location, command.Employee,
+            command.CalendarId, command.Description);
 
         await repository.AddAsync(absence, cancellationToken);
         return absence.Id;

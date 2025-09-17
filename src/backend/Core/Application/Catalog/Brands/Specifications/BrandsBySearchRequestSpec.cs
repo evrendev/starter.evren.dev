@@ -8,6 +8,8 @@ namespace EvrenDev.Application.Catalog.Brands.Specifications;
 public class BrandsBySearchRequestSpec : EntitiesByPaginationFilterSpec<Brand, BrandDto>
 {
     public BrandsBySearchRequestSpec(SearchBrandsRequest request)
-        : base(request) =>
+        : base(request)
+    {
         Query.OrderBy(c => c.Name, !request.HasOrderBy());
+    }
 }
