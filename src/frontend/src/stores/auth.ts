@@ -118,7 +118,7 @@ export const useAuthStore = defineStore("auth", {
         this.clearTokens();
         personalStore.clearProfile();
         appStore.setLoading(false);
-        router.replace({ name: "login" });
+        window.location.href = "/auth/login";
       }
     },
 
