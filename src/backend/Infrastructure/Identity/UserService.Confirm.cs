@@ -37,7 +37,7 @@ internal partial class UserService
             .Where(u => u.Id == userId && !u.EmailConfirmed)
             .FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new InternalServerException(localizer["An error occurred while confirming E-Mail."]);
+        _ = user ?? throw new InternalServerException(localizer["identity.users.confirm.email.error"]);
 
         code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
         var result = await userManager.ConfirmEmailAsync(user, code);
@@ -50,7 +50,7 @@ internal partial class UserService
                 user.Email)
             : throw new InternalServerException(string.Format(
                 CultureInfo.CurrentCulture,
-                localizer["An error occurred while confirming {0}"],
+                localizer["identity.users.confirm.error"],
                 user.Email));
     }
 
@@ -60,7 +60,7 @@ internal partial class UserService
 
         var user = await userManager.FindByIdAsync(userId);
 
-        _ = user ?? throw new InternalServerException(localizer["An error occurred while confirming Mobile Phone."]);
+        _ = user ?? throw new InternalServerException(localizer["identity.users.confirm.phone.error"]);
 
         var result = await userManager.ChangePhoneNumberAsync(user, user.PhoneNumber ?? "N/A", code);
 
@@ -78,7 +78,7 @@ internal partial class UserService
                     user.PhoneNumber)
             : throw new InternalServerException(string.Format(
                 CultureInfo.CurrentCulture,
-                localizer["An error occurred while confirming {0}"],
+                localizer["identity.users.confirm.error"],
                 user.PhoneNumber));
     }
 }

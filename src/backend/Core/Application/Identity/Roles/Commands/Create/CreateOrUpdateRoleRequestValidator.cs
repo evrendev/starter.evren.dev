@@ -15,5 +15,5 @@ public class CreateOrUpdateRoleRequestValidator : CustomValidator<CreateOrUpdate
         RuleFor(r => r.Name)
             .NotEmpty()
             .MustAsync(async (role, name, _) => !await roleService.ExistsAsync(name, role.Id))
-            .WithMessage(localizer["Similar Role already exists."]);
+            .WithMessage(localizer["identity.roles.similar.exists"]);
 }

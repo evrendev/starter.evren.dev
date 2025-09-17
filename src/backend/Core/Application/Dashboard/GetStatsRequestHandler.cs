@@ -40,8 +40,8 @@ public class GetStatsRequestHandler(
             productsFigure[i - 1] = await productRepo.CountAsync(productSpec, cancellationToken);
         }
 
-        stats.DataEnterBarChart.Add(new ChartSeries { Name = localizer["Products"], Data = productsFigure });
-        stats.DataEnterBarChart.Add(new ChartSeries { Name = localizer["Brands"], Data = brandsFigure });
+        stats.DataEnterBarChart.Add(new ChartSeries { Name = localizer["dashboard.stats.products"], Data = productsFigure });
+        stats.DataEnterBarChart.Add(new ChartSeries { Name = localizer["dashboard.stats.brands"], Data = brandsFigure });
 
         return stats;
     }

@@ -10,7 +10,7 @@ internal partial class UserService
     {
         var user = await userManager.FindByIdAsync(userId);
 
-        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         var userRoles = await userManager.GetRolesAsync(user);
         var permissions = new List<string>();

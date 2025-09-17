@@ -26,7 +26,7 @@ internal partial class UserService
         var objectId = principal.GetObjectId();
         if (string.IsNullOrWhiteSpace(objectId))
         {
-            throw new InternalServerException(localizer["Invalid objectId"]);
+            throw new InternalServerException(localizer["identity.users.create.invalidobjectid"]);
         }
 
         var user = await userManager.Users.Where(u => u.ObjectId == objectId).FirstOrDefaultAsync()
@@ -48,13 +48,13 @@ internal partial class UserService
         var username = principal.GetDisplayName();
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username))
         {
-            throw new InternalServerException(string.Format(localizer["Username or Email not valid."]));
+            throw new InternalServerException(localizer["identity.users.create.invalidcredentials"]);
         }
 
         var user = await userManager.FindByNameAsync(username);
         if (user is not null && !string.IsNullOrWhiteSpace(user.ObjectId))
         {
-            throw new InternalServerException(string.Format(localizer["Username {0} is already taken."], username));
+            throw new InternalServerException(string.Format(localizer["identity.users.create.usernametaken"], username));
         }
 
         if (user is null)
@@ -62,7 +62,7 @@ internal partial class UserService
             user = await userManager.FindByEmailAsync(email);
             if (user is not null && !string.IsNullOrWhiteSpace(user.ObjectId))
             {
-                throw new InternalServerException(string.Format(localizer["Email {0} is already taken."], email));
+                throw new InternalServerException(string.Format(localizer["identity.users.create.emailtaken"], email));
             }
         }
 
@@ -96,7 +96,7 @@ internal partial class UserService
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(localizer["Validation Errors Occurred."], result.GetErrors(localizer));
+            throw new InternalServerException(localizer["identity.users.validation.error"], result.GetErrors(localizer));
         }
 
         return user;
@@ -123,13 +123,13 @@ internal partial class UserService
         var result = await userManager.CreateAsync(user, temporaryPassword);
         if (!result.Succeeded)
         {
-            throw new InternalServerException(localizer["Validation Errors Occurred."], result.GetErrors(localizer));
+            throw new InternalServerException(localizer["identity.users.validation.error"], result.GetErrors(localizer));
         }
 
         await userManager.AddToRoleAsync(user, ApiRoles.Basic);
 
-        var messages = new List<string> { string.Format(localizer["User {0} Registered."], user.UserName) };
-
+        var messages = new List<string> { string.Format(localizer["identity.users.create.registered"], user.UserName) };
+        
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
             // send verification email
@@ -144,8 +144,8 @@ internal partial class UserService
             };
 
             var htmlBody = templateService.GenerateEmailTemplate("email-confirmation", eMailModel);
-            var textBody = localizer["Please confirm your account by clicking this link: {0}", emailVerificationUri];
-            var subject = localizer["Confirm Registration"];
+            var textBody = localizer["identity.users.confirm.link", emailVerificationUri];
+            var subject = localizer["identity.auth.confirmregistration"];
 
             var recipients = new List<Contact>
             {
@@ -165,7 +165,7 @@ internal partial class UserService
             );
 
             jobService.Enqueue(() => mailService.SendAsync(mailRequest));
-            messages.Add(localizer[$"Please check {user.Email} to verify your account!"]);
+            messages.Add(localizer["identity.users.confirm.check", user.Email]);
         }
 
         await events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
@@ -177,7 +177,7 @@ internal partial class UserService
     {
         var user = await userManager.FindByIdAsync(userId);
 
-        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
@@ -208,7 +208,7 @@ internal partial class UserService
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(localizer["Update profile failed"], result.GetErrors(localizer));
+            throw new InternalServerException(localizer["identity.users.update.failed"], result.GetErrors(localizer));
         }
 
         return user.Id;

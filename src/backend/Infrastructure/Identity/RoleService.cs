@@ -42,7 +42,7 @@ internal class RoleService(
     public async Task<RoleDto> GetByIdAsync(string id) =>
         await db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
             ? role.Adapt<RoleDto>()
-            : throw new NotFoundException(localizer["Role Not Found"]);
+            : throw new NotFoundException(localizer["identity.roles.notfound"]);
 
     public async Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken)
     {
@@ -66,23 +66,23 @@ internal class RoleService(
 
             if (!result.Succeeded)
             {
-                throw new InternalServerException(localizer["Register role failed"], result.GetErrors(localizer));
+                throw new InternalServerException(localizer["identity.roles.create.failed"], result.GetErrors(localizer));
             }
 
             await events.PublishAsync(new ApplicationRoleCreatedEvent(role.Id, role.Name));
 
-            return string.Format(localizer["Role {0} Created."], request.Name);
+            return string.Format(localizer["identity.roles.create.success"], request.Name);
         }
         else
         {
             // Update an existing role.
             var role = await roleManager.FindByIdAsync(request.Id);
 
-            _ = role ?? throw new NotFoundException(localizer["Role Not Found"]);
+            _ = role ?? throw new NotFoundException(localizer["identity.roles.notfound"]);
 
             if (ApiRoles.IsDefault(role.Name))
             {
-                throw new ConflictException(string.Format(localizer["Not allowed to modify {0} Role."], role.Name));
+                throw new ConflictException(string.Format(localizer["identity.roles.modify.notallowed"], role.Name));
             }
 
             role.Name = request.Name;
@@ -92,22 +92,22 @@ internal class RoleService(
 
             if (!result.Succeeded)
             {
-                throw new InternalServerException(localizer["Update role failed"], result.GetErrors(localizer));
+                throw new InternalServerException(localizer["identity.roles.update.failed"], result.GetErrors(localizer));
             }
 
             await events.PublishAsync(new ApplicationRoleUpdatedEvent(role.Id, role.Name));
 
-            return string.Format(localizer["Role {0} Updated."], role.Name);
+            return string.Format(localizer["identity.roles.update.success"], role.Name);
         }
     }
 
     public async Task<string> UpdatePermissionsAsync(UpdateRolePermissionsRequest request, CancellationToken cancellationToken)
     {
         var role = await roleManager.FindByIdAsync(request.RoleId);
-        _ = role ?? throw new NotFoundException(localizer["Role Not Found"]);
+        _ = role ?? throw new NotFoundException(localizer["identity.roles.notfound"]);
         if (role.Name == ApiRoles.Admin)
         {
-            throw new ConflictException(localizer["Not allowed to modify Permissions for this Role."]);
+            throw new ConflictException(localizer["identity.roles.permissions.modify.notallowed"]);
         }
 
         if (currentTenant.Id != MultitenancyConstants.Root.Id)
@@ -124,7 +124,7 @@ internal class RoleService(
             var removeResult = await roleManager.RemoveClaimAsync(role, claim);
             if (!removeResult.Succeeded)
             {
-                throw new InternalServerException(localizer["Update permissions failed."], removeResult.GetErrors(localizer));
+                throw new InternalServerException(localizer["identity.roles.update.permissions.failed"], removeResult.GetErrors(localizer));
             }
         }
 
@@ -146,30 +146,30 @@ internal class RoleService(
 
         await events.PublishAsync(new ApplicationRoleUpdatedEvent(role.Id, role.Name, true));
 
-        return localizer["Permissions Updated."];
+        return localizer["identity.roles.update.permissions.success"];
     }
 
     public async Task<string> DeleteAsync(string id)
     {
         var role = await roleManager.FindByIdAsync(id);
 
-        _ = role ?? throw new NotFoundException(localizer["Role Not Found"]);
+        _ = role ?? throw new NotFoundException(localizer["identity.roles.notfound"]);
 
         if (ApiRoles.IsDefault(role.Name))
         {
-            throw new ConflictException(string.Format(localizer["Not allowed to delete {0} Role."], role.Name));
+            throw new ConflictException(string.Format(localizer["identity.roles.delete.notallowed"], role.Name));
         }
 
         if ((await userManager.GetUsersInRoleAsync(role.Name)).Count > 0)
         {
-            throw new ConflictException(string.Format(localizer["Not allowed to delete {0} Role as it is being used."], role.Name));
+            throw new ConflictException(string.Format(localizer["identity.roles.delete.inuse"], role.Name));
         }
 
         await roleManager.DeleteAsync(role);
 
         await events.PublishAsync(new ApplicationRoleDeletedEvent(role.Id, role.Name));
 
-        return string.Format(localizer["Role {0} Deleted."], role.Name);
+        return string.Format(localizer["identity.roles.delete.success"], role.Name);
     }
 
     public async Task<PaginationResponse<RoleDto>> PaginatedListAsync(PaginateRolesFilter filter, CancellationToken cancellationToken)

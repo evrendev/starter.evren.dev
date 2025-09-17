@@ -33,13 +33,13 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
         RuleFor(p => p.Email)
             .NotEmpty()
             .EmailAddress()
-                .WithMessage(localizer["Invalid Email Address."])
+                .WithMessage(localizer["identity.users.email.invalid"])
             .MustAsync(async (user, email, _) => !await userService.ExistsWithEmailAsync(email, user.Id))
-                .WithMessage((_, email) => string.Format(localizer["Email {0} is already registered."], email));
+                .WithMessage((_, email) => string.Format(localizer["identity.users.email.registered"], email));
 
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
             .MustAsync(async (user, phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!, user.Id))
-                .WithMessage((_, phone) => string.Format(localizer["Phone number {0} is already registered."], phone))
+                .WithMessage((_, phone) => string.Format(localizer["identity.users.phone.registered"], phone))
                 .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
     }
 }

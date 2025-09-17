@@ -115,7 +115,7 @@ internal class TenantService(
 
     private async Task<TenantInfo> GetTenantInfoAsync(string id) =>
         await tenantStore.TryGetAsync(id)
-            ?? throw new NotFoundException(string.Format(localizer["entity.notfound"], typeof(TenantInfo).Name, id));
+            ?? throw new NotFoundException(string.Format(localizer["multitenancy.tenant.entity.notfound"], typeof(TenantInfo).Name, id));
 
     public async Task<string> UpdateAsync(UpdateTenantCommand command, CancellationToken cancellationToken)
     {
