@@ -107,7 +107,8 @@ internal partial class UserService(
         _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         var isAdmin = await userManager.IsInRoleAsync(user, ApiRoles.Admin);
-        if (isAdmin) throw new ConflictException(localizer["identity.users.admin.notoggle"]);
+        if (isAdmin)
+            throw new ConflictException(localizer["identity.users.admin.notoggle"]);
 
         user.IsActive = request.ActivateUser;
 
