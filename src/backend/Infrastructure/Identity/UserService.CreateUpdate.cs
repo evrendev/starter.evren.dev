@@ -129,7 +129,7 @@ internal partial class UserService
         await userManager.AddToRoleAsync(user, ApiRoles.Basic);
 
         var messages = new List<string> { string.Format(localizer["identity.users.create.registered"], user.UserName) };
-        
+
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
             // send verification email
