@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string;
+  color: "success" | "primary" | "info" | "warning" | "error";
   button: {
     icon: string;
     text: string;
@@ -15,9 +16,10 @@ defineProps<{
     <v-toolbar :title="title" density="compact" color="surface">
       <template v-slot:append>
         <v-btn
-          :prepend-icon="button.icon"
-          variant="elevated"
+          variant="flat"
           size="small"
+          :color="color"
+          :prepend-icon="button.icon"
           :text="button.text"
           :to="button.to"
         />

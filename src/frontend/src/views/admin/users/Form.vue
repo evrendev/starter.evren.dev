@@ -89,6 +89,7 @@ const submit = handleSubmit((values: User) => {
   <v-card elevation="6" class="mt-4" :disabled="loading">
     <v-card-title>
       <toolbar
+        color="secondary"
         :title="pageTitle"
         :button="{
           icon: 'bx-chevron-left',
@@ -260,7 +261,7 @@ const submit = handleSubmit((values: User) => {
             <v-btn
               v-if="!readOnly"
               color="primary"
-              variant="tonal"
+              variant="flat"
               size="small"
               prepend-icon="bx-save"
               :loading="loading"
@@ -270,8 +271,9 @@ const submit = handleSubmit((values: User) => {
             </v-btn>
             <v-btn
               v-else
-              color="warning"
+              color="info"
               size="small"
+              variant="flat"
               prepend-icon="bx-lock-open-alt"
               :loading="loading"
               @click="readOnly = false"

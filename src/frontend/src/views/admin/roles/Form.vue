@@ -59,6 +59,7 @@ const submit = handleSubmit((values: Role) => {
   <v-card elevation="6" class="mt-4" :disabled="loading">
     <v-card-title>
       <toolbar
+        color="secondary"
         :title="pageTitle"
         :button="{
           icon: 'bx-chevron-left',
@@ -126,7 +127,7 @@ const submit = handleSubmit((values: Role) => {
           <v-col cols="12">
             <v-btn
               color="primary"
-              variant="tonal"
+              variant="flat"
               size="small"
               prepend-icon="bx-save"
               v-if="!readOnly"
@@ -135,8 +136,9 @@ const submit = handleSubmit((values: Role) => {
               {{ t("shared.save") }}
             </v-btn>
             <v-btn
-              color="warning"
+              color="info"
               size="small"
+              variant="flat"
               prepend-icon="bx-lock-open-alt"
               v-if="readOnly"
               @click="readOnly = false"

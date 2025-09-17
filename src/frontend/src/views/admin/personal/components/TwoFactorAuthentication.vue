@@ -93,7 +93,7 @@ watch(
         <v-btn
           v-if="twoFactorEnabled"
           color="error"
-          variant="elevated"
+          variant="flat"
           prepend-icon="bx-lock-open"
           size="small"
           @click="confirmDisable2FADialog = true"
@@ -106,6 +106,7 @@ watch(
           v-else
           color="primary"
           size="small"
+          variant="flat"
           prepend-icon="bx-lock-alt"
           @click="setupTwoFactorAuthentication"
           :loading="loading"
@@ -142,7 +143,7 @@ watch(
     <template #action-buttons>
       <v-btn
         color="primary"
-        variant="elevated"
+        variant="flat"
         size="small"
         @click="recoverData.showRecoverCodes = false"
       >
@@ -195,7 +196,7 @@ watch(
     <template #action-buttons>
       <v-btn
         color="primary"
-        variant="elevated"
+        variant="flat"
         :loading="loading"
         size="small"
         @click="enableTwoFactorAuthentication"
@@ -205,6 +206,7 @@ watch(
       <v-btn
         text
         :disabled="loading"
+        variant="flat"
         @click="setupData.showSetup = false"
         size="small"
       >

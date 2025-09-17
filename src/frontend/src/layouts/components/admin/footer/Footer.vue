@@ -10,7 +10,7 @@ const { t } = useI18n();
       &copy;
       {{ new Date().getFullYear() }}
       Made with
-      <VIcon icon="bx-heart" color="error" size="1rem" class="mx-1" />
+      <v-icon icon="bx-heart" color="error" size="1rem" class="mx-1" />
       in Delmenhorst
     </span>
 

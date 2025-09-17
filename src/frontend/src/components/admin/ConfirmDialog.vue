@@ -52,11 +52,7 @@ const onCancel = () => {
         <v-btn :color="cancelButtonColor" variant="text" @click="onCancel">
           {{ cancelButtonText }}
         </v-btn>
-        <v-btn
-          :color="confirmButtonColor"
-          variant="elevated"
-          @click="onConfirm"
-        >
+        <v-btn :color="confirmButtonColor" variant="flat" @click="onConfirm">
           {{ confirmButtonText }}
         </v-btn>
       </v-card-actions>
