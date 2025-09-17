@@ -17,7 +17,7 @@ public class CreateCategoryRequestValidator : CustomValidator<CreateCategoryRequ
             .NotEmpty()
             .MaximumLength(75)
             .MustAsync(async (name, ct) => await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct) is null)
-            .WithMessage((_, name) => string.Format(localizer["category.alreadyexists"], name));
+            .WithMessage((_, name) => string.Format(localizer["catalog.categories.create.alreadyexists"], name));
 }
 
 public class CreateCategoryRequestHandler(IRepositoryWithEvents<Category> repository) : IRequestHandler<CreateCategoryRequest, Guid>

@@ -18,7 +18,7 @@ public class GetAllCategoriesRequestHandler(IRepository<Category> repository, IS
         var categories = await repository.ListAsync();
 
         if (categories == null || !categories.Any())
-            throw new NotFoundException(string.Format(localizer["categories.notfound"]));
+            throw new NotFoundException(string.Format(localizer["catalog.categories.list.notfound"]));
 
         return categories.Adapt<List<CategoryDto>>();
     }

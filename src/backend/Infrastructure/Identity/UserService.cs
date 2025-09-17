@@ -77,7 +77,7 @@ internal partial class UserService(
     {
         if (string.IsNullOrWhiteSpace(currentTenant?.Id))
         {
-            throw new UnauthorizedException(localizer["tenant.invalid"]);
+            throw new UnauthorizedException(localizer["multitenancy.tenant.invalid"]);
         }
     }
 
@@ -97,7 +97,7 @@ internal partial class UserService(
             .Where(u => u.Id == userId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         return user.Adapt<UserDto>();
     }
@@ -106,12 +106,12 @@ internal partial class UserService(
     {
         var user = await userManager.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         var isAdmin = await userManager.IsInRoleAsync(user, ApiRoles.Admin);
         if (isAdmin)
         {
-            throw new ConflictException(localizer["Administrators Profile's Status cannot be toggled"]);
+            throw new ConflictException(localizer["identity.users.admin.notoggle"]);
         }
 
         user.IsActive = request.ActivateUser;

@@ -34,46 +34,46 @@ internal class TokenService(
     {
         if (string.IsNullOrWhiteSpace(currentTenant?.Id))
         {
-            throw new UnauthorizedException(localizer["tenant.invalid"]);
+            throw new UnauthorizedException(localizer["multitenancy.tenant.invalid"]);
         }
 
         if (_securitySettings.RequireReCaptcha && !await reCaptchaClient.IsValid(request.Response))
         {
-            throw new UnauthorizedException(localizer["identity.invalidcaptcha"]);
+            throw new UnauthorizedException(localizer["identity.auth.invalidcaptcha"]);
         }
 
         var user = await userManager.FindByEmailAsync(request.Email.Trim().Normalize());
         if (user is null)
         {
-            throw new UnauthorizedException(localizer["auth.failed"]);
+            throw new UnauthorizedException(localizer["identity.auth.failed"]);
         }
 
         if (!user.IsActive)
         {
-            throw new UnauthorizedException(localizer["identity.usernotactive"]);
+            throw new UnauthorizedException(localizer["identity.users.notactive"]);
         }
 
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
         {
-            throw new UnauthorizedException(localizer["identity.emailnotconfirmed"]);
+            throw new UnauthorizedException(localizer["identity.users.emailnotconfirmed"]);
         }
 
         if (currentTenant.Id != MultitenancyConstants.Root.Id)
         {
             if (!currentTenant.IsActive)
             {
-                throw new UnauthorizedException(localizer["tenant.inactive"]);
+                throw new UnauthorizedException(localizer["multitenancy.tenant.inactive"]);
             }
 
             if (DateTime.UtcNow > currentTenant.ValidUpto)
             {
-                throw new UnauthorizedException(localizer["tenant.expired"]);
+                throw new UnauthorizedException(localizer["multitenancy.tenant.expired"]);
             }
         }
 
         if (!await userManager.CheckPasswordAsync(user, request.Password))
         {
-            throw new UnauthorizedException(localizer["identity.invalidcredentials"]);
+            throw new UnauthorizedException(localizer["identity.auth.invalidcredentials"]);
         }
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
@@ -84,12 +84,12 @@ internal class TokenService(
         var user = userManager.Users.FirstOrDefault(u => u.RefreshToken == accessToken);
         if (user is null)
         {
-            throw new UnauthorizedException(localizer["auth.failed"]);
+            throw new UnauthorizedException(localizer["identity.auth.failed"]);
         }
 
         if (user.RefreshToken != accessToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
         {
-            throw new UnauthorizedException(localizer["identity.invalidrefreshtoken"]);
+            throw new UnauthorizedException(localizer["identity.auth.invalidrefreshtoken"]);
         }
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
@@ -100,29 +100,29 @@ internal class TokenService(
         var user = await userManager.FindByEmailAsync(email);
         if (user is null)
         {
-            throw new UnauthorizedException(localizer["auth.failed"]);
+            throw new UnauthorizedException(localizer["identity.auth.failed"]);
         }
 
         if (!user.IsActive)
         {
-            throw new UnauthorizedException(localizer["identity.usernotactive"]);
+            throw new UnauthorizedException(localizer["identity.users.notactive"]);
         }
 
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
         {
-            throw new UnauthorizedException(localizer["identity.emailnotconfirmed"]);
+            throw new UnauthorizedException(localizer["identity.users.emailnotconfirmed"]);
         }
 
         if (currentTenant?.Id != MultitenancyConstants.Root.Id)
         {
             if (!currentTenant!.IsActive)
             {
-                throw new UnauthorizedException(localizer["tenant.inactive"]);
+                throw new UnauthorizedException(localizer["multitenancy.tenant.inactive"]);
             }
 
             if (DateTime.UtcNow > currentTenant.ValidUpto)
             {
-                throw new UnauthorizedException(localizer["tenant.expired"]);
+                throw new UnauthorizedException(localizer["multitenancy.tenant.expired"]);
             }
         }
 

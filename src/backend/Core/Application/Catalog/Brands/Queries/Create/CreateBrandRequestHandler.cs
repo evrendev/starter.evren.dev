@@ -17,7 +17,7 @@ public class CreateBrandRequestValidator : CustomValidator<CreateBrandRequest>
             .NotEmpty()
             .MaximumLength(75)
             .MustAsync(async (name, ct) => await repository.FirstOrDefaultAsync(new BrandByNameSpec(name), ct) is null)
-            .WithMessage((_, name) => string.Format(localizer["brand.alreadyexists"], name));
+            .WithMessage((_, name) => string.Format(localizer["catalog.brands.create.alreadyexists"], name));
 }
 
 public class CreateBrandRequestHandler(IRepositoryWithEvents<Brand> repository) : IRequestHandler<CreateBrandRequest, Guid>

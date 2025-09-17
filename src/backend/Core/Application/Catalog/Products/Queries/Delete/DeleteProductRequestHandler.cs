@@ -17,7 +17,7 @@ public class DeleteProductRequestHandler(IRepository<Product> repository, IStrin
     {
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = product ?? throw new NotFoundException(localizer["product.notfound"]);
+        _ = product ?? throw new NotFoundException(localizer["catalog.products.delete.notfound"]);
 
         // Add Domain Events to be raised after the commit
         product.DomainEvents.Add(EntityDeletedEvent.WithEntity(product));

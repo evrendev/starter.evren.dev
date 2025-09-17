@@ -21,7 +21,7 @@ public class UpdateCategoryRequestValidator : CustomValidator<UpdateCategoryRequ
             .MustAsync(async (category, name, ct) =>
                 await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct)
                     is not Category existingCategory || existingCategory.Id == category.Id)
-            .WithMessage((_, name) => string.Format(localizer["category.alreadyexists"], name));
+            .WithMessage((_, name) => string.Format(localizer["catalog.categories.update.alreadyexists"], name));
 }
 
 public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> repository, IStringLocalizer<UpdateCategoryRequestHandler> localizer)
@@ -33,7 +33,7 @@ public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> reposi
     {
         var category = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = category ?? throw new NotFoundException(string.Format(localizer["category.notfound"], request.Id));
+        _ = category ?? throw new NotFoundException(string.Format(localizer["catalog.categories.update.notfound"], request.Id));
 
         category.Update(request.Name, request.Description);
 

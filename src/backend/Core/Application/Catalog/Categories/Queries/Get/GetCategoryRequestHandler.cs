@@ -17,5 +17,5 @@ public class GetCategoryRequestHandler(IRepository<Category> repository, IString
     public async Task<CategoryDto> Handle(GetCategoryRequest request, CancellationToken cancellationToken) =>
         await repository.FirstOrDefaultAsync(
             new CategoryByIdSpec(request.Id), cancellationToken)
-        ?? throw new NotFoundException(string.Format(localizer["category.notfound"], request.Id));
+        ?? throw new NotFoundException(string.Format(localizer["catalog.categories.get.notfound"], request.Id));
 }

@@ -22,12 +22,12 @@ public class DeleteBrandRequestHandler(
     {
         if (await productRepo.AnyAsync(new ProductsByBrandSpec(request.Id), cancellationToken))
         {
-            throw new ConflictException(localizer["brand.cannotbedeleted"]);
+            throw new ConflictException(localizer["catalog.brands.delete.cannotbedeleted"]);
         }
 
         var brand = await brandRepo.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = brand ?? throw new NotFoundException(localizer["brand.notfound"]);
+        _ = brand ?? throw new NotFoundException(localizer["catalog.brands.delete.notfound"]);
 
         await brandRepo.DeleteAsync(brand, cancellationToken);
 

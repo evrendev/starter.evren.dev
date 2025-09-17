@@ -28,7 +28,7 @@ public class UpdateProductRequestValidator : CustomValidator<UpdateProductReques
             .MustAsync(async (product, name, ct) =>
                     await productRepo.FirstOrDefaultAsync(new ProductByNameSpec(name), ct)
                         is not Product existingProduct || existingProduct.Id == product.Id)
-                .WithMessage((_, name) => string.Format(localizer["product.alreadyexists"], name));
+                .WithMessage((_, name) => string.Format(localizer["catalog.products.update.alreadyexists"], name));
 
         RuleFor(p => p.Rate)
             .GreaterThanOrEqualTo(1);
@@ -39,7 +39,7 @@ public class UpdateProductRequestValidator : CustomValidator<UpdateProductReques
         RuleFor(p => p.BrandId)
             .NotEmpty()
             .MustAsync(async (id, ct) => await brandRepo.GetByIdAsync(id, ct) is not null)
-                .WithMessage((_, id) => string.Format(localizer["brand.notfound"], id));
+                .WithMessage((_, id) => string.Format(localizer["catalog.brands.notfound"], id));
     }
 }
 
@@ -53,7 +53,7 @@ public class UpdateProductRequestHandler(
     {
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = product ?? throw new NotFoundException(string.Format(localizer["product.notfound"], request.Id));
+        _ = product ?? throw new NotFoundException(string.Format(localizer["catalog.products.update.notfound"], request.Id));
 
         // Remove old image if flag is set
         if (request.DeleteCurrentImage)

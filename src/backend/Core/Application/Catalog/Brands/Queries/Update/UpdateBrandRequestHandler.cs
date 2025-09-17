@@ -21,7 +21,7 @@ public class UpdateBrandRequestValidator : CustomValidator<UpdateBrandRequest>
             .MustAsync(async (brand, name, ct) =>
                 await repository.FirstOrDefaultAsync(new BrandByNameSpec(name), ct)
                     is not Brand existingBrand || existingBrand.Id == brand.Id)
-            .WithMessage((_, name) => string.Format(localizer["brand.alreadyexists"], name));
+            .WithMessage((_, name) => string.Format(localizer["catalog.brands.update.alreadyexists"], name));
 }
 
 public class UpdateBrandRequestHandler(IRepositoryWithEvents<Brand> repository, IStringLocalizer<UpdateBrandRequestHandler> localizer)
@@ -33,7 +33,7 @@ public class UpdateBrandRequestHandler(IRepositoryWithEvents<Brand> repository, 
     {
         var brand = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = brand ?? throw new NotFoundException(string.Format(localizer["brand.notfound"], request.Id));
+        _ = brand ?? throw new NotFoundException(string.Format(localizer["catalog.brands.update.notfound"], request.Id));
 
         brand.Update(request.Name, request.Description);
 

@@ -14,7 +14,7 @@ internal partial class UserService
         var userRoles = new List<UserRoleDto>();
 
         var user = await userManager.FindByIdAsync(userId);
-        _ = user ?? throw new InternalServerException(localizer["An Error has occurred!"]);
+        _ = user ?? throw new InternalServerException(localizer["identity.error.generic"]);
 
         var roles = await roleManager.Roles.AsNoTracking().ToListAsync(cancellationToken);
         foreach (var role in roles)
@@ -37,7 +37,7 @@ internal partial class UserService
 
         var user = await userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
         // Check if the user is an admin for which the admin role is getting disabled
         if (await userManager.IsInRoleAsync(user, ApiRoles.Admin)
@@ -52,12 +52,12 @@ internal partial class UserService
             {
                 if (currentTenant.Id == MultitenancyConstants.Root.Id)
                 {
-                    throw new ConflictException(localizer["Cannot Remove Admin Role From Root Tenant Admin."]);
+                    throw new ConflictException(localizer["identity.users.roles.admin.cannotremove"]);
                 }
             }
             else if (adminCount <= 2)
             {
-                throw new ConflictException(localizer["Tenant should have at least 2 Admins."]);
+                throw new ConflictException(localizer["identity.users.roles.admin.minimum"]);
             }
         }
 
@@ -82,6 +82,6 @@ internal partial class UserService
 
         await events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id, true));
 
-        return localizer["User Roles Updated Successfully."];
+        return localizer["identity.users.roles.updated"];
     }
 }

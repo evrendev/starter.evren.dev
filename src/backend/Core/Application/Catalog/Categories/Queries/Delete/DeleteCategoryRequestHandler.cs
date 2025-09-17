@@ -24,12 +24,12 @@ public class DeleteCategoryRequestHandler(
 
         // if (await courseRepo.AnyAsync(new CoursesByCategorySpec(request.Id), cancellationToken))
         // {
-        //     throw new ConflictException(localizer["category.cannotbedeleted"]);
+        //     throw new ConflictException(localizer["catalog.categories.delete.cannotbedeleted"]);
         // }
 
         var category = await categoryRepo.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = category ?? throw new NotFoundException(localizer["category.notfound"]);
+        _ = category ?? throw new NotFoundException(localizer["catalog.categories.delete.notfound"]);
 
         await categoryRepo.DeleteAsync(category, cancellationToken);
 
