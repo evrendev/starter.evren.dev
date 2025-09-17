@@ -28,22 +28,28 @@ public class Course : AuditableEntity, IAggregateRoot
         bool published = false,
         bool upcoming = false,
         bool featured = false,
-        string? previewVideoUrl = null
+        string? previewVideoUrl = null,
+        bool paid = false,
+        bool completetionCertificate = false,
+        bool paidCertificate = false
     )
     {
         Title = title;
         Intrudiction = intrudiction;
         Description = description;
         CategoryId = categoryId;
-        Image = image;
         Tags = tags;
+        Image = image;
         Published = published;
         Upcoming = upcoming;
         Featured = featured;
         PreviewVideoUrl = previewVideoUrl;
+        Paid = paid;
+        CompletetionCertificate = completetionCertificate;
+        PaidCertificate = paidCertificate;
     }
 
-    public Course Update(string? title, string? intrudiction, string? description, Guid? categoryId, string? image, string[]? tags, bool published, bool incoming, bool featured, string? previewVideoUrl)
+    public Course Update(string? title, string? intrudiction, string? description, Guid? categoryId, string? image, string[]? tags, bool published, bool upcoming, bool featured, string? previewVideoUrl, bool paid, bool completetionCertificate, bool paidCertificate)
     {
         if (title is not null && !Title.Equals(title))
             Title = title;
@@ -66,8 +72,8 @@ public class Course : AuditableEntity, IAggregateRoot
         if (Published != published)
             Published = published;
 
-        if (Upcoming != incoming)
-            Upcoming = incoming;
+        if (Upcoming != upcoming)
+            Upcoming = upcoming;
 
         if (Featured != featured)
             Featured = featured;
@@ -75,6 +81,21 @@ public class Course : AuditableEntity, IAggregateRoot
         if (previewVideoUrl is not null && !PreviewVideoUrl?.Equals(previewVideoUrl) == true)
             PreviewVideoUrl = previewVideoUrl;
 
+        if (Paid != paid)
+            Paid = paid;
+
+        if (CompletetionCertificate != completetionCertificate)
+            CompletetionCertificate = completetionCertificate;
+
+        if (PaidCertificate != paidCertificate)
+            PaidCertificate = paidCertificate;
+
+        return this;
+    }
+
+    public Course ClearImagePath()
+    {
+        Image = string.Empty;
         return this;
     }
 }
