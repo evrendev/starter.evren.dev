@@ -72,12 +72,12 @@ public static class Startup
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
         builder
             .UseLocalization(config)
-            .UseStaticFiles()
             .UseSecurityHeaders(config)
-            .UseFileStorage()
             .UseExceptionMiddleware()
             .UseRouting()
             .UseCorsPolicy()
+            .UseFileStorage()
+            .UseStaticFiles()
             .UseAuthentication()
             .UseCurrentUser()
             .UseMultiTenancy()
