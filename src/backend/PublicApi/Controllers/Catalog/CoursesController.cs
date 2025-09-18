@@ -3,19 +3,29 @@ using EvrenDev.Application.Catalog.Courses.Queries.Create;
 using EvrenDev.Application.Catalog.Courses.Queries.Delete;
 using EvrenDev.Application.Catalog.Courses.Queries.Export;
 using EvrenDev.Application.Catalog.Courses.Queries.Get;
-using EvrenDev.Application.Catalog.Courses.Queries.Search;
+using EvrenDev.Application.Catalog.Courses.Queries.Paginate;
 using EvrenDev.Application.Catalog.Courses.Queries.Update;
 
 namespace EvrenDev.PublicApi.Controllers.Catalog;
 
 public class CoursesController : VersionedApiController
 {
-    [HttpPost("search")]
-    [MustHavePermission(ApiAction.Search, ApiResource.Courses)]
+    [HttpGet]
+    [MustHavePermission(ApiAction.View, ApiResource.Courses)]
     [OpenApiOperation("Search courses using available filters.", "")]
-    public Task<PaginationResponse<CourseDto>> SearchAsync(SearchCoursesRequest request)
+    public Task<PaginationResponse<CourseDto>> GetPaginatatedListAsync([FromQuery] PaginateCoursesFilter request)
     {
         return Mediator.Send(request);
+    }
+
+    [HttpGet("all")]
+    [MustHavePermission(ApiAction.View, ApiResource.Courses)]
+    [OpenApiOperation("Get all courses.", "")]
+    public async Task<ApiResponse<List<CourseDto>?>> GetAllAsync(GetAllCoursesRequest request)
+    {
+        var response = await Mediator.Send(request);
+
+        return ApiResponse<List<CourseDto>?>.Success(response);
     }
 
     [HttpGet("{id:guid}")]
