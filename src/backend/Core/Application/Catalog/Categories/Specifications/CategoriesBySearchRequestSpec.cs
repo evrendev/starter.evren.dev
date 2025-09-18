@@ -1,5 +1,5 @@
 ﻿using EvrenDev.Application.Catalog.Categories.Entities;
-using EvrenDev.Application.Catalog.Categories.Queries.Search;
+using EvrenDev.Application.Catalog.Categories.Queries.Paginate;
 using EvrenDev.Application.Common.Specification;
 using EvrenDev.Domain.Catalog;
 
