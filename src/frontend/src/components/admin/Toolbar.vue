@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string;
-  color: "success" | "primary" | "info" | "warning" | "error";
+  color: "success" | "primary" | "info" | "warning" | "error" | "secondary";
   button: {
     icon: string;
     text: string;
