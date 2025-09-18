@@ -536,5 +536,23 @@
       "startDate": "Start Date",
       "endDate": "End Date"
     }
+  },
+  "error": {
+    "404": {
+      "title": "Page Not Found ⚠️",
+      "description": "We couldn't find the page you are looking for.",
+      "go-back-home": "Go back home",
+      "image": {
+        "alt": "Page Not Found"
+      }
+    },
+    "401": {
+      "title": "Unauthorized Access ⚠️",
+      "description": "Sorry, you don't have the necessary permissions to view this page.",
+      "go-back-dashboard": "Go back dashboard",
+      "image": {
+        "alt": "Unauthorized Access Image"
+      }
+    }
   }
 }
