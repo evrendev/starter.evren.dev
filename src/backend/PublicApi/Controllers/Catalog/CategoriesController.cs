@@ -20,9 +20,9 @@ public class CategoriesController : VersionedApiController
     [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Categories)]
     [OpenApiOperation("Get all categories.", "")]
-    public async Task<ApiResponse<List<CategoryDto>?>> GetAllAsync(GetAllCategoriesRequest request)
+    public async Task<ApiResponse<List<CategoryDto>?>> GetAllAsync()
     {
-        var response = await Mediator.Send(request);
+        var response = await Mediator.Send(new GetAllCategoriesRequest());
 
         return ApiResponse<List<CategoryDto>?>.Success(response);
     }

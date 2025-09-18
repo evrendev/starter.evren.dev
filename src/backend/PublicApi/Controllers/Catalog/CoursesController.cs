@@ -21,9 +21,9 @@ public class CoursesController : VersionedApiController
     [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Courses)]
     [OpenApiOperation("Get all courses.", "")]
-    public async Task<ApiResponse<List<CourseDto>?>> GetAllAsync(GetAllCoursesRequest request)
+    public async Task<ApiResponse<List<CourseDto>?>> GetAllAsync()
     {
-        var response = await Mediator.Send(request);
+        var response = await Mediator.Send(new GetAllCoursesRequest());
 
         return ApiResponse<List<CourseDto>?>.Success(response);
     }
