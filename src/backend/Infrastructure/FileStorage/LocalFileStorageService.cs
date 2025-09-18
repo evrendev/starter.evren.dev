@@ -20,9 +20,8 @@ public class LocalFileStorageService : IFileStorageService
         if (request.Name is null)
             throw new InvalidOperationException("Name is required.");
 
-        var base64Data = Regex.Match(request.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+        var streamData = new MemoryStream(Convert.FromBase64String(request.Data));
 
-        var streamData = new MemoryStream(Convert.FromBase64String(base64Data));
         if (streamData.Length > 0)
         {
             var folder = typeof(T).Name;
@@ -39,10 +38,12 @@ public class LocalFileStorageService : IFileStorageService
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             Directory.CreateDirectory(pathToSave);
 
-            var fileName = request.Name.Trim('"');
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.Name);
+            var fileName = RemoveSpecialCharacters(fileNameWithoutExtension);
             fileName = RemoveSpecialCharacters(fileName);
             fileName = fileName.ReplaceWhitespace("-");
             fileName += request.Extension.Trim();
+
             var fullPath = Path.Combine(pathToSave, fileName);
             var dbPath = Path.Combine(folderName, fileName);
             if (File.Exists(dbPath))

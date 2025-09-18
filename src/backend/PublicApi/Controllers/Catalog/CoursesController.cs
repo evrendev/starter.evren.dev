@@ -44,9 +44,9 @@ public class CoursesController : VersionedApiController
     [HttpPost]
     [MustHavePermission(ApiAction.Create, ApiResource.Courses)]
     [OpenApiOperation("Create a new course.", "")]
-    public Task<Guid> CreateAsync(CreateCourseRequest request)
+    public async Task<Guid> CreateAsync(CreateCourseRequest request)
     {
-        return Mediator.Send(request);
+        return await Mediator.Send(request);
     }
 
     [HttpPut("{id:guid}")]
