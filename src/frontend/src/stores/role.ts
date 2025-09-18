@@ -44,7 +44,7 @@ export const useRoleStore = defineStore("role", {
       this.filters = { ...this.filters, ...filters };
     },
 
-    async getItems() {
+    async getPaginatedItems() {
       this.loading = true;
       this.error = null;
 

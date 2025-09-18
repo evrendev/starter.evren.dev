@@ -110,17 +110,17 @@ const handleUpgrade = async (tenant: UpgradeTenant) => {
 
 const handleUpdateFilters = async (filters: BasicFilters) => {
   tenantStore.setFilters(filters);
-  await tenantStore.getItems();
+  await tenantStore.getPaginatedItems();
 };
 
 const handleResetFilters = async () => {
   tenantStore.resetFilters();
-  await tenantStore.getItems();
+  await tenantStore.getPaginatedItems();
 };
 
-const getItems = async (options: Filters) => {
+const getPaginatedItems = async (options: Filters) => {
   tenantStore.setFilters(options);
-  await tenantStore.getItems();
+  await tenantStore.getPaginatedItems();
 };
 </script>
 
@@ -142,7 +142,7 @@ const getItems = async (options: Filters) => {
     @activate="handleActivate"
     @deactivate="handleDeactivate"
     @upgrade="handleUpgrade"
-    @update:options="getItems"
+    @update:options="getPaginatedItems"
     item-value="id"
   />
 </template>

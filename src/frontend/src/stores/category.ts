@@ -4,7 +4,7 @@ import { useAppStore } from "./app";
 // Local Types
 import { Category } from "@/models/category";
 import { Filters, BasicFilters } from "@/types/requests/category";
-import { PaginationResponse } from "@/types/responses/api";
+import { ApiResponse, PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
 import http, { handleRequest } from "@/utils/http";
@@ -44,7 +44,30 @@ export const useCategoryStore = defineStore("category", {
       this.filters = { ...this.filters, ...filters };
     },
 
-    async getItems() {
+    async getAllItems() {
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<Category[]>(
+          http.get("/v1/categories/all"),
+        );
+
+        if (result.succeeded && result.data) {
+          this.items = result.data;
+        } else {
+          this.error = result.errors!;
+          this.items = [];
+        }
+      } catch (error) {
+        this.error = error as AppError;
+        this.items = [];
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async getPaginatedItems() {
       this.loading = true;
       this.error = null;
 

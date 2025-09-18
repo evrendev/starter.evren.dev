@@ -37,7 +37,7 @@ const headers = computed(() => [
   ] as const),
 ]);
 
-const getItems = async (options: LogFilters) => {
+const getPaginatedItems = async (options: LogFilters) => {
   personalStore.setFilters(options);
   await personalStore.getLogs();
 };
@@ -55,7 +55,7 @@ const getItems = async (options: LogFilters) => {
           :total="total"
           :loading="loading"
           :headers="headers"
-          @update:options="getItems"
+          @update:options="getPaginatedItems"
           item-value="id"
         />
       </v-window-item>
