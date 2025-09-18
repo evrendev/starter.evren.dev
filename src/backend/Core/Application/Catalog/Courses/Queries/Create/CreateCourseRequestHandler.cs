@@ -8,18 +8,13 @@ namespace EvrenDev.Application.Catalog.Courses.Queries.Create;
 
 public class CreateCourseRequest : IRequest<Guid>
 {
+    public Guid CategoryId { get; set; }
     public string Title { get; set; } = default!;
-    public string? Intrudiction { get; set; }
+    public string? Introduction { get; set; }
     public string? Description { get; set; }
     public string[]? Tags { get; set; }
     public bool Published { get; set; }
-    public bool Upcoming { get; set; }
-    public bool Featured { get; set; }
     public string? PreviewVideoUrl { get; set; }
-    public bool Paid { get; set; }
-    public bool CompletetionCertificate { get; set; }
-    public bool PaidCertificate { get; set; }
-    public Guid CategoryId { get; set; }
     public FileUploadRequest? Image { get; set; }
 }
 
@@ -48,7 +43,7 @@ public class CreateCourseRequestHandler(IRepository<Course> repository, IFileSto
     {
         var courseImagePath = await file.UploadAsync<Course>(request.Image, FileType.Image, cancellationToken);
 
-        var course = new Course(request.Title, request.Intrudiction, request.Description, request.CategoryId, courseImagePath, request.Tags, request.Published, request.Upcoming, request.Featured, request.PreviewVideoUrl, request.Paid, request.CompletetionCertificate, request.PaidCertificate);
+        var course = new Course(request.Title, request.Introduction, request.Description, request.CategoryId, courseImagePath, request.Tags, request.Published, request.PreviewVideoUrl);
 
         course.DomainEvents.Add(EntityCreatedEvent.WithEntity(course));
 

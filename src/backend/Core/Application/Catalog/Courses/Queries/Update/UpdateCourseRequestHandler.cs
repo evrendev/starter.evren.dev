@@ -10,18 +10,13 @@ namespace EvrenDev.Application.Catalog.Courses.Queries.Update;
 public class UpdateCourseRequest : IRequest<Guid>
 {
     public Guid Id { get; set; }
+    public Guid CategoryId { get; set; }
     public string Title { get; set; } = default!;
-    public string? Intrudiction { get; set; }
+    public string? Introduction { get; set; }
     public string? Description { get; set; }
     public string[]? Tags { get; set; }
     public bool Published { get; set; }
-    public bool Upcoming { get; set; }
-    public bool Featured { get; set; }
     public string? PreviewVideoUrl { get; set; }
-    public bool Paid { get; set; }
-    public bool CompletetionCertificate { get; set; }
-    public bool PaidCertificate { get; set; }
-    public Guid CategoryId { get; set; }
     public bool DeleteCurrentImage { get; set; } = false;
     public FileUploadRequest? Image { get; set; }
 }
@@ -75,7 +70,7 @@ public class UpdateCourseRequestHandler(
             ? await file.UploadAsync<Course>(request.Image, FileType.Image, cancellationToken)
             : null;
 
-        var updatedCourse = course.Update(request.Title, request.Intrudiction, request.Description, request.CategoryId, courseImagePath, request.Tags, request.Published, request.Upcoming, request.Featured, request.PreviewVideoUrl, request.Paid, request.CompletetionCertificate, request.PaidCertificate);
+        var updatedCourse = course.Update(request.Title, request.Introduction, request.Description, request.CategoryId, courseImagePath, request.Tags, request.Published, request.PreviewVideoUrl);
 
         course.DomainEvents.Add(EntityUpdatedEvent.WithEntity(course));
 
