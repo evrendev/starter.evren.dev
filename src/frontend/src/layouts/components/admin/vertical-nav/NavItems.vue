@@ -34,17 +34,17 @@ import VerticalNavLink from "./VerticalNavLink.vue";
     }"
   />
 
-  <!-- <vertical-nav-link
+  <vertical-nav-link
     :item="{
       title: t('admin.components.sidebar.courses'),
       icon: 'bx-book',
       to: { name: 'course-list' },
     }"
-    v-show="personalStore.hasPermission(Permissions.CourseView)"
   />
 
+  <!-- 
   <vertical-nav-link
-    :item="{
+    :item="{6
       title: t('admin.components.sidebar.chapters'),
       to: { name: 'chapter-list' },
     }"

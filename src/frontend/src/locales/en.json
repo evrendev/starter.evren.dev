@@ -117,7 +117,8 @@
         "settings": "Settings",
         "logout": "Logout",
         "course-management": "Course Management",
-        "categories": "Categories"
+        "categories": "Categories",
+        "courses": "Courses"
       },
       "footer": {
         "home": "Home",
@@ -132,7 +133,8 @@
           "tenants": "Tenants",
           "roles": "Roles",
           "users": "Users",
-          "categories": "Categories"
+          "categories": "Categories",
+          "courses": "Courses"
         }
       }
     },
@@ -484,6 +486,64 @@
         "deleteMessage": "Are you sure you want to delete {name}?",
         "deleted": "Category deleted successfully",
         "deleteFailed": "Failed to delete category"
+      }
+    },
+    "courses": {
+      "list": {
+        "title": "Course List"
+      },
+      "create": {
+        "title": "Create Course"
+      },
+      "view": {
+        "title": "View Course"
+      },
+      "edit": {
+        "title": "Edit Course"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "categoryId": {
+          "title": "Category",
+          "required": "Category is required"
+        },
+        "title": {
+          "title": "Title",
+          "required": "Title is required"
+        },
+        "introduction": {
+          "title": "Introduction"
+        },
+        "description": {
+          "title": "Description",
+          "required": "Description is required"
+        },
+        "tags": {
+          "title": "Tags"
+        },
+        "previewVideoUrl": {
+          "title": "Preview Video URL",
+          "invalid": "Invalid URL"
+        },
+        "published": {
+          "title": "Published"
+        },
+        "image": {
+          "title": "Image"
+        }
+      },
+      "notifications": {
+        "updated": "Course updated successfully",
+        "updateFailed": "Failed to update course",
+        "created": "Course created successfully",
+        "createFailed": "Failed to create course",
+        "deleteConfirm": "Delete {title}",
+        "deleteMessage": "Are you sure you want to delete {title}?",
+        "deleted": "Course deleted successfully",
+        "deleteFailed": "Failed to delete course"
       }
     }
   },
