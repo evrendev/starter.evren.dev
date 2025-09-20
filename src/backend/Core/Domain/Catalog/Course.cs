@@ -39,16 +39,16 @@ public class Course : AuditableEntity, IAggregateRoot
         if (title is not null && !Title.Equals(title))
             Title = title;
 
-        if (introduction is not null && !Introduction?.Equals(introduction) == true)
+        if (introduction is not null && string.Equals(Introduction, introduction) == false)
             Introduction = introduction;
 
-        if (description is not null && !Description?.Equals(description) == true)
+        if (description is not null && string.Equals(Description, description) == false)
             Description = description;
 
         if (categoryId.HasValue && categoryId.Value != Guid.Empty && !CategoryId.Equals(categoryId.Value))
             CategoryId = categoryId.Value;
 
-        if (image is not null && !Image?.Equals(image) == true)
+        if (image is not null && string.Equals(Image, image) == false)
             Image = image;
 
         if (tags is not null)
@@ -57,7 +57,7 @@ public class Course : AuditableEntity, IAggregateRoot
         if (Published != published)
             Published = published;
 
-        if (previewVideoUrl is not null && !PreviewVideoUrl?.Equals(previewVideoUrl) == true)
+        if (previewVideoUrl is not null && string.Equals(PreviewVideoUrl, previewVideoUrl) == false)
             PreviewVideoUrl = previewVideoUrl;
 
         return this;
