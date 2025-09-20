@@ -536,5 +536,23 @@
       "startDate": "Startdatum",
       "endDate": "Enddatum"
     }
+  },
+  "error": {
+    "404": {
+      "title": "Seite Nicht Gefunden ⚠️",
+      "description": "Wir konnten die gesuchte Seite nicht finden.",
+      "go-back-home": "Zurück zur Startseite",
+      "image": {
+        "alt": "Seite Nicht Gefunden"
+      }
+    },
+    "401": {
+      "title": "Unbefugter Zugriff ⚠️",
+      "description": "Entschuldigung, Sie haben nicht die erforderlichen Berechtigungen, um diese Seite anzuzeigen.",
+      "go-back-dashboard": "Zurück zum Dashboard",
+      "image": {
+        "alt": "Unbefugter Zugriff"
+      }
+    }
   }
 }

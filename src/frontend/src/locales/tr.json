@@ -536,5 +536,23 @@
       "startDate": "Başlangıç Tarihi",
       "endDate": "Bitiş Tarihi"
     }
+  },
+  "error": {
+    "404": {
+      "title": "Sayfa Bulunamadı ⚠️",
+      "description": "Üzgünüz, aradığınız sayfa mevcut değil.",
+      "go-back-home": "Ana sayfaya dön",
+      "image": {
+        "alt": "Sayfa Bulunamadı"
+      }
+    },
+    "401": {
+      "title": "Yetkisiz Erişim ⚠️",
+      "description": "Üzgünüz, bu sayfayı görüntülemek için gerekli izinlere sahip değilsiniz.",
+      "go-back-dashboard": "Yönetici paneline dön",
+      "image": {
+        "alt": "Yetkisiz Erişim"
+      }
+    }
   }
 }
