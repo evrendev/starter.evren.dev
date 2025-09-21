@@ -230,9 +230,6 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("CompletetionCertificate")
-                        .HasColumnType("boolean");
-
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
 
@@ -248,14 +245,11 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Featured")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Image")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<string>("Intrudiction")
+                    b.Property<string>("Introduction")
                         .HasColumnType("text");
 
                     b.Property<Guid>("LastModifiedBy")
@@ -263,12 +257,6 @@ namespace Migrators.PostgreSQL.Migrations.Application
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("Paid")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("PaidCertificate")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("PreviewVideoUrl")
                         .HasColumnType("text");
@@ -288,9 +276,6 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("Upcoming")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
