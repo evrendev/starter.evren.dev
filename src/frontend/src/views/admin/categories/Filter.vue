@@ -44,7 +44,7 @@ const reset = () => {
           </v-col>
           <v-col cols="12" md="2" class="d-flex justify-end align-center gap-2">
             <v-btn
-              color="error"
+              color="secondary"
               size="small"
               prepend-icon="bx-reset"
               @click="reset"

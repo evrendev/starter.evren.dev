@@ -46,6 +46,7 @@ const abortDelete = () => {
   <v-card elevation="6" class="mt-4">
     <v-card-title>
       <toolbar
+        color="success"
         :title="t('admin.categories.list.title')"
         :button="{
           icon: 'bx-plus',

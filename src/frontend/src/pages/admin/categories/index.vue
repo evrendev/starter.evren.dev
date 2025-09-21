@@ -64,17 +64,17 @@ const handleDelete = async (id: string | null) => {
 
 const handleUpdateFilters = async (filters: BasicFilters) => {
   categoryStore.setFilters(filters);
-  await categoryStore.getItems();
+  await categoryStore.getPaginatedItems();
 };
 
 const handleResetFilters = async () => {
   categoryStore.resetFilters();
-  await categoryStore.getItems();
+  await categoryStore.getPaginatedItems();
 };
 
-const getItems = async (options: Filters) => {
+const getPaginatedItems = async (options: Filters) => {
   categoryStore.setFilters(options);
-  await categoryStore.getItems();
+  await categoryStore.getPaginatedItems();
 };
 </script>
 
@@ -93,7 +93,7 @@ const getItems = async (options: Filters) => {
     :loading="loading"
     :headers="headers"
     @delete="handleDelete"
-    @update:options="getItems"
+    @update:options="getPaginatedItems"
     item-value="id"
   />
 </template>
