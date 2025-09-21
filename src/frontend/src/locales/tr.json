@@ -117,7 +117,8 @@
         "settings": "Ayarlar",
         "logout": "Çıkış Yap",
         "course-management": "Kurs Yönetimi",
-        "categories": "Kategoriler"
+        "categories": "Kategoriler",
+        "courses": "Kurslar"
       },
       "footer": {
         "home": "Anasayfa",
@@ -132,7 +133,8 @@
           "tenants": "Kiracılar",
           "roles": "Roller",
           "users": "Kullanıcılar",
-          "categories": "Kategoriler"
+          "categories": "Kategoriler",
+          "courses": "Kurslar"
         }
       }
     },
@@ -485,6 +487,64 @@
         "deleted": "Kategori başarıyla silindi",
         "deleteFailed": "Kategori silinirken hata oluştu"
       }
+    },
+    "courses": {
+      "list": {
+        "title": "Kurs Listesi"
+      },
+      "create": {
+        "title": "Kurs Oluştur"
+      },
+      "view": {
+        "title": "Kurs Görüntüle"
+      },
+      "edit": {
+        "title": "Kurs Düzenle"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "categoryId": {
+          "title": "Kategori",
+          "required": "Kategori alanı gerekli"
+        },
+        "title": {
+          "title": "Başlık",
+          "required": "Başlık alanı gerekli"
+        },
+        "introduction": {
+          "title": "Giriş"
+        },
+        "description": {
+          "title": "Açıklama",
+          "required": "Açıklama alanı gerekli"
+        },
+        "tags": {
+          "title": "Etiketler"
+        },
+        "previewVideoUrl": {
+          "title": "Önizleme Video URL'si",
+          "invalid": "Geçersiz URL"
+        },
+        "published": {
+          "title": "Yayınlandı"
+        },
+        "image": {
+          "title": "Görsel"
+        }
+      },
+      "notifications": {
+        "updated": "Kurs başarıyla güncellendi",
+        "updateFailed": "Kurs güncellenirken hata oluştu",
+        "created": "Kurs başarıyla oluşturuldu",
+        "createFailed": "Kurs oluşturulurken hata oluştu",
+        "deleteConfirm": "Sil {title}",
+        "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
+        "deleted": "Kurs başarıyla silindi",
+        "deleteFailed": "Kurs silinirken hata oluştu"
+      }
     }
   },
   "shared": {
@@ -535,6 +595,24 @@
       "isActive": "Aktif",
       "startDate": "Başlangıç Tarihi",
       "endDate": "Bitiş Tarihi"
+    }
+  },
+  "error": {
+    "404": {
+      "title": "Sayfa Bulunamadı ⚠️",
+      "description": "Üzgünüz, aradığınız sayfa mevcut değil.",
+      "go-back-home": "Ana sayfaya dön",
+      "image": {
+        "alt": "Sayfa Bulunamadı"
+      }
+    },
+    "401": {
+      "title": "Yetkisiz Erişim ⚠️",
+      "description": "Üzgünüz, bu sayfayı görüntülemek için gerekli izinlere sahip değilsiniz.",
+      "go-back-dashboard": "Yönetici paneline dön",
+      "image": {
+        "alt": "Yetkisiz Erişim"
+      }
     }
   }
 }

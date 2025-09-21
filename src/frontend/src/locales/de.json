@@ -117,7 +117,8 @@
         "settings": "Einstellungen",
         "logout": "Abmelden",
         "course-management": "Kursverwaltung",
-        "categories": "Kategorien"
+        "categories": "Kategorien",
+        "courses": "Kurse"
       },
       "footer": {
         "home": "Startseite",
@@ -132,7 +133,8 @@
           "tenants": "Mandanten",
           "roles": "Rollen",
           "users": "Benutzer",
-          "categories": "Kategorien"
+          "categories": "Kategorien",
+          "courses": "Kurse"
         }
       }
     },
@@ -485,6 +487,64 @@
         "deleted": "Kategorie erfolgreich gelöscht",
         "deleteFailed": "Löschen der Kategorie fehlgeschlagen"
       }
+    },
+    "courses": {
+      "list": {
+        "title": "Kursliste"
+      },
+      "create": {
+        "title": "Kurs erstellen"
+      },
+      "view": {
+        "title": "Kurs anzeigen"
+      },
+      "edit": {
+        "title": "Kurs bearbeiten"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "categoryId": {
+          "title": "Kategorie",
+          "required": "Kategorie ist erforderlich"
+        },
+        "title": {
+          "title": "Titel",
+          "required": "Titel ist erforderlich"
+        },
+        "introduction": {
+          "title": "Einführung"
+        },
+        "description": {
+          "title": "Beschreibung",
+          "required": "Beschreibung ist erforderlich"
+        },
+        "tags": {
+          "title": "Tags (Komma getrennt)"
+        },
+        "previewVideoUrl": {
+          "title": "Vorschaulink",
+          "invalid": "Ungültige URL"
+        },
+        "published": {
+          "title": "Veröffentlicht"
+        },
+        "image": {
+          "title": "Bild"
+        }
+      },
+      "notifications": {
+        "updated": "Kurs erfolgreich aktualisiert",
+        "updateFailed": "Kursaktualisierung fehlgeschlagen",
+        "created": "Kurs erfolgreich erstellt",
+        "createFailed": "Kurs Erstellung fehlgeschlagen",
+        "deleteConfirm": "Kurs löschen {title}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
+        "deleted": "Kurs erfolgreich gelöscht",
+        "deleteFailed": "Kurslöschung fehlgeschlagen"
+      }
     }
   },
   "shared": {
@@ -535,6 +595,24 @@
       "isActive": "Aktiv",
       "startDate": "Startdatum",
       "endDate": "Enddatum"
+    }
+  },
+  "error": {
+    "404": {
+      "title": "Seite Nicht Gefunden ⚠️",
+      "description": "Wir konnten die gesuchte Seite nicht finden.",
+      "go-back-home": "Zurück zur Startseite",
+      "image": {
+        "alt": "Seite Nicht Gefunden"
+      }
+    },
+    "401": {
+      "title": "Unbefugter Zugriff ⚠️",
+      "description": "Entschuldigung, Sie haben nicht die erforderlichen Berechtigungen, um diese Seite anzuzeigen.",
+      "go-back-dashboard": "Zurück zum Dashboard",
+      "image": {
+        "alt": "Unbefugter Zugriff"
+      }
     }
   }
 }

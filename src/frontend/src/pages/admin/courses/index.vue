@@ -1,0 +1,121 @@
+<script setup lang="ts">
+import { DataTable, CourseFilter } from "@/views/admin/courses";
+
+import { Notify } from "@/stores/notification";
+import { useCourseStore } from "@/stores/course";
+import { BasicFilters, Filters } from "@/types/requests/course";
+import { no } from "vuetify/locale";
+
+const courseStore = useCourseStore();
+const { loading, total, itemsPerPage, items } = storeToRefs(courseStore);
+
+const { t } = useI18n();
+const route = useRoute();
+
+const headers = computed(() => [
+  ...([
+    {
+      title: t("admin.courses.fields.image.title"),
+      key: "image",
+      align: "center",
+      sortable: false,
+      width: "48px",
+    },
+    {
+      title: t("admin.courses.fields.categoryId.title"),
+      key: "categoryName",
+      align: "center",
+      sortable: false,
+      width: "72px",
+    },
+    {
+      title: t("admin.courses.fields.published.title"),
+      key: "published",
+      align: "center",
+      sortable: false,
+      width: "36px",
+    },
+    {
+      title: t("admin.courses.fields.title.title"),
+      key: "title",
+      align: "center",
+      sortable: false,
+      width: "150px",
+    },
+    {
+      title: t("admin.courses.fields.description.title"),
+      key: "description",
+      sortable: false,
+    },
+    {
+      title: t("shared.actions"),
+      key: "actions",
+      align: "center",
+      sortable: false,
+      width: "100px",
+    },
+  ] as const),
+]);
+
+const breadcrumbs = computed(() => [
+  {
+    title: t("admin.components.breadcrumbs.admin.title"),
+    to: { name: "dashboard" },
+  },
+  {
+    title: t("admin.components.breadcrumbs.admin.courses"),
+    to: { path: "/admin/courses" },
+  },
+  {
+    title: t(route.meta.title as string),
+    disabled: true,
+  },
+]);
+
+const handleDelete = async (id: string | null) => {
+  if (id) {
+    const response = await courseStore.delete(id);
+
+    if (response.succeeded) {
+      Notify.success(t("admin.courses.notifications.deleted"));
+    } else {
+      Notify.error(t("admin.courses.notifications.deleteFailed"));
+    }
+  }
+};
+
+const handleUpdateFilters = async (filters: BasicFilters) => {
+  courseStore.setFilters(filters);
+  await courseStore.getPaginatedItems();
+};
+
+const handleResetFilters = async () => {
+  courseStore.resetFilters();
+  await courseStore.getPaginatedItems();
+};
+
+const getPaginatedItems = async (options: Filters) => {
+  courseStore.setFilters(options);
+  await courseStore.getPaginatedItems();
+};
+</script>
+
+<template>
+  <breadcrumb :items="breadcrumbs" />
+  <course-filter
+    :page-title="t('shared.filters.title')"
+    :disabled="loading"
+    @submit="handleUpdateFilters"
+    @reset="handleResetFilters"
+  />
+  <data-table
+    :items-per-page="itemsPerPage"
+    :items="items"
+    :total="total"
+    :loading="loading"
+    :headers="headers"
+    @delete="handleDelete"
+    @update:options="getPaginatedItems"
+    item-value="id"
+  />
+</template>

@@ -1,27 +1,60 @@
-import type { User, BasicUser } from "@/models/user";
-import { useDateFormat } from "@vueuse/core";
+import { Course } from "@/models/course";
+
+const BASE_URL = import.meta.env.VITE_APP_IMAGE_BASE_URL;
 
 const Mapper = {
-  toUser(value: User | undefined): BasicUser {
+  async toCourse(value: Course | undefined): Promise<Course> {
     if (!value) {
-      return {} as BasicUser;
+      return {} as Course;
+    }
+
+    const imageModel: File[] | File | undefined = [];
+
+    if (typeof value.image === "string" && value.image) {
+      const file = await urlToFile(
+        `${BASE_URL}/${value.image}`,
+        getFileNameFromPath(value.image),
+      );
+
+      if (file) {
+        imageModel.push(file);
+      }
     }
 
     return {
       id: value.id,
-      gender: value.gender,
-      email: value.email,
-      language: value.language,
-      firstName: value.firstName,
-      lastName: value.lastName,
-      fullName: value.fullName,
-      initial: value.initial,
-      phoneNumber: value.phoneNumber,
-      birthday: useDateFormat(value.birthday, "YYYY-MM-DD").value,
-      placeOfBirth: value.placeOfBirth,
-      twoFactorEnabled: value.twoFactorEnabled,
+      categoryId: value.categoryId,
+      title: value.title,
+      description: value.description,
+      introduction: value.introduction,
+      tags: value.tags,
+      published: value.published,
+      image: imageModel,
+      previewVideoUrl: value.previewVideoUrl,
     };
   },
 };
+
+async function urlToFile(url: string, filename: string): Promise<File | null> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    const blob = await response.blob();
+
+    const file = new File([blob], filename, { type: blob.type });
+
+    return file;
+  } catch (error) {
+    console.error("Error converting URL to File:", error);
+    return null;
+  }
+}
+
+function getFileNameFromPath(path: string): string {
+  return path.split("/").pop() || "file";
+}
 
 export default Mapper;

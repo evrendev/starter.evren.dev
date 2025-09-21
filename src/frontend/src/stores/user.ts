@@ -71,7 +71,7 @@ export const useUserStore = defineStore("user", {
       this.filters = { ...this.filters, ...filters };
     },
 
-    async getItems() {
+    async getPaginatedItems() {
       this.loading = true;
       this.error = null;
 

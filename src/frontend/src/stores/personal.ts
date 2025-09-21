@@ -16,7 +16,6 @@ import type { PaginationResponse } from "@/types/responses/api";
 import http, { handleRequest } from "@/utils/http";
 import type { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
-import Mapper from "@/mappers";
 
 const DEFAULT_FILTER: LogFilters = {
   search: null,
@@ -71,7 +70,7 @@ export const usePersonalStore = defineStore("personal", {
       const result = await handleRequest<User>(http.get("personal/profile"));
 
       if (result.succeeded && result.data) {
-        this.user = Mapper.toUser(result.data);
+        this.user = result.data;
       } else {
         this.error = result.errors!;
       }
@@ -121,7 +120,7 @@ export const usePersonalStore = defineStore("personal", {
       );
 
       if (result.succeeded && result.data) {
-        this.user = Mapper.toUser(result.data);
+        this.user = result.data;
       } else {
         this.error = result.errors!;
       }

@@ -12,3 +12,9 @@ export interface Gender {
   name: string;
   value: number;
 }
+
+export interface FileUploadRequest {
+  name: string;
+  extension: string;
+  data: string;
+}

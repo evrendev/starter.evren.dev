@@ -45,7 +45,7 @@ export const useTenantStore = defineStore("tenant", {
       this.filters = { ...this.filters, ...filters };
     },
 
-    async getItems() {
+    async getPaginatedItems() {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
