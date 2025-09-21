@@ -249,7 +249,7 @@ const handleRecaptchaError = (error: Error) => {
       <template #action-buttons>
         <v-btn
           color="primary"
-          variant="elevated"
+          variant="flat"
           size="small"
           :loading="loading"
           @click="checkTwoFactorAuth"

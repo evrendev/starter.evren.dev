@@ -202,7 +202,7 @@ const reset = () => {
                 <v-btn
                   v-if="!disabled"
                   color="primary"
-                  variant="tonal"
+                  variant="flat"
                   size="small"
                   prepend-icon="bx-save"
                   @click="submit"
@@ -212,7 +212,7 @@ const reset = () => {
 
                 <v-btn
                   v-if="disabled"
-                  color="warning"
+                  color="info"
                   size="small"
                   prepend-icon="bx-lock-open-alt"
                   @click="disabled = false"

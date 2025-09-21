@@ -64,17 +64,17 @@ const handleDelete = async (id: string | null) => {
 
 const handleUpdateFilters = async (filters: BasicFilters) => {
   roleStore.setFilters(filters);
-  await roleStore.getItems();
+  await roleStore.getPaginatedItems();
 };
 
 const handleResetFilters = async () => {
   roleStore.resetFilters();
-  await roleStore.getItems();
+  await roleStore.getPaginatedItems();
 };
 
-const getItems = async (options: Filters) => {
+const getPaginatedItems = async (options: Filters) => {
   roleStore.setFilters(options);
-  await roleStore.getItems();
+  await roleStore.getPaginatedItems();
 };
 </script>
 
@@ -93,7 +93,7 @@ const getItems = async (options: Filters) => {
     :loading="loading"
     :headers="headers"
     @delete="handleDelete"
-    @update:options="getItems"
+    @update:options="getPaginatedItems"
     item-value="id"
   />
 </template>

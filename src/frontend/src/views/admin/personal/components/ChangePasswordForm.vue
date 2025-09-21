@@ -143,7 +143,7 @@ const passwordRequirements = computed(() => [
         <v-card-text class="d-flex flex-wrap gap-4">
           <v-btn
             color="primary"
-            variant="tonal"
+            variant="flat"
             size="small"
             prepend-icon="bx-save"
             @click="submit"
@@ -156,7 +156,7 @@ const passwordRequirements = computed(() => [
             type="reset"
             size="small"
             color="secondary"
-            variant="tonal"
+            variant="flat"
             prepend-icon="bx-reset"
           >
             {{ t("shared.reset") }}
