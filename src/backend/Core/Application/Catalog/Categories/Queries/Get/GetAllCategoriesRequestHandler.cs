@@ -16,7 +16,7 @@ public class GetAllCategoriesRequestHandler(IRepository<Category> repository,
 {
     public async Task<List<CategoryDto>> Handle(GetAllCategoriesRequest request, CancellationToken cancellationToken)
     {
-        var categories = await repository.ListAsync();
+        var categories = await repository.ListAsync(cancellationToken);
 
         if (categories == null || !categories.Any())
             throw new NotFoundException(string.Format(localizer["catalog.categories.list.notfound"]));

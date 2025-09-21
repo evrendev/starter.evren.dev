@@ -1,9 +1,9 @@
-﻿using EvrenDev.Application.Catalog.Categories.Entities;
+using EvrenDev.Application.Catalog.Categories.Entities;
 using EvrenDev.Application.Catalog.Categories.Specifications;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
 
-namespace EvrenDev.Application.Catalog.Categories.Queries.Search;
+namespace EvrenDev.Application.Catalog.Categories.Queries.Paginate;
 
 public class PaginateCategoriesFilter : PaginationFilter, IRequest<PaginationResponse<CategoryDto>>
 {
