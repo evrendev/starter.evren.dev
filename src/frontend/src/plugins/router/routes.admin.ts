@@ -216,9 +216,46 @@ export const adminRoutes = [
         ],
       },
       {
-        name: "unauthorized",
-        path: "unauthorized",
-        component: () => import("@/pages/admin/unauthorized.vue"),
+        name: "courses",
+        path: "courses",
+        children: [
+          {
+            name: "course-list",
+            path: "",
+            component: () => import("@/pages/admin/courses/index.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseView],
+              title: "admin.courses.list.title",
+            },
+          },
+          {
+            name: "course-create",
+            path: "create",
+            component: () => import("@/pages/admin/courses/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseCreate],
+              title: "admin.courses.create.title",
+            },
+          },
+          {
+            name: "course-view",
+            path: ":id/view",
+            component: () => import("@/pages/admin/courses/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseView],
+              title: "admin.courses.view.title",
+            },
+          },
+          {
+            name: "course-edit",
+            path: ":id/edit",
+            component: () => import("@/pages/admin/courses/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseUpdate],
+              title: "admin.courses.edit.title",
+            },
+          },
+        ],
       },
     ],
   },

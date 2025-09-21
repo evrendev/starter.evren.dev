@@ -14,6 +14,11 @@ export const defaultRoutes = [
           title: "Home",
         },
       },
+      {
+        name: "unauthorized",
+        path: "unauthorized",
+        component: () => import("@/pages/admin/unauthorized.vue"),
+      },
     ],
   },
   {

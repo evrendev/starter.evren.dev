@@ -1,13 +1,33 @@
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+import misc401 from "@images/pages/401.png";
+
+const { t } = useI18n();
+</script>
+
 <template>
-  <v-row>
-    <v-col cols="12">
-      <v-card title="Headlines">
-        <v-card-text class="d-flex flex-column gap-y-8">
-          <div>
-            <h1 class="text-h1">Unauthorized</h1>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div class="misc-wrapper text-center">
+    <error-header
+      status-code="401"
+      :title="t('error.401.title')"
+      :description="t('error.401.description')"
+    />
+
+    <v-btn :to="{ name: 'dashboard' }" class="mb-6">
+      {{ t("error.401.go-back-dashboard") }}
+    </v-btn>
+
+    <div class="misc-avatar w-100">
+      <v-img
+        :src="misc401"
+        :alt="t('error.401.image.alt')"
+        :max-width="512"
+        class="mx-auto"
+      />
+    </div>
+  </div>
 </template>
+
+<style lang="scss">
+@use "@/assets/styles/admin/template/pages/misc.scss";
+</style>
