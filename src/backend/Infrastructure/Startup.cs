@@ -77,12 +77,12 @@ public static class Startup
     {
         return builder
             .UseLocalization(config)
-            .UseStaticFiles()
             .UseSecurityHeaders(config)
-            .UseFileStorage()
             .UseExceptionMiddleware()
             .UseRouting()
             .UseCorsPolicy()
+            .UseFileStorage()
+            .UseStaticFiles()
             .UseAuthentication()
             .UseCurrentUser()
             .UseMultiTenancy()
