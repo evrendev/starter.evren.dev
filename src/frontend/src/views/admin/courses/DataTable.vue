@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+import { Fancybox } from "@fancyapps/ui/dist/fancybox/";
 import { Course } from "@/models/course";
 import { Props } from "@/types/requests/app";
 const { t } = useI18n();
+
+Fancybox.bind("[data-fancybox]");
 
 withDefaults(defineProps<Props<Course>>(), {
   itemsPerPage: 25,
@@ -69,11 +73,15 @@ const abortDelete = () => {
         class="striped border"
       >
         <template #[`item.image`]="{ item }">
-          <v-img
+          <a
             v-if="item.image"
-            :src="`${baseUrl}/${item.image}`"
-            size="36"
-          />
+            class="cursor-pointer"
+            data-fancybox
+            :data-src="`${baseUrl}/${item.image}`"
+            :data-caption="item.title"
+          >
+            <v-img :src="`${baseUrl}/${item.image}`" size="36" />
+          </a>
           <v-icon v-else icon="bx-image" size="36" />
         </template>
 
