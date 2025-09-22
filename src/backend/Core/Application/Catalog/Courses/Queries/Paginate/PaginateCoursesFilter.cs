@@ -8,6 +8,7 @@ namespace EvrenDev.Application.Catalog.Courses.Queries.Paginate;
 public class PaginateCoursesFilter : PaginationFilter, IRequest<PaginationResponse<CourseDto>>
 {
     public Guid? CategoryId { get; set; }
+    public bool? Published { get; set; }
 }
 
 public class PaginateCoursesFilterHandler(IReadRepository<Course> repository) : IRequestHandler<PaginateCoursesFilter, PaginationResponse<CourseDto>>

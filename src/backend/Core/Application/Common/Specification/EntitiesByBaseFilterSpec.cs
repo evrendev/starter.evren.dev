@@ -1,6 +1,7 @@
 ﻿namespace EvrenDev.Application.Common.Specification;
 
 public class EntitiesByBaseFilterSpec<T, TResult> : Specification<T, TResult>
+    where T : class
 {
     public EntitiesByBaseFilterSpec(BaseFilter filter)
     {
@@ -9,6 +10,7 @@ public class EntitiesByBaseFilterSpec<T, TResult> : Specification<T, TResult>
 }
 
 public class EntitiesByBaseFilterSpec<T> : Specification<T>
+    where T : class
 {
     public EntitiesByBaseFilterSpec(BaseFilter filter)
     {

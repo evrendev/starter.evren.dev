@@ -7,6 +7,7 @@ namespace EvrenDev.Application.Common.Specification;
 public static class SpecificationBuilderExtensions
 {
     public static ISpecificationBuilder<T> SearchBy<T>(this ISpecificationBuilder<T> query, BaseFilter filter)
+        where T : class
     {
         return query
             .SearchByKeyword(filter.Search)
@@ -29,6 +30,7 @@ public static class SpecificationBuilderExtensions
     public static ISpecificationBuilder<T> SearchByKeyword<T>(
         this ISpecificationBuilder<T> specificationBuilder,
         string? keyword)
+        where T : class
     {
         return specificationBuilder.AdvancedSearch(new Search { Keyword = keyword });
     }
@@ -36,6 +38,7 @@ public static class SpecificationBuilderExtensions
     public static ISpecificationBuilder<T> AdvancedSearch<T>(
         this ISpecificationBuilder<T> specificationBuilder,
         Search? search)
+        where T : class
     {
         if (!string.IsNullOrEmpty(search?.Keyword))
         {
@@ -69,6 +72,7 @@ public static class SpecificationBuilderExtensions
 
     private static void AddSearchPropertyByKeyword<T>(this ISpecificationBuilder<T> specificationBuilder,
         Expression propertyExpr, ParameterExpression paramExpr, string keyword)
+        where T : class
     {
         if (propertyExpr is not MemberExpression memberExpr || memberExpr.Member is not PropertyInfo property)
             throw new ArgumentException("propertyExpr must be a property expression.", nameof(propertyExpr));
@@ -83,19 +87,23 @@ public static class SpecificationBuilderExtensions
                     Expression.Constant(null, typeof(string)),
                     Expression.Call(propertyExpr, "ToString", null, null));
 
-        var selector = Expression.Lambda<Func<T, string>>(selectorExpr, paramExpr);
+        var selector = Expression.Lambda<Func<T, string?>>(selectorExpr, paramExpr);
 
-        ((List<SearchExpressionInfo<T>>)specificationBuilder.Specification.SearchCriterias)
-            .Add(new SearchExpressionInfo<T>(selector!, $"%{keyword}%"));
+        // Use the proper Search method from Ardalis.Specification
+        specificationBuilder.Search(selector, $"%{keyword}%");
     }
 
     public static ISpecificationBuilder<T> OrderBy<T>(
         this ISpecificationBuilder<T> specificationBuilder,
         List<SortBy>? sortBy)
     {
-        if (sortBy is null || sortBy.Count == 0) return specificationBuilder;
+        if (sortBy is null || sortBy.Count == 0)
+        {
+            return specificationBuilder;
+        }
 
         var isFirstField = true;
+        IOrderedSpecificationBuilder<T>? orderedBuilder = null;
 
         foreach (var sortItem in sortBy)
         {
@@ -113,21 +121,21 @@ public static class SpecificationBuilderExtensions
                 Expression.Convert(propertyExpr, typeof(object)),
                 paramExpr);
 
-            OrderTypeEnum orderType;
             if (isFirstField)
             {
-                orderType = isDescending ? OrderTypeEnum.OrderByDescending : OrderTypeEnum.OrderBy;
+                orderedBuilder = isDescending
+                    ? specificationBuilder.OrderByDescending(keySelector)
+                    : specificationBuilder.OrderBy(keySelector);
                 isFirstField = false;
             }
             else
             {
-                orderType = isDescending ? OrderTypeEnum.ThenByDescending : OrderTypeEnum.ThenBy;
+                orderedBuilder = isDescending
+                    ? orderedBuilder!.ThenByDescending(keySelector)
+                    : orderedBuilder!.ThenBy(keySelector);
             }
-
-            ((List<OrderExpressionInfo<T>>)specificationBuilder.Specification.OrderExpressions)
-                .Add(new OrderExpressionInfo<T>(keySelector, orderType));
         }
 
-        return specificationBuilder;
+        return orderedBuilder ?? specificationBuilder;
     }
 }
