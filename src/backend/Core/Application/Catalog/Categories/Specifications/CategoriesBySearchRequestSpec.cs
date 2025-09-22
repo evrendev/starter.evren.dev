@@ -5,11 +5,21 @@ using EvrenDev.Domain.Catalog;
 
 namespace EvrenDev.Application.Catalog.Categories.Specifications;
 
-public class CategoriesBySearchRequestSpec : EntitiesByPaginationFilterSpec<Category, CategoryDto>
+public class CategoriesBySearchRequestSpec : Specification<Category, CategoryDto>
 {
     public CategoriesBySearchRequestSpec(PaginateCategoriesFilter request)
-        : base(request)
     {
-        Query.OrderBy(c => c.Name, !request.HasOrderBy());
+        Query.Where(category =>
+                string.IsNullOrEmpty(request.Search)
+                ||
+                category.Name.ToLower().Contains(request.Search.ToLower())
+                ||
+                (
+                    category.Description != null
+                    &&
+                    category.Description.ToLower().Contains(request.Search.ToLower())
+                )
+            )
+            .OrderBy(c => c.Name, !request.HasOrderBy());
     }
 }
