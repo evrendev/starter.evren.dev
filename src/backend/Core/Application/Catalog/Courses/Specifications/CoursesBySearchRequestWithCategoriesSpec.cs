@@ -20,26 +20,26 @@ public class CoursesBySearchRequestWithCategoriesSpec : Specification<Course, Co
                 (
                     string.IsNullOrEmpty(request.Search)
                     ||
-                    course.Title.Contains(request.Search)
+                    course.Title.ToLower().Contains(request.Search.ToLower())
                     ||
-                    course.Category.Name.Contains(request.Search)
+                    course.Category.Name.ToLower().Contains(request.Search.ToLower())
                     ||
                     (
                         course.Description != null
                         &&
-                        course.Description.Contains(request.Search)
+                        course.Description.ToLower().Contains(request.Search.ToLower())
                     )
                     ||
                     (
                         course.Introduction != null
                         &&
-                        course.Introduction.Contains(request.Search)
+                        course.Introduction.ToLower().Contains(request.Search.ToLower())
                     )
                     ||
                     (
                         course.PreviewVideoUrl != null
                         &&
-                        course.PreviewVideoUrl.Contains(request.Search)
+                        course.PreviewVideoUrl.ToLower().Contains(request.Search.ToLower())
                     )
                 )
                 &&
