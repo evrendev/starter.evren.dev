@@ -568,6 +568,11 @@
     "close": "Kapat",
     "options": {
       "choice": "Bir seçenek seçin",
+      "published": {
+        "all": "Hepsi",
+        "true": "Yayınlandı",
+        "false": "Yayınlanmadı"
+      },
       "isActive": {
         "all": "Hepsi",
         "true": "Aktif",
@@ -594,7 +599,8 @@
       "search": "Arama...",
       "isActive": "Aktif",
       "startDate": "Başlangıç Tarihi",
-      "endDate": "Bitiş Tarihi"
+      "endDate": "Bitiş Tarihi",
+      "published": "Yayınlandı"
     }
   },
   "error": {

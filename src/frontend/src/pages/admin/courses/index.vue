@@ -1,16 +1,24 @@
 <script setup lang="ts">
+import { Notify } from "@/stores/notification";
+
 import { DataTable, CourseFilter } from "@/views/admin/courses";
 
-import { Notify } from "@/stores/notification";
+import { useCategoryStore } from "@/stores/category";
 import { useCourseStore } from "@/stores/course";
 import { BasicFilters, Filters } from "@/types/requests/course";
-import { no } from "vuetify/locale";
 
 const courseStore = useCourseStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(courseStore);
 
+const categoryStore = useCategoryStore();
+const { items: categories } = storeToRefs(categoryStore);
+
 const { t } = useI18n();
 const route = useRoute();
+
+onMounted(async () => {
+  await categoryStore.getAllItems();
+});
 
 const headers = computed(() => [
   ...([
@@ -105,6 +113,7 @@ const getPaginatedItems = async (options: Filters) => {
   <course-filter
     :page-title="t('shared.filters.title')"
     :disabled="loading"
+    :categories="categories"
     @submit="handleUpdateFilters"
     @reset="handleResetFilters"
   />

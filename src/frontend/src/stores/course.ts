@@ -19,6 +19,8 @@ const DEFAULT_FILTER: Filters = {
   groupBy: [],
   page: 1,
   itemsPerPage: 25,
+  categoryId: null,
+  published: null,
 };
 
 export const useCourseStore = defineStore("course", {

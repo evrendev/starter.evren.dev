@@ -568,6 +568,11 @@
     "close": "Close",
     "options": {
       "choice": "Choose an option",
+      "published": {
+        "all": "All",
+        "true": "Published",
+        "false": "Unpublished"
+      },
       "isActive": {
         "all": "All",
         "true": "Active",
@@ -594,7 +599,8 @@
       "search": "Search...",
       "isActive": "Active",
       "startDate": "Start Date",
-      "endDate": "End Date"
+      "endDate": "End Date",
+      "published": "Published"
     }
   },
   "error": {
