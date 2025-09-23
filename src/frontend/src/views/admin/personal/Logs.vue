@@ -33,6 +33,7 @@ const headers = computed(() => [
       key: "action",
       align: "center",
       sortable: false,
+      width: "100px",
     },
   ] as const),
 ]);

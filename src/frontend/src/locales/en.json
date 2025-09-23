@@ -360,7 +360,23 @@
       "logs": {
         "title": "Activity Logs",
         "noLogs": "No activity logs found",
+        "showDetails": "Show Details",
         "fields": {
+          "id": {
+            "title": "Id"
+          },
+          "primaryKey": {
+            "title": "Primary Key"
+          },
+          "affectedColumns": {
+            "title": "Affected Columns"
+          },
+          "oldValues": {
+            "title": "Old Values"
+          },
+          "newValues": {
+            "title": "New Values"
+          },
           "type": {
             "title": "Type"
           },
