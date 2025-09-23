@@ -85,6 +85,13 @@ const abortDelete = () => {
           <v-icon v-else icon="bx-image" size="36" />
         </template>
 
+        <template #[`item.categoryName`]="{ item }">
+          <router-link
+            :to="{ name: 'category-view', params: { id: item.categoryId } }"
+            :text="item.categoryName"
+          />
+        </template>
+
         <template #[`item.title`]="{ item }">
           <router-link
             :to="{ name: 'course-view', params: { id: item.id } }"
