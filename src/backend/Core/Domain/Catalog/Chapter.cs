@@ -1,6 +1,6 @@
 namespace EvrenDev.Domain.Catalog;
 
-public class Chapter : AuditableEntity
+public class Chapter : AuditableEntity, IAggregateRoot
 {
     public Chapter(string title, string? description, Guid courseId)
     {
