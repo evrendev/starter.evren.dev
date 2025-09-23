@@ -8,5 +8,5 @@ public class CourseDto : IDto
     public string? Image { get; set; }
     public Guid CategoryId { get; set; }
     public bool Published { get; set; }
-    public string? CategoryName { get; set; }
+    public string? CategoryTitle { get; set; }
 }
