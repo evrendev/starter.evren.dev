@@ -138,11 +138,10 @@ export const useUserStore = defineStore("user", {
           http.put(`/users/${user.id}`, user),
         );
 
-        if (result.succeeded && result.data) {
-          this.user = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;
@@ -162,11 +161,10 @@ export const useUserStore = defineStore("user", {
       try {
         const result = await handleRequest<User>(http.post("/users", user));
 
-        if (result.succeeded && result.data) {
-          this.user = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;

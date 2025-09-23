@@ -111,11 +111,10 @@ export const useRoleStore = defineStore("role", {
           http.put(`/roles/${role.id}`, role),
         );
 
-        if (result.succeeded && result.data) {
-          this.role = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;
@@ -135,11 +134,10 @@ export const useRoleStore = defineStore("role", {
       try {
         const result = await handleRequest<Role>(http.post("/roles", role));
 
-        if (result.succeeded && result.data) {
-          this.role = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;

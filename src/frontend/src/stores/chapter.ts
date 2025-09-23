@@ -141,11 +141,10 @@ export const useChapterStore = defineStore("chapter", {
           http.post("/v1/chapters", chapter),
         );
 
-        if (result.succeeded && result.data) {
-          this.chapter = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;

@@ -173,11 +173,10 @@ export const useCourseStore = defineStore("course", {
           http.post("/v1/courses", { ...course, image: uploadRequest }),
         );
 
-        if (result.succeeded && result.data) {
-          this.course = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;

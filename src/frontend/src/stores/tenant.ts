@@ -119,9 +119,7 @@ export const useTenantStore = defineStore("tenant", {
           http.put(`/tenants/${tenant.id}`, tenant),
         );
 
-        if (result.succeeded && result.data) {
-          this.tenant = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
 
@@ -146,9 +144,7 @@ export const useTenantStore = defineStore("tenant", {
           http.post("/tenants", tenant),
         );
 
-        if (result.succeeded && result.data) {
-          this.tenant = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
 

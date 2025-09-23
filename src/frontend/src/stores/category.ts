@@ -136,11 +136,10 @@ export const useCategoryStore = defineStore("category", {
           http.put(`/v1/categories/${category.id}`, category),
         );
 
-        if (result.succeeded && result.data) {
-          this.category = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;
@@ -162,11 +161,10 @@ export const useCategoryStore = defineStore("category", {
           http.post("/v1/categories", category),
         );
 
-        if (result.succeeded && result.data) {
-          this.category = result.data;
-        } else {
+        if (!result.succeeded || !result.data) {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;
@@ -196,6 +194,7 @@ export const useCategoryStore = defineStore("category", {
         } else {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;
