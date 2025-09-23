@@ -1,9 +1,9 @@
-export interface Filters extends BasicFilters {
+export interface Filters extends AdvancedFilters {
   sortBy: [];
   groupBy: [];
   page: number;
   itemsPerPage: number;
 }
-export interface BasicFilters {
+export interface AdvancedFilters {
   search: string | null;
 }

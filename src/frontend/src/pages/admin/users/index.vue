@@ -3,7 +3,7 @@ import { DataTable, UserFilter } from "@/views/admin/users";
 
 import { Notify } from "@/stores/notification";
 import { useUserStore } from "@/stores/user";
-import { BasicFilters, Filters } from "@/types/requests/user";
+import { AdvancedFilters, Filters } from "@/types/requests/user";
 
 const userStore = useUserStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(userStore);
@@ -81,7 +81,7 @@ const handleDelete = async (id: string | null) => {
   }
 };
 
-const handleUpdateFilters = async (filters: BasicFilters) => {
+const handleUpdateFilters = async (filters: AdvancedFilters) => {
   userStore.setFilters(filters);
   await userStore.getPaginatedItems();
 };

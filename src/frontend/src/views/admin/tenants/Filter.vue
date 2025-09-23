@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BasicFilters } from "@/types/requests/tenant";
+import { AdvancedFilters } from "@/types/requests/tenant";
 
 const { t } = useI18n();
 
@@ -8,7 +8,7 @@ defineProps<{
   disabled: boolean;
 }>();
 
-const filters = ref<BasicFilters>({
+const filters = ref<AdvancedFilters>({
   search: null,
   startDate: null,
   endDate: null,
@@ -22,7 +22,7 @@ const items = ref([
 ]);
 
 const emit = defineEmits<{
-  (e: "submit", values: BasicFilters): void;
+  (e: "submit", values: AdvancedFilters): void;
   (e: "reset"): void;
 }>();
 

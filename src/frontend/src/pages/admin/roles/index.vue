@@ -3,7 +3,7 @@ import { DataTable, RoleFilter } from "@/views/admin/roles";
 
 import { Notify } from "@/stores/notification";
 import { useRoleStore } from "@/stores/role";
-import { BasicFilters, Filters } from "@/types/requests/role";
+import { AdvancedFilters, Filters } from "@/types/requests/role";
 
 const roleStore = useRoleStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(roleStore);
@@ -62,7 +62,7 @@ const handleDelete = async (id: string | null) => {
   }
 };
 
-const handleUpdateFilters = async (filters: BasicFilters) => {
+const handleUpdateFilters = async (filters: AdvancedFilters) => {
   roleStore.setFilters(filters);
   await roleStore.getPaginatedItems();
 };

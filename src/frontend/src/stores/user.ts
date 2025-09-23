@@ -6,7 +6,7 @@ import { User } from "@/models/user";
 import {
   ResetPasswordRequest,
   Filters,
-  BasicFilters,
+  AdvancedFilters,
 } from "@/types/requests/user";
 import { PaginationResponse } from "@/types/responses/api";
 
@@ -67,7 +67,7 @@ export const useUserStore = defineStore("user", {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(filters: BasicFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 

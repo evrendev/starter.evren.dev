@@ -5,7 +5,7 @@ import { DataTable, CourseFilter } from "@/views/admin/courses";
 
 import { useCategoryStore } from "@/stores/category";
 import { useCourseStore } from "@/stores/course";
-import { BasicFilters, Filters } from "@/types/requests/course";
+import { AdvancedFilters, Filters } from "@/types/requests/course";
 
 const courseStore = useCourseStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(courseStore);
@@ -90,7 +90,7 @@ const handleDelete = async (id: string | null) => {
   }
 };
 
-const handleUpdateFilters = async (filters: BasicFilters) => {
+const handleUpdateFilters = async (filters: AdvancedFilters) => {
   courseStore.setFilters(filters);
   await courseStore.getPaginatedItems();
 };

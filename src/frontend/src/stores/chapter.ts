@@ -3,7 +3,7 @@ import { useAppStore } from "./app";
 
 // Local Types
 import { Chapter } from "@/models/chapter";
-import { Filters, BasicFilters } from "@/types/requests/chapter";
+import { Filters, AdvancedFilters } from "@/types/requests/chapter";
 import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
@@ -43,7 +43,7 @@ export const useChapterStore = defineStore("chapter", {
       this.filters = { ...DEFAULT_FILTER };
     },
 
-    setFilters(filters: BasicFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 

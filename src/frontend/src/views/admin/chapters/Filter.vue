@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Course } from "@/models/course";
-import { BasicFilters } from "@/types/requests/chapter";
+import { AdvancedFilters } from "@/types/requests/chapter";
 
 const { t } = useI18n();
 
@@ -10,12 +10,12 @@ defineProps<{
   courses: Course[];
 }>();
 
-const filters = ref<BasicFilters>({
+const filters = ref<AdvancedFilters>({
   search: null,
   courseId: null,
 });
 const emit = defineEmits<{
-  (e: "submit", values: BasicFilters): void;
+  (e: "submit", values: AdvancedFilters): void;
   (e: "reset"): void;
 }>();
 

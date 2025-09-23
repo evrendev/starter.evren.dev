@@ -3,7 +3,7 @@ import { useAppStore } from "./app";
 
 // Local Types
 import { Role } from "@/models/role";
-import { Filters, BasicFilters } from "@/types/requests/role";
+import { Filters, AdvancedFilters } from "@/types/requests/role";
 import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
@@ -40,7 +40,7 @@ export const useRoleStore = defineStore("role", {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(filters: BasicFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 

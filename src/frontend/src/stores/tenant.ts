@@ -2,7 +2,11 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 import { Tenant } from "@/models/tenant";
-import { Filters, UpgradeTenant, BasicFilters } from "@/types/requests/tenant";
+import {
+  Filters,
+  UpgradeTenant,
+  AdvancedFilters,
+} from "@/types/requests/tenant";
 import { PaginationResponse } from "@/types/responses/api";
 
 import http, { handleRequest } from "@/utils/http";
@@ -41,7 +45,7 @@ export const useTenantStore = defineStore("tenant", {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(filters: BasicFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 

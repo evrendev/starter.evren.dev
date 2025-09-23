@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BasicFilters } from "@/types/requests/category";
+import { AdvancedFilters } from "@/types/requests/category";
 
 const { t } = useI18n();
 
@@ -8,12 +8,12 @@ defineProps<{
   disabled: boolean;
 }>();
 
-const filters = ref<BasicFilters>({
+const filters = ref<AdvancedFilters>({
   search: null,
 });
 
 const emit = defineEmits<{
-  (e: "submit", values: BasicFilters): void;
+  (e: "submit", values: AdvancedFilters): void;
   (e: "reset"): void;
 }>();
 

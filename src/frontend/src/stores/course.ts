@@ -3,7 +3,7 @@ import { useAppStore } from "./app";
 
 // Local Types
 import { Course } from "@/models/course";
-import { Filters, BasicFilters } from "@/types/requests/course";
+import { Filters, AdvancedFilters } from "@/types/requests/course";
 import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
@@ -45,7 +45,7 @@ export const useCourseStore = defineStore("course", {
       this.filters = { ...DEFAULT_FILTER };
     },
 
-    setFilters(filters: BasicFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 

@@ -3,7 +3,11 @@ import { DataTable, TenantFilter } from "@/views/admin/tenants";
 
 import { Notify } from "@/stores/notification";
 import { useTenantStore } from "@/stores/tenant";
-import { BasicFilters, Filters, UpgradeTenant } from "@/types/requests/tenant";
+import {
+  AdvancedFilters,
+  Filters,
+  UpgradeTenant,
+} from "@/types/requests/tenant";
 
 const tenantStore = useTenantStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(tenantStore);
@@ -108,7 +112,7 @@ const handleUpgrade = async (tenant: UpgradeTenant) => {
   }
 };
 
-const handleUpdateFilters = async (filters: BasicFilters) => {
+const handleUpdateFilters = async (filters: AdvancedFilters) => {
   tenantStore.setFilters(filters);
   await tenantStore.getPaginatedItems();
 };

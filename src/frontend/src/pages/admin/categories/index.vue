@@ -3,7 +3,7 @@ import { DataTable, CategoryFilter } from "@/views/admin/categories";
 
 import { Notify } from "@/stores/notification";
 import { useCategoryStore } from "@/stores/category";
-import { BasicFilters, Filters } from "@/types/requests/category";
+import { AdvancedFilters, Filters } from "@/types/requests/category";
 
 const categoryStore = useCategoryStore();
 const { loading, total, itemsPerPage, items } = storeToRefs(categoryStore);
@@ -62,7 +62,7 @@ const handleDelete = async (id: string | null) => {
   }
 };
 
-const handleUpdateFilters = async (filters: BasicFilters) => {
+const handleUpdateFilters = async (filters: AdvancedFilters) => {
   categoryStore.setFilters(filters);
   await categoryStore.getPaginatedItems();
 };

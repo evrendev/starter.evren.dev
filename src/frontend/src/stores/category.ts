@@ -3,7 +3,7 @@ import { useAppStore } from "./app";
 
 // Local Types
 import { Category } from "@/models/category";
-import { Filters, BasicFilters } from "@/types/requests/category";
+import { Filters, AdvancedFilters } from "@/types/requests/category";
 import { ApiResponse, PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
@@ -40,7 +40,7 @@ export const useCategoryStore = defineStore("category", {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
-    setFilters(filters: BasicFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 
