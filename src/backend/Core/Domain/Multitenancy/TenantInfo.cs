@@ -80,14 +80,16 @@ public class TenantInfo : ITenantInfo
 
     public void Activate()
     {
-        if (Id == MultitenancyConstants.Root.Id) throw new InvalidOperationException("Invalid Tenant");
+        if (Id == MultitenancyConstants.Root.Id)
+            throw new InvalidOperationException("Invalid Tenant");
 
         IsActive = true;
     }
 
     public void Deactivate()
     {
-        if (Id == MultitenancyConstants.Root.Id) throw new InvalidOperationException("Invalid Tenant");
+        if (Id == MultitenancyConstants.Root.Id)
+            throw new InvalidOperationException("Invalid Tenant");
 
         IsActive = false;
     }

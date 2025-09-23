@@ -75,7 +75,8 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [OpenApiOperation("Create or update a role.", "")]
     public async Task<ApiResponse<string?>> UpdateAsync(string id, UpdateUserRequest request)
     {
-        if (id != request.Id) return ApiResponse<string?>.Failure("Mismatched user ID");
+        if (id != request.Id)
+            return ApiResponse<string?>.Failure("Mismatched user ID");
 
         var response = await userService.UpdateAsync(request, id);
 
@@ -99,7 +100,8 @@ public class UsersController(IUserService userService, IConfiguration configurat
     public async Task<ActionResult> ToggleStatusAsync(string id, ToggleUserStatusRequest request,
         CancellationToken cancellationToken)
     {
-        if (id != request.UserId) return BadRequest();
+        if (id != request.UserId)
+            return BadRequest();
 
         await userService.ToggleStatusAsync(request, cancellationToken);
         return Ok();

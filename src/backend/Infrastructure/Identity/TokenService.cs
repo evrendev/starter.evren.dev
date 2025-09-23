@@ -40,16 +40,19 @@ internal class TokenService(
             throw new UnauthorizedException(localizer["identity.auth.invalidcaptcha"]);
 
         var user = await userManager.FindByEmailAsync(request.Email.Trim().Normalize());
-        if (user is null) throw new UnauthorizedException(localizer["identity.auth.failed"]);
+        if (user is null)
+            throw new UnauthorizedException(localizer["identity.auth.failed"]);
 
-        if (!user.IsActive) throw new UnauthorizedException(localizer["identity.users.notactive"]);
+        if (!user.IsActive)
+            throw new UnauthorizedException(localizer["identity.users.notactive"]);
 
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
             throw new UnauthorizedException(localizer["identity.users.emailnotconfirmed"]);
 
         if (currentTenant.Id != MultitenancyConstants.Root.Id)
         {
-            if (!currentTenant.IsActive) throw new UnauthorizedException(localizer["multitenancy.tenant.inactive"]);
+            if (!currentTenant.IsActive)
+                throw new UnauthorizedException(localizer["multitenancy.tenant.inactive"]);
 
             if (DateTime.UtcNow > currentTenant.ValidUpto)
                 throw new UnauthorizedException(localizer["multitenancy.tenant.expired"]);
@@ -64,7 +67,8 @@ internal class TokenService(
     public async Task<TokenResult> RefreshTokenAsync(string accessToken, string ipAddress)
     {
         var user = userManager.Users.FirstOrDefault(u => u.RefreshToken == accessToken);
-        if (user is null) throw new UnauthorizedException(localizer["identity.auth.failed"]);
+        if (user is null)
+            throw new UnauthorizedException(localizer["identity.auth.failed"]);
 
         if (user.RefreshToken != accessToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new UnauthorizedException(localizer["identity.auth.invalidrefreshtoken"]);
@@ -75,16 +79,19 @@ internal class TokenService(
     public async Task<TokenResult> GetTokenAfterTwoFactorAsync(string email, string ipAddress)
     {
         var user = await userManager.FindByEmailAsync(email);
-        if (user is null) throw new UnauthorizedException(localizer["identity.auth.failed"]);
+        if (user is null)
+            throw new UnauthorizedException(localizer["identity.auth.failed"]);
 
-        if (!user.IsActive) throw new UnauthorizedException(localizer["identity.users.notactive"]);
+        if (!user.IsActive)
+            throw new UnauthorizedException(localizer["identity.users.notactive"]);
 
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
             throw new UnauthorizedException(localizer["identity.users.emailnotconfirmed"]);
 
         if (currentTenant?.Id != MultitenancyConstants.Root.Id)
         {
-            if (!currentTenant!.IsActive) throw new UnauthorizedException(localizer["multitenancy.tenant.inactive"]);
+            if (!currentTenant!.IsActive)
+                throw new UnauthorizedException(localizer["multitenancy.tenant.inactive"]);
 
             if (DateTime.UtcNow > currentTenant.ValidUpto)
                 throw new UnauthorizedException(localizer["multitenancy.tenant.expired"]);

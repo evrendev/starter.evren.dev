@@ -43,10 +43,12 @@ public class LogJobFilter : IClientFilter, IServerFilter, IElectStateFilter, IAp
     public void OnStateElection(ElectStateContext context)
     {
         if (context.CandidateState is FailedState failedState)
+        {
             Logger.WarnFormat(
                 "Job '{0}' has been failed due to an exception {1}",
                 context.BackgroundJob.Id,
                 failedState.Exception);
+        }
     }
 
     public void OnPerforming(PerformingContext context)

@@ -15,7 +15,8 @@ internal class ConnectionStringValidator(IOptions<DatabaseSettings> dbSettings,
 
     public bool TryValidate(string connectionString, string? dbProvider = null)
     {
-        if (string.IsNullOrWhiteSpace(dbProvider)) dbProvider = _dbSettings.DbProvider;
+        if (string.IsNullOrWhiteSpace(dbProvider))
+            dbProvider = _dbSettings.DbProvider;
 
         try
         {

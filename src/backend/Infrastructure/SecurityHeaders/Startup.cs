@@ -10,6 +10,7 @@ internal static class Startup
         var settings = config.GetSection(nameof(SecurityHeaderSettings)).Get<SecurityHeaderSettings>();
 
         if (settings?.Enable is true)
+        {
             app.Use(async (context, next) =>
             {
                 if (!string.IsNullOrWhiteSpace(settings.XFrameOptions))
@@ -32,6 +33,7 @@ internal static class Startup
 
                 await next();
             });
+        }
 
         return app;
     }

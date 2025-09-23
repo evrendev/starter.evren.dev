@@ -73,8 +73,10 @@ internal class RoleService(
             var result = await roleManager.CreateAsync(role);
 
             if (!result.Succeeded)
+            {
                 throw new InternalServerException(localizer["identity.roles.create.failed"],
                     result.GetErrors(localizer));
+            }
 
             await events.PublishAsync(new ApplicationRoleCreatedEvent(role.Id, role.Name));
 
@@ -96,8 +98,10 @@ internal class RoleService(
             var result = await roleManager.UpdateAsync(role);
 
             if (!result.Succeeded)
+            {
                 throw new InternalServerException(localizer["identity.roles.update.failed"],
                     result.GetErrors(localizer));
+            }
 
             await events.PublishAsync(new ApplicationRoleUpdatedEvent(role.Id, role.Name));
 
@@ -124,12 +128,15 @@ internal class RoleService(
         {
             var removeResult = await roleManager.RemoveClaimAsync(role, claim);
             if (!removeResult.Succeeded)
+            {
                 throw new InternalServerException(localizer["identity.roles.update.permissions.failed"],
                     removeResult.GetErrors(localizer));
+            }
         }
 
         // Add all permissions that were not previously selected
         foreach (var permission in request.Permissions.Where(c => !currentClaims.Any(p => p.Value == c)))
+        {
             if (!string.IsNullOrEmpty(permission))
             {
                 db.RoleClaims.Add(new ApplicationRoleClaim
@@ -141,6 +148,7 @@ internal class RoleService(
                 });
                 await db.SaveChangesAsync(cancellationToken);
             }
+        }
 
         await events.PublishAsync(new ApplicationRoleUpdatedEvent(role.Id, role.Name, true));
 

@@ -43,13 +43,17 @@ public class DefaultJobActivator(IServiceScopeFactory scopeFactory) : JobActivat
         {
             var tenantInfo = _context.GetJobParameter<TenantInfo>(MultitenancyConstants.TenantIdName);
             if (tenantInfo is not null)
+            {
                 _scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor>()
                     .MultiTenantContext = new MultiTenantContext<TenantInfo> { TenantInfo = tenantInfo };
+            }
 
             var userId = _context.GetJobParameter<string>(QueryStringKeys.UserId);
             if (!string.IsNullOrEmpty(userId))
+            {
                 _scope.ServiceProvider.GetRequiredService<ICurrentUserInitializer>()
                     .SetCurrentUserId(userId);
+            }
         }
 
         public override object Resolve(Type type)

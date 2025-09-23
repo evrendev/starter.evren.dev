@@ -10,6 +10,7 @@ public class SortByBindingFilter : ActionFilterAttribute
         var request = context.HttpContext.Request;
 
         foreach (var parameter in context.ActionDescriptor.Parameters)
+        {
             if (typeof(PaginationFilter).IsAssignableFrom(parameter.ParameterType))
             {
                 var filterObject = context.ActionArguments[parameter.Name];
@@ -33,9 +34,11 @@ public class SortByBindingFilter : ActionFilterAttribute
                         }
                     }
 
-                    if (sortByItems.Any()) filter.SortBy = sortByItems;
+                    if (sortByItems.Any())
+                        filter.SortBy = sortByItems;
                 }
             }
+        }
 
         base.OnActionExecuting(context);
     }

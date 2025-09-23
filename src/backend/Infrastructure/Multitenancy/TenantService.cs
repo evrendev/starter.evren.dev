@@ -77,7 +77,8 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
     {
         var tenant = await GetTenantInfoAsync(id);
 
-        if (tenant.IsActive) throw new ConflictException("Tenant is already Activated.");
+        if (tenant.IsActive)
+            throw new ConflictException("Tenant is already Activated.");
 
         tenant.Activate();
 
@@ -90,7 +91,8 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
     {
         var tenant = await GetTenantInfoAsync(id);
 
-        if (!tenant.IsActive) throw new ConflictException("Tenant is already Deactivated.");
+        if (!tenant.IsActive)
+            throw new ConflictException("Tenant is already Deactivated.");
 
         tenant.Deactivate();
 

@@ -35,7 +35,8 @@ public class TotpService : ITotpService
 
         var secretKey = await _userManager.GetAuthenticatorKeyAsync(user);
 
-        if (secretKey is null) throw new Exception("Could not generate authenticator key.");
+        if (secretKey is null)
+            throw new Exception("Could not generate authenticator key.");
 
         var qrCodeUri = GenerateQrCodeUri(user.Email, secretKey);
 
@@ -49,14 +50,17 @@ public class TotpService : ITotpService
 
         var unverifiedSecretKey = await _userManager.GetAuthenticatorKeyAsync(user);
 
-        if (unverifiedSecretKey is null) throw new Exception("No unverified secret key found for the user.");
+        if (unverifiedSecretKey is null)
+            throw new Exception("No unverified secret key found for the user.");
 
         var isCodeValid = VerifyTotpCode(unverifiedSecretKey, request.Code);
 
-        if (!isCodeValid) throw new Exception("Invalid two-factor authentication code.");
+        if (!isCodeValid)
+            throw new Exception("Invalid two-factor authentication code.");
 
         var setResult = await _userManager.SetTwoFactorEnabledAsync(user, true);
-        if (!setResult.Succeeded) throw new Exception("Failed to enable two-factor authentication.");
+        if (!setResult.Succeeded)
+            throw new Exception("Failed to enable two-factor authentication.");
 
         var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
 
@@ -68,7 +72,8 @@ public class TotpService : ITotpService
         var user = await _userManager.FindByIdAsync(request.Id) ?? throw new Exception("User not found.");
 
         var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
-        if (!disable2faResult.Succeeded) return false;
+        if (!disable2faResult.Succeeded)
+            return false;
 
         return true;
     }
@@ -112,7 +117,8 @@ public class TotpService : ITotpService
             currentPosition += 4;
         }
 
-        if (currentPosition < unformattedKey.Length) result.Append(unformattedKey.AsSpan(currentPosition));
+        if (currentPosition < unformattedKey.Length)
+            result.Append(unformattedKey.AsSpan(currentPosition));
 
         return result.ToString().ToLowerInvariant();
     }

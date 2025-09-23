@@ -18,6 +18,7 @@ internal partial class UserService
 
         var roles = await roleManager.Roles.AsNoTracking().ToListAsync(cancellationToken);
         foreach (var role in roles)
+        {
             userRoles.Add(new UserRoleDto
             {
                 RoleId = role.Id,
@@ -25,6 +26,7 @@ internal partial class UserService
                 Description = role.Description,
                 Enabled = await userManager.IsInRoleAsync(user, role.Name)
             });
+        }
 
         return userRoles;
     }
@@ -59,6 +61,7 @@ internal partial class UserService
         }
 
         foreach (var userRole in request.UserRoles)
+        {
             // Check if Role Exists
             if (await roleManager.FindByNameAsync(userRole.RoleName) is not null)
             {
@@ -72,6 +75,7 @@ internal partial class UserService
                     await userManager.RemoveFromRoleAsync(user, userRole.RoleName);
                 }
             }
+        }
 
         await events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id, true));
 

@@ -48,15 +48,18 @@ public class CurrentUser : ICurrentUser, ICurrentUserInitializer
 
     public void SetCurrentUser(ClaimsPrincipal user)
     {
-        if (_user != null) throw new Exception("Method reserved for in-scope initialization");
+        if (_user != null)
+            throw new Exception("Method reserved for in-scope initialization");
 
         _user = user;
     }
 
     public void SetCurrentUserId(string userId)
     {
-        if (_userId != Guid.Empty) throw new Exception("Method reserved for in-scope initialization");
+        if (_userId != Guid.Empty)
+            throw new Exception("Method reserved for in-scope initialization");
 
-        if (!string.IsNullOrEmpty(userId)) _userId = Guid.Parse(userId);
+        if (!string.IsNullOrEmpty(userId))
+            _userId = Guid.Parse(userId);
     }
 }

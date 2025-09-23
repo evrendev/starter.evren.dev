@@ -12,7 +12,8 @@ public class NotificationHub(ITenantInfo? currentTenant, ILogger<NotificationHub
 {
     public override async Task OnConnectedAsync()
     {
-        if (currentTenant is null) throw new UnauthorizedException("Authentication Failed.");
+        if (currentTenant is null)
+            throw new UnauthorizedException("Authentication Failed.");
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{currentTenant.Id}");
 

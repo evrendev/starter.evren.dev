@@ -66,7 +66,9 @@ internal partial class UserService
         var result = await userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
 
         if (!result.Succeeded)
+        {
             throw new InternalServerException(localizer["identity.users.password.change.failed"],
                 result.GetErrors(localizer));
+        }
     }
 }

@@ -22,7 +22,8 @@ public static class TypeExtensions
                      c.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)))
         {
             var propertyValue = prop.GetValue(null);
-            if (propertyValue?.ToString() is string propertyString) values.Add(propertyString);
+            if (propertyValue?.ToString() is string propertyString)
+                values.Add(propertyString);
         }
 
         return values;

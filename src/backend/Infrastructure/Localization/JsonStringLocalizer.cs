@@ -46,7 +46,8 @@ public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
             var key = (string)reader.Value;
             reader.Read();
             var value = _serializer.Deserialize<string>(reader);
-            if (value is not null) yield return new LocalizedString(key, value, false);
+            if (value is not null)
+                yield return new LocalizedString(key, value, false);
         }
     }
 
@@ -70,9 +71,11 @@ public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
         var relativeFilePath = $"{Localization}/{culture}.json";
         var fullFilePath = Path.GetFullPath(relativeFilePath);
         if (File.Exists(fullFilePath))
+        {
             return cache.GetOrSet(
                 $"locale_{culture}_{key}",
                 () => PullDeserialize<string>(key, Path.GetFullPath(relativeFilePath)));
+        }
 
         WriteEmptyKeys(new CultureInfo("en-US"), fullFilePath);
         return default;
@@ -126,11 +129,13 @@ public class JsonStringLocalizer(ICacheService cache) : IStringLocalizer
         using var sReader = new StreamReader(str);
         using var reader = new JsonTextReader(sReader);
         while (reader.Read())
+        {
             if (reader.TokenType == JsonToken.PropertyName && (string?)reader.Value == propertyName)
             {
                 reader.Read();
                 return _serializer.Deserialize<T>(reader);
             }
+        }
 
         return default;
     }

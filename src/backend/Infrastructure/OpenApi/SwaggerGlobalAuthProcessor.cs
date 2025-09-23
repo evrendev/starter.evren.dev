@@ -25,11 +25,14 @@ public class SwaggerGlobalAuthProcessor(string name) : IOperationProcessor
             ?.TryGetPropertyValue<IList<object>>("EndpointMetadata");
         if (list is not null)
         {
-            if (list.OfType<AllowAnonymousAttribute>().Any()) return true;
+            if (list.OfType<AllowAnonymousAttribute>().Any())
+                return true;
 
             if (context.OperationDescription.Operation.Security?.Any() != true)
+            {
                 (context.OperationDescription.Operation.Security ??= new List<OpenApiSecurityRequirement>()).Add(
                     new OpenApiSecurityRequirement { { name, Array.Empty<string>() } });
+            }
         }
 
         return true;

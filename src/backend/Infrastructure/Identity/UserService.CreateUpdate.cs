@@ -35,7 +35,9 @@ internal partial class UserService
         if (principal.FindFirstValue(ClaimTypes.Role) is string role &&
             await roleManager.RoleExistsAsync(role) &&
             !await userManager.IsInRoleAsync(user, role))
+        {
             await userManager.AddToRoleAsync(user, role);
+        }
 
         return user.Id;
     }
@@ -60,8 +62,10 @@ internal partial class UserService
 
         var result = await userManager.CreateAsync(user, temporaryPassword);
         if (!result.Succeeded)
+        {
             throw new InternalServerException(localizer["identity.users.validation.error"],
                 result.GetErrors(localizer));
+        }
 
         await userManager.AddToRoleAsync(user, ApiRoles.Basic);
 
@@ -116,11 +120,13 @@ internal partial class UserService
         user.Gender = request.Gender;
 
         var phoneNumber = await userManager.GetPhoneNumberAsync(user);
-        if (request.PhoneNumber != phoneNumber) await userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
+        if (request.PhoneNumber != phoneNumber)
+            await userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
 
         var email = await userManager.GetEmailAsync(user);
 
-        if (request.Email != email) await userManager.SetEmailAsync(user, request.Email);
+        if (request.Email != email)
+            await userManager.SetEmailAsync(user, request.Email);
 
         var result = await userManager.UpdateAsync(user);
 
@@ -143,8 +149,10 @@ internal partial class UserService
 
         var user = await userManager.FindByNameAsync(username);
         if (user is not null && !string.IsNullOrWhiteSpace(user.ObjectId))
+        {
             throw new InternalServerException(string.Format(localizer["identity.users.create.usernametaken"],
                 username));
+        }
 
         if (user is null)
         {
@@ -182,8 +190,10 @@ internal partial class UserService
         }
 
         if (!result.Succeeded)
+        {
             throw new InternalServerException(localizer["identity.users.validation.error"],
                 result.GetErrors(localizer));
+        }
 
         return user;
     }
@@ -193,7 +203,8 @@ internal partial class UserService
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
         var random = new Random();
         var result = new StringBuilder();
-        for (var i = 0; i < 12; i++) result.Append(chars[random.Next(chars.Length)]);
+        for (var i = 0; i < 12; i++)
+            result.Append(chars[random.Next(chars.Length)]);
         return result.ToString();
     }
 }

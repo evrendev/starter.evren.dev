@@ -13,9 +13,11 @@ public class ConnectionStringSecurer(IOptions<DatabaseSettings> dbSettings) : IC
 
     public string? MakeSecure(string? connectionString, string? dbProvider)
     {
-        if (connectionString is null || string.IsNullOrEmpty(connectionString)) return connectionString;
+        if (connectionString is null || string.IsNullOrEmpty(connectionString))
+            return connectionString;
 
-        if (string.IsNullOrWhiteSpace(dbProvider)) dbProvider = _dbSettings.DbProvider;
+        if (string.IsNullOrWhiteSpace(dbProvider))
+            dbProvider = _dbSettings.DbProvider;
 
         return dbProvider?.ToLower() switch
         {
@@ -29,9 +31,11 @@ public class ConnectionStringSecurer(IOptions<DatabaseSettings> dbSettings) : IC
     {
         var builder = new SqlConnectionStringBuilder(connectionString);
 
-        if (!string.IsNullOrEmpty(builder.Password)) builder.Password = HiddenValueDefault;
+        if (!string.IsNullOrEmpty(builder.Password))
+            builder.Password = HiddenValueDefault;
 
-        if (!string.IsNullOrEmpty(builder.UserID)) builder.UserID = HiddenValueDefault;
+        if (!string.IsNullOrEmpty(builder.UserID))
+            builder.UserID = HiddenValueDefault;
 
         return builder.ToString();
     }
@@ -40,9 +44,11 @@ public class ConnectionStringSecurer(IOptions<DatabaseSettings> dbSettings) : IC
     {
         var builder = new NpgsqlConnectionStringBuilder(connectionString);
 
-        if (!string.IsNullOrEmpty(builder.Password)) builder.Password = HiddenValueDefault;
+        if (!string.IsNullOrEmpty(builder.Password))
+            builder.Password = HiddenValueDefault;
 
-        if (!string.IsNullOrEmpty(builder.Username)) builder.Username = HiddenValueDefault;
+        if (!string.IsNullOrEmpty(builder.Username))
+            builder.Username = HiddenValueDefault;
 
         return builder.ToString();
     }

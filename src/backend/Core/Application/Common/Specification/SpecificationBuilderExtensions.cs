@@ -16,11 +16,14 @@ public static class SpecificationBuilderExtensions
 
     public static ISpecificationBuilder<T> PaginateBy<T>(this ISpecificationBuilder<T> query, PaginationFilter filter)
     {
-        if (filter.Page <= 0) filter.Page = 1;
+        if (filter.Page <= 0)
+            filter.Page = 1;
 
-        if (filter.ItemsPerPage <= 0) filter.ItemsPerPage = 10;
+        if (filter.ItemsPerPage <= 0)
+            filter.ItemsPerPage = 10;
 
-        if (filter.Page > 1) query = query.Skip((filter.Page - 1) * filter.ItemsPerPage);
+        if (filter.Page > 1)
+            query = query.Skip((filter.Page - 1) * filter.ItemsPerPage);
 
         return query
             .Take(filter.ItemsPerPage)
@@ -43,6 +46,7 @@ public static class SpecificationBuilderExtensions
         if (!string.IsNullOrEmpty(search?.Keyword))
         {
             if (search.Fields?.Any() is true)
+            {
                 foreach (var field in search.Fields)
                 {
                     var paramExpr = Expression.Parameter(typeof(T));
@@ -53,10 +57,12 @@ public static class SpecificationBuilderExtensions
 
                     specificationBuilder.AddSearchPropertyByKeyword(propertyExpr, paramExpr, search.Keyword);
                 }
+            }
             else
+            {
                 foreach (var property in typeof(T).GetProperties()
                              .Where(prop => (Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType) is
-                                            { } propertyType
+                             { } propertyType
                                             && !propertyType.IsEnum
                                             && Type.GetTypeCode(propertyType) != TypeCode.Object))
                 {
@@ -65,6 +71,7 @@ public static class SpecificationBuilderExtensions
 
                     specificationBuilder.AddSearchPropertyByKeyword(propertyExpr, paramExpr, search.Keyword);
                 }
+            }
         }
 
         return specificationBuilder;

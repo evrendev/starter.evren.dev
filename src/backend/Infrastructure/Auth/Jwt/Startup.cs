@@ -43,7 +43,8 @@ internal static class Startup
                     OnChallenge = context =>
                     {
                         context.HandleResponse();
-                        if (!context.Response.HasStarted) throw new UnauthorizedException("Authentication Failed.");
+                        if (!context.Response.HasStarted)
+                            throw new UnauthorizedException("Authentication Failed.");
 
                         return Task.CompletedTask;
                     },
@@ -54,7 +55,9 @@ internal static class Startup
 
                         if (!string.IsNullOrEmpty(accessToken) &&
                             context.HttpContext.Request.Path.StartsWithSegments("/notifications"))
+                        {
                             context.Token = accessToken;
+                        }
 
                         return Task.CompletedTask;
                     }

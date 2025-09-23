@@ -12,7 +12,8 @@ public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralA
     [OpenApiOperation("Get setup information for two-factor authentication.", "")]
     public async Task<ApiResponse<TwoFactorAuthenticationDto>> GetTwoFactorAuthenticationSetup([FromQuery] string? id)
     {
-        if (string.IsNullOrWhiteSpace(id)) return ApiResponse<TwoFactorAuthenticationDto>.Failure("Id is required.");
+        if (string.IsNullOrWhiteSpace(id))
+            return ApiResponse<TwoFactorAuthenticationDto>.Failure("Id is required.");
 
         var response = await totpService.GenerateSetupAsync(new TwoFactorSetupRequest { Id = id });
         return ApiResponse<TwoFactorAuthenticationDto>.Success(response);
@@ -58,7 +59,8 @@ public class TwoFactorAuthController(ITotpService totpService) : VersionNeutralA
         const string Na = "N/A";
 
         var headers = Request.Headers;
-        if (headers.TryGetValue("X-Forwarded-For", out var forwardedForHeader)) return forwardedForHeader.ToString();
+        if (headers.TryGetValue("X-Forwarded-For", out var forwardedForHeader))
+            return forwardedForHeader.ToString();
 
         return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? Na;
     }

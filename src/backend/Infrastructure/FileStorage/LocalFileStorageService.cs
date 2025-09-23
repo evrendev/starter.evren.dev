@@ -13,7 +13,8 @@ public class LocalFileStorageService : IFileStorageService
         CancellationToken cancellationToken = default)
         where T : class
     {
-        if (request?.Data is null) return string.Empty;
+        if (request?.Data is null)
+            return string.Empty;
 
         if (!supportedFileType.GetDescriptionList().Contains(request.Extension.ToLower()))
             throw new InvalidOperationException("File Format Not Supported.");
@@ -25,7 +26,8 @@ public class LocalFileStorageService : IFileStorageService
         if (streamData.Length > 0)
         {
             var folder = typeof(T).Name;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) folder = folder.Replace(@"\", "/");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                folder = folder.Replace(@"\", "/");
 
             var folderName = supportedFileType switch
             {
@@ -59,7 +61,8 @@ public class LocalFileStorageService : IFileStorageService
 
     public void Remove(string? path)
     {
-        if (File.Exists(path)) File.Delete(path);
+        if (File.Exists(path))
+            File.Delete(path);
     }
 
     public static string RemoveSpecialCharacters(string str)
@@ -69,11 +72,14 @@ public class LocalFileStorageService : IFileStorageService
 
     private static string NextAvailableFilename(string path)
     {
-        if (!File.Exists(path)) return path;
+        if (!File.Exists(path))
+            return path;
 
         if (Path.HasExtension(path))
+        {
             return GetNextFilename(path.Insert(path.LastIndexOf(Path.GetExtension(path), StringComparison.Ordinal),
                 NumberPattern));
+        }
 
         return GetNextFilename(path + NumberPattern);
     }
@@ -82,7 +88,8 @@ public class LocalFileStorageService : IFileStorageService
     {
         var tmp = string.Format(pattern, 1);
 
-        if (!File.Exists(tmp)) return tmp;
+        if (!File.Exists(tmp))
+            return tmp;
 
         int min = 1, max = 2;
 

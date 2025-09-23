@@ -52,7 +52,8 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     public async Task<ActionResult<string>> UpdatePermissionsAsync(string id, UpdateRolePermissionsRequest request,
         CancellationToken cancellationToken)
     {
-        if (id != request.RoleId) return BadRequest();
+        if (id != request.RoleId)
+            return BadRequest();
 
         return Ok(await roleService.UpdatePermissionsAsync(request, cancellationToken));
     }

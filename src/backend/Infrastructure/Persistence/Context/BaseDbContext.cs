@@ -72,6 +72,7 @@ public abstract class BaseDbContext(
     private List<AuditTrail> HandleAuditingBeforeSaveChanges(Guid userId)
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
+        {
             switch (entry.State)
             {
                 case EntityState.Added:
@@ -94,6 +95,7 @@ public abstract class BaseDbContext(
 
                     break;
             }
+        }
 
         ChangeTracker.DetectChanges();
 
@@ -104,7 +106,8 @@ public abstract class BaseDbContext(
         {
             var trailEntry = new AuditTrail(entry, serializer)
             {
-                TableName = entry.Entity.GetType().Name, UserId = userId
+                TableName = entry.Entity.GetType().Name,
+                UserId = userId
             };
             trailEntries.Add(trailEntry);
             foreach (var property in entry.Properties)
@@ -165,15 +168,18 @@ public abstract class BaseDbContext(
     private Task HandleAuditingAfterSaveChangesAsync(List<AuditTrail> trailEntries,
         CancellationToken cancellationToken = new())
     {
-        if (trailEntries is null || trailEntries.Count == 0) return Task.CompletedTask;
+        if (trailEntries is null || trailEntries.Count == 0)
+            return Task.CompletedTask;
 
         foreach (var entry in trailEntries)
         {
             foreach (var prop in entry.TemporaryProperties)
+            {
                 if (prop.Metadata.IsPrimaryKey())
                     entry.KeyValues[prop.Metadata.Name] = prop.CurrentValue;
                 else
                     entry.NewValues[prop.Metadata.Name] = prop.CurrentValue;
+            }
 
             AuditTrails.Add(entry.ToAuditTrail());
         }
@@ -192,7 +198,8 @@ public abstract class BaseDbContext(
         {
             var domainEvents = entity.DomainEvents.ToArray();
             entity.DomainEvents.Clear();
-            foreach (var domainEvent in domainEvents) await events.PublishAsync(domainEvent);
+            foreach (var domainEvent in domainEvents)
+                await events.PublishAsync(domainEvent);
         }
     }
 }

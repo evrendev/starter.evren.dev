@@ -44,7 +44,8 @@ public class EventAddingRepositoryDecorator<T>(IRepository<T> decorated) : IRepo
 
     public Task<int> DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
-        foreach (var entity in entities) entity.DomainEvents.Add(EntityDeletedEvent.WithEntity(entity));
+        foreach (var entity in entities)
+            entity.DomainEvents.Add(EntityDeletedEvent.WithEntity(entity));
 
         return decorated.DeleteRangeAsync(entities, cancellationToken);
     }

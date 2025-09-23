@@ -44,7 +44,8 @@ internal static class Startup
     {
         return builder.WithDelegateStrategy(context =>
         {
-            if (context is not HttpContext httpContext) return Task.FromResult((string?)null);
+            if (context is not HttpContext httpContext)
+                return Task.FromResult((string?)null);
 
             httpContext.Request.Query.TryGetValue(queryStringKey, out var tenantIdParam);
 

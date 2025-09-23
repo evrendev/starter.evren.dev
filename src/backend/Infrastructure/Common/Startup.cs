@@ -33,7 +33,8 @@ internal static class Startup
                 .Where(t => t.Service is not null
                             && interfaceType.IsAssignableFrom(t.Service));
 
-        foreach (var type in interfaceTypes) services.AddService(type.Service!, type.Implementation, lifetime);
+        foreach (var type in interfaceTypes)
+            services.AddService(type.Service!, type.Implementation, lifetime);
 
         return services;
     }

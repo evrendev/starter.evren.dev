@@ -15,8 +15,10 @@ internal class InvalidateUserPermissionCacheHandler
         CancellationToken cancellationToken)
     {
         if (notification.Event.PermissionsUpdated)
+        {
             foreach (var user in await userManager.GetUsersInRoleAsync(notification.Event.RoleName))
                 await userService.InvalidatePermissionCacheAsync(user.Id, cancellationToken);
+        }
     }
 
     public async Task Handle(EventNotification<ApplicationUserUpdatedEvent> notification,

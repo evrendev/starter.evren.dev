@@ -13,7 +13,8 @@ internal static class Startup
     internal static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services, IConfiguration config)
     {
         var settings = config.GetSection(nameof(SwaggerSettings)).Get<SwaggerSettings>();
-        if (settings is { Enable: false }) return services;
+        if (settings is { Enable: false })
+            return services;
 
         services.AddVersionedApiExplorer(o => o.SubstituteApiVersionInUrl = true);
         services.AddEndpointsApiExplorer();
@@ -26,13 +27,16 @@ internal static class Startup
                 doc.Info.Description = settings.Description;
                 doc.Info.Contact = new OpenApiContact
                 {
-                    Name = settings.ContactName, Email = settings.ContactEmail, Url = settings.ContactUrl
+                    Name = settings.ContactName,
+                    Email = settings.ContactEmail,
+                    Url = settings.ContactUrl
                 };
                 doc.Info.License = new OpenApiLicense { Name = settings.LicenseName, Url = settings.LicenseUrl };
                 doc.Info.TermsOfService = settings.TermsOfService;
             };
 
             if (config["SecuritySettings:Provider"]!.Equals("AzureAd", StringComparison.OrdinalIgnoreCase))
+            {
                 document.AddSecurity(JwtBearerDefaults.AuthenticationScheme,
                     new OpenApiSecurityScheme
                     {
@@ -55,7 +59,9 @@ internal static class Startup
                             }
                         }
                     });
+            }
             else
+            {
                 document.AddSecurity(JwtBearerDefaults.AuthenticationScheme,
                     new OpenApiSecurityScheme
                     {
@@ -66,6 +72,7 @@ internal static class Startup
                         Scheme = JwtBearerDefaults.AuthenticationScheme,
                         BearerFormat = "JWT"
                     });
+            }
 
             document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor());
             document.OperationProcessors.Add(new SwaggerGlobalAuthProcessor());
@@ -77,7 +84,8 @@ internal static class Startup
 
     internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app, IConfiguration config)
     {
-        if (!config.GetValue<bool>("SwaggerSettings:Enable")) return app;
+        if (!config.GetValue<bool>("SwaggerSettings:Enable"))
+            return app;
 
         app.UseOpenApi();
         app.UseSwaggerUi(options =>
@@ -85,7 +93,8 @@ internal static class Startup
             options.DefaultModelsExpandDepth = -1;
             options.DocExpansion = "none";
             options.TagsSorter = "alpha";
-            if (!config["SecuritySettings:Provider"]!.Equals("AzureAd", StringComparison.OrdinalIgnoreCase)) return;
+            if (!config["SecuritySettings:Provider"]!.Equals("AzureAd", StringComparison.OrdinalIgnoreCase))
+                return;
 
             options.OAuth2Client = new OAuth2ClientSettings
             {

@@ -22,7 +22,8 @@ internal static class Startup
             throw new InvalidOperationException("DB ConnectionString is not configured.");
 
         var dbProvider = databaseSettings.DbProvider;
-        if (string.IsNullOrEmpty(dbProvider)) throw new InvalidOperationException("DB Provider is not configured.");
+        if (string.IsNullOrEmpty(dbProvider))
+            throw new InvalidOperationException("DB Provider is not configured.");
 
         Logger.Information($"Current DB Provider : {dbProvider}");
 

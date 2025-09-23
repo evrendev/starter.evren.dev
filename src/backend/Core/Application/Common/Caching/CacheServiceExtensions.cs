@@ -7,11 +7,13 @@ public static class CacheServiceExtensions
     {
         var value = cache.Get<T>(key);
 
-        if (value is not null) return value;
+        if (value is not null)
+            return value;
 
         value = getItemCallback();
 
-        if (value is not null) cache.Set(key, value, slidingExpiration);
+        if (value is not null)
+            cache.Set(key, value, slidingExpiration);
 
         return value;
     }
@@ -21,11 +23,13 @@ public static class CacheServiceExtensions
     {
         var value = await cache.GetAsync<T>(key, cancellationToken);
 
-        if (value is not null) return value;
+        if (value is not null)
+            return value;
 
         value = await getItemCallback();
 
-        if (value is not null) await cache.SetAsync(key, value, slidingExpiration, cancellationToken);
+        if (value is not null)
+            await cache.SetAsync(key, value, slidingExpiration, cancellationToken);
 
         return value;
     }
