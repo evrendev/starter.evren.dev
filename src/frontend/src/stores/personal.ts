@@ -39,8 +39,8 @@ export const usePersonalStore = defineStore("personal", {
     itemsPerPage: 25,
     hasNextPage: false,
     hasPreviousPage: false,
-    items: [] as Log[],
     // Data state
+    items: [] as Log[],
     user: null as BasicUser | null,
     permissions: [] as string[],
     filters: { ...DEFAULT_FILTER },
@@ -155,24 +155,29 @@ export const usePersonalStore = defineStore("personal", {
       this.loading = true;
       this.error = null;
 
-      const result = await handleRequest<PaginationResponse<Log>>(
-        http.get("/personal/logs", { params: this.filters }),
-      );
+      try {
+        const result = await handleRequest<PaginationResponse<Log>>(
+          http.get("/personal/logs", { params: this.filters }),
+        );
 
-      if (result.succeeded && result.data) {
-        this.items = result.data.items;
-        this.page = result.data.page;
-        this.total = result.data.total;
-        this.itemsPerPage = result.data.itemsPerPage;
-        this.totalPages = result.data.totalPages;
-        this.hasNextPage = result.data.hasNextPage;
-        this.hasPreviousPage = result.data.hasPreviousPage;
-      } else {
-        this.error = result.errors!;
+        if (result.succeeded && result.data) {
+          this.items = result.data.items;
+          this.page = result.data.page;
+          this.total = result.data.total;
+          this.itemsPerPage = result.data.itemsPerPage;
+          this.totalPages = result.data.totalPages;
+          this.hasNextPage = result.data.hasNextPage;
+          this.hasPreviousPage = result.data.hasPreviousPage;
+        } else {
+          this.error = result.errors!;
+          this.items = [];
+        }
+      } catch (error) {
+        this.error = error as AppError;
         this.items = [];
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
     },
 
     async setupTwoFactorAuthentication(): Promise<
