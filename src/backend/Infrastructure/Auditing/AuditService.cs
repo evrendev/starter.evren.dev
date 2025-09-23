@@ -37,20 +37,23 @@ public class AuditService(ApplicationDbContext auditDbContext) : IAuditService
 
             switch (sortField.ToLower())
             {
-                case "id":
-                    query = isDescending ? query.OrderByDescending(t => t.Id) : query.OrderBy(t => t.Id);
+                case "type":
+                    query = isDescending ? query.OrderByDescending(t => t.Type) : query.OrderBy(t => t.Type);
                     break;
                 case "datetime":
                     query = isDescending ? query.OrderByDescending(t => t.DateTime) : query.OrderBy(t => t.DateTime);
                     break;
+                case "tablename":
+                    query = isDescending ? query.OrderByDescending(t => t.TableName) : query.OrderBy(t => t.TableName);
+                    break;
                 default:
-                    query = query.OrderBy(t => t.DateTime);
+                    query = query.OrderByDescending(t => t.DateTime);
                     break;
             }
         }
         else
         {
-            query = query.OrderBy(t => t.Id);
+            query = query.OrderByDescending(t => t.DateTime);
         }
 
         var totalItems = await query.CountAsync(cancellationToken);
