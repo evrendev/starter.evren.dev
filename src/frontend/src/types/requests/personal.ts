@@ -1,11 +1,13 @@
-export interface LogFilters {
+export interface Filters extends AdvancedFilters {
   sortBy: [];
   groupBy: [];
   page: number;
   itemsPerPage: number;
+}
+export interface AdvancedFilters {
+  search: string | null;
   startDate: string | null;
   endDate: string | null;
-  search: string | null;
 }
 
 export interface SetupTwoFactorAuthenticationRequest {

@@ -1,42 +1,72 @@
 <script lang="ts" setup>
-import { Log } from "@/models/user";
-import { Props } from "@/types/requests/app";
+import { DataTable, LogFilter } from "@/views/admin/personal/components";
+
+import { usePersonalStore } from "@/stores/personal";
+import { AdvancedFilters, Filters } from "@/types/requests/personal";
+const personalStore = usePersonalStore();
+const { loading, total, itemsPerPage, items } = storeToRefs(personalStore);
+
 const { t } = useI18n();
 
-withDefaults(defineProps<Props<Log>>(), {
-  itemsPerPage: 25,
-  items: () => [],
-  total: 0,
-  loading: false,
-  headers: () => [],
-});
+const headers = computed(() => [
+  ...([
+    {
+      title: t("admin.personal.logs.fields.type.title"),
+      key: "type",
+      align: "center",
+      sortable: false,
+    },
+    {
+      title: t("admin.personal.logs.fields.tableName.title"),
+      key: "tableName",
+      align: "center",
+      sortable: true,
+    },
+    {
+      title: t("admin.personal.logs.fields.dateTime.title"),
+      key: "dateTime",
+      align: "center",
+      sortable: true,
+    },
+    {
+      title: t("admin.personal.logs.fields.action.title"),
+      key: "action",
+      align: "center",
+      sortable: false,
+    },
+  ] as const),
+]);
 
-const emit = defineEmits<{
-  (e: "update:options", options: any): void;
-}>();
+const handleUpdateFilters = async (filters: AdvancedFilters) => {
+  personalStore.setFilters(filters);
+  await personalStore.getLogs();
+};
+
+const handleResetFilters = async () => {
+  personalStore.resetFilters();
+  await personalStore.getLogs();
+};
+
+const getPaginatedItems = async (options: Filters) => {
+  personalStore.setFilters(options);
+  await personalStore.getLogs();
+};
 </script>
 
 <template>
-  <v-card elevation="6" class="mt-4" :title="t('admin.personal.logs.title')">
-    <v-card-text>
-      <v-data-table-server
-        :items-per-page="itemsPerPage"
-        :items="items"
-        :items-length="total"
-        :item-value="itemValue"
-        :headers="headers"
-        :loading="loading"
-        @update:options="emit('update:options', $event)"
-        class="striped border"
-      />
-    </v-card-text>
-  </v-card>
+  <log-filter
+    :page-title="t('shared.filters.title')"
+    :disabled="loading"
+    @submit="handleUpdateFilters"
+    @reset="handleResetFilters"
+  />
+  <data-table
+    :items-per-page="itemsPerPage"
+    :items="items"
+    :total="total"
+    :loading="loading"
+    :headers="headers"
+    @update:options="getPaginatedItems"
+    item-value="id"
+  />
 </template>
-
-<style lang="scss" scoped>
-.v-table {
-  th {
-    text-align: start !important;
-  }
-}
-</style>

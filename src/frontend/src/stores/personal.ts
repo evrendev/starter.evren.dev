@@ -6,9 +6,10 @@ import type { BasicUser, Log, User } from "@/models/user";
 import type { ChangePasswordRequest } from "@/types/requests/user";
 import type { SetupTwoFactorAuthenticationResponse } from "@/types/responses/personal";
 import type {
+  Filters,
   EnableTwoFactorAuthenticationRequest,
-  LogFilters,
   SetupTwoFactorAuthenticationRequest,
+  AdvancedFilters,
 } from "@/types/requests/personal";
 import type { PaginationResponse } from "@/types/responses/api";
 
@@ -17,7 +18,7 @@ import http, { handleRequest } from "@/utils/http";
 import type { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
 
-const DEFAULT_FILTER: LogFilters = {
+const DEFAULT_FILTER: Filters = {
   search: null,
   sortBy: [],
   groupBy: [],
@@ -56,7 +57,7 @@ export const usePersonalStore = defineStore("personal", {
       this.filters = { ...DEFAULT_FILTER };
     },
 
-    setFilters(filters: LogFilters) {
+    setFilters(filters: AdvancedFilters) {
       this.filters = { ...this.filters, ...filters };
     },
 
