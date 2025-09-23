@@ -32,7 +32,6 @@ const headers = computed(() => [
     {
       title: t("admin.courses.fields.categoryId.title"),
       key: "categoryName",
-      align: "center",
       sortable: false,
       width: "72px",
     },
@@ -40,14 +39,13 @@ const headers = computed(() => [
       title: t("admin.courses.fields.published.title"),
       key: "published",
       align: "center",
-      sortable: false,
+      sortable: true,
       width: "36px",
     },
     {
       title: t("admin.courses.fields.title.title"),
       key: "title",
-      align: "center",
-      sortable: false,
+      sortable: true,
       width: "150px",
     },
     {

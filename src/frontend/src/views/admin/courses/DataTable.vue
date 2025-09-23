@@ -156,3 +156,15 @@ const abortDelete = () => {
     @cancel="abortDelete"
   />
 </template>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 600px) {
+  :deep(.text-pre-wrap) {
+    display: block;
+    width: 200px;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+</style>

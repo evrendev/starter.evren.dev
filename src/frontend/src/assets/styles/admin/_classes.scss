@@ -10,9 +10,12 @@
       white-space: nowrap;
       text-transform: inherit;
       text-decoration: underline;
-      text-align: center;
-      background-color: rgb(var(--v-theme-background));
-      border-radius: 0.25rem;
+      background-color: rgb(var(--v-theme-background)) !important;
+
+      .header__content {
+        display: flex;
+        justify-content: center;
+      }
     }
   }
   tbody {
