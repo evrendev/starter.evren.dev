@@ -152,11 +152,14 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
             );
         }
 
-        if (filter.ShowActiveItems.HasValue) query = query.Where(t => t.IsActive == filter.ShowActiveItems.Value);
+        if (filter.ShowActiveItems.HasValue)
+            query = query.Where(t => t.IsActive == filter.ShowActiveItems.Value);
 
-        if (filter.StartDate.HasValue) query = query.Where(t => t.ValidUpto >= filter.StartDate.Value);
+        if (filter.StartDate.HasValue)
+            query = query.Where(t => t.ValidUpto >= filter.StartDate.Value);
 
-        if (filter.EndDate.HasValue) query = query.Where(t => t.ValidUpto <= filter.EndDate.Value);
+        if (filter.EndDate.HasValue)
+            query = query.Where(t => t.ValidUpto <= filter.EndDate.Value);
 
         if (filter.SortBy is { Count: > 0 })
         {

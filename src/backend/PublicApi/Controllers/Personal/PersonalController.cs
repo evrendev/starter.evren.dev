@@ -55,8 +55,8 @@ public class PersonalController(IUserService userService) : VersionNeutralApiCon
 
     [HttpGet("logs")]
     [OpenApiOperation("Get audit logs of currently logged in user.", "")]
-    public Task<List<AuditDto>> GetLogsAsync()
+    public async Task<PaginationResponse<AuditDto>> GetPaginatedLogsAsync([FromQuery] PaginateAuditLogsFilter filter)
     {
-        return Mediator.Send(new GetMyAuditLogsRequest());
+        return await Mediator.Send(filter);
     }
 }
