@@ -4,7 +4,7 @@ import { useAppStore } from "./app";
 // Local Types
 import { Category } from "@/models/category";
 import { Filters, AdvancedFilters } from "@/types/requests/category";
-import { ApiResponse, PaginationResponse } from "@/types/responses/api";
+import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
 import http, { handleRequest } from "@/utils/http";
