@@ -470,9 +470,9 @@
           "title": "Id",
           "required": "Id alanı gerekli"
         },
-        "name": {
-          "title": "Ad",
-          "required": "Ad alanı gerekli"
+        "title": {
+          "title": "Başlık",
+          "required": "Başlık alanı gerekli"
         },
         "description": {
           "title": "Açıklama",
@@ -484,8 +484,8 @@
         "updateFailed": "Kategori güncellenirken hata oluştu",
         "created": "Kategori başarıyla oluşturuldu",
         "createFailed": "Kategori oluşturulurken hata oluştu",
-        "deleteConfirm": "Sil {name}",
-        "deleteMessage": "Bu {name} silmek istediğinize emin misiniz?",
+        "deleteConfirm": "Sil {title}",
+        "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
         "deleted": "Kategori başarıyla silindi",
         "deleteFailed": "Kategori silinirken hata oluştu"
       }

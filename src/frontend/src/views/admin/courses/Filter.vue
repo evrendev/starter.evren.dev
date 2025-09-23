@@ -64,7 +64,7 @@ const reset = () => {
               :items="categories"
               hide-details
               item-value="id"
-              item-title="name"
+              item-title="title"
               variant="outlined"
               :label="t('admin.courses.fields.categoryId.title')"
             />

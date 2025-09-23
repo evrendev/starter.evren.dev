@@ -470,9 +470,9 @@
           "title": "Id",
           "required": "Id ist erforderlich"
         },
-        "name": {
-          "title": "Name",
-          "required": "Name ist erforderlich"
+        "title": {
+          "title": "Titel",
+          "required": "Titel ist erforderlich"
         },
         "description": {
           "title": "Beschreibung",
@@ -484,8 +484,8 @@
         "updateFailed": "Aktualisierung der Kategorie fehlgeschlagen",
         "created": "Kategorie erfolgreich erstellt",
         "createFailed": "Erstellung der Kategorie fehlgeschlagen",
-        "deleteConfirm": "Kategorie löschen {name}",
-        "deleteMessage": "Sind Sie sicher, dass Sie {name} löschen möchten?",
+        "deleteConfirm": "Kategorie löschen {title}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
         "deleted": "Kategorie erfolgreich gelöscht",
         "deleteFailed": "Löschen der Kategorie fehlgeschlagen"
       }

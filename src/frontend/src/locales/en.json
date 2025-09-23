@@ -486,9 +486,9 @@
           "title": "Id",
           "required": "Id is required"
         },
-        "name": {
-          "title": "Name",
-          "required": "Name is required"
+        "title": {
+          "title": "Title",
+          "required": "Title is required"
         },
         "description": {
           "title": "Description",
@@ -500,8 +500,8 @@
         "updateFailed": "Failed to update cateogory",
         "created": "Category created successfully",
         "createFailed": "Failed to create category",
-        "deleteConfirm": "Delete {name}",
-        "deleteMessage": "Are you sure you want to delete {name}?",
+        "deleteConfirm": "Delete {title}",
+        "deleteMessage": "Are you sure you want to delete {title}?",
         "deleted": "Category deleted successfully",
         "deleteFailed": "Failed to delete category"
       }

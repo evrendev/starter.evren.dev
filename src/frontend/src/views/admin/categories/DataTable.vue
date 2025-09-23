@@ -24,10 +24,10 @@ const dialogMessage: Ref<string | null> = ref(null);
 const showDeleteConfirmModal = (category: Category) => {
   categoryId.value = category.id;
   dialogTitle.value = t("admin.categories.notifications.deleteConfirm", {
-    name: category.name,
+    title: category.title,
   });
   dialogMessage.value = t("admin.categories.notifications.deleteMessage", {
-    name: category.name,
+    title: category.title,
   });
   toggleDeleteConfirmDialog.value = true;
 };
@@ -66,10 +66,10 @@ const abortDelete = () => {
         @update:options="emit('update:options', $event)"
         class="striped border"
       >
-        <template #[`item.name`]="{ item }">
+        <template #[`item.title`]="{ item }">
           <router-link
             :to="{ name: 'category-view', params: { id: item.id } }"
-            :text="item.name"
+            :text="item.title"
           />
         </template>
 

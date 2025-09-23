@@ -14,8 +14,8 @@ const route = useRoute();
 const headers = computed(() => [
   ...([
     {
-      title: t("admin.categories.fields.name.title"),
-      key: "name",
+      title: t("admin.categories.fields.title.title"),
+      key: "title",
       align: "center",
       sortable: false,
       width: "150px",

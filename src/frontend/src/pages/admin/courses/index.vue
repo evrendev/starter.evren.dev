@@ -31,7 +31,7 @@ const headers = computed(() => [
     },
     {
       title: t("admin.courses.fields.categoryId.title"),
-      key: "categoryName",
+      key: "categoryTitle",
       sortable: false,
       width: "72px",
     },

@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const schema = toTypedSchema(
   object({
-    name: string().required(t("admin.categories.fields.name.required")),
+    title: string().required(t("admin.categories.fields.title.required")),
     description: string().required(
       t("admin.categories.fields.description.required"),
     ),
@@ -31,9 +31,9 @@ const readOnly: Ref<boolean> = ref(props.routeName === "category-view");
 
 watch(
   () => props.category,
-  (categoryName) => {
-    if (categoryName) {
-      resetForm({ values: categoryName });
+  (categoryTitle) => {
+    if (categoryTitle) {
+      resetForm({ values: categoryTitle });
     }
   },
   {
@@ -43,7 +43,7 @@ watch(
 );
 
 const [id] = defineField("id");
-const [name, nameAttrs] = defineField("name");
+const [title, titleAttrs] = defineField("title");
 const [description, descriptionAttrs] = defineField("description");
 
 const emit = defineEmits<{
@@ -90,18 +90,18 @@ const submit = handleSubmit((values: Category) => {
         <v-row>
           <v-col cols="12" md="3">
             <label
-              for="name"
+              for="title"
               class="form-label"
-              v-text="t('admin.categories.fields.name.title')"
+              v-text="t('admin.categories.fields.title.title')"
             />
           </v-col>
           <v-col cols="12" md="9">
             <v-text-field
-              v-model="name"
-              v-bind="nameAttrs"
+              v-model="title"
+              v-bind="titleAttrs"
               variant="outlined"
-              :label="t('admin.categories.fields.name.title')"
-              :error-messages="errors.name"
+              :label="t('admin.categories.fields.title.title')"
+              :error-messages="errors.title"
             />
           </v-col>
         </v-row>

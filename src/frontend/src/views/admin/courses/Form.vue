@@ -127,7 +127,7 @@ const submit = handleSubmit((values: Course) => {
               variant="outlined"
               :items="categories"
               item-value="id"
-              item-title="name"
+              item-title="title"
               :label="t('admin.courses.fields.categoryId.title')"
               :error-messages="errors.categoryId"
             />
