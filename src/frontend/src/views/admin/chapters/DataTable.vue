@@ -67,6 +67,13 @@ const abortDelete = () => {
         @update:options="emit('update:options', $event)"
         class="striped border"
       >
+        <template #[`item.courseTitle`]="{ item }">
+          <router-link
+            :to="{ name: 'course-view', params: { id: item.courseId } }"
+            :text="item.courseTitle"
+          />
+        </template>
+
         <template #[`item.title`]="{ item }">
           <router-link
             :to="{ name: 'chapter-view', params: { id: item.id } }"
