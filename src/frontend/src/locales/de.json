@@ -118,7 +118,8 @@
         "logout": "Abmelden",
         "course-management": "Kursverwaltung",
         "categories": "Kategorien",
-        "courses": "Kurse"
+        "courses": "Kurse",
+        "chapters": "Kapitel"
       },
       "footer": {
         "home": "Startseite",
@@ -134,7 +135,8 @@
           "roles": "Rollen",
           "users": "Benutzer",
           "categories": "Kategorien",
-          "courses": "Kurse"
+          "courses": "Kurse",
+          "chapters": "Kapitel"
         }
       }
     },
@@ -544,6 +546,48 @@
         "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
         "deleted": "Kurs erfolgreich gelöscht",
         "deleteFailed": "Kurslöschung fehlgeschlagen"
+      }
+    },
+    "chapters": {
+      "list": {
+        "title": "Kapitel Liste"
+      },
+      "create": {
+        "title": "Kapitel Erstellen"
+      },
+      "view": {
+        "title": "Kapitel Anzeigen"
+      },
+      "edit": {
+        "title": "Kapitel Bearbeiten"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "courseId": {
+          "title": "Kurs",
+          "required": "Kurs ist erforderlich"
+        },
+        "title": {
+          "title": "Titel",
+          "required": "Titel ist erforderlich"
+        },
+        "description": {
+          "title": "Beschreibung",
+          "required": "Beschreibung ist erforderlich"
+        }
+      },
+      "notifications": {
+        "updated": "Kapitel erfolgreich aktualisiert",
+        "updateFailed": "Aktualisierung des Kapitels fehlgeschlagen",
+        "created": "Kapitel erfolgreich erstellt",
+        "createFailed": "Erstellung des Kapitels fehlgeschlagen",
+        "deleteConfirm": "Kapitel löschen {title}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
+        "deleted": "Kapitel erfolgreich gelöscht",
+        "deleteFailed": "Löschen des Kapitels fehlgeschlagen"
       }
     }
   },

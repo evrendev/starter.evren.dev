@@ -24,6 +24,13 @@ import VerticalNavLink from "./VerticalNavLink.vue";
     :item="{
       heading: t('admin.components.sidebar.course-management'),
     }"
+    v-show="
+      personalStore.hasPermission([
+        Permissions.CategoryView,
+        Permissions.CourseView,
+        Permissions.ChapterView,
+      ])
+    "
   />
 
   <vertical-nav-link
@@ -32,6 +39,7 @@ import VerticalNavLink from "./VerticalNavLink.vue";
       icon: 'bx-category',
       to: { name: 'category-list' },
     }"
+    v-show="personalStore.hasPermission(Permissions.CategoryView)"
   />
 
   <vertical-nav-link
@@ -40,16 +48,17 @@ import VerticalNavLink from "./VerticalNavLink.vue";
       icon: 'bx-book',
       to: { name: 'course-list' },
     }"
+    v-show="personalStore.hasPermission(Permissions.CourseView)"
   />
 
-  <!-- 
   <vertical-nav-link
-    :item="{6
+    :item="{
       title: t('admin.components.sidebar.chapters'),
+      icon: 'bx-list-ol',
       to: { name: 'chapter-list' },
     }"
     v-show="personalStore.hasPermission(Permissions.ChapterView)"
-  /> -->
+  />
 
   <vertical-nav-section-title
     :item="{

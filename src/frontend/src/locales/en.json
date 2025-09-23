@@ -118,7 +118,8 @@
         "logout": "Logout",
         "course-management": "Course Management",
         "categories": "Categories",
-        "courses": "Courses"
+        "courses": "Courses",
+        "chapters": "Chapters"
       },
       "footer": {
         "home": "Home",
@@ -134,7 +135,8 @@
           "roles": "Roles",
           "users": "Users",
           "categories": "Categories",
-          "courses": "Courses"
+          "courses": "Courses",
+          "chapters": "Chapters"
         }
       }
     },
@@ -544,6 +546,48 @@
         "deleteMessage": "Are you sure you want to delete {title}?",
         "deleted": "Course deleted successfully",
         "deleteFailed": "Failed to delete course"
+      }
+    },
+    "chapters": {
+      "list": {
+        "title": "Chapter List"
+      },
+      "create": {
+        "title": "Create Chapter"
+      },
+      "view": {
+        "title": "View Chapter"
+      },
+      "edit": {
+        "title": "Edit Chapter"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "courseId": {
+          "title": "Course",
+          "required": "Course is required"
+        },
+        "title": {
+          "title": "Title",
+          "required": "Title is required"
+        },
+        "description": {
+          "title": "Description",
+          "required": "Description is required"
+        }
+      },
+      "notifications": {
+        "updated": "Chapter updated successfully",
+        "updateFailed": "Failed to update chapter",
+        "created": "Chapter created successfully",
+        "createFailed": "Failed to create chapter",
+        "deleteConfirm": "Delete {title}",
+        "deleteMessage": "Are you sure you want to delete {title}?",
+        "deleted": "Chapter deleted successfully",
+        "deleteFailed": "Failed to delete chapter"
       }
     }
   },

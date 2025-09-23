@@ -118,7 +118,8 @@
         "logout": "Çıkış Yap",
         "course-management": "Kurs Yönetimi",
         "categories": "Kategoriler",
-        "courses": "Kurslar"
+        "courses": "Kurslar",
+        "chapters": "Bölümler"
       },
       "footer": {
         "home": "Anasayfa",
@@ -134,7 +135,8 @@
           "roles": "Roller",
           "users": "Kullanıcılar",
           "categories": "Kategoriler",
-          "courses": "Kurslar"
+          "courses": "Kurslar",
+          "chapters": "Bölümler"
         }
       }
     },
@@ -544,6 +546,48 @@
         "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
         "deleted": "Kurs başarıyla silindi",
         "deleteFailed": "Kurs silinirken hata oluştu"
+      }
+    },
+    "chapters": {
+      "list": {
+        "title": "Bölüm Listesi"
+      },
+      "create": {
+        "title": "Bölüm Oluştur"
+      },
+      "view": {
+        "title": "Bölüm Görüntüle"
+      },
+      "edit": {
+        "title": "Bölüm Düzenle"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "courseId": {
+          "title": "Kurs",
+          "required": "Kurs alanı gerekli"
+        },
+        "title": {
+          "title": "Başlık",
+          "required": "Başlık alanı gerekli"
+        },
+        "description": {
+          "title": "Açıklama",
+          "required": "Açıklama alanı gerekli"
+        }
+      },
+      "notifications": {
+        "updated": "Bölüm başarıyla güncellendi",
+        "updateFailed": "Bölüm güncellenirken hata oluştu",
+        "created": "Bölüm başarıyla oluşturuldu",
+        "createFailed": "Bölüm oluşturulurken hata oluştu",
+        "deleteConfirm": "Sil {title}",
+        "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
+        "deleted": "Bölüm başarıyla silindi",
+        "deleteFailed": "Bölüm silinirken hata oluştu"
       }
     }
   },

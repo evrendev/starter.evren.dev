@@ -2,8 +2,8 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { Course } from "@/models/course";
-import { Filters, BasicFilters } from "@/types/requests/course";
+import { Chapter } from "@/models/chapter";
+import { Filters, BasicFilters } from "@/types/requests/chapter";
 import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
@@ -11,7 +11,6 @@ import http, { handleRequest } from "@/utils/http";
 import { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
 import Mapper from "@/mappers";
-import { convertToUploadRequest } from "@/utils/tools";
 
 const DEFAULT_FILTER: Filters = {
   search: null,
@@ -19,11 +18,10 @@ const DEFAULT_FILTER: Filters = {
   groupBy: [],
   page: 1,
   itemsPerPage: 25,
-  categoryId: null,
-  published: null,
+  courseId: null,
 };
 
-export const useCourseStore = defineStore("course", {
+export const useChapterStore = defineStore("chapter", {
   state: () => ({
     loading: false as boolean,
     // Add error state for reactive error handling
@@ -36,8 +34,8 @@ export const useCourseStore = defineStore("course", {
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
     // Data state
-    items: [] as Course[],
-    course: null as Course | null,
+    items: [] as Chapter[],
+    chapter: null as Chapter | null,
     filters: { ...DEFAULT_FILTER },
   }),
   actions: {
@@ -49,36 +47,13 @@ export const useCourseStore = defineStore("course", {
       this.filters = { ...this.filters, ...filters };
     },
 
-    async getAllItems() {
-      this.loading = true;
-      this.error = null;
-
-      try {
-        const result = await handleRequest<Course[]>(
-          http.get("/v1/courses/all"),
-        );
-
-        if (result.succeeded && result.data) {
-          this.items = result.data;
-        } else {
-          this.error = result.errors!;
-          this.items = [];
-        }
-      } catch (error) {
-        this.error = error as AppError;
-        this.items = [];
-      } finally {
-        this.loading = false;
-      }
-    },
-
     async getPaginatedItems() {
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<PaginationResponse<Course>>(
-          http.get("/v1/courses", {
+        const result = await handleRequest<PaginationResponse<Chapter>>(
+          http.get("/v1/chapters", {
             params: this.filters,
           }),
         );
@@ -103,47 +78,42 @@ export const useCourseStore = defineStore("course", {
       }
     },
 
-    async getById(id: string): Promise<Result<Course>> {
+    async getById(id: string): Promise<Result<Chapter>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Course>(
-          http.get(`/v1/courses/${id}`),
+        const result = await handleRequest<Chapter>(
+          http.get(`/v1/chapters/${id}`),
         );
 
         if (result.succeeded && result.data) {
-          this.course = await Mapper.toCourse(result.data);
+          this.chapter = result.data;
         } else {
           this.error = result.errors!;
         }
         return result;
       } catch (error) {
         this.error = error as AppError;
-        this.course = null;
-        return error as Result<Course>;
+        this.chapter = null;
+        return error as Result<Chapter>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async update(course: Course): Promise<Result<Course>> {
+    async update(chapter: Chapter): Promise<Result<Chapter>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const uploadRequest = await convertToUploadRequest(course.image);
-
-        const result = await handleRequest<Course>(
-          http.put(`/v1/courses/${course.id}`, {
-            ...course,
-            image: uploadRequest,
-          }),
+        const result = await handleRequest<Chapter>(
+          http.put(`/v1/chapters/${chapter.id}`, chapter),
         );
 
         if (!result.succeeded || !result.data) {
@@ -153,35 +123,33 @@ export const useCourseStore = defineStore("course", {
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Course>;
+        return error as Result<Chapter>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async create(course: Course): Promise<Result<Course>> {
+    async create(chapter: Chapter): Promise<Result<Chapter>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const uploadRequest = await convertToUploadRequest(course.image);
-
-        const result = await handleRequest<Course>(
-          http.post("/v1/courses", { ...course, image: uploadRequest }),
+        const result = await handleRequest<Chapter>(
+          http.post("/v1/chapters", chapter),
         );
 
         if (result.succeeded && result.data) {
-          this.course = result.data;
+          this.chapter = result.data;
         } else {
           this.error = result.errors!;
         }
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Course>;
+        return error as Result<Chapter>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
@@ -196,11 +164,11 @@ export const useCourseStore = defineStore("course", {
 
       try {
         const result = await handleRequest<boolean>(
-          http.delete(`/v1/courses/${id}`),
+          http.delete(`/v1/chapters/${id}`),
         );
 
         if (result.succeeded) {
-          const index = this.items.findIndex((item: Course) => item.id === id);
+          const index = this.items.findIndex((item: Chapter) => item.id === id);
           if (index !== -1) this.items.splice(index, 1);
         } else {
           this.error = result.errors!;
