@@ -21,11 +21,11 @@ public class CoursesController : VersionedApiController
     [HttpGet("all")]
     [MustHavePermission(ApiAction.View, ApiResource.Courses)]
     [OpenApiOperation("Get all courses.", "")]
-    public async Task<ApiResponse<List<CourseDto>?>> GetAllAsync()
+    public async Task<ApiResponse<List<CourseExportDto>?>> GetAllAsync()
     {
         var response = await Mediator.Send(new GetAllCoursesRequest());
 
-        return ApiResponse<List<CourseDto>?>.Success(response);
+        return ApiResponse<List<CourseExportDto>?>.Success(response);
     }
 
     [HttpGet("{id:guid}")]
