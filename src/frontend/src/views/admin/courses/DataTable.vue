@@ -158,7 +158,7 @@ const abortDelete = () => {
 </template>
 
 <style lang="scss" scoped>
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 960px) {
   :deep(.text-pre-wrap) {
     display: block;
     width: 200px;
