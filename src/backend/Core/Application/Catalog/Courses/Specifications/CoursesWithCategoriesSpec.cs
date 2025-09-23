@@ -22,7 +22,7 @@ public class CoursesBySearchRequestWithCategoriesSpec : Specification<Course, Co
                     ||
                     course.Title.ToLower().Contains(request.Search.ToLower())
                     ||
-                    course.Category.Name.ToLower().Contains(request.Search.ToLower())
+                    course.Category.Title.ToLower().Contains(request.Search.ToLower())
                     ||
                     (
                         course.Description != null

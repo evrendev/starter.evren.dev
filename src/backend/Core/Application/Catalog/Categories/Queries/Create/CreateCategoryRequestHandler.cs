@@ -6,7 +6,7 @@ namespace EvrenDev.Application.Catalog.Categories.Queries.Create;
 
 public class CreateCategoryRequest : IRequest<Guid>
 {
-    public string Name { get; set; } = default!;
+    public string Title { get; set; } = default!;
     public string? Description { get; set; }
 }
 
@@ -15,12 +15,12 @@ public class CreateCategoryRequestValidator : CustomValidator<CreateCategoryRequ
     public CreateCategoryRequestValidator(IReadRepository<Category> repository,
         IStringLocalizer<CreateCategoryRequestValidator> localizer)
     {
-        RuleFor(p => p.Name)
+        RuleFor(p => p.Title)
             .NotEmpty()
             .MaximumLength(75)
             .MustAsync(async (name, ct) =>
-                await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct) is null)
-            .WithMessage((_, name) => string.Format(localizer["catalog.categories.create.alreadyexists"], name));
+                await repository.FirstOrDefaultAsync(new CategoryByTitleSpec(name), ct) is null)
+            .WithMessage((_, title) => string.Format(localizer["catalog.categories.create.alreadyexists"], title));
     }
 }
 
@@ -29,7 +29,7 @@ public class CreateCategoryRequestHandler
 {
     public async Task<Guid> Handle(CreateCategoryRequest request, CancellationToken cancellationToken)
     {
-        var category = new Category(request.Name, request.Description);
+        var category = new Category(request.Title, request.Description);
 
         await repository.AddAsync(category, cancellationToken);
 

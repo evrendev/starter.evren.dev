@@ -8,7 +8,7 @@ namespace EvrenDev.Application.Catalog.Categories.Queries.Update;
 public class UpdateCategoryRequest : IRequest<Guid>
 {
     public Guid Id { get; set; }
-    public string Name { get; set; } = default!;
+    public string Title { get; set; } = default!;
     public string? Description { get; set; }
 }
 
@@ -17,11 +17,11 @@ public class UpdateCategoryRequestValidator : CustomValidator<UpdateCategoryRequ
     public UpdateCategoryRequestValidator(IRepository<Category> repository,
         IStringLocalizer<UpdateCategoryRequestValidator> localizer)
     {
-        RuleFor(p => p.Name)
+        RuleFor(p => p.Title)
             .NotEmpty()
             .MaximumLength(75)
-            .MustAsync(async (category, name, ct) =>
-                await repository.FirstOrDefaultAsync(new CategoryByNameSpec(name), ct)
+            .MustAsync(async (category, title, ct) =>
+                await repository.FirstOrDefaultAsync(new CategoryByTitleSpec(title), ct)
                     is not Category existingCategory || existingCategory.Id == category.Id)
             .WithMessage((_, name) => string.Format(localizer["catalog.categories.update.alreadyexists"], name));
     }
@@ -31,8 +31,6 @@ public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> reposi
         IStringLocalizer<UpdateCategoryRequestHandler> localizer)
     : IRequestHandler<UpdateCategoryRequest, Guid>
 {
-    // Add Domain Events automatically by using IRepositoryWithEvents
-
     public async Task<Guid> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
     {
         var category = await repository.GetByIdAsync(request.Id, cancellationToken);
@@ -40,7 +38,7 @@ public class UpdateCategoryRequestHandler(IRepositoryWithEvents<Category> reposi
         _ = category ??
             throw new NotFoundException(string.Format(localizer["catalog.categories.update.notfound"], request.Id));
 
-        category.Update(request.Name, request.Description);
+        category.Update(request.Title, request.Description);
 
         await repository.UpdateAsync(category, cancellationToken);
 

@@ -12,7 +12,7 @@ public class CategoriesBySearchRequestSpec : Specification<Category, CategoryDto
         Query.Where(category =>
                 string.IsNullOrEmpty(request.Search)
                 ||
-                category.Name.ToLower().Contains(request.Search.ToLower())
+                category.Title.ToLower().Contains(request.Search.ToLower())
                 ||
                 (
                     category.Description != null
@@ -20,6 +20,6 @@ public class CategoriesBySearchRequestSpec : Specification<Category, CategoryDto
                     category.Description.ToLower().Contains(request.Search.ToLower())
                 )
             )
-            .OrderBy(c => c.Name, !request.HasOrderBy());
+            .OrderBy(c => c.Title, !request.HasOrderBy());
     }
 }

@@ -10,7 +10,7 @@ public class CategoryConfig : IEntityTypeConfiguration<Category>
     {
         builder.IsMultiTenant();
 
-        builder.Property(b => b.Name)
+        builder.Property(b => b.Title)
             .HasMaxLength(256);
 
         builder.HasMany(b => b.Courses)

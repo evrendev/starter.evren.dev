@@ -15,17 +15,8 @@ public class DeleteCategoryRequestHandler(
         IStringLocalizer<DeleteCategoryRequestHandler> localizer)
     : IRequestHandler<DeleteCategoryRequest, Guid>
 {
-    // Add Domain Events automatically by using IRepositoryWithEvents
-
     public async Task<Guid> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
     {
-        // NOTE: If you want to prevent deleting a category if it has related courses, uncomment the following lines
-
-        // if (await courseRepo.AnyAsync(new CoursesByCategorySpec(request.Id), cancellationToken))
-        // {
-        //     throw new ConflictException(localizer["catalog.categories.delete.cannotbedeleted"]);
-        // }
-
         var category = await categoryRepo.GetByIdAsync(request.Id, cancellationToken);
 
         _ = category ?? throw new NotFoundException(localizer["catalog.categories.delete.notfound"]);
