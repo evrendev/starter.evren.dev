@@ -35,8 +35,8 @@ const { defineField, handleSubmit, resetForm, errors } = useForm<Tenant>({
 });
 
 const isActiveOptions = computed(() => [
-  { value: true, text: t("shared.options.isActive.true") },
-  { value: false, text: t("shared.options.isActive.false") },
+  { value: true, title: t("shared.options.isActive.true") },
+  { value: false, title: t("shared.options.isActive.false") },
 ]);
 
 const readOnly: Ref<boolean> = ref(props.routeName === "tenant-view");
@@ -191,7 +191,7 @@ const submit = handleSubmit((values: Tenant) => {
               v-model="isActive"
               v-bind="isActiveAttrs"
               item-text="value"
-              item-title="text"
+              item-title="title"
               variant="outlined"
               hide-details
               :label="t('admin.tenants.fields.isActive.title')"

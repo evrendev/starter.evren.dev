@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { RouteRecordNameGeneric } from "vue-router";
 import { toTypedSchema } from "@vee-validate/yup";
-import { mixed, object, string } from "yup";
+import { object, string } from "yup";
 import { useForm } from "vee-validate";
 import { Chapter } from "@/models/chapter";
 import { Course } from "@/models/course";

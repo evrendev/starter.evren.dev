@@ -83,9 +83,11 @@ const abortDelete = () => {
 
         <template #[`item.fullName`]="{ item }">
           <router-link
+            v-if="item.id"
             :to="{ name: 'user-view', params: { id: item.id } }"
-            :text="item.fullName"
-          />
+          >
+            {{ item.fullName }}
+          </router-link>
         </template>
 
         <template #[`item.actions`]="{ item }">
@@ -108,7 +110,10 @@ const abortDelete = () => {
                 </template>
               </v-list-item>
 
-              <v-list-item :to="{ name: 'user-edit', params: { id: item.id } }">
+              <v-list-item
+                v-if="item.id"
+                :to="{ name: 'user-edit', params: { id: item.id } }"
+              >
                 <v-list-item-title v-text="t('shared.edit')" />
                 <template v-slot:prepend>
                   <v-icon icon="bx-edit" />

@@ -16,9 +16,9 @@ const filters = ref<AdvancedFilters>({
 });
 
 const items = ref([
-  { value: null, text: t("shared.options.isActive.all") },
-  { value: true, text: t("shared.options.isActive.true") },
-  { value: false, text: t("shared.options.isActive.false") },
+  { value: null, title: t("shared.options.isActive.all") },
+  { value: true, title: t("shared.options.isActive.true") },
+  { value: false, title: t("shared.options.isActive.false") },
 ]);
 
 const emit = defineEmits<{
@@ -60,7 +60,7 @@ const reset = () => {
               :items="items"
               hide-details
               item-text="value"
-              item-title="text"
+              item-title="title"
               variant="outlined"
               :label="t('shared.filters.isActive')"
             />

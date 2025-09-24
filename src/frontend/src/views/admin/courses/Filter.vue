@@ -17,9 +17,9 @@ const filters = ref<AdvancedFilters>({
 });
 
 const publishedItems = ref([
-  { value: null, text: t("shared.options.published.all") },
-  { value: true, text: t("shared.options.published.true") },
-  { value: false, text: t("shared.options.published.false") },
+  { value: null, title: t("shared.options.published.all") },
+  { value: true, title: t("shared.options.published.true") },
+  { value: false, title: t("shared.options.published.false") },
 ]);
 
 const emit = defineEmits<{
@@ -52,8 +52,8 @@ const reset = () => {
               v-model="filters.published"
               :items="publishedItems"
               hide-details
-              item-text="value"
-              item-title="text"
+              item-value="value"
+              item-title="title"
               variant="outlined"
               :label="t('shared.filters.published')"
             />

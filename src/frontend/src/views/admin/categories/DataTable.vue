@@ -68,9 +68,11 @@ const abortDelete = () => {
       >
         <template #[`item.title`]="{ item }">
           <router-link
+            v-if="item.id"
             :to="{ name: 'category-view', params: { id: item.id } }"
-            :text="item.title"
-          />
+          >
+            {{ item.title }}
+          </router-link>
         </template>
 
         <template #[`item.actions`]="{ item }">
@@ -87,6 +89,7 @@ const abortDelete = () => {
             </template>
             <v-list :lines="false" density="compact" nav>
               <v-list-item
+                v-if="item.id"
                 :to="{ name: 'category-view', params: { id: item.id } }"
               >
                 <v-list-item-title v-text="t('shared.view')" />
@@ -96,6 +99,7 @@ const abortDelete = () => {
               </v-list-item>
 
               <v-list-item
+                v-if="item.id"
                 :to="{ name: 'category-edit', params: { id: item.id } }"
               >
                 <v-list-item-title v-text="t('shared.edit')" />

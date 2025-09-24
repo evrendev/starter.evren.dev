@@ -14,12 +14,6 @@ const filters = ref<AdvancedFilters>({
   endDate: null,
 });
 
-const items = ref([
-  { value: null, text: t("shared.options.isActive.all") },
-  { value: true, text: t("shared.options.isActive.true") },
-  { value: false, text: t("shared.options.isActive.false") },
-]);
-
 const emit = defineEmits<{
   (e: "submit", values: AdvancedFilters): void;
   (e: "reset"): void;

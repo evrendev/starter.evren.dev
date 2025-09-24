@@ -102,9 +102,11 @@ const upgrade = () => {
       >
         <template #[`item.id`]="{ item }">
           <router-link
+            v-if="item.id"
             :to="{ name: 'tenant-view', params: { id: item.id } }"
-            :text="item.id"
-          />
+          >
+            {{ item.id }}
+          </router-link>
         </template>
 
         <template #[`item.isActive`]="{ item }">
@@ -133,6 +135,7 @@ const upgrade = () => {
             </template>
             <v-list :lines="false" density="compact" nav>
               <v-list-item
+                v-if="item.id"
                 :to="{ name: 'tenant-view', params: { id: item.id } }"
               >
                 <v-list-item-title v-text="t('shared.view')" />
@@ -142,6 +145,7 @@ const upgrade = () => {
               </v-list-item>
 
               <v-list-item
+                v-if="item.id"
                 :to="{ name: 'tenant-edit', params: { id: item.id } }"
               >
                 <v-list-item-title v-text="t('shared.edit')" />
