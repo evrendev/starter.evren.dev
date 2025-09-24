@@ -12,7 +12,7 @@ public class Course : AuditableEntity, IAggregateRoot
     public bool Published { get; private set; }
     public string? PreviewVideoUrl { get; private set; }
     public virtual ICollection<Chapter>? Chapters { get; private set; }
-    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = new List<CourseEnrollment>();
+    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = [];
 
     public Course(string title,
         string? introduction,

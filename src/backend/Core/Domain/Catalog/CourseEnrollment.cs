@@ -11,5 +11,5 @@ public class CourseEnrollment
     public Course Course { get; set; } = default!;
 
     public DateTime EnrolledAt { get; set; } = DateTime.UtcNow;
-    public bool Completed { get; set; } = false;
+    public decimal PricePaid { get; set; }
 }

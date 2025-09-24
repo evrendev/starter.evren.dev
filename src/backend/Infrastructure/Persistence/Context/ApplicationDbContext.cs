@@ -19,6 +19,12 @@ public class ApplicationDbContext(
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Absence> Absences => Set<Absence>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Course> Courses => Set<Course>();
+    public DbSet<Chapter> Chapters => Set<Chapter>();
+    public DbSet<Lesson> Lessons => Set<Lesson>();
+    public DbSet<LessonProgress> LessonProgresses => Set<LessonProgress>();
+    public DbSet<CourseEnrollment> CourseEnrollments => Set<CourseEnrollment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
