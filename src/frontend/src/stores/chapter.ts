@@ -10,7 +10,6 @@ import { PaginationResponse } from "@/types/responses/api";
 import http, { handleRequest } from "@/utils/http";
 import { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
-import Mapper from "@/mappers";
 
 const DEFAULT_FILTER: Filters = {
   search: null,
