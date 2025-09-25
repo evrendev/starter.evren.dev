@@ -1,6 +1,6 @@
 namespace EvrenDev.Domain.Catalog;
 
-public class Lesson : AuditableEntity
+public class Lesson : AuditableEntity, IAggregateRoot
 {
     public Lesson(string title, string? description, string? content, string? notes, Guid chapterId, string? image = null)
     {
@@ -17,11 +17,11 @@ public class Lesson : AuditableEntity
     public string? Content { get; private set; }
     public string? Notes { get; private set; }
     public string? Image { get; private set; }
-    public Guid ChapterId { get; }
+    public Guid ChapterId { get; private set; }
     public virtual Chapter Chapter { get; } = default!;
     public virtual ICollection<LessonProgress> Progress { get; set; } = [];
 
-    public Lesson Update(string? title, string? description, string? content, string? notes, string? image)
+    public Lesson Update(string? title, string? description, string? content, string? notes, Guid? chapterId, string? image)
     {
         if (title is not null && !Title.Equals(title))
             Title = title;
@@ -35,8 +35,17 @@ public class Lesson : AuditableEntity
         if (notes is not null && !Notes?.Equals(notes) == true)
             Notes = notes;
 
+        if (chapterId.HasValue && chapterId.Value != Guid.Empty && !ChapterId.Equals(chapterId.Value))
+            ChapterId = chapterId.Value;
+
         if (image is not null && !Image?.Equals(image) == true)
             Image = image;
+        return this;
+    }
+
+    public Lesson ClearImagePath()
+    {
+        Image = string.Empty;
         return this;
     }
 }
