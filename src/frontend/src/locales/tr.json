@@ -108,7 +108,7 @@
       },
       "sidebar": {
         "dashboard": "Kontrol Paneli",
-        "documentation": "Dokümantasyon",
+        "hangfire": "Hangfire",
         "admin": "Yönetici",
         "tenants": "Kiracılar",
         "roles": "Roller",

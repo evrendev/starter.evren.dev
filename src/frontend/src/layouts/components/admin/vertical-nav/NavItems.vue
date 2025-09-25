@@ -5,9 +5,9 @@ const { t } = useI18n();
 import { usePersonalStore } from "@/stores/personal";
 const personalStore = usePersonalStore();
 
-import VerticalNavSectionTitle from "./VerticalNavSectionTitle.vue";
-import VerticalNavGroup from "./VerticalNavGroup.vue";
-import VerticalNavLink from "./VerticalNavLink.vue";
+import { VerticalNavSectionTitle, VerticalNavGroup, VerticalNavLink } from "./";
+
+const BASE_URL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 </script>
 
 <template>
@@ -115,10 +115,11 @@ import VerticalNavLink from "./VerticalNavLink.vue";
 
   <vertical-nav-link
     :item="{
-      title: t('admin.components.sidebar.documentation'),
-      icon: 'bx-file',
-      href: '/documentation',
+      title: t('admin.components.sidebar.hangfire'),
+      icon: 'bx-task',
+      href: `${BASE_URL}/jobs`,
       target: '_blank',
     }"
+    v-show="personalStore.hasPermission(Permissions.HangfireView)"
   />
 </template>

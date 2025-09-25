@@ -108,7 +108,7 @@
       },
       "sidebar": {
         "dashboard": "Dashboard",
-        "documentation": "Dokumentation",
+        "hangfire": "Hangfire",
         "admin": "Admin",
         "tenants": "Mandanten",
         "roles": "Rollen",
