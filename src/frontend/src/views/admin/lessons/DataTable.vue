@@ -76,7 +76,7 @@ const abortDelete = () => {
           <a
             v-if="item.image"
             class="cursor-pointer"
-            data-fancybox
+            :data-fancybox="`gallery-${item.chapterId ?? 'no-chapter'}`"
             :data-src="`${baseUrl}/${item.image}`"
             :data-caption="item.title"
           >
