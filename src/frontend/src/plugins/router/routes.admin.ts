@@ -25,7 +25,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/tenants/index.vue"),
             meta: {
-              requiresPermission: [Permissions.TenantView],
+              requiresPermission: [
+                Permissions.TenantView,
+                Permissions.TenantSearch,
+              ],
               title: "admin.tenants.list.title",
             },
           },
@@ -67,7 +70,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/roles/index.vue"),
             meta: {
-              requiresPermission: [Permissions.RoleView],
+              requiresPermission: [
+                Permissions.RoleView,
+                Permissions.RoleSearch,
+              ],
               title: "admin.roles.list.title",
             },
           },
@@ -140,7 +146,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/users/index.vue"),
             meta: {
-              requiresPermission: [Permissions.UserView],
+              requiresPermission: [
+                Permissions.UserView,
+                Permissions.UserSearch,
+              ],
               title: "admin.users.list.title",
             },
           },
@@ -182,7 +191,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/categories/index.vue"),
             meta: {
-              requiresPermission: [Permissions.CategoryView],
+              requiresPermission: [
+                Permissions.CategoryView,
+                Permissions.CategorySearch,
+              ],
               title: "admin.categories.list.title",
             },
           },
@@ -224,7 +236,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/courses/index.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseView],
+              requiresPermission: [
+                Permissions.CourseView,
+                Permissions.CourseSearch,
+              ],
               title: "admin.courses.list.title",
             },
           },
@@ -266,7 +281,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/chapters/index.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseView],
+              requiresPermission: [
+                Permissions.ChapterView,
+                Permissions.ChapterSearch,
+              ],
               title: "admin.chapters.list.title",
             },
           },
@@ -275,7 +293,7 @@ export const adminRoutes = [
             path: "create",
             component: () => import("@/pages/admin/chapters/form.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseCreate],
+              requiresPermission: [Permissions.ChapterCreate],
               title: "admin.chapters.create.title",
             },
           },
@@ -284,7 +302,7 @@ export const adminRoutes = [
             path: ":id/view",
             component: () => import("@/pages/admin/chapters/form.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseView],
+              requiresPermission: [Permissions.ChapterView],
               title: "admin.chapters.view.title",
             },
           },
@@ -293,7 +311,7 @@ export const adminRoutes = [
             path: ":id/edit",
             component: () => import("@/pages/admin/chapters/form.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseUpdate],
+              requiresPermission: [Permissions.ChapterUpdate],
               title: "admin.chapters.edit.title",
             },
           },
@@ -308,7 +326,10 @@ export const adminRoutes = [
             path: "",
             component: () => import("@/pages/admin/lessons/index.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseView],
+              requiresPermission: [
+                Permissions.LessonView,
+                Permissions.LessonSearch,
+              ],
               title: "admin.lessons.list.title",
             },
           },
@@ -317,7 +338,7 @@ export const adminRoutes = [
             path: "create",
             component: () => import("@/pages/admin/lessons/form.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseCreate],
+              requiresPermission: [Permissions.LessonCreate],
               title: "admin.lessons.create.title",
             },
           },
@@ -326,7 +347,7 @@ export const adminRoutes = [
             path: ":id/view",
             component: () => import("@/pages/admin/lessons/form.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseView],
+              requiresPermission: [Permissions.LessonView],
               title: "admin.lessons.view.title",
             },
           },
@@ -335,7 +356,7 @@ export const adminRoutes = [
             path: ":id/edit",
             component: () => import("@/pages/admin/lessons/form.vue"),
             meta: {
-              requiresPermission: [Permissions.CourseUpdate],
+              requiresPermission: [Permissions.LessonUpdate],
               title: "admin.lessons.edit.title",
             },
           },
