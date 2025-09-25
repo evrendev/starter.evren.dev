@@ -119,7 +119,8 @@
         "course-management": "Kursverwaltung",
         "categories": "Kategorien",
         "courses": "Kurse",
-        "chapters": "Kapitel"
+        "chapters": "Kapitel",
+        "lessons": "Lektionen"
       },
       "footer": {
         "home": "Startseite",
@@ -136,7 +137,8 @@
           "users": "Benutzer",
           "categories": "Kategorien",
           "courses": "Kurse",
-          "chapters": "Kapitel"
+          "chapters": "Kapitel",
+          "lessons": "Lektionen"
         }
       }
     },
@@ -588,6 +590,57 @@
         "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
         "deleted": "Kapitel erfolgreich gelöscht",
         "deleteFailed": "Löschen des Kapitels fehlgeschlagen"
+      }
+    },
+    "lessons": {
+      "list": {
+        "title": "Lektion Liste"
+      },
+      "create": {
+        "title": "Lektion Erstellen"
+      },
+      "view": {
+        "title": "Lektion Anzeigen"
+      },
+      "edit": {
+        "title": "Lektion Bearbeiten"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id ist erforderlich"
+        },
+        "chapterId": {
+          "title": "Kapitel",
+          "required": "Kapitel ist erforderlich"
+        },
+        "title": {
+          "title": "Titel",
+          "required": "Titel ist erforderlich"
+        },
+        "description": {
+          "title": "Beschreibung",
+          "required": "Beschreibung ist erforderlich"
+        },
+        "content": {
+          "title": "Inhalt"
+        },
+        "notes": {
+          "title": "Notizen"
+        },
+        "image": {
+          "title": "Bild"
+        }
+      },
+      "notifications": {
+        "updated": "Lektion erfolgreich aktualisiert",
+        "updateFailed": "Aktualisierung der Lektion fehlgeschlagen",
+        "created": "Lektion erfolgreich erstellt",
+        "createFailed": "Erstellung der Lektion fehlgeschlagen",
+        "deleteConfirm": "Lektion löschen {title}",
+        "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
+        "deleted": "Lektion erfolgreich gelöscht",
+        "deleteFailed": "Löschen der Lektion fehlgeschlagen"
       }
     }
   },

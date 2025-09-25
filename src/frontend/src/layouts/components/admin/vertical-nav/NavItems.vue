@@ -60,6 +60,15 @@ import VerticalNavLink from "./VerticalNavLink.vue";
     v-show="personalStore.hasPermission(Permissions.ChapterView)"
   />
 
+  <vertical-nav-link
+    :item="{
+      title: t('admin.components.sidebar.lessons'),
+      icon: 'bx-video',
+      to: { name: 'lesson-list' },
+    }"
+    v-show="personalStore.hasPermission(Permissions.LessonView)"
+  />
+
   <vertical-nav-section-title
     :item="{
       heading: t('admin.components.sidebar.others'),

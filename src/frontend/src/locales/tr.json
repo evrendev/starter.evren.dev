@@ -119,7 +119,8 @@
         "course-management": "Kurs Yönetimi",
         "categories": "Kategoriler",
         "courses": "Kurslar",
-        "chapters": "Bölümler"
+        "chapters": "Bölümler",
+        "lessons": "Dersler"
       },
       "footer": {
         "home": "Anasayfa",
@@ -136,7 +137,8 @@
           "users": "Kullanıcılar",
           "categories": "Kategoriler",
           "courses": "Kurslar",
-          "chapters": "Bölümler"
+          "chapters": "Bölümler",
+          "lessons": "Dersler"
         }
       }
     },
@@ -588,6 +590,57 @@
         "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
         "deleted": "Bölüm başarıyla silindi",
         "deleteFailed": "Bölüm silinirken hata oluştu"
+      }
+    },
+    "lessons": {
+      "list": {
+        "title": "Ders Listesi"
+      },
+      "create": {
+        "title": "Ders Oluştur"
+      },
+      "view": {
+        "title": "Ders Görüntüle"
+      },
+      "edit": {
+        "title": "Ders Düzenle"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id alanı gerekli"
+        },
+        "chapterId": {
+          "title": "Bölüm",
+          "required": "Bölüm alanı gerekli"
+        },
+        "title": {
+          "title": "Başlık",
+          "required": "Başlık alanı gerekli"
+        },
+        "description": {
+          "title": "Açıklama",
+          "required": "Açıklama alanı gerekli"
+        },
+        "content": {
+          "title": "İçerik"
+        },
+        "notes": {
+          "title": "Notlar"
+        },
+        "image": {
+          "title": "Görsel"
+        }
+      },
+      "notifications": {
+        "updated": "Ders başarıyla güncellendi",
+        "updateFailed": "Ders güncellenirken hata oluştu",
+        "created": "Ders başarıyla oluşturuldu",
+        "createFailed": "Ders oluşturulurken hata oluştu",
+        "deleteConfirm": "Sil {title}",
+        "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
+        "deleted": "Ders başarıyla silindi",
+        "deleteFailed": "Ders silinirken hata oluştu"
       }
     }
   },

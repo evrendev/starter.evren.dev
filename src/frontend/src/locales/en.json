@@ -119,7 +119,8 @@
         "course-management": "Course Management",
         "categories": "Categories",
         "courses": "Courses",
-        "chapters": "Chapters"
+        "chapters": "Chapters",
+        "lessons": "Lessons"
       },
       "footer": {
         "home": "Home",
@@ -136,7 +137,8 @@
           "users": "Users",
           "categories": "Categories",
           "courses": "Courses",
-          "chapters": "Chapters"
+          "chapters": "Chapters",
+          "lessons": "Lessons"
         }
       }
     },
@@ -604,6 +606,57 @@
         "deleteMessage": "Are you sure you want to delete {title}?",
         "deleted": "Chapter deleted successfully",
         "deleteFailed": "Failed to delete chapter"
+      }
+    },
+    "lessons": {
+      "list": {
+        "title": "Lesson List"
+      },
+      "create": {
+        "title": "Create Lesson"
+      },
+      "view": {
+        "title": "View Lesson"
+      },
+      "edit": {
+        "title": "Edit Lesson"
+      },
+      "fields": {
+        "id": {
+          "title": "Id",
+          "required": "Id is required"
+        },
+        "chapterId": {
+          "title": "Chapter",
+          "required": "Chapter is required"
+        },
+        "title": {
+          "title": "Title",
+          "required": "Title is required"
+        },
+        "description": {
+          "title": "Description",
+          "required": "Description is required"
+        },
+        "content": {
+          "title": "Content"
+        },
+        "notes": {
+          "title": "Notes"
+        },
+        "image": {
+          "title": "Image"
+        }
+      },
+      "notifications": {
+        "updated": "Lesson updated successfully",
+        "updateFailed": "Failed to update lesson",
+        "created": "Lesson created successfully",
+        "createFailed": "Failed to create lesson",
+        "deleteConfirm": "Delete {title}",
+        "deleteMessage": "Are you sure you want to delete {title}?",
+        "deleted": "Lesson deleted successfully",
+        "deleteFailed": "Failed to delete lesson"
       }
     }
   },

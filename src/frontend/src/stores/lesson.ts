@@ -2,14 +2,16 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { Chapter } from "@/models/chapter";
-import { Filters, AdvancedFilters } from "@/types/requests/chapter";
+import { Lesson } from "@/models/lesson";
+import { Filters, AdvancedFilters } from "@/types/requests/lesson";
 import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
 import http, { handleRequest } from "@/utils/http";
 import { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
+import Mapper from "@/mappers";
+import { convertToUploadRequest } from "@/utils/tools";
 
 const DEFAULT_FILTER: Filters = {
   search: null,
@@ -17,10 +19,10 @@ const DEFAULT_FILTER: Filters = {
   groupBy: [],
   page: 1,
   itemsPerPage: 25,
-  courseId: null,
+  chapterId: null,
 };
 
-export const useChapterStore = defineStore("chapter", {
+export const useLessonStore = defineStore("lesson", {
   state: () => ({
     loading: false as boolean,
     // Add error state for reactive error handling
@@ -33,8 +35,8 @@ export const useChapterStore = defineStore("chapter", {
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
     // Data state
-    items: [] as Chapter[],
-    chapter: null as Chapter | null,
+    items: [] as Lesson[],
+    lesson: null as Lesson | null,
     filters: { ...DEFAULT_FILTER },
   }),
   actions: {
@@ -51,8 +53,8 @@ export const useChapterStore = defineStore("chapter", {
       this.error = null;
 
       try {
-        const result = await handleRequest<Chapter[]>(
-          http.get("/v1/chapters/all"),
+        const result = await handleRequest<Lesson[]>(
+          http.get("/v1/lessons/all"),
         );
 
         if (result.succeeded && result.data) {
@@ -74,8 +76,8 @@ export const useChapterStore = defineStore("chapter", {
       this.error = null;
 
       try {
-        const result = await handleRequest<PaginationResponse<Chapter>>(
-          http.get("/v1/chapters", {
+        const result = await handleRequest<PaginationResponse<Lesson>>(
+          http.get("/v1/lessons", {
             params: this.filters,
           }),
         );
@@ -100,42 +102,47 @@ export const useChapterStore = defineStore("chapter", {
       }
     },
 
-    async getById(id: string): Promise<Result<Chapter>> {
+    async getById(id: string): Promise<Result<Lesson>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Chapter>(
-          http.get(`/v1/chapters/${id}`),
+        const result = await handleRequest<Lesson>(
+          http.get(`/v1/lessons/${id}`),
         );
 
         if (result.succeeded && result.data) {
-          this.chapter = result.data;
+          this.lesson = await Mapper.toLesson(result.data);
         } else {
           this.error = result.errors!;
         }
         return result;
       } catch (error) {
         this.error = error as AppError;
-        this.chapter = null;
-        return error as Result<Chapter>;
+        this.lesson = null;
+        return error as Result<Lesson>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async update(chapter: Chapter): Promise<Result<Chapter>> {
+    async update(lesson: Lesson): Promise<Result<Lesson>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Chapter>(
-          http.put(`/v1/chapters/${chapter.id}`, chapter),
+        const uploadRequest = await convertToUploadRequest(lesson.image);
+
+        const result = await handleRequest<Lesson>(
+          http.put(`/v1/lessons/${lesson.id}`, {
+            ...lesson,
+            image: uploadRequest,
+          }),
         );
 
         if (!result.succeeded || !result.data) {
@@ -145,22 +152,24 @@ export const useChapterStore = defineStore("chapter", {
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Chapter>;
+        return error as Result<Lesson>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async create(chapter: Chapter): Promise<Result<Chapter>> {
+    async create(lesson: Lesson): Promise<Result<Lesson>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Chapter>(
-          http.post("/v1/chapters", chapter),
+        const uploadRequest = await convertToUploadRequest(lesson.image);
+
+        const result = await handleRequest<Lesson>(
+          http.post("/v1/lessons", { ...lesson, image: uploadRequest }),
         );
 
         if (!result.succeeded || !result.data) {
@@ -170,7 +179,7 @@ export const useChapterStore = defineStore("chapter", {
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Chapter>;
+        return error as Result<Lesson>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
@@ -185,11 +194,11 @@ export const useChapterStore = defineStore("chapter", {
 
       try {
         const result = await handleRequest<boolean>(
-          http.delete(`/v1/chapters/${id}`),
+          http.delete(`/v1/lessons/${id}`),
         );
 
         if (result.succeeded) {
-          const index = this.items.findIndex((item: Chapter) => item.id === id);
+          const index = this.items.findIndex((item: Lesson) => item.id === id);
           if (index !== -1) this.items.splice(index, 1);
         } else {
           this.error = result.errors!;

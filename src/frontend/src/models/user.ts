@@ -68,20 +68,41 @@ export class Permissions {
   public static readonly TenantUpgradeSubscription: string =
     "Permissions.Tenants.UpgradeSubscription";
   public static readonly CategoryView: string = "Permissions.Categories.View";
+  public static readonly CategorySearch: string =
+    "Permissions.Categories.Search";
   public static readonly CategoryCreate: string =
     "Permissions.Categories.Create";
   public static readonly CategoryUpdate: string =
     "Permissions.Categories.Update";
   public static readonly CategoryDelete: string =
     "Permissions.Categories.Delete";
+  public static readonly CategoryGenerate: string =
+    "Permissions.Categories.Generate";
+  public static readonly CategoryClean: string = "Permissions.Categories.Clean";
   public static readonly CourseView: string = "Permissions.Courses.View";
+  public static readonly CourseSearch: string = "Permissions.Courses.Search";
   public static readonly CourseCreate: string = "Permissions.Courses.Create";
   public static readonly CourseUpdate: string = "Permissions.Courses.Update";
   public static readonly CourseDelete: string = "Permissions.Courses.Delete";
+  public static readonly CourseGenerate: string =
+    "Permissions.Courses.Generate";
+  public static readonly CourseClean: string = "Permissions.Courses.Clean";
   public static readonly ChapterView: string = "Permissions.Chapters.View";
+  public static readonly ChapterSearch: string = "Permissions.Chapters.Search";
   public static readonly ChapterCreate: string = "Permissions.Chapters.Create";
   public static readonly ChapterUpdate: string = "Permissions.Chapters.Update";
   public static readonly ChapterDelete: string = "Permissions.Chapters.Delete";
+  public static readonly ChapterGenerate: string =
+    "Permissions.Chapters.Generate";
+  public static readonly ChapterClean: string = "Permissions.Chapters.Clean";
+  public static readonly LessonView: string = "Permissions.Lessons.View";
+  public static readonly LessonSearch: string = "Permissions.Lessons.Search";
+  public static readonly LessonCreate: string = "Permissions.Lessons.Create";
+  public static readonly LessonUpdate: string = "Permissions.Lessons.Update";
+  public static readonly LessonDelete: string = "Permissions.Lessons.Delete";
+  public static readonly LessonGenerate: string =
+    "Permissions.Lessons.Generate";
+  public static readonly LessonClean: string = "Permissions.Lessons.Clean";
 
   public static all(): string[] {
     return [
@@ -125,6 +146,34 @@ export class Permissions {
       this.TenantCreate,
       this.TenantUpdate,
       this.TenantUpgradeSubscription,
+      this.CategoryView,
+      this.CategorySearch,
+      this.CategoryCreate,
+      this.CategoryUpdate,
+      this.CategoryDelete,
+      this.CategoryGenerate,
+      this.CategoryClean,
+      this.CourseView,
+      this.CourseSearch,
+      this.CourseCreate,
+      this.CourseUpdate,
+      this.CourseDelete,
+      this.CourseGenerate,
+      this.CourseClean,
+      this.ChapterView,
+      this.ChapterSearch,
+      this.ChapterCreate,
+      this.ChapterUpdate,
+      this.ChapterDelete,
+      this.ChapterGenerate,
+      this.ChapterClean,
+      this.LessonView,
+      this.LessonSearch,
+      this.LessonCreate,
+      this.LessonUpdate,
+      this.LessonDelete,
+      this.LessonGenerate,
+      this.LessonClean,
     ];
   }
 }

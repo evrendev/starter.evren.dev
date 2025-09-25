@@ -299,6 +299,48 @@ export const adminRoutes = [
           },
         ],
       },
+      {
+        name: "lessons",
+        path: "lessons",
+        children: [
+          {
+            name: "lesson-list",
+            path: "",
+            component: () => import("@/pages/admin/lessons/index.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseView],
+              title: "admin.lessons.list.title",
+            },
+          },
+          {
+            name: "lesson-create",
+            path: "create",
+            component: () => import("@/pages/admin/lessons/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseCreate],
+              title: "admin.lessons.create.title",
+            },
+          },
+          {
+            name: "lesson-view",
+            path: ":id/view",
+            component: () => import("@/pages/admin/lessons/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseView],
+              title: "admin.lessons.view.title",
+            },
+          },
+          {
+            name: "lesson-edit",
+            path: ":id/edit",
+            component: () => import("@/pages/admin/lessons/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.CourseUpdate],
+              title: "admin.lessons.edit.title",
+            },
+          },
+        ],
+      },
     ],
   },
 ];
