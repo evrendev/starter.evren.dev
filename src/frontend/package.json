@@ -29,7 +29,7 @@
     "qrcode": "^1.5.4",
     "roboto-fontface": "^0.10.0",
     "vee-validate": "^4.15.1",
-    "vue": "^3.5.21",
+    "vue": "^3.5.22",
     "vue-flatpickr-component": "^12.0.0",
     "vue-i18n": "^11.1.12",
     "vue-json-pretty": "^2.5.0",
@@ -37,7 +37,7 @@
     "vue-router": "^4.5.1",
     "vue3-apexcharts": "^1.8.0",
     "vue3-perfect-scrollbar": "^2.0.0",
-    "vuetify": "^3.10.2",
+    "vuetify": "^3.10.3",
     "webfontloader": "^1.6.28",
     "yup": "^1.7.1"
   },
