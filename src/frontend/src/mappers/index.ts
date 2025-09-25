@@ -1,7 +1,7 @@
 import { Course } from "@/models/course";
 import { Lesson } from "@/models/lesson";
 
-const BASE_URL = import.meta.env.VITE_APP_IMAGE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 
 const Mapper = {
   async toCourse(value: Course | undefined): Promise<Course> {

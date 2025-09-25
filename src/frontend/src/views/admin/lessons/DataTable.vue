@@ -20,7 +20,7 @@ const emit = defineEmits<{
   (e: "update:options", options: any): void;
 }>();
 
-const baseUrl: Ref<string> = import.meta.env.VITE_APP_IMAGE_BASE_URL;
+const baseUrl: Ref<string> = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 const lessonId: Ref<string> = ref("");
 const toggleDeleteConfirmDialog = ref(false);
 const dialogTitle: Ref<string | null> = ref(null);
