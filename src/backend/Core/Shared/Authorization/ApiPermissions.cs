@@ -91,6 +91,7 @@ public static class ApiPermissions
         new("Clean Absences", ApiAction.Clean, ApiResource.Absences),
         // Tenant permissions are only for root users
         new("View Tenants", ApiAction.View, ApiResource.Tenants, IsRoot: true),
+        new("Search Tenants", ApiAction.Search, ApiResource.Tenants, IsRoot: true),
         new("Create Tenants", ApiAction.Create, ApiResource.Tenants, IsRoot: true),
         new("Update Tenants", ApiAction.Update, ApiResource.Tenants, IsRoot: true),
         new("Delete Tenants", ApiAction.Delete, ApiResource.Tenants, IsRoot: true),
