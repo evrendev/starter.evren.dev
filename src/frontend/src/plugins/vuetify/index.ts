@@ -9,8 +9,7 @@ import { locale } from "./locale";
 import { date } from "./date";
 
 // Styles
-import "@/assets/styles/admin/template/libs/vuetify/index.scss";
-import "vuetify/styles";
+import "vuetify/_styles.scss";
 
 export default function (app: App) {
   const vuetify = createVuetify({
