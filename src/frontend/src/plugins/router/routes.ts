@@ -1,5 +1,5 @@
 import { adminRoutes } from "./routes.admin";
 import { authRoutes } from "./routes.auth";
-import { defaultRoutes } from "./routes.default";
+import { publicRoutes } from "./routes.public";
 
-export const routes = [...defaultRoutes, ...adminRoutes, ...authRoutes];
+export const routes = [...publicRoutes, ...adminRoutes, ...authRoutes];

@@ -1,7 +1,7 @@
-export const defaultRoutes = [
+export const publicRoutes = [
   {
     path: "/",
-    component: () => import("@/layouts/default.vue"),
+    component: () => import("@/layouts/public.vue"),
     meta: {
       requireAuth: false,
     },
@@ -9,15 +9,10 @@ export const defaultRoutes = [
       {
         name: "home",
         path: "",
-        component: () => import("@/pages/home.vue"),
+        component: () => import("@/pages/public/home.vue"),
         meta: {
           title: "Home",
         },
-      },
-      {
-        name: "unauthorized",
-        path: "unauthorized",
-        component: () => import("@/pages/admin/unauthorized.vue"),
       },
     ],
   },

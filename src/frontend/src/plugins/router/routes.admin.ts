@@ -362,6 +362,11 @@ export const adminRoutes = [
           },
         ],
       },
+      {
+        name: "unauthorized",
+        path: "unauthorized",
+        component: () => import("@/pages/admin/unauthorized.vue"),
+      },
     ],
   },
 ];
