@@ -514,6 +514,11 @@
           "title": "Kategori",
           "required": "Kategori alanı gerekli"
         },
+        "amount": {
+          "title": "Fiyat",
+          "min": "Fiyat en az {min} olmalıdır",
+          "required": "Fiyat alanı gerekli"
+        },
         "title": {
           "title": "Başlık",
           "required": "Başlık alanı gerekli"

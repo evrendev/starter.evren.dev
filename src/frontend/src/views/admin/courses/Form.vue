@@ -2,7 +2,7 @@
 import { RouteRecordNameGeneric } from "vue-router";
 import { VFileUpload } from "vuetify/labs/VFileUpload";
 import { toTypedSchema } from "@vee-validate/yup";
-import { mixed, object, string } from "yup";
+import { mixed, number, object, string } from "yup";
 import { useForm } from "vee-validate";
 import { Course } from "@/models/course";
 import { Category } from "@/models/category";
@@ -38,6 +38,9 @@ const schema = toTypedSchema(
     previewVideoUrl: string()
       .nullable()
       .url(t("admin.courses.fields.previewVideoUrl.invalid")),
+    amount: number()
+      .required(t("admin.courses.fields.amount.required"))
+      .min(0, t("admin.courses.fields.amount.min", { min: 0 })),
     image: mixed<File>().nullable(),
   }),
 );
@@ -53,6 +56,7 @@ const [categoryId, categoryIdAttrs] = defineField("categoryId");
 const [title, titleAttrs] = defineField("title");
 const [description, descriptionAttrs] = defineField("description");
 const [introduction] = defineField("introduction");
+const [amount, amountAttrs] = defineField("amount");
 const [tags] = defineField("tags");
 const [published] = defineField("published");
 const [previewVideoUrl, previewVideoUrlAttrs] = defineField("previewVideoUrl");
@@ -183,6 +187,28 @@ const submit = handleSubmit((values: Course) => {
               variant="outlined"
               :label="t('admin.courses.fields.description.title')"
               :error-messages="errors.description"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="3">
+            <label
+              class="form-label"
+              for="amount"
+              v-text="t('admin.courses.fields.amount.title')"
+            />
+          </v-col>
+          <v-col cols="12" md="9">
+            <v-number-input
+              v-model="amount"
+              v-bind="amountAttrs"
+              variant="outlined"
+              control-variant="hidden"
+              append-inner-icon="bx-euro"
+              :min="0"
+              :step="0.01"
+              :label="t('admin.courses.fields.amount.title')"
+              :error-messages="errors.amount"
             />
           </v-col>
         </v-row>

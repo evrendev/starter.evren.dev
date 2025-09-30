@@ -514,6 +514,11 @@
           "title": "Kategorie",
           "required": "Kategorie ist erforderlich"
         },
+        "amount": {
+          "title": "Betrag",
+          "min": "Betrag muss mindestens {min} sein",
+          "required": "Betrag ist erforderlich"
+        },
         "title": {
           "title": "Titel",
           "required": "Titel ist erforderlich"

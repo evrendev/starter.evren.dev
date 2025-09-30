@@ -530,6 +530,11 @@
           "title": "Category",
           "required": "Category is required"
         },
+        "amount": {
+          "title": "Amount",
+          "min": "Amount must be at least {min}",
+          "required": "Amount is required"
+        },
         "title": {
           "title": "Title",
           "required": "Title is required"

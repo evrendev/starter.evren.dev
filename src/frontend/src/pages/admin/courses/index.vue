@@ -49,6 +49,11 @@ const headers = computed(() => [
       width: "150px",
     },
     {
+      title: t("admin.courses.fields.amount.title"),
+      key: "amount",
+      sortable: false,
+    },
+    {
       title: t("admin.courses.fields.description.title"),
       key: "description",
       sortable: false,

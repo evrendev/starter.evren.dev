@@ -113,6 +113,8 @@ const abortDelete = () => {
           </span>
         </template>
 
+        <template #[`item.amount`]="{ item }"> {{ item.amount }} € </template>
+
         <template #[`item.actions`]="{ item }">
           <v-menu>
             <template v-slot:activator="{ props }">
