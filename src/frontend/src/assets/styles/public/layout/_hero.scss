@@ -1,27 +1,17 @@
-.hero-slide-1 {
-  background-image: url(../img/hero/hero-slider-1.jpg);
-}
-.hero-slide-2 {
-  background-image: url(../img/hero/hero-slider-2.jpg);
-}
-.hero-slide-3 {
-  background-image: url(../img/hero/hero-slider-3.jpg);
-}
-.hero-slide-4 {
-  background-image: url(../img/hero/hero-slider-4.jpg);
-}
-.hero-slide-5 {
-  background-image: url(../img/hero/hero-slider-5.jpg);
-}
-.hero-slide-6 {
-  background-image: url(../img/hero/hero-slider-6.jpg);
-}
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
 .hero-wrap {
+  margin-top: 100px;
+  position: relative;
+  z-index: 1;
+  padding: 90px 0 0;
+
   .hero-content {
     span {
       display: block;
       margin-bottom: 8px;
-      color: var(--clr-blue);
+      color: var(--clr-error);
       font-family: var(--secondary-font);
       font-weight: 500;
     }
@@ -42,11 +32,6 @@
       }
     }
   }
-
-  margin-top: 100px;
-  position: relative;
-  z-index: 1;
-  padding: 90px 0 0;
   .hero-shape-one {
     position: absolute;
     top: 0;
@@ -96,13 +81,13 @@
         &:after {
           top: 0;
           left: 0;
-          border-top: 1px solid var(--clr-blue);
-          border-left: 1px solid var(--clr-blue);
+          border-top: 1px solid var(--clr-error);
+          border-left: 1px solid var(--clr-error);
         }
         &:before {
           bottom: 0;
-          border-bottom: 1px solid var(--clr-blue);
-          border-left: 1px solid var(--clr-blue);
+          border-bottom: 1px solid var(--clr-error);
+          border-left: 1px solid var(--clr-error);
         }
       }
       .br_2 {
@@ -122,13 +107,13 @@
         &:after {
           top: 0;
           left: 0;
-          border-top: 1px solid var(--clr-blue);
-          border-right: 1px solid var(--clr-blue);
+          border-top: 1px solid var(--clr-error);
+          border-right: 1px solid var(--clr-error);
         }
         &:before {
           bottom: 0;
-          border-bottom: 1px solid var(--clr-blue);
-          border-right: 1px solid var(--clr-blue);
+          border-bottom: 1px solid var(--clr-error);
+          border-right: 1px solid var(--clr-error);
         }
       }
       &:after {
@@ -143,7 +128,7 @@
         border-right: 30px solid transparent;
       }
       i {
-        color: var(--clr-blue);
+        color: var(--clr-error);
         font-size: 40px;
         line-height: 0.8;
         position: relative;
@@ -195,7 +180,7 @@
         .owl-prev,
         .owl-next {
           &:hover {
-            background: var(--clr-blue);
+            background: var(--clr-error);
             i {
               color: var(--clr-white);
             }

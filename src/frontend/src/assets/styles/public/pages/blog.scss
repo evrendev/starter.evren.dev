@@ -17,7 +17,7 @@
       font-size: 18px;
       font-family: var(--secondary-font);
       font-weight: 500;
-      background-color: var(--clr-blue);
+      background-color: var(--clr-error);
       color: var(--clr-white);
       padding: 10px 20px 10px;
       border-radius: 0 5px 5px 0;
@@ -45,7 +45,7 @@
           font-size: 16px;
           color: var(--clr-emperor);
           &:hover {
-            color: var(--clr-downriver);
+            color: var(--clr-red);
           }
         }
         i {
@@ -54,7 +54,7 @@
           left: 0;
           font-size: 15px;
           line-height: 0.8;
-          color: var(--clr-blue);
+          color: var(--clr-error);
         }
       }
     }
@@ -84,7 +84,7 @@
     .blog-info {
       h3 {
         a {
-          color: var(--clr-downriver);
+          color: var(--clr-red);
         }
       }
     }
@@ -121,7 +121,7 @@
           background: var(--clr-white);
           border-color: transparent;
           &:hover {
-            background: var(--clr-blue);
+            background: var(--clr-error);
             i {
               color: var(--clr-white);
             }

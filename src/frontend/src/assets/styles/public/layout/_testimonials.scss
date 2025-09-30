@@ -46,7 +46,7 @@
       width: 45px;
       align-self: flex-end;
       i {
-        color: var(--clr-blue);
+        color: var(--clr-error);
         font-size: 45px;
         line-height: 0.8;
       }
@@ -108,7 +108,7 @@
             color: var(--clr-emperor);
           }
           &:hover {
-            background-color: var(--clr-blue);
+            background-color: var(--clr-error);
             i {
               color: var(--clr-white);
             }

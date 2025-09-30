@@ -42,7 +42,7 @@
           font-size: 16px;
           color: var(--clr-emperor);
           &:hover {
-            color: var(--clr-downriver);
+            color: var(--clr-red);
           }
         }
         i {
@@ -51,7 +51,7 @@
           left: 0;
           font-size: 15px;
           line-height: 0.8;
-          color: var(--clr-blue);
+          color: var(--clr-error);
         }
       }
     }
@@ -64,7 +64,7 @@
     .course-info {
       h3 {
         a {
-          color: var(--clr-blue);
+          color: var(--clr-error);
         }
       }
     }
@@ -84,7 +84,7 @@
       position: absolute;
       bottom: 30px;
       left: 0;
-      background-color: var(--clr-blue);
+      background-color: var(--clr-error);
       color: var(--clr-white);
       font-family: var(--secondary-font);
       font-size: 20px;
@@ -154,7 +154,7 @@
           top: 2px;
           font-weight: 600;
           &:hover {
-            color: var(--clr-blue);
+            color: var(--clr-error);
           }
         }
       }
@@ -170,7 +170,7 @@
           border: none;
           background-color: var(--clr-white);
           &:hover {
-            background-color: var(--clr-blue);
+            background-color: var(--clr-error);
           }
         }
       }

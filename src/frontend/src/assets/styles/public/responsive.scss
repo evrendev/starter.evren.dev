@@ -261,7 +261,7 @@
         position: absolute;
         top: 6px;
         left: 0;
-        color: var(--clr-blue);
+        color: var(--clr-error);
         font-size: 13px;
         line-height: 0.8;
       }
@@ -396,7 +396,7 @@
           &.owl-next {
             background-color: var(--clr-concrete);
             &:hover {
-              background-color: var(--clr-blue);
+              background-color: var(--clr-error);
               i {
                 color: var(--clr-white);
               }
@@ -706,7 +706,7 @@
       .blog-info {
         h3 {
           a {
-            color: var(--clr-downriver);
+            color: var(--clr-red);
           }
         }
       }
@@ -1332,7 +1332,7 @@
           &.owl-next {
             background-color: var(--clr-concrete);
             &:hover {
-              background-color: var(--clr-blue);
+              background-color: var(--clr-error);
               i {
                 color: var(--clr-white);
               }

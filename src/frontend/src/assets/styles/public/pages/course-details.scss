@@ -41,7 +41,7 @@
             font-size: 16px;
             color: var(--clr-emperor);
             &:hover {
-              color: var(--clr-downriver);
+              color: var(--clr-red);
             }
           }
           i {
@@ -50,7 +50,7 @@
             left: 0;
             font-size: 15px;
             line-height: 0.8;
-            color: var(--clr-blue);
+            color: var(--clr-error);
           }
         }
       }
@@ -83,7 +83,7 @@
             line-height: 1;
           }
           span {
-            color: var(--clr-blue);
+            color: var(--clr-error);
             font-weight: 600;
             float: right;
             line-height: 1.2;
@@ -183,7 +183,7 @@
       font-family: var(--secondary-font);
       position: relative;
       &.active {
-        background: var(--clr-blue);
+        background: var(--clr-error);
         color: var(--clr-white);
         &:after {
           width: 100%;

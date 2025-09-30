@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EnglishFlag, DeutschFlag, TurkishFlag } from "@/assets/icons";
-import CloseSidebar from "@/components/admin/public/CloseSidebar.vue";
+import CloseSidebar from "@/components/public/CloseSidebar.vue";
 </script>
 
 <template>

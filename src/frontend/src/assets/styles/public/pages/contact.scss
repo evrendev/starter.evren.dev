@@ -22,7 +22,7 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
       @include transition(0.4s);
       i {
-        color: var(--clr-blue);
+        color: var(--clr-error);
         line-height: 0.8;
         font-size: 25px;
         position: relative;
@@ -71,7 +71,7 @@
         opacity: 1;
       }
       .contact-icon {
-        background-color: var(--clr-blue);
+        background-color: var(--clr-error);
         i {
           color: var(--clr-white);
         }
@@ -110,7 +110,7 @@
   }
   .form-check-label {
     a {
-      color: var(--clr-blue);
+      color: var(--clr-error);
     }
   }
 }

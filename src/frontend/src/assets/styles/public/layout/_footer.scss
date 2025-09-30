@@ -1,7 +1,7 @@
 .footer-wrap {
   position: relative;
   z-index: 1;
-  background-color: var(--clr-downriver);
+  background-color: var(--clr-red);
   .container {
     position: relative;
   }
@@ -54,9 +54,9 @@
           }
           &:hover {
             padding-left: 23px;
-            color: var(--clr-blue);
+            color: var(--clr-error);
             i {
-              color: var(--clr-blue);
+              color: var(--clr-error);
               visibility: visible;
               opacity: 1;
             }
@@ -74,7 +74,7 @@
         input {
           width: 100%;
           height: 56px;
-          background: var(--clr-rhino);
+          background: var(--clr-red-darken);
           padding: 13px 70px 10px 20px;
           color: var(--clr-white);
           border: none;
@@ -87,7 +87,7 @@
           position: absolute;
           top: 0;
           right: 0;
-          background: var(--clr-blue);
+          background: var(--clr-error);
           height: 100%;
           border: none;
           padding: 10px 20px;
@@ -114,7 +114,7 @@
           height: 40px;
           border-radius: 50%;
           position: absolute;
-          background: var(--clr-rhino);
+          background: var(--clr-red-darken);
           top: 2px;
           left: 0;
           @extend %flex_column_center;
@@ -149,7 +149,7 @@
     .social-profile {
       li {
         a {
-          background-color: var(--clr-rhino);
+          background-color: var(--clr-red-darken);
           i {
             color: var(--clr-white);
             position: relative;
@@ -157,7 +157,7 @@
             font-size: 14px;
           }
           &:hover {
-            background-color: var(--clr-blue);
+            background-color: var(--clr-error);
           }
         }
       }
@@ -179,7 +179,7 @@
     }
     a {
       font-weight: 600;
-      color: var(--clr-blue);
+      color: var(--clr-error);
       &:hover {
         text-decoration: underline;
       }

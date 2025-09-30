@@ -4,7 +4,7 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   &.featured {
     .pricing-header {
-      background: var(--clr-blue);
+      background: var(--clr-error);
       h2 {
         color: var(--clr-white);
       }
@@ -28,7 +28,7 @@
     h2 {
       font-size: 50px;
       font-weight: 700;
-      color: var(--clr-blue);
+      color: var(--clr-error);
       margin: 0 0 5px;
     }
     span {
@@ -166,7 +166,7 @@
         top: 2px;
       }
       &:hover {
-        background: var(--clr-blue);
+        background: var(--clr-error);
         i {
           color: var(--clr-white);
         }
@@ -266,7 +266,7 @@
     .vehicle-info {
       h3 {
         a {
-          color: var(--clr-blue);
+          color: var(--clr-error);
         }
       }
     }

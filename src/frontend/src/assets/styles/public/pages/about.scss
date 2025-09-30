@@ -102,7 +102,7 @@
         font-size: 32px;
         line-height: 0.8;
         margin: 0 auto;
-        color: var(--clr-blue);
+        color: var(--clr-error);
         @include transition(0.4s);
       }
       &:after {
@@ -112,7 +112,7 @@
         content: "";
         width: 100%;
         height: 0;
-        background-color: var(--clr-blue);
+        background-color: var(--clr-error);
         @include transition(0.4s);
         visibility: hidden;
         opacity: 0;
@@ -144,7 +144,7 @@
       }
       .feature-text {
         h3 {
-          color: var(--clr-blue);
+          color: var(--clr-error);
         }
       }
     }
@@ -167,7 +167,7 @@
         font-size: 26px;
         line-height: 0.8;
         margin: 0 auto;
-        color: var(--clr-blue);
+        color: var(--clr-error);
         @include transition(0.4s);
       }
       &:after {

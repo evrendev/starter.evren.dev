@@ -23,7 +23,7 @@
       }
       &:hover {
         border-color: transparent;
-        color: var(--clr-blue);
+        color: var(--clr-error);
       }
     }
   }
@@ -40,10 +40,10 @@
       border-radius: 50%;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       i {
-        color: var(--clr-blue);
+        color: var(--clr-error);
       }
       &:hover {
-        background-color: var(--clr-blue);
+        background-color: var(--clr-error);
         @include transform(translateY(-3px));
         i {
           color: var(--clr-white);

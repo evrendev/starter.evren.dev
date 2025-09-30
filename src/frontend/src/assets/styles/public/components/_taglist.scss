@@ -14,7 +14,7 @@
         border: 1px solid rgba(0, 0, 0, 0.1);
         @include transition(0.3s);
         &:hover {
-          background-color: var(--clr-blue);
+          background-color: var(--clr-error);
           color: var(--clr-white);
           border-color: transparent;
         }

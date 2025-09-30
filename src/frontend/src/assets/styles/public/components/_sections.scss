@@ -25,7 +25,7 @@
       content: "";
       width: 50px;
       height: 3px;
-      background-color: var(--clr-blue);
+      background-color: var(--clr-error);
     }
     &:before {
       position: absolute;
@@ -34,11 +34,11 @@
       content: "";
       width: 4px;
       height: 3px;
-      background-color: var(--clr-blue);
+      background-color: var(--clr-error);
     }
   }
   span {
-    color: var(--clr-blue);
+    color: var(--clr-error);
   }
 }
 .section-subtext {

@@ -33,10 +33,10 @@
           @include transition(0.4s);
         }
         &:hover {
-          color: var(--clr-blue);
+          color: var(--clr-error);
           padding-left: 30px;
           i {
-            color: var(--clr-blue);
+            color: var(--clr-error);
             left: 5px;
           }
         }

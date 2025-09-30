@@ -29,7 +29,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: var(--clr-blue);
+            background-color: var(--clr-error);
             visibility: hidden;
             opacity: 0;
             @include transform(translate(-50%, -50%));
@@ -70,7 +70,7 @@
       font-weight: 700;
       margin-bottom: 0;
       a {
-        color: var(--clr-downriver);
+        color: var(--clr-red);
       }
     }
     span {
@@ -87,7 +87,7 @@
         left: 0;
         font-size: 13px;
         line-height: 0.8;
-        color: var(--clr-blue);
+        color: var(--clr-error);
       }
     }
   }
@@ -98,7 +98,7 @@
     .pp-post-info {
       h6 {
         a {
-          color: var(--clr-blue);
+          color: var(--clr-error);
         }
       }
     }

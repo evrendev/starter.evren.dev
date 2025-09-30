@@ -35,7 +35,7 @@
       left: 0;
       z-index: 1;
       width: calc(100% - 50px);
-      background: var(--clr-downriver);
+      background: var(--clr-red);
       border-radius: 5px;
       padding: 20px;
       @extend %flex;
@@ -85,7 +85,7 @@
             height: 60px;
             line-height: 64px;
             i {
-              color: var(--clr-blue);
+              color: var(--clr-error);
               font-size: 18px;
             }
             .ripple {
