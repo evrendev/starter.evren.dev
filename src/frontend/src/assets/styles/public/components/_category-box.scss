@@ -1,0 +1,46 @@
+.category-box {
+  ul {
+    li {
+      position: relative;
+      &:first-child {
+        a {
+          padding-top: 0;
+          i {
+            top: 2px;
+          }
+        }
+      }
+      &:last-child {
+        a {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+      }
+      a {
+        color: var(--clr-emperor);
+        font-weight: 500;
+        padding: 8px 10px 8px 25px;
+        display: block;
+        font-size: 18px;
+        @include transition(0.4s);
+        i {
+          position: absolute;
+          top: 11px;
+          left: 0;
+          font-size: 16px;
+          line-height: 0.8;
+          color: #333;
+          @include transition(0.4s);
+        }
+        &:hover {
+          color: var(--clr-blue);
+          padding-left: 30px;
+          i {
+            color: var(--clr-blue);
+            left: 5px;
+          }
+        }
+      }
+    }
+  }
+}

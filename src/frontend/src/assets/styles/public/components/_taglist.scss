@@ -1,0 +1,24 @@
+.tag-list {
+  ul {
+    margin-top: -12px;
+    li {
+      display: inline-block;
+      margin: 12px 8px 0px 0px;
+      a {
+        display: inline-block;
+        font-size: 14px;
+        line-height: 16px;
+        padding: 14px 15px 10px;
+        color: var(--clr-emperor);
+        background-color: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        @include transition(0.3s);
+        &:hover {
+          background-color: var(--clr-blue);
+          color: var(--clr-white);
+          border-color: transparent;
+        }
+      }
+    }
+  }
+}

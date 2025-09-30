@@ -9,6 +9,7 @@
 @use "@configured-variables" as variables;
 
 @use "@/assets/styles/admin/template";
+@use "@/assets/styles/admin/template/libs/vuetify/index.scss";
 
 html,
 body {

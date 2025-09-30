@@ -1,0 +1,274 @@
+.pricing-card {
+  margin-bottom: 25px;
+  @include transition(0.4s);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  &.featured {
+    .pricing-header {
+      background: var(--clr-blue);
+      h2 {
+        color: var(--clr-white);
+      }
+      span {
+        color: var(--clr-offwhite);
+      }
+    }
+  }
+  .pricing-subheader {
+    font-size: 22px;
+    color: #666;
+    font-weight: 600;
+    padding: 40px 20px;
+    text-align: center;
+    margin: 0;
+  }
+  .pricing-header {
+    text-align: center;
+    background: var(--clr-gallery);
+    padding: 50px 20px;
+    h2 {
+      font-size: 50px;
+      font-weight: 700;
+      color: var(--clr-blue);
+      margin: 0 0 5px;
+    }
+    span {
+      color: var(--clr-emperor);
+      display: block;
+    }
+  }
+  .pricing-features {
+    padding: 35px 0;
+    li {
+      margin-bottom: 20px;
+      text-align: center;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &.unchecked {
+        text-decoration: line-through;
+      }
+      i {
+        position: relative;
+        top: 2px;
+        color: var(--clr-emperor);
+        font-size: 18px;
+        line-height: 0.8;
+        margin-right: 6px;
+      }
+    }
+  }
+  .purchase-btn {
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 35px 0;
+    text-align: center;
+  }
+  &:hover {
+    @include transform(translateY(-6px));
+  }
+}
+
+.team-card {
+  margin-bottom: 25px;
+  box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.07);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  position: relative;
+  @include transition(0.4s);
+  .team-img {
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: rgba(0, 0, 0, 0.5);
+      visibility: hidden;
+      border-radius: 5px 5px;
+      opacity: 0;
+      @include transition(0.4s);
+    }
+    img {
+      @include transition(0.7s);
+    }
+    .social-profile {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      text-align: center;
+      z-index: 10;
+      @include transform(translateY(-50%));
+      li {
+        display: block;
+        margin: 0 0 10px;
+        @include transform(translateY(25px));
+        @include transition(0.4s);
+        visibility: hidden;
+        opacity: 0;
+        &:nth-child(1) {
+          transition-delay: 0.2s;
+        }
+        &:nth-child(2) {
+          transition-delay: 0.3s;
+        }
+        &:nth-child(3) {
+          transition-delay: 0.4s;
+        }
+        &:nth-child(4) {
+          transition-delay: 0.5s;
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
+        a {
+          width: 45px;
+          height: 45px;
+          i {
+            font-size: 22px;
+            color: var(--clr-emperor);
+          }
+          &:hover {
+            i {
+              color: var(--clr-white);
+            }
+          }
+        }
+      }
+    }
+  }
+  .team-info-wrap {
+    @extend %align_center;
+    @extend %flex_justify_between;
+    padding: 25px 25px 25px;
+    background: var(--clr-white);
+    .team-info {
+      h3 {
+        font-size: 22px;
+        margin-bottom: 5px;
+      }
+    }
+    .team-link {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #f3f3f3;
+      @extend %flex_column_center;
+      @include transition(0.4s);
+      i {
+        color: var(--clr-black);
+        font-weight: 18px;
+        line-height: 0.8;
+        margin: 0 auto;
+        position: relative;
+        top: 2px;
+      }
+      &:hover {
+        background: var(--clr-blue);
+        i {
+          color: var(--clr-white);
+        }
+      }
+    }
+  }
+  span {
+    color: var(--clr-emperor);
+  }
+  &:hover {
+    box-shadow: 0px 40px 51px -16px rgba(0, 0, 0, 0.1);
+    @include transform(translateY(-5px));
+    &:after {
+      width: 85%;
+    }
+    .team-img {
+      &:after {
+        visibility: visible;
+        opacity: 1;
+      }
+      .social-profile {
+        li {
+          @include transform(translateY(0));
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.vehicle-card {
+  background: var(--clr-white);
+  margin-bottom: 25px;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.09);
+  .vehicle-img {
+    overflow: hidden;
+    img {
+      @include transition(0.6s);
+    }
+  }
+  .vehicle-info {
+    margin: 22px 25px 0;
+    padding-bottom: 25px;
+    h3 {
+      font-size: 22px;
+      margin: 0 0 15px;
+    }
+    p {
+      margin-bottom: 18px;
+    }
+    .vehicle-meta-info {
+      @extend %align_center;
+      @extend %flex_justify_between;
+      padding-top: 20px;
+      border-top: 1px solid var(--clr-athens);
+      .vehicle-promo-info {
+        @extend %align_center;
+        @extend %flex_justify_between;
+        .vehicle-promo-img {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          img {
+            border-radius: 50%;
+          }
+        }
+        h6 {
+          font-weight: 600;
+          margin-left: 10px;
+          margin-bottom: 0;
+          span {
+            display: block;
+            font-weight: 400;
+            color: var(--clr-emperor);
+          }
+        }
+      }
+      a {
+        margin-left: 10px;
+      }
+    }
+    .vehicle-rating {
+      span {
+        text-align: center;
+        display: block;
+      }
+    }
+  }
+  &:hover {
+    .vehicle-img {
+      img {
+        @include transform(scale(1.04));
+      }
+    }
+    .vehicle-info {
+      h3 {
+        a {
+          color: var(--clr-blue);
+        }
+      }
+    }
+  }
+}

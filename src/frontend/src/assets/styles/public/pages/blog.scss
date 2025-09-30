@@ -1,0 +1,133 @@
+.blog-card {
+  margin-bottom: 25px;
+  background: var(--clr-white);
+  background-color: var(--clr-white);
+  box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.07);
+  @include transition(0.4s);
+  .blog-img {
+    overflow: hidden;
+    position: relative;
+    img {
+      @include transition(0.7s);
+    }
+    .blog-date {
+      position: absolute;
+      bottom: 25px;
+      left: 0;
+      font-size: 18px;
+      font-family: var(--secondary-font);
+      font-weight: 500;
+      background-color: var(--clr-blue);
+      color: var(--clr-white);
+      padding: 10px 20px 10px;
+      border-radius: 0 5px 5px 0;
+      margin-bottom: 0;
+      font-family: var(--secondary-font);
+    }
+  }
+  .blog-info {
+    padding: 22px 25px 22px;
+    .blog-metainfo {
+      margin-bottom: 12px;
+      li {
+        display: inline-block;
+        position: relative;
+        padding-left: 22px;
+        margin-right: 20px;
+        font-size: 16px;
+        &:last-child {
+          margin-right: 0;
+          &:after {
+            display: none;
+          }
+        }
+        a {
+          font-size: 16px;
+          color: var(--clr-emperor);
+          &:hover {
+            color: var(--clr-downriver);
+          }
+        }
+        i {
+          position: absolute;
+          top: 2px;
+          left: 0;
+          font-size: 15px;
+          line-height: 0.8;
+          color: var(--clr-blue);
+        }
+      }
+    }
+    h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+    p {
+      margin: 0 0 15px;
+    }
+  }
+  .blog-info {
+    p {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--clr-athens);
+    }
+  }
+  &:hover {
+    box-shadow: 0px 40px 51px -16px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+    .blog-img {
+      img {
+        @include transform(scale(1.08) rotate(3deg));
+      }
+    }
+    .blog-info {
+      h3 {
+        a {
+          color: var(--clr-downriver);
+        }
+      }
+    }
+  }
+}
+.vehicle-slider-one,
+.team-slider-one,
+.course-slider-one,
+.blog-slider-one {
+  &.owl-carousel {
+    .owl-nav {
+      button {
+        &.owl-prev,
+        &.owl-next {
+          position: absolute;
+          top: 50% !important;
+        }
+        &.owl-prev {
+          left: -65px;
+        }
+        &.owl-next {
+          right: -65px;
+        }
+      }
+    }
+  }
+}
+.blog-slider-one {
+  &.owl-carousel {
+    .owl-nav {
+      button {
+        &.owl-prev,
+        &.owl-next {
+          background: var(--clr-white);
+          border-color: transparent;
+          &:hover {
+            background: var(--clr-blue);
+            i {
+              color: var(--clr-white);
+            }
+          }
+        }
+      }
+    }
+  }
+}

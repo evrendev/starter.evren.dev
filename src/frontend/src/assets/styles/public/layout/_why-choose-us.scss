@@ -1,0 +1,114 @@
+.wh-bg-1 {
+  background-image: url(../img/why-choose-us/wh-img-1.jpg);
+}
+.why-choose-wrap {
+  .wh-content {
+    .content-title {
+      margin-bottom: 25px;
+    }
+    .feature-item-wrap {
+      @extend %flex;
+      margin-bottom: 10px;
+      .feature-item {
+        width: calc(50% - 10px);
+        padding: 0 10px 0 0;
+        &:last-child {
+          margin-bottom: 25px;
+        }
+        box-shadow: none;
+        border: none;
+      }
+    }
+  }
+  .wh-img-wrap {
+    position: relative;
+    padding-bottom: 50px;
+    .wh-bg-1 {
+      height: 650px;
+      border-radius: 15px;
+      width: calc(100% - 50px);
+      margin-left: auto;
+    }
+    .wh-promo-video {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      width: calc(100% - 50px);
+      background: var(--clr-downriver);
+      border-radius: 5px;
+      padding: 20px;
+      @extend %flex;
+      @extend %align_center;
+      .wh-promo-video-bg {
+        background-image: url(../img/why-choose-us/wh-promo-video.jpg);
+        width: 55%;
+        height: 165px;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        .play-text {
+          position: absolute;
+          top: 0;
+          left: 0;
+          @include transform(rotate(-90deg));
+          text-align: center;
+          background: transparent;
+          display: block;
+          width: 55%;
+          height: 100%;
+          padding: 15px 0 0;
+          &:after {
+            position: absolute;
+            top: -15px;
+            left: -15%;
+            content: "";
+            background: #3d72fc;
+            z-index: -1;
+            width: 130%;
+            height: 70px;
+          }
+          span {
+            color: var(--clr-white);
+            font-size: 20px;
+            font-weight: 600;
+          }
+        }
+        .play-video {
+          position: absolute;
+          top: 50%;
+          left: 58%;
+          @include transform(translate(-50%, -50%));
+          .play-now {
+            background: var(--clr-white);
+            width: 60px;
+            height: 60px;
+            line-height: 64px;
+            i {
+              color: var(--clr-blue);
+              font-size: 18px;
+            }
+            .ripple {
+              width: 60px;
+              height: 60px;
+              &:before,
+              &:after {
+                width: 60px;
+                height: 60px;
+              }
+            }
+          }
+        }
+      }
+      .wh-promo-text {
+        width: 45%;
+        padding-left: 25px;
+        h5 {
+          color: var(--clr-white);
+          font-weight: 500;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

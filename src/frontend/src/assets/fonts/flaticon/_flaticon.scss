@@ -1,0 +1,129 @@
+@font-face {
+  font-family: "flaticon";
+  src:
+    url("./flaticon.ttf?cdbb2b96c686e813fc7e70f6c4d5ade1") format("truetype"),
+    url("./flaticon.woff?cdbb2b96c686e813fc7e70f6c4d5ade1") format("woff"),
+    url("./flaticon.woff2?cdbb2b96c686e813fc7e70f6c4d5ade1") format("woff2"),
+    url("./flaticon.eot?cdbb2b96c686e813fc7e70f6c4d5ade1#iefix")
+      format("embedded-opentype"),
+    url("./flaticon.svg?cdbb2b96c686e813fc7e70f6c4d5ade1#flaticon")
+      format("svg");
+}
+
+$flaticon-icons: (
+  "star": "\f101",
+  "globe": "\f102",
+  "graph": "\f103",
+  "bell": "\f104",
+  "graduated": "\f105",
+  "twitter": "\f106",
+  "linkedin": "\f107",
+  "instagram": "\f108",
+  "facebook": "\f109",
+  "envelope": "\f10a",
+  "bubble-chat": "\f10b",
+  "user": "\f10c",
+  "work-station": "\f10d",
+  "share": "\f10e",
+  "check": "\f10f",
+  "price-tag": "\f110",
+  "instructor": "\f111",
+  "track": "\f112",
+  "checkbox": "\f113",
+  "quote": "\f114",
+  "user-1": "\f115",
+  "file": "\f116",
+  "user-2": "\f117",
+  "teacher": "\f118",
+  "quality-control": "\f119",
+  "up-arrow": "\f11a",
+  "review": "\f11b",
+  "quote-1": "\f11c",
+  "mouse": "\f11d",
+  "email": "\f11e",
+  "location": "\f11f",
+  "call": "\f120",
+  "heart": "\f121",
+  "quotes": "\f122",
+  "driving-license": "\f123",
+  "van": "\f124",
+  "linkedin-1": "\f125",
+  "steering-wheel": "\f126",
+  "next": "\f127",
+  "back": "\f128",
+  "map": "\f129",
+  "up-arrow-1": "\f12a",
+  "search": "\f12b",
+  "mover-truck": "\f12c",
+  "remove": "\f12d",
+  "send": "\f12e",
+  "locator": "\f12f",
+  "project": "\f130",
+  "phone-call": "\f131",
+  "email-1": "\f132",
+  "email-2": "\f133",
+  "location-1": "\f134",
+  "pin": "\f135",
+  "call-1": "\f136",
+  "play": "\f137",
+  "tick": "\f138",
+  "secure-shield": "\f139",
+  "telephone": "\f13a",
+  "left-quote": "\f13b",
+  "right-arrow": "\f13c",
+  "left-arrow": "\f13d",
+  "down-arrow": "\f13e",
+  "right-arrow-1": "\f13f",
+  "download-arrow": "\f140",
+  "share-1": "\f141",
+  "close-button": "\f142",
+  "left-quote-1": "\f143",
+  "right-quotation-sign": "\f144",
+  "chat-comment-oval-speech-bubble-with-text-lines": "\f145",
+  "plus-positive-add-mathematical-symbol": "\f146",
+  "minus-sign": "\f147",
+  "plus-symbol-button": "\f148",
+  "quotation-mark": "\f149",
+  "calendar": "\f14a",
+  "facebook-1": "\f14b",
+  "twitter-1": "\f14c",
+  "clock": "\f14d",
+  "reading": "\f14e",
+  "planet-earth": "\f14f",
+  "group": "\f150",
+  "globe-1": "\f151",
+  "time": "\f152",
+  "left-arrow-1": "\f153",
+  "play-button": "\f154",
+  "support": "\f155",
+  "play-button-arrowhead": "\f156",
+  "email-3": "\f157",
+  "play-1": "\f158",
+  "network": "\f159",
+  "next-1": "\f15a",
+  "checked": "\f15b",
+  "graduation-cap": "\f15c",
+  "down-arrow-1": "\f15d",
+  "car": "\f15e",
+  "loupe": "\f15f",
+  "up-arrow-2": "\f160",
+  "done": "\f161",
+);
+
+[class^="flaticon-"]:before,
+[class*=" flaticon-"]:before {
+  font-family: flaticon !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@each $name, $content in $flaticon-icons {
+  .flaticon-#{$name}:before {
+    content: $content;
+  }
+}

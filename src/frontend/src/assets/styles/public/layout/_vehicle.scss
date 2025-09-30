@@ -1,0 +1,16 @@
+.vehicle-slider-one {
+  &.owl-carousel {
+    .owl-nav {
+      button {
+        &.owl-prev,
+        &.owl-next {
+          border: none;
+          background-color: var(--clr-white);
+          &:hover {
+            background-color: var(--clr-blue);
+          }
+        }
+      }
+    }
+  }
+}

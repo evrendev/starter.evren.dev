@@ -1,0 +1,26 @@
+.back-to-top {
+  font-size: 24px;
+  width: 45px;
+  height: 45px;
+  line-height: 42px;
+  text-align: center;
+  display: none;
+  position: fixed;
+  bottom: 230px;
+  right: 20px;
+  z-index: 999;
+  border-radius: 5px;
+  background: var(--clr-blue);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  @include transition(0.4s);
+
+  &.open {
+    bottom: 30px;
+  }
+
+  i {
+    color: var(--clr-white);
+    position: relative;
+    top: 2px;
+  }
+}

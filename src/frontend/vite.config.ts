@@ -85,4 +85,16 @@ export default defineConfig({
     exclude: ["vuetify"],
     entries: ["./src/**/*.vue"],
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: [
+          "import",
+          "mixed-decls",
+          "color-functions",
+          "global-builtin",
+        ],
+      },
+    },
+  },
 });

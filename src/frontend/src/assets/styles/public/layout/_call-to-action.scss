@@ -1,0 +1,11 @@
+.cta-bg-1 {
+  background-image: url(../img/cta-bg-1.jpg);
+}
+.cta-wrap {
+  position: relative;
+  .cta-text {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    margin: 0 auto;
+    padding: 30px 22px;
+  }
+}

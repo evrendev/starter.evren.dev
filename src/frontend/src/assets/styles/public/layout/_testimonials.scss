@@ -1,0 +1,123 @@
+.testimonial-bg-1 {
+  background-image: url(../img/testimonials/testimonial-bg-1.jpg);
+}
+.testimonial-wrap {
+  position: relative;
+}
+.testimonial-card {
+  margin-bottom: 25px;
+  border-radius: 5px;
+  position: relative;
+  padding: 22px 25px 25px;
+  z-index: 1;
+  @include transition(0.4s);
+  .client-img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    img {
+      border-radius: 50%;
+    }
+  }
+  .client-info {
+    width: calc(100% - 140px);
+    margin-left: 20px;
+    h3 {
+      font-size: 22px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      @include transition(0.4s);
+    }
+    span {
+      font-size: 14px;
+      display: block;
+      line-height: 1;
+      @include transition(0.4s);
+    }
+  }
+  .client-quote {
+    @include transition(0.4s);
+  }
+  padding: 35px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+  .client-info-wrap {
+    @extend %align_center;
+    .quote-icon {
+      width: 45px;
+      align-self: flex-end;
+      i {
+        color: var(--clr-blue);
+        font-size: 45px;
+        line-height: 0.8;
+      }
+    }
+  }
+  .client-quote {
+    margin-bottom: 15px;
+  }
+}
+.testimonial-slider-one {
+  background: var(--clr-white);
+  padding: 45px 50px;
+  .testimonial-card {
+    padding: 0 !important;
+    box-shadow: none;
+    .client-info-wrap {
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--clr-athens);
+      padding-bottom: 20px;
+    }
+  }
+  &.owl-carousel {
+    .owl-dots {
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+    }
+  }
+}
+.testimonial-slider-two {
+  margin: -15px 0 0;
+  .testimonial-card {
+    margin-top: 15px;
+  }
+  &.owl-carousel {
+    .owl-dots {
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+    }
+  }
+}
+.testimonial-slider-three {
+  margin: -15px 0 0;
+  .testimonial-card {
+    margin-top: 15px;
+  }
+  &.owl-carousel {
+    .owl-nav {
+      position: absolute;
+      top: -85px;
+      right: 0;
+      button {
+        &.owl-next,
+        &.owl-prev {
+          background-color: var(--clr-concrete);
+          border-color: transparent;
+          i {
+            color: var(--clr-emperor);
+          }
+          &:hover {
+            background-color: var(--clr-blue);
+            i {
+              color: var(--clr-white);
+            }
+          }
+        }
+        &.owl-next {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}

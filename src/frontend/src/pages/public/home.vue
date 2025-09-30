@@ -1,14 +1,7 @@
 <script setup lang="ts">
-const { t } = useI18n();
+import Home from "@/views/public/home.vue";
 </script>
 
 <template>
-  <div>
-    <h1>
-      {{ t("app.title") }}
-    </h1>
-    <h4>
-      {{ t("app.description") }}
-    </h4>
-  </div>
+  <Home />
 </template>

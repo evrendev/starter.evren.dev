@@ -1,0 +1,195 @@
+.about-bg-1 {
+  background-image: url(../img/about/about-img-1.jpg);
+}
+.about-bg-2 {
+  background-image: url(../img/about/about-img-2.jpg);
+}
+.about-bg-3 {
+  background-image: url(../img/about/about-img-3.jpg);
+}
+
+.about-wrap {
+  .about-content {
+    .content-title {
+      margin-bottom: 25px;
+    }
+  }
+  .about-img-wrap {
+    position: relative;
+    .about-shape-one {
+      position: absolute;
+      top: -40px;
+      left: -20px;
+    }
+    .about-bg-1 {
+      height: 650px;
+      border-radius: 15px;
+    }
+    .about-promo-box {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      background-color: var(--clr-white);
+      padding: 30px 35px;
+      border-radius: 15px;
+      @extend %align_center;
+      i {
+        color: var(--clr-amber);
+        font-size: 40px;
+        line-height: 0.7;
+        position: relative;
+        top: 3px;
+      }
+      h4 {
+        font-size: 38px;
+        width: calc(100% - 60px);
+        margin-left: 20px;
+        margin-bottom: 0;
+        span {
+          display: block;
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  .about-img-wrap {
+    .about-promo-box {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      background-color: var(--clr-white);
+      padding: 30px 35px;
+      border-radius: 15px;
+      @extend %align_center;
+      i {
+        color: var(--clr-amber);
+        font-size: 40px;
+        line-height: 0.8;
+      }
+      h4 {
+        font-size: 38px;
+        width: calc(100% - 60px);
+        margin-left: 20px;
+        margin-bottom: 0;
+        span {
+          display: block;
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+.feature-item-wrap {
+  .feature-item {
+    @extend %flex;
+    margin-bottom: 25px;
+    @include transition(0.4s);
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .feature-icon {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      background: var(--clr-white);
+      position: relative;
+      top: 3px;
+      @extend %flex_column_center;
+      @include transition(0.4s);
+      i {
+        font-size: 32px;
+        line-height: 0.8;
+        margin: 0 auto;
+        color: var(--clr-blue);
+        @include transition(0.4s);
+      }
+      &:after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        height: 0;
+        background-color: var(--clr-blue);
+        @include transition(0.4s);
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
+      }
+    }
+    .feature-text {
+      width: calc(100% - 90px);
+      margin-left: 20px;
+      h3 {
+        font-size: 22px;
+        margin: 0 0 10px;
+        @include transition(0.4s);
+      }
+      p {
+        margin: 0;
+      }
+    }
+    &:hover {
+      .feature-icon {
+        i {
+          color: var(--clr-white);
+        }
+        &:after {
+          height: 100%;
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+      .feature-text {
+        h3 {
+          color: var(--clr-blue);
+        }
+      }
+    }
+
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 25px 25px 22px;
+    .feature-icon {
+      position: relative;
+      z-index: 1;
+      box-shadow: none;
+      overflow: hidden;
+      background: transparent;
+      position: relative;
+      top: 4px;
+      width: 30px;
+      text-align: left;
+      @extend %flex_justify_start;
+      @include transition(0.4s);
+      i {
+        font-size: 26px;
+        line-height: 0.8;
+        margin: 0 auto;
+        color: var(--clr-blue);
+        @include transition(0.4s);
+      }
+      &:after {
+        display: none;
+      }
+    }
+    .feature-text {
+      width: calc(100% - 50px);
+      margin-left: 20px;
+      h3 {
+        font-size: 22px;
+        margin: 0 0 10px;
+        @include transition(0.4s);
+      }
+      p {
+        margin: 0;
+      }
+    }
+    &:hover {
+      box-shadow:
+        rgba(50, 50, 93, 0.07) 0px 50px 100px -20px,
+        rgba(0, 0, 0, 0.09) 0px 30px 60px -30px;
+    }
+  }
+}

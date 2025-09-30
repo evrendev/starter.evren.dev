@@ -1,0 +1,120 @@
+.contact-box-wrap {
+  background-color: var(--clr-concrete);
+  padding: 30px;
+  .contact-item {
+    @extend %flex;
+    margin: 0 0 20px;
+    position: relative;
+    z-index: 1;
+    @include transition(0.4s);
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      top: 0;
+      border-radius: 50%;
+      text-align: center;
+      @extend %flex_column_center;
+      background-color: var(--clr-white);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+      @include transition(0.4s);
+      i {
+        color: var(--clr-blue);
+        line-height: 0.8;
+        font-size: 25px;
+        position: relative;
+        @include transition(0.34s);
+      }
+    }
+    .contact-info {
+      width: calc(100% - 85px);
+      margin-left: 25px;
+      @include transition(0.3s);
+      h5 {
+        font-size: 20px;
+        margin: 0 0 10px;
+        font-weight: 600;
+        @include transition(0.3s);
+      }
+      a,
+      p {
+        display: block;
+        margin: 0;
+        line-height: 1.5;
+        color: var(--clr-emperor);
+        @include transition(0.3s);
+      }
+      .social-profile {
+        li {
+          a {
+            i {
+              line-height: 40px;
+              font-size: 15px;
+              color: var(--clr-emperor);
+            }
+            &:hover {
+              i {
+                color: var(--clr-white);
+              }
+            }
+          }
+        }
+      }
+    }
+    &:hover {
+      &:after {
+        height: 100%;
+        visibility: visible;
+        opacity: 1;
+      }
+      .contact-icon {
+        background-color: var(--clr-blue);
+        i {
+          color: var(--clr-white);
+        }
+      }
+    }
+  }
+}
+.contact-form {
+  background-color: var(--clr-concrete);
+  padding: 30px;
+}
+#contactForm {
+  .form-check {
+    padding-left: 0;
+  }
+  .form-group {
+    margin: 0 0 20px;
+    input,
+    textarea {
+      width: 100%;
+      background: transparent;
+      padding: 15px 20px 11px;
+      border-radius: 5px;
+      border: none;
+      background-color: var(--clr-white);
+    }
+
+    input {
+      height: 60px;
+    }
+
+    textarea {
+      height: 163px;
+      resize: none;
+    }
+  }
+  .form-check-label {
+    a {
+      color: var(--clr-blue);
+    }
+  }
+}
+.btn.disabled {
+  opacity: 1;
+  color: var(--clr-white);
+}

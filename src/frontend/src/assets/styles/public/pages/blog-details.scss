@@ -1,0 +1,426 @@
+article,
+.course-desc,
+.vehicle-desc,
+.team-desc,
+.terms-wrap {
+  p {
+    margin-bottom: 15px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    strong {
+      color: var(--clr-black);
+    }
+    a {
+      color: var(--clr-blue);
+      &:hover {
+        text-decoration: underline;
+        color: var(--clr-blue);
+      }
+    }
+  }
+  h1 {
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+  h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+  h3 {
+    font-size: 26px;
+    margin-bottom: 15px;
+  }
+  h4 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  h5 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  h6 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  ol {
+    margin-top: 20px;
+    margin-bottom: 25px;
+    li {
+      margin-bottom: 15px;
+      color: var(--clr-emperor);
+      padding-left: 3px;
+    }
+  }
+  .content-feature-list {
+    margin: 20px 0 25px;
+  }
+}
+article {
+  margin-bottom: 20px;
+  .post-img {
+    border-radius: 5px;
+    img {
+      border-radius: 5px;
+    }
+  }
+}
+.post-navigation {
+  @extend %flex;
+  @extend %flex_justify_between;
+  @extend %align_center;
+  margin: 0 0 25px;
+  .next-post,
+  .prev-post {
+    width: 50%;
+    display: block;
+    font-size: 12px;
+    position: relative;
+    font-weight: 600;
+    @include transition(0.3s);
+    span {
+      display: block;
+      font-size: 16px;
+      line-height: 1.2;
+      color: var(--clr-emperor);
+      @include transition(0.3s);
+    }
+    &:hover {
+      color: var(--clr-blue);
+      span {
+        color: var(--clr-blue);
+      }
+    }
+  }
+  .next-post {
+    text-align: right;
+  }
+  .prev-post {
+    text-align: left;
+  }
+}
+.post-metainfo {
+  line-height: 1;
+  margin-bottom: 16px;
+  li {
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 25px;
+    color: var(--clr-emperor);
+    &:last-child {
+      margin-right: 0;
+    }
+    i {
+      font-size: 15px;
+      color: var(--clr-blue);
+      position: absolute;
+      top: -2px;
+      left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    a {
+      color: var(--clr-emperor);
+    }
+  }
+}
+.post-img {
+  position: relative;
+  margin: 0 0 25px;
+  display: block;
+  .blog-date {
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 7px 32px 8px;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    z-index: 1;
+    background-color: var(--clr-blue);
+    color: var(--clr-white);
+    @include transition(0.3s);
+    &:hover {
+      background: var(--clr-blue);
+      color: var(--clr-white);
+    }
+  }
+}
+.wp-block-quote {
+  position: relative;
+  padding: 35px 35px 30px;
+  background-color: var(--clr-white);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.09);
+  text-align: center;
+  border-left: 2px solid var(--clr-blue);
+  margin: 20px 0 25px;
+  .wp-quote-text {
+    p {
+      font-weight: 600;
+      color: var(--clr-black);
+      margin-bottom: 0;
+    }
+  }
+}
+.post-meta-option {
+  margin-bottom: 25px;
+}
+.post-tag {
+  ul {
+    display: inline-block;
+    li {
+      display: inline-block;
+      margin-right: 5px;
+      &:last-child {
+        margin-right: 0;
+      }
+      a {
+        color: var(--clr-emperor);
+        font-size: 14px;
+        border-radius: 3px;
+        padding: 10px 10px 5px;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        &:hover {
+          background: var(--clr-blue);
+          color: var(--clr-white);
+        }
+      }
+    }
+  }
+  span {
+    margin-right: 10px;
+    font-weight: 600;
+    color: var(--clr-black);
+  }
+}
+.post-share {
+  display: inline-block;
+  span {
+    font-weight: 600;
+    color: var(--clr-black);
+  }
+  ul {
+    display: inline-block;
+    margin-left: 7px;
+  }
+}
+.post-author {
+  @extend %flex;
+  padding: 25px;
+  margin: 15px 0 30px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  .post-author-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    img {
+      border-radius: 50%;
+    }
+  }
+  .post-author-info {
+    width: calc(100% - 175px);
+    margin-left: 25px;
+    h4 {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: 15px;
+    }
+    p {
+      margin: 0 0 15px;
+    }
+  }
+}
+.comment-item-wrap {
+  .comment-item {
+    @extend %flex;
+    padding: 0 0 25px 0;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    &.reply {
+      margin-left: 40px;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .comment-author-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      position: relative;
+      top: 4px;
+      img {
+        border-radius: 50%;
+      }
+    }
+    .comment-author-wrap {
+      width: calc(100% - 120px);
+      margin-left: 20px;
+      .comment-author-name {
+        margin: 0 0 9px;
+        h5 {
+          line-height: 1;
+          margin: 0 0 12px;
+          font-size: 18px;
+          font-weight: 600;
+          display: inline-block;
+        }
+        .comment-date {
+          display: block;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1;
+          color: var(--clr-gray);
+        }
+      }
+      .comment-text {
+        margin: 5px 0 10px;
+        p {
+          margin: 0 0 5px;
+        }
+      }
+    }
+  }
+  .reply-btn {
+    display: inline-block;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--clr-blue);
+    @include transition(0.3s);
+    i {
+      position: relative;
+      margin-right: 4px;
+    }
+    &:hover {
+      color: var(--clr-blue);
+    }
+  }
+}
+.comment-box-title {
+  margin-bottom: 25px;
+  h4 {
+    margin-bottom: 0;
+    line-height: 1;
+    position: relative;
+  }
+  p {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+#cmt-form {
+  margin-top: 35px;
+  .comment-form {
+    .form-group {
+      margin: 0 0 20px;
+      position: relative;
+      & > label {
+        font-weight: 500;
+        display: block;
+        margin: 0 0 5px;
+        padding-left: 0;
+        color: var(--clr-gray);
+      }
+      input,
+      textarea {
+        width: 100%;
+        background-color: var(--clr-sand);
+        border: none;
+        border-radius: 5px;
+        padding: 15px;
+        color: var(--clr-black);
+        &:focus {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+      }
+      input {
+        height: 60px;
+      }
+      textarea {
+        height: 145px;
+        resize: none;
+      }
+    }
+  }
+  .checkbox {
+    label {
+      padding-left: 25px;
+    }
+  }
+}
+.checkbox {
+  display: block;
+  input {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+  }
+  label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 27px;
+    &:before {
+      content: "";
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: transparent;
+      border: 1px solid var(--clr-athens);
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      border-radius: 50%;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-right: 5px;
+      position: absolute;
+      left: 0;
+      top: 6px;
+    }
+  }
+  a {
+    color: var(--clr-blue);
+  }
+}
+.checkbox input:checked + label:before {
+  border-color: var(--clr-blue);
+}
+.checkbox input:checked + label:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 9px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  border: none;
+  border-radius: 50%;
+  background: var(--clr-blue);
+}
+.post-cat-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 25px;
+  span {
+    font-weight: 600;
+    color: var(--clr-blue);
+  }
+}
+.post-cat-title {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 500;
+  margin-bottom: 25px;
+  span {
+    font-weight: 600;
+    color: var(--clr-blue);
+  }
+}

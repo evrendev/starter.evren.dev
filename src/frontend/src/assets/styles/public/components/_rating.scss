@@ -1,0 +1,28 @@
+.ratings {
+  line-height: 1;
+  li {
+    display: inline-block;
+    i {
+      font-size: 15px;
+      line-height: 0.8;
+      color: $clr-amber;
+    }
+  }
+}
+
+.vehicle-slider-one {
+  &.owl-carousel {
+    .owl-nav {
+      button {
+        &.owl-prev,
+        &.owl-next {
+          border: none;
+          background-color: var(--clr-white);
+          &:hover {
+            background-color: var(--clr-blue);
+          }
+        }
+      }
+    }
+  }
+}

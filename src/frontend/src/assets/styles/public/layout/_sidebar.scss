@@ -1,0 +1,21 @@
+.sidebar {
+  .sidebar-widget {
+    margin: 0 0 30px;
+    background-color: var(--clr-sand);
+    position: relative;
+    z-index: 1;
+    padding: 25px;
+    h4 {
+      margin: 0 0 25px;
+      padding-bottom: 18px;
+      font-size: 22px;
+      position: relative;
+      line-height: 1;
+      position: relative;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
