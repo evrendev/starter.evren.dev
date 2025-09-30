@@ -12,6 +12,7 @@ public class CreateCourseRequest : IRequest<Guid>
     public string Title { get; set; } = default!;
     public string? Introduction { get; set; }
     public string? Description { get; set; }
+    public decimal? Amount { get; set; }
     public string[]? Tags { get; set; }
     public bool Published { get; set; }
     public string? PreviewVideoUrl { get; set; }
@@ -43,7 +44,7 @@ public class CreateCourseRequestHandler(IRepository<Course> repository, IFileSto
     {
         var courseImagePath = await file.UploadAsync<Course>(request.Image, FileType.Image, cancellationToken);
 
-        var course = new Course(request.Title, request.Introduction, request.Description, request.CategoryId, courseImagePath, request.Tags, request.Published, request.PreviewVideoUrl);
+        var course = new Course(request.Title, request.Introduction, request.Description, request.CategoryId, request.Amount, courseImagePath, request.Tags, request.Published, request.PreviewVideoUrl);
 
         course.DomainEvents.Add(EntityCreatedEvent.WithEntity(course));
 

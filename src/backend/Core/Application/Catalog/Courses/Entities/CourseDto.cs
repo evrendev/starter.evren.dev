@@ -6,6 +6,7 @@ public class CourseDto : IDto
     public string? Title { get; set; }
     public string? Description { get; set; }
     public string? Image { get; set; }
+    public decimal? Amount { get; set; }
     public Guid CategoryId { get; set; }
     public bool Published { get; set; }
     public string? CategoryTitle { get; set; }

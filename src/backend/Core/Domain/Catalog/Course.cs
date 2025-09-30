@@ -7,6 +7,7 @@ public class Course : AuditableEntity, IAggregateRoot
     public string? Description { get; private set; }
     public Guid CategoryId { get; private set; }
     public virtual Category Category { get; private set; } = default!;
+    public decimal? Amount { get; private set; }
     public string[]? Tags { get; private set; }
     public string? Image { get; private set; }
     public bool Published { get; private set; }
@@ -18,6 +19,7 @@ public class Course : AuditableEntity, IAggregateRoot
         string? introduction,
         string? description,
         Guid categoryId,
+        decimal? amount = null,
         string? image = null,
         string[]? tags = null,
         bool published = false,
@@ -28,13 +30,14 @@ public class Course : AuditableEntity, IAggregateRoot
         Introduction = introduction;
         Description = description;
         CategoryId = categoryId;
+        Amount = amount;
         Image = image;
         Tags = tags;
         Published = published;
         PreviewVideoUrl = previewVideoUrl;
     }
 
-    public Course Update(string? title, string? introduction, string? description, Guid? categoryId, string? image, string[]? tags, bool published, string? previewVideoUrl)
+    public Course Update(string? title, string? introduction, string? description, Guid? categoryId, decimal? amount, string? image, string[]? tags, bool published, string? previewVideoUrl)
     {
         if (title is not null && !Title.Equals(title))
             Title = title;
@@ -47,6 +50,9 @@ public class Course : AuditableEntity, IAggregateRoot
 
         if (categoryId.HasValue && categoryId.Value != Guid.Empty && !CategoryId.Equals(categoryId.Value))
             CategoryId = categoryId.Value;
+
+        if (amount.HasValue && !Amount.Equals(amount.Value))
+            Amount = amount.Value;
 
         if (image is not null && string.Equals(Image, image) == false)
             Image = image;
