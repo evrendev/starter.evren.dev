@@ -46,7 +46,9 @@ import logo from "@/assets/images/svg/logo.svg?raw";
             <a href="#" class="nav-link">Contact Us</a>
           </li>
           <li class="nav-item xl-none">
-            <a href="#" class="btn">Register / Login</a>
+            <router-link :to="{ name: 'login' }" class="btn">
+              Register / Login
+            </router-link>
           </li>
         </ul>
         <div class="others-options lg-none">
@@ -56,7 +58,9 @@ import logo from "@/assets/images/svg/logo.svg?raw";
             </button>
           </div>
           <div class="header-btn">
-            <a href="#" class="btn">Register / Login</a>
+            <router-link :to="{ name: 'login' }" class="btn">
+              Register / Login
+            </router-link>
           </div>
         </div>
       </div>
