@@ -29,6 +29,7 @@ const Mapper = {
       description: value.description,
       introduction: value.introduction,
       tags: value.tags,
+      amount: value.amount,
       published: value.published,
       image: imageModel,
       previewVideoUrl: value.previewVideoUrl,
