@@ -644,7 +644,9 @@
           "required": "Description is required"
         },
         "content": {
-          "title": "Content"
+          "title": "Content",
+          "required": "Content is required",
+          "placeholder": "Enter lesson content here..."
         },
         "notes": {
           "title": "Notes"

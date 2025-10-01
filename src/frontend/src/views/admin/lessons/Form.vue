@@ -7,6 +7,9 @@ import { useForm } from "vee-validate";
 import { Lesson } from "@/models/lesson";
 import { Chapter } from "@/models/chapter";
 
+import QuillyEditor from "@/components/admin/QuillyEditor.vue";
+import { error } from "console";
+
 const { t } = useI18n();
 
 const props = withDefaults(
@@ -33,6 +36,7 @@ const schema = toTypedSchema(
     description: string().required(
       t("admin.lessons.fields.description.required"),
     ),
+    content: string().required(t("admin.lessons.fields.content.required")),
     image: mixed<File>().nullable(),
   }),
 );
@@ -47,7 +51,7 @@ const [id] = defineField("id");
 const [chapterId, chapterIdAttrs] = defineField("chapterId");
 const [title, titleAttrs] = defineField("title");
 const [description, descriptionAttrs] = defineField("description");
-const [content] = defineField("content");
+const [content, contentAttrs] = defineField("content");
 const [notes] = defineField("notes");
 const [image] = defineField("image");
 
@@ -118,9 +122,9 @@ const submit = handleSubmit((values: Lesson) => {
               v-model="chapterId"
               v-bind="chapterIdAttrs"
               variant="outlined"
-              :items="chapters"
               item-value="id"
               item-title="title"
+              :items="chapters"
               :label="t('admin.lessons.fields.chapterId.title')"
               :error-messages="errors.chapterId"
             />
@@ -156,6 +160,7 @@ const submit = handleSubmit((values: Lesson) => {
             <v-textarea
               v-model="description"
               v-bind="descriptionAttrs"
+              rows="2"
               variant="outlined"
               :label="t('admin.lessons.fields.description.title')"
               :error-messages="errors.description"
@@ -171,15 +176,18 @@ const submit = handleSubmit((values: Lesson) => {
             />
           </v-col>
           <v-col cols="12" md="9">
-            <v-textarea
+            <quilly-editor
+              v-bind="contentAttrs"
               v-model="content"
-              variant="outlined"
-              rows="2"
-              :label="t('admin.lessons.fields.content.title')"
+              :read-only="readOnly"
+              :placeholder="t('admin.lessons.fields.content.placeholder')"
             />
+            <p v-if="errors.content" class="text-error text-sm mt-1 ml-5">
+              {{ errors.content }}
+            </p>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row class="mt-15">
           <v-col cols="12" md="3">
             <label
               class="form-label"
@@ -191,6 +199,7 @@ const submit = handleSubmit((values: Lesson) => {
             <v-textarea
               v-model="notes"
               variant="outlined"
+              rows="2"
               :label="t('admin.lessons.fields.notes.title')"
             />
           </v-col>
