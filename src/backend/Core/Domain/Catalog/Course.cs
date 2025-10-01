@@ -13,7 +13,7 @@ public class Course : AuditableEntity, IAggregateRoot
     public bool Published { get; private set; }
     public string? PreviewVideoUrl { get; private set; }
     public virtual ICollection<Chapter>? Chapters { get; private set; }
-    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = [];
+    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; private set; } = [];
 
     public Course(string title,
         string? introduction,
@@ -42,10 +42,10 @@ public class Course : AuditableEntity, IAggregateRoot
         if (title is not null && !Title.Equals(title))
             Title = title;
 
-        if (introduction is not null && string.Equals(Introduction, introduction) == false)
+        if (introduction is not null && !string.Equals(Introduction, introduction))
             Introduction = introduction;
 
-        if (description is not null && string.Equals(Description, description) == false)
+        if (description is not null && !string.Equals(Description, description))
             Description = description;
 
         if (categoryId.HasValue && categoryId.Value != Guid.Empty && !CategoryId.Equals(categoryId.Value))
@@ -54,7 +54,7 @@ public class Course : AuditableEntity, IAggregateRoot
         if (amount.HasValue && !Amount.Equals(amount.Value))
             Amount = amount.Value;
 
-        if (image is not null && string.Equals(Image, image) == false)
+        if (image is not null && !string.Equals(Image, image))
             Image = image;
 
         if (tags is not null)
@@ -63,7 +63,7 @@ public class Course : AuditableEntity, IAggregateRoot
         if (Published != published)
             Published = published;
 
-        if (previewVideoUrl is not null && string.Equals(PreviewVideoUrl, previewVideoUrl) == false)
+        if (previewVideoUrl is not null && !string.Equals(PreviewVideoUrl, previewVideoUrl))
             PreviewVideoUrl = previewVideoUrl;
 
         return this;

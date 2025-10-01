@@ -2,6 +2,12 @@
 
 public class Product : AuditableEntity, IAggregateRoot
 {
+    public string Name { get; private set; } = default!;
+    public string? Description { get; private set; }
+    public decimal Rate { get; private set; }
+    public string? ImagePath { get; private set; }
+    public Guid BrandId { get; private set; }
+    public virtual Brand Brand { get; } = default!;
     public Product(string name, string? description, decimal rate, Guid brandId, string? imagePath)
     {
         Name = name;
@@ -11,25 +17,23 @@ public class Product : AuditableEntity, IAggregateRoot
         BrandId = brandId;
     }
 
-    public string Name { get; private set; } = default!;
-    public string? Description { get; private set; }
-    public decimal Rate { get; private set; }
-    public string? ImagePath { get; private set; }
-    public Guid BrandId { get; private set; }
-    public virtual Brand Brand { get; } = default!;
-
     public Product Update(string? name, string? description, decimal? rate, Guid? brandId, string? imagePath)
     {
-        if (name is not null && Name?.Equals(name) is not true)
+        if (name is not null && !Name.Equals(name))
             Name = name;
-        if (description is not null && Description?.Equals(description) is not true)
+
+        if (description is not null && !string.Equals(Description, description))
             Description = description;
+
         if (rate.HasValue && Rate != rate)
             Rate = rate.Value;
+
         if (brandId.HasValue && brandId.Value != Guid.Empty && !BrandId.Equals(brandId.Value))
             BrandId = brandId.Value;
-        if (imagePath is not null && ImagePath?.Equals(imagePath) is not true)
+
+        if (imagePath is not null && !string.Equals(ImagePath, imagePath))
             ImagePath = imagePath;
+
         return this;
     }
 
