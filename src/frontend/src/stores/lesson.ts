@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { Lesson } from "@/models/lesson";
+import { Lesson, LessonDetails } from "@/models/lesson";
 import { Filters, AdvancedFilters } from "@/types/requests/lesson";
 import { PaginationResponse } from "@/types/responses/api";
 
@@ -36,7 +36,7 @@ export const useLessonStore = defineStore("lesson", {
     hasPreviousPage: false as boolean,
     // Data state
     items: [] as Lesson[],
-    lesson: null as Lesson | null,
+    lesson: null as LessonDetails | null,
     filters: { ...DEFAULT_FILTER },
   }),
   actions: {
@@ -102,14 +102,14 @@ export const useLessonStore = defineStore("lesson", {
       }
     },
 
-    async getById(id: string): Promise<Result<Lesson>> {
+    async getById(id: string): Promise<Result<LessonDetails>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Lesson>(
+        const result = await handleRequest<LessonDetails>(
           http.get(`/v1/lessons/${id}`),
         );
 
@@ -122,7 +122,7 @@ export const useLessonStore = defineStore("lesson", {
       } catch (error) {
         this.error = error as AppError;
         this.lesson = null;
-        return error as Result<Lesson>;
+        return error as Result<LessonDetails>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);

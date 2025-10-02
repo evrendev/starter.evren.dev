@@ -4,7 +4,7 @@ import { VFileUpload } from "vuetify/labs/VFileUpload";
 import { toTypedSchema } from "@vee-validate/yup";
 import { mixed, object, string } from "yup";
 import { useForm } from "vee-validate";
-import { Lesson } from "@/models/lesson";
+import { LessonDetails } from "@/models/lesson";
 import { Chapter } from "@/models/chapter";
 
 import { PreviewSlide } from ".";
@@ -14,7 +14,7 @@ const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
-    lesson: Lesson | null;
+    lesson: LessonDetails | null;
     chapters: Chapter[];
     pageTitle: string;
     loading: boolean;
@@ -41,9 +41,11 @@ const schema = toTypedSchema(
   }),
 );
 
-const { defineField, handleSubmit, resetForm, errors } = useForm<Lesson>({
-  validationSchema: schema,
-});
+const { defineField, handleSubmit, resetForm, errors } = useForm<LessonDetails>(
+  {
+    validationSchema: schema,
+  },
+);
 
 const readOnly: Ref<boolean> = ref(props.routeName === "lesson-view");
 const showPreview: Ref<boolean> = ref(false);
@@ -70,10 +72,10 @@ watch(
 );
 
 const emit = defineEmits<{
-  (e: "submit", values: Lesson): void;
+  (e: "submit", values: LessonDetails): void;
 }>();
 
-const submit = handleSubmit((values: Lesson) => {
+const submit = handleSubmit((values: LessonDetails) => {
   emit("submit", values);
 });
 </script>
