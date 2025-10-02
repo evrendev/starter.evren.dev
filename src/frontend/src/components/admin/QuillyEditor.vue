@@ -2,12 +2,6 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { QuillyEditor } from "vue-quilly";
 import Quill from "quill";
-import QuillResizeImage from "quill-resize-image";
-
-Quill.register("modules/resize", QuillResizeImage);
-
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
 
 const props = defineProps({
   modelValue: {

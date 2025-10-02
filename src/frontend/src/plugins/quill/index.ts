@@ -1,6 +1,8 @@
-// import { type App } from "vue";
-// import QuillEditor from "@/components/admin/QuillEditor.vue";
+import Quill from "quill";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 
-// export default function (app: App) {
-//   app.component("QuillEditor", QuillEditor);
-// }
+import QuillResizeImage from "quill-resize-image";
+
+Quill.register("modules/resize", QuillResizeImage);
+export default function () {}
