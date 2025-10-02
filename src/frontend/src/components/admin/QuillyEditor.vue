@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
-import Quill from "quill"; // Import Quill itself
 import { QuillyEditor } from "vue-quilly";
+import Quill from "quill";
+import QuillResizeImage from "quill-resize-image";
+
+Quill.register("modules/resize", QuillResizeImage);
 
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -45,6 +48,7 @@ const editorOptions = computed(() => {
         ["link", "image"],
         ["clean"],
       ],
+      resize: {},
     },
     placeholder: props.placeholder,
     readOnly: props.readOnly,
@@ -59,7 +63,7 @@ const handleTextChange = (content: string) => {
   emit("update:modelValue", content);
 };
 
-onMounted(() => {
+onMounted(async () => {
   if (editor.value) {
     quillInstance = editor.value.initialize(Quill);
     emit("ready", quillInstance);
@@ -88,3 +92,9 @@ watch(
     @update:modelValue="handleTextChange"
   />
 </template>
+
+<style lang="scss">
+.ql-editor {
+  min-height: 240px;
+}
+</style>

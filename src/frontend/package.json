@@ -30,6 +30,7 @@
     "prismjs": "^1.30.0",
     "qrcode": "^1.5.4",
     "quill": "^2.0.3",
+    "quill-resize-image": "^1.0.11",
     "quill-table-better": "^1.2.3",
     "roboto-fontface": "^0.10.0",
     "vee-validate": "^4.15.1",
