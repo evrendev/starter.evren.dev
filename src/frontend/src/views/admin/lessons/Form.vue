@@ -7,8 +7,8 @@ import { useForm } from "vee-validate";
 import { Lesson } from "@/models/lesson";
 import { Chapter } from "@/models/chapter";
 
+import { PreviewSlide } from ".";
 import QuillyEditor from "@/components/admin/QuillyEditor.vue";
-import { error } from "console";
 
 const { t } = useI18n();
 
@@ -46,6 +46,7 @@ const { defineField, handleSubmit, resetForm, errors } = useForm<Lesson>({
 });
 
 const readOnly: Ref<boolean> = ref(props.routeName === "lesson-view");
+const showPreview: Ref<boolean> = ref(false);
 
 const [id] = defineField("id");
 const [chapterId, chapterIdAttrs] = defineField("chapterId");
@@ -226,7 +227,7 @@ const submit = handleSubmit((values: Lesson) => {
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12">
+          <v-col cols="12" class="d-inline-flex ga-2">
             <v-btn
               color="primary"
               variant="flat"
@@ -236,6 +237,15 @@ const submit = handleSubmit((values: Lesson) => {
               @click="submit"
             >
               {{ t("shared.save") }}
+            </v-btn>
+            <v-btn
+              color="warning"
+              size="small"
+              variant="flat"
+              prepend-icon="bx-show"
+              @click="showPreview = true"
+            >
+              {{ t("shared.preview") }}
             </v-btn>
             <v-btn
               color="info"
@@ -252,6 +262,28 @@ const submit = handleSubmit((values: Lesson) => {
       </v-form>
     </v-card-text>
   </v-card>
+
+  <modal-window
+    :show-modal="showPreview"
+    :title="lesson?.title || t('shared.preview')"
+    width="960"
+  >
+    <template #content>
+      <preview-slide :lesson="lesson" />
+    </template>
+
+    <template #action-buttons>
+      <v-btn
+        color="primary"
+        variant="flat"
+        size="small"
+        prepend-icon="bx-x"
+        @click="showPreview = false"
+      >
+        {{ t("shared.close") }}
+      </v-btn>
+    </template>
+  </modal-window>
 </template>
 
 <style scoped type="scss">
