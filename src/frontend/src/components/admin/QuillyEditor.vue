@@ -2,7 +2,15 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { QuillyEditor } from "vue-quilly";
 import Quill from "quill";
-import { table } from "console";
+
+const { locale } = useI18n();
+const languageMap: Record<string, string> = {
+  tr: "tr_TR",
+  en: "en_US",
+  de: "de_DE",
+};
+
+const language = computed(() => languageMap[locale.value] || "en_US");
 
 const props = defineProps({
   modelValue: {
@@ -45,9 +53,8 @@ const editorOptions = computed(() => {
         ["clean"],
       ],
       resize: {},
-
       "table-better": {
-        language: "en_US",
+        language: language.value,
         menus: [
           "column",
           "row",
