@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { QuillyEditor } from "vue-quilly";
 import Quill from "quill";
+import { table } from "console";
 
 const props = defineProps({
   modelValue: {
@@ -32,10 +33,11 @@ const editorOptions = computed(() => {
   const defaultOptions = {
     theme: "snow",
     modules: {
+      table: false,
       toolbar: [
         [{ header: [1, 2, 3, false] }],
         ["bold", "italic", "underline", "strike"],
-        ["blockquote", "code-block"],
+        ["blockquote", "code-block", "table-better"],
         [{ color: [] }, { background: [] }],
         [{ align: [] }],
         [{ list: "ordered" }, { list: "bullet" }],
@@ -43,6 +45,21 @@ const editorOptions = computed(() => {
         ["clean"],
       ],
       resize: {},
+
+      "table-better": {
+        language: "en_US",
+        menus: [
+          "column",
+          "row",
+          "merge",
+          "table",
+          "cell",
+          "wrap",
+          "copy",
+          "delete",
+        ],
+        toolbarTable: true,
+      },
     },
     placeholder: props.placeholder,
     readOnly: props.readOnly,
