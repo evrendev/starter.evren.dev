@@ -1,6 +1,5 @@
 ﻿using EvrenDev.Application.Catalog.Chapters.Specifications;
 using EvrenDev.Application.Common.Exceptions;
-using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
 using EvrenDev.Domain.Common.Events.Entity;
@@ -35,8 +34,7 @@ public class UpdateChapterRequestValidator : CustomValidator<UpdateChapterReques
 
 public class UpdateChapterRequestHandler(
     IRepository<Chapter> repository,
-    IStringLocalizer<UpdateChapterRequestHandler> localizer,
-    IFileStorageService file)
+    IStringLocalizer<UpdateChapterRequestHandler> localizer)
     : IRequestHandler<UpdateChapterRequest, Guid>
 {
     public async Task<Guid> Handle(UpdateChapterRequest request, CancellationToken cancellationToken)
