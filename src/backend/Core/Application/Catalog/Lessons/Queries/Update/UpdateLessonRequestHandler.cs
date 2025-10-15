@@ -1,6 +1,5 @@
 ﻿using EvrenDev.Application.Catalog.Lessons.Specifications;
 using EvrenDev.Application.Common.Exceptions;
-using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
 using EvrenDev.Domain.Common.Events.Entity;
@@ -12,11 +11,7 @@ public class UpdateLessonRequest : IRequest<Guid>
     public Guid Id { get; set; }
     public Guid ChapterId { get; set; }
     public string Title { get; set; } = default!;
-    public string? Description { get; set; }
     public string? Content { get; set; }
-    public string? Notes { get; set; }
-    public bool DeleteCurrentImage { get; set; } = false;
-    public FileUploadRequest? Image { get; set; }
 }
 
 public class UpdateLessonRequestValidator : CustomValidator<UpdateLessonRequest>
@@ -30,9 +25,6 @@ public class UpdateLessonRequestValidator : CustomValidator<UpdateLessonRequest>
                         is not Lesson existingLesson || existingLesson.Id == lesson.Id)
                 .WithMessage((_, name) => string.Format(localizer["catalog.lessons.update.alreadyexists"], name));
 
-        RuleFor(p => p.Image)
-            .SetNonNullableValidator(new FileUploadRequestValidator());
-
         RuleFor(p => p.ChapterId)
             .NotEmpty()
             .MustAsync(async (id, ct) => await chapterRepo.GetByIdAsync(id, ct) is not null)
@@ -42,8 +34,7 @@ public class UpdateLessonRequestValidator : CustomValidator<UpdateLessonRequest>
 
 public class UpdateLessonRequestHandler(
     IRepository<Lesson> repository,
-    IStringLocalizer<UpdateLessonRequestHandler> localizer,
-    IFileStorageService file)
+    IStringLocalizer<UpdateLessonRequestHandler> localizer)
     : IRequestHandler<UpdateLessonRequest, Guid>
 {
     public async Task<Guid> Handle(UpdateLessonRequest request, CancellationToken cancellationToken)
@@ -52,23 +43,7 @@ public class UpdateLessonRequestHandler(
 
         _ = lesson ?? throw new NotFoundException(string.Format(localizer["catalog.lessons.update.notfound"], request.Id));
 
-        if (request.DeleteCurrentImage)
-        {
-            var currentLessonImagePath = lesson.Image;
-            if (!string.IsNullOrEmpty(currentLessonImagePath))
-            {
-                var root = Directory.GetCurrentDirectory();
-                file.Remove(Path.Combine(root, currentLessonImagePath));
-            }
-
-            lesson = lesson.ClearImagePath();
-        }
-
-        var lessonImagePath = request.Image is not null
-            ? await file.UploadAsync<Lesson>(request.Image, FileType.Image, cancellationToken)
-            : null;
-
-        var updatedLesson = lesson.Update(request.Title, request.Description, request.Content, request.Notes, request.ChapterId, lessonImagePath);
+        var updatedLesson = lesson.Update(request.Title, request.Content, request.ChapterId);
 
         lesson.DomainEvents.Add(EntityUpdatedEvent.WithEntity(lesson));
 

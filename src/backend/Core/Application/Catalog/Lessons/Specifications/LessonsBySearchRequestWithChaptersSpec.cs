@@ -23,12 +23,6 @@ public class LessonsBySearchRequestWithChaptersSpec : Specification<Lesson, Less
                     lesson.Title.ToLower().Contains(request.Search.ToLower())
                     ||
                     lesson.Chapter.Title.ToLower().Contains(request.Search.ToLower())
-                    ||
-                    (
-                        lesson.Description != null
-                        &&
-                        lesson.Description.ToLower().Contains(request.Search.ToLower())
-                    )
                 )
             )
             .OrderBy(c => c.Title, !request.HasOrderBy())

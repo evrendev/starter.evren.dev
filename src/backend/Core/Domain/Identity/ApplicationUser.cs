@@ -15,6 +15,7 @@ public class ApplicationUser : IdentityUser
     public DateTime RefreshTokenExpiryTime { get; set; }
     public string? ObjectId { get; set; }
     public Language? Language { get; set; }
-    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = [];
-    public virtual ICollection<LessonProgress> Progress { get; set; } = [];
+    public virtual ICollection<CourseEnrollment> CourseEnrollments { get; private set; } = [];
+    public virtual ICollection<LessonProgress> Progress { get; private set; } = [];
+    public virtual ICollection<Note> Notes { get; private set; } = [];
 }
