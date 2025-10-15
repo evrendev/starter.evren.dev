@@ -1,5 +1,4 @@
 import { Course } from "@/models/course";
-import { LessonDetails } from "@/models/lesson";
 
 const BASE_URL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 
@@ -33,37 +32,6 @@ const Mapper = {
       published: value.published,
       image: imageModel,
       previewVideoUrl: value.previewVideoUrl,
-    };
-  },
-
-  async toLesson(value: LessonDetails | undefined): Promise<LessonDetails> {
-    if (!value) {
-      return {} as LessonDetails;
-    }
-
-    const imageModel: File[] | File | undefined = [];
-
-    if (typeof value.image === "string" && value.image) {
-      const file = await urlToFile(
-        `${BASE_URL}/${value.image}`,
-        getFileNameFromPath(value.image),
-      );
-
-      if (file) {
-        imageModel.push(file);
-      }
-    }
-
-    return {
-      id: value.id,
-      chapterId: value.chapterId,
-      chapter: value.chapter,
-      title: value.title,
-      description: value.description,
-      content: value.content,
-      notes: value.notes,
-      image: imageModel,
-      imageUrl: `${BASE_URL}/${value.image}`,
     };
   },
 };

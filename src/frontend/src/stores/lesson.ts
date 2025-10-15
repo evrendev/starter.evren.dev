@@ -10,7 +10,6 @@ import { PaginationResponse } from "@/types/responses/api";
 import http, { handleRequest } from "@/utils/http";
 import { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
-import Mapper from "@/mappers";
 import { convertToUploadRequest } from "@/utils/tools";
 
 const DEFAULT_FILTER: Filters = {
@@ -114,7 +113,7 @@ export const useLessonStore = defineStore("lesson", {
         );
 
         if (result.succeeded && result.data) {
-          this.lesson = await Mapper.toLesson(result.data);
+          this.lesson = result.data;
         } else {
           this.error = result.errors!;
         }
@@ -136,13 +135,8 @@ export const useLessonStore = defineStore("lesson", {
       this.error = null;
 
       try {
-        const uploadRequest = await convertToUploadRequest(lesson.image);
-
         const result = await handleRequest<Lesson>(
-          http.put(`/v1/lessons/${lesson.id}`, {
-            ...lesson,
-            image: uploadRequest,
-          }),
+          http.put(`/v1/lessons/${lesson.id}`, lesson),
         );
 
         if (!result.succeeded || !result.data) {
@@ -166,10 +160,8 @@ export const useLessonStore = defineStore("lesson", {
       this.error = null;
 
       try {
-        const uploadRequest = await convertToUploadRequest(lesson.image);
-
         const result = await handleRequest<Lesson>(
-          http.post("/v1/lessons", { ...lesson, image: uploadRequest }),
+          http.post("/v1/lessons", lesson),
         );
 
         if (!result.succeeded || !result.data) {

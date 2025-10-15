@@ -33,11 +33,7 @@ const schema = toTypedSchema(
   object({
     chapterId: string().required(t("admin.lessons.fields.chapterId.required")),
     title: string().required(t("admin.lessons.fields.title.required")),
-    description: string().required(
-      t("admin.lessons.fields.description.required"),
-    ),
     content: string().required(t("admin.lessons.fields.content.required")),
-    image: mixed<File>().nullable(),
   }),
 );
 
@@ -53,10 +49,7 @@ const showPreview: Ref<boolean> = ref(false);
 const [id] = defineField("id");
 const [chapterId, chapterIdAttrs] = defineField("chapterId");
 const [title, titleAttrs] = defineField("title");
-const [description, descriptionAttrs] = defineField("description");
 const [content, contentAttrs] = defineField("content");
-const [notes] = defineField("notes");
-const [image] = defineField("image");
 
 watch(
   () => props.lesson,
@@ -155,25 +148,6 @@ const submit = handleSubmit((values: LessonDetails) => {
           <v-col cols="12" md="3">
             <label
               class="form-label"
-              for="description"
-              v-text="t('admin.lessons.fields.description.title')"
-            />
-          </v-col>
-          <v-col cols="12" md="9">
-            <v-textarea
-              v-model="description"
-              v-bind="descriptionAttrs"
-              rows="2"
-              variant="outlined"
-              :label="t('admin.lessons.fields.description.title')"
-              :error-messages="errors.description"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="3">
-            <label
-              class="form-label"
               for="content"
               v-text="t('admin.lessons.fields.content.title')"
             />
@@ -190,44 +164,7 @@ const submit = handleSubmit((values: LessonDetails) => {
             </p>
           </v-col>
         </v-row>
-        <v-row class="mt-15">
-          <v-col cols="12" md="3">
-            <label
-              class="form-label"
-              for="notes"
-              v-text="t('admin.lessons.fields.notes.title')"
-            />
-          </v-col>
-          <v-col cols="12" md="9">
-            <v-textarea
-              v-model="notes"
-              variant="outlined"
-              rows="2"
-              :label="t('admin.lessons.fields.notes.title')"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="3">
-            <label
-              class="form-label"
-              for="image"
-              v-text="t('admin.lessons.fields.image.title')"
-            />
-          </v-col>
-          <v-col cols="12" md="9">
-            <v-file-upload
-              v-model="image"
-              icon="bx-upload"
-              clearable
-              scrim="primary"
-              density="comfortable"
-              :show-size="true"
-              :disabled="readOnly"
-              :multiple="false"
-            />
-          </v-col>
-        </v-row>
+        <v-divider class="mt-16 mb-4"></v-divider>
         <v-row>
           <v-col cols="12" class="d-inline-flex ga-2">
             <v-btn

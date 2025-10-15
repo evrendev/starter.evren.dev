@@ -23,13 +23,6 @@ onMounted(async () => {
 const headers = computed(() => [
   ...([
     {
-      title: t("admin.lessons.fields.image.title"),
-      key: "image",
-      align: "center",
-      sortable: false,
-      width: "48px",
-    },
-    {
       title: t("admin.lessons.fields.chapterId.title"),
       key: "chapterTitle",
       sortable: false,
@@ -40,11 +33,6 @@ const headers = computed(() => [
       key: "title",
       sortable: true,
       width: "150px",
-    },
-    {
-      title: t("admin.lessons.fields.description.title"),
-      key: "description",
-      sortable: false,
     },
     {
       title: t("shared.actions"),

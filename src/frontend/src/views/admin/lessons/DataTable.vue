@@ -72,19 +72,6 @@ const abortDelete = () => {
         @update:options="emit('update:options', $event)"
         class="striped border"
       >
-        <template #[`item.image`]="{ item }">
-          <a
-            v-if="item.image"
-            class="cursor-pointer"
-            :data-fancybox="`gallery-${item.chapterId ?? 'no-chapter'}`"
-            :data-src="`${baseUrl}/${item.image}`"
-            :data-caption="item.title"
-          >
-            <v-img :src="`${baseUrl}/${item.image}`" size="36" />
-          </a>
-          <v-icon v-else icon="bx-image" size="36" />
-        </template>
-
         <template #[`item.chapterTitle`]="{ item }">
           <router-link
             v-if="item.chapterId"
@@ -101,12 +88,6 @@ const abortDelete = () => {
           >
             {{ item.title }}
           </router-link>
-        </template>
-
-        <template #[`item.description`]="{ item }">
-          <span class="text-pre-wrap">
-            {{ item.description }}
-          </span>
         </template>
 
         <template #[`item.actions`]="{ item }">
