@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { t } = useI18n();
-const router = useRoute();
-const activeTab = ref(router.name);
+const route = useRoute();
+const activeTab = ref(route.name);
 
 const tabs = [
   {
