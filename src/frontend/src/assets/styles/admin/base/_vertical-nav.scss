@@ -147,7 +147,8 @@
     .nav-link {
       @extend %nav-link;
 
-      > .router-link-exact-active {
+      > .exact-active,
+      > .active {
         @extend %nav-link-active;
       }
 
@@ -157,7 +158,7 @@
 
         // Adds vuetify states
 
-        &:not(.router-link-active, .router-link-exact-active) {
+        &:not(.active, .exact-active) {
           @include vuetifyStates.states($active: false);
         }
       }

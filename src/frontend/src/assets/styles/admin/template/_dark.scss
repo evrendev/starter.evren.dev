@@ -4,7 +4,7 @@
   .v-theme-provider.v-theme--dark {
     .layout-vertical-nav {
       // nav-link and nav-group style for dark
-      .nav-link .router-link-exact-active,
+      .nav-link .exact-active,
       .nav-group.active:not(.nav-group .nav-group) > :first-child {
         color: rgb(var(--v-theme-on-primary)) !important;
 
@@ -17,7 +17,7 @@
 
       .nav-group {
         .nav-link {
-          .router-link-exact-active {
+          .exact-active {
             color: rgba(
               var(--v-theme-on-surface),
               var(--v-high-emphasis-opacity)

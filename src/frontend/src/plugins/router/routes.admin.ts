@@ -9,8 +9,12 @@ export const adminRoutes = [
     },
     children: [
       {
-        name: "dashboard",
         path: "",
+        redirect: { name: "dashboard" },
+      },
+      {
+        name: "dashboard",
+        path: "dashboard",
         component: () => import("@/pages/admin/dashboard.vue"),
         meta: {
           requiresPermission: [Permissions.DashboardView],
