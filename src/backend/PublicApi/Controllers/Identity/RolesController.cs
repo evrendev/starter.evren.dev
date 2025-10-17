@@ -3,6 +3,7 @@ using EvrenDev.Application.Identity.Roles.Commands.Update;
 using EvrenDev.Application.Identity.Roles.Entities;
 using EvrenDev.Application.Identity.Roles.Interfaces;
 using EvrenDev.Application.Identity.Roles.Queries.Paginate;
+using StackExchange.Redis;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
@@ -41,9 +42,13 @@ public class RolesController(IRoleService roleService) : VersionNeutralApiContro
     [HttpGet("{id}/permissions")]
     [MustHavePermission(ApiAction.View, ApiResource.RoleClaims)]
     [OpenApiOperation("Get role details with its permissions.", "")]
-    public Task<RoleDto> GetByIdWithPermissionsAsync(string id, CancellationToken cancellationToken)
+    public async Task<ApiResponse<RoleDto>> GetByIdWithPermissionsAsync(string id, CancellationToken cancellationToken)
     {
-        return roleService.GetByIdWithPermissionsAsync(id, cancellationToken);
+        var response = await roleService.GetByIdWithPermissionsAsync(id, cancellationToken);
+        if (response == null)
+            throw new NotFoundException($"Role with ID '{id}' not found.");
+
+        return ApiResponse<RoleDto>.Success(response);
     }
 
     [HttpPut("{id}/permissions")]
