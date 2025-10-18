@@ -221,6 +221,9 @@
       "edit": {
         "title": "Rolle bearbeiten"
       },
+      "permissions": {
+        "title": "Bearbeiten {roleName} Berechtigungen"
+      },
       "fields": {
         "id": {
           "title": "Id",
@@ -236,12 +239,16 @@
         },
         "permissions": {
           "title": "Berechtigungen",
-          "required": "Berechtigungen sind erforderlich"
+          "required": "Berechtigungen sind erforderlich",
+          "invalid": "Ungültige Berechtigungen",
+          "min": "Mindestens {min} Berechtigungen sind erforderlich"
         }
       },
       "notifications": {
         "updated": "Rolle erfolgreich aktualisiert",
         "updateFailed": "Fehler beim Aktualisieren der Rolle",
+        "updatePermissions": "Berechtigungen erfolgreich aktualisiert",
+        "updatePermissionsFailed": "Fehler beim Aktualisieren der Berechtigungen",
         "created": "Rolle erfolgreich erstellt",
         "createFailed": "Fehler beim Erstellen der Rolle",
         "deleteConfirm": "Löschen {name}",

@@ -108,6 +108,16 @@ const abortDelete = () => {
                 </template>
               </v-list-item>
 
+              <v-list-item
+                v-if="item.id"
+                :to="{ name: 'role-permissions', params: { id: item.id } }"
+              >
+                <v-list-item-title v-text="t('shared.permissions')" />
+                <template v-slot:prepend>
+                  <v-icon icon="bx-lock" />
+                </template>
+              </v-list-item>
+
               <v-list-item @click="showDeleteConfirmModal(item)">
                 <v-list-item-title v-text="t('shared.delete')" />
                 <template v-slot:prepend>

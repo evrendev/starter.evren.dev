@@ -221,6 +221,9 @@
       "edit": {
         "title": "Rolü Düzenle"
       },
+      "permissions": {
+        "title": "{roleName} İzinlerini Düzenle"
+      },
       "fields": {
         "id": {
           "title": "Id",
@@ -236,12 +239,16 @@
         },
         "permissions": {
           "title": "İzinler",
-          "required": "İzinler alanı gerekli"
+          "required": "İzinler alanı gerekli",
+          "invalid": "Geçersiz İzinler",
+          "min": "En az {min} izin gereklidir"
         }
       },
       "notifications": {
         "updated": "Rol başarıyla güncellendi",
         "updateFailed": "Rol güncellenirken hata oluştu",
+        "updatePermissions": "Rol izinleri başarıyla güncellendi",
+        "updatePermissionsFailed": "Rol izinleri güncellenirken hata oluştu",
         "created": "Rol başarıyla oluşturuldu",
         "createFailed": "Rol oluşturulurken hata oluştu",
         "deleteConfirm": "Sil {name}",

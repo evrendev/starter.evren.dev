@@ -221,6 +221,9 @@
       "edit": {
         "title": "Edit Role"
       },
+      "permissions": {
+        "title": "Edit {roleName} Permissions"
+      },
       "fields": {
         "id": {
           "title": "Id",
@@ -236,12 +239,16 @@
         },
         "permissions": {
           "title": "Permissions",
-          "required": "Permissions are required"
+          "required": "Permissions are required",
+          "invalid": "Invalid Permissions",
+          "min": "At least {min} permissions are required"
         }
       },
       "notifications": {
         "updated": "Role updated successfully",
         "updateFailed": "Failed to update role",
+        "updatePermissions": "Permissions updated successfully",
+        "updatePermissionsFailed": "Failed to update permissions",
         "created": "Role created successfully",
         "createFailed": "Failed to create role",
         "deleteConfirm": "Delete {name}",
@@ -677,6 +684,7 @@
     "new": "New",
     "submit": "Submit",
     "back": "Back",
+    "permissions": "Permissions",
     "enableEdit": "Enable Edit",
     "confirm": "Confirm",
     "cancel": "Cancel",
