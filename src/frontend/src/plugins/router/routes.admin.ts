@@ -1,4 +1,5 @@
 import { Permissions } from "@/models/user";
+import { tr } from "vuetify/locale";
 
 export const adminRoutes = [
   {
@@ -88,6 +89,15 @@ export const adminRoutes = [
             meta: {
               requiresPermission: [Permissions.RoleCreate],
               title: "admin.roles.create.title",
+            },
+          },
+          {
+            name: "role-permissions",
+            path: ":id/permissions",
+            component: () => import("@/pages/admin/roles/permissions.vue"),
+            meta: {
+              requiresPermission: [Permissions.RoleCreate],
+              title: "admin.roles.permissions.title",
             },
           },
           {

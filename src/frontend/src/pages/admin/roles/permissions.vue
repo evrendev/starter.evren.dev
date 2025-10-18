@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Notify } from "@/stores/notification";
-import { RoleForm } from "@/views/admin/roles";
+import { Permissions } from "@/views/admin/roles";
 
 import { useRoleStore } from "@/stores/role";
-import { Role } from "@/models/role";
 import { Result } from "@/primitives/result";
+import { Role } from "@/models/role";
 const { t } = useI18n();
 
 const roleStore = useRoleStore();
@@ -13,20 +13,28 @@ const { loading } = storeToRefs(roleStore);
 const route = useRoute();
 const router = useRouter();
 
-const pageTitle: ComputedRef<string> = computed(() =>
-  t(route.meta.title as string),
-);
-
 const role = ref<Role | null>(null);
 
 onMounted(async () => {
   const { id } = route.params;
   if (id) {
-    const response: Result<Role | null> = await roleStore.getById(id as string);
+    const response: Result<Role | null> = await roleStore.getRolePermissions(
+      id as string,
+    );
+
+    if (!response.succeeded) router.push({ name: "role-list" });
 
     role.value = response?.data ?? null;
+  } else {
+    router.push({ name: "role-list" });
   }
 });
+
+const pageTitle: ComputedRef<string> = computed(() =>
+  t(`admin.roles.permissions.title`, {
+    roleName: role.value?.name ?? "",
+  }),
+);
 
 const breadcrumbs = computed(() => [
   {
@@ -43,40 +51,30 @@ const breadcrumbs = computed(() => [
   },
 ]);
 
-const handleSubmit = async (values: Role) => {
-  const response: Result<string> =
-    route.name === "role-create"
-      ? await roleStore.create(values)
-      : await roleStore.update(values);
+const handleSubmit = async (values: Pick<Role, "permissions">) => {
+  role.value!.permissions = values.permissions;
+
+  const response: Result<string> = await roleStore.updateRolePermissions(
+    role.value!,
+  );
 
   if (response.succeeded) {
-    Notify.success(
-      t(
-        `admin.roles.notifications.${route.name === "role-create" ? "created" : "updated"}`,
-      ),
-    );
+    Notify.success(t(`admin.roles.notifications.updatePermissions`));
 
-    router.push({
-      name: "role-permissions",
-      params: { id: response.data },
-    });
+    router.push({ name: "role-list" });
   } else {
-    Notify.error(
-      t(
-        `admin.roles.notifications.${route.name === "role-create" ? "createFailed" : "updateFailed"}`,
-      ),
-    );
+    Notify.error(t(`admin.roles.notifications.updatePermissionsFailed`));
   }
 };
 </script>
 <template>
   <breadcrumb :items="breadcrumbs" />
 
-  <role-form
-    :role="role"
+  <permissions
     :loading="loading"
-    :route-name="route.name"
+    :role="role"
     :page-title="pageTitle"
+    :route-name="route.name"
     @submit="handleSubmit"
   />
 </template>

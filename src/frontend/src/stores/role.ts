@@ -100,7 +100,7 @@ export const useRoleStore = defineStore("role", {
       }
     },
 
-    async update(role: Role): Promise<Result<Role>> {
+    async getRolePermissions(id: string): Promise<Result<Role>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
@@ -108,6 +108,59 @@ export const useRoleStore = defineStore("role", {
 
       try {
         const result = await handleRequest<Role>(
+          http.get(`/roles/${id}/permissions`),
+        );
+
+        if (result.succeeded && result.data) {
+          this.role = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        this.role = null;
+        return error as Result<Role>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+
+    async updateRolePermissions(role: Role): Promise<Result<string>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<string>(
+          http.put(`/roles/${role.id}/permissions`, role),
+        );
+
+        if (!result.succeeded || !result.data) {
+          this.error = result.errors!;
+        }
+
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<string>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+
+    async update(role: Role): Promise<Result<string>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<string>(
           http.put(`/roles/${role.id}`, role),
         );
 
@@ -118,21 +171,21 @@ export const useRoleStore = defineStore("role", {
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Role>;
+        return error as Result<string>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async create(role: Role): Promise<Result<Role>> {
+    async create(role: Role): Promise<Result<string>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Role>(http.post("/roles", role));
+        const result = await handleRequest<string>(http.post("/roles", role));
 
         if (!result.succeeded || !result.data) {
           this.error = result.errors!;
@@ -141,7 +194,7 @@ export const useRoleStore = defineStore("role", {
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Role>;
+        return error as Result<string>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
