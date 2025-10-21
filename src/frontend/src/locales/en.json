@@ -428,6 +428,11 @@
         "twoFactorEnabled": {
           "title": "2FA Enabled"
         },
+        "roles": {
+          "title": "Roles",
+          "required": "Roles are required",
+          "min": "At least {min} roles are required"
+        },
         "firstName": {
           "title": "First Name",
           "required": "First Name is required"

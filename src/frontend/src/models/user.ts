@@ -1,3 +1,5 @@
+import { BasicRole } from "./role";
+
 export interface BasicUser {
   id?: string;
   email?: string;
@@ -15,6 +17,7 @@ export interface User extends BasicUser {
   phoneNumber?: string;
   birthday?: string;
   placeOfBirth?: string;
+  roles?: BasicRole[];
 }
 
 export interface UserWithPermission extends User {

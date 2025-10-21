@@ -412,6 +412,11 @@
         "twoFactorEnabled": {
           "title": "2FA aktiviert"
         },
+        "roles": {
+          "title": "Rollen",
+          "required": "Rollen sind erforderlich",
+          "min": "Mindestens {min} Rollen sind erforderlich"
+        },
         "firstName": {
           "title": "Vorname",
           "required": "Vorname ist erforderlich"

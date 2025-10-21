@@ -1,16 +1,22 @@
 <script lang="ts" setup>
 import { RouteRecordNameGeneric } from "vue-router";
 import { toTypedSchema } from "@vee-validate/yup";
-import { object, string } from "yup";
+import { array, object, string } from "yup";
 import { useForm } from "vee-validate";
 import { User } from "@/models/user";
 
 import { useAppStore } from "@/stores/app";
+import { useRoleStore } from "@/stores/role";
+
 const appStore = useAppStore();
 const { loading, genders, languages } = storeToRefs(appStore);
 
+const roleStore = useRoleStore();
+const { items } = storeToRefs(roleStore);
+
 onMounted(async () => {
   await appStore.getPredefinedValues();
+  await roleStore.getAllRoles();
 });
 
 const { t } = useI18n();
@@ -24,6 +30,10 @@ const props = defineProps<{
 
 const schema = toTypedSchema(
   object({
+    roles: array()
+      .of(string())
+      .min(1, t("admin.users.fields.roles.min", { min: 1 }))
+      .required(t("admin.users.fields.roles.required")),
     firstName: string().required(t("admin.users.fields.firstName.required")),
     lastName: string().required(t("admin.users.fields.lastName.required")),
     email: string()
@@ -67,6 +77,7 @@ watch(
   },
 );
 
+const [roles] = defineField("roles");
 const [language] = defineField("language");
 const [gender] = defineField("gender");
 const [firstName, firstNameAttrs] = defineField("firstName");
@@ -100,6 +111,28 @@ const submit = handleSubmit((values: User) => {
     </v-card-title>
     <v-card-text>
       <v-form :disabled="readOnly">
+        <v-row>
+          <v-col cols="12" md="3">
+            <label
+              for="roles"
+              class="form-label"
+              v-text="t('admin.users.fields.roles.title')"
+            />
+          </v-col>
+          <v-col cols="12" md="9">
+            <v-select
+              v-model="roles"
+              hide-details
+              item-value="id"
+              item-title="name"
+              variant="outlined"
+              :disabled="loading || readOnly"
+              :items="items"
+              multiple
+              :label="t('admin.users.fields.roles.title')"
+            />
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12" md="3">
             <label

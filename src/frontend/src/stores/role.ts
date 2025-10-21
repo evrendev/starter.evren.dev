@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { Role } from "@/models/role";
+import { BasicRole, Role } from "@/models/role";
 import { Filters, AdvancedFilters } from "@/types/requests/role";
 import { PaginationResponse } from "@/types/responses/api";
 
@@ -32,7 +32,7 @@ export const useRoleStore = defineStore("role", {
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
     // Data state
-    items: [] as Role[],
+    items: [] as BasicRole[],
     role: null as Role | null,
     filters: { ...DEFAULT_FILTER },
   }),
@@ -49,7 +49,7 @@ export const useRoleStore = defineStore("role", {
       this.error = null;
 
       try {
-        const result = await handleRequest<PaginationResponse<Role>>(
+        const result = await handleRequest<PaginationResponse<BasicRole>>(
           http.get("/roles", {
             params: this.filters,
           }),
@@ -72,6 +72,31 @@ export const useRoleStore = defineStore("role", {
         this.items = [];
       } finally {
         this.loading = false;
+      }
+    },
+
+    async getAllRoles(): Promise<Result<BasicRole[]>> {
+      const appStore = useAppStore();
+      appStore.setLoading(true);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<BasicRole[]>(http.get(`/roles/all`));
+
+        if (result.succeeded && result.data) {
+          this.items = result.data;
+        } else {
+          this.error = result.errors!;
+        }
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        this.role = null;
+        return error as Result<Role[]>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
       }
     },
 
@@ -213,7 +238,9 @@ export const useRoleStore = defineStore("role", {
         );
 
         if (result.succeeded) {
-          const index = this.items.findIndex((item: Role) => item.id === id);
+          const index = this.items.findIndex(
+            (item: BasicRole) => item.id === id,
+          );
           if (index !== -1) this.items.splice(index, 1);
         } else {
           this.error = result.errors!;

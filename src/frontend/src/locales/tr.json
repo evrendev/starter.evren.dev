@@ -412,6 +412,11 @@
         "twoFactorEnabled": {
           "title": "2FA Etkin"
         },
+        "roles": {
+          "title": "Roller",
+          "required": "Roller alanı gerekli",
+          "min": "En az {min} rol gereklidir"
+        },
         "firstName": {
           "title": "Ad",
           "required": "Ad alanı gerekli"

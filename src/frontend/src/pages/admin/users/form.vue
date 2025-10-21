@@ -5,8 +5,8 @@ import { User } from "@/models/user";
 import { Notify } from "@/stores/notification";
 import { UserForm } from "@/views/admin/users";
 
-import { useUserStore } from "@/stores/user";
 import { Result } from "@/primitives/result";
+import { useUserStore } from "@/stores/user";
 const { t } = useI18n();
 
 const userStore = useUserStore();
@@ -38,13 +38,17 @@ const user = ref<User>(DEFAULT_USER);
 onMounted(async () => {
   const { id } = route.params;
   if (id) {
-    const response = await userStore.getById(id as string);
-    if (response?.succeeded && response.data) {
-      user.value = response.data;
+    const userResponse = await userStore.getById(id as string);
+
+    if (userResponse?.succeeded && userResponse.data) {
+      user.value = userResponse.data;
       user.value.birthday = useDateFormat(
         user.value.birthday,
         "YYYY-MM-DD",
       ).value;
+    } else {
+      Notify.error(t("admin.users.notifications.loadFailed"));
+      router.push({ name: "user-list" });
     }
   }
 });
