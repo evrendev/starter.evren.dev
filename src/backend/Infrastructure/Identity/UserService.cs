@@ -97,7 +97,12 @@ internal partial class UserService(
 
         _ = user ?? throw new NotFoundException(localizer["identity.users.notfound"]);
 
-        return user.Adapt<UserDto>();
+        var roles = await userManager.GetRolesAsync(user);
+
+        var userDto = user.Adapt<UserDto>();
+        userDto.Roles = roles;
+
+        return userDto;
     }
 
     public async Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken)
