@@ -1,9 +1,12 @@
-﻿using EvrenDev.Application.Identity.Users.Interfaces;
+﻿using System.Data;
+using EvrenDev.Application.Identity.Users.Entities;
+using EvrenDev.Application.Identity.Users.Interfaces;
 
 namespace EvrenDev.Application.Identity.Users.Commands.Create;
 
 public class CreateUserRequest
 {
+    public List<UserRoleDto> Roles { get; set; } = new();
     public Gender Gender { get; set; } = default!;
     public Language Language { get; set; } = default!;
     public string FirstName { get; set; } = default!;
@@ -18,6 +21,8 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
 {
     public CreateUserRequestValidator(IUserService userService, IStringLocalizer<CreateUserRequestValidator> localizer)
     {
+        RuleFor(u => u.Roles).NotEmpty().WithMessage(localizer["identity.users.roles.required"]);
+
         RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()

@@ -67,7 +67,7 @@ internal partial class UserService
                 result.GetErrors(localizer));
         }
 
-        await userManager.AddToRoleAsync(user, ApiRoles.Basic);
+        await userManager.AddToRolesAsync(user, request.Roles.Select(r => r.RoleName!));
 
         var messages = new List<string> { string.Format(localizer["identity.users.create.registered"], user.UserName) };
 
