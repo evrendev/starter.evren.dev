@@ -63,11 +63,10 @@ export const usePersonalStore = defineStore("personal", {
 
     async getUser() {
       this.loading = true;
-      this.error = null; // İşleme başlarken hatayı temizle
+      this.error = null;
       const appStore = useAppStore();
       appStore.setLoading(true);
 
-      // try/catch yerine handleRequest kullanıyoruz
       const result = await handleRequest<User>(http.get("personal/profile"));
 
       if (result.succeeded && result.data) {

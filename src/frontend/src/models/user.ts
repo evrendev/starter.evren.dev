@@ -1,5 +1,3 @@
-import { BasicRole } from "./role";
-
 export interface BasicUser {
   id?: string;
   email?: string;
@@ -7,6 +5,7 @@ export interface BasicUser {
   initial?: string;
   isActive: boolean;
   twoFactorEnabled: boolean;
+  roles?: string[];
 }
 
 export interface User extends BasicUser {
@@ -17,7 +16,6 @@ export interface User extends BasicUser {
   phoneNumber?: string;
   birthday?: string;
   placeOfBirth?: string;
-  roles?: BasicRole[];
 }
 
 export interface UserWithPermission extends User {
