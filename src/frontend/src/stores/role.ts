@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { BasicRole, Role } from "@/models/role";
+import { Role } from "@/models/role";
 import { Filters, AdvancedFilters } from "@/types/requests/role";
 import { PaginationResponse } from "@/types/responses/api";
 
@@ -32,7 +32,7 @@ export const useRoleStore = defineStore("role", {
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
     // Data state
-    items: [] as BasicRole[],
+    items: [] as Role[],
     role: null as Role | null,
     filters: { ...DEFAULT_FILTER },
   }),
@@ -49,7 +49,7 @@ export const useRoleStore = defineStore("role", {
       this.error = null;
 
       try {
-        const result = await handleRequest<PaginationResponse<BasicRole>>(
+        const result = await handleRequest<PaginationResponse<Role>>(
           http.get("/roles", {
             params: this.filters,
           }),
@@ -75,14 +75,14 @@ export const useRoleStore = defineStore("role", {
       }
     },
 
-    async getAllRoles(): Promise<Result<BasicRole[]>> {
+    async getAllRoles(): Promise<Result<Role[]>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<BasicRole[]>(http.get(`/roles/all`));
+        const result = await handleRequest<Role[]>(http.get(`/roles/all`));
 
         if (result.succeeded && result.data) {
           this.items = result.data;
@@ -238,9 +238,7 @@ export const useRoleStore = defineStore("role", {
         );
 
         if (result.succeeded) {
-          const index = this.items.findIndex(
-            (item: BasicRole) => item.id === id,
-          );
+          const index = this.items.findIndex((item: Role) => item.id === id);
           if (index !== -1) this.items.splice(index, 1);
         } else {
           this.error = result.errors!;

@@ -66,7 +66,7 @@ const logout = async () => {
               {{ user?.fullName }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ user?.email }}
+              {{ user?.roles?.join(", ") }}
             </v-list-item-subtitle>
           </v-list-item>
           <v-divider class="my-2" />

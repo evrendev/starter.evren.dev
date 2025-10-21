@@ -1,9 +1,6 @@
-export interface BasicRole {
+export interface Role {
   id: string;
   name: string;
   description: string;
-}
-
-export interface Role extends BasicRole {
   permissions: string[];
 }
