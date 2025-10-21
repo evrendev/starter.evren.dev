@@ -3,7 +3,6 @@ using EvrenDev.Application.Identity.Roles.Commands.Update;
 using EvrenDev.Application.Identity.Roles.Entities;
 using EvrenDev.Application.Identity.Roles.Interfaces;
 using EvrenDev.Application.Identity.Roles.Queries.Paginate;
-using StackExchange.Redis;
 
 namespace EvrenDev.PublicApi.Controllers.Identity;
 
