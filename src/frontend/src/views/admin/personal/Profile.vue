@@ -96,16 +96,26 @@ const reset = () => {
   <v-row>
     <v-col cols="12">
       <v-card>
-        <v-card-text class="d-flex align-center justify-center">
+        <v-card-text
+          class="d-flex flex-column align-center justify-center ga-2"
+        >
           <v-avatar rounded="lg" size="96" color="primary">
             <h1 class="text-white">{{ user?.initial }}</h1>
           </v-avatar>
+          <v-chip
+            v-for="role in user?.roles"
+            size="small"
+            variant="elevated"
+            color="secondary"
+            :key="role"
+            v-text="role"
+          />
         </v-card-text>
 
         <v-divider />
 
         <v-card-text>
-          <v-form class="mt-6">
+          <v-form class="mt-2">
             <v-row>
               <v-col md="6" cols="12">
                 <v-select
