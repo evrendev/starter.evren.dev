@@ -67,7 +67,19 @@ internal partial class UserService
                 result.GetErrors(localizer));
         }
 
-        await userManager.AddToRolesAsync(user, request.Roles.Select(r => r.RoleName!));
+        var roles = request.Roles.Select(r => roleManager.Roles.FirstOrDefault(role => role.Id == r))
+            .Where(r => r is not null)
+            .Select(r => r!.Name)
+            .ToList();
+
+        if (roles.Any())
+        {
+            await userManager.AddToRolesAsync(user, roles!);
+        }
+        else
+        {
+            await userManager.AddToRoleAsync(user, ApiRoles.Basic);
+        }
 
         var messages = new List<string> { string.Format(localizer["identity.users.create.registered"], user.UserName) };
 

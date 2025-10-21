@@ -1,12 +1,10 @@
-﻿using System.Data;
-using EvrenDev.Application.Identity.Users.Entities;
-using EvrenDev.Application.Identity.Users.Interfaces;
+﻿using EvrenDev.Application.Identity.Users.Interfaces;
 
 namespace EvrenDev.Application.Identity.Users.Commands.Create;
 
 public class CreateUserRequest
 {
-    public List<UserRoleDto> Roles { get; set; } = new();
+    public List<string>? Roles { get; set; }
     public Gender Gender { get; set; } = default!;
     public Language Language { get; set; } = default!;
     public string FirstName { get; set; } = default!;
