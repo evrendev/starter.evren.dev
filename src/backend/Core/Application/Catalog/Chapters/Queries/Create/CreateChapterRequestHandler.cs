@@ -11,6 +11,7 @@ public class CreateChapterRequest : IRequest<Guid>
     public Guid CourseId { get; set; }
     public string Title { get; set; } = default!;
     public string? Description { get; set; }
+    public int Order { get; set; } = 0;
 }
 
 public class CreateChapterRequestValidator : CustomValidator<CreateChapterRequest>
@@ -33,7 +34,7 @@ public class CreateChapterRequestHandler(IRepository<Chapter> repository) : IReq
 {
     public async Task<Guid> Handle(CreateChapterRequest request, CancellationToken cancellationToken)
     {
-        var chapter = new Chapter(request.Title, request.Description, request.CourseId);
+        var chapter = new Chapter(request.Title, request.Description, request.Order, request.CourseId);
 
         chapter.DomainEvents.Add(EntityCreatedEvent.WithEntity(chapter));
 

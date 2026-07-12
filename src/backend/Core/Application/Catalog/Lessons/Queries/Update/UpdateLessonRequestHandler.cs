@@ -11,7 +11,7 @@ public class UpdateLessonRequest : IRequest<Guid>
     public Guid Id { get; set; }
     public Guid ChapterId { get; set; }
     public string Title { get; set; } = default!;
-    public string? Content { get; set; }
+    public int? Order { get; set; }
 }
 
 public class UpdateLessonRequestValidator : CustomValidator<UpdateLessonRequest>
@@ -43,7 +43,7 @@ public class UpdateLessonRequestHandler(
 
         _ = lesson ?? throw new NotFoundException(string.Format(localizer["catalog.lessons.update.notfound"], request.Id));
 
-        var updatedLesson = lesson.Update(request.Title, request.Content, request.ChapterId);
+        var updatedLesson = lesson.Update(request.Title, request.Order, request.ChapterId);
 
         lesson.DomainEvents.Add(EntityUpdatedEvent.WithEntity(lesson));
 

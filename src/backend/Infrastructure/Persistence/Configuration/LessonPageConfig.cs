@@ -1,12 +1,12 @@
-﻿using EvrenDev.Domain.Catalog;
+using EvrenDev.Domain.Catalog;
 using Finbuckle.MultiTenant.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvrenDev.Infrastructure.Persistence.Configuration;
 
-public class ChapterConfig : IEntityTypeConfiguration<Chapter>
+public class LessonPageConfig : IEntityTypeConfiguration<LessonPage>
 {
-    public void Configure(EntityTypeBuilder<Chapter> builder)
+    public void Configure(EntityTypeBuilder<LessonPage> builder)
     {
         builder.IsMultiTenant();
 
@@ -14,12 +14,18 @@ public class ChapterConfig : IEntityTypeConfiguration<Chapter>
             .HasMaxLength(256)
             .IsRequired();
 
+        builder.Property(b => b.Content)
+            .IsRequired();
+
+        builder.Property(b => b.ContentType)
+            .IsRequired();
+
         builder.Property(b => b.Order)
             .IsRequired();
 
-        builder.HasMany(b => b.Lessons)
-            .WithOne(b => b.Chapter)
-            .HasForeignKey(b => b.ChapterId)
+        builder.HasOne(b => b.Lesson)
+            .WithMany(l => l.Pages)
+            .HasForeignKey(b => b.LessonId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

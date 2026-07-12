@@ -23,7 +23,9 @@ public class ApplicationDbContext(
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Chapter> Chapters => Set<Chapter>();
     public DbSet<Lesson> Lessons => Set<Lesson>();
+    public DbSet<LessonPage> LessonPages => Set<LessonPage>();
     public DbSet<LessonProgress> LessonProgresses => Set<LessonProgress>();
+    public DbSet<LessonPageProgress> LessonPageProgresses => Set<LessonPageProgress>();
     public DbSet<CourseEnrollment> CourseEnrollments => Set<CourseEnrollment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

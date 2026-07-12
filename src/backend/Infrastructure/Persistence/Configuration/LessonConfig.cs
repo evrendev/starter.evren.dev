@@ -13,5 +13,10 @@ public class LessonConfig : IEntityTypeConfiguration<Lesson>
         builder.Property(b => b.Title)
             .HasMaxLength(256)
             .IsRequired();
+
+        builder.HasMany(b => b.Pages)
+            .WithOne(p => p.Lesson)
+            .HasForeignKey(p => p.LessonId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -9,7 +9,7 @@ public class CreateLessonRequest : IRequest<Guid>
 {
     public Guid ChapterId { get; set; }
     public string Title { get; set; } = default!;
-    public string? Content { get; set; }
+    public int Order { get; set; } = 0;
 }
 
 public class CreateLessonRequestValidator : CustomValidator<CreateLessonRequest>
@@ -32,7 +32,7 @@ public class CreateLessonRequestHandler(IRepository<Lesson> repository) : IReque
 {
     public async Task<Guid> Handle(CreateLessonRequest request, CancellationToken cancellationToken)
     {
-        var lesson = new Lesson(request.Title, request.Content, request.ChapterId);
+        var lesson = new Lesson(request.Title, request.Order, request.ChapterId);
 
         lesson.DomainEvents.Add(EntityCreatedEvent.WithEntity(lesson));
 

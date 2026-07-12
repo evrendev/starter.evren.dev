@@ -12,6 +12,7 @@ public class UpdateChapterRequest : IRequest<Guid>
     public Guid CourseId { get; set; }
     public string Title { get; set; } = default!;
     public string? Description { get; set; }
+    public int? Order { get; set; }
 }
 
 public class UpdateChapterRequestValidator : CustomValidator<UpdateChapterRequest>
@@ -42,7 +43,7 @@ public class UpdateChapterRequestHandler(
         var chapter = await repository.GetByIdAsync(request.Id, cancellationToken);
 
         _ = chapter ?? throw new NotFoundException(string.Format(localizer["catalog.chapters.update.notfound"], request.Id));
-        var updatedChapter = chapter.Update(request.Title, request.Description, request.CourseId);
+        var updatedChapter = chapter.Update(request.Title, request.Description, request.Order, request.CourseId);
 
         chapter.DomainEvents.Add(EntityUpdatedEvent.WithEntity(chapter));
 
