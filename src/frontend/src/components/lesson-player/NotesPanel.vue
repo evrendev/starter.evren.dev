@@ -3,6 +3,7 @@ import { useNoteStore } from "@/stores/note";
 import { usePersonalStore } from "@/stores/personal";
 import { Notify } from "@/stores/notification";
 import { CreateNoteRequest } from "@/types/requests/lessonPage";
+import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
@@ -10,6 +11,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
+const { sanitize } = useSanitizedHtml();
 const noteStore = useNoteStore();
 const personalStore = usePersonalStore();
 const { notes, loading } = storeToRefs(noteStore);
@@ -129,9 +131,11 @@ const handleDeleteNote = async (noteId: string) => {
           >
             <div class="d-flex justify-space-between align-start">
               <div class="flex-grow-1">
-                <p class="text-body2 mb-2" style="word-wrap: break-word; white-space: pre-wrap">
-                  {{ note.content }}
-                </p>
+                <div
+                  class="text-body2 mb-2"
+                  :innerHTML="sanitize(note.content)"
+                  style="word-wrap: break-word; white-space: pre-wrap"
+                />
                 <div class="text-caption text-grey-7">
                   {{ note.userId }} • {{ new Date(note.completedAt || Date.now()).toLocaleDateString() }}
                 </div>

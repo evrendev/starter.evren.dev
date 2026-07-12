@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useLessonPageStore } from "@/stores/lessonPage";
+import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 // @ts-ignore - reveal.js type definitions not available
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
@@ -11,6 +12,7 @@ const props = defineProps<{
 
 const lessonPageStore = useLessonPageStore();
 const { pages, currentPage, loading } = storeToRefs(lessonPageStore);
+const { sanitize } = useSanitizedHtml();
 
 const revealRef = ref<HTMLDivElement>();
 let revealInstance: typeof Reveal | null = null;
@@ -68,7 +70,7 @@ onBeforeUnmount(() => {
           <h2>{{ page.title }}</h2>
           <div
             class="slide-content"
-            v-html="page.content"
+            :innerHTML="sanitize(page.content)"
           />
           <div v-if="page.contentType === 'Video' && page.mediaUrl" class="slide-media">
             <video width="80%" height="auto" controls>
