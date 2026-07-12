@@ -17,6 +17,15 @@ export const publicRoutes = [
     ],
   },
   {
+    name: "lesson-player",
+    path: "/lessons/:id/player",
+    component: () => import("@/pages/lesson-player/index.vue"),
+    meta: {
+      requiresAuth: true,
+      layout: "blank",
+    },
+  },
+  {
     name: "error",
     path: "/:pathMatch(.*)*",
     component: () => import("@/pages/[...error].vue"),

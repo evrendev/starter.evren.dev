@@ -29,6 +29,8 @@ export interface LessonPlayerPageDto {
   title: string;
   order: number;
   contentType: string;
+  content?: string;
+  mediaUrl?: string;
   completed?: boolean;
   completedAt?: Date;
 }
