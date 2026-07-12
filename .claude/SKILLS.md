@@ -2,20 +2,27 @@
 
 Bu dosya bir "ne zaman ne yapılır" tablosudur. İlgili senaryoyu bul, sırasıyla uygula.
 
-## 0) Yeni Application Feature'a Başlamadan Önce — Konvansiyon Doğrulama (ZORUNLU)
+## 0) Yeni Application Feature'a Başlamadan Önce — Konvansiyon (DOĞRULANMIŞTUR)
 
-`Products` ve `Lessons` feature'larında farklı pattern izleri var (`Request/RequestHandler` +
-`Queries/` alt klasörü vs. `Create/Update/Delete/Get/Paginate/Export` düz klasörleri). Yeni kod
-yazmadan önce:
+**Kanonik Pattern = Lessons feature**. Tüm features (Products, Chapters, vb.) aynı deseni takip ediyor:
 
-1. `Lessons/` feature'ının TÜM dosyalarını oku (bu bizim ana referansımız, çünkü ekran görüntüsünde
-   görülen yapı bu).
-2. Handler constructor'larına bak: `IRepository<T>` mi, `IReadRepositoryBase<T>` mi, yoksa doğrudan
-   `ApplicationDbContext` mi inject ediliyor?
-3. Command/Query mi yoksa Request mi deniyor — sınıf isimlerine ve `IRequest<T>`/`IQuery<T>` gibi
-   base interface'lere bak.
-4. Specification sınıfları `Ardalis.Specification.Specification<T>`'ten mi türüyor, nasıl kullanılıyor?
-5. Bulguları özetle, SONRA kod yazmaya başla. Varsayımda bulunma.
+**Kesin Kurallar:**
+1. **Klasör Yapısı**: `Lessons/Queries/{Create,Update,Delete,Get,Paginate,Export,Search}/` + `Entities/` + `EventHandlers/` + `Specifications/`
+2. **Request Naming**: `CreateLessonRequest`, `UpdateLessonRequest`, vs. (NOT Command, NOT Query)
+   - Interface: `IRequest<T>` (MediatR)
+   - Handler: `CreateLessonRequestHandler` (aynı dosyada Request + Validator ile)
+3. **Repository Injection**:
+   - Write ops: `IRepository<T>`
+   - Read ops: `IReadRepository<T>` (ya da `IRepository<T>`)
+   - **NOT** `ApplicationDbContext` direkt
+4. **Domain Events**: Handler'da manuel event ekleme YAZMA — `EventAddingRepositoryDecorator<T>`
+   otomatik ekliyor. Decorator her Add/Update/Delete'de event inject eder, sonra SaveChangesAsync'de
+   BaseDbContext tarafından publish edilir.
+5. **Specification**: `Ardalis.Specification<TEntity, TProjection>` — TProjection (DTO) otomatik
+   map edilir.
+6. **Pagination**: `PaginationResponse<T>` class'ını kendi tipini icat etme.
+
+**Şablon olarak kullan**: `src/backend/Core/Application/Catalog/Lessons/` (tüm adımlar için)
 
 ## 1) Yeni Domain Entity Ekleme
 
@@ -33,26 +40,29 @@ Klasör deseni — `Application/Catalog/{Feature}/`:
 ```
 Entities/          → {Name}Dto.cs, {Name}DetailsDto.cs, {Name}ExportDto.cs
 EventHandlers/      → {Name}CreatedEventHandler.cs, ...UpdatedEventHandler.cs, ...DeletedEventHandler.cs
-Create/             → CreateXCommand + Handler + Validator
-Update/             → UpdateXCommand + Handler + Validator
-Delete/              → DeleteXCommand + Handler
-Get/                → GetXQuery + Handler
-Paginate/            → PaginateXQuery + Handler
-Export/               → ExportXQuery + Handler (ClosedXML ile Excel)
-Specifications/        → Ardalis.Specification tabanlı spec sınıfları
+Queries/
+  ├── Create/       → Create{Name}Request + Handler + Validator (single file)
+  ├── Update/       → Update{Name}Request + Handler + Validator (single file)
+  ├── Delete/       → Delete{Name}Request + Handler (single file)
+  ├── Get/          → Get{Name}Request + Handler (+ GetAll{Name}Request + Handler)
+  ├── Paginate/     → Paginate{Name}Filter + Handler
+  ├── Export/       → Export{Name}Request + Handler (ClosedXML ile Excel)
+  └── Search/       → Search{Name}Request + Handler (opsiyonel, pagination variant)
+Specifications/     → Ardalis.Specification<TEntity, TProjection> tabanlı spec sınıfları
 ```
 
-Adımlar:
+**Adımlar:**
 
-1. En yakın mevcut feature'ı (örn. `Lessons/`) referans al, dosya dosya birebir örnek çıkar.
-2. Handler'da veri erişimi: §0'da doğrulanan pattern neyse onu kullan (`IRepository<T>` muhtemel,
-   doğrudan `DbContext` DEĞİL — ama önce doğrula).
-3. Validator: FluentValidation, mevcut bir `Validator.cs` dosyasını şablon al.
-4. Mapping: Mapster kullan (`.Adapt<T>()`), mevcut handler'lardaki kullanım şeklini koru.
-5. Specification: Ardalis.Specification, filtreleme/include mevcut spec'lerdeki gibi kurulur.
-6. Paginate query'de `Common/Models/PaginationResponse.cs` kullan, yeni tip icat etme.
-7. Domain event tetikleyen bir aksiyon varsa (Create/Update/Delete), event handler'ı da yaz —
-   event'in nasıl eklendiğine dikkat et (entity ctor'unda mı, repository decorator mı ekliyor).
+1. Şablon: `src/backend/Core/Application/Catalog/Lessons/` — dosya dosya kopyala.
+2. **Repository**: Write ops → `IRepository<T>`, Read ops → `IReadRepository<T>` inject.
+3. **Validator**: FluentValidation, `CustomValidator<TRequest>` base class, aynı dosyada handler ile.
+4. **Mapping**: `.Adapt<T>()` otomatik (Specification'da TProjection prop define eder).
+5. **Specification**: `Specification<TEntity, TProjection>` — filter/include mevcut spec'lerden örnek al.
+6. **Pagination**: `PaginationResponse<T>` class'ı kullan, kendi response tipi yazma.
+7. **Domain Events**:
+   - **Handler içinde event ekleme YAPMA** — `EventAddingRepositoryDecorator<T>` otomatik ekliyor.
+   - Event handler yazılacaksa: `EventNotificationHandler<EntityCreatedEvent<T>>` implement et.
+   - BaseDbContext.SendDomainEventsAsync event'leri otomatik publish eder.
 
 ## 3) Progress / Rollup Mantığı Eklerken
 

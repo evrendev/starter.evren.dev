@@ -30,17 +30,28 @@ src/backend/
 1. **Katman sırası**: Core/Domain → Core/Application → Infrastructure → PublicApi.
 2. **Entity pattern**: `AuditableEntity`/`IAggregateRoot` + private setter + constructor + `Update()` metodu.
    Yeni entity yazarken mevcut bir entity'yi (örn. `Course.cs`) şablon al, icat etme.
-3. **Repository Pattern kullanılıyor** — handler'lar muhtemelen doğrudan `DbContext`/`DbSet` DEĞİL,
-   `IRepository<T>`/`IReadRepositoryBase<T>` (Ardalis) inject ediyor. `EventAddingRepositoryDecorator<T>`
-   domain event ekleme işini repository seviyesinde otomatikleştiriyor olabilir. **Yeni handler yazmadan
-   önce mevcut bir handler'ın constructor'ına bak — DbContext mi, IRepository<T> mi kullanıyor, ona göre
-   ilerle.** Bu netleşene kadar varsayımda bulunma.
-4. **Application klasör deseni / naming — DOĞRULANACAK**: Ekran görüntüsünde `Lessons/` altında
-   `Entities/, EventHandlers/, Create/, Update/, Delete/, Get/, Paginate/, Export/, Specifications/`
-   görülmüştü. Ancak `Products/` feature'ında `Queries/Search/SearchProductsRequestHandler.cs` gibi farklı
-   bir yapı da tespit edildi (`Request`/`RequestHandler` naming, `Command` değil; `Queries/` alt klasörü).
-   **İki feature farklı dönemde yazılmış olabilir — hangisi "güncel/kanonik" pattern, Claude Code'un ilk
-   işi bunu netleştirmek** (bkz. SKILLS.md §0).
+3. **Repository Pattern** — handler'lar doğrudan `DbContext` DEĞİL, `IRepository<T>` inject ediyor.
+   - Write operations (Create/Update/Delete): `IRepository<T>` inject
+   - Read operations (Get/Paginate/Export/Search): `IReadRepository<T>` veya `IRepository<T>` inject
+   - Domain events otomatik: `EventAddingRepositoryDecorator<T>` DI'da registered, Add/Update/Delete
+     çağrılarında event injection yapılıyor (handler'da manuel ekleme yapma, decorator bunu yapar).
+4. **Application klasör deseni** — kesin doğrulanmış:
+   ```
+   Lessons/ (ve tüm features)
+   ├── Entities/           LessonDto, LessonDetailsDto, LessonExportDto
+   ├── EventHandlers/      LessonCreatedEventHandler, LessonUpdatedEventHandler, LessonDeletedEventHandler
+   ├── Queries/
+   │   ├── Create/         CreateLessonRequest + Handler + Validator
+   │   ├── Update/         UpdateLessonRequest + Handler + Validator
+   │   ├── Delete/         DeleteLessonRequest + Handler
+   │   ├── Get/            GetLessonRequest + Handler (GetAllLessonsRequest + Handler)
+   │   ├── Paginate/       PaginateLessonsFilter + Handler
+   │   ├── Export/         ExportLessonsRequest + Handler
+   │   └── Search/         (Products'de var, Lessons'da yok ama pattern aynı)
+   └── Specifications/     Ardalis.Specification<TEntity, TProjection> türü
+   ```
+   - **Naming**: `{Action}LessonRequest` (Command/Query değil, her zaman Request)
+   - **Handler**: `{Action}LessonRequestHandler` (aynı dosyada Request ve Validator ile)
 5. **Multi-tenancy**: `IsMultiTenant()` sadece `Category→Course→Chapter→Lesson→LessonPage` zincirinde
    çağrılır. Composite-key ilişki tabloları (`CourseEnrollment`, `LessonProgress`, `LessonPageProgress`)
    bilinçli olarak `IsMultiTenant()` almaz (zaten tenant-scoped DB + FK zinciri üzerinden izole).
