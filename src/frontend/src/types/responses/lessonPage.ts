@@ -7,6 +7,7 @@ export interface LessonPageDto {
   lessonId: string;
   lessonTitle?: string;
   order: number;
+  contentType?: string;
 }
 
 export interface LessonPageDetailsDto extends LessonPageDto {

@@ -129,6 +129,17 @@ export class Permissions {
     "Permissions.Lessons.Generate";
   public static readonly LessonClean: string = "Permissions.Lessons.Clean";
 
+  // LessonPage permissions
+  public static readonly LessonPageView: string = "Permissions.LessonPages.View";
+  public static readonly LessonPageSearch: string =
+    "Permissions.LessonPages.Search";
+  public static readonly LessonPageCreate: string =
+    "Permissions.LessonPages.Create";
+  public static readonly LessonPageUpdate: string =
+    "Permissions.LessonPages.Update";
+  public static readonly LessonPageDelete: string =
+    "Permissions.LessonPages.Delete";
+
   // Tenant permissions
   public static readonly TenantView: string = "Permissions.Tenants.View";
   public static readonly TenantSearch: string = "Permissions.Tenants.Search";

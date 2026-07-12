@@ -374,6 +374,36 @@ export const adminRoutes = [
               title: "admin.lessons.edit.title",
             },
           },
+          {
+            name: "lesson-pages",
+            path: ":lessonId/pages",
+            component: () => import("@/pages/admin/lesson-pages/list.vue"),
+            meta: {
+              requiresPermission: [
+                Permissions.LessonPageView,
+                Permissions.LessonPageSearch,
+              ],
+              title: "admin.lessonpages.list.title",
+            },
+          },
+          {
+            name: "lesson-page-create",
+            path: ":lessonId/pages/create",
+            component: () => import("@/pages/admin/lesson-pages/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.LessonPageCreate],
+              title: "admin.lessonpages.create.title",
+            },
+          },
+          {
+            name: "lesson-page-edit",
+            path: "lesson-pages/:id/edit",
+            component: () => import("@/pages/admin/lesson-pages/form.vue"),
+            meta: {
+              requiresPermission: [Permissions.LessonPageUpdate],
+              title: "admin.lessonpages.edit.title",
+            },
+          },
         ],
       },
       {
