@@ -46,3 +46,17 @@ export interface AdvancedFilters {
 export interface ExportLessonPagesRequest {
   lessonId?: string;
 }
+
+export interface CreateNoteRequest {
+  lessonPageId: string;
+  userId: string;
+  content: string;
+}
+
+export interface DeleteNoteRequest {
+  id: string;
+}
+
+export interface GetNoteRequest {
+  id: string;
+}

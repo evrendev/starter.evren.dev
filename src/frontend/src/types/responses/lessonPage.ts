@@ -42,3 +42,11 @@ export interface LessonPlayerDto {
   percentComplete?: number;
   lastVisitedPageId?: string;
 }
+
+export interface NoteDto {
+  id: string;
+  userId: string;
+  lessonPageId: string;
+  content: string;
+  completedAt?: Date;
+}
