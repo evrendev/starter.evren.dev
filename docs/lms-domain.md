@@ -50,3 +50,13 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
 ## Açık Kararlar
 - Frontend player: reveal.js mi, Vuetify custom mu? → `docs/frontend-stack.md`
 - `Lesson.Content` alanı kaldırılınca eski veri migration'da nasıl taşınacak? (Adım 5'te ele alınacak)
+
+## Bilinen Sistemik Sorunlar
+- **FluentValidation pipeline bağlı değil** — validator'lar DI'da kayıtlı ama MediatR pipeline'ına
+  bağlayan bir `IPipelineBehavior` yok, bu yüzden hiçbir validator gerçekte çalışmıyor (Task 12'de
+  detaylandırıldı, henüz çözülmedi). Kritik kontroller şimdilik handler içinde manuel yapılıyor
+  (örn. `EnrollInCourseRequestHandler`'daki duplicate-enrollment kontrolü).
+- **`AuditableEntity.CreatedOn` get-only** olduğu için EF Core tarafından map'lenmiyor —
+  **hiçbir tabloda persist edilmiyor**. `CreatedOn`'a göre sıralama/filtreleme yapan başka bir
+  yer varsa aynı 500 riskini taşır (`NotesByLessonPageSpec`'te bulunup `OrderBy(Id)` ile
+  atlatıldı — UUIDv7 id'ler zaman sıralı olduğu için işlevsel eşdeğer, ama kalıcı çözüm değil).
