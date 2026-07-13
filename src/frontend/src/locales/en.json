@@ -747,7 +747,8 @@
       "continue": "Continue",
       "notifications": {
         "enrolled": "You have successfully enrolled in this course.",
-        "enrollFailed": "Failed to enroll in this course."
+        "enrollFailed": "Failed to enroll in this course.",
+        "notEnrolled": "You are not enrolled in this course. Enroll to start learning."
       }
     },
     "myCourses": {

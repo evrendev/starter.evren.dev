@@ -87,6 +87,10 @@ http.interceptors.response.use(
         return Promise.reject(Result.failure(AppError.notFound(errorMessage)));
       if (status === 409)
         return Promise.reject(Result.failure(AppError.conflict(errorMessage)));
+      if (status === 403)
+        return Promise.reject(
+          Result.failure(AppError.forbidden(errorMessage)),
+        );
       if (status === 400)
         return Promise.reject(
           Result.failure(AppError.validation(errorMessage)),

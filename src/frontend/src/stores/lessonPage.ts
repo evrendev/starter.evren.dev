@@ -213,9 +213,8 @@ export const useLessonPageStore = defineStore("lessonPage", {
     },
 
     async markPageCompleted(pageId: string): Promise<Result<boolean>> {
-      const appStore = useAppStore();
-      appStore.setLoading(true);
-      this.loading = true;
+      // Background call fired on slide change — must not toggle loading,
+      // or the player's v-if would tear down the reveal.js slide DOM.
       this.error = null;
 
       try {
@@ -224,13 +223,14 @@ export const useLessonPageStore = defineStore("lessonPage", {
         );
 
         if (result.succeeded) {
-          // Update local player state if available
-          if (this.currentPage) {
-            const pageIndex = this.currentPage.pages.findIndex((p) => p.id === pageId);
-            if (pageIndex >= 0) {
-              // Note: pages array structure depends on backend response
-              // This is a placeholder for state update
-            }
+          const page = this.pages.find((p) => p.id === pageId);
+          if (page && !page.completed) {
+            page.completed = true;
+            page.completedAt = new Date();
+            const completedCount = this.pages.filter((p) => p.completed).length;
+            this.progressPercent = this.pages.length
+              ? Math.round((completedCount * 100) / this.pages.length)
+              : 0;
           }
         } else {
           this.error = result.errors!;
@@ -240,9 +240,6 @@ export const useLessonPageStore = defineStore("lessonPage", {
       } catch (error) {
         this.error = error as AppError;
         return error as Result<boolean>;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
       }
     },
   },

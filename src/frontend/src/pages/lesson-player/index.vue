@@ -1,39 +1,46 @@
 <script setup lang="ts">
 import { useLessonPageStore } from "@/stores/lessonPage";
+import { Notify } from "@/stores/notification";
 import LessonPlayer from "@/components/lesson-player/LessonPlayer.vue";
 import LessonSidebar from "@/components/lesson-player/LessonSidebar.vue";
 import NotesPanel from "@/components/lesson-player/NotesPanel.vue";
+// @ts-ignore - reveal.js type definitions not available
+import type Reveal from "reveal.js";
 
+const { t } = useI18n();
 const route = useRoute();
+const router = useRouter();
 const lessonId = computed(() => route.params.id as string);
 
 const lessonPageStore = useLessonPageStore();
-const { pages } = storeToRefs(lessonPageStore);
+const { pages, lastVisitedPageId } = storeToRefs(lessonPageStore);
+
+const revealInstance = ref<typeof Reveal | null>(null);
 
 const currentPageId = computed(() => {
-  return pages.value?.[0]?.id || "";
+  return lastVisitedPageId.value || pages.value?.[0]?.id || "";
 });
 
-onMounted(async () => {
-  if (lessonId.value) {
-    await lessonPageStore.getLessonPlayer(lessonId.value);
-  }
-});
+const handleReady = (instance: typeof Reveal) => {
+  revealInstance.value = instance;
+};
 
-watch(pages, () => {
-  // Update current page when pages change
-  if (pages.value?.length > 0) {
-    // current page updates reactively
-  }
-});
+const handleForbidden = async () => {
+  Notify.error(t("learning.catalog.notifications.notEnrolled"));
+  await router.push({ name: "learning-catalog" });
+};
 </script>
 
 <template>
   <div class="lesson-player-container">
-    <LessonSidebar />
+    <LessonSidebar :reveal-instance="revealInstance" />
     <div class="player-main">
       <div class="player-content">
-        <LessonPlayer :lesson-id="lessonId" />
+        <LessonPlayer
+          :lesson-id="lessonId"
+          @ready="handleReady"
+          @forbidden="handleForbidden"
+        />
       </div>
       <div class="notes-content">
         <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useLessonPageStore } from "@/stores/lessonPage";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
+import { ErrorType } from "@/primitives/error";
 // @ts-ignore - reveal.js type definitions not available
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
@@ -10,6 +11,11 @@ const props = defineProps<{
   lessonId: string;
 }>();
 
+const emit = defineEmits<{
+  (e: "ready", instance: typeof Reveal): void;
+  (e: "forbidden", message: string): void;
+}>();
+
 const lessonPageStore = useLessonPageStore();
 const { pages, currentPage, loading } = storeToRefs(lessonPageStore);
 const { sanitize } = useSanitizedHtml();
@@ -17,8 +23,26 @@ const { sanitize } = useSanitizedHtml();
 const revealRef = ref<HTMLDivElement>();
 let revealInstance: typeof Reveal | null = null;
 
+const visitPage = async (slideIndex: number) => {
+  const page = pages.value[slideIndex];
+  if (!page) return;
+
+  lessonPageStore.lastVisitedPageId = page.id;
+
+  if (!page.completed) {
+    await lessonPageStore.markPageCompleted(page.id);
+  }
+};
+
 onMounted(async () => {
-  await lessonPageStore.getLessonPlayer(props.lessonId);
+  const result = await lessonPageStore.getLessonPlayer(props.lessonId);
+
+  if (!result.succeeded) {
+    if (result.errors?.errorType === ErrorType.Forbidden) {
+      emit("forbidden", result.errors.message);
+    }
+    return;
+  }
 
   await nextTick();
 
@@ -35,13 +59,23 @@ onMounted(async () => {
 
     await revealInstance.initialize();
 
+    // Resume at the last visited page when available
+    const lastVisitedIndex = pages.value.findIndex(
+      (p) => p.id === lessonPageStore.lastVisitedPageId,
+    );
+    if (lastVisitedIndex > 0) {
+      revealInstance.slide(lastVisitedIndex, 0);
+    }
+
     revealInstance.addEventListener("slidechanged", async (event: any) => {
-      const currentSlideIndex = event.indexh || 0;
-      const pageId = pages.value[currentSlideIndex]?.id;
-      if (pageId) {
-        await lessonPageStore.markPageCompleted(pageId);
-      }
+      await visitPage(event.indexh || 0);
     });
+
+    // slidechanged does not fire for the initially displayed slide
+    const { h } = revealInstance.getIndices();
+    await visitPage(h || 0);
+
+    emit("ready", revealInstance);
   }
 });
 

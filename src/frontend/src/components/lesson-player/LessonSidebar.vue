@@ -3,17 +3,16 @@
 import Reveal from "reveal.js";
 import { useLessonPageStore } from "@/stores/lessonPage";
 
-defineProps<{
+const props = defineProps<{
   revealInstance?: typeof Reveal | null;
 }>();
 
 const lessonPageStore = useLessonPageStore();
-const { pages, progressPercent, currentPage } = storeToRefs(lessonPageStore);
+const { pages, progressPercent, currentPage, lastVisitedPageId } =
+  storeToRefs(lessonPageStore);
 
 const handlePageClick = (index: number) => {
-  if (Reveal) {
-    Reveal.slide(index, 0);
-  }
+  props.revealInstance?.slide(index, 0);
 };
 </script>
 
@@ -52,7 +51,7 @@ const handlePageClick = (index: number) => {
           :key="page.id"
           @click="handlePageClick(index)"
           class="cursor-pointer"
-          :active="index === (currentPage?.pages.findIndex(p => p.id === page.id) || 0)"
+          :active="page.id === lastVisitedPageId"
         >
           <template #prepend>
             <v-icon :icon="page.completed ? 'mdi-check-circle' : 'mdi-circle-outline'" :color="page.completed ? 'success' : 'grey'" size="small" />

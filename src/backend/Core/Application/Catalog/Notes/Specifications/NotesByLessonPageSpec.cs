@@ -8,5 +8,7 @@ public class NotesByLessonPageSpec : Specification<Note, NoteDto>
     public NotesByLessonPageSpec(Guid lessonPageId) =>
         Query
             .Where(p => p.LessonPageId == lessonPageId)
-            .OrderBy(p => p.CreatedOn);
+            // CreatedOn is get-only on AuditableEntity and not mapped to a column;
+            // UUIDv7 ids are time-ordered, so Id gives chronological order.
+            .OrderBy(p => p.Id);
 }

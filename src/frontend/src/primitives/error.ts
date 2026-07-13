@@ -7,6 +7,7 @@ export const ErrorType = {
   Validation: 1,
   NotFound: 2,
   Conflict: 3,
+  Forbidden: 4,
 } as const;
 
 export type ErrorTypeT = (typeof ErrorType)[keyof typeof ErrorType];
@@ -26,6 +27,10 @@ export class AppError {
 
   public static conflict(message: string): AppError {
     return new AppError(message, ErrorType.Conflict);
+  }
+
+  public static forbidden(message: string): AppError {
+    return new AppError(message, ErrorType.Forbidden);
   }
 
   public static validation(message: string): AppError {
