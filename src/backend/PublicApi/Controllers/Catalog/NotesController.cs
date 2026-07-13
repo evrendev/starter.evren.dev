@@ -5,19 +5,19 @@ using EvrenDev.Application.Catalog.Notes.Queries.Get;
 
 namespace EvrenDev.PublicApi.Controllers.Catalog;
 
-[Route("lesson-pages/{lessonPageId:guid}/notes")]
 public class NotesController : VersionedApiController
 {
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Notes)]
     [OpenApiOperation("Get notes for a lesson page.", "")]
-    public Task<ApiResponse<List<NoteDto>>> GetByLessonPageAsync(Guid lessonPageId)
+    public async Task<ApiResponse<List<NoteDto>>> GetByLessonPageAsync([FromQuery] Guid lessonPageId)
     {
-        return Mediator.Send(new GetNotesByLessonPageRequest(lessonPageId)).ContinueWith(t =>
-            ApiResponse<List<NoteDto>>.Success(t.Result));
+        var data = await Mediator.Send(new GetNotesByLessonPageRequest(lessonPageId));
+
+        return ApiResponse<List<NoteDto>>.Success(data);
     }
 
-    [HttpGet("~/notes/{id:guid}")]
+    [HttpGet("{id:guid}")]
     [MustHavePermission(ApiAction.View, ApiResource.Notes)]
     [OpenApiOperation("Get note details.", "")]
     public async Task<ApiResponse<NoteDto>> GetAsync(Guid id)
@@ -38,7 +38,7 @@ public class NotesController : VersionedApiController
         return Mediator.Send(request);
     }
 
-    [HttpDelete("~/notes/{id:guid}")]
+    [HttpDelete("{id:guid}")]
     [MustHavePermission(ApiAction.Delete, ApiResource.Notes)]
     [OpenApiOperation("Delete a note.", "")]
     public Task<Guid> DeleteAsync(Guid id)

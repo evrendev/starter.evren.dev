@@ -80,6 +80,20 @@ public static class ApiPermissions
         new("Generate Lessons", ApiAction.Generate, ApiResource.Lessons),
         new("Export Lessons", ApiAction.Export, ApiResource.Lessons),
         new("Clean Lessons", ApiAction.Clean, ApiResource.Lessons),
+        // LessonPage permissions
+        new("View LessonPages", ApiAction.View, ApiResource.LessonPages, IsBasic: true),
+        new("Search LessonPages", ApiAction.Search, ApiResource.LessonPages, IsBasic: true),
+        new("Create LessonPages", ApiAction.Create, ApiResource.LessonPages),
+        new("Update LessonPages", ApiAction.Update, ApiResource.LessonPages),
+        new("Delete LessonPages", ApiAction.Delete, ApiResource.LessonPages),
+        new("Export LessonPages", ApiAction.Export, ApiResource.LessonPages),
+        // Note permissions
+        new("View Notes", ApiAction.View, ApiResource.Notes, IsBasic: true),
+        new("Search Notes", ApiAction.Search, ApiResource.Notes, IsBasic: true),
+        new("Create Notes", ApiAction.Create, ApiResource.Notes),
+        new("Update Notes", ApiAction.Update, ApiResource.Notes),
+        new("Delete Notes", ApiAction.Delete, ApiResource.Notes),
+        new("Export Notes", ApiAction.Export, ApiResource.Notes),
         // Absence permissions
         new("View Absences", ApiAction.View, ApiResource.Absences, IsBasic: true),
         new("Search Absences", ApiAction.Search, ApiResource.Absences, IsBasic: true),

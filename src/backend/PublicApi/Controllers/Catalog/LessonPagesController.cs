@@ -1,6 +1,7 @@
 using EvrenDev.Application.Catalog.LessonPages.Entities;
 using EvrenDev.Application.Catalog.LessonPages.Queries.Create;
 using EvrenDev.Application.Catalog.LessonPages.Queries.Delete;
+using EvrenDev.Application.Catalog.LessonPages.Queries.Export;
 using EvrenDev.Application.Catalog.LessonPages.Queries.Get;
 using EvrenDev.Application.Catalog.LessonPages.Queries.MarkComplete;
 using EvrenDev.Application.Catalog.LessonPages.Queries.Paginate;
@@ -8,30 +9,26 @@ using EvrenDev.Application.Catalog.LessonPages.Queries.Update;
 
 namespace EvrenDev.PublicApi.Controllers.Catalog;
 
-[Route("lessons/{lessonId:guid}/pages")]
 public class LessonPagesController : VersionedApiController
 {
     [HttpPost]
-    [MustHavePermission(ApiAction.Create, ApiResource.Lessons)]
+    [MustHavePermission(ApiAction.Create, ApiResource.LessonPages)]
     [OpenApiOperation("Create a new lesson page.", "")]
-    public async Task<Guid> CreateAsync(Guid lessonId, CreateLessonPageRequest request)
+    public Task<Guid> CreateAsync(CreateLessonPageRequest request)
     {
-        request.LessonId = lessonId;
-        return await Mediator.Send(request);
+        return Mediator.Send(request);
     }
 
     [HttpGet]
-    [MustHavePermission(ApiAction.View, ApiResource.Lessons)]
+    [MustHavePermission(ApiAction.View, ApiResource.LessonPages)]
     [OpenApiOperation("Get lesson pages paginated.", "")]
-    public Task<PaginationResponse<LessonPageDto>> GetPaginatedListAsync(Guid lessonId, [FromQuery] PaginateLessonPagesFilter request)
+    public Task<PaginationResponse<LessonPageDto>> GetPaginatedListAsync([FromQuery] PaginateLessonPagesFilter request)
     {
-        request.LessonId = lessonId;
         return Mediator.Send(request);
     }
 
     [HttpGet("{id:guid}")]
-    [Route("~/lesson-pages/{id:guid}")]
-    [MustHavePermission(ApiAction.View, ApiResource.Lessons)]
+    [MustHavePermission(ApiAction.View, ApiResource.LessonPages)]
     [OpenApiOperation("Get lesson page details.", "")]
     public async Task<ApiResponse<LessonPageDetailsDto>> GetAsync(Guid id)
     {
@@ -43,8 +40,8 @@ public class LessonPagesController : VersionedApiController
         return ApiResponse<LessonPageDetailsDto>.Success(data);
     }
 
-    [HttpPut("~/lesson-pages/{id:guid}")]
-    [MustHavePermission(ApiAction.Update, ApiResource.Lessons)]
+    [HttpPut("{id:guid}")]
+    [MustHavePermission(ApiAction.Update, ApiResource.LessonPages)]
     [OpenApiOperation("Update a lesson page.", "")]
     public async Task<ActionResult<Guid>> UpdateAsync(UpdateLessonPageRequest request, Guid id)
     {
@@ -53,15 +50,24 @@ public class LessonPagesController : VersionedApiController
             : Ok(await Mediator.Send(request));
     }
 
-    [HttpDelete("~/lesson-pages/{id:guid}")]
-    [MustHavePermission(ApiAction.Delete, ApiResource.Lessons)]
+    [HttpDelete("{id:guid}")]
+    [MustHavePermission(ApiAction.Delete, ApiResource.LessonPages)]
     [OpenApiOperation("Delete a lesson page.", "")]
     public Task<Guid> DeleteAsync(Guid id)
     {
         return Mediator.Send(new DeleteLessonPageRequest(id));
     }
 
-    [HttpGet("player")]
+    [HttpPost("export")]
+    [MustHavePermission(ApiAction.Export, ApiResource.LessonPages)]
+    [OpenApiOperation("Export lesson pages.", "")]
+    public async Task<FileResult> ExportAsync(ExportLessonPagesRequest filter)
+    {
+        var result = await Mediator.Send(filter);
+        return File(result, "application/octet-stream", "LessonPageExports");
+    }
+
+    [HttpGet("{lessonId:guid}/player")]
     [MustHavePermission(ApiAction.View, ApiResource.Lessons)]
     [OpenApiOperation("Get lesson player view.", "")]
     public async Task<ApiResponse<LessonPlayerDto>> GetPlayerAsync(Guid lessonId)
@@ -71,7 +77,7 @@ public class LessonPagesController : VersionedApiController
         return ApiResponse<LessonPlayerDto>.Success(data);
     }
 
-    [HttpPost("~/lesson-pages/{id:guid}/complete")]
+    [HttpPost("{id:guid}/complete")]
     [MustHavePermission(ApiAction.Update, ApiResource.Lessons)]
     [OpenApiOperation("Mark lesson page as completed.", "")]
     public async Task<ApiResponse<bool>> MarkCompletedAsync(Guid id)

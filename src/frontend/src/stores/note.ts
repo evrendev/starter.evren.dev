@@ -25,7 +25,9 @@ export const useNoteStore = defineStore("note", {
 
       try {
         const result = await handleRequest<NoteDto[]>(
-          http.get(`/v1/lesson-pages/${lessonPageId}/notes`),
+          http.get("/v1/notes", {
+            params: { lessonPageId },
+          }),
         );
 
         if (result.succeeded && result.data) {
@@ -75,7 +77,7 @@ export const useNoteStore = defineStore("note", {
 
       try {
         const result = await handleRequest<string>(
-          http.post(`/v1/lesson-pages/${payload.lessonPageId}/notes`, payload),
+          http.post("/v1/notes", payload),
         );
 
         if (result.succeeded) {

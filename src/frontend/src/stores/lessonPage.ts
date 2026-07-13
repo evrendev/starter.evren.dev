@@ -58,7 +58,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
       try {
         const pageFilters = { ...this.filters, lessonId, ...filters };
         const result = await handleRequest<PaginationResponse<LessonPageDto>>(
-          http.get(`/v1/lessons/${lessonId}/pages`, {
+          http.get("/v1/lessonpages", {
             params: pageFilters,
           }),
         );
@@ -91,7 +91,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
 
       try {
         const result = await handleRequest<LessonPageDetails>(
-          http.get(`/v1/lesson-pages/${id}`),
+          http.get(`/v1/lessonpages/${id}`),
         );
 
         if (result.succeeded && result.data) {
@@ -118,7 +118,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
 
       try {
         const result = await handleRequest<string>(
-          http.post(`/v1/lessons/${payload.lessonId}/pages`, payload),
+          http.post("/v1/lessonpages", payload),
         );
 
         if (!result.succeeded) {
@@ -143,7 +143,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
 
       try {
         const result = await handleRequest<string>(
-          http.put(`/v1/lesson-pages/${id}`, payload),
+          http.put(`/v1/lessonpages/${id}`, payload),
         );
 
         if (!result.succeeded) {
@@ -168,7 +168,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
 
       try {
         const result = await handleRequest<string>(
-          http.delete(`/v1/lesson-pages/${id}`),
+          http.delete(`/v1/lessonpages/${id}`),
         );
 
         if (!result.succeeded) {
@@ -191,7 +191,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
 
       try {
         const result = await handleRequest<LessonPlayerDto>(
-          http.get(`/v1/lessons/${lessonId}/pages/player`),
+          http.get(`/v1/lessonpages/${lessonId}/player`),
         );
 
         if (result.succeeded && result.data) {
@@ -220,7 +220,7 @@ export const useLessonPageStore = defineStore("lessonPage", {
 
       try {
         const result = await handleRequest<boolean>(
-          http.post(`/v1/lesson-pages/${pageId}/complete`),
+          http.post(`/v1/lessonpages/${pageId}/complete`),
         );
 
         if (result.succeeded) {
