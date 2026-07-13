@@ -22,6 +22,28 @@ const BASE_URL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 
   <vertical-nav-section-title
     :item="{
+      heading: t('admin.components.sidebar.my-learning'),
+    }"
+  />
+
+  <vertical-nav-link
+    :item="{
+      title: t('admin.components.sidebar.learning-catalog'),
+      icon: 'bx-search-alt',
+      to: { name: 'learning-catalog' },
+    }"
+  />
+
+  <vertical-nav-link
+    :item="{
+      title: t('admin.components.sidebar.learning-my-courses'),
+      icon: 'bx-book-reader',
+      to: { name: 'learning-my-courses' },
+    }"
+  />
+
+  <vertical-nav-section-title
+    :item="{
       heading: t('admin.components.sidebar.course-management'),
     }"
     v-show="

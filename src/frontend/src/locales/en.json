@@ -120,7 +120,10 @@
         "categories": "Categories",
         "courses": "Courses",
         "chapters": "Chapters",
-        "lessons": "Lessons"
+        "lessons": "Lessons",
+        "my-learning": "My Learning",
+        "learning-catalog": "Course Catalog",
+        "learning-my-courses": "My Courses"
       },
       "footer": {
         "home": "Home",
@@ -735,6 +738,22 @@
       "startDate": "Start Date",
       "endDate": "End Date",
       "published": "Published"
+    }
+  },
+  "learning": {
+    "catalog": {
+      "title": "Course Catalog",
+      "enroll": "Enroll",
+      "continue": "Continue",
+      "notifications": {
+        "enrolled": "You have successfully enrolled in this course.",
+        "enrollFailed": "Failed to enroll in this course."
+      }
+    },
+    "myCourses": {
+      "title": "My Courses",
+      "empty": "You are not enrolled in any course yet.",
+      "percentComplete": "Complete"
     }
   },
   "error": {
