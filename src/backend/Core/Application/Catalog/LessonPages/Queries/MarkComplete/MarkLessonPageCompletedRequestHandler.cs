@@ -1,4 +1,6 @@
 using EvrenDev.Application.Catalog.LessonPages.Specifications;
+using EvrenDev.Application.Catalog.Lessons.Specifications;
+using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
@@ -13,6 +15,8 @@ public class MarkLessonPageCompletedRequest(Guid lessonPageId) : IRequest<bool>
 
 public class MarkLessonPageCompletedRequestHandler(
     IRepository<LessonPageProgress> repository,
+    IReadRepository<LessonPage> lessonPageRepository,
+    IReadRepository<CourseEnrollment> courseEnrollmentRepository,
     ICurrentUser currentUser)
     : IRequestHandler<MarkLessonPageCompletedRequest, bool>
 {
@@ -20,6 +24,18 @@ public class MarkLessonPageCompletedRequestHandler(
     {
         var userId = currentUser.GetUserId().ToString();
         var now = DateTime.UtcNow;
+
+        var page = await lessonPageRepository.FirstOrDefaultAsync(
+            new LessonPageWithLessonChapterSpec(request.LessonPageId), cancellationToken);
+
+        if (page is null)
+            throw new NotFoundException($"Lesson page with ID '{request.LessonPageId}' not found.");
+
+        var isEnrolled = await courseEnrollmentRepository.FirstOrDefaultAsync(
+            new CourseEnrollmentByUserAndCourseSpec(userId, page.Lesson.Chapter.CourseId), cancellationToken) is not null;
+
+        if (!isEnrolled)
+            throw new ForbiddenException("You are not enrolled in the course this lesson page belongs to.");
 
         var progress = await repository.FirstOrDefaultAsync(
             new LessonPageProgressByUserAndPageSpec(userId, request.LessonPageId), cancellationToken);

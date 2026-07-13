@@ -1,4 +1,5 @@
 using EvrenDev.Application.Catalog.LessonPages.Specifications;
+using EvrenDev.Application.Catalog.Lessons.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Persistence;
@@ -36,6 +37,7 @@ public class GetLessonPlayerRequestHandler(
     IReadRepository<Lesson> lessonRepository,
     IReadRepository<LessonPageProgress> lessonPageProgressRepository,
     IReadRepository<LessonProgress> lessonProgressRepository,
+    IReadRepository<CourseEnrollment> courseEnrollmentRepository,
     ICurrentUser currentUser)
     : IRequestHandler<GetLessonPlayerRequest, LessonPlayerDto>
 {
@@ -48,6 +50,12 @@ public class GetLessonPlayerRequestHandler(
             throw new NotFoundException($"Lesson with ID '{request.LessonId}' not found.");
 
         var userId = currentUser.GetUserId().ToString();
+
+        var isEnrolled = await courseEnrollmentRepository.FirstOrDefaultAsync(
+            new CourseEnrollmentByUserAndCourseSpec(userId, lesson.Chapter.CourseId), cancellationToken) is not null;
+
+        if (!isEnrolled)
+            throw new ForbiddenException("You are not enrolled in the course this lesson belongs to.");
 
         var pageProgressList = await lessonPageProgressRepository.ListAsync(
             new LessonPageProgressListByUserAndLessonSpec(userId, request.LessonId), cancellationToken);

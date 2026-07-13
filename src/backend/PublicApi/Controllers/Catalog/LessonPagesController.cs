@@ -68,7 +68,7 @@ public class LessonPagesController : VersionedApiController
     }
 
     [HttpGet("{lessonId:guid}/player")]
-    [MustHavePermission(ApiAction.View, ApiResource.Lessons)]
+    [Authorize]
     [OpenApiOperation("Get lesson player view.", "")]
     public async Task<ApiResponse<LessonPlayerDto>> GetPlayerAsync(Guid lessonId)
     {
@@ -78,7 +78,7 @@ public class LessonPagesController : VersionedApiController
     }
 
     [HttpPost("{id:guid}/complete")]
-    [MustHavePermission(ApiAction.Update, ApiResource.Lessons)]
+    [Authorize]
     [OpenApiOperation("Mark lesson page as completed.", "")]
     public async Task<ApiResponse<bool>> MarkCompletedAsync(Guid id)
     {

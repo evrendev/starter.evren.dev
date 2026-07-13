@@ -7,5 +7,6 @@ public class LessonWithPagesSpec : Specification<Lesson>, ISingleResultSpecifica
     public LessonWithPagesSpec(Guid lessonId) =>
         Query
             .Where(l => l.Id == lessonId)
-            .Include(l => l.Pages);
+            .Include(l => l.Pages)
+            .Include(l => l.Chapter);
 }

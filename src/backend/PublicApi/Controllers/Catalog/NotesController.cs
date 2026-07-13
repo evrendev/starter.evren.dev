@@ -8,7 +8,7 @@ namespace EvrenDev.PublicApi.Controllers.Catalog;
 public class NotesController : VersionedApiController
 {
     [HttpGet]
-    [MustHavePermission(ApiAction.View, ApiResource.Notes)]
+    [Authorize]
     [OpenApiOperation("Get notes for a lesson page.", "")]
     public async Task<ApiResponse<List<NoteDto>>> GetByLessonPageAsync([FromQuery] Guid lessonPageId)
     {
@@ -18,7 +18,7 @@ public class NotesController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(ApiAction.View, ApiResource.Notes)]
+    [Authorize]
     [OpenApiOperation("Get note details.", "")]
     public async Task<ApiResponse<NoteDto>> GetAsync(Guid id)
     {
@@ -31,7 +31,7 @@ public class NotesController : VersionedApiController
     }
 
     [HttpPost]
-    [MustHavePermission(ApiAction.Create, ApiResource.Notes)]
+    [Authorize]
     [OpenApiOperation("Create a new note.", "")]
     public Task<Guid> CreateAsync(CreateNoteRequest request)
     {
@@ -39,7 +39,7 @@ public class NotesController : VersionedApiController
     }
 
     [HttpDelete("{id:guid}")]
-    [MustHavePermission(ApiAction.Delete, ApiResource.Notes)]
+    [Authorize]
     [OpenApiOperation("Delete a note.", "")]
     public Task<Guid> DeleteAsync(Guid id)
     {
