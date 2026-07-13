@@ -357,7 +357,6 @@ logs/
 
 # Project folders
 publish/
-docs/
 wwwroot/
 .DS_Store
 documentation/
