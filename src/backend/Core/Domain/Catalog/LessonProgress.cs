@@ -1,10 +1,11 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using EvrenDev.Domain.Identity;
 
 namespace EvrenDev.Domain.Catalog;
 
 public enum ProgressStatus { NotStarted = 0, InProgress = 1, Completed = 2 }
 
-public class LessonProgress
+public class LessonProgress : IAggregateRoot
 {
     public string UserId { get; set; } = default!;
     public ApplicationUser User { get; set; } = default!;
@@ -16,4 +17,7 @@ public class LessonProgress
     public int PercentComplete { get; set; } = 0;
     public Guid? LastVisitedPageId { get; set; }
     public DateTime? CompletedAt { get; set; }
+
+    [NotMapped]
+    public List<DomainEvent> DomainEvents { get; } = [];
 }
