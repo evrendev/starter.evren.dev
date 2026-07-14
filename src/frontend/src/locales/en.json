@@ -738,6 +738,14 @@
       "startDate": "Start Date",
       "endDate": "End Date",
       "published": "Published"
+    },
+    "notes": "Notes",
+    "add": "Add",
+    "noData": "No data available",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "unexpectedError": "An unexpected error occurred",
+    "validation": {
+      "required": "This field is required"
     }
   },
   "learning": {
@@ -772,6 +780,20 @@
       "go-back-dashboard": "Go back dashboard",
       "image": {
         "alt": "Unauthorized Access"
+      }
+    }
+  },
+  "catalog": {
+    "notes": {
+      "create": {
+        "title": "Add a note",
+        "placeholder": "Write your note here...",
+        "success": "Note added successfully",
+        "failed": "Failed to add note"
+      },
+      "delete": {
+        "success": "Note deleted successfully",
+        "failed": "Failed to delete note"
       }
     }
   }

@@ -101,7 +101,6 @@ onBeforeUnmount(() => {
           :key="page.id"
           class="lesson-slide"
         >
-          <h2>{{ page.title }}</h2>
           <div
             class="slide-content"
             :innerHTML="sanitize(page.content)"
@@ -114,6 +113,17 @@ onBeforeUnmount(() => {
           </div>
           <div v-else-if="page.contentType === 'Image' && page.mediaUrl" class="slide-media">
             <img :src="page.mediaUrl" :alt="page.title" width="80%" />
+          </div>
+          <div v-else-if="page.contentType === 'Embed' && page.mediaUrl" class="slide-media">
+            <iframe
+              :src="page.mediaUrl"
+              :title="page.title"
+              width="80%"
+              height="400"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            />
           </div>
         </section>
       </template>

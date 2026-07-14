@@ -17,7 +17,7 @@ const handlePageClick = (index: number) => {
 </script>
 
 <template>
-  <v-navigation-drawer permanent width="300" class="lesson-sidebar">
+  <aside class="lesson-sidebar">
     <v-list class="pa-4">
       <!-- Lesson Title -->
       <v-list-item v-if="currentPage" class="mb-4">
@@ -45,33 +45,34 @@ const handlePageClick = (index: number) => {
       <v-divider class="mb-4" />
 
       <!-- Pages List -->
-      <v-list-item-group>
-        <v-list-item
-          v-for="(page, index) in pages"
-          :key="page.id"
-          @click="handlePageClick(index)"
-          class="cursor-pointer"
-          :active="page.id === lastVisitedPageId"
-        >
-          <template #prepend>
-            <v-icon :icon="page.completed ? 'mdi-check-circle' : 'mdi-circle-outline'" :color="page.completed ? 'success' : 'grey'" size="small" />
-          </template>
+      <v-list-item
+        v-for="(page, index) in pages"
+        :key="page.id"
+        @click="handlePageClick(index)"
+        class="cursor-pointer"
+        :active="page.id === lastVisitedPageId"
+      >
+        <template #prepend>
+          <v-icon :icon="page.completed ? 'mdi-check-circle' : 'mdi-circle-outline'" :color="page.completed ? 'success' : 'grey'" size="small" />
+        </template>
 
-          <v-list-item-title class="text-body2">
-            {{ page.order }}. {{ page.title }}
-          </v-list-item-title>
+        <v-list-item-title class="text-body2">
+          {{ page.order }}. {{ page.title }}
+        </v-list-item-title>
 
-          <v-list-item-subtitle class="text-caption">
-            {{ page.contentType }}
-          </v-list-item-subtitle>
-        </v-list-item>
-      </v-list-item-group>
+        <v-list-item-subtitle class="text-caption">
+          {{ page.contentType }}
+        </v-list-item-subtitle>
+      </v-list-item>
     </v-list>
-  </v-navigation-drawer>
+  </aside>
 </template>
 
 <style scoped>
 .lesson-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  height: 100%;
   background: white;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
