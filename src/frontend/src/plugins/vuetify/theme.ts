@@ -10,6 +10,9 @@ export const semanticSuccess = "#10B981";
 export const semanticWarning = "#F59E0B";
 export const semanticInfo = "#3B82F6";
 
+// Design-spec amber; passes WCAG AA on dark bg (#2B2D42 → 8.46:1) and dark surface (#3A3D5A → 6.60:1)
+export const semanticAccent = "#FFC422";
+
 export const darkThemeSurface = "#3A3D5A";
 
 export const themes: Record<string, ThemeDefinition> = {
@@ -34,6 +37,8 @@ export const themes: Record<string, ThemeDefinition> = {
       info: semanticInfo,
       "on-info": "#FFFFFF",
       "info-darken-1": "#2563EB",
+      accent: semanticAccent,
+      "on-accent": paletteDarkBg,
       background: paletteAntiFlashWhite,
       "on-background": paletteDarkBg,
       surface: "#FFFFFF",
@@ -89,6 +94,8 @@ export const themes: Record<string, ThemeDefinition> = {
       info: semanticInfo,
       "on-info": "#FFFFFF",
       "info-darken-1": "#2563EB",
+      accent: semanticAccent,
+      "on-accent": paletteDarkBg,
       background: paletteDarkBg,
       "on-background": paletteAntiFlashWhite,
       surface: darkThemeSurface,

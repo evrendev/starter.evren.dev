@@ -9,6 +9,8 @@ import "reveal.js/dist/theme/black.css";
 
 const props = defineProps<{
   lessonId: string;
+  // Disable when hosted inside a dialog so reveal.js does not rewrite the page URL hash
+  hashNavigation?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -48,12 +50,14 @@ onMounted(async () => {
 
   if (revealRef.value) {
     revealInstance = new Reveal(revealRef.value, {
-      hash: true,
+      hash: props.hashNavigation ?? true,
       transition: "slide",
       width: "100%",
       height: "100%",
       margin: 0.1,
-      keyboard: true,
+      // ESC is bound to reveal's overview mode by default; free it so the
+      // surrounding v-dialog can handle ESC-to-close
+      keyboard: { 27: null },
       touch: true,
     });
 

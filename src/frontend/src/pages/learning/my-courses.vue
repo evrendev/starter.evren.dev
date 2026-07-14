@@ -3,9 +3,9 @@ import { useCourseEnrollmentStore } from "@/stores/courseEnrollment";
 import { useChapterStore } from "@/stores/chapter";
 import { useLessonStore } from "@/stores/lesson";
 import { useLessonPageStore } from "@/stores/lessonPage";
+import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
 
 const { t } = useI18n();
-const router = useRouter();
 
 const enrollmentStore = useCourseEnrollmentStore();
 const { enrollments, loading } = storeToRefs(enrollmentStore);
@@ -54,17 +54,47 @@ const handleChapterExpand = async (chapterId: string) => {
   }
 };
 
+const playerLessonId = ref<string | null>(null);
+const playerOpen = ref(false);
+
 const goToLesson = (lessonId: string) => {
-  router.push({ name: "lesson-player", params: { id: lessonId } });
+  playerLessonId.value = lessonId;
+  playerOpen.value = true;
 };
+
+const refreshProgress = async () => {
+  await enrollmentStore.getMyEnrollments();
+
+  lessonProgressLoading.value = true;
+  try {
+    await Promise.all(
+      lessons.value.map(async (lesson) => {
+        const result = await lessonPageStore.getLessonPlayer(lesson.id);
+        if (result.succeeded && result.data) {
+          lessonProgress.value[lesson.id] = result.data.percentComplete || 0;
+        }
+      }),
+    );
+  } finally {
+    lessonProgressLoading.value = false;
+  }
+};
+
+watch(playerOpen, async (open) => {
+  if (!open) {
+    await refreshProgress();
+  }
+});
 </script>
 
 <template>
   <v-container>
     <h2 class="mb-4">{{ t("learning.myCourses.title") }}</h2>
 
+    <!-- Only on initial load; background refreshes (e.g. after closing the
+         player dialog) must not unmount the panels and lose expansion state -->
     <v-progress-circular
-      v-if="loading"
+      v-if="loading && enrollments.length === 0"
       indeterminate
       color="primary"
       class="d-block mx-auto mt-8"
@@ -162,6 +192,8 @@ const goToLesson = (lessonId: string) => {
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
+
+    <LessonPlayerDialog v-model="playerOpen" :lesson-id="playerLessonId" />
   </v-container>
 </template>
 
