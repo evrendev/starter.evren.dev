@@ -5,12 +5,25 @@ import { Notify } from "@/stores/notification";
 import { CreateNoteRequest } from "@/types/requests/lessonPage";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { useI18n } from "vue-i18n";
+import { useTheme } from "vuetify";
+import { format } from "date-fns";
+import { enUS, de, tr } from "date-fns/locale";
+import type { Locale } from "date-fns";
 
 const props = defineProps<{
   lessonPageId: string;
 }>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+
+// Header strip follows the theme (grey-100: #F3F4F6 light / #374151 dark)
+const vuetifyTheme = useTheme();
+const headerBg = computed(() => vuetifyTheme.current.value.colors["grey-100"]);
+
+const dateLocales: Record<string, Locale> = { en: enUS, de, tr };
+
+const formatNoteDate = (value: Date | string) =>
+  format(new Date(value), "P", { locale: dateLocales[locale.value] ?? enUS });
 const { sanitize } = useSanitizedHtml();
 const noteStore = useNoteStore();
 const personalStore = usePersonalStore();
@@ -136,8 +149,8 @@ const handleDeleteNote = async (noteId: string) => {
                   :innerHTML="sanitize(note.content)"
                   style="word-wrap: break-word; white-space: pre-wrap"
                 />
-                <div class="text-caption text-grey-7">
-                  {{ note.userId }} • {{ new Date(note.completedAt || Date.now()).toLocaleDateString() }}
+                <div v-if="note.createdOn" class="text-caption text-grey-7">
+                  {{ formatNoteDate(note.createdOn) }}
                 </div>
               </div>
               <v-btn
@@ -163,7 +176,7 @@ const handleDeleteNote = async (noteId: string) => {
 }
 
 .bg-light {
-  background-color: #f5f5f5;
+  background-color: v-bind(headerBg);
 }
 
 .notes-list {

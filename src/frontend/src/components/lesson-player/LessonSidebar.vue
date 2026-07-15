@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // @ts-ignore - reveal.js type definitions not available
 import Reveal from "reveal.js";
+import { useTheme } from "vuetify";
 import { useLessonPageStore } from "@/stores/lessonPage";
 
 const props = defineProps<{
@@ -10,6 +11,12 @@ const props = defineProps<{
 const lessonPageStore = useLessonPageStore();
 const { pages, progressPercent, currentPage, lastVisitedPageId } =
   storeToRefs(lessonPageStore);
+
+// Light theme: primary→accent gradient fill; dark keeps the flat primary bar
+const vuetifyTheme = useTheme();
+const isDark = computed(() => vuetifyTheme.current.value.dark);
+const gradientFrom = computed(() => vuetifyTheme.current.value.colors.primary);
+const gradientTo = computed(() => vuetifyTheme.current.value.colors.accent);
 
 const handlePageClick = (index: number) => {
   props.revealInstance?.slide(index, 0);
@@ -31,11 +38,14 @@ const handlePageClick = (index: number) => {
 
       <!-- Progress Bar -->
       <div class="mb-6">
+        <!-- Dark primary is gray; the design reference wants the flat red
+             (= dark theme's secondary token) there -->
         <v-progress-linear
           :model-value="progressPercent"
-          color="primary"
+          :color="isDark ? 'secondary' : 'primary'"
           height="8"
           class="mb-2"
+          :class="{ 'progress-gradient': !isDark }"
         />
         <div class="text-caption text-center">
           {{ progressPercent }}% Complete
@@ -85,5 +95,14 @@ const handlePageClick = (index: number) => {
 
 .cursor-pointer:hover {
   background-color: #f5f5f5;
+}
+
+/* background-image paints over the color prop's background-color */
+.progress-gradient :deep(.v-progress-linear__determinate) {
+  background-image: linear-gradient(
+    90deg,
+    v-bind(gradientFrom),
+    v-bind(gradientTo)
+  );
 }
 </style>

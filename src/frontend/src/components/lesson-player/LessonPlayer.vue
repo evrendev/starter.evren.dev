@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTheme } from "vuetify";
 import { useLessonPageStore } from "@/stores/lessonPage";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { ErrorType } from "@/primitives/error";
@@ -21,6 +22,21 @@ const emit = defineEmits<{
 const lessonPageStore = useLessonPageStore();
 const { pages, currentPage, loading } = storeToRefs(lessonPageStore);
 const { sanitize } = useSanitizedHtml();
+
+// Slide colors follow the app theme (reveal's own black theme would render
+// light/white headings on the light slide background otherwise)
+const vuetifyTheme = useTheme();
+const slideBg = computed(() =>
+  vuetifyTheme.current.value.dark
+    ? vuetifyTheme.current.value.colors.background
+    : vuetifyTheme.current.value.colors.surface,
+);
+const slideFg = computed(() =>
+  vuetifyTheme.current.value.dark
+    ? vuetifyTheme.current.value.colors["on-background"]
+    : vuetifyTheme.current.value.colors["on-surface"],
+);
+const controlsColor = computed(() => vuetifyTheme.current.value.colors.primary);
 
 const revealRef = ref<HTMLDivElement>();
 let revealInstance: typeof Reveal | null = null;
@@ -152,17 +168,37 @@ onBeforeUnmount(() => {
 .lesson-slide {
   text-align: left;
   padding: 40px;
-  background: #f5f5f5;
+  background: v-bind(slideBg);
   min-height: 100%;
 }
 
 .slide-content {
   font-size: 18px;
   line-height: 1.6;
-  color: #333;
+  color: v-bind(slideFg);
   margin: 20px 0;
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+/* Content HTML comes from v-html (no scoped data-attr); reveal's black theme
+   would otherwise paint headings white on the light slide background */
+.slide-content :deep(h1),
+.slide-content :deep(h2),
+.slide-content :deep(h3),
+.slide-content :deep(h4),
+.slide-content :deep(h5),
+.slide-content :deep(h6) {
+  color: v-bind(slideFg);
+}
+
+/* Reveal's native controls/progress ship with the theme's #42affa link color */
+.reveal :deep(.controls) {
+  color: v-bind(controlsColor);
+}
+
+.reveal :deep(.progress) {
+  color: v-bind(controlsColor);
 }
 
 .slide-media {

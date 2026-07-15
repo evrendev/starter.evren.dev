@@ -1,4 +1,7 @@
-﻿namespace EvrenDev.Infrastructure.Mapping;
+﻿using EvrenDev.Application.Catalog.Notes.Entities;
+using EvrenDev.Domain.Catalog;
+
+namespace EvrenDev.Infrastructure.Mapping;
 
 public class MapsterSettings
 {
@@ -9,5 +12,10 @@ public class MapsterSettings
 
         // This one is actually not necessary as it's mapped by convention
         // TypeAdapterConfig<Product, ProductDto>.NewConfig().Map(dest => dest.BrandName, src => src.Brand.Name);
+
+        // NoteDto.CreatedOn deliberately comes from LastModifiedOn: the entity's
+        // CreatedOn is get-only without a DB column and would evaluate to "now"
+        TypeAdapterConfig<Note, NoteDto>.NewConfig()
+            .Map(dest => dest.CreatedOn, src => src.LastModifiedOn);
     }
 }

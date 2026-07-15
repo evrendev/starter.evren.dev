@@ -48,5 +48,6 @@ export interface NoteDto {
   userId: string;
   lessonPageId: string;
   content: string;
-  completedAt?: Date;
+  // Backend maps this from the entity's LastModifiedOn (set at create time)
+  createdOn?: string;
 }

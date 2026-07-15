@@ -60,3 +60,8 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
   **hiçbir tabloda persist edilmiyor**. `CreatedOn`'a göre sıralama/filtreleme yapan başka bir
   yer varsa aynı 500 riskini taşır (`NotesByLessonPageSpec`'te bulunup `OrderBy(Id)` ile
   atlatıldı — UUIDv7 id'ler zaman sıralı olduğu için işlevsel eşdeğer, ama kalıcı çözüm değil).
+- **`AuditableEntity.CreatedOn` gerçek anlamda kullanılabilir hale getirilmeli** — backing
+  field + EF mapping + migration ile her tabloya gerçek `CreatedOn` kolonu eklenmeli. Şu an
+  `LastModifiedOn`'un create anındaki değeri `CreatedOn` yerine kullanılıyor (Notes'ta:
+  `MapsterSettings` içinde `NoteDto.CreatedOn ← Note.LastModifiedOn` mapping'i), bu geçici
+  bir çözüm.
