@@ -3,6 +3,7 @@ import { useTheme } from "vuetify";
 import { useLessonPageStore } from "@/stores/lessonPage";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { ErrorType } from "@/primitives/error";
+import QuizContent from "@/components/lesson-player/QuizContent.vue";
 // @ts-ignore - reveal.js type definitions not available
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
@@ -121,30 +122,56 @@ onBeforeUnmount(() => {
           :key="page.id"
           class="lesson-slide"
         >
-          <div
-            class="slide-content"
-            :innerHTML="sanitize(page.content)"
-          />
-          <div v-if="page.contentType === 'Video' && page.mediaUrl" class="slide-media">
-            <video width="80%" height="auto" controls>
-              <source :src="page.mediaUrl" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          <div v-else-if="page.contentType === 'Image' && page.mediaUrl" class="slide-media">
-            <img :src="page.mediaUrl" :alt="page.title" width="80%" />
-          </div>
-          <div v-else-if="page.contentType === 'Embed' && page.mediaUrl" class="slide-media">
-            <iframe
-              :src="page.mediaUrl"
-              :title="page.title"
-              width="80%"
-              height="400"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+          <v-card variant="elevated" rounded="lg" class="slide-card">
+            <template v-if="page.contentType === 'Image' && page.mediaUrl">
+              <div class="slide-media">
+                <img :src="page.mediaUrl" :alt="page.title" />
+              </div>
+              <!-- LessonPage has no dedicated caption field; Content doubles as caption -->
+              <v-card-text
+                class="slide-caption"
+                :innerHTML="sanitize(page.content)"
+              />
+            </template>
+
+            <template v-else-if="page.contentType === 'Video' && page.mediaUrl">
+              <div class="slide-media">
+                <video controls>
+                  <source :src="page.mediaUrl" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <v-card-text
+                class="slide-caption"
+                :innerHTML="sanitize(page.content)"
+              />
+            </template>
+
+            <template v-else-if="page.contentType === 'Embed' && page.mediaUrl">
+              <div class="embed-frame">
+                <iframe
+                  :src="page.mediaUrl"
+                  :title="page.title"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                />
+              </div>
+              <v-card-text
+                class="slide-caption"
+                :innerHTML="sanitize(page.content)"
+              />
+            </template>
+
+            <v-card-text v-else-if="page.contentType === 'Quiz'">
+              <QuizContent :content="page.content ?? ''" />
+            </v-card-text>
+
+            <v-card-text
+              v-else
+              class="slide-content"
+              :innerHTML="sanitize(page.content)"
             />
-          </div>
+          </v-card>
         </section>
       </template>
       <section v-else>
@@ -170,26 +197,45 @@ onBeforeUnmount(() => {
   padding: 40px;
   background: v-bind(slideBg);
   min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
-.slide-content {
+.slide-card {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.slide-content,
+.slide-caption {
   font-size: 18px;
   line-height: 1.6;
   color: v-bind(slideFg);
-  margin: 20px 0;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
+.slide-caption {
+  font-size: 15px;
+}
+
 /* Content HTML comes from v-html (no scoped data-attr); reveal's black theme
    would otherwise paint headings white on the light slide background */
-.slide-content :deep(h1),
-.slide-content :deep(h2),
-.slide-content :deep(h3),
-.slide-content :deep(h4),
-.slide-content :deep(h5),
-.slide-content :deep(h6) {
+.slide-card :deep(h1),
+.slide-card :deep(h2),
+.slide-card :deep(h3),
+.slide-card :deep(h4),
+.slide-card :deep(h5),
+.slide-card :deep(h6) {
   color: v-bind(slideFg);
+}
+
+/* Reveal's theme sizes headings for full slides; captions need modest ones */
+.slide-caption :deep(h1),
+.slide-caption :deep(h2),
+.slide-caption :deep(h3) {
+  font-size: 1.15em;
+  margin-bottom: 8px;
 }
 
 /* Reveal's native controls/progress ship with the theme's #42affa link color */
@@ -202,9 +248,9 @@ onBeforeUnmount(() => {
 }
 
 .slide-media {
-  margin: 20px 0;
   display: flex;
   justify-content: center;
+  padding: 16px 16px 0;
 }
 
 .slide-media img,
@@ -212,5 +258,16 @@ onBeforeUnmount(() => {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
+}
+
+.embed-frame {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.embed-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 </style>

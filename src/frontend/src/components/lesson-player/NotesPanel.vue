@@ -16,9 +16,19 @@ const props = defineProps<{
 
 const { t, locale } = useI18n();
 
-// Header strip follows the theme (grey-100: #F3F4F6 light / #374151 dark)
+// Panel is teleported inside the lesson player dialog; bind explicitly to
+// theme tokens rather than relying on CSS-cascade defaults (see
+// LessonPlayerDialog.vue for the same reasoning).
 const vuetifyTheme = useTheme();
+const isDark = computed(() => vuetifyTheme.current.value.dark);
+const panelBg = computed(() => vuetifyTheme.current.value.colors.surface);
+const panelFg = computed(() => vuetifyTheme.current.value.colors["on-surface"]);
+const mutedFg = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "99");
+// Header strip follows the theme (grey-100: #F3F4F6 light / #374151 dark)
 const headerBg = computed(() => vuetifyTheme.current.value.colors["grey-100"]);
+const noteCardBorder = computed(() => vuetifyTheme.current.value.colors["grey-300"]);
+// Red in dark theme is the secondary token (primary is gray there)
+const addButtonColor = computed(() => (isDark.value ? "secondary" : "primary"));
 
 const dateLocales: Record<string, Locale> = { en: enUS, de, tr };
 
@@ -97,32 +107,32 @@ const handleDeleteNote = async (noteId: string) => {
 
 <template>
   <div class="notes-panel">
-    <v-card class="h-100 d-flex flex-column">
-      <v-card-title class="bg-light">
-        <v-icon icon="mdi-note-text" class="mr-2" />
+    <v-card class="h-100 d-flex flex-column notes-panel-card">
+      <v-card-title class="bg-light panel-header">
+        <v-icon icon="bx-note" class="mr-2" />
         {{ t("shared.notes") }}
       </v-card-title>
 
       <v-card-text class="flex-grow-1 overflow-y-auto">
         <!-- Add New Note Section -->
         <div class="mb-4">
-          <v-label class="text-subtitle-2 mb-2">
+          <v-label class="text-subtitle-2 mb-2 panel-label">
             {{ t("catalog.notes.create.title") }}
           </v-label>
           <v-textarea
             v-model="newNoteContent"
             :placeholder="t('catalog.notes.create.placeholder')"
             rows="4"
-            outlined
+            variant="outlined"
             :disabled="submitting || loading"
           />
           <v-btn
             class="mt-2"
-            color="primary"
+            :color="addButtonColor"
             size="small"
             @click="handleAddNote"
             :loading="submitting"
-            prepend-icon="mdi-plus"
+            prepend-icon="bx-plus"
           >
             {{ t("shared.add") }}
           </v-btn>
@@ -131,7 +141,7 @@ const handleDeleteNote = async (noteId: string) => {
         <v-divider class="my-4" />
 
         <!-- Notes List Section -->
-        <div v-if="notes.length === 0" class="text-center text-caption text-grey-7">
+        <div v-if="notes.length === 0" class="text-center text-caption panel-muted">
           {{ t("shared.noData") }}
         </div>
 
@@ -140,21 +150,21 @@ const handleDeleteNote = async (noteId: string) => {
             v-for="note in notes"
             :key="note.id"
             variant="outlined"
-            class="mb-3 pa-3"
+            class="mb-3 pa-3 note-card"
           >
             <div class="d-flex justify-space-between align-start">
               <div class="flex-grow-1">
                 <div
-                  class="text-body2 mb-2"
+                  class="text-body2 mb-2 note-content"
                   :innerHTML="sanitize(note.content)"
                   style="word-wrap: break-word; white-space: pre-wrap"
                 />
-                <div v-if="note.createdOn" class="text-caption text-grey-7">
+                <div v-if="note.createdOn" class="text-caption panel-muted">
                   {{ formatNoteDate(note.createdOn) }}
                 </div>
               </div>
               <v-btn
-                icon="mdi-delete"
+                icon="bx-trash"
                 size="x-small"
                 variant="text"
                 color="error"
@@ -175,8 +185,31 @@ const handleDeleteNote = async (noteId: string) => {
   flex-direction: column;
 }
 
+.notes-panel-card {
+  background-color: v-bind(panelBg);
+  color: v-bind(panelFg);
+}
+
 .bg-light {
   background-color: v-bind(headerBg);
+}
+
+.panel-header,
+.panel-label {
+  color: v-bind(panelFg);
+}
+
+.panel-muted {
+  color: v-bind(mutedFg);
+}
+
+.note-card {
+  background-color: v-bind(panelBg);
+  border-color: v-bind(noteCardBorder) !important;
+}
+
+.note-content {
+  color: v-bind(panelFg);
 }
 
 .notes-list {

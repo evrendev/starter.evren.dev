@@ -4,6 +4,7 @@ import { Notify } from "@/stores/notification";
 import LessonPlayer from "@/components/lesson-player/LessonPlayer.vue";
 import LessonSidebar from "@/components/lesson-player/LessonSidebar.vue";
 import NotesPanel from "@/components/lesson-player/NotesPanel.vue";
+import { useTheme } from "vuetify";
 // @ts-ignore - reveal.js type definitions not available
 import type Reveal from "reveal.js";
 
@@ -17,6 +18,17 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+
+// v-dialog teleports this template's content out of the component's own
+// root DOM node, so Vue's scoped-CSS v-bind() (which sets custom properties
+// on that root node) never reaches these elements — verified empirically,
+// bindings resolved to transparent/black. Inline :style is used instead,
+// since that's set directly on the element and survives the teleport.
+const vuetifyTheme = useTheme();
+const containerBg = computed(() => vuetifyTheme.current.value.colors.surface);
+const closeIconColor = computed(() => vuetifyTheme.current.value.colors["on-surface"]);
+const closeHoverBg = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "14");
+const contentBorder = computed(() => vuetifyTheme.current.value.colors["grey-300"]);
 
 const lessonPageStore = useLessonPageStore();
 const { pages, lastVisitedPageId } = storeToRefs(lessonPageStore);
@@ -49,9 +61,15 @@ const handleForbidden = () => {
     transition="lesson-player-dialog-transition"
     @update:model-value="emit('update:modelValue', $event)"
   >
-    <div v-if="lessonId" :key="lessonId" class="lesson-player-container">
+    <div
+      v-if="lessonId"
+      :key="lessonId"
+      class="lesson-player-container"
+      :style="{ backgroundColor: containerBg }"
+    >
       <button
         class="player-close-btn"
+        :style="{ color: closeIconColor, '--close-hover-bg': closeHoverBg }"
         :aria-label="t('shared.close')"
         type="button"
         @click="close"
@@ -61,7 +79,7 @@ const handleForbidden = () => {
 
       <LessonSidebar :reveal-instance="revealInstance" />
       <div class="player-main">
-        <div class="player-content">
+        <div class="player-content" :style="{ borderRightColor: contentBorder }">
           <LessonPlayer
             :lesson-id="lessonId"
             :hash-navigation="false"
@@ -69,7 +87,7 @@ const handleForbidden = () => {
             @forbidden="handleForbidden"
           />
         </div>
-        <div class="notes-content">
+        <div class="notes-content" :style="{ backgroundColor: containerBg }">
           <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />
         </div>
       </div>
@@ -122,7 +140,6 @@ const handleForbidden = () => {
   display: flex;
   height: 100%;
   width: 100%;
-  background: white;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -141,13 +158,12 @@ const handleForbidden = () => {
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: #2b2d42;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .player-close-btn:hover {
-  background: rgba(43, 45, 66, 0.08);
+  background: var(--close-hover-bg);
 }
 
 .player-main {
@@ -160,13 +176,12 @@ const handleForbidden = () => {
 .player-content {
   flex: 2;
   overflow: auto;
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid;
 }
 
 .notes-content {
   flex: 1;
   overflow: hidden;
-  background: white;
   padding: 8px;
 }
 </style>

@@ -65,3 +65,10 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
   `LastModifiedOn`'un create anındaki değeri `CreatedOn` yerine kullanılıyor (Notes'ta:
   `MapsterSettings` içinde `NoteDto.CreatedOn ← Note.LastModifiedOn` mapping'i), bu geçici
   bir çözüm.
+- **Quiz doğru cevap bilgisi backend'de yapısal değil** — `LessonPage.Content` düz HTML,
+  `(richtig)` işaretine dayalı geçici DOMParser var (`QuizContent.vue`). Gerçek çözüm:
+  LessonPage'e ayrı bir Quiz veri modeli (Question/Option/IsCorrect) eklenmeli — ayrı,
+  kapsamlı bir task.
+- **Deep-link `/lessons/:id/player` sayfası (blank layout) kayıtlı dark temayı uygulamıyor**
+  çünkü ThemeSwitcher sadece admin layout'ta mount oluyor. Modal (v-dialog) zaten ana giriş
+  yolu olduğu için düşük öncelikli, ama app-seviyesi tema mount sorunu genel olarak var.
