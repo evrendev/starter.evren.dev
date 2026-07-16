@@ -21,8 +21,14 @@ const emit = defineEmits<{
 }>();
 
 const lessonPageStore = useLessonPageStore();
-const { pages, currentPage, loading } = storeToRefs(lessonPageStore);
+const { pages, currentPage, loading, lastVisitedPageId } = storeToRefs(lessonPageStore);
 const { sanitize } = useSanitizedHtml();
+
+// Currently displayed slide's title, for the breadcrumb above the reveal
+// container (lastVisitedPageId tracks the active slide, see visitPage below)
+const currentSlideTitle = computed(
+  () => pages.value.find((p) => p.id === lastVisitedPageId.value)?.title ?? pages.value[0]?.title,
+);
 
 // Slide colors follow the app theme (reveal's own black theme would render
 // light/white headings on the light slide background otherwise)
@@ -38,6 +44,7 @@ const slideFg = computed(() =>
     : vuetifyTheme.current.value.colors["on-surface"],
 );
 const controlsColor = computed(() => vuetifyTheme.current.value.colors.primary);
+const breadcrumbColor = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "99");
 
 const revealRef = ref<HTMLDivElement>();
 let revealInstance: typeof Reveal | null = null;
@@ -114,77 +121,97 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="revealRef" class="reveal">
-    <div class="slides">
-      <template v-if="!loading">
-        <section
-          v-for="(page, index) in pages"
-          :key="page.id"
-          class="lesson-slide"
-        >
-          <v-card variant="elevated" rounded="lg" class="slide-card">
-            <template v-if="page.contentType === 'Image' && page.mediaUrl">
-              <div class="slide-media">
-                <img :src="page.mediaUrl" :alt="page.title" />
-              </div>
-              <!-- LessonPage has no dedicated caption field; Content doubles as caption -->
-              <v-card-text
-                class="slide-caption"
-                :innerHTML="sanitize(page.content)"
-              />
-            </template>
-
-            <template v-else-if="page.contentType === 'Video' && page.mediaUrl">
-              <div class="slide-media">
-                <video controls>
-                  <source :src="page.mediaUrl" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              <v-card-text
-                class="slide-caption"
-                :innerHTML="sanitize(page.content)"
-              />
-            </template>
-
-            <template v-else-if="page.contentType === 'Embed' && page.mediaUrl">
-              <div class="embed-frame">
-                <iframe
-                  :src="page.mediaUrl"
-                  :title="page.title"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
+  <div class="lesson-player-root">
+    <div v-if="!loading && currentPage" class="lesson-breadcrumb">
+      {{ currentPage.lessonTitle }} / {{ currentSlideTitle }}
+    </div>
+    <div ref="revealRef" class="reveal">
+      <div class="slides">
+        <template v-if="!loading">
+          <section
+            v-for="page in pages"
+            :key="page.id"
+            class="lesson-slide"
+          >
+            <v-card variant="elevated" rounded="lg" class="slide-card">
+              <template v-if="page.contentType === 'Image' && page.mediaUrl">
+                <div class="slide-media">
+                  <img :src="page.mediaUrl" :alt="page.title" />
+                </div>
+                <!-- LessonPage has no dedicated caption field; Content doubles as caption -->
+                <v-card-text
+                  class="slide-caption"
+                  :innerHTML="sanitize(page.content)"
                 />
-              </div>
+              </template>
+
+              <template v-else-if="page.contentType === 'Video' && page.mediaUrl">
+                <div class="slide-media">
+                  <video controls>
+                    <source :src="page.mediaUrl" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <v-card-text
+                  class="slide-caption"
+                  :innerHTML="sanitize(page.content)"
+                />
+              </template>
+
+              <template v-else-if="page.contentType === 'Embed' && page.mediaUrl">
+                <div class="embed-frame">
+                  <iframe
+                    :src="page.mediaUrl"
+                    :title="page.title"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  />
+                </div>
+                <v-card-text
+                  class="slide-caption"
+                  :innerHTML="sanitize(page.content)"
+                />
+              </template>
+
+              <v-card-text v-else-if="page.contentType === 'Quiz'">
+                <QuizContent :content="page.content ?? ''" />
+              </v-card-text>
+
               <v-card-text
-                class="slide-caption"
+                v-else
+                class="slide-content"
                 :innerHTML="sanitize(page.content)"
               />
-            </template>
-
-            <v-card-text v-else-if="page.contentType === 'Quiz'">
-              <QuizContent :content="page.content ?? ''" />
-            </v-card-text>
-
-            <v-card-text
-              v-else
-              class="slide-content"
-              :innerHTML="sanitize(page.content)"
-            />
-          </v-card>
+            </v-card>
+          </section>
+        </template>
+        <section v-else>
+          <v-progress-circular indeterminate color="primary" />
         </section>
-      </template>
-      <section v-else>
-        <v-progress-circular indeterminate color="primary" />
-      </section>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.reveal {
+.lesson-player-root {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+}
+
+.lesson-breadcrumb {
+  flex-shrink: 0;
+  padding: 12px 40px 0;
+  font-size: 13px;
+  color: v-bind(breadcrumbColor);
+}
+
+.reveal {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .slides {

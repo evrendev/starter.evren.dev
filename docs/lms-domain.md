@@ -72,3 +72,10 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
 - **Deep-link `/lessons/:id/player` sayfası (blank layout) kayıtlı dark temayı uygulamıyor**
   çünkü ThemeSwitcher sadece admin layout'ta mount oluyor. Modal (v-dialog) zaten ana giriş
   yolu olduğu için düşük öncelikli, ama app-seviyesi tema mount sorunu genel olarak var.
+
+## Design Backlog
+
+- **Quiz şu an her seçenek tıklandığında anında doğru/yanlış gösteriyor** (immediate feedback).
+  Orijinal tasarım referansı "Zurück / Auswertung ansehen" butonlarıyla tüm sorular
+  cevaplandıktan sonra toplu değerlendirme modeliydi. Karar: şimdilik mevcut anlık model
+  korunuyor, ileride orijinal modele dönülüp dönülmeyeceği ayrıca değerlendirilecek.

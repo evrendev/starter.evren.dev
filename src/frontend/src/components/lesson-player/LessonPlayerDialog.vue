@@ -11,6 +11,7 @@ import type Reveal from "reveal.js";
 const props = defineProps<{
   modelValue: boolean;
   lessonId: string | null;
+  categoryTitle?: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -77,7 +78,7 @@ const handleForbidden = () => {
         <v-icon icon="$close" size="36" />
       </button>
 
-      <LessonSidebar :reveal-instance="revealInstance" />
+      <LessonSidebar :reveal-instance="revealInstance" :category-title="categoryTitle" />
       <div class="player-main">
         <div class="player-content" :style="{ borderRightColor: contentBorder }">
           <LessonPlayer

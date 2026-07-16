@@ -1,4 +1,5 @@
-﻿using EvrenDev.Application.Catalog.Notes.Entities;
+﻿using EvrenDev.Application.Catalog.CourseEnrollments.Entities;
+using EvrenDev.Application.Catalog.Notes.Entities;
 using EvrenDev.Domain.Catalog;
 
 namespace EvrenDev.Infrastructure.Mapping;
@@ -17,5 +18,8 @@ public class MapsterSettings
         // CreatedOn is get-only without a DB column and would evaluate to "now"
         TypeAdapterConfig<Note, NoteDto>.NewConfig()
             .Map(dest => dest.CreatedOn, src => src.LastModifiedOn);
+
+        TypeAdapterConfig<CourseEnrollment, CourseEnrollmentDto>.NewConfig()
+            .Map(dest => dest.CategoryTitle, src => src.Course.Category.Title);
     }
 }

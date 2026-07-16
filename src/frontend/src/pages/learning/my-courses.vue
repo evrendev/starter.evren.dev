@@ -55,10 +55,12 @@ const handleChapterExpand = async (chapterId: string) => {
 };
 
 const playerLessonId = ref<string | null>(null);
+const playerCategoryTitle = ref<string | null>(null);
 const playerOpen = ref(false);
 
-const goToLesson = (lessonId: string) => {
+const goToLesson = (lessonId: string, categoryTitle?: string) => {
   playerLessonId.value = lessonId;
+  playerCategoryTitle.value = categoryTitle ?? null;
   playerOpen.value = true;
 };
 
@@ -158,7 +160,7 @@ watch(playerOpen, async (open) => {
                     v-for="lesson in lessons"
                     :key="lesson.id"
                     class="cursor-pointer"
-                    @click="goToLesson(lesson.id)"
+                    @click="goToLesson(lesson.id, enrollment.categoryTitle)"
                   >
                     <template #prepend>
                       <v-icon
@@ -193,7 +195,11 @@ watch(playerOpen, async (open) => {
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <LessonPlayerDialog v-model="playerOpen" :lesson-id="playerLessonId" />
+    <LessonPlayerDialog
+      v-model="playerOpen"
+      :lesson-id="playerLessonId"
+      :category-title="playerCategoryTitle"
+    />
   </v-container>
 </template>
 

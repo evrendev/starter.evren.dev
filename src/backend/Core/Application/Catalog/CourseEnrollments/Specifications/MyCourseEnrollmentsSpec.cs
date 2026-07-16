@@ -8,5 +8,6 @@ public class MyCourseEnrollmentsSpec : Specification<CourseEnrollment, CourseEnr
     public MyCourseEnrollmentsSpec(string userId) =>
         Query
             .Where(e => e.UserId == userId)
-            .Include(e => e.Course);
+            .Include(e => e.Course)
+            .ThenInclude(c => c.Category);
 }
