@@ -4,6 +4,7 @@ import Reveal from "reveal.js";
 import { useTheme } from "vuetify";
 import { useI18n } from "vue-i18n";
 import { useLessonPageStore } from "@/stores/lessonPage";
+import { contentTypeIcons } from "@/utils/contentTypeIcons";
 
 const props = defineProps<{
   revealInstance?: typeof Reveal | null;
@@ -45,15 +46,6 @@ const percentLabelColor = computed(() => vuetifyTheme.current.value.colors["on-s
 const titleColor = computed(() =>
   isDark.value ? vuetifyTheme.current.value.colors["on-surface"] : vuetifyTheme.current.value.colors["grey-900"],
 );
-
-// All names verified against the generated iconify subset (icons.css)
-const contentTypeIcons: Record<string, string> = {
-  Text: "bx-align-left",
-  Image: "bx-image",
-  Video: "bx-play-circle",
-  Quiz: "bx-help-circle",
-  Embed: "bx-link-alt",
-};
 
 type BadgeState = "active" | "completed" | "neutral";
 

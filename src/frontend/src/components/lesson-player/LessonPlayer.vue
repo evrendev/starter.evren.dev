@@ -3,6 +3,7 @@ import { useTheme } from "vuetify";
 import { useLessonPageStore } from "@/stores/lessonPage";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { ErrorType } from "@/primitives/error";
+import { contentTypeIcons } from "@/utils/contentTypeIcons";
 import QuizContent from "@/components/lesson-player/QuizContent.vue";
 // @ts-ignore - reveal.js type definitions not available
 import Reveal from "reveal.js";
@@ -33,18 +34,48 @@ const currentSlideTitle = computed(
 // Slide colors follow the app theme (reveal's own black theme would render
 // light/white headings on the light slide background otherwise)
 const vuetifyTheme = useTheme();
-const slideBg = computed(() =>
-  vuetifyTheme.current.value.dark
-    ? vuetifyTheme.current.value.colors.background
-    : vuetifyTheme.current.value.colors.surface,
-);
+const isDark = computed(() => vuetifyTheme.current.value.dark);
+// Page-level layer, distinct from the card's own "surface" background so the
+// card visually separates from its surroundings. Dark already used its own
+// "background" token here (dark surface, #3A3D5A, is lighter than dark
+// background, #2B2D42); light previously reused "surface" for both layers,
+// which made the slide and its cards merge into one flat white area
+const slideBg = computed(() => vuetifyTheme.current.value.colors.background);
 const slideFg = computed(() =>
   vuetifyTheme.current.value.dark
     ? vuetifyTheme.current.value.colors["on-background"]
     : vuetifyTheme.current.value.colors["on-surface"],
 );
+// The card's own layer, kept explicit rather than relying on v-card's default
+// (which also resolves to "surface", but implicitly)
+const cardBg = computed(() => vuetifyTheme.current.value.colors.surface);
 const controlsColor = computed(() => vuetifyTheme.current.value.colors.primary);
 const breadcrumbColor = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "99");
+// Same near-black-in-light / on-surface-in-dark reasoning as LessonSidebar's
+// lesson title (light's own on-surface token reads too light against white)
+const pageTitleColor = computed(() =>
+  vuetifyTheme.current.value.dark
+    ? vuetifyTheme.current.value.colors["on-surface"]
+    : vuetifyTheme.current.value.colors["grey-900"],
+);
+const iconBoxBg = computed(() => vuetifyTheme.current.value.colors.accent);
+const iconBoxColor = computed(() => vuetifyTheme.current.value.colors["on-accent"]);
+
+// Seed content commonly repeats the page's own title as its first heading;
+// strip that one heading when it duplicates page.title so it isn't shown
+// twice (once in the new header block, once inside the rendered content)
+const stripDuplicateHeading = (html: string | undefined, title: string): string => {
+  if (!html) return "";
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const first = doc.body.firstElementChild;
+  if (first && /^H[1-6]$/.test(first.tagName) && first.textContent?.trim() === title.trim()) {
+    first.remove();
+  }
+  return doc.body.innerHTML;
+};
+
+const renderedContent = (page: { content?: string; title: string }) =>
+  sanitize(stripDuplicateHeading(page.content, page.title));
 
 const revealRef = ref<HTMLDivElement>();
 let revealInstance: typeof Reveal | null = null;
@@ -78,7 +109,10 @@ onMounted(async () => {
       transition: "slide",
       width: "100%",
       height: "100%",
-      margin: 0.1,
+      // 0.1 (reveal's original value here) left ~40px of unwanted empty
+      // space above the content and shrank the card noticeably narrower
+      // than the available width; 0.02 keeps a small viewing margin only
+      margin: 0.02,
       // ESC is bound to reveal's overview mode by default; free it so the
       // surrounding v-dialog can handle ESC-to-close
       keyboard: { 27: null },
@@ -123,7 +157,8 @@ onBeforeUnmount(() => {
 <template>
   <div class="lesson-player-root">
     <div v-if="!loading && currentPage" class="lesson-breadcrumb">
-      {{ currentPage.lessonTitle }} / {{ currentSlideTitle }}
+      {{ currentPage.lessonTitle }} /
+      <span class="breadcrumb-current">{{ currentSlideTitle }}</span>
     </div>
     <div ref="revealRef" class="reveal">
       <div class="slides">
@@ -133,7 +168,21 @@ onBeforeUnmount(() => {
             :key="page.id"
             class="lesson-slide"
           >
-            <v-card variant="elevated" rounded="lg" class="slide-card">
+            <div class="page-header-row">
+              <div class="header-icon-box">
+                <v-icon :icon="contentTypeIcons[page.contentType] ?? 'bx-align-left'" size="24" />
+              </div>
+              <!-- div, not h1: reveal.js's theme CSS targets any h1-h6 inside
+                   .reveal with forced uppercase/letter-spacing/text-shadow -->
+              <div class="page-header-title" role="heading" aria-level="1">{{ page.title }}</div>
+            </div>
+
+            <v-card
+              variant="elevated"
+              rounded="lg"
+              class="slide-card"
+              :class="{ 'slide-card--elevated': !isDark }"
+            >
               <template v-if="page.contentType === 'Image' && page.mediaUrl">
                 <div class="slide-media">
                   <img :src="page.mediaUrl" :alt="page.title" />
@@ -141,7 +190,7 @@ onBeforeUnmount(() => {
                 <!-- LessonPage has no dedicated caption field; Content doubles as caption -->
                 <v-card-text
                   class="slide-caption"
-                  :innerHTML="sanitize(page.content)"
+                  :innerHTML="renderedContent(page)"
                 />
               </template>
 
@@ -154,7 +203,7 @@ onBeforeUnmount(() => {
                 </div>
                 <v-card-text
                   class="slide-caption"
-                  :innerHTML="sanitize(page.content)"
+                  :innerHTML="renderedContent(page)"
                 />
               </template>
 
@@ -169,7 +218,7 @@ onBeforeUnmount(() => {
                 </div>
                 <v-card-text
                   class="slide-caption"
-                  :innerHTML="sanitize(page.content)"
+                  :innerHTML="renderedContent(page)"
                 />
               </template>
 
@@ -180,7 +229,7 @@ onBeforeUnmount(() => {
               <v-card-text
                 v-else
                 class="slide-content"
-                :innerHTML="sanitize(page.content)"
+                :innerHTML="renderedContent(page)"
               />
             </v-card>
           </section>
@@ -203,9 +252,16 @@ onBeforeUnmount(() => {
 
 .lesson-breadcrumb {
   flex-shrink: 0;
-  padding: 12px 40px 0;
+  padding: 12px 40px 4px;
   font-size: 13px;
   color: v-bind(breadcrumbColor);
+}
+
+/* Bold, full-opacity last segment ("you are here"); segments before it stay
+   in the breadcrumb's own muted color via the CSS default */
+.breadcrumb-current {
+  color: v-bind(pageTitleColor);
+  font-weight: 600;
 }
 
 .reveal {
@@ -221,16 +277,50 @@ onBeforeUnmount(() => {
 
 .lesson-slide {
   text-align: left;
-  padding: 40px;
+  padding: 16px 20px 40px;
   background: v-bind(slideBg);
   min-height: 100%;
   height: 100%;
   overflow-y: auto;
 }
 
+.page-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto 16px;
+}
+
+.header-icon-box {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: v-bind(iconBoxBg);
+  color: v-bind(iconBoxColor);
+}
+
+.page-header-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: v-bind(pageTitleColor);
+}
+
 .slide-card {
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
+  background: v-bind(cardBg);
+}
+
+/* Light only (per design): dark's card already separates from its slide
+   background via the surface/background token contrast, no shadow needed */
+.slide-card--elevated {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .slide-content,
