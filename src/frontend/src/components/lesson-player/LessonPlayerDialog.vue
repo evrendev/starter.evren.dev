@@ -4,7 +4,9 @@ import { Notify } from "@/stores/notification";
 import LessonPlayer from "@/components/lesson-player/LessonPlayer.vue";
 import LessonSidebar from "@/components/lesson-player/LessonSidebar.vue";
 import NotesPanel from "@/components/lesson-player/NotesPanel.vue";
-import { useTheme } from "vuetify";
+import LessonProgressSegments from "@/components/lesson-player/LessonProgressSegments.vue";
+import LessonMobileToolbar from "@/components/lesson-player/LessonMobileToolbar.vue";
+import { useTheme, useDisplay } from "vuetify";
 // @ts-ignore - reveal.js type definitions not available
 import type Reveal from "reveal.js";
 
@@ -43,6 +45,12 @@ const contentBorder = computed(() => vuetifyTheme.current.value.colors["grey-300
 const lessonPageStore = useLessonPageStore();
 const { pages, lastVisitedPageId } = storeToRefs(lessonPageStore);
 
+// No project-wide "mobile" convention found (only VerticalNav's admin-only
+// mdAndDown); smAndDown (<960px) is used directly as a sensible default
+const { smAndDown: mobile } = useDisplay();
+const listSheetOpen = ref(false);
+const notesSheetOpen = ref(false);
+
 const revealInstance = ref<typeof Reveal | null>(null);
 
 const currentPageId = computed(() => {
@@ -75,32 +83,67 @@ const handleForbidden = () => {
       v-if="lessonId"
       :key="lessonId"
       class="lesson-player-container"
+      :class="{ 'lesson-player-container--mobile': mobile }"
       :style="{ backgroundColor: containerBg }"
     >
-      <button
-        class="player-close-btn"
-        :style="{ color: closeIconColor, '--close-hover-bg': closeHoverBg }"
-        :aria-label="t('shared.close')"
-        type="button"
-        @click="close"
-      >
-        <v-icon icon="$close" size="36" />
-      </button>
-
-      <LessonSidebar :reveal-instance="revealInstance" :category-title="categoryTitle" />
-      <div class="player-main">
-        <div class="player-content" :style="{ borderRightColor: contentBorder }">
+      <template v-if="mobile">
+        <LessonProgressSegments
+          :pages="pages"
+          :active-page-id="lastVisitedPageId"
+          @close="close"
+        />
+        <div class="mobile-player-content">
           <LessonPlayer
             :lesson-id="lessonId"
             :hash-navigation="false"
+            mobile
             @ready="handleReady"
             @forbidden="handleForbidden"
           />
         </div>
-        <div class="notes-content" :style="{ backgroundColor: containerBg }">
+        <LessonMobileToolbar
+          :reveal-instance="revealInstance"
+          @open-list="listSheetOpen = true"
+          @open-notes="notesSheetOpen = true"
+        />
+        <v-bottom-sheet v-model="listSheetOpen" content-class="lesson-mobile-sheet">
+          <LessonSidebar
+            :reveal-instance="revealInstance"
+            :category-title="categoryTitle"
+            @page-selected="listSheetOpen = false"
+          />
+        </v-bottom-sheet>
+        <v-bottom-sheet v-model="notesSheetOpen" content-class="lesson-mobile-sheet">
           <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />
+        </v-bottom-sheet>
+      </template>
+
+      <template v-else>
+        <button
+          class="player-close-btn"
+          :style="{ color: closeIconColor, '--close-hover-bg': closeHoverBg }"
+          :aria-label="t('shared.close')"
+          type="button"
+          @click="close"
+        >
+          <v-icon icon="$close" size="36" />
+        </button>
+
+        <LessonSidebar :reveal-instance="revealInstance" :category-title="categoryTitle" />
+        <div class="player-main">
+          <div class="player-content" :style="{ borderRightColor: contentBorder }">
+            <LessonPlayer
+              :lesson-id="lessonId"
+              :hash-navigation="false"
+              @ready="handleReady"
+              @forbidden="handleForbidden"
+            />
+          </div>
+          <div class="notes-content" :style="{ backgroundColor: containerBg }">
+            <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />
+          </div>
         </div>
-      </div>
+      </template>
     </div>
   </v-dialog>
 </template>
@@ -111,8 +154,17 @@ const handleForbidden = () => {
 .lesson-player-dialog .v-overlay__content.lesson-player-dialog-panel {
   width: 90vw;
   max-width: 1600px;
+  /* vh is the mobile-address-bar-hide/show "100vh problem": on real phones
+     it's computed against a viewport size that doesn't match what's
+     actually visible during the show/hide animation, which is what made
+     the mobile toolbar (position: absolute, anchored to this panel's
+     height) appear to flicker/disappear. dvh tracks the real visible
+     viewport and is the standard fix; vh is kept first as a fallback for
+     browsers that don't recognize dvh (they simply ignore that line). */
   height: 90vh;
+  height: 90dvh;
   max-height: 90vh;
+  max-height: 90dvh;
   margin: 0;
 }
 
@@ -142,6 +194,28 @@ const handleForbidden = () => {
   opacity: 0;
   transform: scale(0.95);
 }
+
+/* Bottom sheets teleport outside this component too; sized so the reused
+   LessonSidebar/NotesPanel (which expect a definite-height ancestor) have
+   something to resolve their own height:100% against */
+.lesson-mobile-sheet {
+  max-height: 75vh;
+  max-height: 75dvh;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+.lesson-mobile-sheet .lesson-sidebar {
+  width: 100%;
+  height: 75vh;
+  height: 75dvh;
+  border-right: none;
+}
+
+.lesson-mobile-sheet .notes-panel {
+  height: 75vh;
+  height: 75dvh;
+}
 </style>
 
 <style scoped>
@@ -152,6 +226,16 @@ const handleForbidden = () => {
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
+}
+
+.lesson-player-container--mobile {
+  flex-direction: column;
+}
+
+.mobile-player-content {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
 }
 
 .player-close-btn {

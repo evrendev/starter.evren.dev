@@ -81,8 +81,15 @@ const badgeIcon = (state: BadgeState, contentType: string) =>
     ? "bx-bxs-check-circle"
     : (contentTypeIcons[contentType] ?? "bx-align-left");
 
+// Lets the mobile bottom-sheet host close itself on selection; unused on
+// desktop, where this component isn't wrapped in a sheet
+const emit = defineEmits<{
+  (e: "page-selected"): void;
+}>();
+
 const handlePageClick = (index: number) => {
   props.revealInstance?.slide(index, 0);
+  emit("page-selected");
 };
 </script>
 

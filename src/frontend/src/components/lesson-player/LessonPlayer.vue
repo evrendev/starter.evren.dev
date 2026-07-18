@@ -14,6 +14,9 @@ const props = defineProps<{
   lessonId: string;
   // Disable when hosted inside a dialog so reveal.js does not rewrite the page URL hash
   hashNavigation?: boolean;
+  // Shrinks the header icon box to match the mobile CSS below (numeric
+  // v-icon sizes render as an inline style, which a media query can't win against)
+  mobile?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -117,6 +120,15 @@ onMounted(async () => {
       // surrounding v-dialog can handle ESC-to-close
       keyboard: { 27: null },
       touch: true,
+      // reveal.js auto-switches to a continuous-scroll view (no .present
+      // class, .slide()/.next()/.prev() become no-ops) below this width —
+      // default 435px, which our mobile layout (390px test viewport) was
+      // silently triggering, breaking the segment bar and toolbar nav
+      scrollActivationWidth: 0,
+      // Mobile has its own prev/next buttons in LessonMobileToolbar; reveal's
+      // native on-screen arrows would overlap and intercept clicks on it.
+      // Desktop keeps them (already themed, see the .controls rule below)
+      controls: !props.mobile,
     });
 
     await revealInstance.initialize();
@@ -170,7 +182,10 @@ onBeforeUnmount(() => {
           >
             <div class="page-header-row">
               <div class="header-icon-box">
-                <v-icon :icon="contentTypeIcons[page.contentType] ?? 'bx-align-left'" size="24" />
+                <v-icon
+                  :icon="contentTypeIcons[page.contentType] ?? 'bx-align-left'"
+                  :size="mobile ? 18 : 24"
+                />
               </div>
               <!-- div, not h1: reveal.js's theme CSS targets any h1-h6 inside
                    .reveal with forced uppercase/letter-spacing/text-shadow -->
@@ -386,5 +401,33 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+/* Matches the JS mobile threshold (useDisplay().smAndDown, <960px) used to
+   switch LessonPlayerDialog into the mobile "story mode" layout */
+@media (max-width: 960px) {
+  .lesson-breadcrumb {
+    padding: 8px 16px 2px;
+    font-size: 12px;
+  }
+
+  .lesson-slide {
+    padding: 12px 16px 32px;
+  }
+
+  .page-header-row {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .header-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .page-header-title {
+    font-size: 19px;
+  }
 }
 </style>
