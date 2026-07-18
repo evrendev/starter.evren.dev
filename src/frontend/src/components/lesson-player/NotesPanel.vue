@@ -21,14 +21,30 @@ const { t, locale } = useI18n();
 // LessonPlayerDialog.vue for the same reasoning).
 const vuetifyTheme = useTheme();
 const isDark = computed(() => vuetifyTheme.current.value.dark);
-const panelBg = computed(() => vuetifyTheme.current.value.colors.surface);
+// Modal-wide gray unification (light only): matches LessonSidebar/
+// LessonPlayerDialog's containerBg. Dark already used "surface" here and
+// was already consistent with the rest of the dialog chrome, so it's kept.
+const panelBg = computed(() =>
+  isDark.value ? vuetifyTheme.current.value.colors.surface : vuetifyTheme.current.value.colors.background,
+);
 const panelFg = computed(() => vuetifyTheme.current.value.colors["on-surface"]);
 const mutedFg = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "99");
-// Header strip follows the theme (grey-100: #F3F4F6 light / #374151 dark)
-const headerBg = computed(() => vuetifyTheme.current.value.colors["grey-100"]);
+// Same gray as the rest of the panel in light (no separate header shade);
+// dark keeps its previous grey-100 strip, which wasn't flagged as an issue
+const headerBg = computed(() =>
+  isDark.value ? vuetifyTheme.current.value.colors["grey-100"] : vuetifyTheme.current.value.colors.background,
+);
+// Note cards are explicit white/surface, distinct from the now-gray panel
+// (light); dark's cards already read fine against dark's own surface tone
+const noteCardBg = computed(() => vuetifyTheme.current.value.colors.surface);
 const noteCardBorder = computed(() => vuetifyTheme.current.value.colors["grey-300"]);
 // Red in dark theme is the secondary token (primary is gray there)
 const addButtonColor = computed(() => (isDark.value ? "secondary" : "primary"));
+// Same near-black-in-light / on-surface-in-dark treatment as LessonSidebar's
+// lesson title, so "Notes" reads with the same weight/darkness
+const notesTitleColor = computed(() =>
+  isDark.value ? vuetifyTheme.current.value.colors["on-surface"] : vuetifyTheme.current.value.colors["grey-900"],
+);
 
 const dateLocales: Record<string, Locale> = { en: enUS, de, tr };
 
@@ -108,17 +124,21 @@ const handleDeleteNote = async (noteId: string) => {
 <template>
   <div class="notes-panel">
     <v-card class="h-100 d-flex flex-column notes-panel-card">
-      <v-card-title class="bg-light panel-header">
-        <v-icon icon="bx-note" class="mr-2" />
-        {{ t("shared.notes") }}
+      <v-card-title class="bg-light panel-header d-flex align-center">
+        <span class="notes-title-text">{{ t("shared.notes") }}</span>
+        <v-chip
+          size="small"
+          :color="addButtonColor"
+          variant="flat"
+          class="ml-2"
+        >
+          {{ notes.length }}
+        </v-chip>
       </v-card-title>
 
       <v-card-text class="flex-grow-1 overflow-y-auto">
         <!-- Add New Note Section -->
         <div class="mb-4">
-          <v-label class="text-subtitle-2 mb-2 panel-label">
-            {{ t("catalog.notes.create.title") }}
-          </v-label>
           <v-textarea
             v-model="newNoteContent"
             :placeholder="t('catalog.notes.create.placeholder')"
@@ -128,6 +148,7 @@ const handleDeleteNote = async (noteId: string) => {
           />
           <v-btn
             class="mt-2"
+            block
             :color="addButtonColor"
             size="small"
             @click="handleAddNote"
@@ -151,6 +172,7 @@ const handleDeleteNote = async (noteId: string) => {
             :key="note.id"
             variant="outlined"
             class="mb-3 pa-3 note-card"
+            :class="{ 'note-card--elevated': !isDark }"
           >
             <div class="d-flex justify-space-between align-start">
               <div class="flex-grow-1">
@@ -194,9 +216,14 @@ const handleDeleteNote = async (noteId: string) => {
   background-color: v-bind(headerBg);
 }
 
-.panel-header,
-.panel-label {
+.panel-header {
   color: v-bind(panelFg);
+}
+
+.notes-title-text {
+  font-size: 21px;
+  font-weight: 700;
+  color: v-bind(notesTitleColor);
 }
 
 .panel-muted {
@@ -204,8 +231,20 @@ const handleDeleteNote = async (noteId: string) => {
 }
 
 .note-card {
-  background-color: v-bind(panelBg);
+  background-color: v-bind(noteCardBg);
   border-color: v-bind(noteCardBorder) !important;
+}
+
+/* Outlined v-textarea has a transparent field background by default, which
+   let the now-gray panel show through; make it an explicit white/surface
+   field to match the rest of the "cards" in the panel */
+.notes-panel :deep(.v-textarea .v-field) {
+  background-color: v-bind(noteCardBg);
+}
+
+/* Light only: dark's note cards already read fine against dark's surface */
+.note-card--elevated {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .note-content {

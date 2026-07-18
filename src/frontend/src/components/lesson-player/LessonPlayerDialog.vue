@@ -26,7 +26,16 @@ const { t } = useI18n();
 // bindings resolved to transparent/black. Inline :style is used instead,
 // since that's set directly on the element and survives the teleport.
 const vuetifyTheme = useTheme();
-const containerBg = computed(() => vuetifyTheme.current.value.colors.surface);
+// Modal-wide gray unification (light only): dark already used "surface"
+// consistently as its outer-chrome tone across sidebar/content/notes, so
+// it's untouched; light previously reused "surface" (pure white) here too,
+// which is why the sidebar/content/notes areas all looked like one flat
+// white slab instead of a gray backdrop with white cards on top
+const containerBg = computed(() =>
+  vuetifyTheme.current.value.dark
+    ? vuetifyTheme.current.value.colors.surface
+    : vuetifyTheme.current.value.colors.background,
+);
 const closeIconColor = computed(() => vuetifyTheme.current.value.colors["on-surface"]);
 const closeHoverBg = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "14");
 const contentBorder = computed(() => vuetifyTheme.current.value.colors["grey-300"]);

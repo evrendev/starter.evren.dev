@@ -21,30 +21,45 @@ const vuetifyTheme = useTheme();
 const isDark = computed(() => vuetifyTheme.current.value.dark);
 const gradientFrom = computed(() => vuetifyTheme.current.value.colors.primary);
 const gradientTo = computed(() => vuetifyTheme.current.value.colors.accent);
-const neutralIcon = computed(() => vuetifyTheme.current.value.colors["grey-400"]);
-// Dark's own surface token already separates from the slide's darker
-// "background" token elsewhere (see LessonPlayer.vue slideBg); light has no
-// such split (slide also uses "surface"), so light is pinned to a literal
-// white here instead of re-deriving the same token the surrounding dialog
-// chrome also uses, and gets a card-style shadow for separation.
-const sidebarBg = computed(() =>
-  isDark.value ? vuetifyTheme.current.value.colors.surface : "#FFFFFF",
+const neutralIcon = computed(
+  () => vuetifyTheme.current.value.colors["grey-400"],
 );
-const sidebarBorder = computed(() => vuetifyTheme.current.value.colors["grey-300"]);
-const hoverBg = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "0f");
-const categoryColor = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "99");
+// Modal-wide unification: sidebar, content viewport and notes panel all
+// share this same gray "background" token in light (dark already used its
+// own "surface" token consistently across all three, so it's untouched).
+// Only actual cards (slide-card, note-card, quiz cards) stay white/surface.
+const sidebarBg = computed(() =>
+  isDark.value
+    ? vuetifyTheme.current.value.colors.surface
+    : vuetifyTheme.current.value.colors.background,
+);
+const sidebarBorder = computed(
+  () => vuetifyTheme.current.value.colors["grey-300"],
+);
+const hoverBg = computed(
+  () => vuetifyTheme.current.value.colors["on-surface"] + "0f",
+);
+const categoryColor = computed(
+  () => vuetifyTheme.current.value.colors["on-surface"] + "99",
+);
 // Same red in both themes (light primary === dark secondary, see LessonSidebar
 // active-row / progress-bar reasoning above), resolved to a hex for v-bind CSS
 const percentColor = computed(() =>
-  isDark.value ? vuetifyTheme.current.value.colors.secondary : vuetifyTheme.current.value.colors.primary,
+  isDark.value
+    ? vuetifyTheme.current.value.colors.secondary
+    : vuetifyTheme.current.value.colors.primary,
 );
-const percentLabelColor = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "99");
+const percentLabelColor = computed(
+  () => vuetifyTheme.current.value.colors["on-surface"] + "99",
+);
 // Dark's default on-surface (paletteAntiFlashWhite) already reads correctly
 // against the dark sidebar, so it's kept as-is; light's on-surface (#2B2D42)
 // reads noticeably lighter than the near-black reference design wants, so
 // light is pinned to grey-900 instead of the theme's own on-surface token
 const titleColor = computed(() =>
-  isDark.value ? vuetifyTheme.current.value.colors["on-surface"] : vuetifyTheme.current.value.colors["grey-900"],
+  isDark.value
+    ? vuetifyTheme.current.value.colors["on-surface"]
+    : vuetifyTheme.current.value.colors["grey-900"],
 );
 
 type BadgeState = "active" | "completed" | "neutral";
@@ -73,7 +88,7 @@ const handlePageClick = (index: number) => {
 
 <template>
   <aside class="lesson-sidebar">
-    <v-list class="pa-4">
+    <v-list class="pa-4 h-100">
       <!-- Category label: the enrolled course's Category title (e.g. "Berufliche
            Bildung"), passed down from my-courses.vue via CourseEnrollmentDto.
            Hidden when unavailable (e.g. the standalone /lessons/:id/player route). -->
@@ -92,7 +107,9 @@ const handlePageClick = (index: number) => {
       <div class="mb-6">
         <div class="percent-row mb-2">
           <span class="percent-value">{{ progressPercent }}%</span>
-          <span class="percent-label">{{ t("learning.myCourses.percentComplete") }}</span>
+          <span class="percent-label">{{
+            t("learning.myCourses.percentComplete")
+          }}</span>
         </div>
         <!-- Dark primary is gray; the design reference wants the flat red
              (= dark theme's secondary token) there -->
@@ -125,7 +142,10 @@ const handlePageClick = (index: number) => {
             class="page-badge mr-3"
             :class="{ 'page-badge--neutral': badgeState(page) === 'neutral' }"
           >
-            <v-icon :icon="badgeIcon(badgeState(page), page.contentType)" size="18" />
+            <v-icon
+              :icon="badgeIcon(badgeState(page), page.contentType)"
+              size="18"
+            />
           </v-avatar>
         </template>
 
@@ -148,9 +168,6 @@ const handlePageClick = (index: number) => {
   height: 100%;
   background: v-bind(sidebarBg);
   border-right: 1px solid v-bind(sidebarBorder);
-  /* Card-style separation from the surrounding dialog chrome, which can
-     share the same white/surface tone in light theme */
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
   overflow-y: auto;
 }
 
