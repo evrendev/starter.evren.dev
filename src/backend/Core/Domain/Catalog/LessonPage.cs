@@ -17,12 +17,15 @@ public class LessonPage : AuditableEntity, IAggregateRoot
     public int Order { get; private set; }
     public string? MediaUrl { get; private set; }
     public Guid LessonId { get; private set; }
+    // Set by the import handler for machine-generated pages awaiting author
+    // review; defaults false so the existing manual-creation flow is unaffected
+    public bool NeedsReview { get; private set; }
     public virtual Lesson Lesson { get; } = default!;
     public virtual ICollection<Note> Notes { get; private set; } = [];
     public virtual ICollection<LessonPageProgress> Progress { get; private set; } = [];
 
     public LessonPage(string title, string content, LessonPageContentType contentType,
-        int order, Guid lessonId, string? mediaUrl = null)
+        int order, Guid lessonId, string? mediaUrl = null, bool needsReview = false)
     {
         Title = title;
         Content = content;
@@ -30,10 +33,11 @@ public class LessonPage : AuditableEntity, IAggregateRoot
         Order = order;
         LessonId = lessonId;
         MediaUrl = mediaUrl;
+        NeedsReview = needsReview;
     }
 
     public LessonPage Update(string? title, string? content, LessonPageContentType? contentType,
-        int? order, string? mediaUrl)
+        int? order, string? mediaUrl, bool? needsReview = null)
     {
         if (title is not null && !Title.Equals(title))
             Title = title;
@@ -49,6 +53,9 @@ public class LessonPage : AuditableEntity, IAggregateRoot
 
         if (mediaUrl is not null && !string.Equals(MediaUrl, mediaUrl))
             MediaUrl = mediaUrl;
+
+        if (needsReview.HasValue && NeedsReview != needsReview.Value)
+            NeedsReview = needsReview.Value;
 
         return this;
     }

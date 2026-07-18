@@ -59,6 +59,21 @@ public class LocalFileStorageService : IFileStorageService
         return string.Empty;
     }
 
+    public async Task<string> SaveTempFileAsync(Stream content, string fileName,
+        CancellationToken cancellationToken = default)
+    {
+        var tempDir = Path.Combine(Directory.GetCurrentDirectory(), "Files", "Temp", "Imports");
+        Directory.CreateDirectory(tempDir);
+
+        var uniqueName = $"{Guid.NewGuid()}{Path.GetExtension(fileName)}";
+        var fullPath = Path.Combine(tempDir, uniqueName);
+
+        using var fileStream = new FileStream(fullPath, FileMode.Create);
+        await content.CopyToAsync(fileStream, cancellationToken);
+
+        return fullPath;
+    }
+
     public void Remove(string? path)
     {
         if (File.Exists(path))

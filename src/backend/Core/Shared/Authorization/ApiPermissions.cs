@@ -80,6 +80,7 @@ public static class ApiPermissions
         new("Generate Lessons", ApiAction.Generate, ApiResource.Lessons),
         new("Export Lessons", ApiAction.Export, ApiResource.Lessons),
         new("Clean Lessons", ApiAction.Clean, ApiResource.Lessons),
+        new("Import Lessons", ApiAction.Import, ApiResource.Lessons),
         // LessonPage permissions
         new("View LessonPages", ApiAction.View, ApiResource.LessonPages, IsBasic: true),
         new("Search LessonPages", ApiAction.Search, ApiResource.LessonPages, IsBasic: true),

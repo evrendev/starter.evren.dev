@@ -5,6 +5,8 @@ using EvrenDev.Application.Catalog.Courses.Queries.Export;
 using EvrenDev.Application.Catalog.Courses.Queries.Get;
 using EvrenDev.Application.Catalog.Courses.Queries.Paginate;
 using EvrenDev.Application.Catalog.Courses.Queries.Update;
+using EvrenDev.Application.Catalog.Lessons.Queries.Import;
+using Microsoft.AspNetCore.Http;
 
 namespace EvrenDev.PublicApi.Controllers.Catalog;
 
@@ -74,5 +76,19 @@ public class CoursesController : VersionedApiController
     {
         var result = await Mediator.Send(filter);
         return File(result, "application/octet-stream", "CourseExports");
+    }
+
+    [HttpPost("{id:guid}/import-pptx")]
+    [MustHavePermission(ApiAction.Import, ApiResource.Lessons)]
+    // Action-scoped override, not a global Kestrel change: the ASP.NET Core default
+    // (~28.6MB) would reject any real .pptx well before the request handler even runs.
+    // 200MB gives multipart overhead headroom above the 150MB file-size check enforced
+    // in ImportLessonsFromPptxRequestHandler.
+    [RequestSizeLimit(209_715_200)]
+    [OpenApiOperation("Import lessons from a PowerPoint (.pptx) file into a course.", "")]
+    public async Task<ActionResult<string>> ImportPptxAsync(Guid id, [FromForm] IFormFile file)
+    {
+        var jobId = await Mediator.Send(new ImportLessonsFromPptxRequest { CourseId = id, File = file });
+        return Ok(jobId);
     }
 }

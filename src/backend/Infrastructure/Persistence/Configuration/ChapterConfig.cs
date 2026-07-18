@@ -17,6 +17,10 @@ public class ChapterConfig : IEntityTypeConfiguration<Chapter>
         builder.Property(b => b.Order)
             .IsRequired();
 
+        builder.Property(b => b.IsStaging)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.HasMany(b => b.Lessons)
             .WithOne(b => b.Chapter)
             .HasForeignKey(b => b.ChapterId)

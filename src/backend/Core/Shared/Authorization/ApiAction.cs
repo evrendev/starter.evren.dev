@@ -10,5 +10,6 @@ public static class ApiAction
     public const string Export = nameof(Export);
     public const string Generate = nameof(Generate);
     public const string Clean = nameof(Clean);
+    public const string Import = nameof(Import);
     public const string UpgradeSubscription = nameof(UpgradeSubscription);
 }
