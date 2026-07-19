@@ -27,7 +27,12 @@ const form = reactive({
   isImported: false,
 });
 
-const contentTypeOptions = Object.values(LessonPageContentType);
+const contentTypeOptions = computed(() =>
+  Object.values(LessonPageContentType).map((value) => ({
+    value,
+    title: t(`admin.lessonpages.fields.contentType.options.${value.toLowerCase()}`),
+  })),
+);
 
 onMounted(async () => {
   if (isEdit.value && pageId.value) {
@@ -137,6 +142,8 @@ const handleSubmit = async () => {
               <v-select
                 v-model="form.contentType"
                 :items="contentTypeOptions"
+                item-title="title"
+                item-value="value"
                 :label="t('admin.lessonpages.fields.contentType.title')"
                 outlined
               />
@@ -173,6 +180,9 @@ const handleSubmit = async () => {
                 <v-alert type="info" variant="tonal" density="compact" class="mb-2">
                   {{ t("admin.lessonpages.fields.content.importedNotice") }}
                 </v-alert>
+                <label class="text-subtitle-2 mb-2 d-block">
+                  {{ t("admin.lessonpages.fields.content.richPreview") }}
+                </label>
                 <iframe
                   :srcdoc="form.content"
                   sandbox="allow-same-origin"

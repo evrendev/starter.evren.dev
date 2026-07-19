@@ -106,7 +106,11 @@ const pageTitle = computed(() => t(route.meta.title as string));
       >
         <template #item.contentType="{ item }">
           <v-chip size="small" :label="true">
-            {{ item.contentType || "-" }}
+            {{
+              item.contentType
+                ? t(`admin.lessonpages.fields.contentType.options.${item.contentType.toLowerCase()}`)
+                : "-"
+            }}
           </v-chip>
         </template>
 

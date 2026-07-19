@@ -138,7 +138,8 @@
           "categories": "Kategorien",
           "courses": "Kurse",
           "chapters": "Kapitel",
-          "lessons": "Lektionen"
+          "lessons": "Lektionen",
+          "lessonpages": "Lektionsseiten"
         }
       }
     },
@@ -686,17 +687,57 @@
       }
     },
     "lessonpages": {
+      "list": {
+        "title": "Lektionsseiten-Liste"
+      },
+      "create": {
+        "title": "Lektionsseite erstellen"
+      },
+      "edit": {
+        "title": "Lektionsseite bearbeiten"
+      },
       "fields": {
+        "title": {
+          "title": "Titel",
+          "placeholder": "Geben Sie einen Titel für diese Seite ein"
+        },
+        "contentType": {
+          "title": "Inhaltstyp",
+          "options": {
+            "text": "Text",
+            "video": "Video",
+            "image": "Bild",
+            "quiz": "Quiz",
+            "embed": "Einbettung"
+          }
+        },
+        "order": {
+          "title": "Reihenfolge"
+        },
+        "mediaUrl": {
+          "title": "Medien-URL",
+          "placeholder": "https://..."
+        },
         "content": {
+          "title": "Inhalt",
+          "richPreview": "Erweiterte Vorschau",
           "importedNotice": "Der Inhalt dieser Seite wurde aus einer PowerPoint-Datei importiert. Bearbeiten Sie bei Bedarf das rohe HTML unten — die Vorschau oben wird beim Tippen aktualisiert.",
           "rawHtml": "Roh-HTML"
         }
+      },
+      "notifications": {
+        "updated": "Lektionsseite erfolgreich aktualisiert",
+        "created": "Lektionsseite erfolgreich erstellt",
+        "saveFailed": "Lektionsseite konnte nicht gespeichert werden",
+        "deleted": "Lektionsseite erfolgreich gelöscht",
+        "deleteFailed": "Lektionsseite konnte nicht gelöscht werden"
       }
     }
   },
   "shared": {
     "actions": "Aktionen",
     "search": "Suche",
+    "create": "Erstellen",
     "save": "Speichern",
     "delete": "Löschen",
     "edit": "Bearbeiten",

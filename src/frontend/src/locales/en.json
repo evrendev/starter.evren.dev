@@ -141,7 +141,8 @@
           "categories": "Categories",
           "courses": "Courses",
           "chapters": "Chapters",
-          "lessons": "Lessons"
+          "lessons": "Lessons",
+          "lessonpages": "Lesson Pages"
         }
       }
     },
@@ -707,17 +708,57 @@
       }
     },
     "lessonpages": {
+      "list": {
+        "title": "Lesson Page List"
+      },
+      "create": {
+        "title": "Create Lesson Page"
+      },
+      "edit": {
+        "title": "Edit Lesson Page"
+      },
       "fields": {
+        "title": {
+          "title": "Title",
+          "placeholder": "Enter a title for this page"
+        },
+        "contentType": {
+          "title": "Content Type",
+          "options": {
+            "text": "Text",
+            "video": "Video",
+            "image": "Image",
+            "quiz": "Quiz",
+            "embed": "Embed"
+          }
+        },
+        "order": {
+          "title": "Order"
+        },
+        "mediaUrl": {
+          "title": "Media URL",
+          "placeholder": "https://..."
+        },
         "content": {
+          "title": "Content",
+          "richPreview": "Rich Preview",
           "importedNotice": "This page's content was imported from a PowerPoint file. Edit the raw HTML below if needed — the preview above updates as you type.",
           "rawHtml": "Raw HTML"
         }
+      },
+      "notifications": {
+        "updated": "Lesson page updated successfully",
+        "created": "Lesson page created successfully",
+        "saveFailed": "Failed to save lesson page",
+        "deleted": "Lesson page deleted successfully",
+        "deleteFailed": "Failed to delete lesson page"
       }
     }
   },
   "shared": {
     "actions": "Actions",
     "search": "Search",
+    "create": "Create",
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",

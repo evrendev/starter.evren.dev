@@ -138,7 +138,8 @@
           "categories": "Kategoriler",
           "courses": "Kurslar",
           "chapters": "Bölümler",
-          "lessons": "Dersler"
+          "lessons": "Dersler",
+          "lessonpages": "Ders Sayfaları"
         }
       }
     },
@@ -686,17 +687,57 @@
       }
     },
     "lessonpages": {
+      "list": {
+        "title": "Ders Sayfası Listesi"
+      },
+      "create": {
+        "title": "Ders Sayfası Oluştur"
+      },
+      "edit": {
+        "title": "Ders Sayfası Düzenle"
+      },
       "fields": {
+        "title": {
+          "title": "Başlık",
+          "placeholder": "Bu sayfa için bir başlık girin"
+        },
+        "contentType": {
+          "title": "İçerik Türü",
+          "options": {
+            "text": "Metin",
+            "video": "Video",
+            "image": "Görsel",
+            "quiz": "Quiz",
+            "embed": "Gömülü İçerik"
+          }
+        },
+        "order": {
+          "title": "Sıra"
+        },
+        "mediaUrl": {
+          "title": "Medya URL'si",
+          "placeholder": "https://..."
+        },
         "content": {
+          "title": "İçerik",
+          "richPreview": "Zengin Önizleme",
           "importedNotice": "Bu sayfanın içeriği bir PowerPoint dosyasından içe aktarıldı. Gerekirse aşağıdaki ham HTML'i düzenleyin — yukarıdaki önizleme yazdıkça güncellenir.",
           "rawHtml": "Ham HTML"
         }
+      },
+      "notifications": {
+        "updated": "Ders sayfası başarıyla güncellendi",
+        "created": "Ders sayfası başarıyla oluşturuldu",
+        "saveFailed": "Ders sayfası kaydedilemedi",
+        "deleted": "Ders sayfası başarıyla silindi",
+        "deleteFailed": "Ders sayfası silinemedi"
       }
     }
   },
   "shared": {
     "actions": "Eylemler",
     "search": "Arama",
+    "create": "Oluştur",
     "save": "Kaydet",
     "delete": "Sil",
     "edit": "Düzenle",
