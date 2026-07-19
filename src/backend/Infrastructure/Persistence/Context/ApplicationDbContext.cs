@@ -27,6 +27,7 @@ public class ApplicationDbContext(
     public DbSet<LessonProgress> LessonProgresses => Set<LessonProgress>();
     public DbSet<LessonPageProgress> LessonPageProgresses => Set<LessonPageProgress>();
     public DbSet<CourseEnrollment> CourseEnrollments => Set<CourseEnrollment>();
+    public DbSet<ImportJob> ImportJobs => Set<ImportJob>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

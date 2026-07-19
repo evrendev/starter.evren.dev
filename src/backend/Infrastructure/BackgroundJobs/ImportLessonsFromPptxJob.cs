@@ -1,3 +1,4 @@
+using System.Text.Json;
 using DocumentFormat.OpenXml.Packaging;
 using EvrenDev.Application.Catalog.Chapters.Specifications;
 using EvrenDev.Application.Catalog.Lessons.Interfaces;
@@ -12,25 +13,48 @@ using Microsoft.Extensions.Logging;
 namespace EvrenDev.Infrastructure.BackgroundJobs;
 
 public class ImportLessonsFromPptxJob(
+    IRepository<ImportJob> importJobRepository,
     IRepository<Chapter> chapterRepository,
     IRepository<Lesson> lessonRepository,
     IRepository<LessonPage> lessonPageRepository,
     IFileStorageService fileStorageService,
     ILogger<ImportLessonsFromPptxJob> logger) : IImportLessonsFromPptxJob
 {
-    public async Task ExecuteAsync(Guid courseId, string filePath, string userId, CancellationToken cancellationToken)
+    private record SlideFailure(int SlideIndex, string Message);
+
+    // Every mutating repository call (Add/Update) triggers its own SaveChangesAsync
+    // (Ardalis.Specification.EntityFrameworkCore's RepositoryBase — confirmed in Task B),
+    // so a progress write is a real DB round-trip, not a cheap in-memory update. Writing
+    // on every single slide would mean e.g. 500 extra round-trips for a 500-slide deck.
+    // Batching every 10 slides keeps polling responsive (updates land within ~10 slides'
+    // worth of processing time) while capping the extra round-trips at total/10. The
+    // final, authoritative counts are always written once more via MarkCompleted/MarkFailed
+    // regardless of where the last batch landed, so correctness never depends on the batch size.
+    private const int ProgressBatchSize = 10;
+
+    public async Task ExecuteAsync(Guid importJobId, Guid courseId, string filePath, string userId,
+        CancellationToken cancellationToken)
     {
+        var importJob = await importJobRepository.GetByIdAsync(importJobId, cancellationToken)
+            ?? throw new InvalidOperationException($"ImportJob '{importJobId}' not found.");
+
         try
         {
-            var stagingChapter = await GetOrCreateStagingChapterAsync(courseId, cancellationToken);
-            var nextLessonOrder = await GetNextLessonOrderAsync(stagingChapter.Id, cancellationToken);
-
             var succeeded = 0;
-            var failures = new List<string>();
+            var failures = new List<SlideFailure>();
 
             using (var document = PresentationDocument.Open(filePath, false))
             {
-                foreach (var (slideNumber, slidePart) in PptxLessonExtractor.OpenSlides(document))
+                var slides = PptxLessonExtractor.OpenSlides(document).ToList();
+
+                var stagingChapter = await GetOrCreateStagingChapterAsync(courseId, cancellationToken);
+                var nextLessonOrder = await GetNextLessonOrderAsync(stagingChapter.Id, cancellationToken);
+
+                importJob.MarkProcessing(stagingChapter.Id, slides.Count);
+                await importJobRepository.UpdateAsync(importJob, cancellationToken);
+
+                var processed = 0;
+                foreach (var (slideNumber, slidePart) in slides)
                 {
                     try
                     {
@@ -41,18 +65,36 @@ public class ImportLessonsFromPptxJob(
                     }
                     catch (Exception ex)
                     {
-                        failures.Add($"Slide {slideNumber}: {ex.Message}");
+                        failures.Add(new SlideFailure(slideNumber, ex.Message));
                         logger.LogWarning(ex,
                             "Failed to import slide {SlideNumber} from {FilePath} for course {CourseId}",
                             slideNumber, filePath, courseId);
                     }
-                }
-            }
 
-            logger.LogInformation(
-                "Import finished for course {CourseId} (uploaded by {UserId}): {Succeeded} slide(s) succeeded, {Failed} failed into staging chapter {ChapterId}. Failures: {Failures}",
-                courseId, userId, succeeded, failures.Count, stagingChapter.Id,
-                failures.Count == 0 ? "none" : string.Join(" | ", failures));
+                    processed++;
+                    if (processed % ProgressBatchSize == 0)
+                    {
+                        importJob.UpdateProgress(processed, succeeded, failures.Count);
+                        await importJobRepository.UpdateAsync(importJob, cancellationToken);
+                    }
+                }
+
+                var errorsJson = failures.Count == 0 ? null : JsonSerializer.Serialize(failures);
+                importJob.MarkCompleted(succeeded, failures.Count, errorsJson);
+                await importJobRepository.UpdateAsync(importJob, cancellationToken);
+
+                logger.LogInformation(
+                    "Import finished for course {CourseId} (uploaded by {UserId}): {Succeeded} slide(s) succeeded, {Failed} failed into staging chapter {ChapterId}. Failures: {Failures}",
+                    courseId, userId, succeeded, failures.Count, stagingChapter.Id,
+                    failures.Count == 0 ? "none" : errorsJson);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Import job {ImportJobId} for course {CourseId} aborted", importJobId, courseId);
+            importJob.MarkFailed(ex.Message);
+            await importJobRepository.UpdateAsync(importJob, cancellationToken);
+            throw;
         }
         finally
         {

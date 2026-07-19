@@ -3,6 +3,7 @@ using EvrenDev.Application.Catalog.Lessons.Queries.Create;
 using EvrenDev.Application.Catalog.Lessons.Queries.Delete;
 using EvrenDev.Application.Catalog.Lessons.Queries.Export;
 using EvrenDev.Application.Catalog.Lessons.Queries.Get;
+using EvrenDev.Application.Catalog.Lessons.Queries.Import;
 using EvrenDev.Application.Catalog.Lessons.Queries.Paginate;
 using EvrenDev.Application.Catalog.Lessons.Queries.Update;
 
@@ -74,5 +75,14 @@ public class LessonsController : VersionedApiController
     {
         var result = await Mediator.Send(filter);
         return File(result, "application/octet-stream", "LessonExports");
+    }
+
+    [HttpGet("import/{importJobId:guid}/status")]
+    [MustHavePermission(ApiAction.Import, ApiResource.Lessons)]
+    [OpenApiOperation("Get the progress/status of a PPTX import job.", "")]
+    public async Task<ApiResponse<ImportJobDto>> GetImportStatusAsync(Guid importJobId)
+    {
+        var data = await Mediator.Send(new GetImportJobStatusRequest(importJobId));
+        return ApiResponse<ImportJobDto>.Success(data);
     }
 }

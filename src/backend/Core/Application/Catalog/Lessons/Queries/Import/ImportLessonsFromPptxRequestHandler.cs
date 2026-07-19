@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace EvrenDev.Application.Catalog.Lessons.Queries.Import;
 
-public class ImportLessonsFromPptxRequest : IRequest<string>
+public class ImportLessonsFromPptxRequest : IRequest<Guid>
 {
     public Guid CourseId { get; set; }
     public IFormFile File { get; set; } = default!;
@@ -42,13 +42,14 @@ public class ImportLessonsFromPptxRequestValidator : CustomValidator<ImportLesso
 // enforced; the validator is kept for documentation/consistency with sibling requests.
 public class ImportLessonsFromPptxRequestHandler(
     IReadRepository<Course> courseRepository,
+    IRepository<ImportJob> importJobRepository,
     IFileStorageService fileStorageService,
     IJobService jobService,
-    ICurrentUser currentUser) : IRequestHandler<ImportLessonsFromPptxRequest, string>
+    ICurrentUser currentUser) : IRequestHandler<ImportLessonsFromPptxRequest, Guid>
 {
     public const long MaxFileSizeBytes = 150 * 1024 * 1024;
 
-    public async Task<string> Handle(ImportLessonsFromPptxRequest request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(ImportLessonsFromPptxRequest request, CancellationToken cancellationToken)
     {
         if (await courseRepository.GetByIdAsync(request.CourseId, cancellationToken) is null)
             throw new NotFoundException($"Course with ID '{request.CourseId}' not found.");
@@ -66,12 +67,19 @@ public class ImportLessonsFromPptxRequestHandler(
 
         var userId = currentUser.GetUserId().ToString();
 
+        // TotalSlides is unknown here on purpose: counting it would require opening the
+        // .pptx with DocumentFormat.OpenXml, which is an Infrastructure-only dependency
+        // (see docs/backend-stack.md decision in Task B). The job fills in the real count
+        // the moment it opens the file, before the first progress update.
+        var importJob = new ImportJob(request.CourseId);
+        await importJobRepository.AddAsync(importJob, cancellationToken);
+
         // `default` for the token, not `cancellationToken`: the HTTP request (and its
         // token) will already be gone by the time Hangfire actually runs this job — same
         // convention as the existing IBrandGeneratorJob.GenerateAsync(...) enqueue call.
-        var jobId = jobService.Enqueue<IImportLessonsFromPptxJob>(
-            x => x.ExecuteAsync(request.CourseId, filePath, userId, default));
+        jobService.Enqueue<IImportLessonsFromPptxJob>(
+            x => x.ExecuteAsync(importJob.Id, request.CourseId, filePath, userId, default));
 
-        return jobId;
+        return importJob.Id;
     }
 }
