@@ -33,7 +33,7 @@ public class ImportLessonsFromPptxJob(
     private const int ProgressBatchSize = 10;
 
     public async Task ExecuteAsync(Guid importJobId, Guid courseId, string filePath, string userId,
-        CancellationToken cancellationToken)
+        List<string>? slidesHtml, CancellationToken cancellationToken)
     {
         var importJob = await importJobRepository.GetByIdAsync(importJobId, cancellationToken)
             ?? throw new InvalidOperationException($"ImportJob '{importJobId}' not found.");
@@ -59,7 +59,7 @@ public class ImportLessonsFromPptxJob(
                     try
                     {
                         await ImportSlideAsync(slidePart, slideNumber, stagingChapter.Id, nextLessonOrder,
-                            cancellationToken);
+                            slidesHtml, cancellationToken);
                         nextLessonOrder++;
                         succeeded++;
                     }
@@ -130,7 +130,7 @@ public class ImportLessonsFromPptxJob(
     }
 
     private async Task ImportSlideAsync(SlidePart slidePart, int slideNumber, Guid stagingChapterId, int lessonOrder,
-        CancellationToken cancellationToken)
+        List<string>? slidesHtml, CancellationToken cancellationToken)
     {
         var extracted = PptxLessonExtractor.ExtractSlide(slidePart, slideNumber);
 
@@ -143,10 +143,18 @@ public class ImportLessonsFromPptxJob(
         var lesson = new Lesson(extracted.Title, lessonOrder, stagingChapterId);
         await lessonRepository.AddAsync(lesson, cancellationToken);
 
+        // Title/ContentType/MediaUrl always come from the backend's own OpenXml pass
+        // (unchanged); Content prefers the richer client-side pptx-to-html render for
+        // this slide index when present, falling back to the plain-text extraction
+        // otherwise — e.g. client parsing failed, or the payload wasn't sent at all
+        var clientHtml = slideNumber - 1 < slidesHtml?.Count ? slidesHtml![slideNumber - 1] : null;
+        var isImported = !string.IsNullOrWhiteSpace(clientHtml);
+        var contentHtml = isImported ? clientHtml! : extracted.ContentHtml;
+
         // All imported pages start out needing a human review pass, regardless of the
         // detected ContentType (spec: applies uniformly, not just to the ambiguous cases)
-        var lessonPage = new LessonPage(extracted.Title, extracted.ContentHtml, extracted.ContentType,
-            0, lesson.Id, mediaUrl, needsReview: true);
+        var lessonPage = new LessonPage(extracted.Title, contentHtml, extracted.ContentType,
+            0, lesson.Id, mediaUrl, needsReview: true, isImported: isImported);
         await lessonPageRepository.AddAsync(lessonPage, cancellationToken);
     }
 

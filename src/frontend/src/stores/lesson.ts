@@ -212,13 +212,22 @@ export const useLessonStore = defineStore("lesson", {
     // not JSON. We build FormData ourselves and let the browser set the Content-Type
     // (with the multipart boundary) instead of the axios instance's default
     // "application/json" header.
-    async importPptx(courseId: string, file: File): Promise<Result<string>> {
+    async importPptx(
+      courseId: string,
+      file: File,
+      slidesHtml?: string[],
+    ): Promise<Result<string>> {
       this.loading = true;
       this.error = null;
 
       try {
         const formData = new FormData();
         formData.append("file", file);
+        // Rich, client-parsed per-slide HTML (see usePptxSlidesParser) — optional,
+        // the backend falls back to its own plain-text extraction when absent
+        if (slidesHtml) {
+          formData.append("slidesHtml", JSON.stringify(slidesHtml));
+        }
 
         const response = await http.post<string>(
           `/v1/courses/${courseId}/import-pptx`,

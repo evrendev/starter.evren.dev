@@ -27,6 +27,10 @@ public class LessonPageConfig : IEntityTypeConfiguration<LessonPage>
             .IsRequired()
             .HasDefaultValue(false);
 
+        builder.Property(b => b.IsImported)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.HasOne(b => b.Lesson)
             .WithMany(l => l.Pages)
             .HasForeignKey(b => b.LessonId)

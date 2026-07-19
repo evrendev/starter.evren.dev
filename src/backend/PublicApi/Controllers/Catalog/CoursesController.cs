@@ -86,9 +86,15 @@ public class CoursesController : VersionedApiController
     // in ImportLessonsFromPptxRequestHandler.
     [RequestSizeLimit(209_715_200)]
     [OpenApiOperation("Import lessons from a PowerPoint (.pptx) file into a course.", "")]
-    public async Task<ActionResult<Guid>> ImportPptxAsync(Guid id, [FromForm] IFormFile file)
+    public async Task<ActionResult<Guid>> ImportPptxAsync(Guid id, [FromForm] IFormFile file,
+        [FromForm] string? slidesHtml = null)
     {
-        var importJobId = await Mediator.Send(new ImportLessonsFromPptxRequest { CourseId = id, File = file });
+        var importJobId = await Mediator.Send(new ImportLessonsFromPptxRequest
+        {
+            CourseId = id,
+            File = file,
+            SlidesHtmlJson = slidesHtml,
+        });
         return Ok(importJobId);
     }
 }

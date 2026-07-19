@@ -591,6 +591,7 @@
         "fileLabel": "PPTX File",
         "start": "Start Import",
         "startFailed": "Failed to start the import",
+        "parsingSlides": "Preparing a rich preview of the slides…",
         "processing": "{processed} / {total} slides processed",
         "success": "{count} page(s) imported successfully",
         "failuresSummary": "{count} slide(s) failed",
@@ -703,6 +704,14 @@
       "badges": {
         "staging": "Draft",
         "needsReview": "Needs Review"
+      }
+    },
+    "lessonpages": {
+      "fields": {
+        "content": {
+          "importedNotice": "This page's content was imported from a PowerPoint file. Edit the raw HTML below if needed — the preview above updates as you type.",
+          "rawHtml": "Raw HTML"
+        }
       }
     }
   },

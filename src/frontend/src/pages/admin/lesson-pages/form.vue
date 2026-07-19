@@ -24,6 +24,7 @@ const form = reactive({
   contentType: LessonPageContentType.Text,
   order: 0,
   mediaUrl: "",
+  isImported: false,
 });
 
 const contentTypeOptions = Object.values(LessonPageContentType);
@@ -37,6 +38,7 @@ onMounted(async () => {
       form.contentType = (lessonPage.value.contentType as LessonPageContentType) || LessonPageContentType.Text;
       form.order = lessonPage.value.order || 0;
       form.mediaUrl = lessonPage.value.mediaUrl || "";
+      form.isImported = lessonPage.value.isImported || false;
     }
   }
 });
@@ -166,7 +168,32 @@ const handleSubmit = async () => {
               <label class="text-subtitle-2 mb-2">
                 {{ t("admin.lessonpages.fields.content.title") }}
               </label>
+
+              <template v-if="form.isImported">
+                <v-alert type="info" variant="tonal" density="compact" class="mb-2">
+                  {{ t("admin.lessonpages.fields.content.importedNotice") }}
+                </v-alert>
+                <iframe
+                  :srcdoc="form.content"
+                  sandbox="allow-same-origin"
+                  class="imported-content-preview"
+                  :title="form.title"
+                />
+                <label class="text-subtitle-2 mt-4 mb-2 d-block">
+                  {{ t("admin.lessonpages.fields.content.rawHtml") }}
+                </label>
+                <v-textarea
+                  v-model="form.content"
+                  variant="outlined"
+                  rows="10"
+                  no-resize
+                  spellcheck="false"
+                  class="raw-html-editor"
+                />
+              </template>
+
               <QuillEditor
+                v-else
                 v-model:content="form.content"
                 content-type="html"
                 theme="snow"
@@ -196,3 +223,18 @@ const handleSubmit = async () => {
     </v-card>
   </v-container>
 </template>
+
+<style scoped>
+.imported-content-preview {
+  width: 100%;
+  aspect-ratio: 960 / 540;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 4px;
+  background: #fff;
+}
+
+.raw-html-editor :deep(textarea) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+</style>

@@ -237,6 +237,17 @@ onBeforeUnmount(() => {
                 />
               </template>
 
+              <template v-else-if="page.isImported">
+                <div class="imported-frame-wrap">
+                  <iframe
+                    :srcdoc="page.content"
+                    sandbox="allow-same-origin"
+                    :title="page.title"
+                    class="imported-frame"
+                  />
+                </div>
+              </template>
+
               <v-card-text v-else-if="page.contentType === 'Quiz'">
                 <QuizContent :content="page.content ?? ''" />
               </v-card-text>
@@ -398,6 +409,24 @@ onBeforeUnmount(() => {
 }
 
 .embed-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Matches the width/height config passed to pptxToHtml (960x540) so the sandboxed
+   iframe's rich content isn't scaled/cropped unexpectedly */
+.imported-frame-wrap {
+  aspect-ratio: 960 / 540;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.imported-frame {
   width: 100%;
   height: 100%;
   border: 0;

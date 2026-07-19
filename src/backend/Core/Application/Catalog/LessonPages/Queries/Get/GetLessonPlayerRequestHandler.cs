@@ -15,6 +15,7 @@ public class LessonPlayerPageDto
     public string ContentType { get; set; } = default!;
     public string Content { get; set; } = default!;
     public string? MediaUrl { get; set; }
+    public bool IsImported { get; set; }
     public bool Completed { get; set; }
     public DateTime? CompletedAt { get; set; }
 }
@@ -76,6 +77,7 @@ public class GetLessonPlayerRequestHandler(
                     ContentType = p.ContentType.ToString(),
                     Content = p.Content,
                     MediaUrl = p.MediaUrl,
+                    IsImported = p.IsImported,
                     Completed = pageProgress?.Completed ?? false,
                     CompletedAt = pageProgress?.CompletedAt
                 };

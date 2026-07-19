@@ -6,5 +6,5 @@ public interface IImportLessonsFromPptxJob : IScopedService
 {
     [DisplayName("Import lessons from an uploaded .pptx file")]
     Task ExecuteAsync(Guid importJobId, Guid courseId, string filePath, string userId,
-        CancellationToken cancellationToken);
+        List<string>? slidesHtml, CancellationToken cancellationToken);
 }

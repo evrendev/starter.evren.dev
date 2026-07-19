@@ -7,5 +7,6 @@ public class LessonPageDetailsDto : LessonPageDto
     public string? Content { get; set; }
     public string? ContentType { get; set; }
     public string? MediaUrl { get; set; }
+    public bool IsImported { get; set; }
     public LessonDto Lesson { get; set; } = default!;
 }

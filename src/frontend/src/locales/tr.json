@@ -572,6 +572,7 @@
         "fileLabel": "PPTX Dosyası",
         "start": "İçe Aktarmayı Başlat",
         "startFailed": "İçe aktarma başlatılamadı",
+        "parsingSlides": "Slaytların zengin önizlemesi hazırlanıyor…",
         "processing": "{processed} / {total} slayt işlendi",
         "success": "{count} sayfa başarıyla içe aktarıldı",
         "failuresSummary": "{count} slayt başarısız oldu",
@@ -682,6 +683,14 @@
       "badges": {
         "staging": "Taslak",
         "needsReview": "Gözden Geçirilmeli"
+      }
+    },
+    "lessonpages": {
+      "fields": {
+        "content": {
+          "importedNotice": "Bu sayfanın içeriği bir PowerPoint dosyasından içe aktarıldı. Gerekirse aşağıdaki ham HTML'i düzenleyin — yukarıdaki önizleme yazdıkça güncellenir.",
+          "rawHtml": "Ham HTML"
+        }
       }
     }
   },

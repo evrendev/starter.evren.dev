@@ -572,6 +572,7 @@
         "fileLabel": "PPTX-Datei",
         "start": "Import starten",
         "startFailed": "Import konnte nicht gestartet werden",
+        "parsingSlides": "Detaillierte Vorschau der Folien wird vorbereitet…",
         "processing": "{processed} / {total} Folien verarbeitet",
         "success": "{count} Seite(n) erfolgreich importiert",
         "failuresSummary": "{count} Folie(n) fehlgeschlagen",
@@ -682,6 +683,14 @@
       "badges": {
         "staging": "Entwurf",
         "needsReview": "Zu überprüfen"
+      }
+    },
+    "lessonpages": {
+      "fields": {
+        "content": {
+          "importedNotice": "Der Inhalt dieser Seite wurde aus einer PowerPoint-Datei importiert. Bearbeiten Sie bei Bedarf das rohe HTML unten — die Vorschau oben wird beim Tippen aktualisiert.",
+          "rawHtml": "Roh-HTML"
+        }
       }
     }
   },

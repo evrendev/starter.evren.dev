@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using EvrenDev.Application.Catalog.LessonPages.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Persistence;
@@ -11,6 +12,11 @@ public class UpdateLessonPageRequest : IRequest<Guid>
     public Guid LessonId { get; set; }
     public string Title { get; set; } = default!;
     public string Content { get; set; } = default!;
+    // The admin lesson-page form (frontend LessonPageContentType) sends the enum name
+    // (e.g. "Text"), not its numeric value — scoped to this property only, not a global
+    // JsonStringEnumConverter, so it doesn't change ImportJobDto.Status's numeric wire
+    // format that the PPTX import UI already relies on (see PPTX import Task C/D).
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public LessonPageContentType? ContentType { get; set; }
     public int? Order { get; set; }
     public string? MediaUrl { get; set; }

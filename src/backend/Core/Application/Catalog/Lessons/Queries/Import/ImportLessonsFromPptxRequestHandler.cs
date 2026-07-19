@@ -1,10 +1,12 @@
 using System.Net;
+using System.Text.Json;
 using EvrenDev.Application.Catalog.Lessons.Interfaces;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Application.Catalog.Lessons.Queries.Import;
 
@@ -12,6 +14,11 @@ public class ImportLessonsFromPptxRequest : IRequest<Guid>
 {
     public Guid CourseId { get; set; }
     public IFormFile File { get; set; } = default!;
+    // Raw JSON array of per-slide HTML from the client-side pptx-to-html render
+    // (@jvmr/pptx-to-html), one string per slide in slide order. Optional: when null,
+    // missing, or unparseable, the job falls back to its own OpenXml text extraction —
+    // this must never fail the import (see PPTX import Task F).
+    public string? SlidesHtmlJson { get; set; }
 }
 
 public class ImportLessonsFromPptxRequestValidator : CustomValidator<ImportLessonsFromPptxRequest>
@@ -45,7 +52,8 @@ public class ImportLessonsFromPptxRequestHandler(
     IRepository<ImportJob> importJobRepository,
     IFileStorageService fileStorageService,
     IJobService jobService,
-    ICurrentUser currentUser) : IRequestHandler<ImportLessonsFromPptxRequest, Guid>
+    ICurrentUser currentUser,
+    ILogger<ImportLessonsFromPptxRequestHandler> logger) : IRequestHandler<ImportLessonsFromPptxRequest, Guid>
 {
     public const long MaxFileSizeBytes = 150 * 1024 * 1024;
 
@@ -74,12 +82,30 @@ public class ImportLessonsFromPptxRequestHandler(
         var importJob = new ImportJob(request.CourseId);
         await importJobRepository.AddAsync(importJob, cancellationToken);
 
+        var slidesHtml = TryParseSlidesHtml(request.SlidesHtmlJson);
+
         // `default` for the token, not `cancellationToken`: the HTTP request (and its
         // token) will already be gone by the time Hangfire actually runs this job — same
         // convention as the existing IBrandGeneratorJob.GenerateAsync(...) enqueue call.
         jobService.Enqueue<IImportLessonsFromPptxJob>(
-            x => x.ExecuteAsync(importJob.Id, request.CourseId, filePath, userId, default));
+            x => x.ExecuteAsync(importJob.Id, request.CourseId, filePath, userId, slidesHtml, default));
 
         return importJob.Id;
+    }
+
+    private List<string>? TryParseSlidesHtml(string? slidesHtmlJson)
+    {
+        if (string.IsNullOrWhiteSpace(slidesHtmlJson))
+            return null;
+
+        try
+        {
+            return JsonSerializer.Deserialize<List<string>>(slidesHtmlJson);
+        }
+        catch (JsonException ex)
+        {
+            logger.LogWarning(ex, "Could not parse client-provided slidesHtml payload; falling back to server-side extraction");
+            return null;
+        }
     }
 }

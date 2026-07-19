@@ -17,6 +17,9 @@ export interface LessonPage {
   contentType: LessonPageContentType;
   order: number;
   mediaUrl?: string;
+  // True when Content is a client-parsed pptx-to-html rich render (positioned HTML) —
+  // admin editor and player both render it in a sandboxed iframe instead of Quill/v-html
+  isImported?: boolean;
 }
 
 export interface LessonPageDetails extends LessonPage {

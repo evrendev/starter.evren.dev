@@ -14,6 +14,7 @@ export interface LessonPageDetailsDto extends LessonPageDto {
   content?: string;
   contentType?: string;
   mediaUrl?: string;
+  isImported?: boolean;
   lesson?: Lesson;
 }
 
@@ -31,6 +32,7 @@ export interface LessonPlayerPageDto {
   contentType: string;
   content?: string;
   mediaUrl?: string;
+  isImported?: boolean;
   completed?: boolean;
   completedAt?: Date;
 }

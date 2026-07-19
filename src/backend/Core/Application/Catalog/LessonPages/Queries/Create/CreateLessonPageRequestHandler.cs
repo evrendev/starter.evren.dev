@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using EvrenDev.Application.Catalog.LessonPages.Specifications;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
@@ -9,6 +10,9 @@ public class CreateLessonPageRequest : IRequest<Guid>
     public Guid LessonId { get; set; }
     public string Title { get; set; } = default!;
     public string Content { get; set; } = default!;
+    // Same admin form sends this for both Create and Update - see the matching note
+    // on UpdateLessonPageRequest.ContentType
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public LessonPageContentType ContentType { get; set; }
     public int Order { get; set; } = 0;
     public string? MediaUrl { get; set; }

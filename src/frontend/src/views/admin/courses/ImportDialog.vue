@@ -3,6 +3,7 @@ import { Notify } from "@/stores/notification";
 import { useLessonStore } from "@/stores/lesson";
 import { useChapterStore } from "@/stores/chapter";
 import { useJobPolling } from "@/composables/useJobPolling";
+import { usePptxSlidesParser } from "@/composables/usePptxSlidesParser";
 import {
   ImportJobDto,
   ImportJobFailure,
@@ -35,6 +36,22 @@ const selectedFile = computed<File | null>(() =>
 
 const importing = ref(false);
 const showFailureDetails = ref(false);
+
+const {
+  parsing: parsingSlides,
+  slidesHtml,
+  parse: parseSlides,
+  reset: resetSlidesParser,
+} = usePptxSlidesParser();
+
+// Kicked off as soon as a file is picked (parallel with the user reading the
+// dialog), not on Start click — by the time they click Start it has usually
+// already finished. handleStart still awaits it to make sure the freshest
+// (or null, on failure) result is what actually gets uploaded.
+let parsePromise: Promise<string[] | null> | null = null;
+watch(selectedFile, (newFile) => {
+  parsePromise = newFile ? parseSlides(newFile) : null;
+});
 
 const { status, progress, start, reset } = useJobPolling<ImportJobDto>(
   (jobId) => `/v1/lessons/import/${jobId}/status`,
@@ -73,9 +90,12 @@ const handleStart = async () => {
 
   importing.value = true;
   try {
+    if (parsePromise) await parsePromise;
+
     const result = await lessonStore.importPptx(
       props.courseId,
       selectedFile.value,
+      slidesHtml.value ?? undefined,
     );
 
     if (result.succeeded && result.data) {
@@ -91,6 +111,8 @@ const handleStart = async () => {
 const handleClose = () => {
   file.value = null;
   showFailureDetails.value = false;
+  parsePromise = null;
+  resetSlidesParser();
   reset();
   show.value = false;
 };
@@ -114,6 +136,13 @@ const handleClose = () => {
             :disabled="importing"
             hide-details
           />
+          <div
+            v-if="parsingSlides"
+            class="d-flex align-center ga-2 mt-2 text-caption text-medium-emphasis"
+          >
+            <v-progress-circular indeterminate size="16" width="2" color="primary" />
+            <span>{{ t("admin.courses.import.parsingSlides") }}</span>
+          </div>
         </div>
 
         <div v-else>

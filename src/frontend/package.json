@@ -17,6 +17,7 @@
     "@date-io/date-fns": "^3.2.1",
     "@fancyapps/ui": "^6.0.34",
     "@floating-ui/dom": "^1.7.4",
+    "@jvmr/pptx-to-html": "^1.1.0",
     "@popperjs/core": "^2.11.8",
     "@stylistic/stylelint-config": "^3.0.1",
     "@types/dompurify": "^3.0.5",
