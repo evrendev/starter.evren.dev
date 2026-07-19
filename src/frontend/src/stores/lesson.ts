@@ -5,6 +5,7 @@ import { useAppStore } from "./app";
 import { Lesson, LessonDetails } from "@/models/lesson";
 import { Filters, AdvancedFilters } from "@/types/requests/lesson";
 import { PaginationResponse } from "@/types/responses/api";
+import { ImportJobDto } from "@/types/responses/importJob";
 
 // Refactored Architecture Imports
 import http, { handleRequest } from "@/utils/http";
@@ -19,6 +20,8 @@ const DEFAULT_FILTER: Filters = {
   page: 1,
   itemsPerPage: 25,
   chapterId: null,
+  isStaging: null,
+  needsReview: null,
 };
 
 export const useLessonStore = defineStore("lesson", {
@@ -43,7 +46,7 @@ export const useLessonStore = defineStore("lesson", {
       this.filters = { ...DEFAULT_FILTER };
     },
 
-    setFilters(filters: AdvancedFilters) {
+    setFilters(filters: Partial<AdvancedFilters>) {
       this.filters = { ...this.filters, ...filters };
     },
 
@@ -203,6 +206,39 @@ export const useLessonStore = defineStore("lesson", {
         this.loading = false;
         appStore.setLoading(false);
       }
+    },
+
+    // Deliberately NOT using handleRequest<T>: the request body is FormData (multipart),
+    // not JSON. We build FormData ourselves and let the browser set the Content-Type
+    // (with the multipart boundary) instead of the axios instance's default
+    // "application/json" header.
+    async importPptx(courseId: string, file: File): Promise<Result<string>> {
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await http.post<string>(
+          `/v1/courses/${courseId}/import-pptx`,
+          formData,
+          { headers: { "Content-Type": undefined } },
+        );
+
+        return Result.success(response.data);
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<string>;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async getImportJobStatus(jobId: string): Promise<Result<ImportJobDto>> {
+      return handleRequest<ImportJobDto>(
+        http.get(`/v1/lessons/import/${jobId}/status`),
+      );
     },
   },
 });

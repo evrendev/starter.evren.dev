@@ -8,6 +8,10 @@ namespace EvrenDev.Application.Catalog.Lessons.Queries.Paginate;
 public class PaginateLessonsFilter : PaginationFilter, IRequest<PaginationResponse<LessonDto>>
 {
     public Guid? ChapterId { get; set; }
+    // On-toggle filters (only meaningful when true; left null/false means "no filter") —
+    // surface the admin "Unclassified only" / "Needs review only" list toggles
+    public bool? IsStaging { get; set; }
+    public bool? NeedsReview { get; set; }
 }
 
 public class PaginateLessonsFilterHandler(IReadRepository<Lesson> repository) : IRequestHandler<PaginateLessonsFilter, PaginationResponse<LessonDto>>

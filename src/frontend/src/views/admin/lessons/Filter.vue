@@ -13,6 +13,8 @@ defineProps<{
 const filters = ref<AdvancedFilters>({
   search: null,
   chapterId: null,
+  isStaging: null,
+  needsReview: null,
 });
 
 const emit = defineEmits<{
@@ -28,10 +30,14 @@ const reset = () => {
   filters.value = {
     search: null,
     chapterId: null,
+    isStaging: null,
+    needsReview: null,
   };
 
   emit("reset");
 };
+
+defineExpose({ filters });
 </script>
 
 <template>
@@ -50,14 +56,32 @@ const reset = () => {
               :label="t('admin.lessons.fields.chapterId.title')"
             />
           </v-col>
-          <v-col cols="12" md="7">
+          <v-col cols="12" md="5">
             <v-text-field
               v-model="filters.search"
               variant="outlined"
               :label="t('shared.filters.search')"
             />
           </v-col>
-          <v-col cols="12" md="2" class="d-flex justify-end align-center gap-2">
+          <v-col cols="6" md="2" class="d-flex align-center">
+            <v-switch
+              v-model="filters.isStaging"
+              color="primary"
+              density="compact"
+              hide-details
+              :label="t('admin.lessons.fields.isStaging.title')"
+            />
+          </v-col>
+          <v-col cols="6" md="2" class="d-flex align-center">
+            <v-switch
+              v-model="filters.needsReview"
+              color="primary"
+              density="compact"
+              hide-details
+              :label="t('admin.lessons.fields.needsReview.title')"
+            />
+          </v-col>
+          <v-col cols="12" md="12" class="d-flex justify-end align-center gap-2">
             <v-btn
               color="secondary"
               size="small"

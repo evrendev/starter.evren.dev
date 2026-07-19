@@ -33,7 +33,11 @@ const schema = toTypedSchema(
   object({
     chapterId: string().required(t("admin.lessons.fields.chapterId.required")),
     title: string().required(t("admin.lessons.fields.title.required")),
-    content: string().required(t("admin.lessons.fields.content.required")),
+    // Not "required": Lesson no longer carries Content (moved to LessonPage — see
+    // docs/lms-domain.md hierarchy note) and UpdateLessonRequest/CreateLessonRequest
+    // don't transmit it at all. The old required rule silently blocked every lesson
+    // save (discovered via the PPTX-import "reassign chapter" E2E test).
+    content: string().nullable(),
   }),
 );
 

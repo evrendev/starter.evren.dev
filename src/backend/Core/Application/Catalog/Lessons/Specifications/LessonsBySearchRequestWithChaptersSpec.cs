@@ -24,6 +24,18 @@ public class LessonsBySearchRequestWithChaptersSpec : Specification<Lesson, Less
                     ||
                     lesson.Chapter.Title.ToLower().Contains(request.Search.ToLower())
                 )
+                &&
+                (
+                    !request.IsStaging.HasValue || !request.IsStaging.Value
+                    ||
+                    lesson.Chapter.IsStaging
+                )
+                &&
+                (
+                    !request.NeedsReview.HasValue || !request.NeedsReview.Value
+                    ||
+                    lesson.Pages.Any(p => p.NeedsReview)
+                )
             )
             .OrderBy(c => c.Title, !request.HasOrderBy())
             .PaginateBy(request);

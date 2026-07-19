@@ -565,6 +565,20 @@
         "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
         "deleted": "Kurs başarıyla silindi",
         "deleteFailed": "Kurs silinirken hata oluştu"
+      },
+      "import": {
+        "button": "PPTX'ten İçe Aktar",
+        "title": "PowerPoint'ten Ders İçe Aktar",
+        "fileLabel": "PPTX Dosyası",
+        "start": "İçe Aktarmayı Başlat",
+        "startFailed": "İçe aktarma başlatılamadı",
+        "processing": "{processed} / {total} slayt işlendi",
+        "success": "{count} sayfa başarıyla içe aktarıldı",
+        "failuresSummary": "{count} slayt başarısız oldu",
+        "failuresDetails": "Detaylar",
+        "failureItem": "Slayt {index}: {message}",
+        "viewUnassigned": "Sınıflandırılmamış dersleri görüntüle",
+        "close": "Kapat"
       }
     },
     "chapters": {
@@ -647,6 +661,12 @@
         },
         "image": {
           "title": "Görsel"
+        },
+        "isStaging": {
+          "title": "Yalnızca Sınıflandırılmamış"
+        },
+        "needsReview": {
+          "title": "Yalnızca Gözden Geçirilmemiş"
         }
       },
       "notifications": {
@@ -658,6 +678,10 @@
         "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
         "deleted": "Ders başarıyla silindi",
         "deleteFailed": "Ders silinirken hata oluştu"
+      },
+      "badges": {
+        "staging": "Taslak",
+        "needsReview": "Gözden Geçirilmeli"
       }
     }
   },

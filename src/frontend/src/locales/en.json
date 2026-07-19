@@ -584,6 +584,20 @@
         "deleteMessage": "Are you sure you want to delete {title}?",
         "deleted": "Course deleted successfully",
         "deleteFailed": "Failed to delete course"
+      },
+      "import": {
+        "button": "Import from PPTX",
+        "title": "Import Lessons from PowerPoint",
+        "fileLabel": "PPTX File",
+        "start": "Start Import",
+        "startFailed": "Failed to start the import",
+        "processing": "{processed} / {total} slides processed",
+        "success": "{count} page(s) imported successfully",
+        "failuresSummary": "{count} slide(s) failed",
+        "failuresDetails": "Details",
+        "failureItem": "Slide {index}: {message}",
+        "viewUnassigned": "View unassigned lessons",
+        "close": "Close"
       }
     },
     "chapters": {
@@ -668,6 +682,12 @@
         },
         "image": {
           "title": "Image"
+        },
+        "isStaging": {
+          "title": "Unclassified Only"
+        },
+        "needsReview": {
+          "title": "Needs Review Only"
         }
       },
       "notifications": {
@@ -679,6 +699,10 @@
         "deleteMessage": "Are you sure you want to delete {title}?",
         "deleted": "Lesson deleted successfully",
         "deleteFailed": "Failed to delete lesson"
+      },
+      "badges": {
+        "staging": "Draft",
+        "needsReview": "Needs Review"
       }
     }
   },

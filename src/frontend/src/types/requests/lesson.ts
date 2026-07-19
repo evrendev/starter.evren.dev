@@ -7,4 +7,6 @@ export interface Filters extends AdvancedFilters {
 export interface AdvancedFilters {
   search: string | null;
   chapterId: string | null;
+  isStaging: boolean | null;
+  needsReview: boolean | null;
 }

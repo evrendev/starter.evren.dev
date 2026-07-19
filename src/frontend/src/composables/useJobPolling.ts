@@ -22,13 +22,18 @@ const DEFAULT_TERMINAL_STATUSES: Array<string | number> = [
   3,
 ];
 
+// `resolveStatusEndpoint` builds the status URL from a job id rather than taking a
+// fixed URL up front: the job id is usually only known after an async action (e.g.
+// a file upload) completes, but the composable itself still needs to be created
+// synchronously during a component's setup() for its onUnmounted cleanup to attach.
+// Call `start(jobId)` once the id is known to begin polling.
 export function useJobPolling<T extends JobStatusLike>(
-  jobId: string,
-  statusEndpoint: string,
+  resolveStatusEndpoint: (jobId: string) => string,
   options: UseJobPollingOptions = {},
 ) {
   const { intervalMs = 2000, isTerminal } = options;
 
+  const jobId = ref<string | null>(null);
   const status = ref<T | null>(null);
   const error = ref<AppError | null>(null);
 
@@ -42,7 +47,11 @@ export function useJobPolling<T extends JobStatusLike>(
   };
 
   const fetchStatus = async () => {
-    const result = await handleRequest<T>(http.get(statusEndpoint));
+    if (!jobId.value) return;
+
+    const result = await handleRequest<T>(
+      http.get(resolveStatusEndpoint(jobId.value)),
+    );
 
     if (result.succeeded && result.data) {
       status.value = result.data;
@@ -60,9 +69,19 @@ export function useJobPolling<T extends JobStatusLike>(
     isActive: isPolling,
   } = useIntervalFn(fetchStatus, intervalMs, { immediate: false });
 
-  const start = async () => {
+  const start = async (id: string) => {
+    jobId.value = id;
+    status.value = null;
+    error.value = null;
     await fetchStatus();
     if (!checkTerminal(status.value)) resume();
+  };
+
+  const reset = () => {
+    pause();
+    jobId.value = null;
+    status.value = null;
+    error.value = null;
   };
 
   onUnmounted(() => pause());
@@ -75,5 +94,6 @@ export function useJobPolling<T extends JobStatusLike>(
     isPolling,
     start,
     stop: pause,
+    reset,
   };
 }

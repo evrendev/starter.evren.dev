@@ -1,4 +1,5 @@
 ﻿using EvrenDev.Application.Catalog.CourseEnrollments.Entities;
+using EvrenDev.Application.Catalog.Lessons.Entities;
 using EvrenDev.Application.Catalog.Notes.Entities;
 using EvrenDev.Domain.Catalog;
 
@@ -21,5 +22,11 @@ public class MapsterSettings
 
         TypeAdapterConfig<CourseEnrollment, CourseEnrollmentDto>.NewConfig()
             .Map(dest => dest.CategoryTitle, src => src.Course.Category.Title);
+
+        // LessonDto.IsStaging/NeedsReview — used by the admin lessons list to flag
+        // machine-imported, unreviewed content (see docs/lms-domain.md PPTX import)
+        TypeAdapterConfig<Lesson, LessonDto>.NewConfig()
+            .Map(dest => dest.IsStaging, src => src.Chapter.IsStaging)
+            .Map(dest => dest.NeedsReview, src => src.Pages.Any(p => p.NeedsReview));
     }
 }

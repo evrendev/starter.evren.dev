@@ -6,6 +6,7 @@ import { mixed, number, object, string } from "yup";
 import { useForm } from "vee-validate";
 import { Course } from "@/models/course";
 import { Category } from "@/models/category";
+import ImportDialog from "./ImportDialog.vue";
 
 const { t } = useI18n();
 
@@ -50,6 +51,7 @@ const { defineField, handleSubmit, resetForm, errors } = useForm<Course>({
 });
 
 const readOnly: Ref<boolean> = ref(props.routeName === "course-view");
+const showImportDialog: Ref<boolean> = ref(false);
 
 const [id] = defineField("id");
 const [categoryId, categoryIdAttrs] = defineField("categoryId");
@@ -96,6 +98,20 @@ const submit = handleSubmit((values: Course) => {
           to: { name: 'course-list' },
         }"
       />
+      <div
+        v-if="routeName !== 'course-create' && course?.id"
+        class="d-flex justify-end pa-2"
+      >
+        <v-btn
+          color="info"
+          size="small"
+          variant="flat"
+          prepend-icon="bx-import"
+          @click="showImportDialog = true"
+        >
+          {{ t("admin.courses.import.button") }}
+        </v-btn>
+      </div>
     </v-card-title>
     <v-card-text>
       <v-form :disabled="readOnly">
@@ -306,6 +322,12 @@ const submit = handleSubmit((values: Course) => {
       </v-form>
     </v-card-text>
   </v-card>
+
+  <import-dialog
+    v-if="course?.id"
+    v-model="showImportDialog"
+    :course-id="course.id"
+  />
 </template>
 
 <style scoped type="scss">

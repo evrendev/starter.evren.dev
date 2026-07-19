@@ -16,8 +16,24 @@ const { items: chapters } = storeToRefs(chapterStore);
 const { t } = useI18n();
 const route = useRoute();
 
+const filterRef = ref<InstanceType<typeof LessonFilter> | null>(null);
+
+// Deep link from the PPTX import dialog ("Unassigned Lessons'ı görüntüle") — set this
+// synchronously during setup(), BEFORE data-table mounts and fires its own initial
+// update:options fetch. Doing it inside onMounted instead raced that first fetch (a
+// child's mount hook runs before its parent's onMounted) and the unfiltered request
+// would sometimes win and overwrite the filtered result.
+if (route.query.isStaging === "true") {
+  lessonStore.setFilters({ isStaging: true });
+}
+
 onMounted(async () => {
   await chapterStore.getAllItems();
+
+  // Purely cosmetic: reflect the pre-applied filter in the toggle's visual state
+  if (route.query.isStaging === "true" && filterRef.value) {
+    filterRef.value.filters.isStaging = true;
+  }
 });
 
 const headers = computed(() => [
@@ -90,6 +106,7 @@ const getPaginatedItems = async (options: Filters) => {
 <template>
   <breadcrumb :items="breadcrumbs" />
   <lesson-filter
+    ref="filterRef"
     :page-title="t('shared.filters.title')"
     :disabled="loading"
     :chapters="chapters"

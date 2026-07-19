@@ -6,6 +6,8 @@ export interface Lesson {
   chapterTitle?: string;
   title: string;
   content: string | undefined;
+  isStaging?: boolean;
+  needsReview?: boolean;
 }
 
 export interface LessonDetails extends Lesson {

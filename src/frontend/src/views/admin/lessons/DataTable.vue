@@ -88,6 +88,24 @@ const abortDelete = () => {
           >
             {{ item.title }}
           </router-link>
+          <v-chip
+            v-if="item.isStaging"
+            size="x-small"
+            color="warning"
+            variant="flat"
+            class="ml-2"
+          >
+            {{ t("admin.lessons.badges.staging") }}
+          </v-chip>
+          <v-chip
+            v-if="item.needsReview"
+            size="x-small"
+            color="error"
+            variant="flat"
+            class="ml-2"
+          >
+            {{ t("admin.lessons.badges.needsReview") }}
+          </v-chip>
         </template>
 
         <template #[`item.actions`]="{ item }">
