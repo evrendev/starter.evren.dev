@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLessonPageStore } from "@/stores/lessonPage";
+import { usePageStore } from "@/stores/page";
 import { Notify } from "@/stores/notification";
 import LessonPlayer from "@/components/lesson-player/LessonPlayer.vue";
 import LessonSidebar from "@/components/lesson-player/LessonSidebar.vue";
@@ -12,7 +12,7 @@ import type Reveal from "reveal.js";
 
 const props = defineProps<{
   modelValue: boolean;
-  lessonId: string | null;
+  chapterId: string | null;
   categoryTitle?: string | null;
 }>();
 
@@ -42,8 +42,8 @@ const closeIconColor = computed(() => vuetifyTheme.current.value.colors["on-surf
 const closeHoverBg = computed(() => vuetifyTheme.current.value.colors["on-surface"] + "14");
 const contentBorder = computed(() => vuetifyTheme.current.value.colors["grey-300"]);
 
-const lessonPageStore = useLessonPageStore();
-const { pages, lastVisitedPageId } = storeToRefs(lessonPageStore);
+const pageStore = usePageStore();
+const { pages, lastVisitedPageId } = storeToRefs(pageStore);
 
 // No project-wide "mobile" convention found (only VerticalNav's admin-only
 // mdAndDown); smAndDown (<960px) is used directly as a sensible default
@@ -80,8 +80,8 @@ const handleForbidden = () => {
     @update:model-value="emit('update:modelValue', $event)"
   >
     <div
-      v-if="lessonId"
-      :key="lessonId"
+      v-if="chapterId"
+      :key="chapterId"
       class="lesson-player-container"
       :class="{ 'lesson-player-container--mobile': mobile }"
       :style="{ backgroundColor: containerBg }"
@@ -94,7 +94,7 @@ const handleForbidden = () => {
         />
         <div class="mobile-player-content">
           <LessonPlayer
-            :lesson-id="lessonId"
+            :chapter-id="chapterId"
             :hash-navigation="false"
             mobile
             @ready="handleReady"
@@ -114,7 +114,7 @@ const handleForbidden = () => {
           />
         </v-bottom-sheet>
         <v-bottom-sheet v-model="notesSheetOpen" content-class="lesson-mobile-sheet">
-          <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />
+          <NotesPanel v-if="currentPageId" :page-id="currentPageId" />
         </v-bottom-sheet>
       </template>
 
@@ -133,14 +133,14 @@ const handleForbidden = () => {
         <div class="player-main">
           <div class="player-content" :style="{ borderRightColor: contentBorder }">
             <LessonPlayer
-              :lesson-id="lessonId"
+              :chapter-id="chapterId"
               :hash-navigation="false"
               @ready="handleReady"
               @forbidden="handleForbidden"
             />
           </div>
           <div class="notes-content" :style="{ backgroundColor: containerBg }">
-            <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />
+            <NotesPanel v-if="currentPageId" :page-id="currentPageId" />
           </div>
         </div>
       </template>

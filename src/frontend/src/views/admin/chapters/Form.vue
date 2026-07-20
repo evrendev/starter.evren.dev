@@ -5,6 +5,7 @@ import { object, string } from "yup";
 import { useForm } from "vee-validate";
 import { Chapter } from "@/models/chapter";
 import { Course } from "@/models/course";
+import { usePageStore } from "@/stores/page";
 
 const { t } = useI18n();
 
@@ -46,11 +47,23 @@ const [courseId, courseIdAttrs] = defineField("courseId");
 const [title, titleAttrs] = defineField("title");
 const [description, descriptionAttrs] = defineField("description");
 
+// Pages section: only meaningful once a Chapter actually exists (has an id) —
+// hidden entirely in create mode, since Pages are always created against an
+// existing chapterId
+const isExistingChapter = computed(() => props.routeName !== "chapter-create");
+
+const pageStore = usePageStore();
+const { items: pages, loading: pagesLoading } = storeToRefs(pageStore);
+
 watch(
   () => props.chapter,
   (chapterData) => {
     if (chapterData) {
       resetForm({ values: chapterData });
+
+      if (chapterData.id) {
+        pageStore.getPaginatedPages(chapterData.id);
+      }
     }
   },
   {
@@ -182,6 +195,71 @@ const submit = handleSubmit((values: Chapter) => {
           </v-col>
         </v-row>
       </v-form>
+    </v-card-text>
+  </v-card>
+
+  <v-card v-if="isExistingChapter && chapter" elevation="6" class="mt-4">
+    <v-card-title class="d-flex justify-space-between align-center">
+      <span>{{ t("admin.chapters.view.pages.title") }}</span>
+      <v-btn
+        :to="{ name: 'page-create', params: { chapterId: chapter.id } }"
+        color="primary"
+        size="small"
+        prepend-icon="bx-plus"
+      >
+        {{ t("admin.chapters.view.pages.addPage") }}
+      </v-btn>
+    </v-card-title>
+    <v-card-text>
+      <v-progress-circular
+        v-if="pagesLoading"
+        indeterminate
+        color="primary"
+        size="24"
+      />
+      <v-alert
+        v-else-if="pages.length === 0"
+        type="info"
+        variant="tonal"
+      >
+        {{ t("admin.chapters.view.pages.noPages") }}
+      </v-alert>
+      <v-list v-else lines="two">
+        <v-list-item
+          v-for="page in pages"
+          :key="page.id"
+          :to="{ name: 'page-edit', params: { id: page.id } }"
+        >
+          <v-list-item-title>
+            {{ page.order }}. {{ page.title }}
+            <v-chip
+              v-if="page.needsReview"
+              size="x-small"
+              color="error"
+              variant="flat"
+              class="ml-2"
+            >
+              {{ t("admin.chapters.view.pages.badges.needsReview") }}
+            </v-chip>
+            <v-chip
+              v-if="page.isImported"
+              size="x-small"
+              color="info"
+              variant="flat"
+              class="ml-2"
+            >
+              {{ t("admin.chapters.view.pages.badges.isImported") }}
+            </v-chip>
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{
+              page.contentType
+                ? t(`admin.pages.fields.contentType.options.${page.contentType.toLowerCase()}`)
+                : "-"
+            }}
+          </v-list-item-subtitle>
+        </v-list-item>
+      </v-list>
     </v-card-text>
   </v-card>
 </template>

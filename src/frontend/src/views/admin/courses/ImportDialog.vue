@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Notify } from "@/stores/notification";
-import { useLessonStore } from "@/stores/lesson";
+import { usePageStore } from "@/stores/page";
 import { useChapterStore } from "@/stores/chapter";
 import { useJobPolling } from "@/composables/useJobPolling";
 import { usePptxSlidesParser } from "@/composables/usePptxSlidesParser";
@@ -21,7 +21,7 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: boolean): void;
 }>();
 
-const lessonStore = useLessonStore();
+const pageStore = usePageStore();
 const chapterStore = useChapterStore();
 
 const show = computed({
@@ -54,7 +54,7 @@ watch(selectedFile, (newFile) => {
 });
 
 const { status, progress, start, reset } = useJobPolling<ImportJobDto>(
-  (jobId) => `/v1/lessons/import/${jobId}/status`,
+  (jobId) => `/v1/pages/import/${jobId}/status`,
   {
     intervalMs: 1000,
     isTerminal: (s) =>
@@ -80,7 +80,7 @@ const failures = computed<ImportJobFailure[]>(() => {
 watch(isTerminal, async (terminal) => {
   if (terminal) {
     // A staging chapter may have just been created by the import — refresh the
-    // chapter list so it shows up wherever chapters are picked from (e.g. Lessons filter)
+    // chapter list so it shows up wherever chapters are picked from
     await chapterStore.getAllItems();
   }
 });
@@ -92,7 +92,7 @@ const handleStart = async () => {
   try {
     if (parsePromise) await parsePromise;
 
-    const result = await lessonStore.importPptx(
+    const result = await pageStore.importPptx(
       props.courseId,
       selectedFile.value,
       slidesHtml.value ?? undefined,
@@ -210,7 +210,7 @@ const handleClose = () => {
 
             <router-link
               class="d-block mt-2"
-              :to="{ name: 'lesson-list', query: { isStaging: 'true' } }"
+              :to="{ name: 'chapter-list' }"
               @click="handleClose"
             >
               {{ t("admin.courses.import.viewUnassigned") }}

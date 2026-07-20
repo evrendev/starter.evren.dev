@@ -119,8 +119,7 @@
         "course-management": "Kurs Yönetimi",
         "categories": "Kategoriler",
         "courses": "Kurslar",
-        "chapters": "Bölümler",
-        "lessons": "Dersler"
+        "chapters": "Bölümler"
       },
       "footer": {
         "home": "Anasayfa",
@@ -137,9 +136,7 @@
           "users": "Kullanıcılar",
           "categories": "Kategoriler",
           "courses": "Kurslar",
-          "chapters": "Bölümler",
-          "lessons": "Dersler",
-          "lessonpages": "Ders Sayfaları"
+          "chapters": "Bölümler"
         }
       }
     },
@@ -569,7 +566,7 @@
       },
       "import": {
         "button": "PPTX'ten İçe Aktar",
-        "title": "PowerPoint'ten Ders İçe Aktar",
+        "title": "PowerPoint'ten İçe Aktar",
         "fileLabel": "PPTX Dosyası",
         "start": "İçe Aktarmayı Başlat",
         "startFailed": "İçe aktarma başlatılamadı",
@@ -579,7 +576,7 @@
         "failuresSummary": "{count} slayt başarısız oldu",
         "failuresDetails": "Detaylar",
         "failureItem": "Slayt {index}: {message}",
-        "viewUnassigned": "Sınıflandırılmamış dersleri görüntüle",
+        "viewUnassigned": "Sınıflandırılmamış bölümleri görüntüle",
         "close": "Kapat"
       }
     },
@@ -591,7 +588,16 @@
         "title": "Bölüm Oluştur"
       },
       "view": {
-        "title": "Bölüm Görüntüle"
+        "title": "Bölüm Görüntüle",
+        "pages": {
+          "title": "Sayfalar",
+          "addPage": "Yeni Sayfa Ekle",
+          "noPages": "Bu bölümün henüz sayfası yok.",
+          "badges": {
+            "needsReview": "Gözden Geçirilmeli",
+            "isImported": "İçe Aktarıldı"
+          }
+        }
       },
       "edit": {
         "title": "Bölüm Düzenle"
@@ -625,82 +631,12 @@
         "deleteFailed": "Bölüm silinirken hata oluştu"
       }
     },
-    "lessons": {
-      "list": {
-        "title": "Ders Listesi"
-      },
+    "pages": {
       "create": {
-        "title": "Ders Oluştur"
-      },
-      "view": {
-        "title": "Ders Görüntüle",
-        "pages": {
-          "title": "Sayfalar",
-          "addPage": "Yeni Sayfa Ekle",
-          "noPages": "Bu dersin henüz sayfası yok.",
-          "badges": {
-            "needsReview": "Gözden Geçirilmeli",
-            "isImported": "İçe Aktarıldı"
-          }
-        }
+        "title": "Sayfa Oluştur"
       },
       "edit": {
-        "title": "Ders Düzenle"
-      },
-      "fields": {
-        "id": {
-          "title": "Id",
-          "required": "Id alanı gerekli"
-        },
-        "chapterId": {
-          "title": "Bölüm",
-          "required": "Bölüm alanı gerekli"
-        },
-        "title": {
-          "title": "Başlık",
-          "required": "Başlık alanı gerekli"
-        },
-        "description": {
-          "title": "Açıklama",
-          "required": "Açıklama alanı gerekli"
-        },
-        "notes": {
-          "title": "Notlar"
-        },
-        "image": {
-          "title": "Görsel"
-        },
-        "isStaging": {
-          "title": "Yalnızca Sınıflandırılmamış"
-        },
-        "needsReview": {
-          "title": "Yalnızca Gözden Geçirilmemiş"
-        }
-      },
-      "notifications": {
-        "updated": "Ders başarıyla güncellendi",
-        "updateFailed": "Ders güncellenirken hata oluştu",
-        "created": "Ders başarıyla oluşturuldu",
-        "createFailed": "Ders oluşturulurken hata oluştu",
-        "deleteConfirm": "Sil {title}",
-        "deleteMessage": "Bu {title} silmek istediğinize emin misiniz?",
-        "deleted": "Ders başarıyla silindi",
-        "deleteFailed": "Ders silinirken hata oluştu"
-      },
-      "badges": {
-        "staging": "Taslak",
-        "needsReview": "Gözden Geçirilmeli"
-      }
-    },
-    "lessonpages": {
-      "list": {
-        "title": "Ders Sayfası Listesi"
-      },
-      "create": {
-        "title": "Ders Sayfası Oluştur"
-      },
-      "edit": {
-        "title": "Ders Sayfası Düzenle"
+        "title": "Sayfa Düzenle"
       },
       "fields": {
         "title": {
@@ -732,11 +668,11 @@
         }
       },
       "notifications": {
-        "updated": "Ders sayfası başarıyla güncellendi",
-        "created": "Ders sayfası başarıyla oluşturuldu",
-        "saveFailed": "Ders sayfası kaydedilemedi",
-        "deleted": "Ders sayfası başarıyla silindi",
-        "deleteFailed": "Ders sayfası silinemedi"
+        "updated": "Sayfa başarıyla güncellendi",
+        "created": "Sayfa başarıyla oluşturuldu",
+        "saveFailed": "Sayfa kaydedilemedi",
+        "deleted": "Sayfa başarıyla silindi",
+        "deleteFailed": "Sayfa silinemedi"
       }
     }
   },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
-import { useLessonPageStore } from "@/stores/lessonPage";
+import { usePageStore } from "@/stores/page";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { ErrorType } from "@/primitives/error";
 import { contentTypeIcons } from "@/utils/contentTypeIcons";
@@ -11,7 +11,7 @@ import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/black.css";
 
 const props = defineProps<{
-  lessonId: string;
+  chapterId: string;
   // Disable when hosted inside a dialog so reveal.js does not rewrite the page URL hash
   hashNavigation?: boolean;
   // Shrinks the header icon box to match the mobile CSS below (numeric
@@ -24,8 +24,8 @@ const emit = defineEmits<{
   (e: "forbidden", message: string): void;
 }>();
 
-const lessonPageStore = useLessonPageStore();
-const { pages, currentPage, loading, lastVisitedPageId } = storeToRefs(lessonPageStore);
+const pageStore = usePageStore();
+const { pages, currentPage, loading, lastVisitedPageId } = storeToRefs(pageStore);
 const { sanitize } = useSanitizedHtml();
 
 // Currently displayed slide's title, for the breadcrumb above the reveal
@@ -87,15 +87,15 @@ const visitPage = async (slideIndex: number) => {
   const page = pages.value[slideIndex];
   if (!page) return;
 
-  lessonPageStore.lastVisitedPageId = page.id;
+  pageStore.lastVisitedPageId = page.id;
 
   if (!page.completed) {
-    await lessonPageStore.markPageCompleted(page.id);
+    await pageStore.markPageCompleted(page.id);
   }
 };
 
 onMounted(async () => {
-  const result = await lessonPageStore.getLessonPlayer(props.lessonId);
+  const result = await pageStore.getChapterPlayer(props.chapterId);
 
   if (!result.succeeded) {
     if (result.errors?.errorType === ErrorType.Forbidden) {
@@ -135,7 +135,7 @@ onMounted(async () => {
 
     // Resume at the last visited page when available
     const lastVisitedIndex = pages.value.findIndex(
-      (p) => p.id === lessonPageStore.lastVisitedPageId,
+      (p) => p.id === pageStore.lastVisitedPageId,
     );
     if (lastVisitedIndex > 0) {
       revealInstance.slide(lastVisitedIndex, 0);
@@ -169,7 +169,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="lesson-player-root">
     <div v-if="!loading && currentPage" class="lesson-breadcrumb">
-      {{ currentPage.lessonTitle }} /
+      {{ currentPage.chapterTitle }} /
       <span class="breadcrumb-current">{{ currentSlideTitle }}</span>
     </div>
     <div ref="revealRef" class="reveal">
@@ -202,7 +202,7 @@ onBeforeUnmount(() => {
                 <div class="slide-media">
                   <img :src="page.mediaUrl" :alt="page.title" />
                 </div>
-                <!-- LessonPage has no dedicated caption field; Content doubles as caption -->
+                <!-- Page has no dedicated caption field; Content doubles as caption -->
                 <v-card-text
                   class="slide-caption"
                   :innerHTML="renderedContent(page)"

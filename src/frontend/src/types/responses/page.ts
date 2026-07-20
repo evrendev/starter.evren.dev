@@ -1,31 +1,31 @@
-import { LessonPageContentType } from "@/models/lessonPage";
-import { Lesson } from "@/models/lesson";
+import { PageContentType } from "@/models/page";
+import { Chapter } from "@/models/chapter";
 
-export interface LessonPageDto {
+export interface PageDto {
   id: string;
   title: string;
-  lessonId: string;
-  lessonTitle?: string;
+  chapterId: string;
+  chapterTitle?: string;
   order: number;
   contentType?: string;
   needsReview?: boolean;
   isImported?: boolean;
 }
 
-export interface LessonPageDetailsDto extends LessonPageDto {
+export interface PageDetailsDto extends PageDto {
   content?: string;
   mediaUrl?: string;
-  lesson?: Lesson;
+  chapter?: Chapter;
 }
 
-export interface LessonPageExportDto {
+export interface PageExportDto {
   id: string;
   title: string;
-  lessonTitle: string;
+  chapterTitle: string;
   order: number;
 }
 
-export interface LessonPlayerPageDto {
+export interface ChapterPlayerPageDto {
   id: string;
   title: string;
   order: number;
@@ -37,10 +37,10 @@ export interface LessonPlayerPageDto {
   completedAt?: Date;
 }
 
-export interface LessonPlayerDto {
-  lessonId: string;
-  lessonTitle: string;
-  pages: LessonPlayerPageDto[];
+export interface ChapterPlayerDto {
+  chapterId: string;
+  chapterTitle: string;
+  pages: ChapterPlayerPageDto[];
   percentComplete?: number;
   lastVisitedPageId?: string;
 }
@@ -48,7 +48,7 @@ export interface LessonPlayerDto {
 export interface NoteDto {
   id: string;
   userId: string;
-  lessonPageId: string;
+  pageId: string;
   content: string;
   // Backend maps this from the entity's LastModifiedOn (set at create time)
   createdOn?: string;

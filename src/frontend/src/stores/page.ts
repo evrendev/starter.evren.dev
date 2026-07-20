@@ -2,32 +2,29 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { Lesson, LessonDetails } from "@/models/lesson";
-import { Filters, AdvancedFilters } from "@/types/requests/lesson";
-import { PaginationResponse } from "@/types/responses/api";
+import { PageDetails } from "@/models/page";
+import { PaginatePagesFilter, AdvancedFilters, CreatePageRequest, UpdatePageRequest } from "@/types/requests/page";
+import { PageDto, ChapterPlayerDto, ChapterPlayerPageDto } from "@/types/responses/page";
 import { ImportJobDto } from "@/types/responses/importJob";
+import { PaginationResponse } from "@/types/responses/api";
 
 // Refactored Architecture Imports
 import http, { handleRequest } from "@/utils/http";
 import { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
-import { convertToUploadRequest } from "@/utils/tools";
 
-const DEFAULT_FILTER: Filters = {
+const DEFAULT_FILTER: PaginatePagesFilter = {
   search: null,
+  chapterId: null,
   sortBy: [],
   groupBy: [],
   page: 1,
   itemsPerPage: 25,
-  chapterId: null,
-  isStaging: null,
-  needsReview: null,
 };
 
-export const useLessonStore = defineStore("lesson", {
+export const usePageStore = defineStore("page", {
   state: () => ({
     loading: false as boolean,
-    // Add error state for reactive error handling
     error: null as AppError | null,
     // Pagination state
     page: DEFAULT_FILTER.page as number,
@@ -37,50 +34,33 @@ export const useLessonStore = defineStore("lesson", {
     hasNextPage: false as boolean,
     hasPreviousPage: false as boolean,
     // Data state
-    items: [] as Lesson[],
-    lesson: null as LessonDetails | null,
+    items: [] as PageDto[],
+    pageDetails: null as PageDetails | null,
     filters: { ...DEFAULT_FILTER },
+    // Player state
+    currentPage: null as ChapterPlayerDto | null,
+    pages: [] as ChapterPlayerPageDto[],
+    progressPercent: 0 as number,
+    lastVisitedPageId: null as string | null,
   }),
   actions: {
     resetFilters() {
       this.filters = { ...DEFAULT_FILTER };
     },
 
-    setFilters(filters: Partial<AdvancedFilters>) {
+    setFilters(filters: Partial<PaginatePagesFilter>) {
       this.filters = { ...this.filters, ...filters };
     },
 
-    async getAllItems() {
+    async getPaginatedPages(chapterId: string, filters?: Partial<AdvancedFilters>) {
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Lesson[]>(
-          http.get("/v1/lessons/all"),
-        );
-
-        if (result.succeeded && result.data) {
-          this.items = result.data;
-        } else {
-          this.error = result.errors!;
-          this.items = [];
-        }
-      } catch (error) {
-        this.error = error as AppError;
-        this.items = [];
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    async getPaginatedItems() {
-      this.loading = true;
-      this.error = null;
-
-      try {
-        const result = await handleRequest<PaginationResponse<Lesson>>(
-          http.get("/v1/lessons", {
-            params: this.filters,
+        const pageFilters = { ...this.filters, chapterId, ...filters };
+        const result = await handleRequest<PaginationResponse<PageDto>>(
+          http.get("/v1/pages", {
+            params: pageFilters,
           }),
         );
 
@@ -104,107 +84,163 @@ export const useLessonStore = defineStore("lesson", {
       }
     },
 
-    async getById(id: string): Promise<Result<LessonDetails>> {
+    async getPageById(id: string): Promise<Result<PageDetails>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<LessonDetails>(
-          http.get(`/v1/lessons/${id}`),
+        const result = await handleRequest<PageDetails>(
+          http.get(`/v1/pages/${id}`),
         );
 
         if (result.succeeded && result.data) {
-          this.lesson = result.data;
+          this.pageDetails = result.data;
         } else {
           this.error = result.errors!;
         }
         return result;
       } catch (error) {
         this.error = error as AppError;
-        this.lesson = null;
-        return error as Result<LessonDetails>;
+        this.pageDetails = null;
+        return error as Result<PageDetails>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async update(lesson: Lesson): Promise<Result<Lesson>> {
+    async createPage(payload: CreatePageRequest): Promise<Result<string>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Lesson>(
-          http.put(`/v1/lessons/${lesson.id}`, lesson),
+        const result = await handleRequest<string>(
+          http.post("/v1/pages", payload),
         );
 
-        if (!result.succeeded || !result.data) {
+        if (!result.succeeded) {
           this.error = result.errors!;
         }
 
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Lesson>;
+        return error as Result<string>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async create(lesson: Lesson): Promise<Result<Lesson>> {
+    async updatePage(id: string, payload: UpdatePageRequest): Promise<Result<string>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
       this.error = null;
 
       try {
-        const result = await handleRequest<Lesson>(
-          http.post("/v1/lessons", lesson),
+        const result = await handleRequest<string>(
+          http.put(`/v1/pages/${id}`, payload),
         );
 
-        if (!result.succeeded || !result.data) {
+        if (!result.succeeded) {
           this.error = result.errors!;
         }
 
         return result;
       } catch (error) {
         this.error = error as AppError;
-        return error as Result<Lesson>;
+        return error as Result<string>;
       } finally {
         this.loading = false;
         appStore.setLoading(false);
       }
     },
 
-    async delete(id: string): Promise<Result<boolean>> {
+    async deletePage(id: string): Promise<Result<string>> {
       const appStore = useAppStore();
       appStore.setLoading(true);
       this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<string>(
+          http.delete(`/v1/pages/${id}`),
+        );
+
+        if (!result.succeeded) {
+          this.error = result.errors!;
+        }
+
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<string>;
+      } finally {
+        this.loading = false;
+        appStore.setLoading(false);
+      }
+    },
+
+    async getChapterPlayer(chapterId: string): Promise<Result<ChapterPlayerDto>> {
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const result = await handleRequest<ChapterPlayerDto>(
+          http.get(`/v1/pages/${chapterId}/player`),
+        );
+
+        if (result.succeeded && result.data) {
+          this.currentPage = result.data;
+          this.pages = result.data.pages || [];
+          this.progressPercent = result.data.percentComplete || 0;
+          this.lastVisitedPageId = result.data.lastVisitedPageId || null;
+        } else {
+          this.error = result.errors!;
+        }
+
+        return result;
+      } catch (error) {
+        this.error = error as AppError;
+        return error as Result<ChapterPlayerDto>;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async markPageCompleted(pageId: string): Promise<Result<boolean>> {
+      // Background call fired on slide change — must not toggle loading,
+      // or the player's v-if would tear down the reveal.js slide DOM.
       this.error = null;
 
       try {
         const result = await handleRequest<boolean>(
-          http.delete(`/v1/lessons/${id}`),
+          http.post(`/v1/pages/${pageId}/complete`),
         );
 
         if (result.succeeded) {
-          const index = this.items.findIndex((item: Lesson) => item.id === id);
-          if (index !== -1) this.items.splice(index, 1);
+          const page = this.pages.find((p) => p.id === pageId);
+          if (page && !page.completed) {
+            page.completed = true;
+            page.completedAt = new Date();
+            const completedCount = this.pages.filter((p) => p.completed).length;
+            this.progressPercent = this.pages.length
+              ? Math.round((completedCount * 100) / this.pages.length)
+              : 0;
+          }
         } else {
           this.error = result.errors!;
         }
+
         return result;
       } catch (error) {
         this.error = error as AppError;
         return error as Result<boolean>;
-      } finally {
-        this.loading = false;
-        appStore.setLoading(false);
       }
     },
 
@@ -246,7 +282,7 @@ export const useLessonStore = defineStore("lesson", {
 
     async getImportJobStatus(jobId: string): Promise<Result<ImportJobDto>> {
       return handleRequest<ImportJobDto>(
-        http.get(`/v1/lessons/import/${jobId}/status`),
+        http.get(`/v1/pages/import/${jobId}/status`),
       );
     },
   },

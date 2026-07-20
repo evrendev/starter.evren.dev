@@ -1,6 +1,6 @@
-import { Lesson } from "./lesson";
+import { Chapter } from "./chapter";
 
-export enum LessonPageContentType {
+export enum PageContentType {
   Text = "Text",
   Video = "Video",
   Image = "Image",
@@ -8,13 +8,13 @@ export enum LessonPageContentType {
   Embed = "Embed",
 }
 
-export interface LessonPage {
+export interface Page {
   id: string;
-  lessonId: string;
-  lessonTitle?: string;
+  chapterId: string;
+  chapterTitle?: string;
   title: string;
   content: string;
-  contentType: LessonPageContentType;
+  contentType: PageContentType;
   order: number;
   mediaUrl?: string;
   // True when Content is a client-parsed pptx-to-html rich render (positioned HTML) —
@@ -22,12 +22,12 @@ export interface LessonPage {
   isImported?: boolean;
 }
 
-export interface LessonPageDetails extends LessonPage {
-  lesson: Lesson;
+export interface PageDetails extends Page {
+  chapter: Chapter;
 }
 
-export interface LessonPageProgress {
-  lessonPageId: string;
+export interface PageProgress {
+  pageId: string;
   completed: boolean;
   completedAt?: Date;
   lastVisitedAt: Date;

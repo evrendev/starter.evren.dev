@@ -2,7 +2,7 @@
 import { useNoteStore } from "@/stores/note";
 import { usePersonalStore } from "@/stores/personal";
 import { Notify } from "@/stores/notification";
-import { CreateNoteRequest } from "@/types/requests/lessonPage";
+import { CreateNoteRequest } from "@/types/requests/page";
 import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { useI18n } from "vue-i18n";
 import { useTheme } from "vuetify";
@@ -11,7 +11,7 @@ import { enUS, de, tr } from "date-fns/locale";
 import type { Locale } from "date-fns";
 
 const props = defineProps<{
-  lessonPageId: string;
+  pageId: string;
 }>();
 
 const { t, locale } = useI18n();
@@ -59,17 +59,17 @@ const newNoteContent = ref("");
 const submitting = ref(false);
 
 onMounted(async () => {
-  if (props.lessonPageId) {
-    await noteStore.getNotesByLessonPage(props.lessonPageId);
+  if (props.pageId) {
+    await noteStore.getNotesByPage(props.pageId);
   }
 });
 
 watch(
-  () => props.lessonPageId,
-  async (newLessonPageId) => {
-    if (newLessonPageId) {
+  () => props.pageId,
+  async (newPageId) => {
+    if (newPageId) {
       newNoteContent.value = "";
-      await noteStore.getNotesByLessonPage(newLessonPageId);
+      await noteStore.getNotesByPage(newPageId);
     }
   },
 );
@@ -84,7 +84,7 @@ const handleAddNote = async () => {
 
   try {
     const payload: CreateNoteRequest = {
-      lessonPageId: props.lessonPageId,
+      pageId: props.pageId,
       userId: personalStore.user?.id || "",
       content: newNoteContent.value,
     };

@@ -120,7 +120,6 @@
         "categories": "Categories",
         "courses": "Courses",
         "chapters": "Chapters",
-        "lessons": "Lessons",
         "my-learning": "My Learning",
         "learning-catalog": "Course Catalog",
         "learning-my-courses": "My Courses"
@@ -140,9 +139,7 @@
           "users": "Users",
           "categories": "Categories",
           "courses": "Courses",
-          "chapters": "Chapters",
-          "lessons": "Lessons",
-          "lessonpages": "Lesson Pages"
+          "chapters": "Chapters"
         }
       }
     },
@@ -588,7 +585,7 @@
       },
       "import": {
         "button": "Import from PPTX",
-        "title": "Import Lessons from PowerPoint",
+        "title": "Import from PowerPoint",
         "fileLabel": "PPTX File",
         "start": "Start Import",
         "startFailed": "Failed to start the import",
@@ -598,7 +595,7 @@
         "failuresSummary": "{count} slide(s) failed",
         "failuresDetails": "Details",
         "failureItem": "Slide {index}: {message}",
-        "viewUnassigned": "View unassigned lessons",
+        "viewUnassigned": "View unassigned chapters",
         "close": "Close"
       }
     },
@@ -610,7 +607,16 @@
         "title": "Create Chapter"
       },
       "view": {
-        "title": "View Chapter"
+        "title": "View Chapter",
+        "pages": {
+          "title": "Pages",
+          "addPage": "Add Page",
+          "noPages": "This chapter has no pages yet.",
+          "badges": {
+            "needsReview": "Needs Review",
+            "isImported": "Imported"
+          }
+        }
       },
       "edit": {
         "title": "Edit Chapter"
@@ -644,82 +650,12 @@
         "deleteFailed": "Failed to delete chapter"
       }
     },
-    "lessons": {
-      "list": {
-        "title": "Lesson List"
-      },
+    "pages": {
       "create": {
-        "title": "Create Lesson"
-      },
-      "view": {
-        "title": "View Lesson",
-        "pages": {
-          "title": "Pages",
-          "addPage": "Add Page",
-          "noPages": "This lesson has no pages yet.",
-          "badges": {
-            "needsReview": "Needs Review",
-            "isImported": "Imported"
-          }
-        }
+        "title": "Create Page"
       },
       "edit": {
-        "title": "Edit Lesson"
-      },
-      "fields": {
-        "id": {
-          "title": "Id",
-          "required": "Id is required"
-        },
-        "chapterId": {
-          "title": "Chapter",
-          "required": "Chapter is required"
-        },
-        "title": {
-          "title": "Title",
-          "required": "Title is required"
-        },
-        "description": {
-          "title": "Description",
-          "required": "Description is required"
-        },
-        "notes": {
-          "title": "Notes"
-        },
-        "image": {
-          "title": "Image"
-        },
-        "isStaging": {
-          "title": "Unclassified Only"
-        },
-        "needsReview": {
-          "title": "Needs Review Only"
-        }
-      },
-      "notifications": {
-        "updated": "Lesson updated successfully",
-        "updateFailed": "Failed to update lesson",
-        "created": "Lesson created successfully",
-        "createFailed": "Failed to create lesson",
-        "deleteConfirm": "Delete {title}",
-        "deleteMessage": "Are you sure you want to delete {title}?",
-        "deleted": "Lesson deleted successfully",
-        "deleteFailed": "Failed to delete lesson"
-      },
-      "badges": {
-        "staging": "Draft",
-        "needsReview": "Needs Review"
-      }
-    },
-    "lessonpages": {
-      "list": {
-        "title": "Lesson Page List"
-      },
-      "create": {
-        "title": "Create Lesson Page"
-      },
-      "edit": {
-        "title": "Edit Lesson Page"
+        "title": "Edit Page"
       },
       "fields": {
         "title": {
@@ -751,11 +687,11 @@
         }
       },
       "notifications": {
-        "updated": "Lesson page updated successfully",
-        "created": "Lesson page created successfully",
-        "saveFailed": "Failed to save lesson page",
-        "deleted": "Lesson page deleted successfully",
-        "deleteFailed": "Failed to delete lesson page"
+        "updated": "Page updated successfully",
+        "created": "Page created successfully",
+        "saveFailed": "Failed to save page",
+        "deleted": "Page deleted successfully",
+        "deleteFailed": "Failed to delete page"
       }
     }
   },
@@ -843,7 +779,10 @@
     "myCourses": {
       "title": "My Courses",
       "empty": "You are not enrolled in any course yet.",
-      "percentComplete": "Complete"
+      "percentComplete": "Complete",
+      "continue": "Continue",
+      "start": "Start",
+      "review": "Review"
     }
   },
   "error": {

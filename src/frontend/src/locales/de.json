@@ -119,8 +119,7 @@
         "course-management": "Kursverwaltung",
         "categories": "Kategorien",
         "courses": "Kurse",
-        "chapters": "Kapitel",
-        "lessons": "Lektionen"
+        "chapters": "Kapitel"
       },
       "footer": {
         "home": "Startseite",
@@ -137,9 +136,7 @@
           "users": "Benutzer",
           "categories": "Kategorien",
           "courses": "Kurse",
-          "chapters": "Kapitel",
-          "lessons": "Lektionen",
-          "lessonpages": "Lektionsseiten"
+          "chapters": "Kapitel"
         }
       }
     },
@@ -569,7 +566,7 @@
       },
       "import": {
         "button": "Aus PPTX importieren",
-        "title": "Lektionen aus PowerPoint importieren",
+        "title": "Aus PowerPoint importieren",
         "fileLabel": "PPTX-Datei",
         "start": "Import starten",
         "startFailed": "Import konnte nicht gestartet werden",
@@ -579,7 +576,7 @@
         "failuresSummary": "{count} Folie(n) fehlgeschlagen",
         "failuresDetails": "Details",
         "failureItem": "Folie {index}: {message}",
-        "viewUnassigned": "Nicht zugeordnete Lektionen anzeigen",
+        "viewUnassigned": "Nicht zugeordnete Kapitel anzeigen",
         "close": "Schließen"
       }
     },
@@ -591,7 +588,16 @@
         "title": "Kapitel Erstellen"
       },
       "view": {
-        "title": "Kapitel Anzeigen"
+        "title": "Kapitel Anzeigen",
+        "pages": {
+          "title": "Seiten",
+          "addPage": "Seite Hinzufügen",
+          "noPages": "Dieses Kapitel hat noch keine Seiten.",
+          "badges": {
+            "needsReview": "Zu überprüfen",
+            "isImported": "Importiert"
+          }
+        }
       },
       "edit": {
         "title": "Kapitel Bearbeiten"
@@ -625,82 +631,12 @@
         "deleteFailed": "Löschen des Kapitels fehlgeschlagen"
       }
     },
-    "lessons": {
-      "list": {
-        "title": "Lektion Liste"
-      },
+    "pages": {
       "create": {
-        "title": "Lektion Erstellen"
-      },
-      "view": {
-        "title": "Lektion Anzeigen",
-        "pages": {
-          "title": "Seiten",
-          "addPage": "Seite Hinzufügen",
-          "noPages": "Diese Lektion hat noch keine Seiten.",
-          "badges": {
-            "needsReview": "Zu überprüfen",
-            "isImported": "Importiert"
-          }
-        }
+        "title": "Seite erstellen"
       },
       "edit": {
-        "title": "Lektion Bearbeiten"
-      },
-      "fields": {
-        "id": {
-          "title": "Id",
-          "required": "Id ist erforderlich"
-        },
-        "chapterId": {
-          "title": "Kapitel",
-          "required": "Kapitel ist erforderlich"
-        },
-        "title": {
-          "title": "Titel",
-          "required": "Titel ist erforderlich"
-        },
-        "description": {
-          "title": "Beschreibung",
-          "required": "Beschreibung ist erforderlich"
-        },
-        "notes": {
-          "title": "Notizen"
-        },
-        "image": {
-          "title": "Bild"
-        },
-        "isStaging": {
-          "title": "Nur nicht klassifizierte"
-        },
-        "needsReview": {
-          "title": "Nur zu überprüfende"
-        }
-      },
-      "notifications": {
-        "updated": "Lektion erfolgreich aktualisiert",
-        "updateFailed": "Aktualisierung der Lektion fehlgeschlagen",
-        "created": "Lektion erfolgreich erstellt",
-        "createFailed": "Erstellung der Lektion fehlgeschlagen",
-        "deleteConfirm": "Lektion löschen {title}",
-        "deleteMessage": "Sind Sie sicher, dass Sie {title} löschen möchten?",
-        "deleted": "Lektion erfolgreich gelöscht",
-        "deleteFailed": "Löschen der Lektion fehlgeschlagen"
-      },
-      "badges": {
-        "staging": "Entwurf",
-        "needsReview": "Zu überprüfen"
-      }
-    },
-    "lessonpages": {
-      "list": {
-        "title": "Lektionsseiten-Liste"
-      },
-      "create": {
-        "title": "Lektionsseite erstellen"
-      },
-      "edit": {
-        "title": "Lektionsseite bearbeiten"
+        "title": "Seite bearbeiten"
       },
       "fields": {
         "title": {
@@ -732,11 +668,11 @@
         }
       },
       "notifications": {
-        "updated": "Lektionsseite erfolgreich aktualisiert",
-        "created": "Lektionsseite erfolgreich erstellt",
-        "saveFailed": "Lektionsseite konnte nicht gespeichert werden",
-        "deleted": "Lektionsseite erfolgreich gelöscht",
-        "deleteFailed": "Lektionsseite konnte nicht gelöscht werden"
+        "updated": "Seite erfolgreich aktualisiert",
+        "created": "Seite erfolgreich erstellt",
+        "saveFailed": "Seite konnte nicht gespeichert werden",
+        "deleted": "Seite erfolgreich gelöscht",
+        "deleteFailed": "Seite konnte nicht gelöscht werden"
       }
     }
   },

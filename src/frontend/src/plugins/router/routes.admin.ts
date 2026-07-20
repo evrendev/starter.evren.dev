@@ -332,76 +332,25 @@ export const adminRoutes = [
         ],
       },
       {
-        name: "lessons",
-        path: "lessons",
+        name: "pages",
+        path: "pages",
         children: [
           {
-            name: "lesson-list",
-            path: "",
-            component: () => import("@/pages/admin/lessons/index.vue"),
+            name: "page-create",
+            path: "create/:chapterId",
+            component: () => import("@/pages/admin/pages/form.vue"),
             meta: {
-              requiresPermission: [
-                Permissions.LessonView,
-                Permissions.LessonSearch,
-              ],
-              title: "admin.lessons.list.title",
+              requiresPermission: [Permissions.PageCreate],
+              title: "admin.pages.create.title",
             },
           },
           {
-            name: "lesson-create",
-            path: "create",
-            component: () => import("@/pages/admin/lessons/form.vue"),
-            meta: {
-              requiresPermission: [Permissions.LessonCreate],
-              title: "admin.lessons.create.title",
-            },
-          },
-          {
-            name: "lesson-view",
-            path: ":id/view",
-            component: () => import("@/pages/admin/lessons/form.vue"),
-            meta: {
-              requiresPermission: [Permissions.LessonView],
-              title: "admin.lessons.view.title",
-            },
-          },
-          {
-            name: "lesson-edit",
+            name: "page-edit",
             path: ":id/edit",
-            component: () => import("@/pages/admin/lessons/form.vue"),
+            component: () => import("@/pages/admin/pages/form.vue"),
             meta: {
-              requiresPermission: [Permissions.LessonUpdate],
-              title: "admin.lessons.edit.title",
-            },
-          },
-          {
-            name: "lesson-pages",
-            path: ":lessonId/pages",
-            component: () => import("@/pages/admin/lesson-pages/list.vue"),
-            meta: {
-              requiresPermission: [
-                Permissions.LessonPageView,
-                Permissions.LessonPageSearch,
-              ],
-              title: "admin.lessonpages.list.title",
-            },
-          },
-          {
-            name: "lesson-page-create",
-            path: ":lessonId/pages/create",
-            component: () => import("@/pages/admin/lesson-pages/form.vue"),
-            meta: {
-              requiresPermission: [Permissions.LessonPageCreate],
-              title: "admin.lessonpages.create.title",
-            },
-          },
-          {
-            name: "lesson-page-edit",
-            path: "lesson-pages/:id/edit",
-            component: () => import("@/pages/admin/lesson-pages/form.vue"),
-            meta: {
-              requiresPermission: [Permissions.LessonPageUpdate],
-              title: "admin.lessonpages.edit.title",
+              requiresPermission: [Permissions.PageUpdate],
+              title: "admin.pages.edit.title",
             },
           },
         ],

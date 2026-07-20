@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useCourseEnrollmentStore } from "@/stores/courseEnrollment";
 import { useChapterStore } from "@/stores/chapter";
-import { useLessonStore } from "@/stores/lesson";
-import { useLessonPageStore } from "@/stores/lessonPage";
+import { usePageStore } from "@/stores/page";
 import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
 
 const { t } = useI18n();
@@ -14,72 +13,52 @@ const chapterStore = useChapterStore();
 const { items: chapters, loading: chaptersLoading } =
   storeToRefs(chapterStore);
 
-const lessonStore = useLessonStore();
-const { items: lessons, loading: lessonsLoading } = storeToRefs(lessonStore);
-
-const lessonPageStore = useLessonPageStore();
+const pageStore = usePageStore();
 
 const expandedCourse = ref<string>();
-const expandedChapter = ref<string>();
-const lessonProgress = ref<Record<string, number>>({});
-const lessonProgressLoading = ref(false);
+const chapterProgress = ref<Record<string, number>>({});
+const chapterProgressLoading = ref(false);
 
 onMounted(async () => {
   await enrollmentStore.getMyEnrollments();
 });
 
-const handleCourseExpand = async (courseId: string) => {
-  expandedChapter.value = undefined;
-  chapterStore.setFilters({ search: null, courseId });
-  await chapterStore.getPaginatedItems();
-};
-
-const handleChapterExpand = async (chapterId: string) => {
-  lessonProgress.value = {};
-  lessonStore.setFilters({ search: null, chapterId });
-  await lessonStore.getPaginatedItems();
-
-  lessonProgressLoading.value = true;
+const loadChapterProgress = async () => {
+  chapterProgressLoading.value = true;
   try {
     await Promise.all(
-      lessons.value.map(async (lesson) => {
-        const result = await lessonPageStore.getLessonPlayer(lesson.id);
+      chapters.value.map(async (chapter) => {
+        const result = await pageStore.getChapterPlayer(chapter.id);
         if (result.succeeded && result.data) {
-          lessonProgress.value[lesson.id] = result.data.percentComplete || 0;
+          chapterProgress.value[chapter.id] = result.data.percentComplete || 0;
         }
       }),
     );
   } finally {
-    lessonProgressLoading.value = false;
+    chapterProgressLoading.value = false;
   }
 };
 
-const playerLessonId = ref<string | null>(null);
+const handleCourseExpand = async (courseId: string) => {
+  chapterProgress.value = {};
+  chapterStore.setFilters({ search: null, courseId });
+  await chapterStore.getPaginatedItems();
+  await loadChapterProgress();
+};
+
+const playerChapterId = ref<string | null>(null);
 const playerCategoryTitle = ref<string | null>(null);
 const playerOpen = ref(false);
 
-const goToLesson = (lessonId: string, categoryTitle?: string) => {
-  playerLessonId.value = lessonId;
+const goToChapter = (chapterId: string, categoryTitle?: string) => {
+  playerChapterId.value = chapterId;
   playerCategoryTitle.value = categoryTitle ?? null;
   playerOpen.value = true;
 };
 
 const refreshProgress = async () => {
   await enrollmentStore.getMyEnrollments();
-
-  lessonProgressLoading.value = true;
-  try {
-    await Promise.all(
-      lessons.value.map(async (lesson) => {
-        const result = await lessonPageStore.getLessonPlayer(lesson.id);
-        if (result.succeeded && result.data) {
-          lessonProgress.value[lesson.id] = result.data.percentComplete || 0;
-        }
-      }),
-    );
-  } finally {
-    lessonProgressLoading.value = false;
-  }
+  await loadChapterProgress();
 };
 
 watch(playerOpen, async (open) => {
@@ -133,71 +112,61 @@ watch(playerOpen, async (open) => {
             size="24"
           />
 
-          <v-expansion-panels
-            v-else
-            v-model="expandedChapter"
-            variant="accordion"
-          >
-            <v-expansion-panel
+          <v-list v-else density="compact">
+            <v-list-item
               v-for="chapter in chapters"
               :key="chapter.id"
-              :value="chapter.id"
-              @group:selected="handleChapterExpand(chapter.id)"
             >
-              <v-expansion-panel-title>{{
-                chapter.title
-              }}</v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <v-progress-circular
-                  v-if="lessonsLoading"
-                  indeterminate
-                  color="primary"
-                  size="20"
+              <template #prepend>
+                <v-icon
+                  :icon="
+                    (chapterProgress[chapter.id] || 0) >= 100
+                      ? 'mdi-check-circle'
+                      : (chapterProgress[chapter.id] || 0) > 0
+                        ? 'mdi-progress-clock'
+                        : 'mdi-play-circle-outline'
+                  "
+                  :color="
+                    (chapterProgress[chapter.id] || 0) >= 100
+                      ? 'success'
+                      : (chapterProgress[chapter.id] || 0) > 0
+                        ? 'warning'
+                        : 'grey'
+                  "
+                  size="small"
                 />
+              </template>
+              <v-list-item-title>{{ chapter.title }}</v-list-item-title>
+              <v-list-item-subtitle v-if="!chapterProgressLoading">
+                {{ chapterProgress[chapter.id] || 0 }}%
+                {{ t("learning.myCourses.percentComplete") }}
+              </v-list-item-subtitle>
 
-                <v-list v-else density="compact">
-                  <v-list-item
-                    v-for="lesson in lessons"
-                    :key="lesson.id"
-                    class="cursor-pointer"
-                    @click="goToLesson(lesson.id, enrollment.categoryTitle)"
-                  >
-                    <template #prepend>
-                      <v-icon
-                        :icon="
-                          (lessonProgress[lesson.id] || 0) >= 100
-                            ? 'mdi-check-circle'
-                            : (lessonProgress[lesson.id] || 0) > 0
-                              ? 'mdi-progress-clock'
-                              : 'mdi-play-circle-outline'
-                        "
-                        :color="
-                          (lessonProgress[lesson.id] || 0) >= 100
-                            ? 'success'
-                            : (lessonProgress[lesson.id] || 0) > 0
-                              ? 'warning'
-                              : 'grey'
-                        "
-                        size="small"
-                      />
-                    </template>
-                    <v-list-item-title>{{ lesson.title }}</v-list-item-title>
-                    <v-list-item-subtitle v-if="!lessonProgressLoading">
-                      {{ lessonProgress[lesson.id] || 0 }}%
-                      {{ t("learning.myCourses.percentComplete") }}
-                    </v-list-item-subtitle>
-                  </v-list-item>
-                </v-list>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
+              <template #append>
+                <v-btn
+                  color="primary"
+                  size="small"
+                  variant="flat"
+                  @click="goToChapter(chapter.id, enrollment.categoryTitle)"
+                >
+                  {{
+                    (chapterProgress[chapter.id] || 0) >= 100
+                      ? t("learning.myCourses.review")
+                      : (chapterProgress[chapter.id] || 0) > 0
+                        ? t("learning.myCourses.continue")
+                        : t("learning.myCourses.start")
+                  }}
+                </v-btn>
+              </template>
+            </v-list-item>
+          </v-list>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
 
     <LessonPlayerDialog
       v-model="playerOpen"
-      :lesson-id="playerLessonId"
+      :chapter-id="playerChapterId"
       :category-title="playerCategoryTitle"
     />
   </v-container>

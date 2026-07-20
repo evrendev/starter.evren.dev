@@ -2,8 +2,8 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./app";
 
 // Local Types
-import { NoteDto } from "@/types/responses/lessonPage";
-import { CreateNoteRequest } from "@/types/requests/lessonPage";
+import { NoteDto } from "@/types/responses/page";
+import { CreateNoteRequest } from "@/types/requests/page";
 
 // Refactored Architecture Imports
 import http, { handleRequest } from "@/utils/http";
@@ -15,18 +15,18 @@ export const useNoteStore = defineStore("note", {
     loading: false as boolean,
     error: null as AppError | null,
     notes: [] as NoteDto[],
-    currentLessonPageId: null as string | null,
+    currentPageId: null as string | null,
   }),
   actions: {
-    async getNotesByLessonPage(lessonPageId: string): Promise<Result<NoteDto[]>> {
+    async getNotesByPage(pageId: string): Promise<Result<NoteDto[]>> {
       this.loading = true;
       this.error = null;
-      this.currentLessonPageId = lessonPageId;
+      this.currentPageId = pageId;
 
       try {
         const result = await handleRequest<NoteDto[]>(
           http.get("/v1/notes", {
-            params: { lessonPageId },
+            params: { pageId },
           }),
         );
 
@@ -82,8 +82,8 @@ export const useNoteStore = defineStore("note", {
 
         if (result.succeeded) {
           // Refresh notes list after creation
-          if (payload.lessonPageId) {
-            await this.getNotesByLessonPage(payload.lessonPageId);
+          if (payload.pageId) {
+            await this.getNotesByPage(payload.pageId);
           }
         } else {
           this.error = result.errors!;
@@ -110,9 +110,9 @@ export const useNoteStore = defineStore("note", {
           http.delete(`/v1/notes/${id}`),
         );
 
-        if (result.succeeded && this.currentLessonPageId) {
+        if (result.succeeded && this.currentPageId) {
           // Refresh notes list after deletion
-          await this.getNotesByLessonPage(this.currentLessonPageId);
+          await this.getNotesByPage(this.currentPageId);
         } else if (!result.succeeded) {
           this.error = result.errors!;
         }

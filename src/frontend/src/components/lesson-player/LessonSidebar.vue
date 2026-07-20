@@ -3,7 +3,7 @@
 import Reveal from "reveal.js";
 import { useTheme } from "vuetify";
 import { useI18n } from "vue-i18n";
-import { useLessonPageStore } from "@/stores/lessonPage";
+import { usePageStore } from "@/stores/page";
 import { contentTypeIcons } from "@/utils/contentTypeIcons";
 
 const props = defineProps<{
@@ -12,9 +12,9 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const lessonPageStore = useLessonPageStore();
+const pageStore = usePageStore();
 const { pages, progressPercent, currentPage, lastVisitedPageId } =
-  storeToRefs(lessonPageStore);
+  storeToRefs(pageStore);
 
 // Light theme: primary→accent gradient fill; dark keeps the flat primary bar
 const vuetifyTheme = useTheme();
@@ -106,7 +106,7 @@ const handlePageClick = (index: number) => {
       <!-- Lesson Title -->
       <v-list-item v-if="currentPage" class="mb-4 lesson-title-row">
         <v-list-item-title class="lesson-title-text">
-          {{ currentPage.lessonTitle }}
+          {{ currentPage.chapterTitle }}
         </v-list-item-title>
       </v-list-item>
 

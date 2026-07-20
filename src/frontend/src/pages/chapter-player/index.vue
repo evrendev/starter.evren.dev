@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLessonPageStore } from "@/stores/lessonPage";
+import { usePageStore } from "@/stores/page";
 import { Notify } from "@/stores/notification";
 import LessonPlayer from "@/components/lesson-player/LessonPlayer.vue";
 import LessonSidebar from "@/components/lesson-player/LessonSidebar.vue";
@@ -10,10 +10,10 @@ import type Reveal from "reveal.js";
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const lessonId = computed(() => route.params.id as string);
+const chapterId = computed(() => route.params.id as string);
 
-const lessonPageStore = useLessonPageStore();
-const { pages, lastVisitedPageId } = storeToRefs(lessonPageStore);
+const pageStore = usePageStore();
+const { pages, lastVisitedPageId } = storeToRefs(pageStore);
 
 const revealInstance = ref<typeof Reveal | null>(null);
 
@@ -37,13 +37,13 @@ const handleForbidden = async () => {
     <div class="player-main">
       <div class="player-content">
         <LessonPlayer
-          :lesson-id="lessonId"
+          :chapter-id="chapterId"
           @ready="handleReady"
           @forbidden="handleForbidden"
         />
       </div>
       <div class="notes-content">
-        <NotesPanel v-if="currentPageId" :lesson-page-id="currentPageId" />
+        <NotesPanel v-if="currentPageId" :page-id="currentPageId" />
       </div>
     </div>
   </div>

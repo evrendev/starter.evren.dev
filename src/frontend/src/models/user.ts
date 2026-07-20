@@ -119,26 +119,16 @@ export class Permissions {
     "Permissions.Chapters.Generate";
   public static readonly ChapterClean: string = "Permissions.Chapters.Clean";
 
-  // Lesson permissions
-  public static readonly LessonView: string = "Permissions.Lessons.View";
-  public static readonly LessonSearch: string = "Permissions.Lessons.Search";
-  public static readonly LessonCreate: string = "Permissions.Lessons.Create";
-  public static readonly LessonUpdate: string = "Permissions.Lessons.Update";
-  public static readonly LessonDelete: string = "Permissions.Lessons.Delete";
-  public static readonly LessonGenerate: string =
-    "Permissions.Lessons.Generate";
-  public static readonly LessonClean: string = "Permissions.Lessons.Clean";
-
-  // LessonPage permissions
-  public static readonly LessonPageView: string = "Permissions.LessonPages.View";
-  public static readonly LessonPageSearch: string =
-    "Permissions.LessonPages.Search";
-  public static readonly LessonPageCreate: string =
-    "Permissions.LessonPages.Create";
-  public static readonly LessonPageUpdate: string =
-    "Permissions.LessonPages.Update";
-  public static readonly LessonPageDelete: string =
-    "Permissions.LessonPages.Delete";
+  // Page permissions
+  public static readonly PageView: string = "Permissions.Pages.View";
+  public static readonly PageSearch: string = "Permissions.Pages.Search";
+  public static readonly PageCreate: string = "Permissions.Pages.Create";
+  public static readonly PageUpdate: string = "Permissions.Pages.Update";
+  public static readonly PageDelete: string = "Permissions.Pages.Delete";
+  public static readonly PageGenerate: string = "Permissions.Pages.Generate";
+  public static readonly PageExport: string = "Permissions.Pages.Export";
+  public static readonly PageClean: string = "Permissions.Pages.Clean";
+  public static readonly PageImport: string = "Permissions.Pages.Import";
 
   // Tenant permissions
   public static readonly TenantView: string = "Permissions.Tenants.View";
