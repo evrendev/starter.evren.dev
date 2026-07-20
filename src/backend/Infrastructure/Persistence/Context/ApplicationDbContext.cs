@@ -22,10 +22,9 @@ public class ApplicationDbContext(
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Chapter> Chapters => Set<Chapter>();
-    public DbSet<Lesson> Lessons => Set<Lesson>();
-    public DbSet<LessonPage> LessonPages => Set<LessonPage>();
-    public DbSet<LessonProgress> LessonProgresses => Set<LessonProgress>();
-    public DbSet<LessonPageProgress> LessonPageProgresses => Set<LessonPageProgress>();
+    public DbSet<Page> Pages => Set<Page>();
+    public DbSet<ChapterProgress> ChapterProgresses => Set<ChapterProgress>();
+    public DbSet<PageProgress> PageProgresses => Set<PageProgress>();
     public DbSet<CourseEnrollment> CourseEnrollments => Set<CourseEnrollment>();
     public DbSet<ImportJob> ImportJobs => Set<ImportJob>();
 

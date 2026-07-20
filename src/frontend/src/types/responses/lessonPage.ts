@@ -8,13 +8,13 @@ export interface LessonPageDto {
   lessonTitle?: string;
   order: number;
   contentType?: string;
+  needsReview?: boolean;
+  isImported?: boolean;
 }
 
 export interface LessonPageDetailsDto extends LessonPageDto {
   content?: string;
-  contentType?: string;
   mediaUrl?: string;
-  isImported?: boolean;
   lesson?: Lesson;
 }
 

@@ -9,10 +9,10 @@ public class NotesController : VersionedApiController
 {
     [HttpGet]
     [Authorize]
-    [OpenApiOperation("Get notes for a lesson page.", "")]
-    public async Task<ApiResponse<List<NoteDto>>> GetByLessonPageAsync([FromQuery] Guid lessonPageId)
+    [OpenApiOperation("Get notes for a page.", "")]
+    public async Task<ApiResponse<List<NoteDto>>> GetByPageAsync([FromQuery] Guid pageId)
     {
-        var data = await Mediator.Send(new GetNotesByLessonPageRequest(lessonPageId));
+        var data = await Mediator.Send(new GetNotesByPageRequest(pageId));
 
         return ApiResponse<List<NoteDto>>.Success(data);
     }

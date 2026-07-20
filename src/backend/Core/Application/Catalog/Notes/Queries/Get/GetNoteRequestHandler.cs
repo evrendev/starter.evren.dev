@@ -20,17 +20,17 @@ public class GetNoteRequestHandler(IRepository<Note> repository, IStringLocalize
         ?? throw new NotFoundException(string.Format(localizer["catalog.notes.get.notfound"], request.Id));
 }
 
-public class GetNotesByLessonPageRequest(Guid lessonPageId) : IRequest<List<NoteDto>>
+public class GetNotesByPageRequest(Guid pageId) : IRequest<List<NoteDto>>
 {
-    public Guid LessonPageId { get; set; } = lessonPageId;
+    public Guid PageId { get; set; } = pageId;
 }
 
-public class GetNotesByLessonPageRequestHandler(IReadRepository<Note> repository)
-    : IRequestHandler<GetNotesByLessonPageRequest, List<NoteDto>>
+public class GetNotesByPageRequestHandler(IReadRepository<Note> repository)
+    : IRequestHandler<GetNotesByPageRequest, List<NoteDto>>
 {
-    public async Task<List<NoteDto>> Handle(GetNotesByLessonPageRequest request, CancellationToken cancellationToken)
+    public async Task<List<NoteDto>> Handle(GetNotesByPageRequest request, CancellationToken cancellationToken)
     {
-        var spec = new NotesByLessonPageSpec(request.LessonPageId);
+        var spec = new NotesByPageSpec(request.PageId);
         return await repository.ListAsync(spec, cancellationToken);
     }
 }

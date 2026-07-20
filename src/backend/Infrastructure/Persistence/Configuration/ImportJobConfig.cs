@@ -7,7 +7,7 @@ public class ImportJobConfig : IEntityTypeConfiguration<ImportJob>
 {
     public void Configure(EntityTypeBuilder<ImportJob> builder)
     {
-        // No IsMultiTenant(): same rationale as CourseEnrollment/LessonProgress/LessonPageProgress
+        // No IsMultiTenant(): same rationale as CourseEnrollment/ChapterProgress/PageProgress
         // (docs/lms-domain.md "Multi-Tenancy") — reached only via CourseId FK, already isolated by
         // the tenant's own database.
         builder.Property(p => p.Status)

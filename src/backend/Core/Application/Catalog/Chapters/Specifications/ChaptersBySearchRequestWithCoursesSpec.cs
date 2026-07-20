@@ -7,7 +7,11 @@ namespace EvrenDev.Application.Catalog.Chapters.Specifications;
 
 public class ChaptersBySearchRequestWithCoursesSpec : Specification<Chapter, ChapterDto>
 {
-    public ChaptersBySearchRequestWithCoursesSpec(PaginateChaptersFilter request)
+    // includeStaging is computed server-side from the caller's role (Admin vs Basic) in
+    // PaginateChaptersFilterHandler, never from client input — this is what actually keeps
+    // staging/unreviewed chapters out of student-facing listings (e.g. my-courses.vue),
+    // regardless of what query params a non-admin caller sends (see PPTX import Task H)
+    public ChaptersBySearchRequestWithCoursesSpec(PaginateChaptersFilter request, bool includeStaging)
     {
         Query.Include(p => p.Course)
             .Where(chapter =>
@@ -29,6 +33,10 @@ public class ChaptersBySearchRequestWithCoursesSpec : Specification<Chapter, Cha
                         &&
                         chapter.Description.ToLower().Contains(request.Search.ToLower())
                     )
+                )
+                &&
+                (
+                    includeStaging || !chapter.IsStaging
                 )
             )
             .OrderBy(c => c.Title, !request.HasOrderBy())

@@ -411,3 +411,4 @@ frontend.backup
 auto-imports.d.ts
 components.d.ts
 typed-router.d.ts
+.claude/settings.json

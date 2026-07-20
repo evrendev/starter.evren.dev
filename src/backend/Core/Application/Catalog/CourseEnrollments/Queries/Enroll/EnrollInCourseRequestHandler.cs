@@ -1,4 +1,4 @@
-using EvrenDev.Application.Catalog.Lessons.Specifications;
+using EvrenDev.Application.Catalog.CourseEnrollments.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Application.Common.Persistence;

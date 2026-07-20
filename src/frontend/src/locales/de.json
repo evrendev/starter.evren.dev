@@ -633,7 +633,16 @@
         "title": "Lektion Erstellen"
       },
       "view": {
-        "title": "Lektion Anzeigen"
+        "title": "Lektion Anzeigen",
+        "pages": {
+          "title": "Seiten",
+          "addPage": "Seite Hinzufügen",
+          "noPages": "Diese Lektion hat noch keine Seiten.",
+          "badges": {
+            "needsReview": "Zu überprüfen",
+            "isImported": "Importiert"
+          }
+        }
       },
       "edit": {
         "title": "Lektion Bearbeiten"
@@ -654,9 +663,6 @@
         "description": {
           "title": "Beschreibung",
           "required": "Beschreibung ist erforderlich"
-        },
-        "content": {
-          "title": "Inhalt"
         },
         "notes": {
           "title": "Notizen"

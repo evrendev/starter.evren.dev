@@ -5,7 +5,6 @@ export interface Lesson {
   chapterId: string;
   chapterTitle?: string;
   title: string;
-  content: string | undefined;
   isStaging?: boolean;
   needsReview?: boolean;
 }

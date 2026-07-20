@@ -217,6 +217,33 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.ChapterProgress", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ChapterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastVisitedPageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("PercentComplete")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "ChapterId");
+
+                    b.HasIndex("ChapterId");
+
+                    b.ToTable("ChapterProgresses", "Catalog");
+                });
+
             modelBuilder.Entity("EvrenDev.Domain.Catalog.Course", b =>
                 {
                     b.Property<Guid>("Id")
@@ -362,14 +389,16 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.ToTable("ImportJobs", "Catalog");
                 });
 
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.Lesson", b =>
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.Note", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ChapterId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -386,32 +415,29 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("PageId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("TenantId")
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChapterId");
+                    b.HasIndex("PageId");
 
-                    b.ToTable("Lessons", "Catalog");
+                    b.HasIndex("UserId");
 
-                    b.HasAnnotation("Finbuckle:MultiTenant", true);
+                    b.ToTable("Note", "Catalog");
                 });
 
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonPage", b =>
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.Page", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChapterId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
@@ -441,9 +467,6 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("LessonId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("MediaUrl")
                         .HasColumnType("text");
 
@@ -467,19 +490,19 @@ namespace Migrators.PostgreSQL.Migrations.Application
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LessonId");
+                    b.HasIndex("ChapterId");
 
-                    b.ToTable("LessonPages", "Catalog");
+                    b.ToTable("Pages", "Catalog");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonPageProgress", b =>
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.PageProgress", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("LessonPageId")
+                    b.Property<Guid>("PageId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("Completed")
@@ -491,80 +514,11 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<DateTime>("LastVisitedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("UserId", "LessonPageId");
+                    b.HasKey("UserId", "PageId");
 
-                    b.HasIndex("LessonPageId");
+                    b.HasIndex("PageId");
 
-                    b.ToTable("LessonPageProgresses", "Catalog");
-                });
-
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonProgress", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("LessonId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CompletedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("LastVisitedPageId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("PercentComplete")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserId", "LessonId");
-
-                    b.HasIndex("LessonId");
-
-                    b.ToTable("LessonProgresses", "Catalog");
-                });
-
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.Note", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("LastModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("LessonPageId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LessonPageId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Note", "Catalog");
+                    b.ToTable("PageProgresses", "Catalog");
                 });
 
             modelBuilder.Entity("EvrenDev.Domain.Catalog.Product", b =>
@@ -976,6 +930,25 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.ChapterProgress", b =>
+                {
+                    b.HasOne("EvrenDev.Domain.Catalog.Chapter", "Chapter")
+                        .WithMany("Progress")
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EvrenDev.Domain.Identity.ApplicationUser", "User")
+                        .WithMany("Progress")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chapter");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EvrenDev.Domain.Catalog.Course", b =>
                 {
                     b.HasOne("EvrenDev.Domain.Catalog.Category", "Category")
@@ -1006,71 +979,11 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.Lesson", b =>
-                {
-                    b.HasOne("EvrenDev.Domain.Catalog.Chapter", "Chapter")
-                        .WithMany("Lessons")
-                        .HasForeignKey("ChapterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chapter");
-                });
-
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonPage", b =>
-                {
-                    b.HasOne("EvrenDev.Domain.Catalog.Lesson", "Lesson")
-                        .WithMany("Pages")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lesson");
-                });
-
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonPageProgress", b =>
-                {
-                    b.HasOne("EvrenDev.Domain.Catalog.LessonPage", "LessonPage")
-                        .WithMany("Progress")
-                        .HasForeignKey("LessonPageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EvrenDev.Domain.Identity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LessonPage");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonProgress", b =>
-                {
-                    b.HasOne("EvrenDev.Domain.Catalog.Lesson", "Lesson")
-                        .WithMany("Progress")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EvrenDev.Domain.Identity.ApplicationUser", "User")
-                        .WithMany("Progress")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lesson");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EvrenDev.Domain.Catalog.Note", b =>
                 {
-                    b.HasOne("EvrenDev.Domain.Catalog.LessonPage", "LessonPage")
+                    b.HasOne("EvrenDev.Domain.Catalog.Page", "Page")
                         .WithMany("Notes")
-                        .HasForeignKey("LessonPageId")
+                        .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1080,7 +993,37 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("LessonPage");
+                    b.Navigation("Page");
+                });
+
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.Page", b =>
+                {
+                    b.HasOne("EvrenDev.Domain.Catalog.Chapter", "Chapter")
+                        .WithMany("Pages")
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chapter");
+                });
+
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.PageProgress", b =>
+                {
+                    b.HasOne("EvrenDev.Domain.Catalog.Page", "Page")
+                        .WithMany("Progress")
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EvrenDev.Domain.Identity.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Page");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EvrenDev.Infrastructure.Identity.ApplicationRoleClaim", b =>
@@ -1141,7 +1084,9 @@ namespace Migrators.PostgreSQL.Migrations.Application
 
             modelBuilder.Entity("EvrenDev.Domain.Catalog.Chapter", b =>
                 {
-                    b.Navigation("Lessons");
+                    b.Navigation("Pages");
+
+                    b.Navigation("Progress");
                 });
 
             modelBuilder.Entity("EvrenDev.Domain.Catalog.Course", b =>
@@ -1151,14 +1096,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Navigation("CourseEnrollments");
                 });
 
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.Lesson", b =>
-                {
-                    b.Navigation("Pages");
-
-                    b.Navigation("Progress");
-                });
-
-            modelBuilder.Entity("EvrenDev.Domain.Catalog.LessonPage", b =>
+            modelBuilder.Entity("EvrenDev.Domain.Catalog.Page", b =>
                 {
                     b.Navigation("Notes");
 

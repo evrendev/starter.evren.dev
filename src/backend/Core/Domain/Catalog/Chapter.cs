@@ -10,7 +10,8 @@ public class Chapter : AuditableEntity, IAggregateRoot
     // reviewed/published by an author; manual chapter creation leaves this false
     public bool IsStaging { get; private set; }
     public virtual Course Course { get; } = default!;
-    public virtual ICollection<Lesson>? Lessons { get; private set; }
+    public virtual ICollection<Page>? Pages { get; private set; }
+    public virtual ICollection<ChapterProgress> Progress { get; private set; } = [];
 
     public Chapter(string title, string? description, int order, Guid courseId, bool isStaging = false)
     {

@@ -21,7 +21,7 @@ public class ChapterConfig : IEntityTypeConfiguration<Chapter>
             .IsRequired()
             .HasDefaultValue(false);
 
-        builder.HasMany(b => b.Lessons)
+        builder.HasMany(b => b.Pages)
             .WithOne(b => b.Chapter)
             .HasForeignKey(b => b.ChapterId)
             .OnDelete(DeleteBehavior.Cascade);

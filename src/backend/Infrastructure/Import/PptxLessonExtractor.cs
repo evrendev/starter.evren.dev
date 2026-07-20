@@ -14,7 +14,7 @@ public class ExtractedSlide
 {
     public required string Title { get; init; }
     public required string ContentHtml { get; init; }
-    public required LessonPageContentType ContentType { get; init; }
+    public required PageContentType ContentType { get; init; }
     public string? EmbedUrl { get; init; }
     public ExtractedSlideMedia? Media { get; init; }
 }
@@ -65,7 +65,7 @@ public static class PptxLessonExtractor
             {
                 Title = title,
                 ContentHtml = contentHtml,
-                ContentType = LessonPageContentType.Video,
+                ContentType = PageContentType.Video,
                 Media = ReadMedia(videoPart),
             };
         }
@@ -81,7 +81,7 @@ public static class PptxLessonExtractor
             {
                 Title = title,
                 ContentHtml = contentHtml,
-                ContentType = LessonPageContentType.Embed,
+                ContentType = PageContentType.Embed,
                 EmbedUrl = embedUrl,
             };
         }
@@ -94,7 +94,7 @@ public static class PptxLessonExtractor
             {
                 Title = title,
                 ContentHtml = contentHtml,
-                ContentType = LessonPageContentType.Image,
+                ContentType = PageContentType.Image,
                 Media = ReadMedia(imageParts[0]),
             };
         }
@@ -104,7 +104,7 @@ public static class PptxLessonExtractor
         {
             Title = title,
             ContentHtml = contentHtml,
-            ContentType = LessonPageContentType.Text,
+            ContentType = PageContentType.Text,
         };
     }
 

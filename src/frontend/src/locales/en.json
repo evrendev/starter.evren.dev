@@ -652,7 +652,16 @@
         "title": "Create Lesson"
       },
       "view": {
-        "title": "View Lesson"
+        "title": "View Lesson",
+        "pages": {
+          "title": "Pages",
+          "addPage": "Add Page",
+          "noPages": "This lesson has no pages yet.",
+          "badges": {
+            "needsReview": "Needs Review",
+            "isImported": "Imported"
+          }
+        }
       },
       "edit": {
         "title": "Edit Lesson"
@@ -673,11 +682,6 @@
         "description": {
           "title": "Description",
           "required": "Description is required"
-        },
-        "content": {
-          "title": "Content",
-          "required": "Content is required",
-          "placeholder": "Enter lesson content here..."
         },
         "notes": {
           "title": "Notes"

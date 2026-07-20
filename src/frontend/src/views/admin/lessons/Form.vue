@@ -2,13 +2,13 @@
 import { RouteRecordNameGeneric } from "vue-router";
 import { VFileUpload } from "vuetify/labs/VFileUpload";
 import { toTypedSchema } from "@vee-validate/yup";
-import { mixed, object, string } from "yup";
+import { object, string } from "yup";
 import { useForm } from "vee-validate";
 import { LessonDetails } from "@/models/lesson";
 import { Chapter } from "@/models/chapter";
+import { useLessonPageStore } from "@/stores/lessonPage";
 
 import { PreviewSlide } from ".";
-import QuillyEditor from "@/components/admin/QuillyEditor.vue";
 
 const { t } = useI18n();
 
@@ -33,11 +33,6 @@ const schema = toTypedSchema(
   object({
     chapterId: string().required(t("admin.lessons.fields.chapterId.required")),
     title: string().required(t("admin.lessons.fields.title.required")),
-    // Not "required": Lesson no longer carries Content (moved to LessonPage — see
-    // docs/lms-domain.md hierarchy note) and UpdateLessonRequest/CreateLessonRequest
-    // don't transmit it at all. The old required rule silently blocked every lesson
-    // save (discovered via the PPTX-import "reassign chapter" E2E test).
-    content: string().nullable(),
   }),
 );
 
@@ -53,13 +48,24 @@ const showPreview: Ref<boolean> = ref(false);
 const [id] = defineField("id");
 const [chapterId, chapterIdAttrs] = defineField("chapterId");
 const [title, titleAttrs] = defineField("title");
-const [content, contentAttrs] = defineField("content");
+
+// Pages section: only meaningful once a Lesson actually exists (has an id) —
+// hidden entirely in create mode, since LessonPages are always created against
+// an existing lessonId
+const isExistingLesson = computed(() => props.routeName !== "lesson-create");
+
+const lessonPageStore = useLessonPageStore();
+const { items: lessonPages, loading: lessonPagesLoading } = storeToRefs(lessonPageStore);
 
 watch(
   () => props.lesson,
   (lessonData) => {
     if (lessonData) {
       resetForm({ values: lessonData });
+
+      if (lessonData.id) {
+        lessonPageStore.getPaginatedPages(lessonData.id);
+      }
     }
   },
   {
@@ -148,26 +154,6 @@ const submit = handleSubmit((values: LessonDetails) => {
             />
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12" md="3">
-            <label
-              class="form-label"
-              for="content"
-              v-text="t('admin.lessons.fields.content.title')"
-            />
-          </v-col>
-          <v-col cols="12" md="9">
-            <quilly-editor
-              v-bind="contentAttrs"
-              v-model="content"
-              :read-only="readOnly"
-              :placeholder="t('admin.lessons.fields.content.placeholder')"
-            />
-            <p v-if="errors.content" class="text-error text-sm mt-1 ml-5">
-              {{ errors.content }}
-            </p>
-          </v-col>
-        </v-row>
         <v-divider class="mt-16 mb-4"></v-divider>
         <v-row>
           <v-col cols="12" class="d-inline-flex ga-2">
@@ -203,6 +189,71 @@ const submit = handleSubmit((values: LessonDetails) => {
           </v-col>
         </v-row>
       </v-form>
+    </v-card-text>
+  </v-card>
+
+  <v-card v-if="isExistingLesson && lesson" elevation="6" class="mt-4">
+    <v-card-title class="d-flex justify-space-between align-center">
+      <span>{{ t("admin.lessons.view.pages.title") }}</span>
+      <v-btn
+        :to="{ name: 'lesson-page-create', params: { lessonId: lesson.id } }"
+        color="primary"
+        size="small"
+        prepend-icon="bx-plus"
+      >
+        {{ t("admin.lessons.view.pages.addPage") }}
+      </v-btn>
+    </v-card-title>
+    <v-card-text>
+      <v-progress-circular
+        v-if="lessonPagesLoading"
+        indeterminate
+        color="primary"
+        size="24"
+      />
+      <v-alert
+        v-else-if="lessonPages.length === 0"
+        type="info"
+        variant="tonal"
+      >
+        {{ t("admin.lessons.view.pages.noPages") }}
+      </v-alert>
+      <v-list v-else lines="two">
+        <v-list-item
+          v-for="page in lessonPages"
+          :key="page.id"
+          :to="{ name: 'lesson-page-edit', params: { id: page.id } }"
+        >
+          <v-list-item-title>
+            {{ page.order }}. {{ page.title }}
+            <v-chip
+              v-if="page.needsReview"
+              size="x-small"
+              color="error"
+              variant="flat"
+              class="ml-2"
+            >
+              {{ t("admin.lessons.view.pages.badges.needsReview") }}
+            </v-chip>
+            <v-chip
+              v-if="page.isImported"
+              size="x-small"
+              color="info"
+              variant="flat"
+              class="ml-2"
+            >
+              {{ t("admin.lessons.view.pages.badges.isImported") }}
+            </v-chip>
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{
+              page.contentType
+                ? t(`admin.lessonpages.fields.contentType.options.${page.contentType.toLowerCase()}`)
+                : "-"
+            }}
+          </v-list-item-subtitle>
+        </v-list-item>
+      </v-list>
     </v-card-text>
   </v-card>
 

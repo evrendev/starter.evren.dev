@@ -11,9 +11,9 @@ public class NoteConfig : IEntityTypeConfiguration<Note>
         builder.Property(b => b.Content)
             .HasMaxLength(256);
 
-        builder.HasOne(b => b.LessonPage)
+        builder.HasOne(b => b.Page)
             .WithMany(p => p.Notes)
-            .HasForeignKey(b => b.LessonPageId)
+            .HasForeignKey(b => b.PageId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne<ApplicationUser>()

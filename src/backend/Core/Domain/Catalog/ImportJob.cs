@@ -8,11 +8,11 @@ public enum ImportStatus
     Failed = 3
 }
 
-// Tracks a single PPTX-to-lessons import run so the client can poll for progress
+// Tracks a single PPTX-to-pages import run so the client can poll for progress
 // instead of relying on Hangfire's own dashboard/storage (see docs/lms-domain.md).
 // Status=Failed means the whole run aborted (e.g. the file could not be opened at
 // all); a run that completes with some bad slides is still Completed, with the
-// per-slide failures reflected in FailedSlides/ErrorsJson (see ImportLessonsFromPptxJob,
+// per-slide failures reflected in FailedSlides/ErrorsJson (see ImportPagesFromPptxJob,
 // which already tolerates and skips individual bad slides).
 public class ImportJob : AuditableEntity, IAggregateRoot
 {

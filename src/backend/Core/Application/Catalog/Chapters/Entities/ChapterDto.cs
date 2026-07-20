@@ -7,4 +7,5 @@ public class ChapterDto : IDto
     public string? Description { get; set; }
     public Guid CourseId { get; set; }
     public string? CourseTitle { get; set; }
+    public bool IsStaging { get; set; }
 }

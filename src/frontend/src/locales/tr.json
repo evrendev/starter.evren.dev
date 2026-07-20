@@ -633,7 +633,16 @@
         "title": "Ders Oluştur"
       },
       "view": {
-        "title": "Ders Görüntüle"
+        "title": "Ders Görüntüle",
+        "pages": {
+          "title": "Sayfalar",
+          "addPage": "Yeni Sayfa Ekle",
+          "noPages": "Bu dersin henüz sayfası yok.",
+          "badges": {
+            "needsReview": "Gözden Geçirilmeli",
+            "isImported": "İçe Aktarıldı"
+          }
+        }
       },
       "edit": {
         "title": "Ders Düzenle"
@@ -654,9 +663,6 @@
         "description": {
           "title": "Açıklama",
           "required": "Açıklama alanı gerekli"
-        },
-        "content": {
-          "title": "İçerik"
         },
         "notes": {
           "title": "Notlar"

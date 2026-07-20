@@ -16,6 +16,6 @@ public class ApplicationUser : IdentityUser
     public string? ObjectId { get; set; }
     public Language? Language { get; set; }
     public virtual ICollection<CourseEnrollment> CourseEnrollments { get; private set; } = [];
-    public virtual ICollection<LessonProgress> Progress { get; private set; } = [];
+    public virtual ICollection<ChapterProgress> Progress { get; private set; } = [];
     public virtual ICollection<Note> Notes { get; private set; } = [];
 }
