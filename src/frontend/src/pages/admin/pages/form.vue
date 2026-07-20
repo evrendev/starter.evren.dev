@@ -59,10 +59,15 @@ const pageTitle = computed(() => {
   return t("admin.pages.create.title");
 });
 
-const backTo = computed(() => ({
-  name: "chapter-view",
-  params: { id: chapterId.value },
-}));
+// chapterId isn't known yet on the initial render of the edit route (it only
+// comes from the Page once getPageById resolves) — an empty params.id would
+// make vue-router throw "Missing required param", so fall back to the
+// chapter list until it's available
+const backTo = computed(() =>
+  chapterId.value
+    ? { name: "chapter-view", params: { id: chapterId.value } }
+    : { name: "chapter-list" },
+);
 
 const breadcrumbs = computed(() => [
   {
@@ -209,11 +214,9 @@ const handleSubmit = async () => {
                 />
               </template>
 
-              <QuillEditor
+              <QuillyEditor
                 v-else
-                v-model:content="form.content"
-                content-type="html"
-                theme="snow"
+                v-model="form.content"
               />
             </v-col>
           </v-row>
