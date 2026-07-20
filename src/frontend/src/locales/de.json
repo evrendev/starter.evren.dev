@@ -665,6 +665,23 @@
           "richPreview": "Erweiterte Vorschau",
           "importedNotice": "Der Inhalt dieser Seite wurde aus einer PowerPoint-Datei importiert. Bearbeiten Sie bei Bedarf das rohe HTML unten — die Vorschau oben wird beim Tippen aktualisiert.",
           "rawHtml": "Roh-HTML"
+        },
+        "imageFile": {
+          "title": "Bild auswählen"
+        },
+        "videoFile": {
+          "title": "Video auswählen"
+        },
+        "caption": {
+          "title": "Bildunterschrift",
+          "placeholder": "Optionaler Alt-Text / Bildunterschrift"
+        },
+        "embedUrl": {
+          "title": "Einbettungs-URL",
+          "placeholder": "https://..."
+        },
+        "preview": {
+          "title": "Vorschau"
         }
       },
       "notifications": {

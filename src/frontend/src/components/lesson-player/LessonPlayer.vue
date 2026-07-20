@@ -28,6 +28,14 @@ const pageStore = usePageStore();
 const { pages, currentPage, loading, lastVisitedPageId } = storeToRefs(pageStore);
 const { sanitize } = useSanitizedHtml();
 
+// Image/Video MediaUrl is a relative storage path ("Files/Images/Page/x.jpg"), same as
+// Course.image (see views/admin/courses/DataTable.vue) — needs the backend base URL
+// prefix to resolve as a real <img>/<video> src. Embed's MediaUrl is already a full
+// external URL and must NOT be run through this.
+const backendBaseUrl: string = import.meta.env.VITE_APP_BACKEND_BASE_URL;
+const resolveMediaUrl = (url: string) =>
+  /^https?:\/\//.test(url) ? url : `${backendBaseUrl}/${url}`;
+
 // Currently displayed slide's title, for the breadcrumb above the reveal
 // container (lastVisitedPageId tracks the active slide, see visitPage below)
 const currentSlideTitle = computed(
@@ -200,7 +208,7 @@ onBeforeUnmount(() => {
             >
               <template v-if="page.contentType === 'Image' && page.mediaUrl">
                 <div class="slide-media">
-                  <img :src="page.mediaUrl" :alt="page.title" />
+                  <img :src="resolveMediaUrl(page.mediaUrl)" :alt="page.title" />
                 </div>
                 <!-- Page has no dedicated caption field; Content doubles as caption -->
                 <v-card-text
@@ -212,7 +220,7 @@ onBeforeUnmount(() => {
               <template v-else-if="page.contentType === 'Video' && page.mediaUrl">
                 <div class="slide-media">
                   <video controls>
-                    <source :src="page.mediaUrl" type="video/mp4" />
+                    <source :src="resolveMediaUrl(page.mediaUrl)" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>

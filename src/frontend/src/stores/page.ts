@@ -12,6 +12,7 @@ import { PaginationResponse } from "@/types/responses/api";
 import http, { handleRequest } from "@/utils/http";
 import { AppError } from "@/primitives/error";
 import { Result } from "@/primitives/result";
+import { convertToUploadRequest } from "@/utils/tools";
 
 const DEFAULT_FILTER: PaginatePagesFilter = {
   search: null,
@@ -118,8 +119,11 @@ export const usePageStore = defineStore("page", {
       this.error = null;
 
       try {
+        const { mediaFile, ...rest } = payload;
+        const uploadRequest = await convertToUploadRequest(mediaFile);
+
         const result = await handleRequest<string>(
-          http.post("/v1/pages", payload),
+          http.post("/v1/pages", { ...rest, mediaFile: uploadRequest }),
         );
 
         if (!result.succeeded) {
@@ -143,8 +147,11 @@ export const usePageStore = defineStore("page", {
       this.error = null;
 
       try {
+        const { mediaFile, ...rest } = payload;
+        const uploadRequest = await convertToUploadRequest(mediaFile);
+
         const result = await handleRequest<string>(
-          http.put(`/v1/pages/${id}`, payload),
+          http.put(`/v1/pages/${id}`, { ...rest, mediaFile: uploadRequest }),
         );
 
         if (!result.succeeded) {

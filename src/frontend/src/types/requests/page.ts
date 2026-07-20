@@ -7,6 +7,10 @@ export interface CreatePageRequest {
   contentType: PageContentType;
   order?: number;
   mediaUrl?: string;
+  // Raw File from the admin's file picker (Image/Video content types) — the store
+  // converts this to a base64 FileUploadRequest before sending, same pattern as
+  // stores/course.ts's Course.image
+  mediaFile?: File;
 }
 
 export interface UpdatePageRequest {
@@ -18,6 +22,7 @@ export interface UpdatePageRequest {
   order?: number;
   mediaUrl?: string;
   isImported?: boolean;
+  mediaFile?: File;
 }
 
 export interface DeletePageRequest {

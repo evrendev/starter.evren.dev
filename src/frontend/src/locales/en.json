@@ -684,6 +684,23 @@
           "richPreview": "Rich Preview",
           "importedNotice": "This page's content was imported from a PowerPoint file. Edit the raw HTML below if needed — the preview above updates as you type.",
           "rawHtml": "Raw HTML"
+        },
+        "imageFile": {
+          "title": "Select Image"
+        },
+        "videoFile": {
+          "title": "Select Video"
+        },
+        "caption": {
+          "title": "Caption",
+          "placeholder": "Optional alt text / caption"
+        },
+        "embedUrl": {
+          "title": "Embed URL",
+          "placeholder": "https://..."
+        },
+        "preview": {
+          "title": "Preview"
         }
       },
       "notifications": {

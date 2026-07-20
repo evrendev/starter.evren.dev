@@ -1,7 +1,9 @@
 using System.Text.Json.Serialization;
 using EvrenDev.Application.Catalog.Pages.Specifications;
+using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
+using EvrenDev.Domain.Common.Enums;
 
 namespace EvrenDev.Application.Catalog.Pages.Queries.Create;
 
@@ -16,6 +18,10 @@ public class CreatePageRequest : IRequest<Guid>
     public PageContentType ContentType { get; set; }
     public int Order { get; set; } = 0;
     public string? MediaUrl { get; set; }
+    // Image/Video content types: an uploaded file, same embedded-upload pattern as
+    // Course.Image (see CreateCourseRequestHandler) — takes priority over MediaUrl
+    // when present, so the admin never types a storage path/URL by hand.
+    public FileUploadRequest? MediaFile { get; set; }
 }
 
 public class CreatePageRequestValidator : CustomValidator<CreatePageRequest>
@@ -37,15 +43,25 @@ public class CreatePageRequestValidator : CustomValidator<CreatePageRequest>
 
         RuleFor(p => p.ContentType)
             .IsInEnum();
+
+        RuleFor(p => p.MediaFile)
+            .SetNonNullableValidator(new FileUploadRequestValidator());
     }
 }
 
-public class CreatePageRequestHandler(IRepository<Page> repository) : IRequestHandler<CreatePageRequest, Guid>
+public class CreatePageRequestHandler(IRepository<Page> repository, IFileStorageService file) : IRequestHandler<CreatePageRequest, Guid>
 {
     public async Task<Guid> Handle(CreatePageRequest request, CancellationToken cancellationToken)
     {
+        var mediaUrl = request.MediaUrl;
+        if (request.MediaFile is not null)
+        {
+            var fileType = request.ContentType == PageContentType.Video ? FileType.Video : FileType.Image;
+            mediaUrl = await file.UploadAsync<Page>(request.MediaFile, fileType, cancellationToken);
+        }
+
         var page = new Page(request.Title, request.Content, request.ContentType,
-            request.Order, request.ChapterId, request.MediaUrl);
+            request.Order, request.ChapterId, mediaUrl);
 
         await repository.AddAsync(page, cancellationToken);
 

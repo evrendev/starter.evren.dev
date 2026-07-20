@@ -665,6 +665,23 @@
           "richPreview": "Zengin Önizleme",
           "importedNotice": "Bu sayfanın içeriği bir PowerPoint dosyasından içe aktarıldı. Gerekirse aşağıdaki ham HTML'i düzenleyin — yukarıdaki önizleme yazdıkça güncellenir.",
           "rawHtml": "Ham HTML"
+        },
+        "imageFile": {
+          "title": "Görsel Seç"
+        },
+        "videoFile": {
+          "title": "Video Seç"
+        },
+        "caption": {
+          "title": "Alt Metin/Başlık",
+          "placeholder": "İsteğe bağlı alt metin / başlık"
+        },
+        "embedUrl": {
+          "title": "Bağlantı URL'si",
+          "placeholder": "https://..."
+        },
+        "preview": {
+          "title": "Önizleme"
         }
       },
       "notifications": {
