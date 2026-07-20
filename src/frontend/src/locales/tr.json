@@ -673,6 +673,14 @@
         "saveFailed": "Sayfa kaydedilemedi",
         "deleted": "Sayfa başarıyla silindi",
         "deleteFailed": "Sayfa silinemedi"
+      },
+      "actions": {
+        "convertToEditable": "Düzenlenebilir Hale Getir",
+        "convertToEditableConfirm": {
+          "title": "Düzenlenebilir Hale Getir",
+          "message": "Bu işlem orijinal görsel düzeni kalıcı olarak kaybedecek ve içeriği sade, düzenlenebilir metne dönüştürecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?",
+          "confirm": "Dönüştür"
+        }
       }
     }
   },

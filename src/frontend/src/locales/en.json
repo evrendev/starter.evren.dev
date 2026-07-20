@@ -692,6 +692,14 @@
         "saveFailed": "Failed to save page",
         "deleted": "Page deleted successfully",
         "deleteFailed": "Failed to delete page"
+      },
+      "actions": {
+        "convertToEditable": "Make Editable",
+        "convertToEditableConfirm": {
+          "title": "Make Editable",
+          "message": "This will permanently discard the original visual layout and convert the content into plain, editable text. This cannot be undone. Do you want to continue?",
+          "confirm": "Convert"
+        }
       }
     }
   },

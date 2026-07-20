@@ -4,6 +4,7 @@ import { usePageStore } from "@/stores/page";
 import { useChapterStore } from "@/stores/chapter";
 import { PageContentType } from "@/models/page";
 import { CreatePageRequest, UpdatePageRequest } from "@/types/requests/page";
+import { useConvertImportedContent } from "@/composables/useConvertImportedContent";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -36,6 +37,26 @@ const contentTypeOptions = computed(() =>
   })),
 );
 
+const { convertToEditable } = useConvertImportedContent();
+const showConvertConfirm = ref(false);
+
+// True once form.isImported reflects the real Page (or immediately in create
+// mode, where there's nothing to fetch). Content is only rendered once this is
+// true — form.isImported defaults to false, and briefly rendering the
+// QuillyEditor branch before the fetch resolves would mount then unmount
+// Quill, which injects its toolbar as a raw DOM sibling outside Vue's own
+// vnode tree; Vue has no record of it and leaves it orphaned in the DOM when
+// the branch switches back to the iframe view.
+const contentReady = ref(false);
+
+const handleConvertConfirmed = () => {
+  form.content = convertToEditable(form.content);
+  // Local-only: nothing is persisted until Save is pressed. Flipping this
+  // switches the template's v-if from the iframe+textarea view to the real
+  // QuillyEditor so the admin can immediately see/edit the converted result.
+  form.isImported = false;
+};
+
 onMounted(async () => {
   if (isEdit.value && pageId.value) {
     const result = await pageStore.getPageById(pageId.value);
@@ -50,6 +71,7 @@ onMounted(async () => {
   } else if (route.params.chapterId) {
     await chapterStore.getById(route.params.chapterId as string);
   }
+  contentReady.value = true;
 });
 
 const pageTitle = computed(() => {
@@ -101,6 +123,7 @@ const handleSubmit = async () => {
         contentType: form.contentType,
         order: form.order,
         mediaUrl: form.mediaUrl || undefined,
+        isImported: form.isImported,
       };
       response = await pageStore.updatePage(pageId.value, payload);
     } else {
@@ -188,36 +211,48 @@ const handleSubmit = async () => {
                 {{ t("admin.pages.fields.content.title") }}
               </label>
 
-              <template v-if="form.isImported">
-                <v-alert type="info" variant="tonal" density="compact" class="mb-2">
-                  {{ t("admin.pages.fields.content.importedNotice") }}
-                </v-alert>
-                <label class="text-subtitle-2 mb-2 d-block">
-                  {{ t("admin.pages.fields.content.richPreview") }}
-                </label>
-                <iframe
-                  :srcdoc="form.content"
-                  sandbox="allow-same-origin"
-                  class="imported-content-preview"
-                  :title="form.title"
-                />
-                <label class="text-subtitle-2 mt-4 mb-2 d-block">
-                  {{ t("admin.pages.fields.content.rawHtml") }}
-                </label>
-                <v-textarea
+              <template v-if="contentReady">
+                <template v-if="form.isImported">
+                  <v-alert type="info" variant="tonal" density="compact" class="mb-2">
+                    {{ t("admin.pages.fields.content.importedNotice") }}
+                  </v-alert>
+                  <v-btn
+                    color="warning"
+                    variant="tonal"
+                    size="small"
+                    prepend-icon="bx-edit-alt"
+                    class="mb-4"
+                    @click="showConvertConfirm = true"
+                  >
+                    {{ t("admin.pages.actions.convertToEditable") }}
+                  </v-btn>
+                  <label class="text-subtitle-2 mb-2 d-block">
+                    {{ t("admin.pages.fields.content.richPreview") }}
+                  </label>
+                  <iframe
+                    :srcdoc="form.content"
+                    sandbox="allow-same-origin"
+                    class="imported-content-preview"
+                    :title="form.title"
+                  />
+                  <label class="text-subtitle-2 mt-4 mb-2 d-block">
+                    {{ t("admin.pages.fields.content.rawHtml") }}
+                  </label>
+                  <v-textarea
+                    v-model="form.content"
+                    variant="outlined"
+                    rows="10"
+                    no-resize
+                    spellcheck="false"
+                    class="raw-html-editor"
+                  />
+                </template>
+
+                <QuillyEditor
+                  v-else
                   v-model="form.content"
-                  variant="outlined"
-                  rows="10"
-                  no-resize
-                  spellcheck="false"
-                  class="raw-html-editor"
                 />
               </template>
-
-              <QuillyEditor
-                v-else
-                v-model="form.content"
-              />
             </v-col>
           </v-row>
 
@@ -242,6 +277,16 @@ const handleSubmit = async () => {
       </v-card-text>
     </v-card>
   </v-container>
+
+  <confirm-dialog
+    v-model:show-dialog="showConvertConfirm"
+    :title="t('admin.pages.actions.convertToEditableConfirm.title')"
+    :message="t('admin.pages.actions.convertToEditableConfirm.message')"
+    :confirm-button-text="t('admin.pages.actions.convertToEditableConfirm.confirm')"
+    :cancel-button-text="t('shared.cancel')"
+    confirm-button-color="warning"
+    @confirm="handleConvertConfirmed"
+  />
 </template>
 
 <style scoped>

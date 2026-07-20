@@ -20,6 +20,7 @@ public class UpdatePageRequest : IRequest<Guid>
     public PageContentType? ContentType { get; set; }
     public int? Order { get; set; }
     public string? MediaUrl { get; set; }
+    public bool? IsImported { get; set; }
 }
 
 public class UpdatePageRequestValidator : CustomValidator<UpdatePageRequest>
@@ -55,7 +56,7 @@ public class UpdatePageRequestHandler(
         _ = page ?? throw new NotFoundException(string.Format(localizer["catalog.pages.update.notfound"], request.Id));
 
         var updatedPage = page.Update(request.Title, request.Content, request.ContentType,
-            request.Order, request.MediaUrl);
+            request.Order, request.MediaUrl, isImported: request.IsImported);
 
         await repository.UpdateAsync(updatedPage, cancellationToken);
 

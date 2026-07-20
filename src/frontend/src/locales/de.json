@@ -673,6 +673,14 @@
         "saveFailed": "Seite konnte nicht gespeichert werden",
         "deleted": "Seite erfolgreich gelöscht",
         "deleteFailed": "Seite konnte nicht gelöscht werden"
+      },
+      "actions": {
+        "convertToEditable": "Bearbeitbar machen",
+        "convertToEditableConfirm": {
+          "title": "Bearbeitbar machen",
+          "message": "Dadurch geht das ursprüngliche visuelle Layout dauerhaft verloren und der Inhalt wird in einfachen, bearbeitbaren Text umgewandelt. Dies kann nicht rückgängig gemacht werden. Möchten Sie fortfahren?",
+          "confirm": "Umwandeln"
+        }
       }
     }
   },

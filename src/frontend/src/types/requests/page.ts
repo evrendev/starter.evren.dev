@@ -17,6 +17,7 @@ export interface UpdatePageRequest {
   contentType?: PageContentType;
   order?: number;
   mediaUrl?: string;
+  isImported?: boolean;
 }
 
 export interface DeletePageRequest {
