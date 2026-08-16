@@ -39,8 +39,10 @@ const schema = toTypedSchema(
     previewVideoUrl: string()
       .nullable()
       .url(t("admin.courses.fields.previewVideoUrl.invalid")),
+    // Backend's Amount is nullable (see CreateCourseRequest/UpdateCourseRequest) —
+    // a free course is a valid, unremarkable case, not an error state
     amount: number()
-      .required(t("admin.courses.fields.amount.required"))
+      .nullable()
       .min(0, t("admin.courses.fields.amount.min", { min: 0 })),
     image: mixed<File>().nullable(),
   }),

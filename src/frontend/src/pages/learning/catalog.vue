@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useCourseStore } from "@/stores/course";
 import { useCourseEnrollmentStore } from "@/stores/courseEnrollment";
+import { useChapterStore } from "@/stores/chapter";
+import { usePageStore } from "@/stores/page";
 import { Notify } from "@/stores/notification";
+import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
 
 const { t } = useI18n();
-const router = useRouter();
 
 const courseStore = useCourseStore();
 const { items: courses, loading } = storeToRefs(courseStore);
@@ -13,7 +15,14 @@ const enrollmentStore = useCourseEnrollmentStore();
 const { enrollments, loading: enrollmentLoading } =
   storeToRefs(enrollmentStore);
 
+const chapterStore = useChapterStore();
+const pageStore = usePageStore();
+
 const enrollingCourseId = ref<string | null>(null);
+// Set only while resolving which chapter "Continue" should open — separate
+// from playerOpen so the button can show a loading state without the dialog
+// flashing open before a chapterId is actually known
+const resolvingCourseId = ref<string | null>(null);
 
 onMounted(async () => {
   courseStore.setFilters({ search: null, categoryId: null, published: true });
@@ -43,8 +52,43 @@ const handleEnroll = async (courseId: string) => {
   }
 };
 
-const goToMyCourses = () => {
-  router.push({ name: "learning-my-courses" });
+const playerChapterId = ref<string | null>(null);
+const playerCategoryTitle = ref<string | null>(null);
+const playerOpen = ref(false);
+
+// "Continue" has no chapter context (this card is course-level) — resolve one
+// by picking the first chapter (by Order) that isn't 100% complete yet, i.e.
+// wherever the learner last left off; if the whole course is done, reopen the
+// first chapter for review. Same per-chapter percentComplete lookup my-courses
+// uses, just run once on click instead of eagerly for every chapter.
+const handleContinue = async (courseId: string, categoryTitle?: string) => {
+  resolvingCourseId.value = courseId;
+
+  try {
+    chapterStore.setFilters({ search: null, courseId });
+    await chapterStore.getPaginatedItems();
+    // Chapter has no Order field on the frontend model — trust the backend's
+    // own pagination ordering (same list my-courses.vue already renders as-is)
+    const chapters = chapterStore.items;
+
+    if (chapters.length === 0) return;
+
+    let targetChapterId = chapters[0].id;
+
+    for (const chapter of chapters) {
+      const result = await pageStore.getChapterPlayer(chapter.id);
+      if (result.succeeded && (result.data?.percentComplete || 0) < 100) {
+        targetChapterId = chapter.id;
+        break;
+      }
+    }
+
+    playerChapterId.value = targetChapterId;
+    playerCategoryTitle.value = categoryTitle ?? null;
+    playerOpen.value = true;
+  } finally {
+    resolvingCourseId.value = null;
+  }
 };
 </script>
 
@@ -96,7 +140,8 @@ const goToMyCourses = () => {
               color="primary"
               variant="flat"
               block
-              @click="goToMyCourses"
+              :loading="resolvingCourseId === course.id"
+              @click="handleContinue(course.id, course.categoryTitle)"
             >
               {{ t("learning.catalog.continue") }}
             </v-btn>
@@ -114,5 +159,11 @@ const goToMyCourses = () => {
         </v-card>
       </v-col>
     </v-row>
+
+    <LessonPlayerDialog
+      v-model="playerOpen"
+      :chapter-id="playerChapterId"
+      :category-title="playerCategoryTitle"
+    />
   </v-container>
 </template>
