@@ -1,6 +1,18 @@
 import { PageContentType } from "@/models/page";
 import { Chapter } from "@/models/chapter";
 
+export interface OptionDto {
+  label: string;
+  isCorrect: boolean;
+  order: number;
+}
+
+export interface QuestionDto {
+  prompt: string;
+  order: number;
+  options: OptionDto[];
+}
+
 export interface PageDto {
   id: string;
   title: string;
@@ -16,6 +28,7 @@ export interface PageDetailsDto extends PageDto {
   content?: string;
   mediaUrl?: string;
   chapter?: Chapter;
+  questions?: QuestionDto[];
 }
 
 export interface PageExportDto {
@@ -35,6 +48,7 @@ export interface ChapterPlayerPageDto {
   isImported?: boolean;
   completed?: boolean;
   completedAt?: Date;
+  questions?: QuestionDto[];
 }
 
 export interface ChapterPlayerDto {

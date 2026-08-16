@@ -4,7 +4,11 @@ import { Notify } from "@/stores/notification";
 import { usePageStore } from "@/stores/page";
 import { useChapterStore } from "@/stores/chapter";
 import { PageContentType } from "@/models/page";
-import { CreatePageRequest, UpdatePageRequest } from "@/types/requests/page";
+import {
+  CreatePageRequest,
+  UpdatePageRequest,
+  QuestionRequest,
+} from "@/types/requests/page";
 import { useConvertImportedContent } from "@/composables/useConvertImportedContent";
 
 const { t } = useI18n();
@@ -28,6 +32,11 @@ const chapterId = computed(
 // back to this at submit time instead
 const CONTENT_PLACEHOLDER = "&nbsp;";
 
+interface QuestionFormState {
+  prompt: string;
+  options: { label: string; isCorrect: boolean }[];
+}
+
 // Form state
 const form = reactive({
   title: "",
@@ -37,6 +46,9 @@ const form = reactive({
   mediaUrl: "",
   mediaFile: undefined as File | File[] | undefined,
   isImported: false,
+  // Quiz content type: structural questions (see Task N0/N1/N2). Array position
+  // doubles as Order on submit — no separate reordering UI, add/remove only.
+  questions: [] as QuestionFormState[],
 });
 
 const contentTypeOptions = computed(() =>
@@ -94,6 +106,68 @@ watch(
   },
 );
 
+// Tracks whether the admin actually touched the Questions block — mirrors the
+// backend's undefined/[]/non-empty semantics (see UpdatePageRequest.questions):
+// undefined means "leave existing questions untouched", so we must only send a
+// (possibly empty) array when the admin really edited it, never on every save.
+const questionsDirty = ref(false);
+let skipNextQuestionsDirty = isEdit.value;
+
+watch(
+  () => form.questions,
+  () => {
+    if (skipNextQuestionsDirty) {
+      skipNextQuestionsDirty = false;
+      return;
+    }
+    questionsDirty.value = true;
+  },
+  { deep: true },
+);
+
+const addQuestion = () => {
+  form.questions.push({ prompt: "", options: [{ label: "", isCorrect: true }] });
+};
+
+const removeQuestion = (questionIndex: number) => {
+  form.questions.splice(questionIndex, 1);
+};
+
+const addOption = (questionIndex: number) => {
+  const options = form.questions[questionIndex].options;
+  options.push({ label: "", isCorrect: options.length === 0 });
+};
+
+const removeOption = (questionIndex: number, optionIndex: number) => {
+  form.questions[questionIndex].options.splice(optionIndex, 1);
+};
+
+const correctOptionIndex = (questionIndex: number) =>
+  form.questions[questionIndex].options.findIndex((o) => o.isCorrect);
+
+const setCorrectOption = (questionIndex: number, optionIndex: number) => {
+  form.questions[questionIndex].options.forEach((option, i) => {
+    option.isCorrect = i === optionIndex;
+  });
+};
+
+// Client-side guard so obviously-broken Quiz data never reaches the backend —
+// every question needs at least one option and exactly one marked correct.
+const questionsValidationError = computed(() => {
+  if (form.contentType !== PageContentType.Quiz) return null;
+
+  for (const question of form.questions) {
+    if (question.options.length === 0) {
+      return t("admin.pages.quiz.validation.optionRequired");
+    }
+    if (question.options.filter((o) => o.isCorrect).length !== 1) {
+      return t("admin.pages.quiz.validation.exactlyOneCorrect");
+    }
+  }
+
+  return null;
+});
+
 const { convertToEditable } = useConvertImportedContent();
 const showConvertConfirm = ref(false);
 
@@ -132,6 +206,17 @@ onMounted(async () => {
       form.order = pageDetails.value.order || 0;
       form.mediaUrl = pageDetails.value.mediaUrl || "";
       form.isImported = pageDetails.value.isImported || false;
+      // Don't trust the backend's physical row order for either level (see
+      // Task N1's report on Mapster's nested-collection projection) — sort by
+      // Order explicitly on both questions and their options.
+      form.questions = [...(pageDetails.value.questions ?? [])]
+        .sort((a, b) => a.order - b.order)
+        .map((q) => ({
+          prompt: q.prompt,
+          options: [...q.options]
+            .sort((a, b) => a.order - b.order)
+            .map((o) => ({ label: o.label, isCorrect: o.isCorrect })),
+        }));
     }
   } else if (route.params.chapterId) {
     await chapterStore.getById(route.params.chapterId as string);
@@ -177,6 +262,11 @@ const breadcrumbs = computed(() => [
 
 const handleSubmit = async () => {
   try {
+    if (questionsValidationError.value) {
+      Notify.error(questionsValidationError.value);
+      return;
+    }
+
     let response;
     // Content is optional in the Image/Video/Embed UI (caption, or hidden
     // entirely for Embed) but the backend still requires a non-empty string —
@@ -184,6 +274,23 @@ const handleSubmit = async () => {
     const content = usesGenericContentEditor.value
       ? form.content
       : form.content?.trim() || CONTENT_PLACEHOLDER;
+
+    // undefined = leave existing Questions untouched (backend semantics — see
+    // UpdatePageRequest.questions); only send a list when the admin actually
+    // touched the block, empty array included (that's a deliberate "delete
+    // all"). Array position doubles as Order — no separate reordering UI.
+    const questions: QuestionRequest[] | undefined =
+      form.contentType === PageContentType.Quiz && questionsDirty.value
+        ? form.questions.map((question, qi) => ({
+            prompt: question.prompt,
+            order: qi,
+            options: question.options.map((option, oi) => ({
+              label: option.label,
+              isCorrect: option.isCorrect,
+              order: oi,
+            })),
+          }))
+        : undefined;
 
     if (isEdit.value && pageId.value) {
       const payload: UpdatePageRequest = {
@@ -198,6 +305,7 @@ const handleSubmit = async () => {
           : form.mediaUrl || undefined,
         mediaFile: selectedMediaFile.value,
         isImported: form.isImported,
+        questions,
       };
       response = await pageStore.updatePage(pageId.value, payload);
     } else {
@@ -211,6 +319,7 @@ const handleSubmit = async () => {
           ? undefined
           : form.mediaUrl || undefined,
         mediaFile: selectedMediaFile.value,
+        questions,
       };
       response = await pageStore.createPage(payload);
     }
@@ -290,6 +399,102 @@ const handleSubmit = async () => {
               :placeholder="t('admin.pages.fields.mediaUrl.placeholder')"
               outlined
             />
+          </v-col>
+        </v-row>
+
+        <v-row v-if="form.contentType === PageContentType.Quiz" class="mb-4">
+          <v-col cols="12">
+            <label class="text-subtitle-2 mb-2 d-block">
+              {{ t("admin.pages.quiz.title") }}
+            </label>
+
+            <v-alert
+              v-if="form.questions.length === 0"
+              type="info"
+              variant="tonal"
+              density="compact"
+              class="mb-4"
+            >
+              {{ t("admin.pages.quiz.noQuestions") }}
+            </v-alert>
+
+            <v-card
+              v-for="(question, qi) in form.questions"
+              :key="qi"
+              variant="outlined"
+              class="mb-4"
+            >
+              <v-card-text>
+                <div class="d-flex gap-2 align-start mb-2">
+                  <v-text-field
+                    v-model="question.prompt"
+                    :label="`${t('admin.pages.quiz.questionPrompt.title')} ${qi + 1}`"
+                    :placeholder="t('admin.pages.quiz.questionPrompt.placeholder')"
+                    outlined
+                    hide-details
+                  />
+                  <v-btn
+                    icon="bx-trash"
+                    variant="text"
+                    color="error"
+                    :aria-label="t('admin.pages.quiz.removeQuestion')"
+                    @click="removeQuestion(qi)"
+                  />
+                </div>
+
+                <v-radio-group
+                  :model-value="correctOptionIndex(qi)"
+                  hide-details
+                  class="mb-2"
+                  @update:model-value="(idx) => setCorrectOption(qi, idx as number)"
+                >
+                  <div
+                    v-for="(option, oi) in question.options"
+                    :key="oi"
+                    class="d-flex gap-2 align-center mb-2"
+                  >
+                    <v-radio
+                      :value="oi"
+                      :aria-label="t('admin.pages.quiz.correctAnswer')"
+                    />
+                    <v-text-field
+                      v-model="option.label"
+                      :label="`${t('admin.pages.quiz.optionLabel.title')} ${oi + 1}`"
+                      :placeholder="t('admin.pages.quiz.optionLabel.placeholder')"
+                      outlined
+                      hide-details
+                      density="compact"
+                    />
+                    <v-btn
+                      icon="bx-x"
+                      variant="text"
+                      color="error"
+                      size="small"
+                      :aria-label="t('admin.pages.quiz.removeOption')"
+                      @click="removeOption(qi, oi)"
+                    />
+                  </div>
+                </v-radio-group>
+
+                <v-btn
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="bx-plus"
+                  @click="addOption(qi)"
+                >
+                  {{ t("admin.pages.quiz.addOption") }}
+                </v-btn>
+              </v-card-text>
+            </v-card>
+
+            <v-btn
+              color="primary"
+              variant="tonal"
+              prepend-icon="bx-plus"
+              @click="addQuestion"
+            >
+              {{ t("admin.pages.quiz.addQuestion") }}
+            </v-btn>
           </v-col>
         </v-row>
 

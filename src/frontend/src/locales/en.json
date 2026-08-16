@@ -717,6 +717,27 @@
           "message": "This will permanently discard the original visual layout and convert the content into plain, editable text. This cannot be undone. Do you want to continue?",
           "confirm": "Convert"
         }
+      },
+      "quiz": {
+        "title": "Questions",
+        "noQuestions": "No questions yet. Add one below.",
+        "addQuestion": "Add Question",
+        "removeQuestion": "Remove Question",
+        "questionPrompt": {
+          "title": "Question",
+          "placeholder": "Enter the question text"
+        },
+        "addOption": "Add Option",
+        "removeOption": "Remove Option",
+        "optionLabel": {
+          "title": "Option",
+          "placeholder": "Enter an answer option"
+        },
+        "correctAnswer": "Correct answer",
+        "validation": {
+          "optionRequired": "Every question needs at least one option.",
+          "exactlyOneCorrect": "Every question needs exactly one correct answer."
+        }
       }
     }
   },

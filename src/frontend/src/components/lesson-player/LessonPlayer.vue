@@ -257,7 +257,7 @@ onBeforeUnmount(() => {
               </template>
 
               <v-card-text v-else-if="page.contentType === 'Quiz'">
-                <QuizContent :content="page.content ?? ''" />
+                <QuizContent :content="page.content ?? ''" :questions="page.questions" />
               </v-card-text>
 
               <v-card-text

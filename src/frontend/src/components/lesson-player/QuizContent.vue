@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
+import { QuestionDto } from "@/types/responses/page";
 
 const props = defineProps<{
   content: string;
+  questions?: QuestionDto[];
 }>();
 
 interface QuizOption {
@@ -15,11 +17,11 @@ interface QuizQuestion {
   options: QuizOption[];
 }
 
-// TEMPORARY parser — the backend has no structured quiz model; Content is
-// plain HTML, so the option marked "(richtig)" is treated as the correct
-// answer. The real fix is a structural Quiz data model server-side
-// (see docs/lms-domain.md).
-const parsed = computed(() => {
+// Legacy fallback parser — pages created before the structural Quiz model
+// (see Task N0/N1/N2) still carry plain HTML with the option marked
+// "(richtig)" treated as the correct answer. Used only when props.questions
+// is empty/undefined (see `parsed` below).
+const parsedFromContent = computed(() => {
   const doc = new DOMParser().parseFromString(props.content, "text/html");
   const title = doc.querySelector("h1, h2, h3")?.textContent?.trim() ?? "";
   const questions: QuizQuestion[] = [];
@@ -49,11 +51,34 @@ const parsed = computed(() => {
   return { title, questions };
 });
 
+// Structural Quiz data takes priority when present — see props.questions.
+// Backend doesn't sort nested collections (Task N1's report), so options are
+// sorted by Order here rather than trusted as-is.
+const parsed = computed(() => {
+  if (!props.questions?.length) return parsedFromContent.value;
+
+  return {
+    title: "",
+    questions: [...props.questions]
+      .sort((a, b) => a.order - b.order)
+      .map((q) => ({
+        prompt: q.prompt,
+        options: [...q.options]
+          .sort((a, b) => a.order - b.order)
+          .map((o) => ({ label: o.label, correct: o.isCorrect })),
+      })),
+  };
+});
+
 // selections[questionIndex] = chosen option index
 const selections = ref<Record<number, number>>({});
 
 watch(
-  () => props.content,
+  // Content alone isn't a reliable page identity for structural Quiz pages —
+  // Content is often left as an empty placeholder when the admin fills in
+  // Questions instead, so two different quiz pages could share the same
+  // Content and fail to reset selections on navigation.
+  () => [props.content, props.questions],
   () => {
     selections.value = {};
   },

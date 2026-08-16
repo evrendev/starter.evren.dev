@@ -698,6 +698,27 @@
           "message": "Bu işlem orijinal görsel düzeni kalıcı olarak kaybedecek ve içeriği sade, düzenlenebilir metne dönüştürecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?",
           "confirm": "Dönüştür"
         }
+      },
+      "quiz": {
+        "title": "Sorular",
+        "noQuestions": "Henüz soru yok. Aşağıdan bir tane ekleyin.",
+        "addQuestion": "Soru Ekle",
+        "removeQuestion": "Soruyu Sil",
+        "questionPrompt": {
+          "title": "Soru",
+          "placeholder": "Soru metnini girin"
+        },
+        "addOption": "Seçenek Ekle",
+        "removeOption": "Seçeneği Sil",
+        "optionLabel": {
+          "title": "Seçenek",
+          "placeholder": "Bir cevap seçeneği girin"
+        },
+        "correctAnswer": "Doğru cevap",
+        "validation": {
+          "optionRequired": "Her sorunun en az bir seçeneği olmalı.",
+          "exactlyOneCorrect": "Her sorunun tam olarak bir doğru cevabı olmalı."
+        }
       }
     }
   },

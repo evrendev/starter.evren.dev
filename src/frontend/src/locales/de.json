@@ -698,6 +698,27 @@
           "message": "Dadurch geht das ursprüngliche visuelle Layout dauerhaft verloren und der Inhalt wird in einfachen, bearbeitbaren Text umgewandelt. Dies kann nicht rückgängig gemacht werden. Möchten Sie fortfahren?",
           "confirm": "Umwandeln"
         }
+      },
+      "quiz": {
+        "title": "Fragen",
+        "noQuestions": "Noch keine Fragen. Fügen Sie unten eine hinzu.",
+        "addQuestion": "Frage hinzufügen",
+        "removeQuestion": "Frage entfernen",
+        "questionPrompt": {
+          "title": "Frage",
+          "placeholder": "Fragetext eingeben"
+        },
+        "addOption": "Option hinzufügen",
+        "removeOption": "Option entfernen",
+        "optionLabel": {
+          "title": "Option",
+          "placeholder": "Eine Antwortoption eingeben"
+        },
+        "correctAnswer": "Richtige Antwort",
+        "validation": {
+          "optionRequired": "Jede Frage benötigt mindestens eine Option.",
+          "exactlyOneCorrect": "Jede Frage benötigt genau eine richtige Antwort."
+        }
       }
     }
   },
