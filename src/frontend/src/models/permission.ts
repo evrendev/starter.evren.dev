@@ -33,7 +33,8 @@ export const RESOURCES = {
   CATEGORIES: "Categories",
   COURSES: "Courses",
   CHAPTERS: "Chapters",
-  LESSONS: "Lessons",
+  PAGES: "Pages",
+  NOTES: "Notes",
   ABSENCES: "Absences",
   // TENANTS: "Tenants",
 } as const;
@@ -126,7 +127,7 @@ export const PERMISSION_MAP: Record<Resource, Action[]> = {
     // ACTIONS.GENERATE,
     // ACTIONS.CLEAN,
   ],
-  [RESOURCES.LESSONS]: [
+  [RESOURCES.PAGES]: [
     ACTIONS.VIEW,
     ACTIONS.SEARCH,
     ACTIONS.CREATE,
@@ -134,7 +135,15 @@ export const PERMISSION_MAP: Record<Resource, Action[]> = {
     ACTIONS.DELETE,
     ACTIONS.EXPORT,
     // ACTIONS.GENERATE,
-    // ACTIONS.CLEAN,
+    // Import also exists server-side (PPTX import) but has no frontend action yet
+  ],
+  [RESOURCES.NOTES]: [
+    ACTIONS.VIEW,
+    ACTIONS.SEARCH,
+    ACTIONS.CREATE,
+    ACTIONS.UPDATE,
+    ACTIONS.DELETE,
+    ACTIONS.EXPORT,
   ],
   [RESOURCES.ABSENCES]: [
     ACTIONS.VIEW,

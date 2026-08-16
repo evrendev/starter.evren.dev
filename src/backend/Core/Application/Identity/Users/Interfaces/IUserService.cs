@@ -27,6 +27,10 @@ public interface IUserService : ITransientService
     Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken);
     Task<string> GetOrCreateFromPrincipalAsync(ClaimsPrincipal principal);
     Task<string> CreateAsync(CreateUserRequest request, string origin);
+    // Anonymous self-registration — always ignores request.Roles and assigns
+    // ApiRoles.Student, regardless of what a client sends (see Task O0/O1: the
+    // admin-only CreateAsync above honors request.Roles, this one must not).
+    Task<string> SelfRegisterAsync(CreateUserRequest request, string origin);
     Task<string> UpdateAsync(UpdateUserRequest request, string userId);
     Task<string> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken);
     Task<string> ConfirmPhoneNumberAsync(string userId, string code);

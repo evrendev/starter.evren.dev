@@ -24,6 +24,8 @@ internal class ApplicationDbSeeder(
 
     private async Task SeedRolesAsync(ApplicationDbContext dbContext)
     {
+        await MigrateLegacyBasicRoleToStudentAsync();
+
         foreach (var roleName in ApiRoles.DefaultRoles)
         {
             if (await roleManager.Roles.SingleOrDefaultAsync(r => r.Name == roleName)
@@ -38,8 +40,11 @@ internal class ApplicationDbSeeder(
             switch (roleName)
             {
                 // Assign permissions
-                case ApiRoles.Basic:
+                case ApiRoles.Student:
                     await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Basic, role);
+                    break;
+                case ApiRoles.Editor:
+                    await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Editor, role);
                     break;
                 case ApiRoles.Admin:
                     {
@@ -52,6 +57,43 @@ internal class ApplicationDbSeeder(
                     }
             }
         }
+    }
+
+    // One-time, self-healing migration: this tenant may still have the old
+    // "Basic" role name (pre-Task-O1) and/or a manually-created, out-of-sync
+    // "Student" role from the admin panel. Reconciles both into a single
+    // canonical "Student" role without losing any user's role assignment.
+    // No-op once "Basic" no longer exists (which it won't after the first run).
+    private async Task MigrateLegacyBasicRoleToStudentAsync()
+    {
+        var legacyBasicRole = await roleManager.Roles.SingleOrDefaultAsync(r => r.Name == "Basic");
+        if (legacyBasicRole is null)
+            return;
+
+        var staleStudentRole = await roleManager.Roles.SingleOrDefaultAsync(r => r.Name == ApiRoles.Student);
+        if (staleStudentRole is not null)
+        {
+            // "Basic" (real seeded role, likely has real users + current claims) is
+            // kept as the canonical row and simply renamed — its users stay attached
+            // for free. The stale manually-created "Student" role is emptied first
+            // so no user is orphaned, then deleted.
+            logger.LogWarning(
+                "Both 'Basic' and 'Student' roles exist for '{tenantId}' Tenant — merging into canonical 'Student'.",
+                currentTenant.Id);
+
+            foreach (var user in await userManager.GetUsersInRoleAsync(staleStudentRole.Name))
+            {
+                await userManager.AddToRoleAsync(user, legacyBasicRole.Name);
+                await userManager.RemoveFromRoleAsync(user, staleStudentRole.Name);
+            }
+
+            await roleManager.DeleteAsync(staleStudentRole);
+        }
+
+        await roleManager.SetRoleNameAsync(legacyBasicRole, ApiRoles.Student);
+        await roleManager.UpdateAsync(legacyBasicRole);
+        logger.LogInformation("Renamed legacy 'Basic' role to '{role}' for '{tenantId}' Tenant.", ApiRoles.Student,
+            currentTenant.Id);
     }
 
     private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext,

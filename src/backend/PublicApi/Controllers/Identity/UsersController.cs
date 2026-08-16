@@ -90,7 +90,7 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     public Task<string> SelfRegisterAsync(CreateUserRequest request)
     {
-        return userService.CreateAsync(request, GetOriginFromRequest());
+        return userService.SelfRegisterAsync(request, GetOriginFromRequest());
     }
 
     [HttpPost("{id}/toggle-status")]

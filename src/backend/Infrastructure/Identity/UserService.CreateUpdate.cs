@@ -42,7 +42,13 @@ internal partial class UserService
         return user.Id;
     }
 
-    public async Task<string> CreateAsync(CreateUserRequest request, string origin)
+    public Task<string> CreateAsync(CreateUserRequest request, string origin) =>
+        CreateAsync(request, origin, isSelfRegister: false);
+
+    public Task<string> SelfRegisterAsync(CreateUserRequest request, string origin) =>
+        CreateAsync(request, origin, isSelfRegister: true);
+
+    private async Task<string> CreateAsync(CreateUserRequest request, string origin, bool isSelfRegister)
     {
         var user = new ApplicationUser
         {
@@ -67,18 +73,28 @@ internal partial class UserService
                 result.GetErrors(localizer));
         }
 
-        var roles = request.Roles.Select(r => roleManager.Roles.FirstOrDefault(role => role.Id == r))
-            .Where(r => r is not null)
-            .Select(r => r!.Name)
-            .ToList();
-
-        if (roles.Any())
+        // Self-register is anonymous — request.Roles must never be trusted here,
+        // or any caller could hand it an arbitrary role Id (e.g. Admin's) and
+        // grant themselves that role with zero authorization (see Task O0/O1).
+        if (isSelfRegister)
         {
-            await userManager.AddToRolesAsync(user, roles!);
+            await userManager.AddToRoleAsync(user, ApiRoles.Student);
         }
         else
         {
-            await userManager.AddToRoleAsync(user, ApiRoles.Basic);
+            var roles = request.Roles.Select(r => roleManager.Roles.FirstOrDefault(role => role.Id == r))
+                .Where(r => r is not null)
+                .Select(r => r!.Name)
+                .ToList();
+
+            if (roles.Any())
+            {
+                await userManager.AddToRolesAsync(user, roles!);
+            }
+            else
+            {
+                await userManager.AddToRoleAsync(user, ApiRoles.Student);
+            }
         }
 
         var messages = new List<string> { string.Format(localizer["identity.users.create.registered"], user.UserName) };

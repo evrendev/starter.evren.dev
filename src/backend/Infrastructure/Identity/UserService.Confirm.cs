@@ -27,6 +27,17 @@ internal partial class UserService
         code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
         var result = await userManager.ConfirmEmailAsync(user, code);
 
+        // CreateAsync always creates users with IsActive = false — without this,
+        // a self-registered user who successfully confirms their email would
+        // still be permanently rejected at login by TokenService's IsActive
+        // check (see Task O0/O1). Admin-created users go through the separate
+        // ToggleStatusAsync flow instead, which this does not touch.
+        if (result.Succeeded && !user.IsActive)
+        {
+            user.IsActive = true;
+            await userManager.UpdateAsync(user);
+        }
+
         return result.Succeeded
             ? string.Format(
                 CultureInfo.CurrentCulture,

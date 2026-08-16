@@ -116,4 +116,17 @@ public static class ApiPermissions
 
     public static IReadOnlyList<ApiPermission> Basic { get; } =
         new ReadOnlyCollection<ApiPermission>(AllClaims.Where(p => p.IsBasic).ToArray());
+
+    // Editor role (see ApiRoles.Editor): full CRUD on the LMS content resources,
+    // nothing else — no Users/Roles/RoleClaims/Tenants/UserRoles/Products/Brands/
+    // Absences access
+    private static readonly string[] EditorResources =
+    {
+        ApiResource.Categories, ApiResource.Courses, ApiResource.Chapters,
+        ApiResource.Pages, ApiResource.Notes,
+    };
+
+    public static IReadOnlyList<ApiPermission> Editor { get; } =
+        new ReadOnlyCollection<ApiPermission>(
+            AllClaims.Where(p => !p.IsRoot && EditorResources.Contains(p.Resource)).ToArray());
 }
