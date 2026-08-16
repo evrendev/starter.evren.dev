@@ -70,10 +70,8 @@
   "identity.roles.delete.success": "{0} Rolü Silindi.",
   "identity.roles.similar.exists": "Benzer bir Rol zaten mevcut.",
   "identity.users.password.reset.subject": "Şifrenizi Sıfırlayın",
-  "identity.users.password.reset.text.body":
-    "Merhaba,\n\n Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın.\n\n {0} \n\n Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.",
-  "identity.users.password.reset.html.body":
-    "<p>Merhaba,</p><p>Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın:</p><p><a href='{0}'>{1}</a></p><p>Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.</p>",
+  "identity.users.password.reset.text.body": "Merhaba,\n\n Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın.\n\n {0} \n\n Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.",
+  "identity.users.password.reset.html.body": "<p>Merhaba,</p><p>Hesabınız için bir şifre sıfırlama talebi alındı. Yeni bir şifre belirlemek için aşağıdaki bağlantıya tıklayın:</p><p><a href='{0}'>{1}</a></p><p>Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı güvenle yok sayabilirsiniz.</p>",
   "identity.users.password.reset.button": "Şifremi Sıfırla",
   "identity.users.password.reset.success": "Şifre Sıfırlama E-postası yetkili e-posta adresinize gönderilmiştir.",
   "identity.users.password.reset.notfound": "Kullanıcı bulunamadı veya e-posta adresi doğrulanmamış.",
@@ -85,5 +83,6 @@
   "multitenancy.tenant.expired": "Kiracı Geçerliliği Sona Erdi. Lütfen Uygulama Yöneticisi ile iletişime geçin.",
   "multitenancy.tenant.inactive": "Kiracı Aktif Değil. Lütfen Uygulama Yöneticisi ile iletişime geçin.",
   "multitenancy.tenant.alreadyexists": "{0} adında bir kiracı zaten mevcut.",
-  "multitenancy.tenant.entitiy.notfound": "{0} ID'li Kiracı Bulunamadı."
+  "multitenancy.tenant.entitiy.notfound": "{0} ID'li Kiracı Bulunamadı.",
+  "identity.users.password.self-chosen": "kayıt sırasında seçtiğiniz şifre"
 }

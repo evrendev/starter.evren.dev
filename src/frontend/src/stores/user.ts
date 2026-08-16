@@ -5,6 +5,7 @@ import { useAppStore } from "./app";
 import { User } from "@/models/user";
 import {
   ResetPasswordRequest,
+  SelfRegisterRequest,
   Filters,
   AdvancedFilters,
 } from "@/types/requests/user";
@@ -51,6 +52,28 @@ export const useUserStore = defineStore("user", {
         console.error("Forgot password error:", error);
         throw error;
       }
+    },
+    async selfRegister(data: SelfRegisterRequest): Promise<string> {
+      try {
+        const { data: response } = await http.post(
+          "/users/self-register",
+          data,
+        );
+        return response;
+      } catch (error) {
+        console.error("Self register error:", error);
+        throw error;
+      }
+    },
+    async confirmEmail(
+      tenant: string,
+      userId: string,
+      code: string,
+    ): Promise<string> {
+      const { data } = await http.get("/users/confirm-email", {
+        params: { tenant, userId, code },
+      });
+      return data;
     },
     async resetPassword(data: ResetPasswordRequest): Promise<string> {
       try {

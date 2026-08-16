@@ -29,7 +29,9 @@
       "forgotPassword": "Şifremi Unuttum 🐟",
       "submit": "Giriş Yap",
       "error": "Giriş sırasında bir hata oluştu",
-      "success": "Başarıyla giriş yapıldı"
+      "success": "Başarıyla giriş yapıldı",
+      "noAccount": "Hesabın yok mu?",
+      "signUpLink": "Kayıt Ol"
     },
     "twoFactorAuth": {
       "title": "İki Aşamalı Doğrulama",
@@ -86,6 +88,54 @@
       "submit": "Şifre Sıfırla",
       "error": "Şifre sıfırlama sırasında bir hata oluştu",
       "success": "Şifre başarıyla sıfırlandı"
+    },
+    "register": {
+      "title": "Kayıt Ol",
+      "welcome": "Hesap Oluştur 🚀",
+      "subtitle": "Hesap oluşturmak için bilgilerinizi girin",
+      "fields": {
+        "firstName": {
+          "label": "Ad",
+          "placeholder": "Adınızı girin",
+          "required": "Ad gerekli"
+        },
+        "lastName": {
+          "label": "Soyad",
+          "placeholder": "Soyadınızı girin",
+          "required": "Soyad gerekli"
+        },
+        "email": {
+          "label": "E-posta",
+          "placeholder": "E-postanızı girin",
+          "invalid": "Geçersiz e-posta adresi",
+          "required": "E-posta gerekli"
+        },
+        "password": {
+          "label": "Şifre",
+          "placeholder": "Şifrenizi girin",
+          "required": "Şifre gerekli",
+          "min-length": "Şifre en az 8 karakter olmalıdır",
+          "special": "Şifre en az bir özel karakter içermelidir"
+        },
+        "confirmPassword": {
+          "label": "Şifre Onayla",
+          "placeholder": "Şifrenizi onaylayın",
+          "required": "Şifre onayı gerekli",
+          "invalid": "Şifreler eşleşmiyor"
+        }
+      },
+      "submit": "Kayıt Ol",
+      "successMessage": "E-postanızı kontrol edin, doğrulama linki gönderildi",
+      "error": "Kayıt sırasında bir hata oluştu",
+      "haveAccount": "Zaten hesabın var mı?",
+      "loginLink": "Giriş Yap"
+    },
+    "confirmEmail": {
+      "title": "E-posta Doğrulama",
+      "loading": "E-postanız doğrulanıyor…",
+      "success": "E-postanız doğrulandı, şimdi giriş yapabilirsiniz",
+      "error": "Bu doğrulama linki geçersiz veya süresi dolmuş",
+      "backToLogin": "Girişe Git"
     },
     "loggedOut": "Çıkış yaptınız",
     "sessionExpired": "Oturumunuz sona erdi, lütfen tekrar giriş yapın"

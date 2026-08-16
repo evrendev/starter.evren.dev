@@ -64,9 +64,13 @@ internal partial class UserService
             IsActive = false
         };
 
-        var temporaryPassword = GenerateRandomPassword();
+        // Self-register lets the caller choose their own password; admin-created
+        // users always get a system-generated temporary one (request.Password is
+        // ignored on that path, matching the existing CreateAsync contract).
+        var usesOwnPassword = isSelfRegister && !string.IsNullOrWhiteSpace(request.Password);
+        var accountPassword = usesOwnPassword ? request.Password! : GenerateRandomPassword();
 
-        var result = await userManager.CreateAsync(user, temporaryPassword);
+        var result = await userManager.CreateAsync(user, accountPassword);
         if (!result.Succeeded)
         {
             throw new InternalServerException(localizer["identity.users.validation.error"],
@@ -106,7 +110,11 @@ internal partial class UserService
             var eMailModel = new RegisterUserEmailModel
             {
                 FullName = $"{user.FirstName} {user.LastName}",
-                Password = temporaryPassword,
+                // Don't echo a self-chosen password back over email — only the
+                // system-generated temporary password needs to be communicated.
+                Password = usesOwnPassword
+                    ? localizer["identity.users.password.self-chosen"]
+                    : accountPassword,
                 Email = user.Email,
                 Url = emailVerificationUri
             };

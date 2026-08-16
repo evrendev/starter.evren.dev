@@ -65,7 +65,7 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [OpenApiOperation("Creates a new user.", "")]
     public async Task<ApiResponse<string?>> CreateAsync(CreateUserRequest request)
     {
-        var response = await userService.CreateAsync(request, GetOriginFromRequest());
+        var response = await userService.CreateAsync(request, GetFrontendOriginFromRequest());
 
         return ApiResponse<string?>.Success(response);
     }
@@ -90,7 +90,7 @@ public class UsersController(IUserService userService, IConfiguration configurat
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     public Task<string> SelfRegisterAsync(CreateUserRequest request)
     {
-        return userService.SelfRegisterAsync(request, GetOriginFromRequest());
+        return userService.SelfRegisterAsync(request, GetFrontendOriginFromRequest());
     }
 
     [HttpPost("{id}/toggle-status")]
@@ -143,11 +143,6 @@ public class UsersController(IUserService userService, IConfiguration configurat
     public Task<string> ResetPasswordAsync(ResetPasswordRequest request)
     {
         return userService.ResetPasswordAsync(request);
-    }
-
-    private string GetOriginFromRequest()
-    {
-        return $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
     }
 
     private string GetFrontendOriginFromRequest()

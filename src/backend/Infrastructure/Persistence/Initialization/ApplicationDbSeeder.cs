@@ -42,6 +42,7 @@ internal class ApplicationDbSeeder(
                 // Assign permissions
                 case ApiRoles.Student:
                     await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Basic, role);
+                    await PruneStaleClaimsFromRoleAsync(dbContext, ApiPermissions.Basic, role);
                     break;
                 case ApiRoles.Editor:
                     await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Editor, role);
@@ -94,6 +95,34 @@ internal class ApplicationDbSeeder(
         await roleManager.UpdateAsync(legacyBasicRole);
         logger.LogInformation("Renamed legacy 'Basic' role to '{role}' for '{tenantId}' Tenant.", ApiRoles.Student,
             currentTenant.Id);
+    }
+
+    // AssignPermissionsToRoleAsync is additive-only, so the pre-Task-O1 "Basic"
+    // role's much wider claim set (full CRUD on Categories/Courses/Chapters/
+    // Absences/Brands/Products, from before the IsBasic-only model existed)
+    // survived the Basic -> Student rename untouched. That left Student with
+    // real Create/Update/Delete permissions it was never meant to have — which
+    // is what let the sidebar's "Course Management" section leak through even
+    // after gating it on Create (Task O3). Student's permission set is fully
+    // defined by ApiPermissions.Basic, so anything else on that specific role
+    // is drift, not an intentional admin customization; prune it. Scoped to
+    // Student only — Editor/Admin keep whatever an admin has configured for
+    // them via the Roles UI.
+    private async Task PruneStaleClaimsFromRoleAsync(ApplicationDbContext dbContext,
+        IReadOnlyList<ApiPermission> permissions, ApplicationRole role)
+    {
+        var allowedValues = permissions.Select(p => p.Name).ToHashSet();
+        var staleClaims = (await roleManager.GetClaimsAsync(role))
+            .Where(c => c.Type == ApiClaims.Permission && !allowedValues.Contains(c.Value))
+            .ToList();
+
+        foreach (var claim in staleClaims)
+        {
+            logger.LogWarning(
+                "Pruning stale '{claim}' Permission from {role} Role for '{tenantId}' Tenant.",
+                claim.Value, role.Name, currentTenant.Id);
+            await roleManager.RemoveClaimAsync(role, claim);
+        }
     }
 
     private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext,

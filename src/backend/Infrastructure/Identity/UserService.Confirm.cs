@@ -84,7 +84,11 @@ internal partial class UserService
 
         var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        const string route = "api/users/confirm-email/";
+        // Points at the frontend's confirm-email.vue page (not the backend
+        // /api/users/confirm-email endpoint directly), same pattern as
+        // ForgotPasswordAsync's reset-password link — the page calls the API
+        // itself and renders a loading/success/error state (see Task O2).
+        const string route = "auth/confirm-email";
         var endpointUri = new Uri(string.Concat($"{origin}/", route));
         var verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), QueryStringKeys.UserId, user.Id);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Code, code);

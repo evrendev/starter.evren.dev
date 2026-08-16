@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "./routes";
 import { useAuthStore } from "@/stores/auth";
 import { usePersonalStore } from "@/stores/personal";
+import { Permissions } from "@/models/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +11,20 @@ const router = createRouter({
   linkExactActiveClass: "exact-active",
   routes,
 });
+
+// Accounts without admin-panel access (e.g. Student, via self-register —
+// see Task O2) land on the learner-facing catalog instead of /admin/dashboard,
+// which they have no permission to view.
+export async function getPostLoginRoute(): Promise<{ name: string }> {
+  const personalStore = usePersonalStore();
+  if (personalStore.permissions.length === 0) {
+    await personalStore.getPermissions();
+  }
+
+  return personalStore.hasPermission([Permissions.DashboardView])
+    ? { name: "dashboard" }
+    : { name: "learning-my-courses" };
+}
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
@@ -26,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
     if (redirectPath) {
       return next(redirectPath);
     }
-    return next({ name: "dashboard" });
+    return next(await getPostLoginRoute());
   }
 
   if (!requiresAuth) {

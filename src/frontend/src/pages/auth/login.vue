@@ -9,6 +9,7 @@ import { useAuthStore } from "@/stores/auth";
 import { Result } from "@/primitives/result";
 import { AccessTokenResponse } from "@/types/responses/auth";
 import { Notify } from "@/stores/notification";
+import { getPostLoginRoute } from "@/plugins/router";
 import Logo from "@/components/shared/Logo.vue";
 import RecaptchaButton from "@/views/admin/authentication/RecaptchaButton.vue";
 import authV1BottomShape from "@images/svg/auth-v1-bottom-shape.svg?url";
@@ -55,7 +56,7 @@ const login = handleSubmit(async (values: LoginRequest) => {
       showTwoFactorAuthModal.value = true;
     } else if (result.succeeded) {
       Notify.success(t("auth.login.success"));
-      router.push({ name: "dashboard" });
+      router.push(await getPostLoginRoute());
     } else {
       Notify.error(result.errors?.message || t("auth.login.error"));
     }
@@ -94,7 +95,7 @@ const checkTwoFactorAuth = handle2FASubmit(
       if (result.succeeded) {
         Notify.success(t("auth.login.success"));
         showTwoFactorAuthModal.value = false;
-        router.push({ name: "dashboard" });
+        router.push(await getPostLoginRoute());
       } else {
         Notify.error(
           result.errors?.message || t("auth.twoFactorAuth.verificationFailed"),
@@ -210,6 +211,16 @@ const handleRecaptchaError = (error: Error) => {
                   @recaptcha-success="handleRecaptchaSuccess"
                   @recaptcha-error="handleRecaptchaError"
                 />
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="d-flex align-center justify-center flex-wrap"
+              >
+                <span class="me-1">{{ t("auth.login.noAccount") }}</span>
+                <router-link class="text-primary" :to="{ name: 'register' }">
+                  {{ t("auth.login.signUpLink") }}
+                </router-link>
               </v-col>
 
               <v-col cols="12">

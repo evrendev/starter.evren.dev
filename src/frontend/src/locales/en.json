@@ -29,7 +29,9 @@
       "forgotPassword": "Forgot Password 🐟",
       "submit": "Sign In",
       "error": "An error occurred during sign in",
-      "success": "Successfully signed in"
+      "success": "Successfully signed in",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign Up"
     },
     "twoFactorAuth": {
       "title": "Two-Factor Authentication",
@@ -86,6 +88,54 @@
       "submit": "Reset Password",
       "error": "An error occurred during password reset",
       "success": "Password successfully reset"
+    },
+    "register": {
+      "title": "Sign Up",
+      "welcome": "Create an Account 🚀",
+      "subtitle": "Enter your details to create an account",
+      "fields": {
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "Enter your first name",
+          "required": "First name is required"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Enter your last name",
+          "required": "Last name is required"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email",
+          "invalid": "Invalid email address",
+          "required": "Email is required"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password",
+          "required": "Password is required",
+          "min-length": "Password must be at least 8 characters long",
+          "special": "Password must contain at least one special character"
+        },
+        "confirmPassword": {
+          "label": "Confirm Password",
+          "placeholder": "Confirm your password",
+          "required": "Confirm password is required",
+          "invalid": "Passwords do not match"
+        }
+      },
+      "submit": "Sign Up",
+      "successMessage": "Check your email — a verification link has been sent",
+      "error": "An error occurred during sign up",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Sign In"
+    },
+    "confirmEmail": {
+      "title": "Confirm Email",
+      "loading": "Confirming your email…",
+      "success": "Your email has been confirmed, you can now sign in",
+      "error": "This verification link is invalid or has expired",
+      "backToLogin": "Go to Sign In"
     },
     "loggedOut": "You have been logged out",
     "sessionExpired": "Your session has expired, please log in again"

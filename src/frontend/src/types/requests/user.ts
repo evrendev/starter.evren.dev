@@ -9,6 +9,17 @@ export interface ForgotPasswordRequest {
   response?: string | null;
 }
 
+export interface SelfRegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  gender: number;
+  language: number;
+  response?: string | null;
+}
+
 export interface ResetPasswordRequest {
   email?: string | null;
   password?: string | null;

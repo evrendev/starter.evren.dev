@@ -10,6 +10,10 @@ public class CreateUserRequest
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string Email { get; set; } = default!;
+    // Only honored on the anonymous self-register path — admin-created users
+    // (isSelfRegister: false) always get a system-generated temporary
+    // password regardless of this value (see UserService.CreateAsync).
+    public string? Password { get; set; }
     public string? PhoneNumber { get; set; }
     public DateTime? Birthday { get; set; }
     public string? PlaceOfBirth { get; set; }

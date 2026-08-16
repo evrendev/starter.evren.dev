@@ -29,7 +29,9 @@
       "forgotPassword": "Passwort vergessen 🐟",
       "submit": "Anmelden",
       "error": "Ein Fehler ist beim Anmelden aufgetreten",
-      "success": "Erfolgreich angemeldet"
+      "success": "Erfolgreich angemeldet",
+      "noAccount": "Sie haben noch kein Konto?",
+      "signUpLink": "Registrieren"
     },
     "twoFactorAuth": {
       "title": "Zwei-Schritt-Verifizierung",
@@ -86,6 +88,54 @@
       "submit": "Passwort zurücksetzen",
       "error": "Ein Fehler ist beim Passwort-Reset aufgetreten",
       "success": "Passwort erfolgreich zurückgesetzt"
+    },
+    "register": {
+      "title": "Registrieren",
+      "welcome": "Konto erstellen 🚀",
+      "subtitle": "Geben Sie Ihre Daten ein, um ein Konto zu erstellen",
+      "fields": {
+        "firstName": {
+          "label": "Vorname",
+          "placeholder": "Geben Sie Ihren Vornamen ein",
+          "required": "Vorname ist erforderlich"
+        },
+        "lastName": {
+          "label": "Nachname",
+          "placeholder": "Geben Sie Ihren Nachnamen ein",
+          "required": "Nachname ist erforderlich"
+        },
+        "email": {
+          "label": "E-Mail",
+          "placeholder": "Geben Sie Ihre E-Mail ein",
+          "invalid": "Ungültige E-Mail-Adresse",
+          "required": "E-Mail ist erforderlich"
+        },
+        "password": {
+          "label": "Passwort",
+          "placeholder": "Geben Sie Ihr Passwort ein",
+          "required": "Passwort ist erforderlich",
+          "min-length": "Passwort muss mindestens 8 Zeichen lang sein",
+          "special": "Passwort muss mindestens ein Sonderzeichen enthalten"
+        },
+        "confirmPassword": {
+          "label": "Passwort bestätigen",
+          "placeholder": "Bestätigen Sie Ihr Passwort",
+          "required": "Passwort-Bestätigung ist erforderlich",
+          "invalid": "Passwörter stimmen nicht überein"
+        }
+      },
+      "submit": "Registrieren",
+      "successMessage": "Überprüfen Sie Ihre E-Mail — ein Bestätigungslink wurde gesendet",
+      "error": "Ein Fehler ist bei der Registrierung aufgetreten",
+      "haveAccount": "Haben Sie bereits ein Konto?",
+      "loginLink": "Anmelden"
+    },
+    "confirmEmail": {
+      "title": "E-Mail bestätigen",
+      "loading": "Ihre E-Mail wird bestätigt…",
+      "success": "Ihre E-Mail wurde bestätigt, Sie können sich jetzt anmelden",
+      "error": "Dieser Bestätigungslink ist ungültig oder abgelaufen",
+      "backToLogin": "Zur Anmeldung"
     },
     "loggedOut": "Sie wurden abgemeldet",
     "sessionExpired": "Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an"
