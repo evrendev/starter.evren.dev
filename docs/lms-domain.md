@@ -83,6 +83,18 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
   yakalamıyor**, sadece slide XML'inde açıkça tanımlı bullet'ları yakalıyor — çoğu gerçek
   PPTX dosyasında bullet'lar layout'tan miras alındığı için düz paragraf olarak gelebilir.
   Kozmetik, düşük öncelik.
+- **Soft-delete + DB-seviyesi cascade delete birbirini görmüyor** (Task N1'de bulundu): Page
+  soft-delete edildiğinde (DeletedOn set edilir, gerçek DELETE atılmaz), migration'lardaki
+  ON DELETE CASCADE kuralları hiç tetiklenmiyor — çocuk kayıtlar (Question, muhtemelen Notes/
+  PageProgress gibi diğer Page çocukları da) DeletedOn=NULL olarak DB'de kalıyor, orphan
+  ama global soft-delete filtresi yüzünden Page silindiği için API'den hiç erişilemez hale
+  geliyorlar. Gerçek düzeltme: ya soft-delete'i child collection'lara da kademeli olarak
+  yayan bir domain event/handler zinciri kurmak, ya da bu tabloları düzenli temizleyen bir
+  background job. Kapsamlı, ayrı bir task gerektiriyor.
+- **Mapster nested collection projeksiyonu (Question.Options) Order alanına göre sıralı
+  gelmiyor, DB'nin doğal/fiziksel sırasını kullanıyor** (Task N1'de gözlemlendi) — frontend
+  Order alanına göre kendi sıralamasını yapmalı; istenirse backend spec'lerine .OrderBy()
+  eklenerek de çözülebilir, düşük öncelikli kozmetik bir iyileştirme.
 
 ## Design Backlog
 
