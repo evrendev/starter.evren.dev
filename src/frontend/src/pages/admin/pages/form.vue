@@ -18,7 +18,8 @@ const { pageDetails, loading } = storeToRefs(pageStore);
 const pageId = computed(() => route.params.id as string);
 const isEdit = computed(() => !!pageId.value);
 const chapterId = computed(
-  () => (route.params.chapterId as string) || pageDetails.value?.chapterId || "",
+  () =>
+    (route.params.chapterId as string) || pageDetails.value?.chapterId || "",
 );
 
 // Backend still requires non-empty Content (used as the slide caption in the
@@ -49,7 +50,9 @@ const contentTypeOptions = computed(() =>
 // iframe+raw-HTML view from Task L) — Image/Video/Embed get dedicated,
 // type-specific fields instead
 const usesGenericContentEditor = computed(
-  () => form.contentType === PageContentType.Text || form.contentType === PageContentType.Quiz,
+  () =>
+    form.contentType === PageContentType.Text ||
+    form.contentType === PageContentType.Quiz,
 );
 
 const selectedMediaFile = computed<File | undefined>(() =>
@@ -62,7 +65,8 @@ const selectedMediaFile = computed<File | undefined>(() =>
 const backendBaseUrl: string = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 
 const mediaPreviewUrl = computed(() => {
-  if (selectedMediaFile.value) return URL.createObjectURL(selectedMediaFile.value);
+  if (selectedMediaFile.value)
+    return URL.createObjectURL(selectedMediaFile.value);
   if (!form.mediaUrl) return "";
   return `${backendBaseUrl}/${form.mediaUrl}`;
 });
@@ -85,7 +89,8 @@ watch(
     // low-risk action (nothing has been saved yet), so no confirmation
     form.mediaFile = undefined;
     form.mediaUrl = "";
-    form.content = form.contentType === PageContentType.Embed ? CONTENT_PLACEHOLDER : "";
+    form.content =
+      form.contentType === PageContentType.Embed ? CONTENT_PLACEHOLDER : "";
   },
 );
 
@@ -118,8 +123,12 @@ onMounted(async () => {
       // CONTENT_PLACEHOLDER) round-trips through the backend verbatim — treat it
       // as empty again so the admin doesn't see a literal "&nbsp;" on reload
       form.content =
-        pageDetails.value.content === CONTENT_PLACEHOLDER ? "" : pageDetails.value.content || "";
-      form.contentType = (pageDetails.value.contentType as PageContentType) || PageContentType.Text;
+        pageDetails.value.content === CONTENT_PLACEHOLDER
+          ? ""
+          : pageDetails.value.content || "";
+      form.contentType =
+        (pageDetails.value.contentType as PageContentType) ||
+        PageContentType.Text;
       form.order = pageDetails.value.order || 0;
       form.mediaUrl = pageDetails.value.mediaUrl || "";
       form.isImported = pageDetails.value.isImported || false;
@@ -184,7 +193,9 @@ const handleSubmit = async () => {
         content,
         contentType: form.contentType,
         order: form.order,
-        mediaUrl: selectedMediaFile.value ? undefined : form.mediaUrl || undefined,
+        mediaUrl: selectedMediaFile.value
+          ? undefined
+          : form.mediaUrl || undefined,
         mediaFile: selectedMediaFile.value,
         isImported: form.isImported,
       };
@@ -196,7 +207,9 @@ const handleSubmit = async () => {
         content,
         contentType: form.contentType,
         order: form.order,
-        mediaUrl: selectedMediaFile.value ? undefined : form.mediaUrl || undefined,
+        mediaUrl: selectedMediaFile.value
+          ? undefined
+          : form.mediaUrl || undefined,
         mediaFile: selectedMediaFile.value,
       };
       response = await pageStore.createPage(payload);
@@ -220,212 +233,235 @@ const handleSubmit = async () => {
 <template>
   <breadcrumb :items="breadcrumbs" />
 
-  <v-container>
-    <v-card :disabled="loading">
-      <v-card-title>{{ pageTitle }}</v-card-title>
+  <v-card elevation="6" class="mt-4" :disabled="loading">
+    <v-card-title>
+      <toolbar
+        color="secondary"
+        :title="pageTitle"
+        :button="{
+          icon: 'bx-chevron-left',
+          text: t('shared.back'),
+          to: backTo,
+        }"
+      />
+    </v-card-title>
 
-      <v-card-text>
-        <v-form @submit.prevent="handleSubmit">
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="form.title"
-                :label="t('admin.pages.fields.title.title')"
-                :placeholder="t('admin.pages.fields.title.placeholder')"
-                outlined
-                required
-              />
-            </v-col>
+    <v-card-text>
+      <v-form @submit.prevent="handleSubmit">
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model="form.title"
+              :label="t('admin.pages.fields.title.title')"
+              :placeholder="t('admin.pages.fields.title.placeholder')"
+              outlined
+              required
+            />
+          </v-col>
 
-            <v-col cols="12" md="6">
-              <v-select
-                v-model="form.contentType"
-                :items="contentTypeOptions"
-                item-title="title"
-                item-value="value"
-                :label="t('admin.pages.fields.contentType.title')"
-                outlined
-              />
-            </v-col>
-          </v-row>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="form.contentType"
+              :items="contentTypeOptions"
+              item-title="title"
+              item-value="value"
+              :label="t('admin.pages.fields.contentType.title')"
+              outlined
+            />
+          </v-col>
 
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model.number="form.order"
-                :label="t('admin.pages.fields.order.title')"
-                type="number"
-                outlined
-              />
-            </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              v-model.number="form.order"
+              :label="t('admin.pages.fields.order.title')"
+              type="number"
+              outlined
+            />
+          </v-col>
+        </v-row>
 
-            <!-- Quiz keeps the legacy generic MediaUrl field (unchanged, no
-                 structured Quiz data model exists yet) -->
-            <v-col v-if="form.contentType === PageContentType.Quiz" cols="12" md="6">
-              <v-text-field
-                v-model="form.mediaUrl"
-                :label="t('admin.pages.fields.mediaUrl.title')"
-                :placeholder="t('admin.pages.fields.mediaUrl.placeholder')"
-                outlined
-              />
-            </v-col>
-          </v-row>
+        <!-- Quiz keeps the legacy generic MediaUrl field (unchanged, no
+             structured Quiz data model exists yet) -->
+        <v-row v-if="form.contentType === PageContentType.Quiz" class="mb-4">
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="form.mediaUrl"
+              :label="t('admin.pages.fields.mediaUrl.title')"
+              :placeholder="t('admin.pages.fields.mediaUrl.placeholder')"
+              outlined
+            />
+          </v-col>
+        </v-row>
 
-          <v-row v-if="form.contentType === PageContentType.Image || form.contentType === PageContentType.Video">
-            <v-col cols="12" md="6">
-              <label
-                class="text-subtitle-2 mb-2 d-block"
-                v-text="
-                  form.contentType === PageContentType.Image
-                    ? t('admin.pages.fields.imageFile.title')
-                    : t('admin.pages.fields.videoFile.title')
-                "
-              />
-              <v-file-upload
-                v-model="form.mediaFile"
-                :accept="form.contentType === PageContentType.Image ? 'image/*' : 'video/*'"
-                icon="bx-upload"
-                clearable
-                scrim="primary"
-                density="comfortable"
-                :show-size="true"
-                :multiple="false"
-              />
-            </v-col>
+        <v-row
+          v-if="
+            form.contentType === PageContentType.Image ||
+            form.contentType === PageContentType.Video
+          "
+          class="mb-4"
+          align="start"
+        >
+          <v-col cols="12" md="6">
+            <label
+              class="text-subtitle-2 mb-2 d-block"
+              v-text="
+                form.contentType === PageContentType.Image
+                  ? t('admin.pages.fields.imageFile.title')
+                  : t('admin.pages.fields.videoFile.title')
+              "
+            />
+            <v-file-upload
+              v-model="form.mediaFile"
+              :accept="
+                form.contentType === PageContentType.Image
+                  ? 'image/*'
+                  : 'video/*'
+              "
+              icon="bx-upload"
+              clearable
+              scrim="primary"
+              density="comfortable"
+              :show-size="true"
+              :multiple="false"
+            />
+          </v-col>
 
-            <v-col cols="12" md="6">
-              <label class="text-subtitle-2 mb-2 d-block">
-                {{ t("admin.pages.fields.caption.title") }}
-              </label>
-              <v-text-field
-                v-model="form.content"
-                :placeholder="t('admin.pages.fields.caption.placeholder')"
-                outlined
-              />
+          <v-col cols="12" md="6">
+            <label class="text-subtitle-2 mb-2 d-block">
+              {{ t("admin.pages.fields.caption.title") }}
+            </label>
+            <v-text-field
+              v-model="form.content"
+              :placeholder="t('admin.pages.fields.caption.placeholder')"
+              outlined
+            />
 
-              <template v-if="mediaPreviewUrl">
-                <label class="text-subtitle-2 mt-4 mb-2 d-block">
-                  {{ t("admin.pages.fields.preview.title") }}
-                </label>
-                <img
-                  v-if="form.contentType === PageContentType.Image"
-                  :src="mediaPreviewUrl"
-                  :alt="form.content"
-                  class="media-preview-thumbnail"
-                />
-                <video
-                  v-else
-                  :src="mediaPreviewUrl"
-                  controls
-                  class="media-preview-thumbnail"
-                />
-              </template>
-            </v-col>
-          </v-row>
-
-          <v-row v-else-if="form.contentType === PageContentType.Embed">
-            <v-col cols="12" md="6">
-              <label class="text-subtitle-2 mb-2 d-block">
-                {{ t("admin.pages.fields.embedUrl.title") }}
-              </label>
-              <v-text-field
-                v-model="form.mediaUrl"
-                :placeholder="t('admin.pages.fields.embedUrl.placeholder')"
-                outlined
-              />
-            </v-col>
-
-            <v-col v-if="form.mediaUrl" cols="12" md="6">
-              <label class="text-subtitle-2 mb-2 d-block">
+            <template v-if="mediaPreviewUrl">
+              <label class="text-subtitle-2 mt-4 mb-2 d-block">
                 {{ t("admin.pages.fields.preview.title") }}
               </label>
-              <div class="embed-preview-frame">
-                <!-- Mirrors LessonPlayer.vue's Embed render exactly (a raw
+              <img
+                v-if="form.contentType === PageContentType.Image"
+                :src="mediaPreviewUrl"
+                :alt="form.content"
+                class="media-preview-thumbnail"
+              />
+              <video
+                v-else
+                :src="mediaPreviewUrl"
+                controls
+                class="media-preview-thumbnail"
+              />
+            </template>
+          </v-col>
+        </v-row>
+
+        <v-row
+          v-else-if="form.contentType === PageContentType.Embed"
+          class="mb-4"
+        >
+          <v-col cols="12" md="6">
+            <label class="text-subtitle-2 mb-2 d-block">
+              {{ t("admin.pages.fields.embedUrl.title") }}
+            </label>
+            <v-text-field
+              v-model="form.mediaUrl"
+              :placeholder="t('admin.pages.fields.embedUrl.placeholder')"
+              outlined
+            />
+          </v-col>
+
+          <v-col v-if="form.mediaUrl" cols="12" md="6">
+            <label class="text-subtitle-2 mb-2 d-block">
+              {{ t("admin.pages.fields.preview.title") }}
+            </label>
+            <div class="embed-preview-frame">
+              <!-- Mirrors LessonPlayer.vue's Embed render exactly (a raw
                      iframe pointed at mediaUrl, no URL rewriting) so this
                      preview matches what students will actually see -->
-                <iframe :src="form.mediaUrl" :title="form.title" allowfullscreen />
-              </div>
-            </v-col>
-          </v-row>
+              <iframe
+                :src="form.mediaUrl"
+                :title="form.title"
+                allowfullscreen
+              />
+            </div>
+          </v-col>
+        </v-row>
 
-          <v-row v-if="usesGenericContentEditor">
-            <v-col cols="12">
-              <label class="text-subtitle-2 mb-2">
-                {{ t("admin.pages.fields.content.title") }}
-              </label>
+        <v-row v-if="usesGenericContentEditor" class="mb-4">
+          <v-col cols="12">
+            <label class="text-subtitle-2 mb-2">
+              {{ t("admin.pages.fields.content.title") }}
+            </label>
 
-              <template v-if="contentReady">
-                <template v-if="form.isImported">
-                  <v-alert type="info" variant="tonal" density="compact" class="mb-2">
-                    {{ t("admin.pages.fields.content.importedNotice") }}
-                  </v-alert>
-                  <v-btn
-                    color="warning"
-                    variant="tonal"
-                    size="small"
-                    prepend-icon="bx-edit-alt"
-                    class="mb-4"
-                    @click="showConvertConfirm = true"
-                  >
-                    {{ t("admin.pages.actions.convertToEditable") }}
-                  </v-btn>
-                  <label class="text-subtitle-2 mb-2 d-block">
-                    {{ t("admin.pages.fields.content.richPreview") }}
-                  </label>
-                  <iframe
-                    :srcdoc="form.content"
-                    sandbox="allow-same-origin"
-                    class="imported-content-preview"
-                    :title="form.title"
-                  />
-                  <label class="text-subtitle-2 mt-4 mb-2 d-block">
-                    {{ t("admin.pages.fields.content.rawHtml") }}
-                  </label>
-                  <v-textarea
-                    v-model="form.content"
-                    variant="outlined"
-                    rows="10"
-                    no-resize
-                    spellcheck="false"
-                    class="raw-html-editor"
-                  />
-                </template>
-
-                <QuillyEditor
-                  v-else
+            <template v-if="contentReady">
+              <template v-if="form.isImported">
+                <v-alert
+                  type="info"
+                  variant="tonal"
+                  density="compact"
+                  class="mb-2"
+                >
+                  {{ t("admin.pages.fields.content.importedNotice") }}
+                </v-alert>
+                <v-btn
+                  color="warning"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="bx-edit-alt"
+                  class="mb-4"
+                  @click="showConvertConfirm = true"
+                >
+                  {{ t("admin.pages.actions.convertToEditable") }}
+                </v-btn>
+                <label class="text-subtitle-2 mb-2 d-block">
+                  {{ t("admin.pages.fields.content.richPreview") }}
+                </label>
+                <iframe
+                  :srcdoc="form.content"
+                  sandbox="allow-same-origin"
+                  class="imported-content-preview"
+                  :title="form.title"
+                />
+                <label class="text-subtitle-2 mt-4 mb-2 d-block">
+                  {{ t("admin.pages.fields.content.rawHtml") }}
+                </label>
+                <v-textarea
                   v-model="form.content"
+                  variant="outlined"
+                  rows="10"
+                  no-resize
+                  spellcheck="false"
+                  class="raw-html-editor"
                 />
               </template>
-            </v-col>
-          </v-row>
 
-          <v-row class="mt-4">
-            <v-col cols="12" class="d-flex gap-2">
-              <v-btn
-                type="submit"
-                color="primary"
-                :loading="loading"
-              >
-                {{ isEdit ? t("shared.save") : t("shared.create") }}
-              </v-btn>
-              <v-btn
-                :to="backTo"
-                variant="outlined"
-              >
-                {{ t("shared.cancel") }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-container>
+              <QuillyEditor v-else v-model="form.content" />
+            </template>
+          </v-col>
+        </v-row>
+
+        <v-row class="mt-4">
+          <v-col cols="12" class="d-flex gap-2">
+            <v-btn type="submit" color="primary" :loading="loading">
+              {{ isEdit ? t("shared.save") : t("shared.create") }}
+            </v-btn>
+            <v-btn :to="backTo" variant="outlined">
+              {{ t("shared.cancel") }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
+  </v-card>
 
   <confirm-dialog
     v-model:show-dialog="showConvertConfirm"
     :title="t('admin.pages.actions.convertToEditableConfirm.title')"
     :message="t('admin.pages.actions.convertToEditableConfirm.message')"
-    :confirm-button-text="t('admin.pages.actions.convertToEditableConfirm.confirm')"
+    :confirm-button-text="
+      t('admin.pages.actions.convertToEditableConfirm.confirm')
+    "
     :cancel-button-text="t('shared.cancel')"
     confirm-button-color="warning"
     @confirm="handleConvertConfirmed"

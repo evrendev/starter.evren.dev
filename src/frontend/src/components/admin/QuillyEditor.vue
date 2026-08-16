@@ -112,7 +112,20 @@ watch(
 </template>
 
 <style lang="scss">
+// Quill's own snow theme sets .ql-container/.ql-editor to height: 100%, which
+// (inside a Vuetify v-col — a flex item whose stretch-derived cross size is
+// "definite") resolves against the column's own auto/stretch height instead
+// of sizing to the editor's real content. That shrinks the container below
+// its actual rendered content, which then overflows past the column
+// (overflow: visible does not clip it) and visually collides with whatever
+// follows in the form. Forcing height: auto breaks that cycle so the
+// container sizes to its content and the column grows to match.
+.ql-container {
+  height: auto;
+}
+
 .ql-editor {
+  height: auto;
   min-height: 240px;
 }
 </style>
