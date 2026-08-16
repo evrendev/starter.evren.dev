@@ -7,6 +7,20 @@ using EvrenDev.Domain.Common.Enums;
 
 namespace EvrenDev.Application.Catalog.Pages.Queries.Create;
 
+public class OptionRequest
+{
+    public string Label { get; set; } = default!;
+    public bool IsCorrect { get; set; }
+    public int Order { get; set; }
+}
+
+public class QuestionRequest
+{
+    public string Prompt { get; set; } = default!;
+    public int Order { get; set; }
+    public List<OptionRequest> Options { get; set; } = [];
+}
+
 public class CreatePageRequest : IRequest<Guid>
 {
     public Guid ChapterId { get; set; }
@@ -22,6 +36,11 @@ public class CreatePageRequest : IRequest<Guid>
     // Course.Image (see CreateCourseRequestHandler) — takes priority over MediaUrl
     // when present, so the admin never types a storage path/URL by hand.
     public FileUploadRequest? MediaFile { get; set; }
+    // Quiz content type: structural questions, embedded replace-all in the same
+    // request as the rest of the page (no separate question CRUD endpoints — see
+    // Task N0/N1). Null means "no questions on create", not "leave untouched" —
+    // there's nothing to leave untouched yet on a brand-new page.
+    public List<QuestionRequest>? Questions { get; set; }
 }
 
 public class CreatePageRequestValidator : CustomValidator<CreatePageRequest>
@@ -62,6 +81,13 @@ public class CreatePageRequestHandler(IRepository<Page> repository, IFileStorage
 
         var page = new Page(request.Title, request.Content, request.ContentType,
             request.Order, request.ChapterId, mediaUrl);
+
+        if (request.Questions is not null)
+        {
+            page.ReplaceQuestions(request.Questions.Select(q =>
+                new QuestionData(q.Prompt, q.Order, q.Options.Select(o =>
+                    new OptionData(o.Label, o.IsCorrect, o.Order)))));
+        }
 
         await repository.AddAsync(page, cancellationToken);
 

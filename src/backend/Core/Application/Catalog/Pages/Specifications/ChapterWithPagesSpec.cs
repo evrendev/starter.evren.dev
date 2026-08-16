@@ -7,5 +7,7 @@ public class ChapterWithPagesSpec : Specification<Chapter>, ISingleResultSpecifi
     public ChapterWithPagesSpec(Guid chapterId) =>
         Query
             .Where(c => c.Id == chapterId)
-            .Include(c => c.Pages);
+            .Include(c => c.Pages)
+            .ThenInclude(p => p.Questions)
+            .ThenInclude(q => q.Options);
 }

@@ -28,6 +28,11 @@ public class Page : AuditableEntity, IAggregateRoot
     public virtual Chapter Chapter { get; } = default!;
     public virtual ICollection<Note> Notes { get; private set; } = [];
     public virtual ICollection<PageProgress> Progress { get; private set; } = [];
+    // Structural Quiz data (ContentType == Quiz) — managed entirely through this
+    // aggregate, see ReplaceQuestions. Pages created before this model existed
+    // simply have an empty collection; their Content keeps the legacy "(richtig)"
+    // pattern the frontend still falls back to parsing.
+    public virtual ICollection<Question> Questions { get; private set; } = [];
 
     public Page(string title, string content, PageContentType contentType,
         int order, Guid chapterId, string? mediaUrl = null, bool needsReview = false, bool isImported = false)
@@ -72,6 +77,28 @@ public class Page : AuditableEntity, IAggregateRoot
     public Page Reorder(int newOrder)
     {
         Order = newOrder;
+        return this;
+    }
+
+    // Replace-all: clears the existing Questions/Options and rebuilds them from
+    // scratch. Called only when the admin form actually sent a Questions list
+    // (see UpdatePageRequestHandler) — an empty list here deletes every question,
+    // a null list at the caller means "don't touch Questions" and never reaches
+    // this method at all.
+    public Page ReplaceQuestions(IEnumerable<QuestionData> questions)
+    {
+        Questions.Clear();
+
+        foreach (var questionData in questions)
+        {
+            var question = new Question(questionData.Prompt, questionData.Order, Id);
+
+            foreach (var optionData in questionData.Options)
+                question.Options.Add(new Option(optionData.Label, optionData.IsCorrect, optionData.Order, question.Id));
+
+            Questions.Add(question);
+        }
+
         return this;
     }
 }

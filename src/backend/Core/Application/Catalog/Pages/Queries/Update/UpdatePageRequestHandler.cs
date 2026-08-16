@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using EvrenDev.Application.Catalog.Pages.Queries.Create;
 using EvrenDev.Application.Catalog.Pages.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.FileStorage;
@@ -27,6 +28,10 @@ public class UpdatePageRequest : IRequest<Guid>
     // Course.Image (see CreateCourseRequestHandler) — takes priority over MediaUrl
     // when present, so the admin never types a storage path/URL by hand.
     public FileUploadRequest? MediaFile { get; set; }
+    // Quiz content type: structural questions, embedded replace-all (see Task N0/N1).
+    // null = leave the page's existing Questions untouched; [] = delete all of them;
+    // non-empty = replace them with this list. See UpdatePageRequestHandler.
+    public List<QuestionRequest>? Questions { get; set; }
 }
 
 public class UpdatePageRequestValidator : CustomValidator<UpdatePageRequest>
@@ -61,7 +66,12 @@ public class UpdatePageRequestHandler(
 {
     public async Task<Guid> Handle(UpdatePageRequest request, CancellationToken cancellationToken)
     {
-        var page = await repository.GetByIdAsync(request.Id, cancellationToken);
+        // Questions is an unloaded navigation on a plain GetByIdAsync — clearing it
+        // without eager-loading first would no-op (EF never sees the old rows to
+        // delete), so only pay for the Include when the request actually touches it.
+        var page = request.Questions is not null
+            ? await repository.FirstOrDefaultAsync(new PageWithQuestionsSpec(request.Id), cancellationToken)
+            : await repository.GetByIdAsync(request.Id, cancellationToken);
 
         _ = page ?? throw new NotFoundException(string.Format(localizer["catalog.pages.update.notfound"], request.Id));
 
@@ -74,6 +84,13 @@ public class UpdatePageRequestHandler(
 
         var updatedPage = page.Update(request.Title, request.Content, request.ContentType,
             request.Order, mediaUrl, isImported: request.IsImported);
+
+        if (request.Questions is not null)
+        {
+            updatedPage.ReplaceQuestions(request.Questions.Select(q =>
+                new QuestionData(q.Prompt, q.Order, q.Options.Select(o =>
+                    new OptionData(o.Label, o.IsCorrect, o.Order)))));
+        }
 
         await repository.UpdateAsync(updatedPage, cancellationToken);
 

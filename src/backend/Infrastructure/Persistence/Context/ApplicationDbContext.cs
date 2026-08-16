@@ -23,6 +23,8 @@ public class ApplicationDbContext(
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Chapter> Chapters => Set<Chapter>();
     public DbSet<Page> Pages => Set<Page>();
+    public DbSet<Question> Questions => Set<Question>();
+    public DbSet<Option> Options => Set<Option>();
     public DbSet<ChapterProgress> ChapterProgresses => Set<ChapterProgress>();
     public DbSet<PageProgress> PageProgresses => Set<PageProgress>();
     public DbSet<CourseEnrollment> CourseEnrollments => Set<CourseEnrollment>();

@@ -1,4 +1,5 @@
 using EvrenDev.Application.Catalog.CourseEnrollments.Specifications;
+using EvrenDev.Application.Catalog.Pages.Entities;
 using EvrenDev.Application.Catalog.Pages.Specifications;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
@@ -18,6 +19,14 @@ public class ChapterPlayerPageDto
     public bool IsImported { get; set; }
     public bool Completed { get; set; }
     public DateTime? CompletedAt { get; set; }
+    // Null/empty means the legacy "(richtig)" Content pattern is still in play for
+    // this page — the player falls back to parsing Content in that case (see
+    // QuizContent.vue). Non-empty means this page uses the structural Quiz model.
+    // IsCorrect is sent to the client as-is for now — a follow-up should hide it
+    // until the learner actually selects an option, since a raw network-tab read
+    // currently exposes the answer before they attempt the question (flagged in
+    // Task N0/N1, out of scope here).
+    public List<QuestionDto>? Questions { get; set; }
 }
 
 public class GetChapterPlayerRequest(Guid chapterId) : IRequest<ChapterPlayerDto>
@@ -85,7 +94,26 @@ public class GetChapterPlayerRequestHandler(
                     MediaUrl = p.MediaUrl,
                     IsImported = p.IsImported,
                     Completed = pageProgress?.Completed ?? false,
-                    CompletedAt = pageProgress?.CompletedAt
+                    CompletedAt = pageProgress?.CompletedAt,
+                    Questions = p.Questions.Count == 0
+                        ? null
+                        : p.Questions
+                            .OrderBy(q => q.Order)
+                            .Select(q => new QuestionDto
+                            {
+                                Prompt = q.Prompt,
+                                Order = q.Order,
+                                Options = q.Options
+                                    .OrderBy(o => o.Order)
+                                    .Select(o => new OptionDto
+                                    {
+                                        Label = o.Label,
+                                        IsCorrect = o.IsCorrect,
+                                        Order = o.Order
+                                    })
+                                    .ToList()
+                            })
+                            .ToList()
                 };
             })
             .ToList();
