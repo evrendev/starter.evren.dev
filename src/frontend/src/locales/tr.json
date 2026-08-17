@@ -849,6 +849,8 @@
     }
   },
   "learning": {
+    "chapterCount": "{count} Bölüm",
+    "courseCover": "Kurs görseli",
     "catalog": {
       "title": "Kurs Kataloğu",
       "enroll": "Kaydol",
@@ -857,6 +859,15 @@
         "enrolled": "Bu kursa başarıyla kaydoldunuz.",
         "enrollFailed": "Bu kursa kaydolunamadı.",
         "notEnrolled": "Bu kursa kayıtlı değilsiniz. Öğrenmeye başlamak için kaydolun."
+      },
+      "searchPlaceholder": "Kurs ara",
+      "allCategories": "Tüm Kategoriler",
+      "free": "Ücretsiz",
+      "noResults": "Aramanızla eşleşen kurs bulunamadı.",
+      "sort": {
+        "default": "Varsayılan",
+        "titleAsc": "Başlık (A-Z)",
+        "titleDesc": "Başlık (Z-A)"
       }
     },
     "myCourses": {
@@ -872,15 +883,13 @@
         "completed": "Tamamlandı"
       },
       "completedChip": "Tamamlandı",
-      "chapterCount": "{count} Bölüm",
       "enrolledAgo": "{time} kayıt oldu",
       "next": "Sıradaki: {title}",
       "allChaptersCompleted": "Tüm bölümler tamamlandı",
       "percentComplete": "Tamamlandı",
       "continue": "Devam Et",
       "start": "Başla",
-      "review": "Gözden Geçir",
-      "courseCover": "Kurs görseli"
+      "review": "Gözden Geçir"
     }
   }
 }

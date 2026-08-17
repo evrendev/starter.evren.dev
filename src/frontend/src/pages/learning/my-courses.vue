@@ -8,10 +8,10 @@ import { useCourseStore } from "@/stores/course";
 import { useChapterStore } from "@/stores/chapter";
 import { usePageStore } from "@/stores/page";
 import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
+import CourseCover from "@/components/learning/CourseCover.vue";
+import ElevatedCard from "@/components/shared/ElevatedCard.vue";
 
 const { t, locale } = useI18n();
-
-const BASE_URL = import.meta.env.VITE_APP_BACKEND_BASE_URL;
 
 const vuetifyTheme = useTheme();
 const isDark = computed(() => vuetifyTheme.current.value.dark);
@@ -162,7 +162,7 @@ watch(playerOpen, async (open) => {
 </script>
 
 <template>
-  <v-container>
+  <div>
     <h2 class="mb-4">{{ t("learning.myCourses.title") }}</h2>
 
     <v-progress-circular
@@ -192,11 +192,7 @@ watch(playerOpen, async (open) => {
     <template v-else>
       <v-row class="mb-2">
         <v-col cols="12" sm="4">
-          <v-card
-            variant="flat"
-            class="stat-card d-flex align-center pa-4"
-            :class="{ 'stat-card--elevated': !isDark }"
-          >
+          <ElevatedCard class="d-flex align-center pa-4">
             <v-avatar :color="redColor" variant="tonal" size="40" class="me-4">
               <v-icon icon="bx-collection" />
             </v-avatar>
@@ -206,14 +202,10 @@ watch(playerOpen, async (open) => {
                 {{ t("learning.myCourses.stats.enrolled") }}
               </div>
             </div>
-          </v-card>
+          </ElevatedCard>
         </v-col>
         <v-col cols="12" sm="4">
-          <v-card
-            variant="flat"
-            class="stat-card d-flex align-center pa-4"
-            :class="{ 'stat-card--elevated': !isDark }"
-          >
+          <ElevatedCard class="d-flex align-center pa-4">
             <v-avatar color="warning" variant="tonal" size="40" class="me-4">
               <v-icon icon="bx-time-five" />
             </v-avatar>
@@ -223,14 +215,10 @@ watch(playerOpen, async (open) => {
                 {{ t("learning.myCourses.stats.inProgress") }}
               </div>
             </div>
-          </v-card>
+          </ElevatedCard>
         </v-col>
         <v-col cols="12" sm="4">
-          <v-card
-            variant="flat"
-            class="stat-card d-flex align-center pa-4"
-            :class="{ 'stat-card--elevated': !isDark }"
-          >
+          <ElevatedCard class="d-flex align-center pa-4">
             <v-avatar color="success" variant="tonal" size="40" class="me-4">
               <v-icon icon="bx-check-circle" />
             </v-avatar>
@@ -240,7 +228,7 @@ watch(playerOpen, async (open) => {
                 {{ t("learning.myCourses.stats.completed") }}
               </div>
             </div>
-          </v-card>
+          </ElevatedCard>
         </v-col>
       </v-row>
 
@@ -256,18 +244,10 @@ watch(playerOpen, async (open) => {
             class="h-100 d-flex flex-column"
             :variant="isDark ? 'outlined' : 'elevated'"
           >
-            <div v-if="courseImages[enrollment.courseId]" class="course-cover">
-              <img
-                :src="`${BASE_URL}/${courseImages[enrollment.courseId]}`"
-                :alt="enrollment.courseTitle"
-              />
-            </div>
-            <div v-else class="course-cover course-cover--placeholder">
-              <v-icon icon="bx-image" size="28" />
-              <span class="text-caption mt-1">{{
-                t("learning.myCourses.courseCover")
-              }}</span>
-            </div>
+            <CourseCover
+              :image="courseImages[enrollment.courseId]"
+              :alt="enrollment.courseTitle"
+            />
 
             <v-card-item>
               <v-chip
@@ -300,7 +280,7 @@ watch(playerOpen, async (open) => {
                 <v-icon icon="bx-book-open" size="14" class="me-1" />
                 <span class="me-3">
                   {{
-                    t("learning.myCourses.chapterCount", {
+                    t("learning.chapterCount", {
                       count: courseCardInfo[enrollment.courseId]?.chapterCount ?? 0,
                     })
                   }}
@@ -359,38 +339,5 @@ watch(playerOpen, async (open) => {
       :chapter-id="playerChapterId"
       :category-title="playerCategoryTitle"
     />
-  </v-container>
+  </div>
 </template>
-
-<style scoped>
-.stat-card {
-  background: rgb(var(--v-theme-surface));
-}
-
-/* Light only (per design, same precedent as LessonPlayer's
-   .slide-card--elevated): dark's card already separates from the page
-   background via the surface/background token contrast, no shadow needed */
-.stat-card--elevated {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.course-cover {
-  height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.course-cover--placeholder {
-  flex-direction: column;
-  background: rgba(var(--v-theme-on-surface), 0.05);
-  color: rgba(var(--v-theme-on-surface), 0.4);
-}
-
-.course-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-</style>

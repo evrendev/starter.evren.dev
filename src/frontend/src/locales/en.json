@@ -862,6 +862,8 @@
     }
   },
   "learning": {
+    "chapterCount": "{count} Chapters",
+    "courseCover": "Course cover",
     "catalog": {
       "title": "Course Catalog",
       "enroll": "Enroll",
@@ -870,6 +872,15 @@
         "enrolled": "You have successfully enrolled in this course.",
         "enrollFailed": "Failed to enroll in this course.",
         "notEnrolled": "You are not enrolled in this course. Enroll to start learning."
+      },
+      "searchPlaceholder": "Search courses",
+      "allCategories": "All Categories",
+      "free": "Free",
+      "noResults": "No courses match your search.",
+      "sort": {
+        "default": "Default",
+        "titleAsc": "Title (A-Z)",
+        "titleDesc": "Title (Z-A)"
       }
     },
     "myCourses": {
@@ -885,15 +896,13 @@
         "completed": "Completed"
       },
       "completedChip": "Completed",
-      "chapterCount": "{count} Chapters",
       "enrolledAgo": "Enrolled {time}",
       "next": "Next: {title}",
       "allChaptersCompleted": "All chapters completed",
       "percentComplete": "Complete",
       "continue": "Continue",
       "start": "Start",
-      "review": "Review",
-      "courseCover": "Course cover"
+      "review": "Review"
     }
   },
   "error": {

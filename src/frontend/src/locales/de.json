@@ -849,6 +849,8 @@
     }
   },
   "learning": {
+    "chapterCount": "{count} Kapitel",
+    "courseCover": "Kursbild",
     "catalog": {
       "title": "Kurskatalog",
       "enroll": "Anmelden",
@@ -857,6 +859,15 @@
         "enrolled": "Sie haben sich erfolgreich für diesen Kurs angemeldet.",
         "enrollFailed": "Anmeldung für diesen Kurs fehlgeschlagen.",
         "notEnrolled": "Sie sind für diesen Kurs nicht angemeldet. Melden Sie sich an, um zu lernen."
+      },
+      "searchPlaceholder": "Kurse suchen",
+      "allCategories": "Alle Kategorien",
+      "free": "Kostenlos",
+      "noResults": "Keine Kurse entsprechen Ihrer Suche.",
+      "sort": {
+        "default": "Standard",
+        "titleAsc": "Titel (A-Z)",
+        "titleDesc": "Titel (Z-A)"
       }
     },
     "myCourses": {
@@ -872,15 +883,13 @@
         "completed": "Abgeschlossen"
       },
       "completedChip": "Abgeschlossen",
-      "chapterCount": "{count} Kapitel",
       "enrolledAgo": "Angemeldet {time}",
       "next": "Weiter: {title}",
       "allChaptersCompleted": "Alle Kapitel abgeschlossen",
       "percentComplete": "Abgeschlossen",
       "continue": "Fortsetzen",
       "start": "Starten",
-      "review": "Überprüfen",
-      "courseCover": "Kursbild"
+      "review": "Überprüfen"
     }
   }
 }
