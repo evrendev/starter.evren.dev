@@ -20,6 +20,8 @@ internal static class Startup
             .AddJsonFile($"{ConfigurationsDirectory}/database.{env.EnvironmentName}.json", true, true)
             .AddJsonFile($"{ConfigurationsDirectory}/mail.json", false, true)
             .AddJsonFile($"{ConfigurationsDirectory}/mail.{env.EnvironmentName}.json", true, true)
+            .AddJsonFile($"{ConfigurationsDirectory}/paypal.json", false, true)
+            .AddJsonFile($"{ConfigurationsDirectory}/paypal.{env.EnvironmentName}.json", true, true)
             .AddJsonFile($"{ConfigurationsDirectory}/middleware.json", false, true)
             .AddJsonFile($"{ConfigurationsDirectory}/middleware.{env.EnvironmentName}.json", true, true)
             .AddJsonFile($"{ConfigurationsDirectory}/security.json", false, true)

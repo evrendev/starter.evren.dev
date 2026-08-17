@@ -56,6 +56,7 @@
     <PackageVersion Include="NewId" Version="4.0.1" />
     <PackageVersion Include="NSwag.AspNetCore" Version="14.2.0" />
     <PackageVersion Include="Otp.Net" Version="1.4.0" />
+    <PackageVersion Include="PayPalServerSDK" Version="2.3.0" />
     <PackageVersion Include="RazorEngineCore" Version="2024.4.1" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />

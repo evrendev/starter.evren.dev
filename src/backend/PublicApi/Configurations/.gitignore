@@ -3,3 +3,7 @@ hangfire*
 mail*
 secrets*
 recaptcha*
+paypal*
+# The template is a committed, secret-free reference (empty placeholder values)
+# — the broad "paypal*" glob above would otherwise also catch it under Templates/.
+!Templates/paypal_template.json

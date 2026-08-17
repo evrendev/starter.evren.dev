@@ -1,6 +1,7 @@
 ﻿using EvrenDev.Application.Common.Events;
 using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Catalog;
+using EvrenDev.Domain.Payments;
 using EvrenDev.Infrastructure.Persistence.Configuration;
 using Finbuckle.MultiTenant;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,7 @@ public class ApplicationDbContext(
     public DbSet<PageProgress> PageProgresses => Set<PageProgress>();
     public DbSet<CourseEnrollment> CourseEnrollments => Set<CourseEnrollment>();
     public DbSet<ImportJob> ImportJobs => Set<ImportJob>();
+    public DbSet<PaymentOrder> PaymentOrders => Set<PaymentOrder>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

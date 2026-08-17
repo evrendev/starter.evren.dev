@@ -12,6 +12,7 @@ using EvrenDev.Infrastructure.Middleware;
 using EvrenDev.Infrastructure.Multitenancy;
 using EvrenDev.Infrastructure.Notifications;
 using EvrenDev.Infrastructure.OpenApi;
+using EvrenDev.Infrastructure.Payments;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Infrastructure.Persistence.Initialization;
 using EvrenDev.Infrastructure.SecurityHeaders;
@@ -42,6 +43,7 @@ public static class Startup
             .AddMultitenancy(config)
             .AddNotifications(config)
             .AddOpenApiDocumentation(config)
+            .AddPayments(config)
             .AddPersistence(config)
             .AddRequestLogging(config)
             .AddRouting(options => options.LowercaseUrls = true)
