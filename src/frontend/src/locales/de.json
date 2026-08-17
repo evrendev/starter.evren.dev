@@ -847,5 +847,40 @@
         "alt": "Unbefugter Zugriff"
       }
     }
+  },
+  "learning": {
+    "catalog": {
+      "title": "Kurskatalog",
+      "enroll": "Anmelden",
+      "continue": "Fortsetzen",
+      "notifications": {
+        "enrolled": "Sie haben sich erfolgreich für diesen Kurs angemeldet.",
+        "enrollFailed": "Anmeldung für diesen Kurs fehlgeschlagen.",
+        "notEnrolled": "Sie sind für diesen Kurs nicht angemeldet. Melden Sie sich an, um zu lernen."
+      }
+    },
+    "myCourses": {
+      "title": "Meine Kurse",
+      "empty": {
+        "title": "Sie sind noch für keinen Kurs angemeldet",
+        "subtitle": "Durchsuchen Sie den Katalog und melden Sie sich für einen Kurs an, um Ihren Fortschritt hier zu sehen.",
+        "browseCatalog": "Katalog durchsuchen"
+      },
+      "stats": {
+        "enrolled": "Angemeldete Kurse",
+        "inProgress": "In Bearbeitung",
+        "completed": "Abgeschlossen"
+      },
+      "completedChip": "Abgeschlossen",
+      "chapterCount": "{count} Kapitel",
+      "enrolledAgo": "Angemeldet {time}",
+      "next": "Weiter: {title}",
+      "allChaptersCompleted": "Alle Kapitel abgeschlossen",
+      "percentComplete": "Abgeschlossen",
+      "continue": "Fortsetzen",
+      "start": "Starten",
+      "review": "Überprüfen",
+      "courseCover": "Kursbild"
+    }
   }
 }

@@ -847,5 +847,40 @@
         "alt": "Yetkisiz Erişim"
       }
     }
+  },
+  "learning": {
+    "catalog": {
+      "title": "Kurs Kataloğu",
+      "enroll": "Kaydol",
+      "continue": "Devam Et",
+      "notifications": {
+        "enrolled": "Bu kursa başarıyla kaydoldunuz.",
+        "enrollFailed": "Bu kursa kaydolunamadı.",
+        "notEnrolled": "Bu kursa kayıtlı değilsiniz. Öğrenmeye başlamak için kaydolun."
+      }
+    },
+    "myCourses": {
+      "title": "Kurslarım",
+      "empty": {
+        "title": "Henüz hiçbir kursa kayıtlı değilsiniz",
+        "subtitle": "İlerlemenizi burada görmek için kataloğa göz atın ve bir kursa kaydolun.",
+        "browseCatalog": "Kataloğa Göz At"
+      },
+      "stats": {
+        "enrolled": "Kayıtlı Kurslar",
+        "inProgress": "Devam Ediyor",
+        "completed": "Tamamlandı"
+      },
+      "completedChip": "Tamamlandı",
+      "chapterCount": "{count} Bölüm",
+      "enrolledAgo": "{time} kayıt oldu",
+      "next": "Sıradaki: {title}",
+      "allChaptersCompleted": "Tüm bölümler tamamlandı",
+      "percentComplete": "Tamamlandı",
+      "continue": "Devam Et",
+      "start": "Başla",
+      "review": "Gözden Geçir",
+      "courseCover": "Kurs görseli"
+    }
   }
 }

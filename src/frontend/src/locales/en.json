@@ -874,11 +874,26 @@
     },
     "myCourses": {
       "title": "My Courses",
-      "empty": "You are not enrolled in any course yet.",
+      "empty": {
+        "title": "You are not enrolled in any courses yet",
+        "subtitle": "Browse the catalog and enroll in a course to see your progress here.",
+        "browseCatalog": "Browse Catalog"
+      },
+      "stats": {
+        "enrolled": "Enrolled Courses",
+        "inProgress": "In Progress",
+        "completed": "Completed"
+      },
+      "completedChip": "Completed",
+      "chapterCount": "{count} Chapters",
+      "enrolledAgo": "Enrolled {time}",
+      "next": "Next: {title}",
+      "allChaptersCompleted": "All chapters completed",
       "percentComplete": "Complete",
       "continue": "Continue",
       "start": "Start",
-      "review": "Review"
+      "review": "Review",
+      "courseCover": "Course cover"
     }
   },
   "error": {
