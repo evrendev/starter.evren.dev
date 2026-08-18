@@ -890,6 +890,21 @@
       "continue": "Fortsetzen",
       "start": "Starten",
       "review": "Überprüfen"
+    },
+    "checkout": {
+      "title": "Kasse",
+      "payWithPayPal": "Mit PayPal bezahlen",
+      "loading": "Zahlungsoptionen werden geladen…",
+      "success": "Zahlung erfolgreich — Sie sind angemeldet!",
+      "error": "Bei der Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "cancelled": "Zahlung abgebrochen — Sie können es jederzeit erneut versuchen."
+    },
+    "checkoutReturn": {
+      "title": "Zahlungsrückkehr",
+      "success": "Wenn Sie die Zahlung abgeschlossen haben, wird sie in Kürze automatisch bestätigt. Sehen Sie in Kürze bei Meine Kurse nach.",
+      "error": "Die Zahlung wurde nicht abgeschlossen. Sie können es erneut über den Katalog versuchen.",
+      "goToMyCourses": "Zu Meine Kurse",
+      "backToCatalog": "Zurück zum Katalog"
     }
   }
 }

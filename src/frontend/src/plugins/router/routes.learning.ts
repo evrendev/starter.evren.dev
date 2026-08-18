@@ -22,6 +22,14 @@ export const learningRoutes = [
           title: "learning.myCourses.title",
         },
       },
+      {
+        name: "learning-checkout-return",
+        path: "checkout-return",
+        component: () => import("@/pages/learning/checkout-return.vue"),
+        meta: {
+          title: "learning.checkoutReturn.title",
+        },
+      },
     ],
   },
 ];

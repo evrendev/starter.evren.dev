@@ -10,6 +10,7 @@ import { Notify } from "@/stores/notification";
 import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
 import CourseCover from "@/components/learning/CourseCover.vue";
 import ElevatedCard from "@/components/shared/ElevatedCard.vue";
+import CheckoutDialog from "@/components/learning/CheckoutDialog.vue";
 
 const { t } = useI18n();
 
@@ -98,7 +99,21 @@ const enrollingCourseId = ref<string | null>(null);
 // flashing open before a chapterId is actually known
 const resolvingCourseId = ref<string | null>(null);
 
+const checkoutOpen = ref(false);
+const checkoutCourse = ref<{ courseId: string; title: string; amount: number } | null>(null);
+
 const handleEnroll = async (courseId: string) => {
+  const course = courses.value.find((c) => c.id === courseId);
+
+  // Paid courses go through PayPal Checkout instead of the direct enroll
+  // call — EnrollInCourseRequestHandler itself rejects these with a 409
+  // (Task Q1), so routing them here first isn't just a UX nicety.
+  if (course?.amount) {
+    checkoutCourse.value = { courseId, title: course.title, amount: course.amount };
+    checkoutOpen.value = true;
+    return;
+  }
+
   enrollingCourseId.value = courseId;
 
   try {
@@ -325,6 +340,12 @@ watch(playerOpen, async (open) => {
       v-model="playerOpen"
       :chapter-id="playerChapterId"
       :category-title="playerCategoryTitle"
+    />
+
+    <CheckoutDialog
+      v-if="checkoutCourse"
+      v-model="checkoutOpen"
+      :course="checkoutCourse"
     />
   </div>
 </template>

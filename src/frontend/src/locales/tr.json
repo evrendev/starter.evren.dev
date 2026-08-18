@@ -890,6 +890,21 @@
       "continue": "Devam Et",
       "start": "Başla",
       "review": "Gözden Geçir"
+    },
+    "checkout": {
+      "title": "Ödeme",
+      "payWithPayPal": "PayPal ile Öde",
+      "loading": "Ödeme seçenekleri yükleniyor…",
+      "success": "Ödeme başarılı — kursa kaydoldunuz!",
+      "error": "Ödeme sırasında bir sorun oluştu. Lütfen tekrar deneyin.",
+      "cancelled": "Ödeme iptal edildi — istediğiniz zaman tekrar deneyebilirsiniz."
+    },
+    "checkoutReturn": {
+      "title": "Ödeme Dönüşü",
+      "success": "Ödemeyi tamamladıysanız, kısa süre içinde otomatik olarak onaylanacaktır. Birazdan My Courses'u kontrol edin.",
+      "error": "Ödeme tamamlanmadı. Kataloğa dönüp tekrar deneyebilirsiniz.",
+      "goToMyCourses": "Kurslarıma Git",
+      "backToCatalog": "Kataloğa Dön"
     }
   }
 }

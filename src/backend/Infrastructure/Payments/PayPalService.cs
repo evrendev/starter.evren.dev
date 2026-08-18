@@ -52,9 +52,10 @@ public class PayPalService(IOptions<PayPalSettings> settings,
         // Required for the full-page redirect flow (non-JS-SDK-in-context checkout):
         // without ReturnUrl/CancelUrl, PayPal has nowhere to send the buyer back to
         // after approval and the flow dead-ends with a generic error — confirmed the
-        // hard way in Task Q1's real sandbox test. No dedicated checkout return page
-        // exists in the frontend yet (that's Q2's job), so this points at an existing
-        // real route as a placeholder; replace with a real return handler once one exists.
+        // hard way in Task Q1's real sandbox test. Task Q3 wires the primary flow
+        // through the PayPal JS SDK Buttons popup, which never navigates away from
+        // the catalog page at all — this URL is purely the fallback for when the
+        // popup is blocked or the SDK falls back to a full-page redirect.
         var frontendUrl = _corsSettings.Vue ?? "https://evren.dev";
 
         var input = new CreateOrderInput
@@ -76,8 +77,8 @@ public class PayPalService(IOptions<PayPalSettings> settings,
                 ],
                 ApplicationContext = new OrderApplicationContext
                 {
-                    ReturnUrl = $"{frontendUrl}/learning/catalog",
-                    CancelUrl = $"{frontendUrl}/learning/catalog"
+                    ReturnUrl = $"{frontendUrl}/learning/checkout-return",
+                    CancelUrl = $"{frontendUrl}/learning/checkout-return"
                 }
             }
         };

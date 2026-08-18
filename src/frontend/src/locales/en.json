@@ -903,6 +903,21 @@
       "continue": "Continue",
       "start": "Start",
       "review": "Review"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "payWithPayPal": "Pay with PayPal",
+      "loading": "Loading payment options…",
+      "success": "Payment successful — you're enrolled!",
+      "error": "Something went wrong with the payment. Please try again.",
+      "cancelled": "Payment cancelled — you can try again anytime."
+    },
+    "checkoutReturn": {
+      "title": "Payment Return",
+      "success": "If you completed the payment, it will be confirmed automatically shortly. Check My Courses in a moment.",
+      "error": "Payment was not completed. You can try again from the catalog.",
+      "goToMyCourses": "Go to My Courses",
+      "backToCatalog": "Back to Catalog"
     }
   },
   "error": {
