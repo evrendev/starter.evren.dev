@@ -46,11 +46,23 @@ internal partial class UserService(
     {
         var spec = new EntitiesByPaginationFilterSpec<ApplicationUser>(filter);
 
-        var users = await userManager.Users
+        // Students are managed exclusively via the Students module (Task R1) —
+        // exclude them here so the two screens never manage the same accounts.
+        var studentRoleId = await roleManager.Roles
+            .Where(r => r.Name == ApiRoles.Student)
+            .Select(r => r.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+        var studentUserIds = db.UserRoles
+            .Where(ur => ur.RoleId == studentRoleId)
+            .Select(ur => ur.UserId);
+
+        var baseQuery = userManager.Users.Where(u => !studentUserIds.Contains(u.Id));
+
+        var users = await baseQuery
             .WithSpecification(spec)
             .ProjectToType<BasicUserDto>()
             .ToListAsync(cancellationToken);
-        var count = await userManager.Users
+        var count = await baseQuery
             .CountAsync(cancellationToken);
 
         return new PaginationResponse<BasicUserDto>(users, count, filter.Page, filter.ItemsPerPage);

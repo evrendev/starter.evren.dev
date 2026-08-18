@@ -97,6 +97,12 @@ public static class ApiPermissions
         new("Generate Absences", ApiAction.Generate, ApiResource.Absences),
         new("Export Absences", ApiAction.Export, ApiResource.Absences),
         new("Clean Absences", ApiAction.Clean, ApiResource.Absences),
+        // Student permissions — no Update (account activate/toggle stays on
+        // the Users resource/ToggleStatusAsync endpoint, see Task R1)
+        new("View Students", ApiAction.View, ApiResource.Students),
+        new("Search Students", ApiAction.Search, ApiResource.Students),
+        new("Create Students", ApiAction.Create, ApiResource.Students),
+        new("Delete Students", ApiAction.Delete, ApiResource.Students),
         // Tenant permissions are only for root users
         new("View Tenants", ApiAction.View, ApiResource.Tenants, IsRoot: true),
         new("Search Tenants", ApiAction.Search, ApiResource.Tenants, IsRoot: true),

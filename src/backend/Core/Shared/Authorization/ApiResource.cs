@@ -17,4 +17,5 @@ public static class ApiResource
     public const string Chapters = nameof(Chapters);
     public const string Pages = nameof(Pages);
     public const string Notes = nameof(Notes);
+    public const string Students = nameof(Students);
 }
