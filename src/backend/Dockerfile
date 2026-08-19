@@ -1,5 +1,5 @@
 # --- Build aşaması ---
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY . .
 
@@ -7,7 +7,7 @@ RUN dotnet restore BackendBoilerplate.sln
 RUN dotnet publish src/backend/PublicApi/PublicApi.csproj -c Release -o /out
 
 # --- Development aşaması ---
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS development
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS development
 WORKDIR /app
 COPY . .
 
@@ -26,7 +26,7 @@ EXPOSE 5001
 CMD ["dotnet", "watch", "run", "--project", "src/backend/PublicApi/PublicApi.csproj", "--urls", "http://+:5001"]
 
 # --- Runtime aşaması ---
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 COPY --from=build /out ./
 
