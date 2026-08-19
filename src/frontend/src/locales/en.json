@@ -172,7 +172,8 @@
         "chapters": "Chapters",
         "my-learning": "My Learning",
         "learning-catalog": "Course Catalog",
-        "learning-my-courses": "My Courses"
+        "learning-my-courses": "My Courses",
+        "students": "Students"
       },
       "footer": {
         "home": "Home",
@@ -189,7 +190,8 @@
           "users": "Users",
           "categories": "Categories",
           "courses": "Courses",
-          "chapters": "Chapters"
+          "chapters": "Chapters",
+          "students": "Students"
         }
       }
     },
@@ -789,6 +791,92 @@
           "exactlyOneCorrect": "Every question needs exactly one correct answer."
         }
       }
+    },
+    "students": {
+      "list": {
+        "title": "Students"
+      },
+      "view": {
+        "title": "Student Detail",
+        "enrolledCourses": "Enrolled Courses",
+        "paymentHistory": "Payment History",
+        "noEnrollments": "This student is not enrolled in any course yet.",
+        "noPayments": "No payment history for this student.",
+        "noAvailableCourses": "No courses available to enroll."
+      },
+      "fields": {
+        "fullName": {
+          "title": "Full Name"
+        },
+        "email": {
+          "title": "Email"
+        },
+        "isActive": {
+          "title": "Status",
+          "active": "Active",
+          "inactive": "Inactive"
+        },
+        "emailConfirmed": {
+          "confirmed": "Email Confirmed",
+          "unconfirmed": "Email Unconfirmed"
+        },
+        "enrolledCourseCount": {
+          "title": "Enrolled Courses"
+        },
+        "totalPaid": {
+          "title": "Total Paid"
+        },
+        "averageCompletionPercent": {
+          "title": "Avg. Completion"
+        },
+        "courseTitle": {
+          "title": "Course"
+        },
+        "enrolledAt": {
+          "title": "Enrolled"
+        },
+        "pricePaid": {
+          "title": "Price Paid"
+        },
+        "percentComplete": {
+          "title": "Progress"
+        },
+        "amount": {
+          "title": "Amount"
+        },
+        "status": {
+          "title": "Status"
+        },
+        "payPalCaptureId": {
+          "title": "PayPal Capture ID"
+        },
+        "capturedAt": {
+          "title": "Captured At"
+        }
+      },
+      "stats": {
+        "totalStudents": "Total Students",
+        "totalRevenue": "Total Revenue",
+        "averageCompletion": "Average Completion"
+      },
+      "actions": {
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "unenroll": "Unenroll",
+        "enrollInCourse": "Enroll in Course"
+      },
+      "notifications": {
+        "loadFailed": "Failed to load student",
+        "activated": "Student activated successfully",
+        "deactivated": "Student deactivated successfully",
+        "toggleStatusFailed": "Failed to update student status",
+        "enrolled": "Student enrolled successfully",
+        "enrollFailed": "Failed to enroll student",
+        "unenrolled": "Student unenrolled successfully",
+        "unenrollFailed": "Failed to unenroll student",
+        "unenrollConfirmTitle": "Unenroll Student",
+        "unenrollConfirmMessage": "Are you sure you want to remove this student's enrollment? Their progress will be lost."
+      }
     }
   },
   "shared": {
@@ -859,7 +947,8 @@
     "unexpectedError": "An unexpected error occurred",
     "validation": {
       "required": "This field is required"
-    }
+    },
+    "all": "All"
   },
   "learning": {
     "chapterCount": "{count} Chapters",

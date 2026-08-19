@@ -197,6 +197,33 @@ export const adminRoutes = [
         ],
       },
       {
+        name: "students",
+        path: "students",
+        children: [
+          {
+            name: "student-list",
+            path: "",
+            component: () => import("@/pages/admin/students/index.vue"),
+            meta: {
+              requiresPermission: [
+                Permissions.StudentView,
+                Permissions.StudentSearch,
+              ],
+              title: "admin.students.list.title",
+            },
+          },
+          {
+            name: "student-view",
+            path: ":id/view",
+            component: () => import("@/pages/admin/students/view.vue"),
+            meta: {
+              requiresPermission: [Permissions.StudentView],
+              title: "admin.students.view.title",
+            },
+          },
+        ],
+      },
+      {
         name: "categories",
         path: "categories",
         children: [

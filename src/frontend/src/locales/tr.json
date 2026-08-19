@@ -169,7 +169,8 @@
         "course-management": "Kurs Yönetimi",
         "categories": "Kategoriler",
         "courses": "Kurslar",
-        "chapters": "Bölümler"
+        "chapters": "Bölümler",
+        "students": "Öğrenciler"
       },
       "footer": {
         "home": "Anasayfa",
@@ -186,7 +187,8 @@
           "users": "Kullanıcılar",
           "categories": "Kategoriler",
           "courses": "Kurslar",
-          "chapters": "Bölümler"
+          "chapters": "Bölümler",
+          "students": "Öğrenciler"
         }
       }
     },
@@ -770,6 +772,92 @@
           "exactlyOneCorrect": "Her sorunun tam olarak bir doğru cevabı olmalı."
         }
       }
+    },
+    "students": {
+      "list": {
+        "title": "Öğrenciler"
+      },
+      "view": {
+        "title": "Öğrenci Detayı",
+        "enrolledCourses": "Kayıtlı Kurslar",
+        "paymentHistory": "Ödeme Geçmişi",
+        "noEnrollments": "Bu öğrenci henüz hiçbir kursa kayıtlı değil.",
+        "noPayments": "Bu öğrenci için ödeme geçmişi yok.",
+        "noAvailableCourses": "Kayıt olunabilecek kurs yok."
+      },
+      "fields": {
+        "fullName": {
+          "title": "Ad Soyad"
+        },
+        "email": {
+          "title": "E-posta"
+        },
+        "isActive": {
+          "title": "Durum",
+          "active": "Aktif",
+          "inactive": "Pasif"
+        },
+        "emailConfirmed": {
+          "confirmed": "E-posta Onaylı",
+          "unconfirmed": "E-posta Onaylanmadı"
+        },
+        "enrolledCourseCount": {
+          "title": "Kayıtlı Kurs Sayısı"
+        },
+        "totalPaid": {
+          "title": "Toplam Ödenen"
+        },
+        "averageCompletionPercent": {
+          "title": "Ort. Tamamlanma"
+        },
+        "courseTitle": {
+          "title": "Kurs"
+        },
+        "enrolledAt": {
+          "title": "Kayıt Tarihi"
+        },
+        "pricePaid": {
+          "title": "Ödenen Tutar"
+        },
+        "percentComplete": {
+          "title": "İlerleme"
+        },
+        "amount": {
+          "title": "Tutar"
+        },
+        "status": {
+          "title": "Durum"
+        },
+        "payPalCaptureId": {
+          "title": "PayPal Capture ID"
+        },
+        "capturedAt": {
+          "title": "Tahsilat Tarihi"
+        }
+      },
+      "stats": {
+        "totalStudents": "Toplam Öğrenci",
+        "totalRevenue": "Toplam Gelir",
+        "averageCompletion": "Ortalama Tamamlanma"
+      },
+      "actions": {
+        "activate": "Aktif Et",
+        "deactivate": "Pasif Et",
+        "unenroll": "Kaydı Kaldır",
+        "enrollInCourse": "Kursa Kaydet"
+      },
+      "notifications": {
+        "loadFailed": "Öğrenci yüklenemedi",
+        "activated": "Öğrenci aktif edildi",
+        "deactivated": "Öğrenci pasif edildi",
+        "toggleStatusFailed": "Öğrenci durumu güncellenemedi",
+        "enrolled": "Öğrenci kursa kaydedildi",
+        "enrollFailed": "Öğrenci kursa kaydedilemedi",
+        "unenrolled": "Öğrencinin kaydı kaldırıldı",
+        "unenrollFailed": "Öğrencinin kaydı kaldırılamadı",
+        "unenrollConfirmTitle": "Öğrenci Kaydını Kaldır",
+        "unenrollConfirmMessage": "Bu öğrencinin kursa kaydını kaldırmak istediğinize emin misiniz? İlerleme kaydı silinecek."
+      }
     }
   },
   "shared": {
@@ -828,7 +916,8 @@
       "startDate": "Başlangıç Tarihi",
       "endDate": "Bitiş Tarihi",
       "published": "Yayınlandı"
-    }
+    },
+    "all": "Tümü"
   },
   "error": {
     "404": {

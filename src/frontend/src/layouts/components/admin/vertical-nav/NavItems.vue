@@ -27,6 +27,7 @@ const canSeeAdminGroup = computed(() =>
     Permissions.TenantView,
     Permissions.RoleView,
     Permissions.UserView,
+    Permissions.StudentView,
   ]),
 );
 
@@ -153,6 +154,14 @@ const showOthersHeading = computed(
         to: { name: 'user-list' },
       }"
       v-show="personalStore.hasPermission(Permissions.UserView)"
+    />
+
+    <vertical-nav-link
+      :item="{
+        title: t('admin.components.sidebar.students'),
+        to: { name: 'student-list' },
+      }"
+      v-show="personalStore.hasPermission(Permissions.StudentView)"
     />
   </vertical-nav-group>
 

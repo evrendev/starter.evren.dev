@@ -169,7 +169,8 @@
         "course-management": "Kursverwaltung",
         "categories": "Kategorien",
         "courses": "Kurse",
-        "chapters": "Kapitel"
+        "chapters": "Kapitel",
+        "students": "Studierende"
       },
       "footer": {
         "home": "Startseite",
@@ -186,7 +187,8 @@
           "users": "Benutzer",
           "categories": "Kategorien",
           "courses": "Kurse",
-          "chapters": "Kapitel"
+          "chapters": "Kapitel",
+          "students": "Studierende"
         }
       }
     },
@@ -770,6 +772,92 @@
           "exactlyOneCorrect": "Jede Frage benötigt genau eine richtige Antwort."
         }
       }
+    },
+    "students": {
+      "list": {
+        "title": "Studierende"
+      },
+      "view": {
+        "title": "Studierendendetails",
+        "enrolledCourses": "Eingeschriebene Kurse",
+        "paymentHistory": "Zahlungsverlauf",
+        "noEnrollments": "Dieser Studierende ist noch in keinem Kurs eingeschrieben.",
+        "noPayments": "Kein Zahlungsverlauf für diesen Studierenden.",
+        "noAvailableCourses": "Keine Kurse zum Einschreiben verfügbar."
+      },
+      "fields": {
+        "fullName": {
+          "title": "Vollständiger Name"
+        },
+        "email": {
+          "title": "E-Mail"
+        },
+        "isActive": {
+          "title": "Status",
+          "active": "Aktiv",
+          "inactive": "Inaktiv"
+        },
+        "emailConfirmed": {
+          "confirmed": "E-Mail bestätigt",
+          "unconfirmed": "E-Mail nicht bestätigt"
+        },
+        "enrolledCourseCount": {
+          "title": "Eingeschriebene Kurse"
+        },
+        "totalPaid": {
+          "title": "Gesamt bezahlt"
+        },
+        "averageCompletionPercent": {
+          "title": "Ø Fortschritt"
+        },
+        "courseTitle": {
+          "title": "Kurs"
+        },
+        "enrolledAt": {
+          "title": "Eingeschrieben am"
+        },
+        "pricePaid": {
+          "title": "Bezahlter Preis"
+        },
+        "percentComplete": {
+          "title": "Fortschritt"
+        },
+        "amount": {
+          "title": "Betrag"
+        },
+        "status": {
+          "title": "Status"
+        },
+        "payPalCaptureId": {
+          "title": "PayPal Capture-ID"
+        },
+        "capturedAt": {
+          "title": "Erfasst am"
+        }
+      },
+      "stats": {
+        "totalStudents": "Studierende gesamt",
+        "totalRevenue": "Gesamtumsatz",
+        "averageCompletion": "Durchschnittlicher Fortschritt"
+      },
+      "actions": {
+        "activate": "Aktivieren",
+        "deactivate": "Deaktivieren",
+        "unenroll": "Abmelden",
+        "enrollInCourse": "In Kurs einschreiben"
+      },
+      "notifications": {
+        "loadFailed": "Studierender konnte nicht geladen werden",
+        "activated": "Studierender aktiviert",
+        "deactivated": "Studierender deaktiviert",
+        "toggleStatusFailed": "Status konnte nicht aktualisiert werden",
+        "enrolled": "Studierender erfolgreich eingeschrieben",
+        "enrollFailed": "Einschreibung fehlgeschlagen",
+        "unenrolled": "Einschreibung entfernt",
+        "unenrollFailed": "Einschreibung konnte nicht entfernt werden",
+        "unenrollConfirmTitle": "Einschreibung entfernen",
+        "unenrollConfirmMessage": "Möchten Sie die Einschreibung dieses Studierenden wirklich entfernen? Der Fortschritt geht verloren."
+      }
     }
   },
   "shared": {
@@ -828,7 +916,8 @@
       "startDate": "Startdatum",
       "endDate": "Enddatum",
       "published": "Veröffentlicht"
-    }
+    },
+    "all": "Alle"
   },
   "error": {
     "404": {

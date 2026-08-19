@@ -17,6 +17,14 @@ public class StudentsController(IStudentService studentService) : VersionNeutral
         return await studentService.PaginatedListAsync(filter, cancellationToken);
     }
 
+    [HttpGet("{userId}")]
+    [MustHavePermission(ApiAction.View, ApiResource.Students)]
+    [OpenApiOperation("Get a student's enrollment and payment history detail.", "")]
+    public async Task<StudentDetailDto> GetDetailAsync(string userId, CancellationToken cancellationToken)
+    {
+        return await studentService.GetDetailAsync(userId, cancellationToken);
+    }
+
     [HttpGet("summary-stats")]
     [MustHavePermission(ApiAction.View, ApiResource.Students)]
     [OpenApiOperation("Get aggregate revenue/completion stats across all students.", "")]

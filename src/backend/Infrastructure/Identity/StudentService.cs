@@ -1,3 +1,4 @@
+using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Models;
 using EvrenDev.Application.Identity.Students.Entities;
 using EvrenDev.Application.Identity.Students.Interfaces;
@@ -113,6 +114,58 @@ internal partial class StudentService(
         {
             TotalRevenue = totalRevenue,
             AverageCompletionPercent = avgCompletion
+        };
+    }
+
+    public async Task<StudentDetailDto> GetDetailAsync(string userId, CancellationToken cancellationToken)
+    {
+        var user = await userManager.Users
+            .Where(u => u.Id == userId)
+            .Select(u => new { u.Id, u.FirstName, u.LastName, u.Email, u.IsActive, u.EmailConfirmed })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        _ = user ?? throw new NotFoundException($"Student with ID '{userId}' not found.");
+
+        var enrollments = await db.CourseEnrollments
+            .Where(e => e.UserId == userId)
+            .Select(e => new StudentEnrollmentDto
+            {
+                CourseId = e.CourseId,
+                CourseTitle = e.Course.Title,
+                EnrolledAt = e.EnrolledAt,
+                PricePaid = e.PricePaid,
+                PercentComplete = e.PercentComplete
+            })
+            .ToListAsync(cancellationToken);
+
+        // Not ordered by CreatedOn: AuditableEntity.CreatedOn has no public
+        // setter, so EF Core can't translate it in a query (get-only
+        // auto-property, not a mapped column for ordering purposes) — order
+        // by CapturedAt instead, which is a real nullable column.
+        var payments = await db.PaymentOrders
+            .Where(p => p.UserId == userId)
+            .OrderByDescending(p => p.CapturedAt)
+            .Select(p => new StudentPaymentDto
+            {
+                CourseId = p.CourseId,
+                CourseTitle = p.Course.Title,
+                Amount = p.Amount,
+                Currency = p.Currency,
+                Status = p.Status.ToString(),
+                PayPalCaptureId = p.PayPalCaptureId,
+                CapturedAt = p.CapturedAt
+            })
+            .ToListAsync(cancellationToken);
+
+        return new StudentDetailDto
+        {
+            UserId = user.Id,
+            FullName = $"{user.FirstName} {user.LastName}".Trim(),
+            Email = user.Email,
+            IsActive = user.IsActive,
+            EmailConfirmed = user.EmailConfirmed,
+            Enrollments = enrollments,
+            Payments = payments
         };
     }
 

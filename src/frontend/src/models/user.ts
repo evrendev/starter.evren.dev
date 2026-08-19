@@ -130,6 +130,15 @@ export class Permissions {
   public static readonly PageClean: string = "Permissions.Pages.Clean";
   public static readonly PageImport: string = "Permissions.Pages.Import";
 
+  // Student permissions
+  public static readonly StudentView: string = "Permissions.Students.View";
+  public static readonly StudentSearch: string =
+    "Permissions.Students.Search";
+  public static readonly StudentCreate: string =
+    "Permissions.Students.Create";
+  public static readonly StudentDelete: string =
+    "Permissions.Students.Delete";
+
   // Tenant permissions
   public static readonly TenantView: string = "Permissions.Tenants.View";
   public static readonly TenantSearch: string = "Permissions.Tenants.Search";

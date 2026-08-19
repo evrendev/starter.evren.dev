@@ -11,4 +11,6 @@ public interface IStudentService : ITransientService
         CancellationToken cancellationToken);
 
     Task<StudentsSummaryStatsDto> GetSummaryStatsAsync(CancellationToken cancellationToken);
+
+    Task<StudentDetailDto> GetDetailAsync(string userId, CancellationToken cancellationToken);
 }
