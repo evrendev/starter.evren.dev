@@ -16,8 +16,8 @@ using EvrenDev.Infrastructure.Payments;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Infrastructure.Persistence.Initialization;
 using EvrenDev.Infrastructure.SecurityHeaders;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,12 +52,14 @@ public static class Startup
 
     private static IServiceCollection AddApiVersioning(this IServiceCollection services)
     {
-        return services.AddApiVersioning(config =>
+        services.AddApiVersioning(config =>
         {
             config.DefaultApiVersion = new ApiVersion(1, 0);
             config.AssumeDefaultVersionWhenUnspecified = true;
             config.ReportApiVersions = true;
-        });
+        }).AddMvc();
+
+        return services;
     }
 
     private static IServiceCollection AddHealthCheck(this IServiceCollection services)

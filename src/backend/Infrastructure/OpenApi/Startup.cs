@@ -16,7 +16,11 @@ internal static class Startup
         if (settings is { Enable: false })
             return services;
 
-        services.AddVersionedApiExplorer(o => o.SubstituteApiVersionInUrl = true);
+        // AddApiVersioning() is safe to call again here (idempotent core-service
+        // registration) — this is just where AddApiExplorer() hangs off the
+        // IApiVersioningBuilder now that the two used to be separate calls
+        // (AddApiVersioning + AddVersionedApiExplorer) under the old package.
+        services.AddApiVersioning().AddApiExplorer(o => o.SubstituteApiVersionInUrl = true);
         services.AddEndpointsApiExplorer();
         services.AddOpenApiDocument((document, serviceProvider) =>
         {

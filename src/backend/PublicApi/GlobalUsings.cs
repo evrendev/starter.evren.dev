@@ -1,4 +1,5 @@
-﻿global using EvrenDev.Application.Common.Exceptions;
+﻿global using Asp.Versioning;
+global using EvrenDev.Application.Common.Exceptions;
 global using EvrenDev.Application.Common.Models;
 global using EvrenDev.Infrastructure.Auth.Permissions;
 global using EvrenDev.Infrastructure.Middleware;

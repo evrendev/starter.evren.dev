@@ -21,7 +21,8 @@
     <PackageVersion Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
     <PackageVersion Include="Hangfire.MySqlStorage" Version="2.0.3" />
     <PackageVersion Include="Hangfire.SqlServer" Version="1.8.18" />
-    <PackageVersion Include="MailKit" Version="4.11.0" />
+    <!-- 4.16.0+ fixes GHSA-9j88-vvj5-vhgr (STARTTLS response-injection / SASL downgrade MITM) -->
+    <PackageVersion Include="MailKit" Version="4.17.0" />
     <PackageVersion Include="Mapster" Version="7.4.0" />
     <PackageVersion Include="MediatR" Version="12.5.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
@@ -29,7 +30,11 @@
     <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.5" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
+    <!-- Replaces the deprecated Microsoft.AspNetCore.Mvc.Versioning(.ApiExplorer) family.
+         8.1.1 is pinned deliberately — it's the last net8/net9-era release; the 10.x line
+         targets net10.0 only and isn't usable until the project's TFM moves to net10.0. -->
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.1" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="9.0.5" />
     <PackageVersion Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
@@ -68,7 +73,10 @@
     <PackageVersion Include="Serilog.Settings.Configuration" Version="9.0.0" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Elasticsearch" Version="10.0.0" />
+    <!-- Replaces the now-unmaintained Serilog.Sinks.Elasticsearch — see logger.json's
+         Elasticsearch WriteTo entry for the new Args shape (nodes/dataStream, no more
+         indexFormat/numberOfShards/numberOfReplicas, which moved to ES-side index templates) -->
+    <PackageVersion Include="Elastic.Serilog.Sinks" Version="9.0.0" />
     <PackageVersion Include="Serilog.Sinks.MSSqlServer" Version="8.2.0" />
     <PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0" />
     <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.6.0.2" />

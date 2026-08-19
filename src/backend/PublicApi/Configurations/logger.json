@@ -51,10 +51,9 @@
       {
         "Name": "Elasticsearch",
         "Args": {
-          "nodeUris": "http://localhost:9200;",
-          "indexFormat": "Backend-logs-{0:yyyy.MM}",
-          "numberOfShards": 2,
-          "numberOfReplicas": 1,
+          "bootstrapMethod": "Silent",
+          "nodes": ["http://localhost:9200"],
+          "dataStream": "logs-backend-default",
           "restrictedToMinimumLevel": "Information"
         }
       }
