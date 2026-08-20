@@ -1,12 +1,18 @@
 ﻿using EvrenDev.Application.Multitenancy.Interfaces;
-using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
+using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.AspNetCore;
+using Finbuckle.MultiTenant.AspNetCore.Extensions;
+using Finbuckle.MultiTenant.EntityFrameworkCore;
+using Finbuckle.MultiTenant.EntityFrameworkCore.Extensions;
+using Finbuckle.MultiTenant.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Multitenancy;
 
@@ -39,8 +45,8 @@ internal static class Startup
         return app.UseMultiTenant();
     }
 
-    private static FinbuckleMultiTenantBuilder<TenantInfo> WithQueryStringStrategy(
-        this FinbuckleMultiTenantBuilder<TenantInfo> builder, string queryStringKey)
+    private static MultiTenantBuilder<TenantInfo> WithQueryStringStrategy(
+        this MultiTenantBuilder<TenantInfo> builder, string queryStringKey)
     {
         return builder.WithDelegateStrategy(context =>
         {

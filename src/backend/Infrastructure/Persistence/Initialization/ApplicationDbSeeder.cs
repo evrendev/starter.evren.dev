@@ -1,20 +1,27 @@
 ﻿using EvrenDev.Domain.Identity;
-using EvrenDev.Domain.Multitenancy;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 using EvrenDev.Infrastructure.Identity;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace EvrenDev.Infrastructure.Persistence.Initialization;
 
+// The concrete TenantInfo was directly DI-resolvable pre-v10 — no longer the case as of
+// Finbuckle v10 (Task S3), read it through the accessor instead. Non-null-forgiving here
+// (as the original ctor param was): this seeder only ever runs once DatabaseInitializer
+// has explicitly set the tenant context for the scope it's resolved in.
 internal class ApplicationDbSeeder(
-    TenantInfo currentTenant,
+    IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor,
     RoleManager<ApplicationRole> roleManager,
     UserManager<ApplicationUser> userManager,
     CustomSeederRunner seederRunner,
     ILogger<ApplicationDbSeeder> logger)
 {
+    private readonly TenantInfo currentTenant = multiTenantContextAccessor.MultiTenantContext!.TenantInfo!;
+
     public async Task SeedDatabaseAsync(ApplicationDbContext dbContext, CancellationToken cancellationToken)
     {
         await SeedRolesAsync(dbContext);

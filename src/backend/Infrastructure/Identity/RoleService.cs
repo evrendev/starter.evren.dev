@@ -11,22 +11,26 @@ using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Domain.Identity;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Identity;
 
+// ITenantInfo is no longer directly DI-resolvable as of Finbuckle v10 (Task S3).
 internal class RoleService(
         RoleManager<ApplicationRole> roleManager,
         UserManager<ApplicationUser> userManager,
         ApplicationDbContext db,
         IStringLocalizer<RoleService> localizer,
         ICurrentUser currentUser,
-        ITenantInfo currentTenant,
+        IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor,
         IEventPublisher events)
     : IRoleService
 {
+    private readonly string? _currentTenantId = multiTenantContextAccessor.MultiTenantContext?.TenantInfo?.Id;
+
     public async Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken)
     {
         return (await roleManager.Roles.ToListAsync(cancellationToken))
@@ -117,7 +121,7 @@ internal class RoleService(
         if (role.Name == ApiRoles.Admin)
             throw new ConflictException(localizer["identity.roles.permissions.modify.notallowed"]);
 
-        if (currentTenant.Id != MultitenancyConstants.Root.Id)
+        if (_currentTenantId != MultitenancyConstants.Root.Id)
             // Remove Root Permissions if the Role is not created for Root Tenant.
             request.Permissions.RemoveAll(u => u.StartsWith("Permissions.Root."));
 

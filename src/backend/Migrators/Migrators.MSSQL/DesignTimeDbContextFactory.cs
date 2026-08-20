@@ -1,8 +1,9 @@
-using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Multitenancy;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Infrastructure.Persistence.Context;
 using EvrenDev.Shared.Multitenancy;
+using Finbuckle.MultiTenant.Abstractions;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -34,8 +35,11 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<TenantDbCo
             connectionString,
             MultitenancyConstants.Root.EmailAddress);
 
+        var accessor = new AsyncLocalMultiTenantContextAccessor<TenantInfo>();
+        ((IMultiTenantContextSetter)accessor).MultiTenantContext = new MultiTenantContext<TenantInfo>(tenant);
+
         return new ApplicationDbContext(
-            tenant,
+            accessor,
             builder.Options,
             null!, // ICurrentUser
             null!, // ISerializerService

@@ -9,6 +9,7 @@
     <PackageReference Include="ClosedXML" />
     <PackageReference Include="DocumentFormat.OpenXml" />
     <PackageReference Include="Finbuckle.MultiTenant.EntityFrameworkCore" />
+    <PackageReference Include="Finbuckle.MultiTenant.Identity.EntityFrameworkCore" />
     <PackageReference Include="Hangfire" />
     <PackageReference Include="Hangfire.Console.Extensions" />
     <PackageReference Include="Hangfire.MySqlStorage" />

@@ -11,8 +11,11 @@
          pinning at or above it avoids a downgrade conflict; used directly for .pptx
          (ClosedXML itself is Excel-only, no PowerPoint support) -->
     <PackageVersion Include="DocumentFormat.OpenXml" Version="3.1.1" />
-    <PackageVersion Include="Finbuckle.MultiTenant.AspNetCore" Version="6.13.1" />
-    <PackageVersion Include="Finbuckle.MultiTenant.EntityFrameworkCore" Version="6.13.1" />
+    <PackageVersion Include="Finbuckle.MultiTenant.AspNetCore" Version="10.1.3" />
+    <PackageVersion Include="Finbuckle.MultiTenant.EntityFrameworkCore" Version="10.1.3" />
+    <!-- MultiTenantIdentityDbContext moved out of .EntityFrameworkCore and into this
+         dedicated package as of v10 — required for BaseDbContext's Identity+multitenant base. -->
+    <PackageVersion Include="Finbuckle.MultiTenant.Identity.EntityFrameworkCore" Version="10.1.3" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageVersion Include="Hangfire" Version="1.8.18" />

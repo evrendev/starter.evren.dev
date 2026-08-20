@@ -1,5 +1,5 @@
 ﻿using EvrenDev.Shared.Multitenancy;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 
 namespace EvrenDev.Domain.Multitenancy;
 
@@ -46,25 +46,14 @@ public class TenantInfo : ITenantInfo
     /// </summary>
     public string? Issuer { get; set; }
 
-    string? ITenantInfo.Id { get => Id; set => Id = value ?? throw new InvalidOperationException("Id can't be null."); }
+    // v10's ITenantInfo only declares get-only Id/Identifier (Name and ConnectionString
+    // were dropped from the interface in v7/v10 respectively, and the setters that used
+    // to be required by the old interface are gone too) — Name and ConnectionString stay
+    // as plain public get/set properties above, just no longer part of the interface
+    // contract. See Task S3 migration.
+    string? ITenantInfo.Id => Id;
 
-    string? ITenantInfo.Identifier
-    {
-        get => Identifier;
-        set => Identifier = value ?? throw new InvalidOperationException("Identifier can't be null.");
-    }
-
-    string? ITenantInfo.Name
-    {
-        get => Name;
-        set => Name = value ?? throw new InvalidOperationException("Name can't be null.");
-    }
-
-    string? ITenantInfo.ConnectionString
-    {
-        get => ConnectionString;
-        set => ConnectionString = value ?? throw new InvalidOperationException("ConnectionString can't be null.");
-    }
+    string? ITenantInfo.Identifier => Identifier;
 
     public void AddValidity(int months)
     {

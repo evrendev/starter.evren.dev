@@ -1,11 +1,12 @@
 ﻿using EvrenDev.Infrastructure.Common;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Hangfire.Client;
 using Hangfire.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.BackgroundJobs;
 
@@ -25,7 +26,10 @@ public class DefaultJobFilter(IServiceProvider services) : IClientFilter
         var httpContext = scope.ServiceProvider.GetRequiredService<IHttpContextAccessor>()?.HttpContext;
         _ = httpContext ?? throw new InvalidOperationException("Can't create a TenantJob without HttpContext.");
 
-        var tenantInfo = scope.ServiceProvider.GetRequiredService<ITenantInfo>();
+        // ITenantInfo is no longer directly DI-resolvable as of Finbuckle v10 — read the
+        // concrete TenantInfo through the accessor instead (see Task S3).
+        var tenantInfo = scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor<TenantInfo>>()
+            .MultiTenantContext?.TenantInfo;
         context.SetJobParameter(MultitenancyConstants.TenantIdName, tenantInfo);
 
         var userId = httpContext.User.GetUserId();

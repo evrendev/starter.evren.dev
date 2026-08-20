@@ -5,12 +5,13 @@ using System.Text;
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Identity.Tokens;
 using EvrenDev.Domain.Identity;
-using EvrenDev.Domain.Multitenancy;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Infrastructure.Auth.Jwt;
 using EvrenDev.Infrastructure.Common.ReCaptcha;
 using EvrenDev.Shared.Authorization;
 using EvrenDev.Shared.Multitenancy;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -18,17 +19,20 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EvrenDev.Infrastructure.Identity;
 
+// The concrete TenantInfo was directly DI-resolvable pre-v10 — no longer the case as of
+// Finbuckle v10 (Task S3), read it through the accessor instead.
 internal class TokenService(
         UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
         IStringLocalizer<TokenService> localizer,
-        TenantInfo? currentTenant,
+        IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor,
         IOptions<SecuritySettings> securitySettings,
         ReCaptchaClient reCaptchaClient)
     : ITokenService
 {
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
+    private readonly TenantInfo? currentTenant = multiTenantContextAccessor.MultiTenantContext?.TenantInfo;
 
     public async Task<TokenResult> GetTokenAsync(TokenRequest request, string ipAddress,
         CancellationToken cancellationToken)

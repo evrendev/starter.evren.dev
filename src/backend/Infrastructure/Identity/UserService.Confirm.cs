@@ -93,7 +93,7 @@ internal partial class UserService
         var verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), QueryStringKeys.UserId, user.Id);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Code, code);
         verificationUri =
-            QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, currentTenant.Id!);
+            QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, _currentTenantId!);
         return verificationUri;
     }
 }

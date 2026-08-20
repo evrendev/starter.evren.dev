@@ -9,12 +9,14 @@ using EvrenDev.Application.Multitenancy.Queries.Paginate;
 using EvrenDev.Domain.Multitenancy;
 using EvrenDev.Infrastructure.Persistence;
 using EvrenDev.Infrastructure.Persistence.Initialization;
+using Finbuckle.MultiTenant.Abstractions.Extensions;
+using Finbuckle.MultiTenant.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
 namespace EvrenDev.Infrastructure.Multitenancy;
 
-internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo> tenantStore,
+internal class TenantService(Finbuckle.MultiTenant.Abstractions.IMultiTenantStore<TenantInfo> tenantStore,
         TenantDbContext tenantDbContext,
         IConnectionStringSecurer csSecurer,
         IDatabaseInitializer dbInitializer,
@@ -34,7 +36,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
     public async Task<bool> ExistsWithIdAsync(string id)
     {
-        return await tenantStore.TryGetAsync(id) is not null;
+        return await tenantStore.GetAsync(id) is not null;
     }
 
     public async Task<bool> ExistsWithNameAsync(string name)
@@ -58,7 +60,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
         var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail,
             command.Issuer);
-        await tenantStore.TryAddAsync(tenant);
+        await tenantStore.AddAsync(tenant);
 
         try
         {
@@ -66,7 +68,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
         }
         catch
         {
-            await tenantStore.TryRemoveAsync(command.Id);
+            await tenantStore.RemoveAsync(command.Id);
             throw;
         }
 
@@ -82,7 +84,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
         tenant.Activate();
 
-        await tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.UpdateAsync(tenant);
 
         return $"Tenant {id} is now Activated.";
     }
@@ -96,7 +98,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
         tenant.Deactivate();
 
-        await tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.UpdateAsync(tenant);
 
         return $"Tenant {id} is now Deactivated.";
     }
@@ -107,7 +109,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
         tenant.SetValidity(extendedExpiryDate);
 
-        await tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.UpdateAsync(tenant);
 
         return $"Tenant {id}'s Subscription Upgraded. Now Valid till {tenant.ValidUpto}.";
     }
@@ -119,7 +121,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
         var tenant = new TenantInfo(command.Id, command.Name, command.ConnectionString, command.AdminEmail,
             command.Issuer, command.IsActive, command.ValidUpto);
-        await tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.UpdateAsync(tenant);
 
         try
         {
@@ -127,7 +129,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
         }
         catch
         {
-            await tenantStore.TryRemoveAsync(command.Id);
+            await tenantStore.RemoveAsync(command.Id);
             throw;
         }
 
@@ -136,7 +138,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
     public async Task<bool> DeleteAsync(string id)
     {
-        return await tenantStore.TryRemoveAsync(id);
+        return await tenantStore.RemoveAsync(id);
     }
 
     public async Task<PaginationResponse<TenantDto>> PaginatedListAsync(PaginateTenantsFilter filter,
@@ -205,7 +207,7 @@ internal class TenantService(Finbuckle.MultiTenant.IMultiTenantStore<TenantInfo>
 
     private async Task<TenantInfo> GetTenantInfoAsync(string id)
     {
-        return await tenantStore.TryGetAsync(id)
+        return await tenantStore.GetAsync(id)
                ?? throw new NotFoundException(string.Format(localizer["multitenancy.tenant.entity.notfound"],
                    typeof(TenantInfo).Name, id));
     }

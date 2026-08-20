@@ -1,21 +1,26 @@
 ﻿using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Interfaces;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Notifications;
 
+// ITenantInfo is no longer directly DI-resolvable as of Finbuckle v10 (Task S3).
 [Authorize]
-public class NotificationHub(ITenantInfo? currentTenant, ILogger<NotificationHub> logger) : Hub, ITransientService
+public class NotificationHub(IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor, ILogger<NotificationHub> logger)
+    : Hub, ITransientService
 {
+    private string? CurrentTenantId => multiTenantContextAccessor.MultiTenantContext?.TenantInfo?.Id;
+
     public override async Task OnConnectedAsync()
     {
-        if (currentTenant is null)
+        if (CurrentTenantId is null)
             throw new UnauthorizedException("Authentication Failed.");
 
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{currentTenant.Id}");
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{CurrentTenantId}");
 
         await base.OnConnectedAsync();
 
@@ -24,7 +29,7 @@ public class NotificationHub(ITenantInfo? currentTenant, ILogger<NotificationHub
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"GroupTenant-{currentTenant!.Id}");
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"GroupTenant-{CurrentTenantId}");
 
         await base.OnDisconnectedAsync(exception);
 

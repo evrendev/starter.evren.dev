@@ -1,14 +1,20 @@
 ﻿using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Shared.Notifications;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.SignalR;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 using static EvrenDev.Shared.Notifications.NotificationConstants;
 
 namespace EvrenDev.Infrastructure.Notifications;
 
-public class NotificationSender(IHubContext<NotificationHub> notificationHubContext, ITenantInfo currentTenant)
+// ITenantInfo is no longer directly DI-resolvable as of Finbuckle v10 (Task S3).
+public class NotificationSender(
+    IHubContext<NotificationHub> notificationHubContext,
+    IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor)
     : INotificationSender
 {
+    private readonly string? _currentTenantId = multiTenantContextAccessor.MultiTenantContext?.TenantInfo?.Id;
+
     public Task BroadcastAsync(INotificationMessage notification, CancellationToken cancellationToken)
     {
         return notificationHubContext.Clients.All
@@ -24,14 +30,14 @@ public class NotificationSender(IHubContext<NotificationHub> notificationHubCont
 
     public Task SendToAllAsync(INotificationMessage notification, CancellationToken cancellationToken)
     {
-        return notificationHubContext.Clients.Group($"GroupTenant-{currentTenant.Id}")
+        return notificationHubContext.Clients.Group($"GroupTenant-{_currentTenantId}")
             .SendAsync(NotificationFromServer, notification.GetType().FullName, notification, cancellationToken);
     }
 
     public Task SendToAllAsync(INotificationMessage notification, IEnumerable<string> excludedConnectionIds,
         CancellationToken cancellationToken)
     {
-        return notificationHubContext.Clients.GroupExcept($"GroupTenant-{currentTenant.Id}", excludedConnectionIds)
+        return notificationHubContext.Clients.GroupExcept($"GroupTenant-{_currentTenantId}", excludedConnectionIds)
             .SendAsync(NotificationFromServer, notification.GetType().FullName, notification, cancellationToken);
     }
 

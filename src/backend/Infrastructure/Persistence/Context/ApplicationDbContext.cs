@@ -3,19 +3,20 @@ using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Catalog;
 using EvrenDev.Domain.Payments;
 using EvrenDev.Infrastructure.Persistence.Configuration;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.Extensions.Options;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext(
-        ITenantInfo currentTenant,
+        IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor,
         DbContextOptions options,
         ICurrentUser currentUser,
         ISerializerService serializer,
         IOptions<DatabaseSettings> dbSettings,
         IEventPublisher events)
-    : BaseDbContext(currentTenant, options, currentUser, serializer, dbSettings, events)
+    : BaseDbContext(multiTenantContextAccessor, options, currentUser, serializer, dbSettings, events)
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Brand> Brands => Set<Brand>();

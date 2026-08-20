@@ -14,14 +14,16 @@ using EvrenDev.Domain.Common.Events.Identity;
 using EvrenDev.Domain.Identity;
 using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Shared.Authorization;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Identity;
 
+// ITenantInfo is no longer directly DI-resolvable as of Finbuckle v10 (Task S3).
 internal partial class UserService(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
@@ -34,12 +36,13 @@ internal partial class UserService(
         IEventPublisher events,
         ICacheService cache,
         ICacheKeyService cacheKeys,
-        ITenantInfo currentTenant,
+        IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor,
         IHttpContextAccessor httpContextAccessor,
         IOptions<SecuritySettings> securitySettings)
     : IUserService
 {
     private readonly SecuritySettings _securitySettings = securitySettings.Value;
+    private readonly string? _currentTenantId = multiTenantContextAccessor.MultiTenantContext?.TenantInfo?.Id;
 
     public async Task<PaginationResponse<BasicUserDto>> PaginatedListAsync(PaginateUsersFilter filter,
         CancellationToken cancellationToken)
@@ -146,7 +149,7 @@ internal partial class UserService(
 
     private void EnsureValidTenant()
     {
-        if (string.IsNullOrWhiteSpace(currentTenant?.Id))
+        if (string.IsNullOrWhiteSpace(_currentTenantId))
             throw new UnauthorizedException(localizer["multitenancy.tenant.invalid"]);
     }
 }

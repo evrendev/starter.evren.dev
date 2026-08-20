@@ -51,7 +51,7 @@ internal partial class UserService
             // Edge Case : there are chances for other tenants to have users with the same email as that of Root Tenant Admin. Probably can add a check while User Registration
             if (user.Email == MultitenancyConstants.Root.EmailAddress)
             {
-                if (currentTenant.Id == MultitenancyConstants.Root.Id)
+                if (_currentTenantId == MultitenancyConstants.Root.Id)
                     throw new ConflictException(localizer["identity.users.roles.admin.cannotremove"]);
             }
             else if (adminCount <= 2)

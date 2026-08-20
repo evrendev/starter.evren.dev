@@ -4,22 +4,27 @@ using EvrenDev.Application.Common.Interfaces;
 using EvrenDev.Domain.Identity;
 using EvrenDev.Infrastructure.Auditing;
 using EvrenDev.Infrastructure.Identity;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
+using Finbuckle.MultiTenant.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
 namespace EvrenDev.Infrastructure.Persistence.Context;
 
 public abstract class BaseDbContext(
-        ITenantInfo currentTenant,
+        IMultiTenantContextAccessor<TenantInfo> multiTenantContextAccessor,
         DbContextOptions options,
         ICurrentUser currentUser,
         ISerializerService serializer,
         IOptions<DatabaseSettings> dbSettings,
         IEventPublisher events)
+    // 9th type param (TUserPasskey) is new in .NET 10 Identity (WebAuthn/passkey support) —
+    // unrelated to Finbuckle's own v10 changes, just a coincidental version alignment.
     : MultiTenantIdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>,
         IdentityUserRole<string>,
-        IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>>(currentTenant, options)
+        IdentityUserLogin<string>, ApplicationRoleClaim, IdentityUserToken<string>,
+        IdentityUserPasskey<string>>(multiTenantContextAccessor, options)
 {
     private readonly DatabaseSettings _dbSettings = dbSettings.Value;
     protected readonly ICurrentUser CurrentUser = currentUser;
@@ -32,7 +37,7 @@ public abstract class BaseDbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // QueryFilters need to be applied before base.OnModelCreating
-        modelBuilder.AppendGlobalQueryFilter<ISoftDelete>(s => s.DeletedOn == null);
+        modelBuilder.AppendGlobalQueryFilter<ISoftDelete>("SoftDelete", s => s.DeletedOn == null);
 
         base.OnModelCreating(modelBuilder);
 
@@ -52,8 +57,12 @@ public abstract class BaseDbContext(
         // Or uncomment the next line if you want to see them in the console
         // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 
-        if (!string.IsNullOrWhiteSpace(TenantInfo?.ConnectionString))
-            optionsBuilder.UseDatabase(_dbSettings.DbProvider!, TenantInfo.ConnectionString);
+        // Base class's own TenantInfo property is now ITenantInfo-typed (ConnectionString
+        // isn't on that interface as of v7+) — read through the strongly-typed accessor
+        // instead to reach our concrete TenantInfo's ConnectionString property.
+        var connectionString = multiTenantContextAccessor.MultiTenantContext?.TenantInfo?.ConnectionString;
+        if (!string.IsNullOrWhiteSpace(connectionString))
+            optionsBuilder.UseDatabase(_dbSettings.DbProvider!, connectionString);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

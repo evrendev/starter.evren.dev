@@ -1,6 +1,6 @@
 ﻿using EvrenDev.Infrastructure.Multitenancy;
 using EvrenDev.Shared.Multitenancy;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -30,9 +30,13 @@ internal class DatabaseInitializer(
         // First create a new scope
         using var scope = serviceProvider.CreateScope();
 
-        // Then set current tenant so the right connectionstring is used
-        serviceProvider.GetRequiredService<IMultiTenantContextAccessor>().MultiTenantContext =
-            new MultiTenantContext<TenantInfo> { TenantInfo = tenant };
+        // Then set current tenant so the right connectionstring is used.
+        // IMultiTenantContext(Accessor) is immutable/read-only as of Finbuckle v10 — the
+        // write path moved to IMultiTenantContextSetter, implemented by the same object
+        // the DI container hands back for IMultiTenantContextAccessor (see Task S3).
+        var accessor = serviceProvider.GetRequiredService<IMultiTenantContextAccessor<TenantInfo>>();
+        ((IMultiTenantContextSetter)accessor).MultiTenantContext =
+            new MultiTenantContext<TenantInfo>(tenant);
 
         // Then run the initialization in the new scope
         await scope.ServiceProvider.GetRequiredService<ApplicationDbInitializer>()

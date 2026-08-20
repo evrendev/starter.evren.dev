@@ -1,7 +1,7 @@
 ﻿using EvrenDev.Infrastructure.Auth;
 using EvrenDev.Infrastructure.Common;
 using EvrenDev.Shared.Multitenancy;
-using Finbuckle.MultiTenant;
+using Finbuckle.MultiTenant.Abstractions;
 using Hangfire;
 using Hangfire.Server;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,8 +44,11 @@ public class DefaultJobActivator(IServiceScopeFactory scopeFactory) : JobActivat
             var tenantInfo = _context.GetJobParameter<TenantInfo>(MultitenancyConstants.TenantIdName);
             if (tenantInfo is not null)
             {
-                _scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor>()
-                    .MultiTenantContext = new MultiTenantContext<TenantInfo> { TenantInfo = tenantInfo };
+                // Get-only as of Finbuckle v10 — write through IMultiTenantContextSetter,
+                // implemented by the same accessor instance (see Task S3).
+                var accessor = _scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor<TenantInfo>>();
+                ((IMultiTenantContextSetter)accessor).MultiTenantContext =
+                    new MultiTenantContext<TenantInfo>(tenantInfo);
             }
 
             var userId = _context.GetJobParameter<string>(QueryStringKeys.UserId);
