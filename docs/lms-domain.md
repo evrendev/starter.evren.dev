@@ -107,6 +107,16 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
   eslint-plugin-vue, @vue/eslint-config-typescript, @nuxt/eslint-config) hazır olduğu
   doğrulandığında, hem ESLint 10 hem eslint-plugin-unicorn 73+ birlikte değerlendirilmeli —
   unicorn 73'ün yeni kural setinin build'i kırıp kırmadığı bu noktaya kadar hiç test edilmedi.
+- **Create/Edit route dallarında asimetrik veri yükleme deseni**: `pages/admin/courses/form.vue`'da
+  `categoryStore.getAllItems()` sadece `route.params.id` varken (yani sadece edit rotasında)
+  tetikleniyor, create rotasında hiç çağrılmıyor — bu yüzden admin UI'den yeni kurs oluştururken
+  Kategori dropdown'u, kategori listesi başka bir sayfadan önceden yüklenmediyse "No data
+  available" gösteriyor (Task T2-Followup'ta bulundu). Bu, Task R2 raporunda da benzer bir
+  create/edit route-watcher asimetrisine değinilmişti — muhtemelen izole bir hata değil, projede
+  tekrarlanan bir kalıp (route-watcher'ların create dalını edit dalıyla simetrik kurmama
+  alışkanlığı). Düzeltilecekse: hem bu spesifik dosya hem de projede benzer başka create/edit
+  asimetrisi olup olmadığını tarayan kapsamlı bir tur olarak ele alınmalı, tek dosyalık bir
+  yama değil.
 
 ## Design Backlog
 
