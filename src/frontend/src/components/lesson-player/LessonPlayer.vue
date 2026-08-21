@@ -5,10 +5,10 @@ import { useSanitizedHtml } from "@/composables/useSanitizedHtml";
 import { ErrorType } from "@/primitives/error";
 import { contentTypeIcons } from "@/utils/contentTypeIcons";
 import QuizContent from "@/components/lesson-player/QuizContent.vue";
-// @ts-ignore - reveal.js type definitions not available
+// @ts-ignore - reveal.js's shipped types don't match this component's usage pattern
 import Reveal from "reveal.js";
-import "reveal.js/dist/reveal.css";
-import "reveal.js/dist/theme/black.css";
+import "reveal.js/reveal.css";
+import "reveal.js/theme/black.css";
 
 const props = defineProps<{
   chapterId: string;
@@ -89,7 +89,8 @@ const renderedContent = (page: { content?: string; title: string }) =>
   sanitize(stripDuplicateHeading(page.content, page.title));
 
 const revealRef = ref<HTMLDivElement>();
-let revealInstance: typeof Reveal | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- reveal.js's shipped types don't match this component's usage pattern
+let revealInstance: any = null;
 
 const visitPage = async (slideIndex: number) => {
   const page = pages.value[slideIndex];
@@ -125,8 +126,9 @@ onMounted(async () => {
       // than the available width; 0.02 keeps a small viewing margin only
       margin: 0.02,
       // ESC is bound to reveal's overview mode by default; free it so the
-      // surrounding v-dialog can handle ESC-to-close
-      keyboard: { 27: null },
+      // surrounding v-dialog can handle ESC-to-close. reveal.js's shipped
+      // types don't allow null here even though it's a supported unbind value.
+      keyboard: { 27: null } as unknown as Record<string, string>,
       touch: true,
       // reveal.js auto-switches to a continuous-scroll view (no .present
       // class, .slide()/.next()/.prev() become no-ops) below this width —
