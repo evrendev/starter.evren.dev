@@ -11,7 +11,10 @@
  * For Iconify Tools documentation visit https://docs.iconify.design/tools/tools2/
  */
 import { promises as fs } from "node:fs";
+import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+
+const require = createRequire(import.meta.url);
 
 // Installation: npm install --save-dev @iconify/tools @iconify/utils @iconify/json @iconify/iconify
 import {
@@ -125,7 +128,7 @@ const sources: BundleScriptConfig = {
 };
 
 // File to save bundle to
-const target = join(__dirname, "icons.css");
+const target = join(import.meta.dirname, "icons.css");
 
 /**
  * Do stuff!
