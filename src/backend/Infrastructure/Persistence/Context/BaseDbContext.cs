@@ -7,6 +7,8 @@ using EvrenDev.Infrastructure.Identity;
 using Finbuckle.MultiTenant.Abstractions;
 using Finbuckle.MultiTenant.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
 using TenantInfo = EvrenDev.Domain.Multitenancy.TenantInfo;
 
@@ -68,6 +70,13 @@ public abstract class BaseDbContext(
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         var auditEntries = HandleAuditingBeforeSaveChanges(CurrentUser.GetUserId());
+
+        // Runs after parents' DeletedOn is already set above, so it can see which
+        // entities were *just* soft-deleted this call and cascade into their
+        // DeleteBehavior.Cascade children (Task V1) — deliberately excludes cascade
+        // audit-trail entries for the children it touches; only the top-level,
+        // explicitly-deleted entity gets a Delete AuditTrail row (see HandleAuditingBeforeSaveChanges above)
+        await CascadeSoftDeleteAsync(CurrentUser.GetUserId(), cancellationToken);
 
         var result = await base.SaveChangesAsync(cancellationToken);
 
@@ -147,8 +156,7 @@ public abstract class BaseDbContext(
                         break;
 
                     case EntityState.Modified:
-                        if (property.IsModified && entry.Entity is ISoftDelete && property.OriginalValue is null &&
-                            property.CurrentValue != null)
+                        if (entry.Entity is ISoftDelete && IsSoftDeleteTransition(property))
                         {
                             trailEntry.ChangedColumns.Add(propertyName);
                             trailEntry.TrailType = TrailType.Delete;
@@ -194,6 +202,80 @@ public abstract class BaseDbContext(
         }
 
         return SaveChangesAsync(cancellationToken);
+    }
+
+    // Shared by both the audit-trail classification above (Delete vs Update) and
+    // CascadeSoftDeleteAsync below — true only when DeletedOn just moved from null
+    // to non-null in this SaveChanges call, never for an ordinary property update
+    // that happens to leave DeletedOn untouched.
+    private static bool IsSoftDeleteTransition(PropertyEntry property) =>
+        property.Metadata.Name == nameof(ISoftDelete.DeletedOn)
+        && property.IsModified
+        && property.OriginalValue is null
+        && property.CurrentValue is not null;
+
+    // Task V1: when an entity is soft-deleted, walk every DeleteBehavior.Cascade
+    // collection navigation (via EF Core's own model metadata — no per-entity code,
+    // no reflection) and soft-delete its children too, recursively. Runs in a loop
+    // because soft-deleting a child adds it to the ChangeTracker, which may itself
+    // have its own cascade children still to discover — a single top-to-bottom pass
+    // would miss anything below the second level (see Task V0 finding (d)).
+    // DeleteBehavior.Restrict relationships (PaymentOrder->Course, Task Q1) are
+    // never touched: their DeleteBehavior isn't Cascade, so the filter below skips them.
+    private async Task CascadeSoftDeleteAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var processed = new HashSet<object>();
+        bool changed;
+
+        do
+        {
+            changed = false;
+            ChangeTracker.DetectChanges();
+
+            foreach (var entry in ChangeTracker.Entries<ISoftDelete>().ToList())
+            {
+                if (!processed.Add(entry.Entity))
+                    continue;
+
+                if (!IsSoftDeleteTransition(entry.Property(nameof(ISoftDelete.DeletedOn))))
+                    continue;
+
+                var entityType = Model.FindEntityType(entry.Entity.GetType());
+                if (entityType is null)
+                    continue;
+
+                foreach (var navigation in entityType.GetNavigations())
+                {
+                    if (!navigation.IsCollection)
+                        continue;
+
+                    var foreignKey = navigation.ForeignKey;
+                    if (foreignKey.DeleteBehavior != DeleteBehavior.Cascade)
+                        continue;
+
+                    // Only walk parent->child; DependentToPrincipal points back up
+                    if (foreignKey.PrincipalToDependent != navigation)
+                        continue;
+
+                    await Entry(entry.Entity).Collection(navigation.Name).LoadAsync(cancellationToken);
+
+                    var children = (System.Collections.IEnumerable)navigation.GetGetter().GetClrValue(entry.Entity)!;
+                    foreach (var child in children)
+                    {
+                        // A child that doesn't implement ISoftDelete can't be cascaded
+                        // into by this mechanism — skip it silently rather than throw;
+                        // its own DB-level ON DELETE CASCADE still applies on a real hard delete.
+                        if (child is not ISoftDelete softDeleteChild || softDeleteChild.DeletedOn is not null)
+                            continue;
+
+                        softDeleteChild.DeletedOn = DateTime.UtcNow;
+                        softDeleteChild.DeletedBy = userId;
+                        Entry(child).State = EntityState.Modified;
+                        changed = true;
+                    }
+                }
+            }
+        } while (changed);
     }
 
     private async Task SendDomainEventsAsync()

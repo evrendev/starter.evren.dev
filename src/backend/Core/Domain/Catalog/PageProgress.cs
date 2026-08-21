@@ -3,7 +3,7 @@ using EvrenDev.Domain.Identity;
 
 namespace EvrenDev.Domain.Catalog;
 
-public class PageProgress : IAggregateRoot
+public class PageProgress : IAggregateRoot, ISoftDelete
 {
     public string UserId { get; set; } = default!;
     public ApplicationUser User { get; set; } = default!;
@@ -12,6 +12,8 @@ public class PageProgress : IAggregateRoot
     public bool Completed { get; set; }
     public DateTime? CompletedAt { get; set; }
     public DateTime LastVisitedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? DeletedOn { get; set; }
+    public Guid? DeletedBy { get; set; }
 
     [NotMapped]
     public List<DomainEvent> DomainEvents { get; } = [];
