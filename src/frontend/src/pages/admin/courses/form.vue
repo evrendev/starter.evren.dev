@@ -17,11 +17,16 @@ const { loading, course } = storeToRefs(courseStore);
 const route = useRoute();
 const router = useRouter();
 
+// Categories populate the form's dropdown regardless of route — needed on
+// both create and edit, unlike the course itself which only exists in edit
+onMounted(async () => {
+  await categoryStore.getAllItems();
+});
+
 watch(
   () => route.params.id,
   async (id) => {
     if (id) {
-      await categoryStore.getAllItems();
       await courseStore.getById(id as string);
     } else {
       courseStore.$reset();

@@ -17,11 +17,16 @@ const { loading, chapter } = storeToRefs(chapterStore);
 const route = useRoute();
 const router = useRouter();
 
+// Courses populate the form's dropdown regardless of route — needed on
+// both create and edit, unlike the chapter itself which only exists in edit
+onMounted(async () => {
+  await courseStore.getAllItems();
+});
+
 watch(
   () => route.params.id,
   async (id) => {
     if (id) {
-      await courseStore.getAllItems();
       await chapterStore.getById(id as string);
     } else {
       chapterStore.$reset();
