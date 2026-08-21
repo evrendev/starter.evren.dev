@@ -95,6 +95,18 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
   gelmiyor, DB'nin doğal/fiziksel sırasını kullanıyor** (Task N1'de gözlemlendi) — frontend
   Order alanına göre kendi sıralamasını yapmalı; istenirse backend spec'lerine .OrderBy()
   eklenerek de çözülebilir, düşük öncelikli kozmetik bir iyileştirme.
+- **quill paketinde bilinen bir XSS advisory'si var** (npm audit ile flaglendi, Task T1'de
+  tespit edildi) — upstream'in (Quill projesi) bu advisory için henüz gerçek bir ileri-yönlü
+  yaması yok; `npm audit fix --force`'un önerdiği "düzeltme" aslında paketi 2.0.3'ten 2.0.2'ye
+  DÜŞÜRÜYOR, bu yüzden bilinçli olarak uygulanmadı. Upstream bir yama yayınladığında tekrar
+  değerlendirilmeli, o zamana kadar mevcut sürümde (2.0.3) kalınacak.
+- **eslint-plugin-unicorn, ESLint 10 gerektiren 73.0.0 sürümüne henüz geçirilemedi** (Task
+  T1'de tespit edildi, peer-dependency çakışması: unicorn@73 → eslint>=10.4 istiyor, proje
+  bilinçli olarak ESLint 9.x'te kalıyor). Şu an 65.0.0'da (son ESLint-9-uyumlu sürüm)
+  sabitlenmiş. ESLint 10'un kendi peer-dependency zincirinin (@typescript-eslint,
+  eslint-plugin-vue, @vue/eslint-config-typescript, @nuxt/eslint-config) hazır olduğu
+  doğrulandığında, hem ESLint 10 hem eslint-plugin-unicorn 73+ birlikte değerlendirilmeli —
+  unicorn 73'ün yeni kural setinin build'i kırıp kırmadığı bu noktaya kadar hiç test edilmedi.
 
 ## Design Backlog
 
