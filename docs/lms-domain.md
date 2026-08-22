@@ -72,13 +72,6 @@ feature'ının Result tipi, validator stili, specification pattern'i önce doğr
 - **Deep-link `/lessons/:id/player` sayfası (blank layout) kayıtlı dark temayı uygulamıyor**
   çünkü ThemeSwitcher sadece admin layout'ta mount oluyor. Modal (v-dialog) zaten ana giriş
   yolu olduğu için düşük öncelikli, ama app-seviyesi tema mount sorunu genel olarak var.
-- **Domain Event çifte tetiklenmesi** (Task 1'de bulunmuştu, PPTX import Task B'de tekrar
-  doğrulandı): `EventAddingRepositoryDecorator` her `AddAsync()`'te otomatik event ekliyor,
-  ama `CreateLessonRequestHandler`/`CreateChapterRequestHandler` gibi handler'lar bunu manuel
-  olarak da yapıyor — event'ler iki kez tetikleniyor. Şu anki event handler'lar (log-only)
-  ucuz olduğu için performans etkisi düşük, ama gerçek side-effect'li bir event handler
-  eklenirse (örn. email gönderme) bug haline gelir. Kapsamlı düzeltme: tüm Create
-  handler'lardan manuel event ekleme satırlarını kaldırmak — ayrı, orta ölçekli bir task.
 - **`PptxLessonExtractor` bullet-listesi tespiti implicit slide-layout/master mirasını
   yakalamıyor**, sadece slide XML'inde açıkça tanımlı bullet'ları yakalıyor — çoğu gerçek
   PPTX dosyasında bullet'lar layout'tan miras alındığı için düz paragraf olarak gelebilir.

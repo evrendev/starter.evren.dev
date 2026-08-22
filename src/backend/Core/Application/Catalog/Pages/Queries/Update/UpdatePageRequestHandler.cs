@@ -59,7 +59,7 @@ public class UpdatePageRequestValidator : CustomValidator<UpdatePageRequest>
 }
 
 public class UpdatePageRequestHandler(
-    IRepository<Page> repository,
+    IRepositoryWithEvents<Page> repository,
     IFileStorageService file,
     IStringLocalizer<UpdatePageRequestHandler> localizer)
     : IRequestHandler<UpdatePageRequest, Guid>

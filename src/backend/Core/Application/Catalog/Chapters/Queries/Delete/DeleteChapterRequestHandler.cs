@@ -1,7 +1,6 @@
 ﻿using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Chapters.Queries.Delete;
 
@@ -10,7 +9,7 @@ public class DeleteChapterRequest(Guid id) : IRequest<Guid>
     public Guid Id { get; set; } = id;
 }
 
-public class DeleteChapterRequestHandler(IRepository<Chapter> repository, IStringLocalizer<DeleteChapterRequestHandler> localizer)
+public class DeleteChapterRequestHandler(IRepositoryWithEvents<Chapter> repository, IStringLocalizer<DeleteChapterRequestHandler> localizer)
     : IRequestHandler<DeleteChapterRequest, Guid>
 {
     public async Task<Guid> Handle(DeleteChapterRequest request, CancellationToken cancellationToken)
@@ -19,8 +18,7 @@ public class DeleteChapterRequestHandler(IRepository<Chapter> repository, IStrin
 
         _ = chapter ?? throw new NotFoundException(localizer["catalog.chapters.delete.notfound"]);
 
-        chapter.DomainEvents.Add(EntityDeletedEvent.WithEntity(chapter));
-
+        // Add Domain Events automatically by using IRepositoryWithEvents
         await repository.DeleteAsync(chapter, cancellationToken);
 
         return request.Id;

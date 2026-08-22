@@ -34,7 +34,7 @@ public class CreateNoteRequestValidator : CustomValidator<CreateNoteRequest>
 }
 
 public class CreateNoteRequestHandler(
-    IRepository<Note> repository,
+    IRepositoryWithEvents<Note> repository,
     IReadRepository<Page> pageRepository,
     IReadRepository<CourseEnrollment> courseEnrollmentRepository,
     ICurrentUser currentUser) : IRequestHandler<CreateNoteRequest, Guid>

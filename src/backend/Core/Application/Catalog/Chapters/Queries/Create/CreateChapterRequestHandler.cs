@@ -2,7 +2,6 @@
 using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Chapters.Queries.Create;
 
@@ -30,14 +29,13 @@ public class CreateChapterRequestValidator : CustomValidator<CreateChapterReques
     }
 }
 
-public class CreateChapterRequestHandler(IRepository<Chapter> repository) : IRequestHandler<CreateChapterRequest, Guid>
+public class CreateChapterRequestHandler(IRepositoryWithEvents<Chapter> repository) : IRequestHandler<CreateChapterRequest, Guid>
 {
     public async Task<Guid> Handle(CreateChapterRequest request, CancellationToken cancellationToken)
     {
         var chapter = new Chapter(request.Title, request.Description, request.Order, request.CourseId);
 
-        chapter.DomainEvents.Add(EntityCreatedEvent.WithEntity(chapter));
-
+        // Add Domain Events automatically by using IRepositoryWithEvents
         await repository.AddAsync(chapter, cancellationToken);
 
         return chapter.Id;

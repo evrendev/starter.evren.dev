@@ -9,7 +9,7 @@ public class DeletePageRequest(Guid id) : IRequest<Guid>
     public Guid Id { get; set; } = id;
 }
 
-public class DeletePageRequestHandler(IRepository<Page> repository, IStringLocalizer<DeletePageRequestHandler> localizer)
+public class DeletePageRequestHandler(IRepositoryWithEvents<Page> repository, IStringLocalizer<DeletePageRequestHandler> localizer)
     : IRequestHandler<DeletePageRequest, Guid>
 {
     public async Task<Guid> Handle(DeletePageRequest request, CancellationToken cancellationToken)

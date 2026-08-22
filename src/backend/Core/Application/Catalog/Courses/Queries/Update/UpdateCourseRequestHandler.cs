@@ -3,7 +3,6 @@ using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Courses.Queries.Update;
 
@@ -44,7 +43,7 @@ public class UpdateCourseRequestValidator : CustomValidator<UpdateCourseRequest>
 }
 
 public class UpdateCourseRequestHandler(
-    IRepository<Course> repository,
+    IRepositoryWithEvents<Course> repository,
     IStringLocalizer<UpdateCourseRequestHandler> localizer,
     IFileStorageService file)
     : IRequestHandler<UpdateCourseRequest, Guid>
@@ -73,8 +72,7 @@ public class UpdateCourseRequestHandler(
 
         var updatedCourse = course.Update(request.Title, request.Introduction, request.Description, request.CategoryId, request.Amount, courseImagePath, request.Tags, request.Published, request.PreviewVideoUrl);
 
-        course.DomainEvents.Add(EntityUpdatedEvent.WithEntity(course));
-
+        // Add Domain Events automatically by using IRepositoryWithEvents
         await repository.UpdateAsync(updatedCourse, cancellationToken);
 
         return request.Id;

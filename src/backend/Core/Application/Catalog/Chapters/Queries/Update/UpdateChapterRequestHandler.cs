@@ -2,7 +2,6 @@
 using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Chapters.Queries.Update;
 
@@ -34,7 +33,7 @@ public class UpdateChapterRequestValidator : CustomValidator<UpdateChapterReques
 }
 
 public class UpdateChapterRequestHandler(
-    IRepository<Chapter> repository,
+    IRepositoryWithEvents<Chapter> repository,
     IStringLocalizer<UpdateChapterRequestHandler> localizer)
     : IRequestHandler<UpdateChapterRequest, Guid>
 {
@@ -45,8 +44,7 @@ public class UpdateChapterRequestHandler(
         _ = chapter ?? throw new NotFoundException(string.Format(localizer["catalog.chapters.update.notfound"], request.Id));
         var updatedChapter = chapter.Update(request.Title, request.Description, request.Order, request.CourseId);
 
-        chapter.DomainEvents.Add(EntityUpdatedEvent.WithEntity(chapter));
-
+        // Add Domain Events automatically by using IRepositoryWithEvents
         await repository.UpdateAsync(updatedChapter, cancellationToken);
 
         return request.Id;

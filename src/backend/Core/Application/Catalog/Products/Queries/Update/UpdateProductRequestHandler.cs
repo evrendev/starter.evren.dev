@@ -3,7 +3,6 @@ using EvrenDev.Application.Common.Exceptions;
 using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Products.Queries.Update;
 
@@ -45,7 +44,7 @@ public class UpdateProductRequestValidator : CustomValidator<UpdateProductReques
 }
 
 public class UpdateProductRequestHandler(
-        IRepository<Product> repository,
+        IRepositoryWithEvents<Product> repository,
         IStringLocalizer<UpdateProductRequestHandler> localizer,
         IFileStorageService file)
     : IRequestHandler<UpdateProductRequest, Guid>
@@ -77,9 +76,7 @@ public class UpdateProductRequestHandler(
         var updatedProduct = product.Update(request.Name, request.Description, request.Rate, request.BrandId,
             productImagePath);
 
-        // Add Domain Events to be raised after the commit
-        product.DomainEvents.Add(EntityUpdatedEvent.WithEntity(product));
-
+        // Add Domain Events automatically by using IRepositoryWithEvents
         await repository.UpdateAsync(updatedProduct, cancellationToken);
 
         return request.Id;

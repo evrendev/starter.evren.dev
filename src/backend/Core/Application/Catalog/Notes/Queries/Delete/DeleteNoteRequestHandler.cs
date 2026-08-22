@@ -9,7 +9,7 @@ public class DeleteNoteRequest(Guid id) : IRequest<Guid>
     public Guid Id { get; set; } = id;
 }
 
-public class DeleteNoteRequestHandler(IRepository<Note> repository, IStringLocalizer<DeleteNoteRequestHandler> localizer)
+public class DeleteNoteRequestHandler(IRepositoryWithEvents<Note> repository, IStringLocalizer<DeleteNoteRequestHandler> localizer)
     : IRequestHandler<DeleteNoteRequest, Guid>
 {
     public async Task<Guid> Handle(DeleteNoteRequest request, CancellationToken cancellationToken)

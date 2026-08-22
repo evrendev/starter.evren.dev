@@ -68,7 +68,7 @@ public class CreatePageRequestValidator : CustomValidator<CreatePageRequest>
     }
 }
 
-public class CreatePageRequestHandler(IRepository<Page> repository, IFileStorageService file) : IRequestHandler<CreatePageRequest, Guid>
+public class CreatePageRequestHandler(IRepositoryWithEvents<Page> repository, IFileStorageService file) : IRequestHandler<CreatePageRequest, Guid>
 {
     public async Task<Guid> Handle(CreatePageRequest request, CancellationToken cancellationToken)
     {

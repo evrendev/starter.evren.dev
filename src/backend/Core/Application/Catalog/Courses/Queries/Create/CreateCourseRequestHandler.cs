@@ -2,7 +2,6 @@
 using EvrenDev.Application.Common.FileStorage;
 using EvrenDev.Application.Common.Persistence;
 using EvrenDev.Domain.Catalog;
-using EvrenDev.Domain.Common.Events.Entity;
 
 namespace EvrenDev.Application.Catalog.Courses.Queries.Create;
 
@@ -38,7 +37,7 @@ public class CreateCourseRequestValidator : CustomValidator<CreateCourseRequest>
     }
 }
 
-public class CreateCourseRequestHandler(IRepository<Course> repository, IFileStorageService file) : IRequestHandler<CreateCourseRequest, Guid>
+public class CreateCourseRequestHandler(IRepositoryWithEvents<Course> repository, IFileStorageService file) : IRequestHandler<CreateCourseRequest, Guid>
 {
     public async Task<Guid> Handle(CreateCourseRequest request, CancellationToken cancellationToken)
     {
@@ -46,8 +45,7 @@ public class CreateCourseRequestHandler(IRepository<Course> repository, IFileSto
 
         var course = new Course(request.Title, request.Introduction, request.Description, request.CategoryId, request.Amount, courseImagePath, request.Tags, request.Published, request.PreviewVideoUrl);
 
-        course.DomainEvents.Add(EntityCreatedEvent.WithEntity(course));
-
+        // Add Domain Events automatically by using IRepositoryWithEvents
         await repository.AddAsync(course, cancellationToken);
 
         return course.Id;
