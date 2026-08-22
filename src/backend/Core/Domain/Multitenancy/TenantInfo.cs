@@ -50,10 +50,12 @@ public class TenantInfo : ITenantInfo
     // were dropped from the interface in v7/v10 respectively, and the setters that used
     // to be required by the old interface are gone too) — Name and ConnectionString stay
     // as plain public get/set properties above, just no longer part of the interface
-    // contract. See Task S3 migration.
-    string? ITenantInfo.Id => Id;
+    // contract. See Task S3 migration. Both getters are non-nullable on the interface
+    // (Task Y1) — Id/Identifier are themselves never null after construction (`= default!`
+    // only guards the parameterless ctor path, immediately overwritten by the real ctor).
+    string ITenantInfo.Id => Id;
 
-    string? ITenantInfo.Identifier => Identifier;
+    string ITenantInfo.Identifier => Identifier;
 
     public void AddValidity(int months)
     {

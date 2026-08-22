@@ -78,7 +78,7 @@ public class GetChapterPlayerRequestHandler(
 
         var progressByPageId = pageProgressList.ToDictionary(p => p.PageId);
 
-        var pages = (chapter.Pages ?? [])
+        var pages = chapter.Pages
             .OrderBy(p => p.Order)
             .Select(p =>
             {
