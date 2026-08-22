@@ -5,4 +5,7 @@ export interface CourseEnrollmentDto {
   enrolledAt: string;
   pricePaid: number;
   percentComplete: number;
+  chapterCount: number;
+  nextChapterId: string | null;
+  nextChapterTitle: string | null;
 }

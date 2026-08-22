@@ -5,8 +5,6 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS, tr, de } from "date-fns/locale";
 import { useCourseEnrollmentStore } from "@/stores/courseEnrollment";
 import { useCourseStore } from "@/stores/course";
-import { useChapterStore } from "@/stores/chapter";
-import { usePageStore } from "@/stores/page";
 import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
 import CourseCover from "@/components/learning/CourseCover.vue";
 import ElevatedCard from "@/components/shared/ElevatedCard.vue";
@@ -34,73 +32,12 @@ const courseImages = computed<Record<string, string | undefined>>(() =>
   ),
 );
 
-const chapterStore = useChapterStore();
-const pageStore = usePageStore();
-
-interface NextChapter {
-  chapterId: string;
-  title: string;
-}
-
-interface CourseCardInfo {
-  chapterCount: number;
-  nextChapter: NextChapter | null;
-}
-
-// Keyed by courseId — resolved once on load (and after the player dialog
-// closes) by walking each course's chapters and looking up per-chapter
-// percentComplete, same algorithm catalog.vue's handleContinue uses for a
-// single course. Doing this eagerly for every enrolled course is N+1-shaped
-// (1 chapter-list call + 1 percentComplete call per chapter, per course) —
-// flagged in the Task P1 report as a candidate for a combined backend
-// endpoint if the enrolled-course count grows large in practice.
-const courseCardInfo = ref<Record<string, CourseCardInfo>>({});
-const cardInfoLoading = ref(false);
-
-const loadCourseCardInfo = async () => {
-  cardInfoLoading.value = true;
-  const info: Record<string, CourseCardInfo> = {};
-
-  try {
-    // Sequential on purpose: chapterStore.items is shared mutable state:
-    // running these in parallel would let concurrent courses clobber each
-    // other's chapter list mid-flight.
-    for (const enrollment of enrollments.value) {
-      chapterStore.setFilters({ search: null, courseId: enrollment.courseId });
-      await chapterStore.getPaginatedItems();
-      const chapters = chapterStore.items;
-
-      let nextChapter: NextChapter | null = null;
-
-      // Chapter titles are already formatted "Chapter N - Name" by convention
-      // (confirmed against real data), so the message just prepends "Next:"
-      // to the title as-is — no separate index needs to be injected.
-      for (const chapter of chapters) {
-        const result = await pageStore.getChapterPlayer(chapter.id);
-        if (result.succeeded && (result.data?.percentComplete || 0) < 100) {
-          nextChapter = { chapterId: chapter.id, title: chapter.title };
-          break;
-        }
-      }
-
-      info[enrollment.courseId] = {
-        chapterCount: chapters.length,
-        nextChapter,
-      };
-    }
-  } finally {
-    courseCardInfo.value = info;
-    cardInfoLoading.value = false;
-  }
-};
-
 onMounted(async () => {
   courseStore.setFilters({ search: null, categoryId: null, published: true });
   await Promise.all([
     enrollmentStore.getMyEnrollments(),
     courseStore.getPaginatedItems(),
   ]);
-  await loadCourseCardInfo();
 });
 
 const enrolledCount = computed(() => enrollments.value.length);
@@ -129,34 +66,19 @@ const buttonLabel = (percentComplete: number) => {
 const playerChapterId = ref<string | null>(null);
 const playerCategoryTitle = ref<string | null>(null);
 const playerOpen = ref(false);
-// Set only while resolving the target chapter for a click, mirrors
-// catalog.vue's resolvingCourseId so the button can show a loading state.
-const resolvingCourseId = ref<string | null>(null);
 
-const openCourse = async (courseId: string, categoryTitle?: string) => {
-  resolvingCourseId.value = courseId;
+const openCourse = (courseId: string, categoryTitle?: string) => {
+  const enrollment = enrollments.value.find((e) => e.courseId === courseId);
+  if (!enrollment?.nextChapterId) return;
 
-  try {
-    const info = courseCardInfo.value[courseId];
-    chapterStore.setFilters({ search: null, courseId });
-    await chapterStore.getPaginatedItems();
-    const chapters = chapterStore.items;
-    if (chapters.length === 0) return;
-
-    const targetChapterId = info?.nextChapter?.chapterId ?? chapters[0].id;
-
-    playerChapterId.value = targetChapterId;
-    playerCategoryTitle.value = categoryTitle ?? null;
-    playerOpen.value = true;
-  } finally {
-    resolvingCourseId.value = null;
-  }
+  playerChapterId.value = enrollment.nextChapterId;
+  playerCategoryTitle.value = categoryTitle ?? null;
+  playerOpen.value = true;
 };
 
 watch(playerOpen, async (open) => {
   if (!open) {
     await enrollmentStore.getMyEnrollments();
-    await loadCourseCardInfo();
   }
 });
 </script>
@@ -281,7 +203,7 @@ watch(playerOpen, async (open) => {
                 <span class="me-3">
                   {{
                     t("learning.chapterCount", {
-                      count: courseCardInfo[enrollment.courseId]?.chapterCount ?? 0,
+                      count: enrollment.chapterCount,
                     })
                   }}
                 </span>
@@ -304,13 +226,10 @@ watch(playerOpen, async (open) => {
               />
 
               <div class="text-caption">
-                <span v-if="cardInfoLoading">&nbsp;</span>
-                <span
-                  v-else-if="courseCardInfo[enrollment.courseId]?.nextChapter"
-                >
+                <span v-if="enrollment.percentComplete < 100 && enrollment.nextChapterTitle">
                   {{
                     t("learning.myCourses.next", {
-                      title: courseCardInfo[enrollment.courseId]!.nextChapter!.title,
+                      title: enrollment.nextChapterTitle,
                     })
                   }}
                 </span>
@@ -323,7 +242,6 @@ watch(playerOpen, async (open) => {
                 :color="redColor"
                 variant="flat"
                 block
-                :loading="resolvingCourseId === enrollment.courseId"
                 @click="openCourse(enrollment.courseId, enrollment.categoryTitle)"
               >
                 {{ buttonLabel(enrollment.percentComplete) }}

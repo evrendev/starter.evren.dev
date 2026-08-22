@@ -4,8 +4,6 @@ import { useTheme } from "vuetify";
 import { useCourseStore } from "@/stores/course";
 import { useCategoryStore } from "@/stores/category";
 import { useCourseEnrollmentStore } from "@/stores/courseEnrollment";
-import { useChapterStore } from "@/stores/chapter";
-import { usePageStore } from "@/stores/page";
 import { Notify } from "@/stores/notification";
 import LessonPlayerDialog from "@/components/lesson-player/LessonPlayerDialog.vue";
 import CourseCover from "@/components/learning/CourseCover.vue";
@@ -29,9 +27,6 @@ const { items: categories } = storeToRefs(categoryStore);
 const enrollmentStore = useCourseEnrollmentStore();
 const { enrollments, loading: enrollmentLoading } =
   storeToRefs(enrollmentStore);
-
-const chapterStore = useChapterStore();
-const pageStore = usePageStore();
 
 const search = ref("");
 const categoryId = ref<string | null>(null);
@@ -64,40 +59,18 @@ const sortedCourses = computed(() => {
   return sortBy.value === "title-desc" ? sorted.reverse() : sorted;
 });
 
-// Keyed by courseId — chapter count only (catalog cards don't need the
-// "Next chapter" resolution my-courses.vue does, just the meta-row count).
-// Same N+1-shaped sequential lookup documented there; flagged again here in
-// the Task P2 report since it now runs for the WHOLE catalog, not just
-// enrolled courses.
-const chapterCounts = ref<Record<string, number>>({});
-
-const loadChapterCounts = async () => {
-  const counts: Record<string, number> = {};
-  for (const course of courses.value) {
-    chapterStore.setFilters({ search: null, courseId: course.id });
-    await chapterStore.getPaginatedItems();
-    counts[course.id] = chapterStore.items.length;
-  }
-  chapterCounts.value = counts;
-};
-
 onMounted(async () => {
   await Promise.all([
     categoryStore.getAllItems(),
     fetchCourses(),
     enrollmentStore.getMyEnrollments(),
   ]);
-  await loadChapterCounts();
 });
 
 const getEnrollment = (courseId: string) =>
   enrollments.value.find((e) => e.courseId === courseId);
 
 const enrollingCourseId = ref<string | null>(null);
-// Set only while resolving which chapter "Continue" should open — separate
-// from playerOpen so the button can show a loading state without the dialog
-// flashing open before a chapterId is actually known
-const resolvingCourseId = ref<string | null>(null);
 
 const checkoutOpen = ref(false);
 const checkoutCourse = ref<{ courseId: string; title: string; amount: number } | null>(null);
@@ -134,37 +107,18 @@ const playerChapterId = ref<string | null>(null);
 const playerCategoryTitle = ref<string | null>(null);
 const playerOpen = ref(false);
 
-// "Continue" has no chapter context (this card is course-level) — resolve one
-// by picking the first chapter (by Order) that isn't 100% complete yet, i.e.
-// wherever the learner last left off; if the whole course is done, reopen the
-// first chapter for review. Same per-chapter percentComplete lookup my-courses
-// uses, just run once on click instead of eagerly for every chapter.
-const handleContinue = async (courseId: string, categoryTitle?: string) => {
-  resolvingCourseId.value = courseId;
+// "Continue" has no chapter context (this card is course-level) — the backend
+// already resolves the first not-yet-100%-complete chapter (by Order) per
+// enrollment, wherever the learner last left off; nextChapterId is only null
+// when the course has zero chapters, since an all-completed course still
+// picks its first chapter for review (see MapsterSettings.cs NextChapterId).
+const handleContinue = (courseId: string, categoryTitle?: string) => {
+  const enrollment = getEnrollment(courseId);
+  if (!enrollment?.nextChapterId) return;
 
-  try {
-    chapterStore.setFilters({ search: null, courseId });
-    await chapterStore.getPaginatedItems();
-    const chapters = chapterStore.items;
-
-    if (chapters.length === 0) return;
-
-    let targetChapterId = chapters[0].id;
-
-    for (const chapter of chapters) {
-      const result = await pageStore.getChapterPlayer(chapter.id);
-      if (result.succeeded && (result.data?.percentComplete || 0) < 100) {
-        targetChapterId = chapter.id;
-        break;
-      }
-    }
-
-    playerChapterId.value = targetChapterId;
-    playerCategoryTitle.value = categoryTitle ?? null;
-    playerOpen.value = true;
-  } finally {
-    resolvingCourseId.value = null;
-  }
+  playerChapterId.value = enrollment.nextChapterId;
+  playerCategoryTitle.value = categoryTitle ?? null;
+  playerOpen.value = true;
 };
 
 const buttonLabel = (courseId: string) => {
@@ -283,7 +237,7 @@ watch(playerOpen, async (open) => {
                 <span>
                   {{
                     t("learning.chapterCount", {
-                      count: chapterCounts[course.id] ?? 0,
+                      count: course.chapterCount ?? 0,
                     })
                   }}
                 </span>
@@ -316,7 +270,6 @@ watch(playerOpen, async (open) => {
               :color="redColor"
               variant="flat"
               block
-              :loading="resolvingCourseId === course.id"
               @click="handleContinue(course.id, course.categoryTitle)"
             >
               {{ buttonLabel(course.id) }}

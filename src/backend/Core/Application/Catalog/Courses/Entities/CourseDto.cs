@@ -10,4 +10,5 @@ public class CourseDto : IDto
     public Guid CategoryId { get; set; }
     public bool Published { get; set; }
     public string? CategoryTitle { get; set; }
+    public int ChapterCount { get; set; }
 }

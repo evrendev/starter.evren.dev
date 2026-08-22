@@ -8,4 +8,7 @@ public class CourseEnrollmentDto : IDto
     public DateTime EnrolledAt { get; set; }
     public decimal PricePaid { get; set; }
     public int PercentComplete { get; set; }
+    public int ChapterCount { get; set; }
+    public Guid? NextChapterId { get; set; }
+    public string? NextChapterTitle { get; set; }
 }

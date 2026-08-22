@@ -10,4 +10,5 @@ export interface Course {
   image: File | File[] | undefined;
   published: boolean;
   previewVideoUrl: string | null;
+  chapterCount?: number;
 }
